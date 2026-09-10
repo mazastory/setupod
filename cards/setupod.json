@@ -18,8 +18,8 @@
     "올인원 멀티링크"
   ],
   "logo": {
-    "src": "assets/setupod_symbol.png",
-    "fallback": "assets/setupod_symbol.png",
+    "src": "assets/setupod.gif",
+    "fallback": "assets/setupod.gif",
     "alt": "SETUPOD Logo"
   },
   "primaryAction": {
@@ -57,6 +57,6 @@
     "siteName": "SETUPOD",
     "ogTitle": "Alex Rivera 디렉터 | SETUPOD",
     "ogDescription": "ALL-IN-ONE BUSINESS ASSET | SETUPOD 공식 디지털 명함",
-    "ogImage": "assets/setupod_symbol.png"
+    "ogImage": "assets/setupod.gif"
   }
 }

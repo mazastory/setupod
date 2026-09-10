@@ -948,7 +948,7 @@
 
           <!-- Message Row -->
           <div class="message-stream">
-            <img src="assets/setupod_symbol.png" id="simBubbleAvatar" class="sender-avatar-small" onerror="this.src='./favicon-32x32.png'">
+            <img src="assets/setupod.gif" id="simBubbleAvatar" class="sender-avatar-small" onerror="this.src='./favicon-32x32.png'">
 
             <!-- Pure White Message Bubble (Same as Reference Screenshot) -->
             <div class="kakao-card-bubble">
@@ -1040,7 +1040,7 @@
       setupod: {
         channel: 'SETUPOD',
         contact: '010-2661-0070 ▾',
-        avatar: 'assets/setupod_symbol.png',
+        avatar: 'assets/setupod.gif',
         banner: './setupod_edu1_cover.jpg',
         body: `안녕하세요, SETUPOD입니다 :)
 
@@ -1199,10 +1199,35 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        const dataUrl = e.target.result;
-        document.getElementById('inputBannerUrl').value = dataUrl;
-        updateLivePreview();
-        showToastNotification('내 PC의 이미지가 성공적으로 반영되었습니다! 🎉');
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_SIZE = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const compressedDataUrl = canvas.toDataURL('image/webp', 0.85);
+          document.getElementById('inputBannerUrl').value = compressedDataUrl;
+          updateLivePreview();
+          showToastNotification('내 PC의 이미지가 성공적으로 반영되었습니다! 🎉 (최적화 완료)');
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }

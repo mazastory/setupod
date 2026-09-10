@@ -1410,7 +1410,7 @@
               <div class="front-wrapper">
                 <div class="front-logo-container">
                   <div class="front-logo-box" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
-                    <img id="frontLogoImg" src="assets/setupod_symbol.png" alt="Logo">
+                    <img id="frontLogoImg" src="assets/setupod.gif" alt="Logo">
                   </div>
                 </div>
 
@@ -1433,7 +1433,7 @@
               <div class="back-wrapper">
                 <div class="back-top-logo-container">
                   <div class="back-top-logo" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
-                    <img id="backLogoImg" src="assets/setupod_symbol.png" alt="Logo">
+                    <img id="backLogoImg" src="assets/setupod.gif" alt="Logo">
                   </div>
                 </div>
 
@@ -1485,7 +1485,7 @@
   <script>
     let currentLayout = 'classic';
     let currentTheme = 'violet';
-    let currentLogoSrc = 'assets/setupod_symbol.png';
+    let currentLogoSrc = 'assets/setupod.gif';
 
     function showToast(text) {
       const toast = document.getElementById('toastMsg');
@@ -1550,10 +1550,36 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        currentLogoSrc = e.target.result;
-        document.getElementById('frontLogoImg').src = currentLogoSrc;
-        document.getElementById('backLogoImg').src = currentLogoSrc;
-        showToast('새 로고가 실시간 반영되었습니다!');
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_SIZE = 512;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // WebP 포맷으로 압축하여 용량 대폭 감소 (Quality 0.8)
+          currentLogoSrc = canvas.toDataURL('image/webp', 0.8);
+          document.getElementById('frontLogoImg').src = currentLogoSrc;
+          document.getElementById('backLogoImg').src = currentLogoSrc;
+          showToast('새 로고가 실시간 반영되었습니다! (최적화 완료)');
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -1700,7 +1726,7 @@
         document.getElementById('inputTag1').value = "3D 인터랙티브";
         document.getElementById('inputTag2').value = "vCard 주소록 저장";
         document.getElementById('inputTag3').value = "올인원 멀티링크";
-        currentLogoSrc = 'assets/setupod_symbol.png';
+        currentLogoSrc = 'assets/setupod.gif';
       } else if (type === 'nexus') {
         selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
         document.getElementById('inputName').value = "김민준";
@@ -1714,7 +1740,7 @@
         document.getElementById('inputTag1').value = "클라우드 아키텍처";
         document.getElementById('inputTag2').value = "AI 데이터 솔루션";
         document.getElementById('inputTag3').value = "글로벌 파트너십";
-        currentLogoSrc = 'assets/setupod_symbol.png';
+        currentLogoSrc = 'assets/setupod.gif';
       }
       document.getElementById('frontLogoImg').src = currentLogoSrc;
       document.getElementById('backLogoImg').src = currentLogoSrc;
