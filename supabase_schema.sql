@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS public.pods (
   components_json JSONB NOT NULL DEFAULT '[]'::JSONB,
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+-- 기존에 생성된 테이블을 위한 안전한 고유 인덱스 생성
+CREATE UNIQUE INDEX IF NOT EXISTS pods_slug_idx ON public.pods(slug);
 
 -- 3. 리드 수집 DB 테이블 (고객 전화번호 및 문의)
 CREATE TABLE IF NOT EXISTS public.leads (
