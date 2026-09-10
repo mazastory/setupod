@@ -2,22 +2,16 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/:id",
+      "source": "/:path*",
       "has": [{ "type": "host", "value": "link.setupod.com" }],
-      "destination": "/link.html"
+      "destination": "/link"
     },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "link.setupod.com" }],
-      "destination": "/link.html"
-    },
-    { "source": "/link", "destination": "/link.html" },
-    { "source": "/maker", "destination": "/maker.html" },
-    { "source": "/studio", "destination": "/maker.html" },
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/card/:id", "destination": "/card.html" },
-    { "source": "/:id", "destination": "/card.html" },
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/link", "destination": "/link" },
+    { "source": "/maker", "destination": "/maker" },
+    { "source": "/studio", "destination": "/maker" },
+    { "source": "/privacy", "destination": "/privacy" },
+    { "source": "/terms", "destination": "/terms" },
+    { "source": "/card/:id", "destination": "/card" },
+    { "source": "/:id", "destination": "/card" }
   ]
 }

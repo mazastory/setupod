@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD | All-in-One Business Asset & 3D Card</title>
 
+  <!-- Subdomain Routing (link.setupod.com -> /link) -->
+  <script>
+    if (window.location.hostname === 'link.setupod.com' || window.location.hostname.startsWith('link.')) {
+      var slug = window.location.pathname.replace(/^\/+/, '');
+      if (slug && slug !== 'index.html' && slug !== 'link') {
+        window.location.replace('/link?id=' + encodeURIComponent(slug) + (window.location.search ? '&' + window.location.search.slice(1) : ''));
+      } else {
+        window.location.replace('/link' + window.location.search + window.location.hash);
+      }
+    }
+  </script>
+
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SETUPOD">
