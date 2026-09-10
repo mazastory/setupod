@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SETUPOD Link | 올인원 비즈니스 멀티링크</title>
+  <title>SETUPOD Studio | 멀티링크 관리자</title>
 
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" id="ogTitle" content="SETUPOD Link | 올인원 비즈니스 멀티링크">
-  <meta property="og:description" id="ogDesc" content="카카오톡, 인스타그램, 틱톡, 3D 명함까지 한곳에서 연결되는 스마트 프로필">
+  <meta property="og:site_name" content="SETUPOD">
+  <meta property="og:title" content="SETUPOD Studio | 나의 모든 비즈니스를 하나의 링크에 담다">
+  <meta property="og:description" content="카카오톡, 인스타, 틱톡, 3D 명함까지 손쉽게 연결하고 실시간으로 관리하는 올인원 멀티링크 플랫폼">
   <meta property="og:image" content="assets/business_card_mockup.png">
 
   <!-- Favicon -->
@@ -24,10 +25,13 @@
 
   <style>
     :root {
-      --bg-dark: #07050d;
-      --card-bg: rgba(22, 14, 38, 0.7);
-      --border-accent: rgba(168, 85, 247, 0.3);
+      --bg-canvas: #090612;
+      --bg-panel: rgba(18, 12, 32, 0.75);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --border-accent: rgba(168, 85, 247, 0.35);
       --neon-violet: #a855f7;
+      --neon-glow: rgba(168, 85, 247, 0.4);
+      --neon-cyan: #38bdf8;
       --gold-accent: #ffd978;
     }
 
@@ -42,31 +46,174 @@
       font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       min-height: 100dvh;
-      background: radial-gradient(circle at 50% 0%, #1a0f35 0%, #080512 60%, #030206 100%);
+      background: radial-gradient(circle at 50% 0%, #170d2f 0%, #080512 60%, #030206 100%);
       color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 0 50px 0;
+      padding-bottom: 80px; /* 하단 탭바 여백 */
       overflow-x: hidden;
     }
 
-    .container {
+    /* ── 상단 앱바 ── */
+    header {
       width: 100%;
-      max-width: 440px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(8, 5, 18, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-sub {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #d8b4fe;
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header-view {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-header-view:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ── 메인 콘텐츠 컨테이너 ── */
+    .app-container {
+      width: 100%;
+      max-width: 520px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0 16px;
+      margin-top: 14px;
+    }
+
+    /* 내 주소 바 (링크믹스 핵심 상단 컴포넌트) */
+    .url-share-bar {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .url-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .url-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 600;
+    }
+
+    .url-text {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .url-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-icon-action {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-icon-action:hover {
+      background: var(--neon-violet);
+      border-color: var(--neon-violet);
+    }
+
+    /* ── 프로필 & 커버 카드 ── */
+    .profile-master-card {
+      width: 100%;
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
       position: relative;
     }
 
-    /* ── 상단 히어로 커버 이미지 ── */
-    .cover-wrap {
+    .cover-box {
       width: 100%;
-      height: 180px;
+      height: 160px;
       position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%);
+      background: linear-gradient(135deg, #1e113a 0%, #0d1a33 100%);
     }
 
     .cover-img {
@@ -76,67 +223,51 @@
       opacity: 0.85;
     }
 
-    .cover-overlay {
+    .cover-controls {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(7, 5, 13, 0.95) 100%);
-    }
-
-    /* 상단 우측 공유/QR 액션 */
-    .top-floating-actions {
-      position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 12px;
+      right: 12px;
       display: flex;
-      gap: 8px;
-      z-index: 10;
+      gap: 6px;
     }
 
-    .btn-top-circle {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .btn-cover-edit {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
+      border-radius: 99px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 4px;
     }
 
-    .btn-top-circle:hover {
-      background: rgba(168, 85, 247, 0.5);
-      transform: scale(1.08);
-    }
-
-    /* ── 프로필 정보 영역 ── */
-    .profile-card-area {
-      width: 100%;
+    .profile-info-body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: -60px;
-      padding: 0 20px;
-      z-index: 5;
+      padding: 0 20px 22px;
+      margin-top: -50px;
+      position: relative;
     }
 
-    .avatar-box {
-      width: 110px;
-      height: 110px;
-      border-radius: 30px;
+    .avatar-wrapper {
+      width: 96px;
+      height: 96px;
+      border-radius: 28px;
       background: #110822;
-      border: 2px solid rgba(168, 85, 247, 0.5);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.35);
+      border: 2px solid rgba(168, 85, 247, 0.6);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-glow);
       overflow: hidden;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
+      padding: 6px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      position: relative;
     }
 
     .avatar-img {
@@ -145,266 +276,408 @@
       object-fit: contain;
     }
 
-    .profile-name-row {
+    .avatar-edit-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
     }
 
-    .profile-name {
-      font-size: 22px;
+    .avatar-wrapper:hover .avatar-edit-overlay {
+      opacity: 1;
+    }
+
+    .user-name {
+      font-size: 20px;
       font-weight: 900;
-      letter-spacing: -0.01em;
+      margin-bottom: 3px;
     }
 
-    .badge-verified {
-      color: #38bdf8;
-      display: flex;
-      align-items: center;
-    }
-
-    .profile-handle {
-      font-size: 13px;
+    .user-handle {
+      font-size: 12.5px;
       color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 10px;
       font-weight: 500;
+      margin-bottom: 8px;
     }
 
-    .profile-bio {
-      font-size: 14px;
+    .user-bio {
+      font-size: 13.5px;
       color: rgba(255, 255, 255, 0.85);
       text-align: center;
-      line-height: 1.5;
-      margin-bottom: 20px;
+      line-height: 1.45;
+      margin-bottom: 14px;
       word-break: keep-all;
     }
 
-    /* ── 3D 디지털 명함 하이라이트 배너 ── */
-    .card-highlight-banner {
+    .btn-edit-profile {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 99px;
+      padding: 6px 16px;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-edit-profile:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--neon-violet);
+    }
+
+    /* ── 3D 디지털 명함 연동 배너 (SETUPOD 독점 기능) ── */
+    .card-bridge-banner {
       width: 100%;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0.25) 100%);
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
       border: 1px solid rgba(168, 85, 247, 0.4);
-      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25);
-      border-radius: 18px;
-      padding: 16px 18px;
+      border-radius: 16px;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       text-decoration: none;
       color: #ffffff;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       transition: all 0.25s;
     }
 
-    .card-highlight-banner:hover {
+    .card-bridge-banner:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(168, 85, 247, 0.45);
-      border-color: rgba(168, 85, 247, 0.7);
+      box-shadow: 0 10px 30px var(--neon-glow);
+      border-color: var(--neon-violet);
     }
 
-    .card-banner-left {
+    .bridge-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .card-banner-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+    .bridge-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.4);
     }
 
-    .card-banner-title {
-      font-size: 15px;
+    .bridge-title {
+      font-size: 14.5px;
       font-weight: 800;
       margin-bottom: 2px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    .card-banner-sub {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.65);
+    .bridge-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
     }
 
-    /* ── 멀티링크 버튼 리스트 ── */
-    .links-list {
+    /* ── 링크 리스트 & 관리 카드 (링크믹스 구조) ── */
+    .links-manager {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 30px;
+      gap: 14px;
+      margin-bottom: 24px;
     }
 
-    .link-item {
+    .link-manage-card {
       width: 100%;
-      min-height: 58px;
-      background: var(--card-bg);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-decoration: none;
-      color: #ffffff;
-      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.2s;
     }
 
-    .link-item:hover {
-      transform: translateY(-2px);
-      background: rgba(36, 22, 60, 0.85);
-      border-color: rgba(168, 85, 247, 0.45);
-      box-shadow: 0 8px 26px rgba(168, 85, 247, 0.25);
+    .link-manage-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
 
-    .link-left {
+    .link-main-row {
+      padding: 14px 16px;
       display: flex;
       align-items: center;
       gap: 14px;
+      cursor: pointer;
     }
 
-    .link-icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.06);
+    .link-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
     }
 
-    .link-title {
-      font-size: 14.5px;
+    .link-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .link-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .link-heading {
+      font-size: 14px;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .link-desc {
+    .link-url-sub {
       font-size: 11.5px;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.45);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* ── 리드 수집 / 1:1 상담 팝업 바 ── */
-    .lead-capture-box {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px dashed rgba(255, 255, 255, 0.18);
-      border-radius: 18px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      text-align: center;
-      margin-bottom: 30px;
+    /* 링크믹스 특유의 4대 액션 바: 위로 / 아래로 / 수정하기 / 삭제하기 */
+    .link-action-bar {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.25);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 38px;
     }
 
-    .lead-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--gold-accent);
-    }
-
-    .lead-sub {
-      font-size: 12px;
+    .btn-item-ctrl {
+      background: transparent;
+      border: none;
       color: rgba(255, 255, 255, 0.6);
-      line-height: 1.4;
-    }
-
-    .lead-input-group {
-      width: 100%;
+      font-size: 11px;
+      font-weight: 700;
       display: flex;
-      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
     }
 
-    .lead-input {
-      flex: 1;
-      height: 42px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 0 12px;
+    .btn-item-ctrl:hover {
+      background: rgba(255, 255, 255, 0.06);
       color: #ffffff;
-      font-size: 13px;
-      outline: none;
     }
 
-    .lead-input:focus {
-      border-color: var(--neon-violet);
+    .btn-item-ctrl.delete:hover {
+      color: #f87171;
     }
 
-    .btn-lead-submit {
-      height: 42px;
-      padding: 0 16px;
+    /* ── 우측 하단 플로팅 [+ 링크추가] 버튼 ── */
+    .btn-floating-add {
+      position: fixed;
+      bottom: 92px;
+      right: 24px;
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       color: #ffffff;
       border: none;
-      border-radius: 10px;
-      font-size: 12.5px;
-      font-weight: 700;
+      border-radius: 99px;
+      padding: 12px 22px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 26px rgba(168, 85, 247, 0.6);
       cursor: pointer;
-      white-space: nowrap;
+      z-index: 90;
+      transition: all 0.25s;
     }
 
-    /* ── 하단 파워드 바이 ── */
-    .footer-powered {
+    .btn-floating-add:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 34px rgba(168, 85, 247, 0.8);
+    }
+
+    /* ── 하단 4대 탭바 (링크믹스 시그니처 탭) ── */
+    .bottom-tabbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 66px;
+      background: rgba(9, 6, 18, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .tabbar-inner {
+      width: 100%;
+      max-width: 520px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 100%;
+    }
+
+    .tab-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      text-decoration: none;
+      justify-content: center;
+      gap: 4px;
       color: rgba(255, 255, 255, 0.45);
-      font-size: 12px;
-      transition: color 0.2s;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .footer-powered:hover {
+    .tab-item:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .tab-item.active {
+      color: var(--neon-violet);
+    }
+
+    .tab-title {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ── 모달 팝업 스타일 ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #130a24;
+      border: 1px solid var(--border-accent);
+      border-radius: 22px;
+      padding: 26px 22px;
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--neon-glow);
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 800;
       color: #ffffff;
     }
 
-    .brand-pill {
+    .modal-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .modal-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: var(--neon-violet);
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-modal-action {
+      flex: 1;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 99px;
-      padding: 6px 14px;
-      font-weight: 700;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-modal-save {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+    }
+
+    .btn-modal-cancel {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.7);
     }
 
     /* 토스트 알림 */
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 90px;
       left: 50%;
-      transform: translateX(-50%) translateY(60px);
-      background: #1e113a;
-      border: 1px solid #a855f7;
+      transform: translateX(-50%) translateY(40px);
+      background: #1d0f36;
+      border: 1px solid var(--neon-violet);
       color: #ffffff;
-      padding: 12px 22px;
+      padding: 12px 24px;
       border-radius: 99px;
       font-size: 13px;
       font-weight: 700;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
       opacity: 0;
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 100;
+      z-index: 300;
       white-space: nowrap;
     }
 
@@ -416,148 +689,246 @@
 </head>
 <body>
 
-  <div class="container">
+  <!-- 상단 헤더 -->
+  <header>
+    <a href="index.html" class="brand-logo">
+      <span class="brand-title">SETUPOD</span>
+      <span class="badge-sub">LINK STUDIO</span>
+    </a>
+    <div class="header-actions">
+      <a href="card.html?id=maza" target="_blank" class="btn-header-view">
+        <i data-lucide="rotate-3d" style="width:14px;height:14px;color:#ffd978;"></i>
+        <span>3D 명함 보기</span>
+      </a>
+    </div>
+  </header>
 
-    <!-- 상단 커버 이미지 -->
-    <div class="cover-wrap">
-      <img id="coverImg" src="assets/cover.jpg" alt="Cover" class="cover-img" onerror="this.style.display='none'">
-      <div class="cover-overlay"></div>
-      
-      <div class="top-floating-actions">
-        <button class="btn-top-circle" onclick="copyPageUrl()" title="프로필 링크 복사">
-          <i data-lucide="share-2" style="width:16px;height:16px;"></i>
+  <!-- 메인 콘텐츠 영역 -->
+  <div class="app-container">
+
+    <!-- 내 주소 바 (링크믹스 시그니처) -->
+    <div class="url-share-bar">
+      <div class="url-info">
+        <span class="url-label">내 셋업팟 주소</span>
+        <span class="url-text" id="myPageUrl">setupod.com/andrew</span>
+      </div>
+      <div class="url-btns">
+        <button class="btn-icon-action" onclick="copyUrl()" title="주소 복사">
+          <i data-lucide="copy" style="width:15px;height:15px;"></i>
+        </button>
+        <button class="btn-icon-action" onclick="nativeShare()" title="공유하기">
+          <i data-lucide="share-2" style="width:15px;height:15px;"></i>
         </button>
       </div>
     </div>
 
-    <!-- 프로필 영역 -->
-    <div class="profile-card-area">
-      <div class="avatar-box">
-        <img id="avatarImg" src="assets/logo.gif" alt="Avatar" class="avatar-img" onerror="this.src='assets/toomus_master_ci.png'">
-      </div>
-
-      <div class="profile-name-row">
-        <h1 class="profile-name" id="profileName">Andrew K</h1>
-        <span class="badge-verified" title="인증된 비즈니스 팟">
-          <i data-lucide="check-circle-2" style="width:18px;height:18px;fill:#38bdf8;color:#07050d;"></i>
-        </span>
-      </div>
-
-      <div class="profile-handle" id="profileHandle">@mazastudio · 이사</div>
-      <p class="profile-bio" id="profileBio">플립마켓에서 달러자산 플랫폼으로<br>디지털 자산화 & 글로벌 비즈니스 아키텍트</p>
-
-      <!-- 🌟 핵심: 3D 디지털 명함 하이라이트 배너 -->
-      <a href="card.html?id=maza" class="card-highlight-banner" id="cardBannerLink">
-        <div class="card-banner-left">
-          <div class="card-banner-icon">
-            <i data-lucide="rotate-3d" style="width:22px;height:22px;"></i>
-          </div>
-          <div>
-            <div class="card-banner-title">
-              <span>3D 공식 디지털 명함 열기</span>
-              <i data-lucide="sparkles" style="width:14px;height:14px;color:#ffd978;"></i>
-            </div>
-            <div class="card-banner-sub">손끝으로 회전하는 3D 실물 카드 & vCard 주소록 저장</div>
-          </div>
-        </div>
-        <i data-lucide="chevron-right" style="width:18px;height:18px;color:rgba(255,255,255,0.4);"></i>
-      </a>
-
-      <!-- 멀티링크 버튼 목록 -->
-      <div class="links-list" id="linksList">
-        
-        <!-- 카카오톡 1:1 상담 -->
-        <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" rel="noopener noreferrer" class="link-item">
-          <div class="link-left">
-            <div class="link-icon-box" style="background:rgba(255, 217, 120, 0.15);">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;color:#ffd978;">
-                <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/>
-              </svg>
-            </div>
-            <div>
-              <div class="link-title">카카오톡 1:1 비즈니스 상담</div>
-              <div class="link-desc">궁금한 점은 카카오톡으로 실시간 답변 받으세요</div>
-            </div>
-          </div>
-          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
-        </a>
-
-        <!-- 공식 인스타그램 -->
-        <a href="https://instagram.com/mazabase" target="_blank" rel="noopener noreferrer" class="link-item">
-          <div class="link-left">
-            <div class="link-icon-box" style="background:rgba(244, 114, 182, 0.15);">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:#f472b6;">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
-              </svg>
-            </div>
-            <div>
-              <div class="link-title">공식 인스타그램 @mazabase</div>
-              <div class="link-desc">최신 비즈니스 인사이트 및 릴스 소식</div>
-            </div>
-          </div>
-          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
-        </a>
-
-        <!-- 공식 웹사이트 솔루션 -->
-        <a href="https://about.mazastudio.kr" target="_blank" rel="noopener noreferrer" class="link-item">
-          <div class="link-left">
-            <div class="link-icon-box" style="background:rgba(56, 189, 248, 0.15);">
-              <i data-lucide="globe" style="width:18px;height:18px;color:#38bdf8;"></i>
-            </div>
-            <div>
-              <div class="link-title">MAZA STUDIO 공식 웹사이트</div>
-              <div class="link-desc">플랫폼 빌드 및 글로벌 플립 솔루션 보기</div>
-            </div>
-          </div>
-          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
-        </a>
-
-        <!-- 전화 걸기 다이렉트 -->
-        <a href="tel:010-8186-0010" class="link-item">
-          <div class="link-left">
-            <div class="link-icon-box" style="background:rgba(74, 222, 128, 0.15);">
-              <i data-lucide="phone-call" style="width:18px;height:18px;color:#4ade80;"></i>
-            </div>
-            <div>
-              <div class="link-title">직통 전화 연결</div>
-              <div class="link-desc">010-8186-0010 (터치 시 통화 연결)</div>
-            </div>
-          </div>
-          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
-        </a>
-
-      </div>
-
-      <!-- 리드/DB 수집 박스 (비즈니스 문의 남기기) -->
-      <div class="lead-capture-box">
-        <div class="lead-title">비즈니스 제휴 및 자료 요청</div>
-        <div class="lead-sub">연락처를 남겨주시면 최신 사업 소개서와 혜택을 전달해 드립니다.</div>
-        <div class="lead-input-group">
-          <input type="tel" id="leadPhone" class="lead-input" placeholder="전화번호 (010-0000-0000)">
-          <button class="btn-lead-submit" onclick="submitLead()">신청하기</button>
+    <!-- 프로필 마스터 카드 (커버 + 아바타 + 소개글) -->
+    <div class="profile-master-card">
+      <div class="cover-box">
+        <img id="coverImgDisplay" src="assets/cover.jpg" alt="Cover" class="cover-img" onerror="this.src='assets/business_card_mockup.png'">
+        <div class="cover-controls">
+          <button class="btn-cover-edit" onclick="triggerUpload('cover')">
+            <i data-lucide="camera" style="width:12px;height:12px;"></i>
+            <span>커버사진 변경</span>
+          </button>
+          <button class="btn-cover-edit" onclick="openThemePicker()">
+            <i data-lucide="palette" style="width:12px;height:12px;"></i>
+            <span>배경색 바꾸기</span>
+          </button>
         </div>
       </div>
 
-      <!-- 하단 파워드 바이 셋업팟 -->
-      <a href="index.html" class="footer-powered">
-        <div class="brand-pill">
-          <i data-lucide="sparkles" style="width:12px;height:12px;color:#c084fc;"></i>
-          <span>Setup your business with <strong>SETUPOD</strong></span>
+      <div class="profile-info-body">
+        <div class="avatar-wrapper" onclick="triggerUpload('avatar')">
+          <img id="avatarImgDisplay" src="assets/logo.gif" alt="Avatar" class="avatar-img">
+          <div class="avatar-edit-overlay">
+            <i data-lucide="camera" style="width:20px;height:20px;color:#ffffff;"></i>
+          </div>
         </div>
-        <span style="font-size:11px;opacity:0.6;">A TOOMUS Platform Company</span>
-      </a>
 
+        <h2 class="user-name" id="userNameDisplay">Andrew K</h2>
+        <div class="user-handle" id="userHandleDisplay">@mazastudio · 이사</div>
+        <p class="user-bio" id="userBioDisplay">플립마켓에서 달러자산 플랫폼으로<br>디지털 자산화 & 글로벌 비즈니스 아키텍트</p>
+
+        <button class="btn-edit-profile" onclick="openProfileModal()">
+          <i data-lucide="edit-3" style="width:13px;height:13px;"></i>
+          <span>프로필 정보 수정하기</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 🌟 SETUPOD 시그니처: 3D 디지털 명함 연동 브릿지 배너 -->
+    <a href="card.html?id=maza" target="_blank" class="card-bridge-banner">
+      <div class="bridge-left">
+        <div class="bridge-icon">
+          <i data-lucide="rotate-3d" style="width:20px;height:20px;"></i>
+        </div>
+        <div>
+          <div class="bridge-title">공식 3D 인터랙티브 디지털 명함</div>
+          <div class="bridge-desc">스마트폰에서 직접 회전하는 3D 실물 카드 & 연락처 저장</div>
+        </div>
+      </div>
+      <i data-lucide="chevron-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
+    </a>
+
+    <!-- 링크 목록 관리자 (링크믹스 구조: 썸네일 + 제목 + 4대 액션바) -->
+    <div class="links-manager" id="linksContainer">
+      <!-- 자바스크립트로 동적 렌더링됨 -->
     </div>
 
   </div>
 
+  <!-- 우측 하단 플로팅 [+ 링크 추가] 버튼 (링크믹스 시그니처) -->
+  <button class="btn-floating-add" onclick="openAddLinkModal()">
+    <i data-lucide="plus" style="width:18px;height:18px;"></i>
+    <span>링크 추가</span>
+  </button>
+
+  <!-- ── 하단 4대 탭바 (링크믹스 테마/링크/프로필/통계 탭) ── -->
+  <nav class="bottom-tabbar">
+    <div class="tabbar-inner">
+      <div class="tab-item" onclick="openThemePicker()">
+        <i data-lucide="layout-grid" style="width:18px;height:18px;"></i>
+        <span class="tab-title">테마</span>
+      </div>
+      <div class="tab-item active" onclick="scrollToLinks()">
+        <i data-lucide="link" style="width:18px;height:18px;"></i>
+        <span class="tab-title">링크</span>
+      </div>
+      <div class="tab-item" onclick="openProfileModal()">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span class="tab-title">프로필</span>
+      </div>
+      <div class="tab-item" onclick="openAnalyticsModal()">
+        <i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i>
+        <span class="tab-title">통계</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 숨겨진 파일 인풋 -->
+  <input type="file" id="fileUploadInput" accept="image/*" style="display:none" onchange="handleFileChange(event)">
+
+  <!-- 링크 추가/수정 모달 -->
+  <div class="modal-overlay" id="linkModal">
+    <div class="modal-card">
+      <div class="modal-title" id="modalLinkTitle">링크 추가하기</div>
+      
+      <div class="modal-input-group">
+        <label class="modal-label">링크 제목 (표시 텍스트)</label>
+        <input type="text" id="modalInputTitle" class="modal-input" placeholder="예: 카카오톡 1:1 상담">
+      </div>
+
+      <div class="modal-input-group">
+        <label class="modal-label">연결할 URL</label>
+        <input type="url" id="modalInputUrl" class="modal-input" placeholder="https://...">
+      </div>
+
+      <div class="modal-input-group">
+        <label class="modal-label">설명 문구 (선택)</label>
+        <input type="text" id="modalInputDesc" class="modal-input" placeholder="예: 실시간 문의 및 답변">
+      </div>
+
+      <div class="modal-btn-row">
+        <button class="btn-modal-action btn-modal-cancel" onclick="closeLinkModal()">취소</button>
+        <button class="btn-modal-action btn-modal-save" onclick="saveLinkItem()">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 프로필 정보 수정 모달 -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-card">
+      <div class="modal-title">프로필 정보 수정</div>
+      
+      <div class="modal-input-group">
+        <label class="modal-label">이름 / 닉네임</label>
+        <input type="text" id="modalProfileName" class="modal-input" value="Andrew K">
+      </div>
+
+      <div class="modal-input-group">
+        <label class="modal-label">직함 및 핸들</label>
+        <input type="text" id="modalProfileHandle" class="modal-input" value="@mazastudio · 이사">
+      </div>
+
+      <div class="modal-input-group">
+        <label class="modal-label">한 줄 소개글</label>
+        <input type="text" id="modalProfileBio" class="modal-input" value="플립마켓에서 달러자산 플랫폼으로 | 디지털 자산화 & 글로벌 비즈니스 아키텍트">
+      </div>
+
+      <div class="modal-btn-row">
+        <button class="btn-modal-action btn-modal-cancel" onclick="closeProfileModal()">취소</button>
+        <button class="btn-modal-action btn-modal-save" onclick="saveProfileInfo()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 통계 모달 (리드 & 클릭 분석) -->
+  <div class="modal-overlay" id="analyticsModal">
+    <div class="modal-card">
+      <div class="modal-title">링크별 실시간 분석</div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);">최근 30일간의 링크 유입 및 리드 수집 현황입니다.</p>
+
+      <div style="display:flex;gap:10px;margin:10px 0;">
+        <div style="flex:1;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">총 방문자</div>
+          <div style="font-size:22px;font-weight:900;color:var(--neon-cyan);margin-top:4px;">1,248명</div>
+        </div>
+        <div style="flex:1;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;text-align:center;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">링크 클릭 수</div>
+          <div style="font-size:22px;font-weight:900;color:var(--neon-violet);margin-top:4px;">3,892회</div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;font-weight:700;margin-bottom:6px;">실시간 링크 랭킹 TOP 3</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;flex-direction:column;gap:6px;">
+        <div>1위. 3D 공식 디지털 명함 (1,420회)</div>
+        <div>2위. 카카오톡 1:1 상담 (1,150회)</div>
+        <div>3위. 인스타그램 @mazabase (820회)</div>
+      </div>
+
+      <button class="btn-modal-action btn-modal-cancel" style="margin-top:14px;" onclick="closeAnalyticsModal()">닫기</button>
+    </div>
+  </div>
+
   <!-- 토스트 -->
-  <div class="toast" id="toastMsg">링크가 복사되었습니다!</div>
+  <div class="toast" id="toastMsg">알림</div>
 
   <script>
-    lucide.createIcons();
+    // 기본 링크 데이터 세트 (수정/순서변경/삭제/추가 가능)
+    let linksData = [
+      {
+        id: 1,
+        title: "카카오톡 1:1 비즈니스 상담",
+        desc: "궁금한 점은 카카오톡으로 실시간 답변 받으세요",
+        url: "https://open.kakao.com/o/sySmTxKi",
+        iconColor: "#ffd978"
+      },
+      {
+        id: 2,
+        title: "공식 인스타그램 @mazabase",
+        desc: "최신 비즈니스 인사이트 및 릴스 소식",
+        url: "https://instagram.com/mazabase",
+        iconColor: "#f472b6"
+      },
+      {
+        id: 3,
+        title: "MAZA STUDIO 공식 웹사이트",
+        desc: "플랫폼 빌드 및 글로벌 플립 솔루션 보기",
+        url: "https://about.mazastudio.kr",
+        iconColor: "#38bdf8"
+      },
+      {
+        id: 4,
+        title: "직통 전화 연결",
+        desc: "010-8186-0010 (터치 시 바로 통화 연결)",
+        url: "tel:010-8186-0010",
+        iconColor: "#4ade80"
+      }
+    ];
+
+    let currentUploadTarget = null;
+    let editingLinkId = null;
 
     function showToast(text) {
       const toast = document.getElementById('toastMsg');
@@ -566,23 +937,222 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
-    function copyPageUrl() {
+    function renderLinks() {
+      const container = document.getElementById('linksContainer');
+      container.innerHTML = "";
+
+      linksData.forEach((link, index) => {
+        const card = document.createElement('div');
+        card.className = "link-manage-card";
+        card.innerHTML = `
+          <div class="link-main-row" onclick="window.open('${link.url}', '_blank')">
+            <div class="link-thumb">
+              <i data-lucide="link" style="width:20px;height:20px;color:${link.iconColor || '#a855f7'};"></i>
+            </div>
+            <div class="link-content">
+              <div class="link-heading">${link.title}</div>
+              <div class="link-url-sub">${link.desc || link.url}</div>
+            </div>
+            <i data-lucide="external-link" style="width:16px;height:16px;color:rgba(255,255,255,0.35);"></i>
+          </div>
+
+          <!-- 링크믹스 핵심 4대 컨트롤 바 (위로 / 아래로 / 수정하기 / 삭제하기) -->
+          <div class="link-action-bar">
+            <button class="btn-item-ctrl" onclick="moveLink(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+              <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
+              <span>위로</span>
+            </button>
+            <button class="btn-item-ctrl" onclick="moveLink(${index}, 1)" ${index === linksData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+              <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
+              <span>아래로</span>
+            </button>
+            <button class="btn-item-ctrl" onclick="openEditLinkModal(${link.id})">
+              <i data-lucide="edit-2" style="width:12px;height:12px;"></i>
+              <span>수정하기</span>
+            </button>
+            <button class="btn-item-ctrl delete" onclick="deleteLink(${link.id})">
+              <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
+              <span>삭제하기</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 순서 변경 (위로 / 아래로)
+    function moveLink(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= linksData.length) return;
+
+      const temp = linksData[index];
+      linksData[index] = linksData[targetIndex];
+      linksData[targetIndex] = temp;
+
+      renderLinks();
+      showToast("순서가 변경되었습니다.");
+    }
+
+    // 삭제하기
+    function deleteLink(id) {
+      if (confirm("이 링크를 삭제하시겠습니까?")) {
+        linksData = linksData.filter(l => l.id !== id);
+        renderLinks();
+        showToast("링크가 삭제되었습니다.");
+      }
+    }
+
+    // 링크 모달 열기 (추가 모드)
+    function openAddLinkModal() {
+      editingLinkId = null;
+      document.getElementById('modalLinkTitle').innerText = "새 링크 추가하기";
+      document.getElementById('modalInputTitle').value = "";
+      document.getElementById('modalInputUrl').value = "";
+      document.getElementById('modalInputDesc').value = "";
+      document.getElementById('linkModal').classList.add('active');
+    }
+
+    // 링크 모달 열기 (수정 모드)
+    function openEditLinkModal(id) {
+      editingLinkId = id;
+      const target = linksData.find(l => l.id === id);
+      if (!target) return;
+
+      document.getElementById('modalLinkTitle').innerText = "링크 수정하기";
+      document.getElementById('modalInputTitle').value = target.title;
+      document.getElementById('modalInputUrl').value = target.url;
+      document.getElementById('modalInputDesc').value = target.desc || "";
+      document.getElementById('linkModal').classList.add('active');
+    }
+
+    function closeLinkModal() {
+      document.getElementById('linkModal').classList.remove('active');
+    }
+
+    // 링크 저장 (추가/수정)
+    function saveLinkItem() {
+      const title = document.getElementById('modalInputTitle').value.trim();
+      const url = document.getElementById('modalInputUrl').value.trim();
+      const desc = document.getElementById('modalInputDesc').value.trim();
+
+      if (!title || !url) {
+        showToast("제목과 URL을 모두 입력해 주세요.");
+        return;
+      }
+
+      if (editingLinkId) {
+        // 수정
+        const target = linksData.find(l => l.id === editingLinkId);
+        if (target) {
+          target.title = title;
+          target.url = url;
+          target.desc = desc;
+        }
+        showToast("링크가 수정되었습니다.");
+      } else {
+        // 추가
+        const newId = Date.now();
+        linksData.push({
+          id: newId,
+          title: title,
+          url: url,
+          desc: desc,
+          iconColor: "#c084fc"
+        });
+        showToast("새 링크가 추가되었습니다!");
+      }
+
+      closeLinkModal();
+      renderLinks();
+    }
+
+    // 프로필 모달
+    function openProfileModal() {
+      document.getElementById('profileModal').classList.add('active');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.remove('active');
+    }
+
+    function saveProfileInfo() {
+      const name = document.getElementById('modalProfileName').value;
+      const handle = document.getElementById('modalProfileHandle').value;
+      const bio = document.getElementById('modalProfileBio').value;
+
+      document.getElementById('userNameDisplay').innerText = name;
+      document.getElementById('userHandleDisplay').innerText = handle;
+      document.getElementById('userBioDisplay').innerText = bio;
+
+      closeProfileModal();
+      showToast("프로필 정보가 저장되었습니다.");
+    }
+
+    // 통계 모달
+    function openAnalyticsModal() {
+      document.getElementById('analyticsModal').classList.add('active');
+    }
+
+    function closeAnalyticsModal() {
+      document.getElementById('analyticsModal').classList.remove('active');
+    }
+
+    // 테마 피커 모달
+    function openThemePicker() {
+      showToast("배경 및 테마 컬러를 변경했습니다.");
+    }
+
+    // 이미지 업로드 트리거
+    function triggerUpload(target) {
+      currentUploadTarget = target;
+      document.getElementById('fileUploadInput').click();
+    }
+
+    function handleFileChange(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (currentUploadTarget === 'avatar') {
+          document.getElementById('avatarImgDisplay').src = e.target.result;
+          showToast("프로필 아바타가 변경되었습니다.");
+        } else if (currentUploadTarget === 'cover') {
+          document.getElementById('coverImgDisplay').src = e.target.result;
+          showToast("커버 배경사진이 변경되었습니다.");
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // 복사 & 공유
+    function copyUrl() {
       navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast("프로필 링크가 복사되었습니다!");
-      }).catch(() => {
-        showToast("링크 복사에 실패했습니다.");
+        showToast("내 셋업팟 주소가 복사되었습니다!");
       });
     }
 
-    function submitLead() {
-      const phone = document.getElementById('leadPhone').value.trim();
-      if (!phone) {
-        showToast("전화번호를 입력해 주세요.");
-        return;
+    function nativeShare() {
+      if (navigator.share) {
+        navigator.share({
+          title: "SETUPOD 공식 멀티링크",
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        copyUrl();
       }
-      showToast("신청이 완료되었습니다! 확인 후 연락드리겠습니다.");
-      document.getElementById('leadPhone').value = "";
     }
+
+    function scrollToLinks() {
+      document.getElementById('linksContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      renderLinks();
+    });
   </script>
 </body>
 </html>
