@@ -742,6 +742,66 @@
       background: rgba(255, 255, 255, 0.12);
     }
 
+    /* ── 마케팅 툴킷 & 세일즈 시스템 ── */
+    .tools-section {
+      padding: 60px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+    .tool-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 30px 24px;
+      text-align: left;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .tool-card:hover {
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .tool-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tool-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .tool-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .tool-action {
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* ── 하단 푸터 ── */
     footer {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -760,9 +820,10 @@
       <span class="nav-logo-text">SETUPOD</span>
     </a>
     <div class="nav-links">
-      <a href="link.html" class="nav-link" target="_blank" title="인스타용 멀티링크 보기">멀티링크</a>
-      <a href="#features" class="nav-link">특징</a>
+      <a href="#marketing-tools" class="nav-link">마케팅 툴킷</a>
+      <a href="#growth-systems" class="nav-link">세일즈 시스템</a>
       <a href="#pricing" class="nav-link">가격</a>
+      <a href="link.html" class="nav-link" target="_blank" title="인스타용 멀티링크 보기">멀티링크</a>
       <a href="maker.html" class="btn-create-nav">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
         <span>내 팟(Pod) 만들기</span>
@@ -775,16 +836,16 @@
     <div>
       <div class="hero-badge">
         <i data-lucide="zap" style="width:14px;height:14px;color:#ffd978;"></i>
-        <span>차세대 3D 인터랙티브 디지털 명함</span>
+        <span>올인원 비즈니스 자산 & 마케팅 플랫폼</span>
       </div>
       <h1 class="hero-title">
-        종이 명함은 버려지지만,<br>
-        <span class="gradient-text">3D 디지털 명함</span>은 각인됩니다.
+        당신의 비즈니스를 완벽하게 무장시킬<br>
+        <span class="gradient-text">올인원 마케팅 플랫폼</span>
       </h1>
       <p class="hero-desc">
-        스마트폰에서 직접 3D로 회전하고 터치하는 압도적인 첫인상.<br>
-        상대방 주소록에 터치 한 번으로 연락처가 저장되고,<br>
-        카카오톡, 인스타, 웹사이트까지 완벽하게 연결됩니다.
+        디지털 명함부터 인스타 릴스 썸네일, 카카오톡 배너, 그리고 세일즈를 견인하는<br>
+        진단 스코어카드와 바이럴 웨이트리스트까지.<br>
+        성공적인 비즈니스를 위한 모든 마케팅 자산을 단 한 곳에서 만드세요.
       </p>
       <div class="hero-cta-group">
         <a href="maker.html" class="btn-hero-main">
@@ -809,8 +870,8 @@
               <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="front-wrapper">
-              <div class="front-logo-box">
-                <img src="assets/setupod_symbol.png" alt="Logo">
+              <div class="front-logo-box" style="overflow: hidden; padding: 0;">
+                <video src="assets/setupod_logo.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain; background:rgba(0,0,0,0.4);"></video>
               </div>
               <div>
                 <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
@@ -860,8 +921,8 @@
               <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="back-wrapper">
-              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer;" title="클릭 시 QR코드 팝업">
-                <img src="assets/setupod_symbol.png" alt="Logo">
+              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer; overflow: hidden; padding: 0;" title="클릭 시 QR코드 팝업">
+                <video src="assets/setupod_logo.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain; background:rgba(0,0,0,0.4);"></video>
               </div>
               <div>
                 <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
@@ -926,6 +987,91 @@
         <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
         <span>카드를 클릭하면 3D로 뒤집힙니다</span>
       </div>
+    </div>
+  </section>
+
+  <!-- 마케팅 툴킷 섹션 -->
+  <section class="tools-section" id="marketing-tools">
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(168, 85, 247, 0.2); color: #a855f7;">FREE MARKETING TOOLS</div>
+      <h2 class="section-heading">클릭을 부르는 소셜 마케팅 툴킷</h2>
+      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">디자이너 없이도 단 1분 만에 인스타그램과 카카오톡에서 시선을 사로잡는 마케팅 에셋을 무료로 생성하세요.</p>
+    </div>
+
+    <div class="tools-grid">
+      <a href="kakao.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(250, 225, 0, 0.15); color: #fae100;">
+          <i data-lucide="message-circle" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">카카오톡 배너 생성기</h3>
+        <p class="tool-desc">오픈채팅방, 카카오 채널에서 눈에 띄는 완벽한 비율의 홍보용 썸네일과 배너를 실시간으로 만듭니다.</p>
+        <span class="tool-action" style="color: #fae100;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+
+      <a href="instagram_teaser.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+          <i data-lucide="instagram" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">인스타 릴스 3D 썸네일</h3>
+        <p class="tool-desc">밋밋한 릴스 커버는 이제 그만. 전자책이나 서비스를 입체적인 3D 커버로 변환해 클릭률을 높이세요.</p>
+        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+
+      <a href="instagram_slides.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+          <i data-lucide="layers" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">인스타 카드뉴스 생성기</h3>
+        <p class="tool-desc">정보성 캐러셀(슬라이드) 콘텐츠를 일관된 브랜드 디자인으로 손쉽게 대량 제작할 수 있습니다.</p>
+        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+
+      <a href="instagram_3grid_banners.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+          <i data-lucide="grid" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">인스타 3분할 파노라마</h3>
+        <p class="tool-desc">인스타그램 프로필 피드를 3개의 게시물로 완벽하게 이어붙이는 파노라마 배너를 자동 분할해 줍니다.</p>
+        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 세일즈 시스템 섹션 -->
+  <section class="tools-section" id="growth-systems" style="background: rgba(255,255,255,0.02); margin-top: 40px; padding-bottom: 80px;">
+    <div class="section-header">
+      <div class="section-tag" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4;">GROWTH SYSTEMS</div>
+      <h2 class="section-heading">잠재 고객을 확보하는 세일즈 무기</h2>
+      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">단순한 방문자를 진짜 고객(DB)으로 전환시키는 고효율 마케팅 퍼널과 진단 시스템을 셋업하세요.</p>
+    </div>
+
+    <div class="tools-grid">
+      <a href="scorecard_maker.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">
+          <i data-lucide="bar-chart-2" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">진단 스코어카드 셋업</h3>
+        <p class="tool-desc">고객의 현 상태를 진단하고 맞춤형 솔루션을 제안하는 인터랙티브 퀴즈(스코어카드)를 만듭니다.</p>
+        <span class="tool-action" style="color: #06b6d4;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+
+      <a href="waitlist_maker.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+          <i data-lucide="users" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">바이럴 웨이트리스트</h3>
+        <p class="tool-desc">출시 전 기대감을 높이고 고객 DB를 수집하는 대기 명단 페이지를 30초 만에 구축하세요.</p>
+        <span class="tool-action" style="color: #10b981;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
+
+      <a href="roi_calculator.html" class="tool-card">
+        <div class="tool-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+          <i data-lucide="calculator" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="tool-title">기회비용(ROI) 계산기</h3>
+        <p class="tool-desc">고객이 서비스를 사용했을 때 절약되는 시간과 돈을 시각적으로 계산해주는 설득형 도구입니다.</p>
+        <span class="tool-action" style="color: #f59e0b;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+      </a>
     </div>
   </section>
 
@@ -1049,24 +1195,6 @@
       <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
       <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
     </p>
-    <div style="font-size: 0.8rem; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: inline-flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;">
-      <span style="color: #a855f7; font-weight: 800;"><i data-lucide="zap" style="width:12px;height:12px;vertical-align:middle;margin-right:2px;"></i> Free Marketing Tools:</span>
-      <a href="kakao.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">카카오톡 배너 생성기</a>
-      <span style="color: rgba(255,255,255,0.2);">|</span>
-      <a href="instagram_teaser.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 릴스 티저</a>
-      <span style="color: rgba(255,255,255,0.2);">|</span>
-      <a href="instagram_slides.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 캐러셀 카드뉴스</a>
-      <span style="color: rgba(255,255,255,0.2);">|</span>
-      <a href="instagram_3grid_banners.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 3분할 파노라마</a>
-    </div>
-    <div style="font-size: 0.8rem; margin-bottom: 24px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: inline-flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;">
-      <span style="color: #06b6d4; font-weight: 800;"><i data-lucide="rocket" style="width:12px;height:12px;vertical-align:middle;margin-right:2px;"></i> Growth Systems:</span>
-      <a href="scorecard_maker.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">진단 스코어카드 생성기</a>
-      <span style="color: rgba(255,255,255,0.2);">|</span>
-      <a href="waitlist_maker.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">바이럴 웨이트리스트</a>
-      <span style="color: rgba(255,255,255,0.2);">|</span>
-      <a href="roi_calculator.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">기회비용(ROI) 계산기</a>
-    </div>
     <p>© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
 
