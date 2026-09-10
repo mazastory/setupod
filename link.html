@@ -568,9 +568,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 200;
       display: flex;
       align-items: center;
@@ -590,74 +590,281 @@
       background: #130a24;
       border: 1px solid var(--border-accent);
       border-radius: 22px;
-      padding: 26px 22px;
+      padding: 24px 20px;
       width: 100%;
-      max-width: 380px;
+      max-width: 440px;
+      max-height: 88vh;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--neon-glow);
     }
 
-    .modal-title {
-      font-size: 17px;
+    /* 컴포넌트 추가 선택기 (링크믹스 완벽 벤치마킹 + 셋업팟 툴킷) */
+    .component-picker-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .component-picker-cat-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .component-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .component-pick-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .component-pick-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: var(--neon-violet);
+      transform: translateY(-2px);
+    }
+
+    .component-pick-btn.featured {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    .component-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .component-name {
+      font-size: 13px;
       font-weight: 800;
       color: #ffffff;
     }
 
-    .modal-input-group {
+    .component-desc {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.35;
+    }
+
+    .component-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 9.5px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #a855f7 0%, #38bdf8 100%);
+      color: #ffffff;
+    }
+
+    /* 2열 그리드 링크 렌더링 스타일 */
+    .link-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .grid-link-item {
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .grid-link-item:hover {
+      border-color: var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    .grid-link-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .grid-link-body {
+      padding: 10px 12px;
+    }
+
+    .grid-link-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .grid-link-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 네이티브 툴 카드 (전자책/제안서/리드마그넷/견적기) */
+    .tool-embed-card {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(26, 16, 46, 0.85) 0%, rgba(13, 20, 39, 0.85) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-embed-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle, var(--neon-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tool-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tool-badge-wrap {
+      display: flex;
+      align-items: center;
       gap: 6px;
     }
 
-    .modal-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.7);
+    .tool-badge-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #e9d5ff;
     }
 
-    .modal-input {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
-      padding: 10px 14px;
+    .tool-title {
+      font-size: 15px;
+      font-weight: 800;
       color: #ffffff;
-      font-size: 13.5px;
-      outline: none;
+      margin-top: 2px;
     }
 
-    .modal-input:focus {
-      border-color: var(--neon-violet);
+    .tool-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.4;
     }
 
-    .modal-btn-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .btn-modal-action {
-      flex: 1;
+    .btn-tool-launch {
+      width: 100%;
       height: 42px;
       border-radius: 10px;
+      background: linear-gradient(135deg, #a855f7 0%, #38bdf8 100%);
+      border: none;
+      color: #ffffff;
       font-size: 13px;
       font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       cursor: pointer;
-      border: none;
+      transition: all 0.2s;
     }
 
-    .btn-modal-save {
-      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    .btn-tool-launch:hover {
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* 카테고리 헤더 / 구분선 */
+    .section-category-card {
+      width: 100%;
+      padding: 10px 4px 2px 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-category-title {
+      font-size: 14px;
+      font-weight: 900;
       color: #ffffff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
-    .btn-modal-cancel {
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.7);
+    .section-category-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(168, 85, 247, 0.4) 0%, rgba(255, 255, 255, 0.08) 100%);
+    }
+
+    /* 인앱 툴 뷰어 모달 (전체화면 프레임) */
+    .tool-viewer-modal {
+      position: fixed;
+      inset: 0;
+      background: #090614;
+      z-index: 500;
+      display: none;
+      flex-direction: column;
+    }
+
+    .tool-viewer-modal.active {
+      display: flex;
+    }
+
+    .tool-viewer-header {
+      height: 52px;
+      background: rgba(18, 12, 32, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .tool-viewer-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     /* 토스트 알림 */
@@ -809,6 +1016,99 @@
   <!-- 숨겨진 파일 인풋 -->
   <input type="file" id="fileUploadInput" accept="image/*" style="display:none" onchange="handleFileChange(event)">
 
+  <!-- 🌟 [핵심] 링크믹스 스타일 + 셋업팟 독점 툴킷 '컴포넌트 추가 선택' 모달 -->
+  <div class="modal-overlay" id="componentPickerModal">
+    <div class="modal-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="modal-title" style="font-size:18px;">+ 컴포넌트 추가</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,0.5);margin-top:2px;">링크믹스에는 없는 셋업팟만의 비즈니스 도구를 배치하세요</div>
+        </div>
+        <button onclick="closeComponentPicker()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+
+      <!-- 1. 셋업팟 독점 네이티브 툴킷 (킬러 기능) -->
+      <div class="component-picker-section">
+        <div class="component-picker-cat-title">⚡ SETUPOD 독점 툴킷 (이탈 없는 비즈니스)</div>
+        <div class="component-picker-grid">
+          <div class="component-pick-btn featured" onclick="selectComponentType('card_3d')">
+            <div class="component-icon-box" style="background:rgba(168,85,247,0.25);color:#c084fc;">
+              <i data-lucide="rotate-3d" style="width:18px;height:18px;"></i>
+            </div>
+            <span class="component-badge">시그니처</span>
+            <div class="component-name">3D 인터랙티브 명함</div>
+            <div class="component-desc">회전하는 입체 카드 & vCard 즉시 저장</div>
+          </div>
+
+          <div class="component-pick-btn featured" onclick="selectComponentType('lead_form')">
+            <div class="component-icon-box" style="background:rgba(56,189,248,0.2);color:#38bdf8;">
+              <i data-lucide="user-check" style="width:18px;height:18px;"></i>
+            </div>
+            <span class="component-badge" style="background:#0284c7;">고객DB 수집</span>
+            <div class="component-name">원클릭 리드 수집기</div>
+            <div class="component-desc">자료 신청/상담 예약 연락처 자동 DB화</div>
+          </div>
+
+          <div class="component-pick-btn" onclick="selectComponentType('ebook_viewer')">
+            <div class="component-icon-box" style="background:rgba(251,191,36,0.2);color:#fbbf24;">
+              <i data-lucide="book-open" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">인앱 전자책/제안서</div>
+            <div class="component-desc">외부 이동 없이 창 안에서 바로 읽는 뷰어</div>
+          </div>
+
+          <div class="component-pick-btn" onclick="selectComponentType('calculator')">
+            <div class="component-icon-box" style="background:rgba(52,211,153,0.2);color:#34d399;">
+              <i data-lucide="calculator" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">스마트 견적 계산기</div>
+            <div class="component-desc">고객이 옵션 고르면 즉시 예상 견적 산출</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 기본형 링크 & 미디어 (링크믹스 완벽 지원) -->
+      <div class="component-picker-section">
+        <div class="component-picker-cat-title">🔗 기본 링크 및 미디어</div>
+        <div class="component-picker-grid">
+          <div class="component-pick-btn" onclick="selectComponentType('link_standard')">
+            <div class="component-icon-box" style="background:rgba(255,255,255,0.08);color:#ffffff;">
+              <i data-lucide="link" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">기본형 링크</div>
+            <div class="component-desc">썸네일 + 제목 + 부제목 가로형 배너</div>
+          </div>
+
+          <div class="component-pick-btn" onclick="selectComponentType('link_grid')">
+            <div class="component-icon-box" style="background:rgba(244,114,182,0.2);color:#f472b6;">
+              <i data-lucide="grid" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">2열 그리드 링크</div>
+            <div class="component-desc">인스타그램/블로그 피드형 2개 나란히 배치</div>
+          </div>
+
+          <div class="component-pick-btn" onclick="selectComponentType('youtube')">
+            <div class="component-icon-box" style="background:rgba(239,68,68,0.2);color:#ef4444;">
+              <i data-lucide="play-circle" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">유튜브 영상</div>
+            <div class="component-desc">페이지 내에서 바로 재생되는 비디오 플레이어</div>
+          </div>
+
+          <div class="component-pick-btn" onclick="selectComponentType('category_title')">
+            <div class="component-icon-box" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);">
+              <i data-lucide="minus" style="width:18px;height:18px;"></i>
+            </div>
+            <div class="component-name">카테고리 제목/구분선</div>
+            <div class="component-desc">링크 섹션을 깔끔하게 분류하는 제목 라인</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 링크 추가/수정 모달 -->
   <div class="modal-overlay" id="linkModal">
     <div class="modal-card">
@@ -863,42 +1163,207 @@
     </div>
   </div>
 
-  <!-- 통계 모달 (리드 & 클릭 분석) -->
-  <div class="modal-overlay" id="analyticsModal">
+  <!-- 🎨 테마 변경 선택기 모달 -->
+  <div class="modal-overlay" id="themePickerModal">
     <div class="modal-card">
-      <div class="modal-title">링크별 실시간 분석</div>
-      <p style="font-size:12px;color:rgba(255,255,255,0.6);">최근 30일간의 링크 유입 및 리드 수집 현황입니다.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="modal-title">🎨 테마 & 배경 스타일 선택</div>
+        <button onclick="closeThemePicker()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);">브랜드 무드에 맞는 하이엔드 컬러 팔레트를 클릭 한 번으로 적용하세요.</p>
 
-      <div style="display:flex;gap:10px;margin:10px 0;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="component-pick-btn" onclick="applyTheme('violet')">
+          <div style="width:100%;height:32px;border-radius:8px;background:linear-gradient(135deg, #170d2f 0%, #a855f7 100%);"></div>
+          <div class="component-name">네온 바이올렛 (기본)</div>
+          <div class="component-desc">신비롭고 럭셔리한 퍼플 글로우</div>
+        </div>
+
+        <div class="component-pick-btn" onclick="applyTheme('obsidian')">
+          <div style="width:100%;height:32px;border-radius:8px;background:linear-gradient(135deg, #050508 0%, #38bdf8 100%);"></div>
+          <div class="component-name">옵시디언 블랙 & 시안</div>
+          <div class="component-desc">테크 & 미니멀 다크 모드</div>
+        </div>
+
+        <div class="component-pick-btn" onclick="applyTheme('emerald')">
+          <div style="width:100%;height:32px;border-radius:8px;background:linear-gradient(135deg, #061f18 0%, #10b981 100%);"></div>
+          <div class="component-name">에메랄드 골드</div>
+          <div class="component-desc">자산가 & 프리미엄 신뢰감</div>
+        </div>
+
+        <div class="component-pick-btn" onclick="applyTheme('sunset')">
+          <div style="width:100%;height:32px;border-radius:8px;background:linear-gradient(135deg, #2b0d1e 0%, #f43f5e 100%);"></div>
+          <div class="component-name">선셋 네온 로즈</div>
+          <div class="component-desc">크리에이터 & 인플루언서</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🧮 스마트 견적 & ROI 계산기 모달 -->
+  <div class="modal-overlay" id="calcModal">
+    <div class="modal-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="modal-title">🧮 비즈니스 스마트 견적기</div>
+        <button onclick="closeCalcModal()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);">필요한 서비스를 체크하시면 실시간 예상 견적이 즉시 계산됩니다.</p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="calcItem1" value="290000" onchange="updateCalcTotal()" checked style="accent-color:#a855f7;transform:scale(1.2);">
+            <div>
+              <div style="font-size:13px;font-weight:700;">3D 명함 & 브랜드 셋업</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">반응형 3D 카드 + vCard 연동</div>
+            </div>
+          </div>
+          <span style="font-size:13px;font-weight:800;color:#c084fc;">₩290,000</span>
+        </label>
+
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="calcItem2" value="490000" onchange="updateCalcTotal()" checked style="accent-color:#a855f7;transform:scale(1.2);">
+            <div>
+              <div style="font-size:13px;font-weight:700;">올인원 멀티링크 허브 구축</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">독립 도메인 + DB 수집기 연결</div>
+            </div>
+          </div>
+          <span style="font-size:13px;font-weight:800;color:#c084fc;">₩490,000</span>
+        </label>
+
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);cursor:pointer;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" id="calcItem3" value="500000" onchange="updateCalcTotal()" style="accent-color:#a855f7;transform:scale(1.2);">
+            <div>
+              <div style="font-size:13px;font-weight:700;">인터랙티브 웹 제안서 제작</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">슬라이드 덱 + 디지털 자산화</div>
+            </div>
+          </div>
+          <span style="font-size:13px;font-weight:800;color:#c084fc;">₩500,000</span>
+        </label>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:rgba(168,85,247,0.15);border:1px solid var(--neon-violet);border-radius:14px;margin-top:6px;">
+        <span style="font-size:13px;font-weight:700;">예상 총 견적</span>
+        <span style="font-size:20px;font-weight:900;color:#ffd978;" id="calcTotalDisplay">₩780,000</span>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="btn-modal-action btn-modal-cancel" onclick="closeCalcModal()">닫기</button>
+        <button class="btn-modal-action btn-modal-save" onclick="applyQuoteConsult()">이 견적으로 1:1 문의</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📊 통계 & CRM 고객 DB 관리 모달 -->
+  <div class="modal-overlay" id="analyticsModal">
+    <div class="modal-card" style="max-width:480px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="modal-title">📊 실시간 분석 & 고객 DB (CRM)</div>
+        <button onclick="closeAnalyticsModal()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
+          <i data-lucide="x" style="width:20px;height:20px;"></i>
+        </button>
+      </div>
+
+      <div style="display:flex;gap:10px;">
         <div style="flex:1;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;text-align:center;">
           <div style="font-size:11px;color:rgba(255,255,255,0.5);">총 방문자</div>
           <div style="font-size:22px;font-weight:900;color:var(--neon-cyan);margin-top:4px;">1,248명</div>
         </div>
         <div style="flex:1;background:rgba(255,255,255,0.05);padding:14px;border-radius:12px;text-align:center;">
-          <div style="font-size:11px;color:rgba(255,255,255,0.5);">링크 클릭 수</div>
-          <div style="font-size:22px;font-weight:900;color:var(--neon-violet);margin-top:4px;">3,892회</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">수집된 고객 DB (리드)</div>
+          <div style="font-size:22px;font-weight:900;color:var(--neon-violet);margin-top:4px;" id="leadsCountDisplay">14건</div>
         </div>
       </div>
 
-      <div style="font-size:12px;font-weight:700;margin-bottom:6px;">실시간 링크 랭킹 TOP 3</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;flex-direction:column;gap:6px;">
-        <div>1위. 3D 공식 디지털 명함 (1,420회)</div>
-        <div>2위. 카카오톡 1:1 상담 (1,150회)</div>
-        <div>3위. 인스타그램 @mazabase (820회)</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:12.5px;font-weight:800;color:#ffffff;">📥 수집된 실제 연락처 목록</span>
+        <button onclick="exportLeadsCSV()" style="padding:4px 10px;border-radius:6px;background:rgba(56,189,248,0.2);border:1px solid #38bdf8;color:#38bdf8;font-size:11px;font-weight:700;cursor:pointer;">
+          엑셀(CSV) 다운로드
+        </button>
       </div>
 
-      <button class="btn-modal-action btn-modal-cancel" style="margin-top:14px;" onclick="closeAnalyticsModal()">닫기</button>
+      <div id="leadsListContainer" style="max-height:160px;overflow-y:auto;background:rgba(0,0,0,0.4);border-radius:10px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,0.8);display:flex;flex-direction:column;gap:6px;">
+        <!-- 자바스크립트로 렌더링됨 -->
+      </div>
+
+      <div style="font-size:12px;font-weight:700;margin-top:4px;">인기 컴포넌트 TOP 3</div>
+      <div style="font-size:11.5px;color:rgba(255,255,255,0.6);display:flex;flex-direction:column;gap:4px;">
+        <div>1위. 3D 공식 디지털 명함 (1,420회 클릭)</div>
+        <div>2위. 원클릭 리드 신청폼 (1,150회 참여)</div>
+        <div>3위. 인앱 전자책/제안서 뷰어 (930회 열람)</div>
+      </div>
+
+      <button class="btn-modal-action btn-modal-cancel" style="margin-top:10px;" onclick="closeAnalyticsModal()">닫기</button>
     </div>
+  </div>
+
+  <!-- 인앱 툴 뷰어 (전자책/제안서/명함 전체화면 실행 모달) -->
+  <div class="tool-viewer-modal" id="toolViewerModal">
+    <div class="tool-viewer-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="badge-sub" id="toolViewerBadge">IN-APP TOOL</span>
+        <span style="font-size:13.5px;font-weight:800;color:#ffffff;" id="toolViewerTitle">전자책 뷰어</span>
+      </div>
+      <button onclick="closeToolViewer()" style="background:rgba(255,255,255,0.1);border:none;color:#ffffff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;">
+        닫기 ✕
+      </button>
+    </div>
+    <iframe id="toolViewerFrame" class="tool-viewer-frame" src="about:blank"></iframe>
   </div>
 
   <!-- 토스트 -->
   <div class="toast" id="toastMsg">알림</div>
 
   <script>
-    // 기본 링크 데이터 세트 (수정/순서변경/삭제/추가 가능)
-    let linksData = [
+    // 셋업팟 초기 기본 컴포넌트 데이터 (로컬스토리지 영구 동기화)
+    const defaultComponents = [
+      {
+        id: 101,
+        type: "card_3d",
+        title: "공식 3D 인터랙티브 디지털 명함",
+        desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
+        badge: "시그니처 툴",
+        url: "card.html?id=maza"
+      },
+      {
+        id: 102,
+        type: "lead_form",
+        title: "VIP 비즈니스 자료 & 상담 신청",
+        desc: "연락처를 남겨주시면 실전 전자책 및 견적 가이드를 즉시 발송해 드립니다.",
+        badge: "DB 자동수집"
+      },
+      {
+        id: 103,
+        type: "category_title",
+        title: "인앱 비즈니스 도구 & 전자책"
+      },
+      {
+        id: 104,
+        type: "ebook_viewer",
+        title: "콘텐츠 플립 8단계 실전 가이드 덱",
+        desc: "외부 사이트 이동 없이 브라우저 안에서 인터랙티브로 넘겨보는 전략 리포트",
+        url: "../maza-web/deck.html"
+      },
+      {
+        id: 105,
+        type: "calculator",
+        title: "스마트 견적 & ROI 계산기",
+        desc: "원하는 비즈니스 솔루션을 체크하여 실시간 예상 견적을 즉시 산출하세요."
+      },
+      {
+        id: 106,
+        type: "category_title",
+        title: "공식 소셜 & 1:1 채널"
+      },
       {
         id: 1,
+        type: "link_standard",
         title: "카카오톡 1:1 비즈니스 상담",
         desc: "궁금한 점은 카카오톡으로 실시간 답변 받으세요",
         url: "https://open.kakao.com/o/sySmTxKi",
@@ -906,6 +1371,7 @@
       },
       {
         id: 2,
+        type: "link_standard",
         title: "공식 인스타그램 @mazabase",
         desc: "최신 비즈니스 인사이트 및 릴스 소식",
         url: "https://instagram.com/mazabase",
@@ -913,22 +1379,44 @@
       },
       {
         id: 3,
-        title: "MAZA STUDIO 공식 웹사이트",
-        desc: "플랫폼 빌드 및 글로벌 플립 솔루션 보기",
-        url: "https://about.mazastudio.kr",
-        iconColor: "#38bdf8"
+        type: "link_grid",
+        title: "MAZA STUDIO 공식 웹",
+        sub: "플랫폼 솔루션",
+        img: "assets/business_card_mockup.png",
+        url: "https://about.mazastudio.kr"
       },
       {
         id: 4,
+        type: "link_grid",
         title: "직통 전화 연결",
-        desc: "010-8186-0010 (터치 시 바로 통화 연결)",
-        url: "tel:010-8186-0010",
-        iconColor: "#4ade80"
+        sub: "010-8186-0010",
+        img: "assets/cover.jpg",
+        url: "tel:010-8186-0010"
       }
     ];
 
+    // 상태 불러오기
+    let componentsData = JSON.parse(localStorage.getItem('setupod_components')) || defaultComponents;
+    let collectedLeads = JSON.parse(localStorage.getItem('setupod_leads')) || [
+      { phone: "010-8186-0010", date: "2026-09-10 14:20" },
+      { phone: "010-4829-1928", date: "2026-09-10 16:45" },
+      { phone: "010-9941-3320", date: "2026-09-10 18:12" }
+    ];
+    let currentTheme = localStorage.getItem('setupod_theme') || 'violet';
+    let currentProfile = JSON.parse(localStorage.getItem('setupod_profile')) || {
+      name: "Andrew K",
+      handle: "@mazastudio · 이사",
+      bio: "플립마켓에서 달러자산 플랫폼으로 | 디지털 자산화 & 글로벌 비즈니스 아키텍트"
+    };
+
     let currentUploadTarget = null;
     let editingLinkId = null;
+
+    function saveState() {
+      localStorage.setItem('setupod_components', JSON.stringify(componentsData));
+      localStorage.setItem('setupod_leads', JSON.stringify(collectedLeads));
+      localStorage.setItem('setupod_profile', JSON.stringify(currentProfile));
+    }
 
     function showToast(text) {
       const toast = document.getElementById('toastMsg');
@@ -937,40 +1425,262 @@
       setTimeout(() => toast.classList.remove('show'), 2200);
     }
 
+    // ── 렌더링 엔진 ──
     function renderLinks() {
       const container = document.getElementById('linksContainer');
       container.innerHTML = "";
 
-      linksData.forEach((link, index) => {
+      let gridBuffer = [];
+
+      function flushGridBuffer() {
+        if (gridBuffer.length === 0) return;
+        const gridWrapper = document.createElement('div');
+        gridWrapper.className = "link-grid-2col";
+
+        gridBuffer.forEach(({ item, index }) => {
+          const gridCard = document.createElement('div');
+          gridCard.className = "grid-link-item";
+          gridCard.innerHTML = `
+            <img src="${item.img || 'assets/cover.jpg'}" class="grid-link-img" onerror="this.src='assets/business_card_mockup.png'">
+            <div class="grid-link-body">
+              <div class="grid-link-title">${item.title}</div>
+              <div class="grid-link-sub">${item.sub || item.url}</div>
+            </div>
+            <div class="link-action-bar" style="height:32px;">
+              <button class="btn-item-ctrl" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''} title="위로">
+                <i data-lucide="arrow-up" style="width:11px;height:11px;"></i>
+              </button>
+              <button class="btn-item-ctrl" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''} title="아래로">
+                <i data-lucide="arrow-down" style="width:11px;height:11px;"></i>
+              </button>
+              <button class="btn-item-ctrl" onclick="openEditLinkModal(${item.id})" title="수정">
+                <i data-lucide="edit-2" style="width:11px;height:11px;"></i>
+              </button>
+              <button class="btn-item-ctrl delete" onclick="deleteItem(${item.id})" title="삭제">
+                <i data-lucide="trash-2" style="width:11px;height:11px;"></i>
+              </button>
+            </div>
+          `;
+          gridCard.querySelector('.grid-link-body').addEventListener('click', () => {
+            window.open(item.url, '_blank');
+          });
+          gridWrapper.appendChild(gridCard);
+        });
+
+        container.appendChild(gridWrapper);
+        gridBuffer = [];
+      }
+
+      componentsData.forEach((item, index) => {
+        if (item.type === 'link_grid') {
+          gridBuffer.push({ item, index });
+          if (gridBuffer.length === 2) flushGridBuffer();
+          return;
+        } else {
+          flushGridBuffer();
+        }
+
+        // 1. 카테고리 구분선
+        if (item.type === 'category_title') {
+          const sec = document.createElement('div');
+          sec.className = "section-category-card";
+          sec.innerHTML = `
+            <span class="section-category-title">${item.title}</span>
+            <div class="section-category-line"></div>
+            <button onclick="deleteItem(${item.id})" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;padding:2px;" title="삭제">
+              <i data-lucide="trash-2" style="width:13px;height:13px;"></i>
+            </button>
+          `;
+          container.appendChild(sec);
+          return;
+        }
+
+        // 2. 3D 인터랙티브 명함 툴킷
+        if (item.type === 'card_3d') {
+          const card = document.createElement('div');
+          card.className = "tool-embed-card";
+          card.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-badge-wrap">
+                <span class="tool-badge-pill">⚡ SETUPOD 3D 명함</span>
+                <span style="font-size:10px;color:var(--neon-cyan);font-weight:700;">인앱 구동</span>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
+                </button>
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="tool-title">${item.title}</div>
+              <div class="tool-desc">${item.desc}</div>
+            </div>
+            <button class="btn-tool-launch" onclick="launchInAppTool('3D 명함', 'card.html?id=maza')">
+              <i data-lucide="rotate-3d" style="width:16px;height:16px;"></i>
+              <span>3D 명함 열기 & 연락처 저장하기</span>
+            </button>
+          `;
+          container.appendChild(card);
+          return;
+        }
+
+        // 3. 원클릭 리드 수집기
+        if (item.type === 'lead_form') {
+          const card = document.createElement('div');
+          card.className = "tool-embed-card";
+          card.style.borderColor = "rgba(56, 189, 248, 0.5)";
+          card.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-badge-wrap">
+                <span class="tool-badge-pill" style="background:rgba(56,189,248,0.2);color:#38bdf8;border-color:rgba(56,189,248,0.4);">📥 고객 DB 자동수집</span>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
+                </button>
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="tool-title">${item.title}</div>
+              <div class="tool-desc">${item.desc}</div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:2px;">
+              <input type="tel" id="leadPhoneInput" class="modal-input" placeholder="전화번호 입력 (010-0000-0000)" style="flex:1;background:rgba(0,0,0,0.4);border-color:rgba(56,189,248,0.3);">
+              <button onclick="submitLeadCapture()" style="padding:0 18px;border-radius:10px;background:#38bdf8;color:#05030a;font-weight:800;border:none;cursor:pointer;font-size:13px;">
+                신청
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+          return;
+        }
+
+        // 4. 인앱 전자책 뷰어
+        if (item.type === 'ebook_viewer') {
+          const card = document.createElement('div');
+          card.className = "tool-embed-card";
+          card.style.borderColor = "rgba(251, 191, 36, 0.4)";
+          card.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-badge-wrap">
+                <span class="tool-badge-pill" style="background:rgba(251,191,36,0.2);color:#fbbf24;border-color:rgba(251,191,36,0.4);">📖 인앱 전자책 / 덱</span>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
+                </button>
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="tool-title">${item.title}</div>
+              <div class="tool-desc">${item.desc}</div>
+            </div>
+            <button class="btn-tool-launch" style="background:linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);color:#000000;" onclick="launchInAppTool('전자책 덱', '${item.url}')">
+              <i data-lucide="book-open" style="width:16px;height:16px;"></i>
+              <span>웹에서 제안서 바로 읽기 (이탈 없음)</span>
+            </button>
+          `;
+          container.appendChild(card);
+          return;
+        }
+
+        // 5. 스마트 견적 계산기 위젯
+        if (item.type === 'calculator') {
+          const card = document.createElement('div');
+          card.className = "tool-embed-card";
+          card.style.borderColor = "rgba(52, 211, 153, 0.4)";
+          card.innerHTML = `
+            <div class="tool-header-row">
+              <div class="tool-badge-wrap">
+                <span class="tool-badge-pill" style="background:rgba(52,211,153,0.2);color:#34d399;border-color:rgba(52,211,153,0.4);">🧮 견적 & ROI 계산기</span>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
+                </button>
+                <button class="btn-icon-action" style="width:28px;height:28px;" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+                  <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="tool-title">${item.title}</div>
+              <div class="tool-desc">${item.desc}</div>
+            </div>
+            <button class="btn-tool-launch" style="background:linear-gradient(135deg, #34d399 0%, #059669 100%);color:#022c22;" onclick="openCalcModal()">
+              <i data-lucide="calculator" style="width:16px;height:16px;"></i>
+              <span>실시간 예상 견적 계산하기</span>
+            </button>
+          `;
+          container.appendChild(card);
+          return;
+        }
+
+        // 6. 유튜브 비디오 임베드 카드
+        if (item.type === 'youtube') {
+          const card = document.createElement('div');
+          card.className = "link-manage-card";
+          card.innerHTML = `
+            <div style="padding:14px 16px 8px 16px;">
+              <div class="link-heading" style="margin-bottom:8px;">${item.title}</div>
+              <div style="position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000;">
+                <iframe src="${item.url}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+              </div>
+            </div>
+            <div class="link-action-bar">
+              <button class="btn-item-ctrl" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+                <i data-lucide="arrow-up" style="width:12px;height:12px;"></i><span>위로</span>
+              </button>
+              <button class="btn-item-ctrl" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+                <i data-lucide="arrow-down" style="width:12px;height:12px;"></i><span>아래로</span>
+              </button>
+              <button class="btn-item-ctrl delete" onclick="deleteItem(${item.id})">
+                <i data-lucide="trash-2" style="width:12px;height:12px;"></i><span>삭제하기</span>
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+          return;
+        }
+
+        // 7. 기본형 링크
         const card = document.createElement('div');
         card.className = "link-manage-card";
         card.innerHTML = `
-          <div class="link-main-row" onclick="window.open('${link.url}', '_blank')">
+          <div class="link-main-row" onclick="window.open('${item.url}', '_blank')">
             <div class="link-thumb">
-              <i data-lucide="link" style="width:20px;height:20px;color:${link.iconColor || '#a855f7'};"></i>
+              <i data-lucide="link" style="width:20px;height:20px;color:${item.iconColor || '#a855f7'};"></i>
             </div>
             <div class="link-content">
-              <div class="link-heading">${link.title}</div>
-              <div class="link-url-sub">${link.desc || link.url}</div>
+              <div class="link-heading">${item.title}</div>
+              <div class="link-url-sub">${item.desc || item.url}</div>
             </div>
             <i data-lucide="external-link" style="width:16px;height:16px;color:rgba(255,255,255,0.35);"></i>
           </div>
 
-          <!-- 링크믹스 핵심 4대 컨트롤 바 (위로 / 아래로 / 수정하기 / 삭제하기) -->
           <div class="link-action-bar">
-            <button class="btn-item-ctrl" onclick="moveLink(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
+            <button class="btn-item-ctrl" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>
               <i data-lucide="arrow-up" style="width:12px;height:12px;"></i>
               <span>위로</span>
             </button>
-            <button class="btn-item-ctrl" onclick="moveLink(${index}, 1)" ${index === linksData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
+            <button class="btn-item-ctrl" onclick="moveItem(${index}, 1)" ${index === componentsData.length - 1 ? 'disabled style="opacity:0.3"' : ''}>
               <i data-lucide="arrow-down" style="width:12px;height:12px;"></i>
               <span>아래로</span>
             </button>
-            <button class="btn-item-ctrl" onclick="openEditLinkModal(${link.id})">
+            <button class="btn-item-ctrl" onclick="openEditLinkModal(${item.id})">
               <i data-lucide="edit-2" style="width:12px;height:12px;"></i>
               <span>수정하기</span>
             </button>
-            <button class="btn-item-ctrl delete" onclick="deleteLink(${link.id})">
+            <button class="btn-item-ctrl delete" onclick="deleteItem(${item.id})">
               <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
               <span>삭제하기</span>
             </button>
@@ -979,51 +1689,171 @@
         container.appendChild(card);
       });
 
+      flushGridBuffer();
       lucide.createIcons();
     }
 
-    // 순서 변경 (위로 / 아래로)
-    function moveLink(index, direction) {
+    // ── 인앱 툴 실행 ──
+    function launchInAppTool(title, url) {
+      document.getElementById('toolViewerTitle').innerText = title;
+      document.getElementById('toolViewerFrame').src = url;
+      document.getElementById('toolViewerModal').classList.add('active');
+    }
+
+    function closeToolViewer() {
+      document.getElementById('toolViewerModal').classList.remove('active');
+      document.getElementById('toolViewerFrame').src = 'about:blank';
+    }
+
+    // ── 리드 수집 처리 ──
+    function submitLeadCapture() {
+      const input = document.getElementById('leadPhoneInput');
+      const val = input.value.trim();
+      if (!val || val.length < 8) {
+        showToast("정확한 연락처를 입력해 주세요.");
+        return;
+      }
+      const now = new Date();
+      const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      
+      collectedLeads.unshift({ phone: val, date: timeStr });
+      saveState();
+      input.value = "";
+      showToast("✨ 접수 완료! 자료가 즉시 전송되었습니다.");
+    }
+
+    // ── 순서 변경 & 삭제 ──
+    function moveItem(index, direction) {
       const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= linksData.length) return;
+      if (targetIndex < 0 || targetIndex >= componentsData.length) return;
 
-      const temp = linksData[index];
-      linksData[index] = linksData[targetIndex];
-      linksData[targetIndex] = temp;
+      const temp = componentsData[index];
+      componentsData[index] = componentsData[targetIndex];
+      componentsData[targetIndex] = temp;
 
+      saveState();
       renderLinks();
       showToast("순서가 변경되었습니다.");
     }
 
-    // 삭제하기
-    function deleteLink(id) {
-      if (confirm("이 링크를 삭제하시겠습니까?")) {
-        linksData = linksData.filter(l => l.id !== id);
+    function deleteItem(id) {
+      if (confirm("이 항목을 삭제하시겠습니까?")) {
+        componentsData = componentsData.filter(l => l.id !== id);
+        saveState();
         renderLinks();
-        showToast("링크가 삭제되었습니다.");
+        showToast("항목이 삭제되었습니다.");
       }
     }
 
-    // 링크 모달 열기 (추가 모드)
+    // ── 컴포넌트 추가 선택 모달 ──
     function openAddLinkModal() {
-      editingLinkId = null;
-      document.getElementById('modalLinkTitle').innerText = "새 링크 추가하기";
-      document.getElementById('modalInputTitle').value = "";
-      document.getElementById('modalInputUrl').value = "";
-      document.getElementById('modalInputDesc').value = "";
-      document.getElementById('linkModal').classList.add('active');
+      document.getElementById('componentPickerModal').classList.add('active');
     }
 
-    // 링크 모달 열기 (수정 모드)
+    function closeComponentPicker() {
+      document.getElementById('componentPickerModal').classList.remove('active');
+    }
+
+    function selectComponentType(type) {
+      closeComponentPicker();
+      const newId = Date.now();
+
+      if (type === 'card_3d') {
+        componentsData.unshift({
+          id: newId,
+          type: "card_3d",
+          title: "공식 3D 인터랙티브 디지털 명함",
+          desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
+          url: "card.html?id=maza"
+        });
+        showToast("3D 명함이 추가되었습니다!");
+      } else if (type === 'lead_form') {
+        componentsData.splice(1, 0, {
+          id: newId,
+          type: "lead_form",
+          title: "VIP 비즈니스 자료 & 상담 신청",
+          desc: "연락처를 남겨주시면 실전 전자책 및 견적 가이드를 즉시 발송해 드립니다."
+        });
+        showToast("원클릭 리드 수집기가 추가되었습니다!");
+      } else if (type === 'ebook_viewer') {
+        componentsData.push({
+          id: newId,
+          type: "ebook_viewer",
+          title: "인터랙티브 전자책 / 전략 제안서",
+          desc: "외부 사이트 이동 없이 브라우저 안에서 인터랙티브로 넘겨보는 리포트",
+          url: "../maza-web/deck.html"
+        });
+        showToast("인앱 전자책 뷰어가 추가되었습니다!");
+      } else if (type === 'calculator') {
+        componentsData.push({
+          id: newId,
+          type: "calculator",
+          title: "스마트 견적 & ROI 계산기",
+          desc: "원하는 비즈니스 솔루션을 체크하여 실시간 예상 견적을 즉시 산출하세요."
+        });
+        showToast("스마트 견적기가 추가되었습니다!");
+      } else if (type === 'youtube') {
+        const url = prompt("유튜브 공유 URL 또는 임베드 주소를 입력하세요:", "https://www.youtube.com/embed/dQw4w9WgXcQ");
+        if (url) {
+          let embedUrl = url;
+          if (url.includes('watch?v=')) embedUrl = url.replace('watch?v=', 'embed/');
+          else if (url.includes('youtu.be/')) embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/');
+          
+          componentsData.push({
+            id: newId,
+            type: "youtube",
+            title: "공식 영상 브리핑",
+            url: embedUrl
+          });
+          showToast("유튜브 영상이 추가되었습니다!");
+        }
+      } else if (type === 'category_title') {
+        const title = prompt("카테고리 제목을 입력하세요:", "새 섹션");
+        if (title) {
+          componentsData.push({
+            id: newId,
+            type: "category_title",
+            title: title
+          });
+          showToast("카테고리 구분선이 추가되었습니다!");
+        }
+      } else if (type === 'link_grid') {
+        const title = prompt("2열 그리드 링크 제목을 입력하세요:", "새 상품/피드");
+        const url = prompt("연결할 URL을 입력하세요:", "https://");
+        if (title && url) {
+          componentsData.push({
+            id: newId,
+            type: "link_grid",
+            title: title,
+            sub: "바로가기",
+            img: "assets/business_card_mockup.png",
+            url: url
+          });
+          showToast("2열 그리드 링크가 추가되었습니다!");
+        }
+      } else {
+        editingLinkId = null;
+        document.getElementById('modalLinkTitle').innerText = "새 링크 추가하기";
+        document.getElementById('modalInputTitle').value = "";
+        document.getElementById('modalInputUrl').value = "";
+        document.getElementById('modalInputDesc').value = "";
+        document.getElementById('linkModal').classList.add('active');
+      }
+
+      saveState();
+      renderLinks();
+    }
+
+    // ── 기본 링크 수정 모달 ──
     function openEditLinkModal(id) {
       editingLinkId = id;
-      const target = linksData.find(l => l.id === id);
+      const target = componentsData.find(l => l.id === id);
       if (!target) return;
 
       document.getElementById('modalLinkTitle').innerText = "링크 수정하기";
-      document.getElementById('modalInputTitle').value = target.title;
-      document.getElementById('modalInputUrl').value = target.url;
-      document.getElementById('modalInputDesc').value = target.desc || "";
+      document.getElementById('modalInputTitle').value = target.title || "";
+      document.getElementById('modalInputUrl').value = target.url || "";
+      document.getElementById('modalInputDesc').value = target.desc || target.sub || "";
       document.getElementById('linkModal').classList.add('active');
     }
 
@@ -1031,7 +1861,6 @@
       document.getElementById('linkModal').classList.remove('active');
     }
 
-    // 링크 저장 (추가/수정)
     function saveLinkItem() {
       const title = document.getElementById('modalInputTitle').value.trim();
       const url = document.getElementById('modalInputUrl').value.trim();
@@ -1043,19 +1872,19 @@
       }
 
       if (editingLinkId) {
-        // 수정
-        const target = linksData.find(l => l.id === editingLinkId);
+        const target = componentsData.find(l => l.id === editingLinkId);
         if (target) {
           target.title = title;
           target.url = url;
-          target.desc = desc;
+          if (target.type === 'link_grid') target.sub = desc;
+          else target.desc = desc;
         }
         showToast("링크가 수정되었습니다.");
       } else {
-        // 추가
         const newId = Date.now();
-        linksData.push({
+        componentsData.push({
           id: newId,
+          type: "link_standard",
           title: title,
           url: url,
           desc: desc,
@@ -1064,12 +1893,16 @@
         showToast("새 링크가 추가되었습니다!");
       }
 
+      saveState();
       closeLinkModal();
       renderLinks();
     }
 
-    // 프로필 모달
+    // ── 프로필 정보 모달 ──
     function openProfileModal() {
+      document.getElementById('modalProfileName').value = currentProfile.name;
+      document.getElementById('modalProfileHandle').value = currentProfile.handle;
+      document.getElementById('modalProfileBio').value = currentProfile.bio;
       document.getElementById('profileModal').classList.add('active');
     }
 
@@ -1078,20 +1911,103 @@
     }
 
     function saveProfileInfo() {
-      const name = document.getElementById('modalProfileName').value;
-      const handle = document.getElementById('modalProfileHandle').value;
-      const bio = document.getElementById('modalProfileBio').value;
+      currentProfile.name = document.getElementById('modalProfileName').value;
+      currentProfile.handle = document.getElementById('modalProfileHandle').value;
+      currentProfile.bio = document.getElementById('modalProfileBio').value;
 
-      document.getElementById('userNameDisplay').innerText = name;
-      document.getElementById('userHandleDisplay').innerText = handle;
-      document.getElementById('userBioDisplay').innerText = bio;
+      document.getElementById('userNameDisplay').innerText = currentProfile.name;
+      document.getElementById('userHandleDisplay').innerText = currentProfile.handle;
+      document.getElementById('userBioDisplay').innerText = currentProfile.bio;
 
+      saveState();
       closeProfileModal();
       showToast("프로필 정보가 저장되었습니다.");
     }
 
-    // 통계 모달
+    // ── 🎨 테마 변경 시스템 ──
+    function openThemePicker() {
+      document.getElementById('themePickerModal').classList.add('active');
+    }
+
+    function closeThemePicker() {
+      document.getElementById('themePickerModal').classList.remove('active');
+    }
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('setupod_theme', theme);
+      const root = document.documentElement;
+
+      if (theme === 'obsidian') {
+        document.body.style.background = 'radial-gradient(circle at 50% 0%, #0c1829 0%, #030712 60%, #010204 100%)';
+        root.style.setProperty('--neon-violet', '#38bdf8');
+        root.style.setProperty('--border-accent', 'rgba(56, 189, 248, 0.4)');
+      } else if (theme === 'emerald') {
+        document.body.style.background = 'radial-gradient(circle at 50% 0%, #07261d 0%, #03140e 60%, #010503 100%)';
+        root.style.setProperty('--neon-violet', '#10b981');
+        root.style.setProperty('--border-accent', 'rgba(16, 185, 129, 0.4)');
+      } else if (theme === 'sunset') {
+        document.body.style.background = 'radial-gradient(circle at 50% 0%, #2e0d1d 0%, #15050e 60%, #050103 100%)';
+        root.style.setProperty('--neon-violet', '#f43f5e');
+        root.style.setProperty('--border-accent', 'rgba(244, 63, 94, 0.4)');
+      } else {
+        // default violet
+        document.body.style.background = 'radial-gradient(circle at 50% 0%, #170d2f 0%, #080512 60%, #030206 100%)';
+        root.style.setProperty('--neon-violet', '#a855f7');
+        root.style.setProperty('--border-accent', 'rgba(168, 85, 247, 0.35)');
+      }
+
+      closeThemePicker();
+      showToast(`'${theme.toUpperCase()}' 테마가 적용되었습니다.`);
+    }
+
+    // ── 🧮 견적기 모달 로직 ──
+    function openCalcModal() {
+      document.getElementById('calcModal').classList.add('active');
+      updateCalcTotal();
+    }
+
+    function closeCalcModal() {
+      document.getElementById('calcModal').classList.remove('active');
+    }
+
+    function updateCalcTotal() {
+      let total = 0;
+      if (document.getElementById('calcItem1').checked) total += parseInt(document.getElementById('calcItem1').value);
+      if (document.getElementById('calcItem2').checked) total += parseInt(document.getElementById('calcItem2').value);
+      if (document.getElementById('calcItem3').checked) total += parseInt(document.getElementById('calcItem3').value);
+      document.getElementById('calcTotalDisplay').innerText = `₩${total.toLocaleString()}`;
+    }
+
+    function applyQuoteConsult() {
+      closeCalcModal();
+      window.open("https://open.kakao.com/o/sySmTxKi", "_blank");
+      showToast("카카오톡 상담창으로 연결합니다.");
+    }
+
+    // ── 📊 CRM 통계 & CSV 내보내기 ──
     function openAnalyticsModal() {
+      document.getElementById('leadsCountDisplay').innerText = `${collectedLeads.length}건`;
+      const listContainer = document.getElementById('leadsListContainer');
+      listContainer.innerHTML = "";
+
+      if (collectedLeads.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);padding:10px;">아직 수집된 연락처가 없습니다.</div>`;
+      } else {
+        collectedLeads.forEach(lead => {
+          const row = document.createElement('div');
+          row.style.display = "flex";
+          row.style.justifyContent = "space-between";
+          row.style.borderBottom = "1px solid rgba(255,255,255,0.06)";
+          row.style.padding = "4px 0";
+          row.innerHTML = `
+            <span style="font-weight:700;color:var(--neon-cyan);">${lead.phone}</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.4);">${lead.date}</span>
+          `;
+          listContainer.appendChild(row);
+        });
+      }
+
       document.getElementById('analyticsModal').classList.add('active');
     }
 
@@ -1099,12 +2015,26 @@
       document.getElementById('analyticsModal').classList.remove('active');
     }
 
-    // 테마 피커 모달
-    function openThemePicker() {
-      showToast("배경 및 테마 컬러를 변경했습니다.");
+    function exportLeadsCSV() {
+      if (collectedLeads.length === 0) {
+        showToast("다운로드할 DB가 없습니다.");
+        return;
+      }
+      let csvContent = "data:text/csv;charset=utf-8,번호,연락처,신청일시\n";
+      collectedLeads.forEach((l, idx) => {
+        csvContent += `${idx + 1},${l.phone},${l.date}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `setupod_leads_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("고객 DB CSV 파일이 다운로드되었습니다.");
     }
 
-    // 이미지 업로드 트리거
+    // ── 이미지 업로드 트리거 ──
     function triggerUpload(target) {
       currentUploadTarget = target;
       document.getElementById('fileUploadInput').click();
@@ -1127,7 +2057,6 @@
       reader.readAsDataURL(file);
     }
 
-    // 복사 & 공유
     function copyUrl() {
       navigator.clipboard.writeText(window.location.href).then(() => {
         showToast("내 셋업팟 주소가 복사되었습니다!");
@@ -1149,8 +2078,12 @@
       document.getElementById('linksContainer').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 초기화
+    // 초기 로딩
     window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('userNameDisplay').innerText = currentProfile.name;
+      document.getElementById('userHandleDisplay').innerText = currentProfile.handle;
+      document.getElementById('userBioDisplay').innerText = currentProfile.bio;
+      applyTheme(currentTheme);
       renderLinks();
     });
   </script>
