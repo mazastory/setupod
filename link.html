@@ -590,7 +590,7 @@
       background: #130a24;
       border: 1px solid var(--border-accent);
       border-radius: 22px;
-      padding: 24px 20px;
+      padding: 26px 22px;
       width: 100%;
       max-width: 440px;
       max-height: 88vh;
@@ -599,6 +599,87 @@
       flex-direction: column;
       gap: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--neon-glow);
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .modal-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .modal-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .modal-input:focus {
+      border-color: var(--neon-violet);
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .btn-modal-action {
+      flex: 1;
+      height: 44px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-modal-save {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-modal-save:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-modal-cancel {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-modal-cancel:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
     }
 
     /* 컴포넌트 추가 선택기 (링크믹스 완벽 벤치마킹 + 셋업팟 툴킷) */
@@ -1253,7 +1334,7 @@
         <span style="font-size:20px;font-weight:900;color:#ffd978;" id="calcTotalDisplay">₩780,000</span>
       </div>
 
-      <div style="display:flex;gap:8px;margin-top:4px;">
+      <div class="modal-btn-row">
         <button class="btn-modal-action btn-modal-cancel" onclick="closeCalcModal()">닫기</button>
         <button class="btn-modal-action btn-modal-save" onclick="applyQuoteConsult()">이 견적으로 1:1 문의</button>
       </div>
@@ -1963,6 +2044,10 @@
 
     // ── 🧮 견적기 모달 로직 ──
     function openCalcModal() {
+      const item1 = document.getElementById('calcItem1');
+      const item2 = document.getElementById('calcItem2');
+      if (item1 && !item1.checked) item1.checked = true;
+      if (item2 && !item2.checked) item2.checked = true;
       document.getElementById('calcModal').classList.add('active');
       updateCalcTotal();
     }
@@ -1973,10 +2058,18 @@
 
     function updateCalcTotal() {
       let total = 0;
-      if (document.getElementById('calcItem1').checked) total += parseInt(document.getElementById('calcItem1').value);
-      if (document.getElementById('calcItem2').checked) total += parseInt(document.getElementById('calcItem2').value);
-      if (document.getElementById('calcItem3').checked) total += parseInt(document.getElementById('calcItem3').value);
-      document.getElementById('calcTotalDisplay').innerText = `₩${total.toLocaleString()}`;
+      const c1 = document.getElementById('calcItem1');
+      const c2 = document.getElementById('calcItem2');
+      const c3 = document.getElementById('calcItem3');
+
+      if (c1 && c1.checked) total += parseInt(c1.value || 0);
+      if (c2 && c2.checked) total += parseInt(c2.value || 0);
+      if (c3 && c3.checked) total += parseInt(c3.value || 0);
+
+      const display = document.getElementById('calcTotalDisplay');
+      if (display) {
+        display.innerText = `₩${total.toLocaleString()}`;
+      }
     }
 
     function applyQuoteConsult() {
@@ -2085,6 +2178,8 @@
       document.getElementById('userBioDisplay').innerText = currentProfile.bio;
       applyTheme(currentTheme);
       renderLinks();
+      updateCalcTotal();
+      lucide.createIcons();
     });
   </script>
 </body>
