@@ -1,5 +1,5 @@
-# SETUPOD Supabase Project Schema SQL
-# Supabase 대시보드 -> SQL Editor 에서 'Run'을 누르면 1초 만에 생성됩니다.
+-- SETUPOD Supabase Project Schema SQL
+-- Supabase 대시보드 -> SQL Editor 에서 'Run'을 누르면 1초 만에 생성됩니다.
 
 -- 1. 유저 프로필 테이블 (고유 슬러그 및 계정 정보)
 CREATE TABLE IF NOT EXISTS public.profiles (
