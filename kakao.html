@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>카카오 비즈니스 마케팅 카드 스튜디오 | SETUPOD</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <!-- Kakao JavaScript SDK -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #09090c;
+      --panel-bg: #111116;
+      --panel-card: #17171f;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: #fee500;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --kakao-yellow: #fee500;
+      --kakao-dark: #191919;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    header {
+      background: rgba(17, 17, 22, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(254, 229, 0, 0.12);
+      border: 1px solid rgba(254, 229, 0, 0.28);
+      color: var(--kakao-yellow);
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-link-btn {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .header-link-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* Main Workspace */
+    .app-workspace {
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 500px 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .app-workspace {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 24px;
+      }
+    }
+
+    /* LEFT: Editor Panel */
+    .editor-container {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      height: fit-content;
+    }
+
+    .editor-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Template Presets Bar */
+    .preset-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preset-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .preset-chip {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .preset-chip:hover {
+      background: rgba(254, 229, 0, 0.08);
+      border-color: rgba(254, 229, 0, 0.4);
+      color: var(--kakao-yellow);
+    }
+
+    .preset-chip.active {
+      background: var(--kakao-yellow);
+      color: var(--kakao-dark);
+      border-color: var(--kakao-yellow);
+      font-weight: 800;
+    }
+
+    /* Form Elements */
+    .form-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-label .sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: #09090d;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 13.5px;
+      color: #ffffff;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--kakao-yellow);
+      box-shadow: 0 0 0 1px var(--kakao-yellow);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.6;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Actions Hub */
+    .btn-kakao-primary {
+      width: 100%;
+      background: var(--kakao-yellow);
+      color: var(--kakao-dark);
+      font-weight: 800;
+      font-size: 15.5px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(254, 229, 0, 0.22);
+      transition: all 0.2s;
+    }
+
+    .btn-kakao-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(254, 229, 0, 0.35);
+    }
+
+    .btn-kakao-primary:active {
+      transform: scale(0.98);
+    }
+
+    .copy-actions-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-outline {
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      color: #e5e7eb;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    /* RIGHT: Live Phone Simulator */
+    .simulator-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 14px;
+    }
+
+    .simulator-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 410px;
+      padding: 0 6px;
+    }
+
+    .sim-badge {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-toggle-btn {
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .theme-toggle-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Realistic KakaoTalk Mockup Window */
+    .phone-mockup {
+      width: 100%;
+      max-width: 410px;
+      background: #1e1e24; /* Kakao Dark Theme default */
+      border-radius: 36px;
+      border: 8px solid #282832;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .phone-mockup.light-mode {
+      background: #b2c7da; /* Kakao Classic Blue/Gray */
+    }
+
+    /* Phone Status Bar */
+    .phone-status {
+      padding: 12px 22px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+      user-select: none;
+    }
+
+    .phone-mockup.light-mode .phone-status {
+      color: #191919;
+    }
+
+    /* Chat Room Nav */
+    .chat-top-nav {
+      padding: 8px 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .phone-mockup.light-mode .chat-top-nav {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .channel-profile-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .channel-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #333;
+    }
+
+    .channel-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .channel-name-bar {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .phone-mockup.light-mode .channel-name-bar {
+      color: #191919;
+    }
+
+    .verified-icon {
+      width: 14px;
+      height: 14px;
+      color: #fee500;
+    }
+
+    .phone-mockup.light-mode .verified-icon {
+      color: #381e1f;
+    }
+
+    .channel-contact-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .phone-mockup.light-mode .channel-contact-sub {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .chat-nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .phone-mockup.light-mode .chat-nav-icons {
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Message Area */
+    .chat-viewport {
+      padding: 16px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Ad Channel Tag */
+    .ad-header-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      margin-left: 46px;
+      margin-bottom: 2px;
+    }
+
+    .phone-mockup.light-mode .ad-header-label {
+      color: #2b2b2b;
+    }
+
+    .ad-pill {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .phone-mockup.light-mode .ad-pill {
+      background: rgba(0, 0, 0, 0.12);
+      color: #191919;
+    }
+
+    .message-stream {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .sender-avatar-small {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #2b2b35;
+      flex-shrink: 0;
+    }
+
+    /* Message Bubble Container (Pure White Card like Kakao official feed) */
+    .kakao-card-bubble {
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 295px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      color: #191919;
+    }
+
+    /* Banner Image Box */
+    .card-banner-wrap {
+      width: 100%;
+      position: relative;
+      background: #f1f2f6;
+      overflow: hidden;
+    }
+
+    .card-banner-img {
+      width: 100%;
+      height: auto;
+      max-height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Body Text Box */
+    .card-copy-wrap {
+      padding: 14px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      line-height: 1.6;
+      font-size: 13.5px;
+      color: #191919;
+      word-break: break-word;
+      white-space: pre-line;
+    }
+
+    .card-copy-headline {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.35;
+      display: none; /* Can be shown or hidden */
+    }
+
+    .card-copy-body {
+      font-size: 13px;
+      color: #222222;
+      line-height: 1.6;
+    }
+
+    /* Dual Action Buttons */
+    .card-buttons-dock {
+      padding: 6px 12px 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .kakao-sub-btn {
+      background: #f4f4f7;
+      border: 1px solid #e2e2e8;
+      border-radius: 8px;
+      padding: 10px 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #26262b;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .kakao-sub-btn:hover {
+      background: #e9e9ee;
+      border-color: #d6d6dc;
+    }
+
+    /* Bubble Meta (Time & Share) */
+    .bubble-meta-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: 6px;
+      padding-bottom: 2px;
+      flex-shrink: 0;
+    }
+
+    .meta-share-btn {
+      color: rgba(255, 255, 255, 0.45);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .phone-mockup.light-mode .meta-share-btn {
+      color: rgba(0, 0, 0, 0.4);
+    }
+
+    .meta-timestamp {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.55);
+      white-space: nowrap;
+    }
+
+    .phone-mockup.light-mode .meta-timestamp {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Channel Footer Link */
+    .channel-footer-action {
+      margin-left: 46px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .phone-mockup.light-mode .channel-footer-action {
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    /* Bottom Fake Input Bar */
+    .fake-chat-input-bar {
+      margin-top: auto;
+      background: #25242b;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .phone-mockup.light-mode .fake-chat-input-bar {
+      background: #ffffff;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .input-placeholder {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .phone-mockup.light-mode .input-placeholder {
+      color: rgba(0, 0, 0, 0.35);
+    }
+
+    /* Toast Notification */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: #1c1c24;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 200;
+    }
+
+    .toast-box.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <a href="./index2.html" class="brand-wrap">
+      <span class="brand-title">
+        <span style="color:#fee500;">SETUPOD</span> MARKETING STUDIO
+      </span>
+      <span class="brand-pill">KAKAO PROMO BUILDER</span>
+    </a>
+    <div class="header-links">
+      <a href="./index2.html" class="header-link-btn">
+        <i data-lucide="building-2" style="width:14px;height:14px;"></i>
+        <span>SETUPOD 마스터</span>
+      </a>
+      <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" class="header-link-btn" style="color:#fee500; border-color:rgba(254,229,0,0.3);">
+        <i data-lucide="message-circle" style="width:14px;height:14px;"></i>
+        <span>1:1 문의</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid Workspace -->
+  <main class="app-workspace">
+
+    <!-- LEFT: Professional Editor -->
+    <div class="editor-container">
+      
+      <!-- 1. Purpose Presets -->
+      <div class="preset-group">
+        <div class="preset-label">비즈니스 목적별 실전 템플릿 (원클릭 세팅)</div>
+        <div class="preset-chips">
+          <button class="preset-chip active" onclick="applyPreset('setupod')">
+            <span>🔥 [SETUPOD] 도메인 자산화 10부작 연재</span>
+          </button>
+          <button class="preset-chip" onclick="applyPreset('edu')">
+            <span>🎓 AI 기업 교육 / 사내 특강</span>
+          </button>
+          <button class="preset-chip" onclick="applyPreset('lead')">
+            <span>📚 실무 PDF 자료 배포</span>
+          </button>
+          <button class="preset-chip" onclick="applyPreset('consult')">
+            <span>💼 1:1 비즈니스 컨설팅</span>
+          </button>
+          <button class="preset-chip" onclick="applyPreset('launch')">
+            <span>🚀 런칭 프로모션 & 혜택</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="editor-section-header">
+        <div class="section-title">
+          <i data-lucide="layout-template" style="width:17px;height:17px;color:#fee500;"></i>
+          <span>카카오톡 채널 메시지 상세 편집</span>
+        </div>
+      </div>
+
+      <!-- 2. Channel Profile -->
+      <div class="form-grid-2">
+        <div class="form-block">
+          <label class="form-label">채널/브랜드명</label>
+          <input type="text" id="inputChannelName" class="form-input" value="SETUPOD" oninput="updateLivePreview()">
+        </div>
+        <div class="form-block">
+          <label class="form-label">
+            연락처 / 부제
+            <span class="sub">채널 상단 표기</span>
+          </label>
+          <input type="text" id="inputChannelContact" class="form-input" value="010-2661-0070 ▾" oninput="updateLivePreview()">
+        </div>
+      </div>
+
+      <!-- 3. Banner Image & File Uploader -->
+      <div class="form-block">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <label class="form-label" style="margin-bottom:0;">
+            상단 홍보 포스터 배너 이미지
+            <span class="sub">URL 또는 파일 직접 업로드</span>
+          </label>
+          <button type="button" class="btn-outline" style="padding:4px 10px; font-size:11.5px; background:rgba(254,229,0,0.12); color:#fee500; border-color:rgba(254,229,0,0.3);" onclick="document.getElementById('imageFileInput').click()">
+            <i data-lucide="upload" style="width:13px;height:13px;"></i>
+            <span>내 PC에서 이미지 올리기</span>
+          </button>
+        </div>
+
+        <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleLocalImageUpload(event)">
+        <input type="text" id="inputBannerUrl" class="form-input" value="./setupod_edu1_cover.jpg" oninput="updateLivePreview()" placeholder="이미지 URL 직접 입력 또는 파일 업로드">
+        
+        <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
+          <span class="preset-chip active" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu1_cover.jpg')">📘 도메인 자산화 3D 표지 (1호 공식)</span>
+          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu2_cover.jpg')">🏢 블로그 빌딩 3D 표지 (2호)</span>
+          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu3_cover.jpg')">💎 1:1 정밀 진단 3D 표지 (3호)</span>
+          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1000&q=80')">✨ 프리미엄 비즈니스</span>
+        </div>
+      </div>
+
+      <!-- 4. Body Copywriting -->
+      <div class="form-block">
+        <label class="form-label">
+          본문 안내 메시지 (줄바꿈 자동 반영)
+          <span class="sub">진정성 있는 설득 카피</span>
+        </label>
+        <textarea id="inputMessageBody" class="form-textarea" oninput="updateLivePreview()">안녕하세요, SETUPOD입니다 :)
+
+블로그 시작할 때 "서브도메인으로 여러 개 쪼개서 승인 많이 받아야지" 생각해보신 적 있으시죠?
+
+열심히 글 써놓고 나중에 승인 거절당하거나 저품질 맞아서 허탈해하시는 분들을 너무 많이 봤습니다.
+
+그 이유, 구글 정책을 알면 너무 명확합니다.
+구글이 인정하는 진짜 사이트는 '루트 도메인' 하나뿐이거든요.
+
+서브도메인은 아무리 늘려도 0원짜리 월세지만,
+제대로 된 도메인 하나는 100배로 팔리는 '디지털 부동산'이 됩니다.
+
+실전에서 겪는 치명적인 실수들을 가볍게 3분 만에 읽으실 수 있도록
+[도메인 자산화 10부작 실전 연재] 1호를 무료 공개했습니다.
+
+지금 바로 확인해보세요 :)
+
+문의: SETUPOD VIP 오픈채팅방 상시 소통 중</textarea>
+      </div>
+
+      <!-- 5. Dual Action Buttons -->
+      <div class="form-block">
+        <label class="form-label">
+          하단 듀얼 액션 버튼 설정
+          <span class="sub">좌측 / 우측 클릭 링크</span>
+        </label>
+
+        <div class="form-grid-2">
+          <div class="form-block">
+            <span style="font-size:11.5px; color:var(--text-muted); font-weight:600;">1번 버튼 (좌)</span>
+            <input type="text" id="inputBtn1Text" class="form-input" value="📖 1호 웹 리더 읽기" oninput="updateLivePreview()">
+            <input type="text" id="inputBtn1Url" class="form-input" style="font-size:12px; margin-top:4px;" value="https://about.setupod.com/edu1.html" placeholder="https://..." oninput="updateLivePreview()">
+          </div>
+          <div class="form-block">
+            <span style="font-size:11.5px; color:var(--text-muted); font-weight:600;">2번 버튼 (우)</span>
+            <input type="text" id="inputBtn2Text" class="form-input" value="🔑 10부작 알림 & VIP" oninput="updateLivePreview()">
+            <input type="text" id="inputBtn2Url" class="form-input" style="font-size:12px; margin-top:4px;" value="https://open.kakao.com/o/gf8IMAKi" placeholder="https://..." oninput="updateLivePreview()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Launch / Share Buttons -->
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+        <button class="btn-kakao-primary" onclick="sendKakaoShare()">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;">
+            <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z" />
+          </svg>
+          <span>내 카카오톡으로 전송하기 (실시간 공유)</span>
+        </button>
+
+        <div class="copy-actions-bar">
+          <button class="btn-outline" onclick="copyMessageText()">
+            <i data-lucide="copy" style="width:14px;height:14px;"></i>
+            <span>본문 텍스트 복사</span>
+          </button>
+          <button class="btn-outline" onclick="copyCurrentLink()">
+            <i data-lucide="link" style="width:14px;height:14px;"></i>
+            <span>카드 공유 링크 복사</span>
+          </button>
+        </div>
+
+        <div style="font-size:11.5px; color:var(--text-muted); text-align:center; line-height:1.5;">
+          💡 카카오 전송 클릭 시 친구 목록이나 단톡방을 선택하여 본 카드를 즉시 발송할 수 있습니다.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Realistic Live Kakao Simulator -->
+    <div class="simulator-container">
+      
+      <div class="simulator-controls">
+        <div class="sim-badge">
+          <i data-lucide="smartphone" style="width:14px;height:14px;color:#fee500;"></i>
+          <span>카카오톡 실제 수신 화면 (100% 동일 렌더링)</span>
+        </div>
+        <button class="theme-toggle-btn" onclick="togglePhoneTheme()">
+          <i data-lucide="moon" id="themeIcon" style="width:12px;height:12px;"></i>
+          <span id="themeLabel">다크 모드</span>
+        </button>
+      </div>
+
+      <!-- Phone Body Mockup -->
+      <div class="phone-mockup" id="phoneMockup">
+        
+        <!-- Status Bar -->
+        <div class="phone-status">
+          <span style="letter-spacing:0.02em;">07:00</span>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <i data-lucide="wifi" style="width:12px;height:12px;"></i>
+            <i data-lucide="battery-medium" style="width:14px;height:14px;"></i>
+          </div>
+        </div>
+
+        <!-- Chat Header Bar -->
+        <div class="chat-top-nav">
+          <div class="channel-profile-row">
+            <img src="./sample_avatar.png" id="simTopAvatar" class="channel-avatar" onerror="this.src='./favicon-32x32.png'">
+            <div class="channel-meta">
+              <div class="channel-name-bar">
+                <span id="simTopName">인피니티랩</span>
+                <svg class="verified-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <span class="channel-contact-sub" id="simTopContact">010-2661-0070 ▾</span>
+            </div>
+          </div>
+          <div class="chat-nav-icons">
+            <i data-lucide="search" style="width:16px;height:16px;"></i>
+            <i data-lucide="menu" style="width:17px;height:17px;"></i>
+          </div>
+        </div>
+
+        <!-- Chat Viewport -->
+        <div class="chat-viewport">
+          
+          <!-- (광고) 채널명 Header -->
+          <div class="ad-header-label">
+            <span class="ad-pill">광고</span>
+            <span id="simAdChannelName">SETUPOD</span>
+          </div>
+
+          <!-- Message Row -->
+          <div class="message-stream">
+            <img src="assets/setupod_symbol.png" id="simBubbleAvatar" class="sender-avatar-small" onerror="this.src='./favicon-32x32.png'">
+
+            <!-- Pure White Message Bubble (Same as Reference Screenshot) -->
+            <div class="kakao-card-bubble">
+              
+              <!-- Top Flyer Image -->
+              <div class="card-banner-wrap">
+                <img src="./setupod_edu1_cover.jpg" id="simBannerImg" class="card-banner-img" onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80'">
+              </div>
+
+              <!-- Body Copywriting -->
+              <div class="card-copy-wrap">
+                <div class="card-copy-body" id="simBodyText">
+안녕하세요, SETUPOD입니다 :)
+
+블로그 시작할 때 "서브도메인으로 여러 개 쪼개서 승인 많이 받아야지" 생각해보신 적 있으시죠?
+
+열심히 글 써놓고 나중에 승인 거절당하거나 저품질 맞아서 허탈해하시는 분들을 너무 많이 봤습니다.
+
+그 이유, 구글 정책을 알면 너무 명확합니다.
+구글이 인정하는 진짜 사이트는 '루트 도메인' 하나뿐이거든요.
+
+서브도메인은 아무리 늘려도 0원짜리 월세지만,
+제대로 된 도메인 하나는 100배로 팔리는 '디지털 부동산'이 됩니다.
+
+실전에서 겪는 치명적인 실수들을 가볍게 3분 만에 읽으실 수 있도록
+[도메인 자산화 10부작 실전 연재] 1호를 무료 공개했습니다.
+
+지금 바로 확인해보세요 :)
+
+문의: SETUPOD VIP 오픈채팅방 상시 소통 중
+                </div>
+              </div>
+
+              <!-- Dual Action Buttons -->
+              <div class="card-buttons-dock">
+                <a href="https://about.setupod.com/edu1.html" id="simBtn1" class="kakao-sub-btn" target="_blank">
+                  <span id="simBtn1Text">📖 1호 웹 리더 읽기</span>
+                </a>
+                <a href="https://open.kakao.com/o/gf8IMAKi" id="simBtn2" class="kakao-sub-btn" target="_blank">
+                  <span id="simBtn2Text">🔑 10부작 알림 & VIP</span>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Bubble Meta (Timestamp & Share) -->
+            <div class="bubble-meta-col">
+              <button class="meta-share-btn" title="전달하기">
+                <i data-lucide="share" style="width:14px;height:14px;"></i>
+              </button>
+              <span class="meta-timestamp">오후 7:00</span>
+            </div>
+
+          </div>
+
+          <!-- Channel Block Footer -->
+          <div class="channel-footer-action">
+            <span>수신거부 | 홈 > 채널 차단</span>
+          </div>
+
+        </div>
+
+        <!-- Fake Chat Input Bar -->
+        <div class="fake-chat-input-bar">
+          <span class="input-placeholder">메시지 입력</span>
+          <div style="display:flex; gap:10px; color:rgba(255,255,255,0.3);">
+            <i data-lucide="paperclip" style="width:15px;height:15px;"></i>
+            <i data-lucide="send" style="width:15px;height:15px;"></i>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-box" id="toastElem">
+    <i data-lucide="check" style="width:15px;height:15px;color:#fee500;"></i>
+    <span id="toastMsg">클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Preset Data Store (Business Marketing Presets)
+    const PRESETS = {
+      setupod: {
+        channel: 'SETUPOD',
+        contact: '010-2661-0070 ▾',
+        avatar: 'assets/setupod_symbol.png',
+        banner: './setupod_edu1_cover.jpg',
+        body: `안녕하세요, SETUPOD입니다 :)
+
+블로그 시작할 때 "서브도메인으로 여러 개 쪼개서 승인 많이 받아야지" 생각해보신 적 있으시죠?
+
+열심히 글 써놓고 나중에 승인 거절당하거나 저품질 맞아서 허탈해하시는 분들을 너무 많이 봤습니다.
+
+그 이유, 구글 정책을 알면 너무 명확합니다.
+구글이 인정하는 진짜 사이트는 '루트 도메인' 하나뿐이거든요.
+
+서브도메인은 아무리 늘려도 0원짜리 월세지만,
+제대로 된 도메인 하나는 100배로 팔리는 '디지털 부동산'이 됩니다.
+
+실전에서 겪는 치명적인 실수들을 가볍게 3분 만에 읽으실 수 있도록
+[도메인 자산화 10부작 실전 연재] 1호를 무료 공개했습니다.
+
+지금 바로 확인해보세요 :)
+
+문의: SETUPOD VIP 오픈채팅방 상시 소통 중`,
+        btn1: '📖 1호 웹 리더 읽기',
+        url1: 'https://about.setupod.com/edu1.html',
+        btn2: '🔑 10부작 알림 & VIP',
+        url2: 'https://open.kakao.com/o/gf8IMAKi'
+      },
+      edu: {
+        channel: '인피니티랩',
+        contact: '01012016831 ▾',
+        avatar: './sample_avatar.png',
+        banner: './sample_flyer.png',
+        body: `안녕하세요, 홍아린입니다 :)
+
+요즘 여기저기서 "AI, AI" 하죠?
+그런데 우리 회사 일엔 어떻게 쓸지 막막하셨을 거예요.
+바빠서 배울 시간도 없고요.
+나만 뒤처지는 것 같기도 하고요.
+
+그 마음, 제가 잘 압니다.
+그래서 직접 회사로 찾아가요.
+하나하나 쉽게 알려드려요.
+
+긴 문서 요약, 반복 서류 자동 정리, 메일 빠르게 쓰기.
+매일 하는 일을 훨씬 편하게요.
+
+중소기업은 교육비 최대 95%까지 돌려받아요.
+먼저 무료 상담부터 해드려요.
+편하게 물어봐 주세요 :)
+
+문의: infinitylab.biz@gmail.com`,
+        btn1: '무료 자료 확인',
+        url1: 'https://about.setupod.com',
+        btn2: '환급 교육 문의',
+        url2: 'https://open.kakao.com/o/gf8IMAKi'
+      },
+      lead: {
+        channel: 'SETUPOD 리서치',
+        contact: '010-2661-0070',
+        avatar: './favicon-32x32.png',
+        banner: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1000&q=80',
+        body: `안녕하세요, SETUPOD 팀입니다 :)
+
+매일 2시간 이상 걸리던 반복 업무,
+이제 10분 만에 끝내는 실전 프롬프트 50선 가이드북을 무료로 배포합니다.
+
+실제 현업 팀들이 검증한 핵심 노하우만 38페이지 분량으로 압축했습니다.
+
+📌 포함 내용:
+• 1초 만에 끝내는 보고서 요약 템플릿
+• 이메일 및 제안서 자동 생성 프롬프트
+• 데이터 정리 및 시각화 자동화 스크립트
+
+선착순 100분께 별도 비용 없이 즉시 열람 가능한 링크를 전달드립니다.
+지금 바로 아래 버튼을 눌러 받아가세요!`,
+        btn1: '무료 가이드 받기',
+        url1: 'https://setupod.com',
+        btn2: '실무 커뮤니티 입장',
+        url2: 'https://open.kakao.com/o/sySmTxKi'
+      },
+      consult: {
+        channel: 'SETUPOD 파트너스',
+        contact: '010-2661-0070',
+        avatar: './favicon-32x32.png',
+        banner: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80',
+        body: `안녕하세요, 비즈니스 리더 여러분 :)
+
+회사가 성장할수록 세무, 지분 구조, 글로벌 확장까지
+대표님이 직접 챙겨야 할 의사결정의 무게가 커집니다.
+
+수많은 기업의 스케일업과 엑싯을 함께한 전문 팀이
+귀사의 현 상태를 객관적으로 분석하고 최적의 솔루션을 제안합니다.
+
+✔️ 이번 달 한정: 1:1 비즈니스 무료 사전 진단 (30분)
+✔️ 사전 질문지 작성 시 맞춤 분석 리포트 기본 제공
+
+편안한 분위기에서 현재의 고민을 나눠보세요.`,
+        btn1: '포트폴리오 보기',
+        url1: 'https://setupod.com',
+        btn2: '1:1 무료 진단 신청',
+        url2: 'https://open.kakao.com/o/sySmTxKi'
+      },
+      launch: {
+        channel: 'SETUPOD Studio',
+        contact: '010-2661-0070',
+        avatar: './favicon-32x32.png',
+        banner: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1000&q=80',
+        body: `안녕하세요! 기다려주신 분들께 가장 먼저 소식을 전합니다.
+
+새로운 차원의 비즈니스 전환 솔루션이 드디어 공식 런칭되었습니다.
+지금 참여하시면 정식 출시 기념 얼리버드 혜택을 받으실 수 있습니다.
+
+🎁 얼리버드 특별 혜택:
+• 평생 멤버십 50% 즉시 할인 쿠폰
+• 1:1 온보딩 및 전담 기술 지원 (3개월)
+• 전용 마케팅 템플릿 팩 10종 무상 증정
+
+본 혜택은 선착순 마감 시 사전 예고 없이 종료될 수 있습니다.`,
+        btn1: '런칭 혜택 확인',
+        url1: 'https://setupod.com',
+        btn2: '50% 쿠폰 발급받기',
+        url2: 'https://open.kakao.com/o/sySmTxKi'
+      }
+    };
+
+    function applyPreset(key) {
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      const data = PRESETS[key];
+      if (!data) return;
+
+      document.getElementById('inputChannelName').value = data.channel;
+      document.getElementById('inputChannelContact').value = data.contact;
+      document.getElementById('inputBannerUrl').value = data.banner;
+      document.getElementById('inputMessageBody').value = data.body;
+      document.getElementById('inputBtn1Text').value = data.btn1;
+      document.getElementById('inputBtn1Url').value = data.url1;
+      document.getElementById('inputBtn2Text').value = data.btn2;
+      document.getElementById('inputBtn2Url').value = data.url2;
+
+      document.getElementById('simTopAvatar').src = data.avatar;
+      document.getElementById('simBubbleAvatar').src = data.avatar;
+
+      updateLivePreview();
+      showToastNotification(`"${data.channel}" 템플릿이 적용되었습니다.`);
+    }
+
+    function setBannerUrl(url) {
+      document.getElementById('inputBannerUrl').value = url;
+      updateLivePreview();
+      showToastNotification('배너 이미지가 변경되었습니다.');
+    }
+
+    // Local image upload handler
+    function handleLocalImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        document.getElementById('inputBannerUrl').value = dataUrl;
+        updateLivePreview();
+        showToastNotification('내 PC의 이미지가 성공적으로 반영되었습니다! 🎉');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateLivePreview() {
+      const channel = document.getElementById('inputChannelName').value;
+      const contact = document.getElementById('inputChannelContact').value;
+      const banner = document.getElementById('inputBannerUrl').value;
+      const body = document.getElementById('inputMessageBody').value;
+      const btn1 = document.getElementById('inputBtn1Text').value;
+      const url1 = document.getElementById('inputBtn1Url').value;
+      const btn2 = document.getElementById('inputBtn2Text').value;
+      const url2 = document.getElementById('inputBtn2Url').value;
+
+      document.getElementById('simTopName').innerText = channel || '브랜드명';
+      document.getElementById('simAdChannelName').innerText = channel || '브랜드명';
+      document.getElementById('simTopContact').innerText = contact || '';
+      document.getElementById('simBannerImg').src = banner;
+      document.getElementById('simBodyText').innerText = body;
+
+      document.getElementById('simBtn1Text').innerText = btn1;
+      document.getElementById('simBtn1').href = url1;
+      document.getElementById('simBtn2Text').innerText = btn2;
+      document.getElementById('simBtn2').href = url2;
+    }
+
+    // Toggle Phone Dark/Light Theme
+    let isLightMode = false;
+    function togglePhoneTheme() {
+      isLightMode = !isLightMode;
+      const mockup = document.getElementById('phoneMockup');
+      const label = document.getElementById('themeLabel');
+      const icon = document.getElementById('themeIcon');
+
+      if (isLightMode) {
+        mockup.classList.add('light-mode');
+        label.innerText = '라이트 모드';
+        icon.setAttribute('data-lucide', 'sun');
+      } else {
+        mockup.classList.remove('light-mode');
+        label.innerText = '다크 모드';
+        icon.setAttribute('data-lucide', 'moon');
+      }
+      lucide.createIcons();
+    }
+
+    // Toast Notification
+    function showToastNotification(text) {
+      const t = document.getElementById('toastElem');
+      document.getElementById('toastMsg').innerText = text;
+      t.classList.add('active');
+      setTimeout(() => t.classList.remove('active'), 2500);
+    }
+
+    function copyMessageText() {
+      const body = document.getElementById('inputMessageBody').value;
+      navigator.clipboard.writeText(body).then(() => {
+        showToastNotification('카카오톡 본문 텍스트가 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function copyCurrentLink() {
+      const currentUrl = window.location.href;
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        showToastNotification('스튜디오 링크가 클립보드에 복사되었습니다.');
+      });
+    }
+
+    // Kakao Share SDK
+    const KAKAO_KEY = 'c089c8172def97eb00c07217cae17295';
+    try {
+      if (window.Kakao && !Kakao.isInitialized()) {
+        Kakao.init(KAKAO_KEY);
+      }
+    } catch (e) {
+      console.log('Kakao SDK Init notice:', e);
+    }
+
+    function sendKakaoShare() {
+      const channel = document.getElementById('inputChannelName').value;
+      const banner = document.getElementById('inputBannerUrl').value;
+      const body = document.getElementById('inputMessageBody').value;
+      const btn1 = document.getElementById('inputBtn1Text').value;
+      const url1 = document.getElementById('inputBtn1Url').value;
+      const btn2 = document.getElementById('inputBtn2Text').value;
+      const url2 = document.getElementById('inputBtn2Url').value;
+
+      // Check if running on local file:// protocol
+      if (window.location.protocol === 'file:') {
+        navigator.clipboard.writeText(body).then(() => {
+          alert('💡 로컬 파일(file://) 환경에서는 카카오 보안 정책상 외부 공유 API 창이 차단됩니다.\n\n대신 [카카오톡 본문 텍스트]가 클립보드에 자동으로 복사되었습니다!\n\n카카오톡 단톡방이나 개인 채팅창을 열고 [붙여넣기 (Cmd/Ctrl + V)] 하시면 바로 전송하실 수 있습니다. 😊');
+          showToastNotification('본문이 복사되었습니다! 카톡에 붙여넣기(Cmd+V) 하세요.');
+        });
+        return;
+      }
+
+      if (!window.Kakao || !Kakao.isInitialized()) {
+        navigator.clipboard.writeText(body).then(() => {
+          alert('카카오 SDK 초기화 중입니다. 본문 텍스트가 클립보드에 복사되었으니 카카오톡에 바로 붙여넣어 전송해 보세요!');
+        });
+        return;
+      }
+
+      showToastNotification('카카오톡 친구 선택 창을 여는 중...');
+
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: channel,
+            description: body.substring(0, 120) + (body.length > 120 ? '...' : ''),
+            imageUrl: banner.startsWith('http') ? banner : 'https://about.setupod.com/sample_flyer.png',
+            link: {
+              mobileWebUrl: url1,
+              webUrl: url1,
+            },
+          },
+          buttons: [
+            {
+              title: btn1,
+              link: {
+                mobileWebUrl: url1,
+                webUrl: url1,
+              },
+            },
+            {
+              title: btn2,
+              link: {
+                mobileWebUrl: url2,
+                webUrl: url2,
+              },
+            }
+          ],
+        });
+      } catch (err) {
+        navigator.clipboard.writeText(body).then(() => {
+          alert('카카오 도메인 미등록 환경입니다.\n대신 본문 텍스트가 클립보드에 복사되었으니 카톡 채팅창에 붙여넣기(Cmd+V) 하시면 됩니다!');
+        });
+      }
+    }
+
+    // Init
+    updateLivePreview();
+  </script>
+</body>
+</html>

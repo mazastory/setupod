@@ -1,6 +1,6 @@
 /**
- * FOCUSIO Dynamic Card Renderer Engine
- * Author: FOCUSIO Team
+ * SETUPOD Dynamic Card Renderer Engine
+ * Author: SETUPOD Team
  */
 
 let cardData = null;
@@ -198,6 +198,18 @@ function renderSocialModal(data) {
 function populateCard(data) {
   cardData = data;
 
+  // 레이아웃 적용
+  const layout = data.layout || 'classic';
+  const layoutStylesheet = document.getElementById('layoutStylesheet');
+  if (layoutStylesheet) {
+    layoutStylesheet.href = layout === 'classic' ? '' : `themes/layout-${layout}.css`;
+  }
+  const cardElement = document.getElementById('cardElement');
+  if (cardElement) {
+    cardElement.classList.remove('layout-classic', 'layout-metal', 'layout-visual');
+    cardElement.classList.add(`layout-${layout}`);
+  }
+
   // 테마 적용
   applyTheme(data.theme);
 
@@ -393,7 +405,7 @@ function copyCardUrl() {
 function nativeShare() {
   if (navigator.share) {
     navigator.share({
-      title: (cardData && cardData.meta) ? cardData.meta.title : "FOCUSIO 디지털 명함",
+      title: (cardData && cardData.meta) ? cardData.meta.title : "SETUPOD 디지털 명함",
       text: (cardData && cardData.company) ? `${cardData.company} 공식 디지털 명함입니다.` : "공식 디지털 명함입니다.",
       url: window.location.href
     }).catch(() => {});
@@ -453,6 +465,7 @@ function populateCardFromCloud(cloud, company) {
 
   const cardModel = {
     slug: p.slug,
+    layout: p.layout || 'classic',
     theme: p.theme || 'violet',
     company: companyName,
     companyWatermark: companyName,
@@ -464,8 +477,8 @@ function populateCardFromCloud(cloud, company) {
     email: p.email || 'contact@setupod.com',
     moatTags: ['3D 인터랙티브', 'vCard 자동저장', '올인원 멀티링크'],
     logo: {
-      src: p.avatar_url || 'assets/logo.gif',
-      fallback: 'assets/logo.gif',
+      src: p.avatar_url || 'assets/setupod_symbol.png',
+      fallback: 'assets/setupod_symbol.png',
       alt: companyName
     },
     primaryAction: {

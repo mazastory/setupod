@@ -1,0 +1,68 @@
+/* ==================================================
+   LAYOUT: VISUAL HERO
+   Top 50% is dominated by the visual asset (logo/image).
+   Perfect for creators and visual-heavy brands.
+   ================================================== */
+
+.layout-visual .card-face.front {
+  padding: 0 !important; /* Remove padding to let image bleed to edges */
+  display: block !important;
+}
+
+.layout-visual .watermark-dynamic {
+  display: none; /* Hide watermark on the visual layout to keep it clean */
+}
+
+/* --- Front Face Overrides --- */
+.layout-visual .front-wrapper {
+  display: block;
+  height: 100%;
+}
+
+.layout-visual .front-logo-container {
+  height: 55%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 10;
+}
+
+.layout-visual .front-logo-box {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  animation: none;
+  margin: 0;
+}
+
+.layout-visual .front-logo-box img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 27px 27px 0 0 !important; /* Match card top corners */
+  object-fit: cover !important;
+}
+
+.layout-visual .front-info-container {
+  height: 45%;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/* --- Back Face Overrides --- */
+/* Keep back face mostly the same, but maybe slightly adjust paddings */
+.layout-visual .card-face.back {
+  padding: 40px 30px;
+}

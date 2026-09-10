@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD | All-in-One Business Asset & 3D Card</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- Subdomain Routing (link.setupod.com -> /link) -->
   <script>
@@ -33,7 +34,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons & QRCode -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- 테마 기본값 (바이올렛) -->
   <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
@@ -318,12 +320,12 @@
 
     .watermark-dynamic span {
       font-family: 'Montserrat', sans-serif;
-      font-size: 120px;
+      font-size: 72px;
       font-weight: 900;
       color: var(--watermark-color);
       transform: rotate(-90deg);
-      width: 120px;
-      height: 95px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -356,7 +358,8 @@
     .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      border-radius: 12px;
     }
 
     .brand-sub-engraving {
@@ -491,6 +494,29 @@
       filter: brightness(1.1);
       transform: translateY(-1px);
     }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 9999;
+      display: none; justify-content: center; align-items: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      display: flex; opacity: 1;
+    }
+    .modal-box {
+      background: #110c22; padding: 24px; border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.1); text-align: center;
+      width: 90%; max-width: 320px;
+      transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .modal-overlay.active .modal-box { transform: scale(1); }
 
     .btn-glass {
       background: rgba(255, 255, 255, 0.08);
@@ -834,7 +860,7 @@
               <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="back-wrapper">
-              <div class="back-top-logo">
+              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer;" title="클릭 시 QR코드 팝업">
                 <img src="assets/setupod_symbol.png" alt="Logo">
               </div>
               <div>
@@ -1005,14 +1031,42 @@
     </div>
   </section>
 
+  <!-- QR Code Modal (Demo) -->
+  <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div style="font-size:20px; font-weight:800; margin-bottom:8px; color:var(--cyan-accent);">디지털 명함 QR코드</div>
+      <div style="color:rgba(255,255,255,0.6); font-size:14px; margin-bottom:20px;">상대방 카메라로 QR코드를 스캔하세요</div>
+      <div id="qrContainer" style="background:#fff; padding:16px; border-radius:16px; display:inline-block; margin-bottom:20px;"></div>
+      <button onclick="closeShareModal()" style="width:100%; padding:14px; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">닫기</button>
+    </div>
+  </div>
+
   <!-- 푸터 -->
   <footer>
     <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px;">SETUPOD — All-in-One Business Asset & 3D Card Platform</p>
     <p style="font-size: 0.85rem; margin-bottom: 8px;">
       <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
-      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none;">서비스 이용약관</a>
-      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-left: 16px;">고객센터</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
     </p>
+    <div style="font-size: 0.8rem; margin-bottom: 16px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: inline-flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;">
+      <span style="color: #a855f7; font-weight: 800;"><i data-lucide="zap" style="width:12px;height:12px;vertical-align:middle;margin-right:2px;"></i> Free Marketing Tools:</span>
+      <a href="kakao.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">카카오톡 배너 생성기</a>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <a href="instagram_teaser.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 릴스 티저</a>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <a href="instagram_slides.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 캐러셀 카드뉴스</a>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <a href="instagram_3grid_banners.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">인스타 3분할 파노라마</a>
+    </div>
+    <div style="font-size: 0.8rem; margin-bottom: 24px; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: inline-flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center;">
+      <span style="color: #06b6d4; font-weight: 800;"><i data-lucide="rocket" style="width:12px;height:12px;vertical-align:middle;margin-right:2px;"></i> Growth Systems:</span>
+      <a href="scorecard_maker.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">진단 스코어카드 생성기</a>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <a href="waitlist_maker.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">바이럴 웨이트리스트</a>
+      <span style="color: rgba(255,255,255,0.2);">|</span>
+      <a href="roi_calculator.html" style="color: rgba(255,255,255,0.6); text-decoration: none;">기회비용(ROI) 계산기</a>
+    </div>
     <p>© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
 
@@ -1021,6 +1075,24 @@
 
     function toggleHeroFlip() {
       document.getElementById('heroCardScene').classList.toggle('flipped');
+    }
+
+    // QR Modal logic
+    function openShareModal() {
+      document.getElementById('shareModal').classList.add('active');
+      document.getElementById('qrContainer').innerHTML = '';
+      new QRCode(document.getElementById("qrContainer"), {
+        text: "https://setupod.com",
+        width: 180,
+        height: 180,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+    }
+    function closeShareModal(e) {
+      if(e) e.stopPropagation();
+      document.getElementById('shareModal').classList.remove('active');
     }
   </script>
 </body>

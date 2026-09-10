@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>웨이트리스트 | SETUPOD</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <style>
+    :root {
+      --bg: #070510;
+      --card-bg: #110c22;
+      --border: rgba(255, 255, 255, 0.1);
+      --cyan: #06b6d4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--cyan);
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      word-break: keep-all;
+    }
+
+    p.desc {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin-bottom: 32px;
+      word-break: keep-all;
+    }
+
+    .screen { display: none; width: 100%; animation: fadeIn 0.4s ease forwards; }
+    .screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Signup Screen */
+    .form-input {
+      width: 100%;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    .form-input:focus { outline: none; border-color: var(--cyan); }
+
+    .btn-main {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      border: none;
+      border-radius: 16px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Referral Screen */
+    .rank-box {
+      text-align: center;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+    .rank-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 56px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+      line-height: 1;
+    }
+
+    .referral-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .referral-url {
+      background: rgba(0,0,0,0.5);
+      border: 1px dashed rgba(255,255,255,0.2);
+      padding: 14px;
+      border-radius: 12px;
+      font-family: monospace;
+      color: var(--cyan);
+      font-size: 13px;
+      margin: 16px 0;
+      word-break: break-all;
+    }
+
+    .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 99px; margin-top: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--cyan); width: 0%; transition: width 0.3s; }
+
+    .branding {
+      margin-top: 60px;
+      text-align: center;
+    }
+    .branding a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Screen 1: Signup -->
+    <div id="screenSignup" class="screen active">
+      <div class="badge" id="uiBadge">PROJECT</div>
+      <h1 id="uiTitle">로딩 중...</h1>
+      <p class="desc" id="uiDesc">초대장을 기다려주세요.</p>
+
+      <input type="email" class="form-input" placeholder="이메일 주소를 입력하세요">
+      <button class="btn-main" onclick="joinWaitlist()">웨이트리스트 합류하기 <i data-lucide="arrow-right" style="width:18px;"></i></button>
+    </div>
+
+    <!-- Screen 2: Referral -->
+    <div id="screenReferral" class="screen">
+      <h2 style="font-size: 20px; text-align:center; font-weight: 800; margin-bottom: 8px;">합류 완료! 🎉</h2>
+      <p style="text-align:center; color:rgba(255,255,255,0.6); font-size:14px;">현재 대기열 순위입니다.</p>
+
+      <div class="rank-box">
+        <div style="font-family:'Montserrat'; font-weight:800; color:var(--cyan); font-size:14px; margin-bottom:8px;">RANK</div>
+        <div class="rank-num">#8,492</div>
+      </div>
+
+      <div class="referral-card">
+        <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 8px;">순위를 올리고 보상을 받으세요</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6);">
+          친구 <strong id="uiReqCount" style="color:#fff;">3</strong>명을 초대하면 <strong id="uiReward" style="color:var(--cyan);">특별 템플릿</strong>을 가장 먼저 100% 무료로 드립니다.
+        </p>
+
+        <div class="referral-url" id="uiRefLink">https://setupod.com/wait?ref=Xy9Z1</div>
+        <button class="btn-main" onclick="copyRef()"><i data-lucide="copy" style="width:16px;"></i> 내 초대 링크 복사하기</button>
+
+        <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-top:24px; color:rgba(255,255,255,0.5);">
+          <span>초대 현황: 0명</span>
+          <span id="uiReqText">목표: 3명</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%;"></div></div>
+      </div>
+    </div>
+
+    <div class="branding">
+      <a href="https://setupod.com" target="_blank">Powered by <strong style="color:#fff; font-family:'Montserrat',sans-serif;">SETUPOD</strong></a>
+    </div>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let config = null;
+
+    function loadConfig() {
+      const raw = localStorage.getItem('setupod_waitlist_cfg');
+      if(raw) {
+        config = JSON.parse(raw);
+        document.getElementById('uiBadge').innerText = config.badge;
+        document.getElementById('uiTitle').innerText = config.title;
+        document.getElementById('uiDesc').innerText = config.desc;
+        document.getElementById('uiReward').innerText = config.reward;
+        document.getElementById('uiReqCount').innerText = config.reqCount;
+        document.getElementById('uiReqText').innerText = `목표: ${config.reqCount}명`;
+      } else {
+        document.getElementById('uiTitle').innerText = "오류";
+        document.getElementById('uiDesc').innerText = "데이터를 찾을 수 없습니다.";
+      }
+    }
+
+    window.addEventListener('message', (e) => {
+      if(e.data === 'reload_waitlist') { loadConfig(); showScreen('screenSignup'); }
+    });
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function joinWaitlist() {
+      showScreen('screenReferral');
+      // Generate fake random rank for demo
+      const randomRank = Math.floor(Math.random() * 5000) + 1000;
+      document.querySelector('.rank-num').innerText = `#${randomRank.toLocaleString()}`;
+    }
+
+    function copyRef() {
+      const link = document.getElementById('uiRefLink').innerText;
+      navigator.clipboard.writeText(link);
+      alert('초대 링크가 복사되었습니다! 친구들에게 공유해보세요.');
+    }
+
+    loadConfig();
+  </script>
+</body>
+</html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD | 3D 디지털 명함</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- OpenGraph Placeholder -->
   <meta property="og:type" content="website">
@@ -21,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons & QRCode -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- Supabase Client -->
@@ -30,6 +31,9 @@
 
   <!-- Default Theme Stylesheet (동적으로 교체됨) -->
   <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+
+  <!-- 레이아웃 전용 스타일시트 (동적 로드) -->
+  <link rel="stylesheet" id="layoutStylesheet" href="">
 
   <style>
     * {
@@ -147,13 +151,12 @@
 
     .watermark-dynamic span {
       font-family: 'Montserrat', sans-serif;
-      font-size: 135px;
+      font-size: 72px;
       font-weight: 900;
-      line-height: 1;
       color: var(--watermark-color);
       transform: rotate(-90deg);
-      width: 135px;
-      height: 105px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -205,10 +208,11 @@
       transform: scale(0.96);
     }
 
-    .front-logo-box img {
+    .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      border-radius: 12px;
     }
 
     .front-info-container {
@@ -289,12 +293,6 @@
 
     .back-top-logo:active {
       transform: scale(0.96);
-    }
-
-    .back-top-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
     }
 
     .back-info-container {
@@ -721,7 +719,7 @@
             <!-- 로고 박스 (탭 시 QR 팝업) -->
             <div class="front-logo-container">
               <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="frontLogoImg" src="assets/logo.gif" alt="Logo">
+                <img id="frontLogoImg" src="assets/setupod_symbol.png" alt="Logo">
               </div>
             </div>
 
@@ -750,7 +748,7 @@
             <!-- Top Logo on Back -->
             <div class="back-top-logo-container">
               <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="backLogoImg" src="assets/logo.gif" alt="Logo">
+                <img id="backLogoImg" src="assets/setupod_symbol.png" alt="Logo">
               </div>
             </div>
 

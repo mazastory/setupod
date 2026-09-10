@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SETUPOD Studio | 진단 스코어카드 생성기</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <style>
+    :root {
+      --bg: #070510;
+      --panel: #110c22;
+      --card-bg: #1e1b2e;
+      --border: rgba(255, 255, 255, 0.1);
+      --violet: #8b5cf6;
+      --violet-glow: rgba(139, 92, 246, 0.5);
+      --cyan: #06b6d4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Left Sidebar: Controls */
+    .sidebar {
+      width: 450px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
+    
+    .sidebar-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #c4b5fd);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .form-textarea {
+      height: 80px;
+      resize: none;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin: 32px 0 16px 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    /* Dynamic List Items (Questions/Results) */
+    .dynamic-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .dynamic-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--cyan);
+    }
+
+    .btn-remove {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .btn-remove:hover { background: rgba(239, 68, 68, 0.1); }
+
+    .btn-add {
+      width: 100%;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-add:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--violet);
+    }
+
+    /* Options inside questions */
+    .option-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .option-input { flex: 1; }
+    .score-input { width: 70px; text-align: center; }
+
+    /* Action Footer */
+    .sidebar-footer {
+      padding: 24px;
+      background: rgba(0,0,0,0.3);
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--violet), #6d28d9);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(139, 92, 246, 0.6);
+    }
+
+    /* Right Preview Area */
+    .preview-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, #1a162d 0%, #070510 100%);
+      padding: 40px;
+    }
+
+    .device-mockup {
+      width: 375px;
+      height: 812px;
+      background: #0d0b14;
+      border-radius: 40px;
+      border: 8px solid #2a253c;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .device-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 25px;
+      background: #2a253c;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      z-index: 10;
+    }
+
+    .preview-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #000;
+    }
+    
+    .link-box {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 20px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .link-text { font-family: monospace; color: var(--cyan); }
+    .btn-icon { background: none; border: none; color: #fff; cursor: pointer; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Left Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>SETUPOD 스코어카드 스튜디오</h1>
+      <p style="font-size:12px; color:rgba(255,255,255,0.5);">고객의 문제를 진단하고 리드를 수집하세요.</p>
+    </div>
+
+    <div class="scroll-area" id="configForm">
+      <!-- Basic Info -->
+      <div class="form-group">
+        <label class="form-label">진단 테스트 제목</label>
+        <input type="text" id="cfgTitle" class="form-input" value="나의 비즈니스 브랜드 가치 진단" oninput="saveAndPreview()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">서브 설명</label>
+        <textarea id="cfgDesc" class="form-textarea" oninput="saveAndPreview()">단 1분 만에 당신의 현재 비즈니스 상태를 점검하고, 맞춤형 성장 솔루션을 무료로 받아보세요.</textarea>
+      </div>
+
+      <!-- Questions -->
+      <div class="section-title">
+        <i data-lucide="list-checks" style="width:16px;"></i> 진단 질문 설정
+      </div>
+      <div id="questionsContainer"></div>
+      <button class="btn-add" onclick="addQuestion()">
+        <i data-lucide="plus" style="width:16px;"></i> 새 질문 추가
+      </button>
+
+      <!-- Outcomes -->
+      <div class="section-title">
+        <i data-lucide="award" style="width:16px;"></i> 점수별 결과 설정
+      </div>
+      <div id="outcomesContainer"></div>
+      <button class="btn-add" onclick="addOutcome()">
+        <i data-lucide="plus" style="width:16px;"></i> 새 결과 구간 추가
+      </button>
+      
+      <div class="section-title">
+        <i data-lucide="link-2" style="width:16px;"></i> 리드 수집 및 바이럴
+      </div>
+      <div class="form-group">
+        <label class="form-label">최종 콜투액션(버튼) URL</label>
+        <input type="text" id="cfgCtaUrl" class="form-input" value="https://setupod.com" oninput="saveAndPreview()">
+        <p style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:6px;">진단 결과 페이지 하단에서 트래픽을 유도할 링크입니다.</p>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn-primary" onclick="publishTest()">
+        <i data-lucide="rocket" style="width:18px;"></i> 테스트 발행하기 (Save)
+      </button>
+    </div>
+  </aside>
+
+  <!-- Right Preview -->
+  <main class="preview-area">
+    <div class="device-mockup">
+      <div class="device-notch"></div>
+      <!-- We will inject the scorecard.html via iframe and pass data via postMessage or let it read localStorage -->
+      <iframe id="previewFrame" class="preview-iframe" src="scorecard.html?preview=true"></iframe>
+    </div>
+    
+    <div class="link-box">
+      <span class="link-text" id="publishedLink">테스트를 발행하면 링크가 생성됩니다.</span>
+      <button class="btn-icon" onclick="copyLink()" title="링크 복사"><i data-lucide="copy" style="width:16px;"></i></button>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    let scorecardData = {
+      title: "나의 비즈니스 브랜드 가치 진단",
+      description: "단 1분 만에 당신의 현재 비즈니스 상태를 점검하고, 맞춤형 성장 솔루션을 무료로 받아보세요.",
+      ctaUrl: "https://setupod.com",
+      questions: [
+        {
+          q: "현재 온라인상에서 당신의 이름(브랜드)을 검색하면 무엇이 나오나요?",
+          options: [
+            { text: "아무것도 나오지 않거나 동명이인이 나옴", score: 0 },
+            { text: "과거에 쓰다 만 블로그나 SNS가 나옴", score: 5 },
+            { text: "최근 운영 중인 채널과 명확한 소개가 나옴", score: 10 }
+          ]
+        },
+        {
+          q: "새로운 고객을 만날 때 어떻게 나를 소개하나요?",
+          options: [
+            { text: "명함이 없거나 말로만 설명함", score: 0 },
+            { text: "종이 명함이나 일반 인스타 링크를 건넴", score: 5 },
+            { text: "모든 정보가 담긴 올인원 디지털 자산을 전송함", score: 10 }
+          ]
+        }
+      ],
+      outcomes: [
+        {
+          min: 0,
+          max: 10,
+          title: "🚨 생존 위기 (브랜드 자산 부족)",
+          message: "온라인 존재감이 매우 약합니다. 지금 바로 나만의 디지털 자산을 구축해야 합니다."
+        },
+        {
+          min: 11,
+          max: 20,
+          title: "💎 프로페셔널 (준비된 자산가)",
+          message: "이미 훌륭한 기반을 갖추고 있습니다. 약간의 시스템화만 더하면 폭발적인 성장이 가능합니다."
+        }
+      ]
+    };
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+      
+      scorecardData.questions.forEach((q, qIndex) => {
+        let html = `
+          <div class="dynamic-item">
+            <div class="dynamic-item-header">
+              <span>질문 ${qIndex + 1}</span>
+              <button class="btn-remove" onclick="removeQuestion(${qIndex})"><i data-lucide="trash-2" style="width:14px;"></i></button>
+            </div>
+            <input type="text" class="form-input" style="margin-bottom:12px; font-weight:700;" value="${q.q}" onchange="updateQ(${qIndex}, this.value)" placeholder="질문 내용">
+            <div style="font-size:11px; color:#aaa; margin-bottom:6px;">선택지 (텍스트 / 점수)</div>
+        `;
+        
+        q.options.forEach((opt, oIndex) => {
+          html += `
+            <div class="option-row">
+              <input type="text" class="form-input option-input" value="${opt.text}" onchange="updateOpt(${qIndex}, ${oIndex}, 'text', this.value)">
+              <input type="number" class="form-input score-input" value="${opt.score}" onchange="updateOpt(${qIndex}, ${oIndex}, 'score', this.value)">
+            </div>
+          `;
+        });
+        
+        html += `
+            <button class="btn-add" style="padding:6px; margin-top:8px; font-size:12px;" onclick="addOption(${qIndex})">+ 선택지 추가</button>
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+      lucide.createIcons();
+    }
+
+    function renderOutcomes() {
+      const container = document.getElementById('outcomesContainer');
+      container.innerHTML = '';
+      
+      scorecardData.outcomes.forEach((out, oIndex) => {
+        const html = `
+          <div class="dynamic-item">
+            <div class="dynamic-item-header">
+              <span>결과 구간 ${oIndex + 1}</span>
+              <button class="btn-remove" onclick="removeOutcome(${oIndex})"><i data-lucide="trash-2" style="width:14px;"></i></button>
+            </div>
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
+              <input type="number" class="form-input" placeholder="최소점수" value="${out.min}" onchange="updateOut(${oIndex}, 'min', this.value)">
+              <span style="display:flex;align-items:center;color:#666;">~</span>
+              <input type="number" class="form-input" placeholder="최대점수" value="${out.max}" onchange="updateOut(${oIndex}, 'max', this.value)">
+            </div>
+            <input type="text" class="form-input" style="margin-bottom:8px; font-weight:700;" value="${out.title}" onchange="updateOut(${oIndex}, 'title', this.value)" placeholder="결과 타이틀">
+            <textarea class="form-textarea" style="height:60px;" onchange="updateOut(${oIndex}, 'message', this.value)" placeholder="결과 상세 메시지">${out.message}</textarea>
+          </div>
+        `;
+        container.innerHTML += html;
+      });
+      lucide.createIcons();
+    }
+
+    // Handlers
+    function updateQ(qIndex, val) { scorecardData.questions[qIndex].q = val; saveAndPreview(); }
+    function updateOpt(qIndex, oIndex, key, val) { 
+      scorecardData.questions[qIndex].options[oIndex][key] = key==='score'? parseInt(val||0) : val; 
+      saveAndPreview(); 
+    }
+    function updateOut(oIndex, key, val) {
+      scorecardData.outcomes[oIndex][key] = (key==='min'||key==='max')? parseInt(val||0) : val;
+      saveAndPreview();
+    }
+
+    function addQuestion() {
+      scorecardData.questions.push({ q: "새로운 질문", options: [{text:"옵션 1", score:0}, {text:"옵션 2", score:10}] });
+      renderQuestions(); saveAndPreview();
+    }
+    function removeQuestion(i) { scorecardData.questions.splice(i,1); renderQuestions(); saveAndPreview(); }
+    
+    function addOption(qIndex) {
+      scorecardData.questions[qIndex].options.push({text:"새 옵션", score:0});
+      renderQuestions(); saveAndPreview();
+    }
+
+    function addOutcome() {
+      scorecardData.outcomes.push({ min: 0, max: 100, title: "결과 타이틀", message: "메시지" });
+      renderOutcomes(); saveAndPreview();
+    }
+    function removeOutcome(i) { scorecardData.outcomes.splice(i,1); renderOutcomes(); saveAndPreview(); }
+
+    function saveAndPreview() {
+      scorecardData.title = document.getElementById('cfgTitle').value;
+      scorecardData.description = document.getElementById('cfgDesc').value;
+      scorecardData.ctaUrl = document.getElementById('cfgCtaUrl').value;
+      
+      // Save to localStorage so iframe can read it
+      localStorage.setItem('setupod_scorecard_cfg', JSON.stringify(scorecardData));
+      
+      // Tell iframe to reload
+      const iframe = document.getElementById('previewFrame');
+      if(iframe.contentWindow) {
+        iframe.contentWindow.postMessage('reload_scorecard', '*');
+      }
+    }
+
+    function publishTest() {
+      saveAndPreview();
+      const demoId = Math.random().toString(36).substring(2, 8);
+      const url = `https://setupod.com/scorecard.html?id=${demoId}`;
+      document.getElementById('publishedLink').innerText = url;
+      alert("발행 성공! (데모 버전이므로 LocalStorage 기반으로 작동합니다.)");
+    }
+
+    function copyLink() {
+      const txt = document.getElementById('publishedLink').innerText;
+      if(txt.includes('setupod.com')) {
+        navigator.clipboard.writeText(txt);
+        alert('링크가 복사되었습니다!');
+      }
+    }
+
+    // Init
+    renderQuestions();
+    renderOutcomes();
+    saveAndPreview();
+  </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+/* ==================================================
+   LAYOUT: EXECUTIVE METAL (BLACK CARD)
+   A premium dark brushed metal card.
+   Logo and Info grouped at the top, Actions at the bottom.
+   ================================================== */
+
+.layout-metal .card-face {
+  /* Blend theme color with Dark Brushed Metal texture */
+  background: 
+    linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 40%, rgba(0,0,0,0.8) 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 3px),
+    var(--card-gradient) !important;
+  background-blend-mode: overlay, normal, normal !important;
+  padding: 36px 30px !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 0 40px rgba(0,0,0,0.9), 0 28px 70px rgba(0,0,0,0.85) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.layout-metal .watermark-dynamic {
+  display: block !important;
+  right: -20px;
+  top: 40px;
+  opacity: 0.05;
+}
+
+/* --- Front Face Overrides --- */
+.layout-metal .front-wrapper {
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.layout-metal .front-logo-container {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; /* Logo at Top Left */
+  padding-top: 0;
+  margin-bottom: 20px;
+}
+
+.layout-metal .front-logo-box {
+  width: 88px;
+  height: 88px;
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2);
+  animation: none;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 0;
+}
+
+.layout-metal .front-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Text right under the logo */
+  text-align: left;
+  width: 100%;
+  flex: 1; /* Take up remaining space */
+}
+
+.layout-metal .front-company {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  /* Silver/Platinum engraved text */
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+.layout-metal .front-slogan {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: #94a3b8 !important;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.layout-metal .brand-sub-engraving {
+  color: rgba(255,255,255,0.3) !important;
+  letter-spacing: 0.25em;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.layout-metal .moat-tags {
+  margin-top: auto; /* Push tags and buttons to the bottom */
+  margin-bottom: 16px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.layout-metal .moat-tag {
+  background: var(--moat-bg) !important;
+  border: 1px solid var(--moat-border) !important;
+  color: var(--moat-text) !important;
+}
+
+/* Metal Button Styling */
+.layout-metal .inside-action-dock {
+  margin-top: 0; /* Actions are at the very bottom */
+}
+
+.layout-metal .btn-glass {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+}
+.layout-metal .btn-save {
+  background: var(--save-btn-bg) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  box-shadow: var(--save-btn-shadow) !important;
+}
+.layout-metal .btn-glass svg {
+  color: #f8fafc !important;
+}
+
+/* --- Back Face Overrides --- */
+.layout-metal .back-wrapper {
+  justify-content: flex-start;
+  text-align: left;
+  height: 100%;
+}
+
+.layout-metal .back-top-logo-container {
+  justify-content: flex-start;
+  padding-top: 0;
+  margin-bottom: 24px;
+}
+
+.layout-metal .back-top-logo {
+  width: 88px;
+  height: 88px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.2);
+  animation: none;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.layout-metal .back-info-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.layout-metal .back-company-name {
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff !important;
+  text-shadow: none !important;
+  font-weight: 800;
+}
+
+.layout-metal .role-title {
+  color: #94a3b8 !important;
+  font-weight: 800;
+}
+.layout-metal .name-title {
+  color: #f8fafc !important;
+  text-shadow: none !important;
+}
+
+.layout-metal .contact-key {
+  color: rgba(255,255,255,0.4) !important;
+}
+.layout-metal .contact-value {
+  color: #cbd5e1 !important;
+  font-weight: 700;
+}
+
+.layout-metal .profile-row {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.layout-metal .contact-group {
+  align-items: flex-start;
+}

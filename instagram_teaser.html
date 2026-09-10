@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SETUPOD REELS STUDIO | 도메인 자산화 10부작 3D 숏폼 & 릴스 티저</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Cinzel:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <!-- html2canvas for High-Res PNG Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    @font-face {
+      font-family: 'Jalnan2';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/Jalnan2.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --bg-dark: #07060a;
+      --panel-bg: #12101a;
+      --card-bg: #181524;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --accent-gold: #ffd978;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #c084fc;
+      --accent-cyan: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-dark);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation */
+    header {
+      background: rgba(18, 16, 26, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 217, 120, 0.15);
+      border: 1px solid rgba(255, 217, 120, 0.35);
+      color: var(--accent-gold);
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Main Grid */
+    .app-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 470px 1fr;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      gap: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .app-layout {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 24px;
+      }
+    }
+
+    /* Left: Control Panel */
+    .control-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      height: fit-content;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-label span.hint {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.45);
+      font-weight: 500;
+    }
+
+    /* Preset Selection Chips (10-Episode Series) */
+    .preset-chip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .preset-chip-btn {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .preset-chip-btn:hover {
+      background: rgba(255, 217, 120, 0.12);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .preset-chip-btn.active {
+      background: rgba(255, 217, 120, 0.18);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      font-weight: 800;
+    }
+
+    /* Upload & Image Input */
+    .upload-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: #09080e;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      color: #ffffff;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 12px rgba(255, 217, 120, 0.2);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 75px;
+      line-height: 1.45;
+    }
+
+    .btn-file-picker {
+      padding: 10px 14px;
+      background: rgba(255, 217, 120, 0.15);
+      border: 1px solid rgba(255, 217, 120, 0.4);
+      color: var(--accent-gold);
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-file-picker:hover {
+      background: var(--accent-gold);
+      color: #111;
+    }
+
+    /* Action Buttons */
+    .btn-action-primary {
+      background: linear-gradient(135deg, #ffd978 0%, #f59e0b 100%);
+      color: #100b1a;
+      font-size: 15px;
+      font-weight: 900;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
+    }
+
+    .btn-action-sub {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 12px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-action-sub:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* RIGHT: 9:16 REELS SIMULATOR */
+    .simulator-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+    }
+
+    .preview-header-bar {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.6);
+      padding: 0 4px;
+    }
+
+    /* The 9:16 Viewport Frame */
+    .reels-viewport {
+      width: 100%;
+      max-width: 380px;
+      height: 675px; /* Exact 9:16 Proportion (380x675) */
+      border-radius: 36px;
+      border: 8px solid #23212b;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #08070d;
+      user-select: none;
+    }
+
+    /* Background Ambient Canvas (Rotating Rays + Dust Particles) */
+    #ambientCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .reels-inner-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 34px 22px 24px;
+    }
+
+    /* Top Badges */
+    .top-badge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .reels-pill {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(255, 217, 120, 0.15);
+      border: 1px solid rgba(255, 217, 120, 0.4);
+      color: var(--accent-gold);
+      backdrop-filter: blur(8px);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .reels-sub-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Center: 3D Hardcover Book Showcase */
+    .center-showcase-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      perspective: 1200px;
+    }
+
+    /* Gold Spotlight Underglow */
+    .showcase-halo {
+      position: absolute;
+      width: 240px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(255, 217, 120, 0.2) 0%, rgba(245, 158, 11, 0.08) 45%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+      bottom: -30px;
+      animation: haloPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes haloPulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* 3D Floating Book / Card Container (Realistic Aspect Ratio 3:4) */
+    .book-3d-frame {
+      width: 190px;
+      height: 254px;
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 217, 120, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      background: #151320;
+      animation: bookFloating 4.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes bookFloating {
+      0%, 100% {
+        transform: translateY(0px) rotateY(-4deg) rotateX(4deg);
+      }
+      50% {
+        transform: translateY(-8px) rotateY(6deg) rotateX(-2deg);
+      }
+    }
+
+    .book-3d-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Diagonal Gold Light Shine Sweep */
+    .book-shine-sweep {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -100%;
+      width: 80%;
+      height: 200%;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 100%);
+      transform: rotate(25deg);
+      animation: shinePass 3.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shinePass {
+      0% { left: -100%; }
+      35%, 100% { left: 200%; }
+    }
+
+    /* Bottom: Typography & CTA */
+    .bottom-info-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .reels-headline {
+      font-family: 'Jalnan2', sans-serif;
+      font-size: 21px;
+      line-height: 1.35;
+      color: #ffffff;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
+      word-break: keep-all;
+    }
+
+    .reels-headline em {
+      font-style: normal;
+      color: var(--accent-gold);
+      background: linear-gradient(135deg, #ffd978 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .reels-desc {
+      font-size: 13.5px;
+      color: #cbd5e1;
+      line-height: 1.55;
+      word-break: keep-all;
+      max-width: 290px;
+      font-weight: 500;
+    }
+
+    .reels-cta-bar {
+      margin-top: 4px;
+      background: rgba(255, 217, 120, 0.14);
+      border: 1px solid rgba(255, 217, 120, 0.4);
+      padding: 9px 18px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Overlay Mockup of Instagram Reels Icons (Right Side) */
+    .instagram-reels-overlay {
+      position: absolute;
+      right: 14px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .reels-action-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #fff;
+    }
+
+    .reels-action-icon svg {
+      width: 22px;
+      height: 22px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+    }
+
+    .reels-action-icon span {
+      font-size: 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #181524;
+      border: 1px solid var(--accent-gold);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .toast-popup.active {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="./index.html" class="brand-logo">
+      <img src="assets/setupod_symbol.png" alt="SETUPOD Logo" style="height:28px; width:auto;" onerror="this.src='./favicon-32x32.png'">
+      <span>SETUPOD REELS STUDIO</span>
+      <span class="brand-badge">9:16 SHORT-FORM</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="instagram_slides.html" class="nav-btn">
+        <i data-lucide="layers" style="width:13px;height:13px;"></i>
+        <span>6장 캐러셀 카드뉴스</span>
+      </a>
+      <a href="kakao.html" class="nav-btn">
+        <i data-lucide="message-square" style="width:13px;height:13px;"></i>
+        <span>카톡 롱폼 템플릿</span>
+      </a>
+      <a href="https://about.setupod.com/edu1.html" target="_blank" class="nav-btn" style="color:var(--accent-gold); border-color:rgba(255,217,120,0.4);">
+        <i data-lucide="external-link" style="width:13px;height:13px;"></i>
+        <span>1호 웹 리더</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="app-layout">
+
+    <!-- LEFT: CONTROL PANEL -->
+    <div class="control-panel">
+      
+      <!-- 1. 10-Episode Series Presets -->
+      <div class="form-group">
+        <div class="section-title">
+          <i data-lucide="zap" style="width:17px;height:17px;color:#ffd978;"></i>
+          <span>10부작 실전 에피소드 원클릭 프리셋</span>
+        </div>
+        <div class="preset-chip-grid">
+          <button class="preset-chip-btn active" onclick="applyReelsPreset('vol1')">
+            <span>📘 Vol.01 애드센스 착각</span>
+          </button>
+          <button class="preset-chip-btn" onclick="applyReelsPreset('vol2')">
+            <span>💡 Vol.02 외국인 작명 3원칙</span>
+          </button>
+          <button class="preset-chip-btn" onclick="applyReelsPreset('vol4')">
+            <span>💣 Vol.04 원어민 욕 대참사</span>
+          </button>
+          <button class="preset-chip-btn" onclick="applyReelsPreset('vol8')">
+            <span>🚨 Vol.08 스팸 도메인 족보</span>
+          </button>
+          <button class="preset-chip-btn" onclick="applyReelsPreset('vol10')">
+            <span>👑 Vol.10 100배 엑싯 바이블</span>
+          </button>
+          <button class="preset-chip-btn" onclick="applyReelsPreset('ebook')">
+            <span>📚 전자책 3종 공식 백서</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. 3D Cover Image Input -->
+      <div class="form-group">
+        <div class="section-title">
+          <i data-lucide="image" style="width:17px;height:17px;color:#ffd978;"></i>
+          <span>3D 표지 이미지 설정</span>
+        </div>
+
+        <div class="upload-row">
+          <input type="text" id="inputCoverUrl" class="form-input" value="./setupod_edu1_cover.jpg" oninput="updateReelsLive()" placeholder="이미지 URL 입력 또는 파일 선택">
+          <button type="button" class="btn-file-picker" onclick="document.getElementById('fileUploadInput').click()">
+            <i data-lucide="upload" style="width:14px;height:14px;"></i>
+            <span>파일 올리기</span>
+          </button>
+        </div>
+        <input type="file" id="fileUploadInput" accept="image/*" style="display:none;" onchange="handleCoverFileUpload(event)">
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:2px;">
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu1_cover.jpg')">1호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu2_cover.jpg')">2호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu3_cover.jpg')">3호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./cover.jpg')">전자책 커버</span>
+        </div>
+      </div>
+
+      <!-- 3. Reels Hooking Copy -->
+      <div class="form-group">
+        <div class="section-title">
+          <i data-lucide="type" style="width:17px;height:17px;color:#ffd978;"></i>
+          <span>릴스 숏폼 텍스트 편집</span>
+        </div>
+
+        <label class="form-label">
+          상단 배지 (Pill)
+          <span class="hint">시리즈 번호 & 카테고리</span>
+        </label>
+        <input type="text" id="inputBadge" class="form-input" value="SERIAL MASTERCLASS · VOL.01" oninput="updateReelsLive()">
+
+        <label class="form-label" style="margin-top:6px;">
+          메인 헤드라인 (HTML 태그 &lt;em&gt; 지원)
+          <span class="hint">0.5초 스크롤 정지 카피</span>
+        </label>
+        <textarea id="inputHeadline" class="form-textarea" oninput="updateReelsLive()">서브도메인 100개 파면
+승인도 100개?
+&lt;em&gt;치명적인 착각입니다.&lt;/em&gt;</textarea>
+
+        <label class="form-label" style="margin-top:6px;">
+          서브 설명 문구
+          <span class="hint">팩트 전달 & 공감</span>
+        </label>
+        <input type="text" id="inputDesc" class="form-input" value="구글이 보는 진짜 1사이트의 기준. 0원짜리 월세에서 100배로 팔리는 디지털 부동산으로." oninput="updateReelsLive()">
+
+        <label class="form-label" style="margin-top:6px;">
+          하단 CTA 바
+          <span class="hint">프로필 링크 클릭 유도</span>
+        </label>
+        <input type="text" id="inputCta" class="form-input" value="👉 프로필 링크에서 1호 독점 웹 리더 열람" oninput="updateReelsLive()">
+      </div>
+
+      <!-- 4. Export & Copy Actions -->
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+        <button class="btn-action-primary" id="btnRecord" onclick="toggleReelsRecording()">
+          <i data-lucide="video" style="width:18px;height:18px;"></i>
+          <span id="recordBtnText">🎬 9:16 릴스 영상 녹화 & 다운로드 (5초 루프)</span>
+        </button>
+
+        <button class="btn-action-sub" onclick="captureReelsCoverImage()">
+          <i data-lucide="image" style="width:16px;height:16px;"></i>
+          <span>📸 1080x1920 릴스 커버 초고화질 저장 (PNG)</span>
+        </button>
+
+        <button class="btn-action-sub" onclick="copyReelsCaption()">
+          <i data-lucide="copy" style="width:16px;height:16px;"></i>
+          <span>📋 릴스 본문 캡션 & 해시태그 복사</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: 9:16 REELS SIMULATOR -->
+    <div class="simulator-container">
+      <div class="preview-header-bar">
+        <span>인스타그램 릴스 9:16 실시간 프리뷰</span>
+        <span style="color:#ffd978;">1080 x 1920 규격</span>
+      </div>
+
+      <!-- The 9:16 Viewport Frame -->
+      <div class="reels-viewport" id="reelsCaptureArea">
+        <!-- Ambient Background Canvas (Rotating Rays + Dust Particles) -->
+        <canvas id="ambientCanvas"></canvas>
+
+        <!-- Inner Content (Safe Zone) -->
+        <div class="reels-inner-content">
+          
+          <!-- Top Area -->
+          <div class="top-badge-container">
+            <span class="reels-pill" id="previewBadge">
+              <i data-lucide="sparkles" style="width:11px;height:11px;"></i>
+              <span id="previewBadgeText">SERIAL MASTERCLASS · VOL.01</span>
+            </span>
+            <div class="reels-sub-brand" id="previewSubBrand">SETUPOD INTEL</div>
+          </div>
+
+          <!-- Center: 3D Hardcover Book Showcase -->
+          <div class="center-showcase-area">
+            <div class="showcase-halo"></div>
+            
+            <div class="book-3d-frame">
+              <img src="./setupod_edu1_cover.jpg" id="previewCoverImg" class="book-3d-img" alt="3D Cover">
+              <div class="book-shine-sweep"></div>
+            </div>
+          </div>
+
+          <!-- Bottom Area -->
+          <div class="bottom-info-area">
+            <div class="reels-headline" id="previewHeadline">
+              서브도메인 100개 파면<br>
+              승인도 100개?<br>
+              <em>치명적인 착각입니다.</em>
+            </div>
+            <div class="reels-desc" id="previewDesc">
+              구글이 보는 진짜 1사이트의 기준. 0원짜리 월세에서 100배로 팔리는 디지털 부동산으로.
+            </div>
+            <div class="reels-cta-bar" id="previewCta">
+              👉 프로필 링크에서 1호 독점 웹 리더 열람
+            </div>
+          </div>
+
+          <!-- Instagram Reels Overlay Icons -->
+          <div class="instagram-reels-overlay">
+            <div class="reels-action-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              <span>1.2만</span>
+            </div>
+            <div class="reels-action-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              <span>482</span>
+            </div>
+            <div class="reels-action-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <span>공유</span>
+            </div>
+            <div class="reels-action-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+              <span>저장</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast-popup" id="toastBox">
+    <i data-lucide="check" style="width:16px;height:16px;color:#ffd978;"></i>
+    <span id="toastMsg">복사되었습니다.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // 10-Episode Series Preset Store
+    const REELS_PRESETS = {
+      vol1: {
+        badge: 'SERIAL MASTERCLASS · VOL.01',
+        cover: './setupod_edu1_cover.jpg',
+        headline: '서브도메인 100개 파면<br>승인도 100개?<br><em>치명적인 착각입니다.</em>',
+        desc: '구글이 보는 진짜 1사이트의 기준. 0원짜리 월세에서 100배로 팔리는 디지털 부동산으로.',
+        cta: '👉 프로필 링크에서 1호 독점 웹 리더 열람',
+        caption: `🚨 "서브도메인 100개 파면 애드센스 승인도 100개?"\n\n많은 분들이 착각합니다.\n하지만 구글 공식 정책은 다릅니다.\n구글이 보는 '진짜 사이트'는 루트 도메인 하나뿐입니다.\n\n0원짜리 월세에서 100배로 팔리는 디지털 부동산 비법!\n[도메인 자산화 10부작 실전 연재] 1호를 무료 공개합니다.\n\n지금 바로 프로필 링크(@setupod)에서 확인해 보세요!\n\n#블로그수익화 #애드센스승인 #도메인자산화 #SETUPOD #디지털부동산`
+      },
+      vol2: {
+        badge: 'SERIAL MASTERCLASS · VOL.02',
+        cover: './setupod_edu2_cover.jpg',
+        headline: '이름 잘못 지으면<br>평생 후회합니다.<br><em>외국인 0.5초 작명법</em>',
+        desc: '글로벌 바이어가 주소창에 칠 수도 없는 도메인의 최후. 실패 없는 도메인 네이밍 3원칙.',
+        cta: '👉 프로필 링크에서 2호 사전 알림 신청',
+        caption: `💡 "이름 잘못 지으면 평생 후회합니다."\n\n내 눈에만 멋있고 외국인은 검색조차 못 하는 도메인의 최후.\n글로벌 바이어가 0.5초 만에 기억하는 작명 3원칙을 공개합니다.\n\n[도메인 자산화 10부작 실전 연재]\n프로필 링크(@setupod)에서 무료 알림을 신청하세요!\n\n#도메인작명 #블로그팁 #해외블로그 #애드센스 #부업추천`
+      },
+      vol4: {
+        badge: 'SERIAL MASTERCLASS · VOL.04',
+        cover: './setupod_edu1_cover.jpg',
+        headline: '밤새 고른 도메인이<br>원어민에겐 찰진 욕?!<br><em>슬랭·오역 대참사 실화</em>',
+        desc: '외국인이 접속하자마자 기겁하고 뒤로 가기 누르는 슬랭 도메인의 충격적인 사례들.',
+        cta: '👉 프로필 링크에서 내 도메인 셀프 진단',
+        caption: `💣 "밤새 고른 도메인이 원어민에겐 찰진 욕이었다고?!"\n\n한국인에겐 평범한 영어 조합이 외국인에겐 성적 비어나 욕설로 읽히는 대참사 실화.\n내 도메인은 과연 안전할까요?\n\n[도메인 자산화 10부작 실전 연재 4호]\n프로필 링크(@setupod)에서 확인해 보세요!\n\n#도메인실수 #영어슬랭 #블로그운영 #구글애드센스 #SETUPOD`
+      },
+      vol8: {
+        badge: 'SERIAL MASTERCLASS · VOL.08',
+        cover: './setupod_edu3_cover.jpg',
+        headline: '내가 산 꿀 도메인이<br>성인·도박 스팸 전과자?!<br><em>과거 이력 1분 검증법</em>',
+        desc: '글을 아무리 써도 구글에 절대 안 뜨는 저주받은 도메인의 비밀. 구매 전 족보 터는 법.',
+        cta: '👉 프로필 링크에서 도메인 과거 이력 조회',
+        caption: `🚨 "내가 산 꿀 도메인이 성인·도박 스팸 전과자였다고?!"\n\n열심히 글을 써도 구글 노출 0회... 알고 보니 전 주인이 도박 사이트를 돌렸던 도메인?!\n구매 전 딱 1분 만에 족보를 털어내는 무료 검증 사이트 총정리.\n\n[도메인 자산화 10부작 실전 연재 8호]\n프로필 링크(@setupod)에서 확인하세요!\n\n#스팸도메인 #도메인검증 #구글페널티 #블로그저품질 #애드센스승인`
+      },
+      vol10: {
+        badge: 'SERIAL MASTERCLASS · VOL.10',
+        cover: './setupod_edu1_cover.jpg',
+        headline: '어떻게 지어야<br>10달러짜리가 100배로?<br><em>도메인 100배 엑싯 바이블</em>',
+        desc: '1만 원에 등록한 도메인이 글로벌 플립 마켓에서 1,000달러에 팔리는 자산화 공식.',
+        cta: '👉 프로필 링크에서 완결편 소장 예약',
+        caption: `👑 "10달러짜리 도메인이 어떻게 1,000달러에 팔릴까?"\n\n단순한 블로그 주소를 넘어, 글로벌 자산 시장에서 30배~100배로 엑싯하는 디지털 부동산의 비밀.\n\n[도메인 자산화 10부작 전편 완결판]\n프로필 링크(@setupod)에서 소장용 전자책을 예약하세요!\n\n#도메인플리핑 #디지털부동산 #달러자산 #플리파 #월급독립`
+      },
+      ebook: {
+        badge: 'EXCLUSIVE WHITEPAPER',
+        cover: './cover.jpg',
+        headline: '단순 블로그를 넘어<br>달러 자산으로.<br><em>SETUPOD 전자책 3종 런칭</em>',
+        desc: 'Flippa 실거래 데이터 기반 8단계 엑싯 파이프라인. 지금 바로 무료 열람하세요.',
+        cta: '👉 프로필 링크에서 전자책 3종 즉시 열람',
+        caption: `📚 "플립마켓에서 증명되는 독립 달러 자산 파이프라인."\n\nSETUPOD의 핵심 자산화 노하우를 집약한 전자책 3종 백서가 드디어 무료 공개되었습니다!\n\n프로필 링크(@setupod)에서 즉시 열람해 보세요!\n\n#전자책무료 #디지털부동산 #블로그수익화 #SETUPOD`
+      }
+    };
+
+    let activePresetKey = 'vol1';
+
+    function applyReelsPreset(key) {
+      activePresetKey = key;
+      document.querySelectorAll('.preset-chip-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      const data = REELS_PRESETS[key];
+      if (!data) return;
+
+      document.getElementById('inputBadge').value = data.badge;
+      document.getElementById('inputCoverUrl').value = data.cover;
+      document.getElementById('inputHeadline').value = data.headline.replace(/<br>/g, '\n');
+      document.getElementById('inputDesc').value = data.desc;
+      document.getElementById('inputCta').value = data.cta;
+
+      updateReelsLive();
+      showToastNotification(`"${data.badge}" 프리셋이 적용되었습니다!`);
+    }
+
+    function setCoverUrl(url) {
+      document.getElementById('inputCoverUrl').value = url;
+      updateReelsLive();
+      showToastNotification('표지 이미지가 변경되었습니다.');
+    }
+
+    function handleCoverFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('inputCoverUrl').value = e.target.result;
+        updateReelsLive();
+        showToastNotification('내 PC의 이미지가 3D 표지에 성공적으로 반영되었습니다! 🎉');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateReelsLive() {
+      const badge = document.getElementById('inputBadge').value;
+      const cover = document.getElementById('inputCoverUrl').value;
+      const headline = document.getElementById('inputHeadline').value;
+      const desc = document.getElementById('inputDesc').value;
+      const cta = document.getElementById('inputCta').value;
+
+      document.getElementById('previewBadgeText').innerText = badge;
+      document.getElementById('previewCoverImg').src = cover;
+      document.getElementById('previewHeadline').innerHTML = headline.replace(/\n/g, '<br>');
+      document.getElementById('previewDesc').innerText = desc;
+      document.getElementById('previewCta').innerText = cta;
+    }
+
+    function showToastNotification(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMsg').innerText = msg;
+      box.classList.add('active');
+      setTimeout(() => box.classList.remove('active'), 2500);
+    }
+
+    function copyReelsCaption() {
+      const preset = REELS_PRESETS[activePresetKey];
+      const captionText = preset ? preset.caption : document.getElementById('inputHeadline').value;
+      navigator.clipboard.writeText(captionText).then(() => {
+        showToastNotification('릴스 캡션 & 해시태그가 클립보드에 복사되었습니다!');
+      });
+    }
+
+    // High-Res 1080x1920 Cover Image Capture
+    async function captureReelsCoverImage() {
+      showToastNotification('1080x1920 릴스 커버 고화질 생성 중...');
+      const target = document.getElementById('reelsCaptureArea');
+
+      const canvas = await html2canvas(target, {
+        scale: 3, // Crisp 1080x1920
+        useCORS: true,
+        backgroundColor: '#08070d'
+      });
+
+      const link = document.createElement('a');
+      link.download = `SETUPOD_Reels_Cover_${activePresetKey}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToastNotification('릴스 커버 이미지가 다운로드되었습니다! 🎉');
+    }
+
+    // Canvas Ambient Background (Rotating Subtle Rays & Stardust)
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let angle = 0;
+    const particles = [];
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * 380,
+        y: Math.random() * 675,
+        r: Math.random() * 1.6 + 0.4,
+        d: Math.random() * 0.8 + 0.2,
+        opacity: Math.random() * 0.7 + 0.3
+      });
+    }
+
+    function drawAmbient() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Deep Cosmic Nebula Gradient
+      const grad = ctx.createRadialGradient(canvas.width / 2, canvas.height * 0.45, 10, canvas.width / 2, canvas.height * 0.45, canvas.height * 0.6);
+      grad.addColorStop(0, 'rgba(40, 26, 75, 0.45)');
+      grad.addColorStop(0.6, 'rgba(18, 14, 32, 0.25)');
+      grad.addColorStop(1, 'rgba(8, 7, 13, 0.95)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Rotating Golden Light Rays
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height * 0.45);
+      ctx.rotate(angle);
+      const numRays = 8;
+      for (let i = 0; i < numRays; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        const rayAngle = (Math.PI * 2 / numRays) * i;
+        ctx.arc(0, 0, canvas.height * 0.8, rayAngle - 0.08, rayAngle + 0.08);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(255, 217, 120, 0.025)';
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // Floating Dust Particles
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 217, 120, ${p.opacity})`;
+        ctx.fill();
+        p.y -= p.d * 0.4;
+        if (p.y < -5) p.y = canvas.height + 5;
+      }
+
+      angle += 0.003;
+      requestAnimationFrame(drawAmbient);
+    }
+    drawAmbient();
+
+    // 5-Sec Video Loop Recording
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let isRecording = false;
+
+    async function toggleReelsRecording() {
+      if (isRecording) return;
+      isRecording = true;
+
+      const btn = document.getElementById('btnRecord');
+      const btnText = document.getElementById('recordBtnText');
+      btnText.innerText = '🔴 릴스 숏폼 녹화 중 (5초)...';
+      btn.style.background = '#ef4444';
+
+      try {
+        const stream = canvas.captureStream(30);
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `SETUPOD_Reels_${activePresetKey}.webm`;
+          a.click();
+          showToastNotification('릴스 숏폼 영상(WebM) 다운로드가 완료되었습니다! 🎉');
+
+          btnText.innerText = '🎬 9:16 릴스 영상 녹화 & 다운로드 (5초 루프)';
+          btn.style.background = '';
+          isRecording = false;
+        };
+
+        mediaRecorder.start();
+        setTimeout(() => {
+          if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+          }
+        }, 5000); // 5 seconds recording
+      } catch (err) {
+        console.error(err);
+        showToastNotification('영상 녹화는 브라우저 지원 여부에 따라 이미지만 저장될 수 있습니다.');
+        captureReelsCoverImage();
+        btnText.innerText = '🎬 9:16 릴스 영상 녹화 & 다운로드 (5초 루프)';
+        btn.style.background = '';
+        isRecording = false;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SETUPOD | 인스타그램 3분할 파노라마 커스텀 스튜디오 (Image 3-Grid Studio)</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <style>
+    :root {
+      --bg: #070510;
+      --card-bg: #110c22;
+      --violet: #5b45a2;
+      --pink: #ed5b83;
+      --yellow: #ffd978;
+      --cyan: #38bdf8;
+      --mint: #00c4c4;
+      --orange: #f97316;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Pretendard', sans-serif;
+      color: #fff;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-bar {
+      text-align: center;
+      margin-bottom: 36px;
+      max-width: 820px;
+    }
+
+    .header-bar h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #ffd978, #00c4c4, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .header-bar p {
+      color: #a79dc2;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    /* Banner Box Container */
+    .banner-container {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      padding: 32px 28px;
+      margin-bottom: 48px;
+      max-width: 1140px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .section-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header p {
+      font-size: 13px;
+      color: #9d8fb8;
+      margin-top: 4px;
+    }
+
+    .btn-pack-download {
+      padding: 11px 24px;
+      background: linear-gradient(135deg, #5b45a2, #00c4c4);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 24px rgba(0, 196, 196, 0.35);
+    }
+
+    .btn-pack-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 196, 196, 0.55);
+    }
+
+    /* Continuous 3:1 Panorama Canvas */
+    .panorama-board {
+      width: 100%;
+      max-width: 1080px;
+      height: 380px;
+      margin: 0 auto 16px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      position: relative;
+      display: flex;
+    }
+
+    /* 3 Tile Grid Columns */
+    .pano-tile {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px 24px;
+      user-select: none;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pano-tile:not(:last-child) {
+      border-right: 1px dashed rgba(255, 255, 255, 0.22);
+    }
+
+    /* Artwork Image Box */
+    .art-card {
+      position: relative;
+      width: 100%;
+      height: 145px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0;
+    }
+
+    .art-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 6px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    /* Themes */
+    .board-art {
+      background: radial-gradient(circle at 10% 20%, #9333ea 0%, transparent 40%),
+                  radial-gradient(circle at 50% 50%, #ec4899 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, #7c3aed 0%, transparent 45%),
+                  linear-gradient(135deg, #180628 0%, #2f0d44 50%, #0f031b 100%);
+    }
+
+    .board-wadiz {
+      background: radial-gradient(circle at 15% 25%, #00c4c4 0%, transparent 40%),
+                  radial-gradient(circle at 50% 60%, #ea580c 0%, transparent 45%),
+                  radial-gradient(circle at 85% 75%, #ffd978 0%, transparent 45%),
+                  linear-gradient(135deg, #092026 0%, #301633 50%, #2b0e12 100%);
+    }
+
+    .board-sniper {
+      background: radial-gradient(circle at 15% 30%, #0284c7 0%, transparent 40%),
+                  radial-gradient(circle at 50% 70%, #6366f1 0%, transparent 45%),
+                  radial-gradient(circle at 85% 20%, #06b6d4 0%, transparent 45%),
+                  linear-gradient(135deg, #061426 0%, #0c2045 50%, #040c1a 100%);
+    }
+
+    /* Laser Connecting Lines */
+    .laser-beam {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .beam-art {
+      background: linear-gradient(90deg, transparent 0%, #f472b6 25%, #ffd978 50%, #c084fc 75%, transparent 100%);
+      box-shadow: 0 0 25px rgba(244, 114, 182, 0.8), 0 0 50px rgba(255, 217, 120, 0.6);
+    }
+
+    .beam-wadiz {
+      background: linear-gradient(90deg, transparent 0%, #00c4c4 25%, #ffd978 50%, #f97316 75%, transparent 100%);
+      box-shadow: 0 0 25px rgba(0, 196, 196, 0.8), 0 0 50px rgba(255, 217, 120, 0.6);
+    }
+
+    .beam-sniper {
+      background: linear-gradient(90deg, transparent 0%, #38bdf8 25%, #ffd978 50%, #60a5fa 75%, transparent 100%);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.8), 0 0 50px rgba(255, 217, 120, 0.6);
+    }
+
+    .giant-word {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffd978;
+    }
+
+    /* Image Picker Row */
+    .image-picker-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .image-select-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #a79dc2;
+    }
+
+    .image-select-box select {
+      background: #18122c;
+      color: #ffd978;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .upload-step-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .btn-slice-save {
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-slice-save:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header-bar">
+    <h1>SETUPOD INSTAGRAM 3-GRID PANORAMA (VOL. 2)</h1>
+    <p>이미 업로드한 슬로건에 이어 피드에 새롭게 올릴 <strong>2차 신규 3분할 파노라마 시리즈 3종 세트</strong>입니다.<br>각 슬롯의 <strong>이미지 선택 드롭다운</strong>으로 원하는 SETUPOD 일러스트를 실시간으로 교체할 수 있습니다.</p>
+  </div>
+
+  <!-- =========================================================================
+       SERIES 1 : SETUPOD ART UNIVERSE ("상상이 현실이 되는 ➔ SETUPOD 오리지널 스토리 ➔ WORLD OF SETUPOD")
+       ========================================================================= -->
+  <div class="banner-container">
+    <div class="section-header">
+      <div>
+        <h2><i data-lucide="sparkles" style="color: #ffd978;"></i> 1. SETUPOD 캐릭터 & 아트 세계관 파노라마</h2>
+        <p>⚠️ 피드 연결 문장: <strong>[3. 좌측: 상상이 현실이 되는] ➜ [2. 중앙: SETUPOD 오리지널 스토리] ➜ [1. 우측: WORLD OF SETUPOD]</strong></p>
+      </div>
+      <button class="btn-pack-download" onclick="sliceAndDownloadBoard('board_art', '01_Setupod_Universe')">
+        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+        <span>세계관 3장 일괄 다운로드 (1080x1080 HD)</span>
+      </button>
+    </div>
+
+    <!-- Image Selection Controls -->
+    <div class="image-picker-row">
+      <div class="image-select-box">
+        <span>3️⃣ 좌측 이미지:</span>
+        <select onchange="changeImage('art_img_left', this.value)">
+          <option value="Image/setupod_2.png" selected>setupod_2.png (감성 캐릭터)</option>
+          <option value="Image/setupod.png">setupod.png (메인 시그니처)</option>
+          <option value="Image/setupod_1.png">setupod_1.png</option>
+          <option value="Image/setupod_4.png">setupod_4.png</option>
+          <option value="Image/setupod_14.png">setupod_14.png</option>
+          <option value="Image/setupod_20.png">setupod_20.png</option>
+          <option value="Image/setupod_22.png">setupod_22.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>2️⃣ 중앙 이미지:</span>
+        <select onchange="changeImage('art_img_center', this.value)">
+          <option value="Image/setupod.png" selected>setupod.png (메인 시그니처)</option>
+          <option value="assets/setupod_symbol.png">logo.png (로고)</option>
+          <option value="Image/setupod_1.png">setupod_1.png</option>
+          <option value="Image/setupod_2.png">setupod_2.png</option>
+          <option value="Image/setupod_3.png">setupod_3.png</option>
+          <option value="Image/setupod_20.png">setupod_20.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>1️⃣ 우측 이미지:</span>
+        <select onchange="changeImage('art_img_right', this.value)">
+          <option value="Image/setupod_4.png" selected>setupod_4.png (추천: 깔끔한 아트)</option>
+          <option value="Image/setupod_1.png">setupod_1.png (캐릭터)</option>
+          <option value="Image/setupod_22.png">setupod_22.png (비주얼)</option>
+          <option value="Image/setupod_5.png">setupod_5.png (인포그래픽)</option>
+          <option value="Image/setupod_2.png">setupod_2.png</option>
+          <option value="Image/setupod_15.png">setupod_15.png</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3:1 Continuous Visual Canvas -->
+    <div class="panorama-board board-art" id="board_art">
+      <div class="laser-beam beam-art"></div>
+
+      <!-- Tile 3 (Left / 3rd Upload) -->
+      <div class="pano-tile tile-left">
+        <div class="pill-tag">01. CREATIVE WORLD</div>
+        <div class="art-card">
+          <img id="art_img_left" src="Image/setupod_2.png" alt="SETUPOD 아트 2">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #ffffff;">상상이<br>현실이 되는</div>
+        </div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700;">SETUPOD ART ➔</div>
+      </div>
+
+      <!-- Tile 2 (Center / 2nd Upload) -->
+      <div class="pano-tile tile-center">
+        <div class="pill-tag" style="color: #ff7e95;">02. ORIGINAL STORY</div>
+        <div class="art-card">
+          <img id="art_img_center" src="Image/setupod.png" alt="SETUPOD 메인 아트">
+        </div>
+        <div>
+          <div class="giant-word" style="font-size: 23px; color: #ffd978; text-shadow: 0 0 25px rgba(255,217,120,0.6);">SETUPOD 오리지널<br>스토리</div>
+        </div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700;">➔ UNIVERSE ➔</div>
+      </div>
+
+      <!-- Tile 1 (Right / 1st Upload) -->
+      <div class="pano-tile tile-right">
+        <div class="pill-tag">03. IDENTITY</div>
+        <div class="art-card">
+          <img id="art_img_right" src="Image/setupod_4.png" alt="SETUPOD 아트 4">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #ff7e95; font-size: 24px; text-shadow: 0 0 30px rgba(255,126,149,0.8);">WORLD OF<br>SETUPOD</div>
+        </div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700;">@setupod</div>
+      </div>
+    </div>
+
+    <!-- Upload Order Buttons -->
+    <div class="upload-step-row">
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_art', '01_Setupod_Universe', 1)">
+        1️⃣ 첫 번째 업로드 (우측: WORLD OF SETUPOD)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_art', '01_Setupod_Universe', 2)">
+        2️⃣ 두 번째 업로드 (중앙: SETUPOD 오리지널 스토리)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_art', '01_Setupod_Universe', 3)">
+        3️⃣ 세 번째 업로드 (좌측: 상상이 현실이 되는)
+      </button>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       SERIES 2 : WADIZ SUPER EARLYBIRD ("슈퍼 얼리버드 혜택 ➜ 블로그 자동화 솔루션 ➜ 한정 수량 마감 임박!")
+       ========================================================================= -->
+  <div class="banner-container">
+    <div class="section-header">
+      <div>
+        <h2><i data-lucide="gift" style="color: #00c4c4;"></i> 2. 와디즈 슈퍼 얼리버드 리워드 파노라마</h2>
+        <p>⚠️ 피드 연결 문장: <strong>[3. 좌측: 슈퍼 얼리버드 혜택] ➜ [2. 중앙: 블로그 자동화 키트] ➜ [1. 우측: 한정 수량 마감 임박!]</strong></p>
+      </div>
+      <button class="btn-pack-download" style="background: linear-gradient(135deg, #00c4c4, #f97316);" onclick="sliceAndDownloadBoard('board_wadiz', '02_Wadiz_Earlybird')">
+        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+        <span>와디즈 혜택 3장 일괄 다운로드 (1080x1080 HD)</span>
+      </button>
+    </div>
+
+    <!-- Image Selection Controls -->
+    <div class="image-picker-row">
+      <div class="image-select-box">
+        <span>3️⃣ 좌측 이미지:</span>
+        <select onchange="changeImage('wadiz_img_left', this.value)">
+          <option value="Image/setupod_20.png" selected>setupod_20.png (미래형 아트)</option>
+          <option value="Image/setupod_14.png">setupod_14.png</option>
+          <option value="Image/setupod_2.png">setupod_2.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>2️⃣ 중앙 이미지:</span>
+        <select onchange="changeImage('wadiz_img_center', this.value)">
+          <option value="Image/setupod_1.png" selected>setupod_1.png (캐릭터 1)</option>
+          <option value="assets/setupod_symbol.png">logo.png</option>
+          <option value="Image/setupod.png">setupod.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>1️⃣ 우측 이미지:</span>
+        <select onchange="changeImage('wadiz_img_right', this.value)">
+          <option value="Image/setupod_3.png" selected>setupod_3.png (아트 3)</option>
+          <option value="Image/setupod_22.png">setupod_22.png</option>
+          <option value="Image/setupod_4.png">setupod_4.png</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panorama-board board-wadiz" id="board_wadiz">
+      <div class="laser-beam beam-wadiz"></div>
+
+      <!-- Tile 3 (Left / 3rd Upload) -->
+      <div class="pano-tile tile-left">
+        <div class="pill-tag" style="color: #00c4c4;">01. SPECIAL REWARD</div>
+        <div class="art-card">
+          <img id="wadiz_img_left" src="Image/setupod_20.png" alt="SETUPOD 미래형 아트">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #ffffff; font-size: 19px;">슈퍼 얼리버드<br>특별 혜택</div>
+        </div>
+        <div style="font-size: 11px; color: #00c4c4; font-weight: 700;">전자책 2종 증정 ➔</div>
+      </div>
+
+      <!-- Tile 2 (Center / 2nd Upload) -->
+      <div class="pano-tile tile-center">
+        <div class="pill-tag" style="color: #ffd978;">02. ALL-IN-ONE PACKAGE</div>
+        <div class="art-card" style="background: rgba(0,196,196,0.15); border-color: rgba(0,196,196,0.4);">
+          <img id="wadiz_img_center" src="Image/setupod_1.png" alt="SETUPOD 캐릭터 1">
+        </div>
+        <div>
+          <div class="giant-word" style="font-size: 21px; color: #ffd978; text-shadow: 0 0 25px rgba(255,217,120,0.6);">블로그 자동화<br>풀패키지</div>
+        </div>
+        <div style="font-size: 11px; color: #00c4c4; font-weight: 800;">➔ GOLDEN TIME ➔</div>
+      </div>
+
+      <!-- Tile 1 (Right / 1st Upload) -->
+      <div class="pano-tile tile-right">
+        <div class="pill-tag" style="color: #fb923c;">03. WADIZ LIVE</div>
+        <div class="art-card">
+          <img id="wadiz_img_right" src="Image/setupod_3.png" alt="SETUPOD 아트 3">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #fb923c; font-size: 22px; text-shadow: 0 0 30px rgba(251,146,60,0.8);">한정 수량<br>마감 임박!</div>
+        </div>
+        <div style="font-size: 11px; color: #ffd978; font-weight: 800;">프로필 링크 바로가기 ↗</div>
+      </div>
+    </div>
+
+    <div class="upload-step-row">
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_wadiz', '02_Wadiz_Earlybird', 1)">
+        1️⃣ 첫 번째 업로드 (우측: 한정 수량 마감 임박!)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_wadiz', '02_Wadiz_Earlybird', 2)">
+        2️⃣ 두 번째 업로드 (중앙: 블로그 자동화 풀패키지)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_wadiz', '02_Wadiz_Earlybird', 3)">
+        3️⃣ 세 번째 업로드 (좌측: 슈퍼 얼리버드 특별 혜택)
+      </button>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       SERIES 3 : DOMAIN SNIPER ENGINE ("잠들어 있는 황금 도메인 ➜ 1초 만에 감정하고 ➜ 가치를 증명합니다")
+       ========================================================================= -->
+  <div class="banner-container">
+    <div class="section-header">
+      <div>
+        <h2><i data-lucide="crosshair" style="color: #38bdf8;"></i> 3. SETUPOD 도메인 스나이퍼 & AI 솔루션 파노라마</h2>
+        <p>⚠️ 피드 연결 문장: <strong>[3. 좌측: 잠들어 있는 황금 도메인] ➜ [2. 중앙: 1초 만에 감정하고] ➜ [1. 우측: 가치를 증명합니다]</strong></p>
+      </div>
+      <button class="btn-pack-download" style="background: linear-gradient(135deg, #0284c7, #38bdf8);" onclick="sliceAndDownloadBoard('board_sniper', '03_Domain_Sniper')">
+        <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+        <span>도메인 솔루션 3장 일괄 다운로드 (1080x1080 HD)</span>
+      </button>
+    </div>
+
+    <!-- Image Selection Controls -->
+    <div class="image-picker-row">
+      <div class="image-select-box">
+        <span>3️⃣ 좌측 이미지:</span>
+        <select onchange="changeImage('sniper_img_left', this.value)">
+          <option value="Image/setupod_15.png" selected>setupod_15.png (아트 15)</option>
+          <option value="Image/setupod_14.png">setupod_14.png</option>
+          <option value="Image/setupod_2.png">setupod_2.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>2️⃣ 중앙 이미지:</span>
+        <select onchange="changeImage('sniper_img_center', this.value)">
+          <option value="Image/setupod_16.png" selected>setupod_16.png (아트 16)</option>
+          <option value="assets/setupod_symbol.png">logo.png</option>
+          <option value="Image/setupod.png">setupod.png</option>
+        </select>
+      </div>
+      <div class="image-select-box">
+        <span>1️⃣ 우측 이미지:</span>
+        <select onchange="changeImage('sniper_img_right', this.value)">
+          <option value="Image/setupod_19.png" selected>setupod_19.png (아트 19)</option>
+          <option value="Image/setupod_22.png">setupod_22.png</option>
+          <option value="Image/setupod_3.png">setupod_3.png</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="panorama-board board-sniper" id="board_sniper">
+      <div class="laser-beam beam-sniper"></div>
+
+      <!-- Tile 3 (Left / 3rd Upload) -->
+      <div class="pano-tile tile-left">
+        <div class="pill-tag" style="color: #38bdf8;">01. ASSET DISCOVERY</div>
+        <div class="art-card">
+          <img id="sniper_img_left" src="Image/setupod_15.png" alt="SETUPOD 아트 15">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #ffffff; font-size: 20px;">잠들어 있는<br>황금 도메인</div>
+        </div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700;">SETUPOD SNIPER ➔</div>
+      </div>
+
+      <!-- Tile 2 (Center / 2nd Upload) -->
+      <div class="pano-tile tile-center">
+        <div class="pill-tag" style="color: #ffd978;">02. AI 5-LAYER ARBITER</div>
+        <div class="art-card">
+          <img id="sniper_img_center" src="Image/setupod_16.png" alt="SETUPOD 아트 16">
+        </div>
+        <div>
+          <div class="giant-word" style="font-size: 22px; color: #ffd978; text-shadow: 0 0 25px rgba(255,217,120,0.6);">1초 만에<br>실시간 감정</div>
+        </div>
+        <div style="font-size: 11px; color: #38bdf8; font-weight: 800;">➔ ACCURACY 90%+ ➔</div>
+      </div>
+
+      <!-- Tile 1 (Right / 1st Upload) -->
+      <div class="pano-tile tile-right">
+        <div class="pill-tag" style="color: #38bdf8;">03. REAL VALUE</div>
+        <div class="art-card">
+          <img id="sniper_img_right" src="Image/setupod_19.png" alt="SETUPOD 아트 19">
+        </div>
+        <div>
+          <div class="giant-word" style="color: #38bdf8; font-size: 22px; text-shadow: 0 0 30px rgba(56,189,248,0.8);">가치를<br>증명합니다.</div>
+        </div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700;">setupod-domain ↗</div>
+      </div>
+    </div>
+
+    <div class="upload-step-row">
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_sniper', '03_Domain_Sniper', 1)">
+        1️⃣ 첫 번째 업로드 (우측: 가치를 증명합니다.)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_sniper', '03_Domain_Sniper', 2)">
+        2️⃣ 두 번째 업로드 (중앙: 1초 만에 실시간 감정)
+      </button>
+      <button class="btn-slice-save" onclick="sliceAndDownloadBoard('board_sniper', '03_Domain_Sniper', 3)">
+        3️⃣ 세 번째 업로드 (좌측: 잠들어 있는 황금 도메인)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Change image dynamically in real-time
+    function changeImage(elementId, newSrc) {
+      const el = document.getElementById(elementId);
+      if (el) {
+        el.src = newSrc;
+      }
+    }
+
+    // Precision 3-Way Slicing Engine (1080x1080 Full Color Guarantee)
+    async function sliceAndDownloadBoard(boardId, themePrefix, singleIndex = null) {
+      const boardElement = document.getElementById(boardId);
+      if (!boardElement) return;
+
+      // 1. Capture the ENTIRE continuous 3:1 panorama board at Super HD resolution (3240 x 1080)
+      const fullCanvas = await html2canvas(boardElement, {
+        scale: 3, // 1080px width * 3 = 3240px width
+        useCORS: true,
+        backgroundColor: null,
+        logging: false
+      });
+
+      const sliceWidth = fullCanvas.width / 3; // Exactly 1080px
+      const sliceHeight = fullCanvas.height;  // Exactly 1080px
+
+      // Target mapping for Instagram feed order:
+      // Slice 1 (Upload 1): Right tile (x: 2 * sliceWidth)
+      // Slice 2 (Upload 2): Center tile (x: 1 * sliceWidth)
+      // Slice 3 (Upload 3): Left tile (x: 0)
+      const slices = [
+        { index: 1, x: sliceWidth * 2, name: `${themePrefix}_01_FirstUpload_Right.png` },
+        { index: 2, x: sliceWidth * 1, name: `${themePrefix}_02_SecondUpload_Center.png` },
+        { index: 3, x: 0,              name: `${themePrefix}_03_ThirdUpload_Left.png` }
+      ];
+
+      const targets = singleIndex ? slices.filter(s => s.index === singleIndex) : slices;
+
+      for (let i = 0; i < targets.length; i++) {
+        const item = targets[i];
+        
+        // Create an isolated 1080x1080 Canvas
+        const sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = sliceWidth;
+        sliceCanvas.height = sliceHeight;
+        const ctx = sliceCanvas.getContext('2d');
+
+        // Draw exact 1/3 section from the full master panorama
+        ctx.drawImage(
+          fullCanvas,
+          item.x, 0, sliceWidth, sliceHeight, // Source crop
+          0, 0, sliceWidth, sliceHeight       // Destination
+        );
+
+        // Download PNG
+        const imgData = sliceCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = item.name;
+        link.href = imgData;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        if (!singleIndex) {
+          await new Promise(r => setTimeout(r, 400));
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

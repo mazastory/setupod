@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD Studio | 멀티링크 관리자</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
@@ -21,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
 
   <!-- Supabase JS Client CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1024,7 +1025,7 @@
     <div class="url-share-bar">
       <div class="url-info">
         <span class="url-label">내 셋업팟 주소</span>
-        <span class="url-text" id="myPageUrl">link.setupod.com/andrew</span>
+        <span class="url-text" id="myPageUrl">link.setupod.com/official</span>
       </div>
       <div class="url-btns">
         <button class="btn-icon-action" onclick="copyUrl()" title="주소 복사">
@@ -1252,7 +1253,7 @@
         <label class="modal-label">링크 주소 (서브패스) <span style="font-size:10px;color:var(--neon-cyan);">link.setupod.com/<strong>아이디</strong></span></label>
         <div style="display:flex;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0 12px;">
           <span style="font-size:12.5px;color:rgba(255,255,255,0.4);font-family:'Montserrat',sans-serif;">link.setupod.com/</span>
-          <input type="text" id="modalProfileSlug" class="modal-input" value="andrew" style="background:none;border:none;padding:10px 4px;color:#38bdf8;font-weight:800;" placeholder="영문/숫자 소문자">
+          <input type="text" id="modalProfileSlug" class="modal-input" value="official" style="background:none;border:none;padding:10px 4px;color:#38bdf8;font-weight:800;" placeholder="영문/숫자 소문자">
         </div>
         <span style="font-size:10.5px;color:rgba(255,255,255,0.4);">* CEO, CTO, ADMIN 등 플랫폼 핵심 예약어는 사용할 수 없습니다.</span>
       </div>
@@ -2056,7 +2057,7 @@
 
     // ── 프로필 정보 모달 ──
     function openProfileModal() {
-      document.getElementById('modalProfileSlug').value = currentProfile.slug || "andrew";
+      document.getElementById('modalProfileSlug').value = currentProfile.slug || "official";
       document.getElementById('modalProfileName').value = currentProfile.name;
       document.getElementById('modalProfileHandle').value = currentProfile.handle;
       document.getElementById('modalProfileBio').value = currentProfile.bio;
@@ -2270,7 +2271,7 @@
       }
 
       showToast("클라우드 DB로 동기화 중...");
-      const res = await syncPodToCloud(currentProfile.slug || 'andrew', currentProfile, componentsData);
+      const res = await syncPodToCloud(currentProfile.slug || 'official', currentProfile, componentsData);
       if (res.error) {
         alert("저장 실패: " + res.error);
       } else {

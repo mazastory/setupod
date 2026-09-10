@@ -1,5 +1,6 @@
 {
   "slug": "setupod",
+  "layout": "classic",
   "theme": "violet",
   "company": "SETUPOD",
   "companyWatermark": "SETUPOD",

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD Studio | 올인원 비즈니스 자산 & 3D 명함 빌더</title>
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
@@ -21,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons & QRCode -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- Supabase JS Client CDN -->
@@ -30,6 +31,7 @@
 
   <!-- 동적 테마 CSS (프리뷰 카드용) -->
   <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+  <link rel="stylesheet" id="layoutStylesheet" href="">
 
   <style>
     :root {
@@ -470,13 +472,12 @@
 
     .watermark-dynamic span {
       font-family: 'Montserrat', sans-serif;
-      font-size: 135px;
+      font-size: 72px;
       font-weight: 900;
-      line-height: 1;
       color: var(--watermark-color);
       transform: rotate(-90deg);
-      width: 135px;
-      height: 105px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -520,7 +521,8 @@
     .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      border-radius: 12px;
     }
 
     .brand-sub-engraving {
@@ -1077,22 +1079,44 @@
       <!-- [패널 A] 1인 개인 명함 에디터 -->
       <div id="panelSingle" style="display:flex;flex-direction:column;gap:28px;">
 
-      <!-- 1. 테마 선택 -->
+      <!-- 1. 디자인 레이아웃 (구조) 선택 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="layout" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">1. 프리미엄 레이아웃 선택</h2>
+        </div>
+        <div class="theme-selector">
+          <div class="theme-card layout-selector-card active" data-layout="classic" onclick="selectLayout('classic', this)">
+            <div class="theme-color-dot" style="background: #1e293b; border-radius:4px;"></div>
+            <span class="theme-name">Classic Glass</span>
+          </div>
+          <div class="theme-card layout-selector-card" data-layout="metal" onclick="selectLayout('metal', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #94a3b8, #334155); border-radius:4px;"></div>
+            <span class="theme-name">Executive Metal</span>
+          </div>
+          <div class="theme-card layout-selector-card" data-layout="visual" onclick="selectLayout('visual', this)">
+            <div class="theme-color-dot" style="background: url('assets/cover.jpg') center/cover; border-radius:4px;"></div>
+            <span class="theme-name">Visual Hero</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 테마 선택 -->
       <div>
         <div class="section-title-wrap">
           <div class="section-icon-box"><i data-lucide="palette" style="width:16px;height:16px;"></i></div>
-          <h2 class="section-title">1. 프리미엄 테마 선택</h2>
+          <h2 class="section-title">2. 컬러 & 재질 테마 선택</h2>
         </div>
         <div class="theme-selector">
-          <div class="theme-card active" data-theme="violet" onclick="selectTheme('violet', this)">
+          <div class="theme-card theme-selector-card active" data-theme="violet" onclick="selectTheme('violet', this)">
             <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
             <span class="theme-name">Violet Luxury</span>
           </div>
-          <div class="theme-card" data-theme="obsidian" onclick="selectTheme('obsidian', this)">
+          <div class="theme-card theme-selector-card" data-theme="obsidian" onclick="selectTheme('obsidian', this)">
             <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
             <span class="theme-name">Obsidian Dark</span>
           </div>
-          <div class="theme-card" data-theme="emerald" onclick="selectTheme('emerald', this)">
+          <div class="theme-card theme-selector-card" data-theme="emerald" onclick="selectTheme('emerald', this)">
             <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
             <span class="theme-name">Emerald Tech</span>
           </div>
@@ -1108,27 +1132,27 @@
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label">이름 (영문/한글) <span class="sub">필수</span></label>
-            <input type="text" id="inputName" class="form-input" value="김민준" placeholder="예: 김민준, Alex Rivera" oninput="liveUpdate()">
+            <input type="text" id="inputName" class="form-input" value="김민준" placeholder="예: 김민준, Alex Rivera" oninput="liveUpdate()" onfocus="forceCardBack()">
           </div>
           <div class="form-group">
             <label class="form-label">직함 / 포지션 <span class="sub">필수</span></label>
-            <input type="text" id="inputRole" class="form-input" value="대표이사" placeholder="예: 대표이사, Founder, 팀장" oninput="liveUpdate()">
+            <input type="text" id="inputRole" class="form-input" value="대표이사" placeholder="예: 대표이사, Founder, 팀장" oninput="liveUpdate()" onfocus="forceCardBack()">
           </div>
           <div class="form-group">
             <label class="form-label">회사 / 브랜드명 <span class="sub">필수</span></label>
-            <input type="text" id="inputCompany" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS GLOBAL" oninput="liveUpdate()">
+            <input type="text" id="inputCompany" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS GLOBAL" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">배경 워터마크 영문 <span class="sub">대문자 권장</span></label>
-            <input type="text" id="inputWatermark" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS" oninput="liveUpdate()">
+            <input type="text" id="inputWatermark" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group full-width">
             <label class="form-label">슬로건 / 비전 한 줄 <span class="sub">앞·뒷면 강조</span></label>
-            <input type="text" id="inputSlogan" class="form-input" value="차세대 올인원 비즈니스 자산 & 3D 명함" placeholder="회사의 핵심 가치" oninput="liveUpdate()">
+            <input type="text" id="inputSlogan" class="form-input" value="차세대 올인원 비즈니스 자산 & 3D 명함" placeholder="회사의 핵심 가치" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group full-width">
             <label class="form-label">영문 각인 태그라인 <span class="sub">상단 미니 럭셔리</span></label>
-            <input type="text" id="inputTagline" class="form-input" value="ALL-IN-ONE BUSINESS ASSET" placeholder="예: ENDLESS POTENTIAL" oninput="liveUpdate()">
+            <input type="text" id="inputTagline" class="form-input" value="ALL-IN-ONE BUSINESS ASSET" placeholder="예: ENDLESS POTENTIAL" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
         </div>
       </div>
@@ -1156,15 +1180,15 @@
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label">태그 1</label>
-            <input type="text" id="inputTag1" class="form-input" value="3D 인터랙티브" oninput="liveUpdate()">
+            <input type="text" id="inputTag1" class="form-input" value="3D 인터랙티브" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">태그 2</label>
-            <input type="text" id="inputTag2" class="form-input" value="vCard 주소록 저장" oninput="liveUpdate()">
+            <input type="text" id="inputTag2" class="form-input" value="vCard 주소록 저장" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group full-width">
             <label class="form-label">태그 3</label>
-            <input type="text" id="inputTag3" class="form-input" value="올인원 멀티링크" oninput="liveUpdate()">
+            <input type="text" id="inputTag3" class="form-input" value="올인원 멀티링크" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
         </div>
       </div>
@@ -1178,35 +1202,35 @@
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label">전화번호 <span class="sub">탭 시 통화 연결</span></label>
-            <input type="tel" id="inputPhone" class="form-input" value="010-5555-0100" placeholder="010-0000-0000" oninput="liveUpdate()">
+            <input type="tel" id="inputPhone" class="form-input" value="010-5555-0100" placeholder="010-0000-0000" oninput="liveUpdate()" onfocus="forceCardBack()">
           </div>
           <div class="form-group">
             <label class="form-label">이메일 주소 <span class="sub">탭 시 메일 작성</span></label>
-            <input type="email" id="inputEmail" class="form-input" value="official@setupod.com" placeholder="name@company.com" oninput="liveUpdate()">
+            <input type="email" id="inputEmail" class="form-input" value="official@setupod.com" placeholder="name@company.com" oninput="liveUpdate()" onfocus="forceCardBack()">
           </div>
           <div class="form-group">
             <label class="form-label">공식 웹사이트 URL</label>
-            <input type="url" id="inputWebsiteUrl" class="form-input" value="https://setupod.com" oninput="liveUpdate()">
+            <input type="url" id="inputWebsiteUrl" class="form-input" value="https://setupod.com" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">웹사이트 버튼 텍스트</label>
-            <input type="text" id="inputWebsiteLabel" class="form-input" value="공식 웹사이트" oninput="liveUpdate()">
+            <input type="text" id="inputWebsiteLabel" class="form-input" value="공식 웹사이트" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">카카오톡 오픈채팅 / ID 링크</label>
-            <input type="text" id="inputKakaoUrl" class="form-input" value="" placeholder="예: https://open.kakao.com/o/..." oninput="liveUpdate()">
+            <input type="text" id="inputKakaoUrl" class="form-input" value="" placeholder="예: https://open.kakao.com/o/..." oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">카카오 버튼 표시 텍스트</label>
-            <input type="text" id="inputKakaoLabel" class="form-input" value="카카오톡 상담" oninput="liveUpdate()">
+            <input type="text" id="inputKakaoLabel" class="form-input" value="카카오톡 상담" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">인스타그램 URL</label>
-            <input type="text" id="inputInstaUrl" class="form-input" value="https://instagram.com" oninput="liveUpdate()">
+            <input type="text" id="inputInstaUrl" class="form-input" value="https://instagram.com" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
           <div class="form-group">
             <label class="form-label">인스타 버튼 표시 텍스트</label>
-            <input type="text" id="inputInstaLabel" class="form-input" value="인스타그램" oninput="liveUpdate()">
+            <input type="text" id="inputInstaLabel" class="form-input" value="인스타그램" oninput="liveUpdate()" onfocus="forceCardFront()">
           </div>
         </div>
       </div>
@@ -1215,11 +1239,11 @@
       <div class="publish-bar">
         <button class="btn-publish btn-publish-secondary" onclick="exportCardData()">
           <i data-lucide="file-code-2" style="width:18px;height:18px;"></i>
-          <span>JSON 다운로드</span>
+          <span>데이터(JSON) 백업</span>
         </button>
-        <button class="btn-publish btn-publish-main" onclick="requestPublish()">
-          <i data-lucide="send" style="width:18px;height:18px;"></i>
-          <span>명함 발행 / 제작 의뢰하기</span>
+        <button class="btn-publish btn-publish-main" onclick="publishSingleCard()">
+          <i data-lucide="globe" style="width:18px;height:18px;"></i>
+          <span>🚀 내 명함 URL 생성 및 배포</span>
         </button>
       </div>
 
@@ -1459,6 +1483,7 @@
   </div>
 
   <script>
+    let currentLayout = 'classic';
     let currentTheme = 'violet';
     let currentLogoSrc = 'assets/setupod_symbol.png';
 
@@ -1472,10 +1497,38 @@
     function toggleCardFlip() {
       document.getElementById('cardScene').classList.toggle('flipped');
     }
+    
+    function forceCardFront() {
+      document.getElementById('cardScene').classList.remove('flipped');
+    }
+    
+    function forceCardBack() {
+      document.getElementById('cardScene').classList.add('flipped');
+    }
+
+    function selectLayout(layoutName, element) {
+      currentLayout = layoutName;
+      document.querySelectorAll('.layout-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+
+      const stylesheet = document.getElementById('layoutStylesheet');
+      if (stylesheet) {
+        stylesheet.href = layoutName === 'classic' ? '' : `themes/layout-${layoutName}.css?v=${Date.now()}`;
+      }
+      
+      const flipper = document.querySelector('.card-flipper');
+      if (flipper) {
+        flipper.classList.remove('layout-classic', 'layout-metal', 'layout-visual');
+        flipper.classList.add(`layout-${layoutName}`);
+      }
+      
+      showToast(`${layoutName.toUpperCase()} 레이아웃이 적용되었습니다.`);
+      liveUpdate();
+    }
 
     function selectTheme(themeName, element) {
       currentTheme = themeName;
-      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.theme-selector-card').forEach(c => c.classList.remove('active'));
       if (element) element.classList.add('active');
 
       document.getElementById('themeStylesheet').href = `themes/${themeName}.css`;
@@ -1578,6 +1631,7 @@
 
     function exportCardData() {
       const data = {
+        layout: currentLayout,
         theme: currentTheme,
         name: document.getElementById('inputName').value,
         role: document.getElementById('inputRole').value,
@@ -1613,13 +1667,23 @@
       showToast("명함 데이터(JSON)가 다운로드되었습니다!");
     }
 
-    function requestPublish() {
-      const company = document.getElementById('inputCompany').value;
-      const name = document.getElementById('inputName').value;
-      showToast("SETUPOD 공식 제휴 창구로 연결합니다...");
+    function publishSingleCard() {
+      const name = document.getElementById('inputName').value || 'User';
+      const safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new';
+      
+      showToast("🚀 엣지 네트워크에 명함을 배포 중입니다...");
+      
       setTimeout(() => {
-        window.location.href = `mailto:official@setupod.com?subject=[명함발행문의] ${encodeURIComponent(company)} ${encodeURIComponent(name)}`;
-      }, 800);
+        const publishedUrl = `https://setupod.com/c/${safeName}`;
+        showToast(`🎉 배포 완료! URL: ${publishedUrl}`);
+        
+        // 클립보드에 자동 복사
+        navigator.clipboard.writeText(publishedUrl).then(() => {
+          setTimeout(() => showToast("✅ 명함 링크가 클립보드에 복사되었습니다!"), 2500);
+        }).catch(err => {
+          console.error("클립보드 복사 실패:", err);
+        });
+      }, 1500);
     }
 
     function loadPreset(type) {
