@@ -442,20 +442,58 @@
       text-align: center;
     }
 
-    .btn-action-demo {
+    /* 2x2 Inside Action Dock */
+    .inside-action-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
       width: 100%;
+    }
+
+    .inside-action-row {
+      display: flex;
+      gap: 7px;
+      width: 100%;
+    }
+
+    .btn-action {
+      flex: 1;
       height: 38px;
       border-radius: 10px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: none;
+      outline: none;
+    }
+
+    .btn-save {
       background: var(--save-btn-bg);
       color: #ffffff;
-      border: none;
       box-shadow: var(--save-btn-shadow);
+    }
+
+    .btn-save:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
     }
 
     .tap-hint-pill {
@@ -734,25 +772,50 @@
           <!-- FRONT -->
           <div class="card-face front">
             <div class="watermark-dynamic" aria-hidden="true">
-              <span>A</span><span>Z</span><span>A</span><span>M</span>
+              <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="front-wrapper">
               <div class="front-logo-box">
                 <img src="assets/logo.gif" alt="Logo">
               </div>
               <div>
-                <div class="brand-sub-engraving">BUILD · SCALE · EXIT</div>
-                <div class="front-company">MAZA STUDIO</div>
-                <div class="front-slogan">플립마켓에서 달러자산 플랫폼으로</div>
+                <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
+                <div class="front-company">SETUPOD</div>
+                <div class="front-slogan">차세대 3D 인터랙티브 디지털 명함</div>
                 <div class="moat-tags">
-                  <span class="moat-tag">디지털 자산화</span>
-                  <span class="moat-tag">글로벌 플립</span>
-                  <span class="moat-tag">플랫폼 빌드</span>
+                  <span class="moat-tag">3D 인터랙티브</span>
+                  <span class="moat-tag">vCard 자동저장</span>
+                  <span class="moat-tag">올인원 멀티링크</span>
                 </div>
-                <button class="btn-action-demo">
-                  <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
-                  <span>연락처 주소록 저장</span>
-                </button>
+                <!-- 2x2 Action Dock -->
+                <div class="inside-action-dock">
+                  <div class="inside-action-row">
+                    <button class="btn-action btn-save" onclick="event.stopPropagation(); alert('실제 명함에서는 스마트폰 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
+                      <i data-lucide="user-plus" style="width:13px;height:13px;"></i>
+                      <span>연락처 저장</span>
+                    </button>
+                    <a href="maker.html" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+                      <span>스튜디오</span>
+                    </a>
+                  </div>
+                  <div class="inside-action-row">
+                    <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;color:#ffd978;">
+                        <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z" />
+                      </svg>
+                      <span>카카오톡</span>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:#f472b6;">
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                      </svg>
+                      <span>인스타그램</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -760,39 +823,64 @@
           <!-- BACK -->
           <div class="card-face back">
             <div class="watermark-dynamic" aria-hidden="true">
-              <span>A</span><span>Z</span><span>A</span><span>M</span>
+              <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="back-wrapper">
               <div class="back-top-logo">
                 <img src="assets/logo.gif" alt="Logo">
               </div>
               <div>
-                <div class="brand-sub-engraving">BUILD · SCALE · EXIT</div>
-                <div class="back-company-name">MAZA STUDIO</div>
-                <div class="back-company-slogan">플립마켓에서 달러자산 플랫폼으로</div>
+                <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
+                <div class="back-company-name">SETUPOD</div>
+                <div class="back-company-slogan">A TOOMUS Platform Company</div>
                 <div class="profile-row">
-                  <span class="role-title">이사</span>
-                  <span class="name-title">Andrew K</span>
+                  <span class="role-title">FOUNDER & CEO</span>
+                  <span class="name-title">Alex Rivera</span>
                 </div>
                 <div class="contact-group">
                   <div class="contact-row">
                     <span class="contact-key">T</span>
-                    <span>010-8186-0010</span>
+                    <span>+82 10-5555-0100</span>
                   </div>
                   <div class="contact-row">
                     <span class="contact-key">E</span>
-                    <span>maza@mazastudio.kr</span>
+                    <span>official@setupod.com</span>
                   </div>
                 </div>
                 <div class="moat-tags">
-                  <span class="moat-tag">디지털 자산화</span>
-                  <span class="moat-tag">글로벌 플립</span>
-                  <span class="moat-tag">플랫폼 빌드</span>
+                  <span class="moat-tag">3D 인터랙티브</span>
+                  <span class="moat-tag">vCard 자동저장</span>
+                  <span class="moat-tag">올인원 멀티링크</span>
                 </div>
-                <button class="btn-action-demo">
-                  <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-                  <span>솔루션 바로가기</span>
-                </button>
+                <!-- 2x2 Action Dock -->
+                <div class="inside-action-dock">
+                  <div class="inside-action-row">
+                    <button class="btn-action btn-save" onclick="event.stopPropagation(); alert('실제 명함에서는 스마트폰 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
+                      <i data-lucide="user-plus" style="width:13px;height:13px;"></i>
+                      <span>연락처 저장</span>
+                    </button>
+                    <a href="maker.html" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+                      <span>스튜디오</span>
+                    </a>
+                  </div>
+                  <div class="inside-action-row">
+                    <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;color:#ffd978;">
+                        <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z" />
+                      </svg>
+                      <span>카카오톡</span>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:#f472b6;">
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                      </svg>
+                      <span>인스타그램</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
