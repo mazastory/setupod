@@ -59,6 +59,24 @@
       overflow-x: hidden;
     }
 
+    /* ── 방문자 공개 모드 (소유자 아닐 때 편집 버튼 완전 숨김) ── */
+    body.visitor-mode .cover-controls,
+    body.visitor-mode .btn-edit-profile,
+    body.visitor-mode .link-action-bar,
+    body.visitor-mode .btn-floating-add,
+    body.visitor-mode .bottom-tabbar,
+    body.visitor-mode .url-badge-box,
+    body.visitor-mode .avatar-edit-overlay,
+    body.visitor-mode button[onclick*="deleteItem"] {
+      display: none !important;
+    }
+    body.visitor-mode {
+      padding-bottom: 24px !important;
+    }
+    body.visitor-mode .avatar-wrapper {
+      cursor: default !important;
+    }
+
     /* ── 상단 앱바 ── */
     header {
       width: 100%;
@@ -1518,17 +1536,17 @@
       {
         id: 4,
         type: "link_grid",
-        title: "직통 전화 연결",
-        sub: "010-8186-0010",
+        title: "고객센터 및 제휴 문의",
+        sub: "실시간 상담 채널",
         img: "assets/cover.jpg",
-        url: "tel:010-8186-0010"
+        url: "https://open.kakao.com/o/sySmTxKi"
       }
     ];
 
     // 상태 불러오기
     let componentsData = JSON.parse(localStorage.getItem('setupod_components')) || defaultComponents;
     let collectedLeads = JSON.parse(localStorage.getItem('setupod_leads')) || [
-      { phone: "010-8186-0010", date: "2026-09-10 14:20" },
+      { phone: "010-5555-0100", date: "2026-09-10 14:20" },
       { phone: "010-4829-1928", date: "2026-09-10 16:45" },
       { phone: "010-9941-3320", date: "2026-09-10 18:12" }
     ];
@@ -1548,10 +1566,10 @@
     ]);
 
     let currentProfile = JSON.parse(localStorage.getItem('setupod_profile')) || {
-      slug: "andrew",
-      name: "Andrew K",
-      handle: "@mazastudio · 이사",
-      bio: "플립마켓에서 달러자산 플랫폼으로 | 디지털 자산화 & 글로벌 비즈니스 아키텍트"
+      slug: "official",
+      name: "SETUPOD Official",
+      handle: "@setupod · 공식 팟",
+      bio: "당신의 모든 비즈니스를 3D 명함과 하나의 링크에 담다 | 올인원 비즈니스 자산 플랫폼"
     };
 
     let currentUploadTarget = null;
@@ -2267,23 +2285,77 @@
       }
     }
 
-    // 초기 로딩 & 세션 감지
+    // 초기 로딩 & 세션 감지 & 방문자 모드 자동 판별
     window.addEventListener('DOMContentLoaded', async () => {
+      // 1. URL 파라미터 또는 서브패스에서 slug 추출
+      const urlParams = new URLSearchParams(window.location.search);
+      let targetSlug = urlParams.get('id') || urlParams.get('slug');
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if (!targetSlug && pathParts.length > 0) {
+        if (pathParts[0] !== 'link' && pathParts[0] !== 'link.html') {
+          targetSlug = pathParts[0];
+        } else if (pathParts[1]) {
+          targetSlug = pathParts[1];
+        }
+      }
+
+      // 2. 현재 로그인 사용자 확인
+      const user = await getCurrentUser();
+
+      // 3. 타겟 슬러그가 있는 경우 클라우드에서 해당 유저의 팟 로드
+      if (targetSlug) {
+        try {
+          const cloud = await loadPodFromCloud(targetSlug);
+          if (cloud && cloud.profile) {
+            currentProfile = cloud.profile;
+            if (cloud.pod && cloud.pod.components_json) {
+              componentsData = cloud.pod.components_json;
+            }
+            currentTheme = currentProfile.theme || 'violet';
+          }
+          const isOwner = user && cloud && cloud.profile && (user.id === cloud.profile.id);
+          if (!isOwner) {
+            document.body.classList.add('visitor-mode');
+            const viralBanner = document.getElementById('visitorFooterBanner');
+            if (viralBanner) viralBanner.style.display = 'block';
+          }
+        } catch (e) {
+          console.error("Cloud load error:", e);
+        }
+      } else {
+        // 슬러그 없이 /link 로 들어온 경우
+        if (!user) {
+          // 비로그인 방문자 -> 방문자 모드 (편집 버튼 완전 숨김)
+          document.body.classList.add('visitor-mode');
+          const viralBanner = document.getElementById('visitorFooterBanner');
+          if (viralBanner) viralBanner.style.display = 'block';
+          const syncText = document.getElementById('cloudSyncText');
+          if (syncText) syncText.innerText = "내 팟 만들기";
+        } else {
+          // 로그인한 본인 -> 편집 모드
+          document.body.classList.remove('visitor-mode');
+          document.getElementById('cloudSyncText').innerText = "클라우드 동기화됨";
+          document.getElementById('btnCloudSync').style.borderColor = "var(--neon-cyan)";
+        }
+      }
+
       document.getElementById('userNameDisplay').innerText = currentProfile.name;
       document.getElementById('userHandleDisplay').innerText = currentProfile.handle;
       document.getElementById('userBioDisplay').innerText = currentProfile.bio;
+      document.getElementById('myPageUrl').innerText = `link.setupod.com/${currentProfile.slug || 'official'}`;
       applyTheme(currentTheme);
       renderLinks();
       updateCalcTotal();
       lucide.createIcons();
-
-      // 로그인 상태 확인 및 UI 업데이트
-      const user = await getCurrentUser();
-      if (user) {
-        document.getElementById('cloudSyncText').innerText = "클라우드 동기화됨";
-        document.getElementById('btnCloudSync').style.borderColor = "var(--neon-cyan)";
-      }
     });
   </script>
+
+  <!-- 방문자 전용 하단 바이럴 배너 -->
+  <div id="visitorFooterBanner" style="display:none;width:100%;max-width:520px;margin:24px auto 30px;padding:0 16px;">
+    <a href="https://setupod.com" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border-radius:14px;background:linear-gradient(135deg,rgba(168,85,247,0.2) 0%,rgba(99,102,241,0.2) 100%);border:1px solid rgba(168,85,247,0.4);color:#ffffff;font-size:13.5px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,0.4);transition:all 0.2s;">
+      <i data-lucide="sparkles" style="width:15px;height:15px;color:#c084fc;"></i>
+      <span>나만의 3D 명함 & 멀티링크 무료로 만들기 <strong>SETUPOD</strong></span>
+    </a>
+  </div>
 </body>
 </html>
