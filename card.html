@@ -323,18 +323,19 @@
 
     .profile-row {
       display: flex;
-      align-items: center;
+      align-items: baseline;
+      gap: 10px;
       margin-bottom: 14px;
     }
 
     .role-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.75);
       letter-spacing: 0.05em;
-      width: 50px;
-      display: inline-block;
+      white-space: nowrap;
       flex-shrink: 0;
+      line-height: 1.2;
     }
 
     .name-title {
@@ -343,6 +344,7 @@
       font-weight: 900;
       color: #ffffff;
       letter-spacing: 0.05em;
+      line-height: 1.2;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
@@ -356,6 +358,7 @@
     .contact-row {
       display: flex;
       align-items: center;
+      gap: 10px;
       text-decoration: none;
       color: #ffffff;
       transition: transform 0.15s ease;
@@ -371,7 +374,8 @@
       font-size: 14px;
       font-weight: 900;
       color: var(--key-color);
-      width: 50px;
+      width: 18px;
+      flex-shrink: 0;
       letter-spacing: 0.05em;
     }
 

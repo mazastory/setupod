@@ -386,21 +386,27 @@
 
     .profile-row {
       display: flex;
-      align-items: center;
+      align-items: baseline;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
     .role-title {
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.8);
-      width: 45px;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1.2;
     }
 
     .name-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 900;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
     }
 
     .contact-group {
@@ -413,6 +419,7 @@
     .contact-row {
       display: flex;
       align-items: center;
+      gap: 10px;
       font-size: 13.5px;
       font-weight: 600;
     }
@@ -421,7 +428,8 @@
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
       color: var(--key-color);
-      width: 45px;
+      width: 18px;
+      flex-shrink: 0;
     }
 
     .moat-tags {
@@ -834,7 +842,7 @@
                 <div class="back-company-name">SETUPOD</div>
                 <div class="back-company-slogan">차세대 3D 인터랙티브 디지털 명함</div>
                 <div class="profile-row">
-                  <span class="role-title">FOUNDER & CEO</span>
+                  <span class="role-title">CEO</span>
                   <span class="name-title">Alex Rivera</span>
                 </div>
                 <div class="contact-group">
