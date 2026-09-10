@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/card/:id", "destination": "/card.html" },
+    { "source": "/:id", "destination": "/card.html" },
+    { "source": "/", "destination": "/card.html" }
+  ]
+}

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>FOCUSIO | 디지털 명함</title>
+
+  <!-- OpenGraph Placeholder -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FOCUSIO">
+  <meta property="og:title" content="FOCUSIO 공식 디지털 명함">
+  <meta property="og:description" content="FOCUSIO - 프리미엄 인터랙티브 디지털 명함 솔루션">
+  <meta property="og:image" content="assets/business_card_mockup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons & QRCode -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Default Theme Stylesheet (동적으로 교체됨) -->
+  <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--bg-body);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      transition: background 0.4s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 375px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* 3D Vertical Card Scene */
+    .card-scene {
+      width: 100%;
+      height: 645px;
+      min-height: 620px;
+      max-height: 660px;
+      perspective: 1400px;
+      cursor: pointer;
+    }
+
+    .card-flipper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+      border-radius: 28px;
+    }
+
+    .card-scene.flipped .card-flipper {
+      transform: rotateY(180deg);
+    }
+
+    /* Card Faces (Front & Back) */
+    .card-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--border-accent);
+      background: var(--card-gradient);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      padding: 34px 26px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    .card-face.front {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .card-face.back {
+      z-index: 1;
+      pointer-events: none;
+      transform: rotateY(180deg);
+      padding: 34px 26px 26px 26px;
+    }
+
+    .card-scene.flipped .card-face.front {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-scene.flipped .card-face.back {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    /* Dynamic Watermark on Card */
+    .watermark-dynamic {
+      position: absolute;
+      right: -24px;
+      top: 45%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .watermark-dynamic span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 135px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--watermark-color);
+      transform: rotate(-90deg);
+      width: 135px;
+      height: 105px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =========================================
+       FRONT FACE
+       ========================================= */
+    .front-wrapper {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .front-logo-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 10px;
+    }
+
+    .front-logo-box {
+      width: 148px;
+      height: 148px;
+      background: var(--logo-bg);
+      border: 1px solid var(--logo-border);
+      border-radius: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--logo-shadow);
+      overflow: hidden;
+      padding: 14px;
+      cursor: pointer;
+      animation: logoPulse 4.5s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .front-logo-box:hover {
+      transform: scale(1.05);
+    }
+
+    .front-logo-box:active {
+      transform: scale(0.96);
+    }
+
+    .front-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .front-info-container {
+      margin-top: auto;
+      margin-bottom: 2px;
+    }
+
+    .brand-sub-engraving {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      color: var(--tagline-color);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      user-select: none;
+    }
+
+    .front-company {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .front-slogan {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold-accent);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    /* =========================================
+       BACK FACE
+       ========================================= */
+    .back-wrapper {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .back-top-logo-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 6px;
+    }
+
+    .back-top-logo {
+      width: 144px;
+      height: 144px;
+      background: var(--logo-bg);
+      border-radius: 26px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--logo-border);
+      box-shadow: var(--logo-shadow);
+      padding: 12px;
+      cursor: pointer;
+      animation: logoPulse 4.5s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .back-top-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .back-top-logo:active {
+      transform: scale(0.96);
+    }
+
+    .back-top-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .back-info-container {
+      margin-top: auto;
+      margin-bottom: 2px;
+    }
+
+    .back-company-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .back-company-slogan {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold-accent);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .role-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.05em;
+      width: 50px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .name-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      transition: transform 0.15s ease;
+      cursor: pointer;
+    }
+
+    .contact-row:hover {
+      transform: translateX(4px);
+    }
+
+    .contact-key {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--key-color);
+      width: 50px;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-value {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.02em;
+    }
+
+    /* Moat Tags */
+    .moat-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .moat-tag {
+      background: var(--moat-bg);
+      border: 1px solid var(--moat-border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--moat-text);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
+    }
+
+    /* 2x2 Inside Action Dock */
+    .inside-action-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .inside-action-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-action {
+      flex: 1;
+      height: 42px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: none;
+      outline: none;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-save {
+      background: var(--save-btn-bg);
+      color: #ffffff;
+      box-shadow: var(--save-btn-shadow);
+    }
+
+    .btn-save:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .btn-save:active {
+      transform: translateY(1px);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.32);
+      transform: translateY(-2px);
+    }
+
+    .btn-glass:active {
+      transform: translateY(1px);
+    }
+
+    /* Flip Hint Bar */
+    .flip-hint {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .flip-hint:hover {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .flip-icon {
+      animation: spinSlow 9s linear infinite;
+    }
+
+    @keyframes spinSlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #140d24;
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--neon-glow);
+      transform: scale(0.92);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .modal-desc {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 18px;
+    }
+
+    .qr-container {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close-btn {
+      margin-top: 14px;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 12px;
+    }
+
+    .modal-close-btn:hover {
+      color: #ffffff;
+    }
+
+    /* Social Channels Modal Rows */
+    .channel-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .channel-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 11px 14px;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .channel-row:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateX(3px);
+    }
+
+    .channel-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .channel-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .channel-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .channel-handle {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .channel-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .channel-badge {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--gold-accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: #1e113a;
+      border: 1px solid var(--border-accent);
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 200;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 3D Interactive Unified Flip Card -->
+    <div class="card-scene" id="cardScene" onclick="toggleCardFlip()" title="카드를 탭하거나 슬라이드하면 앞뒤가 뒤집힙니다">
+      <div class="card-flipper">
+        
+        <!-- =========================================
+             FRONT (앞면)
+             ========================================= -->
+        <div class="card-face front">
+          <!-- 거대 동적 워터마크 -->
+          <div class="watermark-dynamic" id="watermarkContainerFront" aria-hidden="true"></div>
+
+          <div class="front-wrapper">
+            <!-- 로고 박스 (탭 시 QR 팝업) -->
+            <div class="front-logo-container">
+              <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
+                <img id="frontLogoImg" src="assets/logo.gif" alt="Logo">
+              </div>
+            </div>
+
+            <div class="front-info-container">
+              <div class="brand-sub-engraving" id="frontTagline"></div>
+              <div class="front-company" id="frontCompany"></div>
+              <div class="front-slogan" id="frontSlogan"></div>
+
+              <!-- Moat Tags on Front -->
+              <div class="moat-tags" id="frontMoatTags"></div>
+
+              <!-- 2x2 Buttons on Front -->
+              <div class="inside-action-dock" id="insideActionDockFront"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================================
+             BACK (뒷면)
+             ========================================= -->
+        <div class="card-face back">
+          <!-- 거대 동적 워터마크 -->
+          <div class="watermark-dynamic" id="watermarkContainerBack" aria-hidden="true"></div>
+
+          <div class="back-wrapper">
+            <!-- Top Logo on Back -->
+            <div class="back-top-logo-container">
+              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
+                <img id="backLogoImg" src="assets/logo.gif" alt="Logo">
+              </div>
+            </div>
+
+            <!-- Main Business Info -->
+            <div class="back-info-container">
+              <div class="brand-sub-engraving" id="backTagline"></div>
+              <div class="back-company-name" id="backCompany"></div>
+              <div class="back-company-slogan" id="backSlogan"></div>
+
+              <div class="profile-row">
+                <span class="role-title" id="roleTitle"></span>
+                <span class="name-title" id="nameTitle"></span>
+              </div>
+
+              <div class="contact-group">
+                <!-- Phone -->
+                <a href="#" class="contact-row" id="phoneLink" onclick="event.stopPropagation()" title="전화 걸기">
+                  <span class="contact-key" id="phoneKey">T</span>
+                  <span class="contact-value" id="phoneValue"></span>
+                </a>
+
+                <!-- Email -->
+                <a href="#" class="contact-row" id="emailLink" onclick="event.stopPropagation()" title="이메일 보내기">
+                  <span class="contact-key" id="emailKey">E</span>
+                  <span class="contact-value" id="emailValue"></span>
+                </a>
+              </div>
+
+              <!-- Moat Tags on Back -->
+              <div class="moat-tags" id="backMoatTags"></div>
+
+              <!-- Inside-Card 2x2 Buttons on Back -->
+              <div class="inside-action-dock" id="insideActionDockBack"></div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Flip Hint Bar -->
+    <div class="flip-hint" onclick="toggleCardFlip()">
+      <i data-lucide="refresh-cw" class="flip-icon" style="width: 14px; height: 14px;"></i>
+      <span>카드를 탭하거나 슬라이드하면 앞면 ↔ 뒷면이 뒤집힙니다</span>
+    </div>
+
+  </div>
+
+  <!-- QR Code Modal -->
+  <div class="modal-overlay" id="shareModal" onclick="handleModalBgClick(event)">
+    <div class="modal-box">
+      <div class="modal-title">디지털 명함 QR코드</div>
+      <div class="modal-desc">상대방 카메라로 QR코드를 스캔하세요</div>
+
+      <div class="qr-container" id="qrContainer"></div>
+
+      <div style="display: flex; gap: 8px; margin-top: 14px; width: 100%;">
+        <button class="btn-action btn-save" style="flex: 1; padding: 11px 12px; font-size: 13px;" onclick="copyCardUrl()">
+          <i data-lucide="copy" style="width: 15px; height: 15px;"></i>
+          <span>링크 복사</span>
+        </button>
+        <button class="btn-action btn-glass" style="flex: 1; padding: 11px 12px; font-size: 13px;" onclick="nativeShare()">
+          <i data-lucide="share-2" style="width: 15px; height: 15px;"></i>
+          <span>공유하기</span>
+        </button>
+      </div>
+
+      <button class="modal-close-btn" onclick="closeShareModal()">닫기</button>
+    </div>
+  </div>
+
+  <!-- Social Channels Modal -->
+  <div class="modal-overlay" id="socialModal" onclick="handleSocialModalBgClick(event)">
+    <div class="modal-box" style="max-width: 320px;">
+      <div class="modal-title">공식 소셜 미디어</div>
+      <div class="modal-desc">공식 소셜 네트워크를 방문해 보세요</div>
+
+      <div class="channel-list" id="socialModalList"></div>
+
+      <button class="modal-close-btn" onclick="closeSocialModal()">닫기</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastMsg">
+    <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--neon-accent);"></i>
+    <span id="toastText">링크가 복사되었습니다!</span>
+  </div>
+
+  <!-- Dynamic Card Renderer Engine Script -->
+  <script src="js/card-renderer.js"></script>
+</body>
+</html>

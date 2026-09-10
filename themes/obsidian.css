@@ -1,0 +1,32 @@
+:root {
+  --bg-body: radial-gradient(circle at 50% 15%, #18181f 0%, #0c0c10 65%, #050507 100%);
+  --bg-card: #0e0e12;
+  --card-gradient: linear-gradient(155deg, #121216 0%, #17171d 52%, #1e1e26 100%);
+  --neon-accent: #e2e8f0;
+  --neon-glow: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(255, 255, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --gold-accent: #ffd978;
+  --tagline-color: rgba(255, 255, 255, 0.38);
+  --logo-bg: #0e0e14;
+  --logo-border: rgba(255, 255, 255, 0.2);
+  --logo-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 255, 255, 0.08);
+  --key-color: #94a3b8;
+  --moat-bg: rgba(255, 255, 255, 0.06);
+  --moat-border: rgba(255, 255, 255, 0.15);
+  --moat-text: #f1f5f9;
+  --save-btn-bg: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  --save-btn-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --watermark-color: rgba(255, 255, 255, 0.035);
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+}
