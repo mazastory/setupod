@@ -8,9 +8,9 @@ let qrcodeObj = null;
 
 // URL 파라미터 또는 경로에서 회사 및 카드 slug 추출
 // 지원 형식:
-// 1. setupod.com/toomus/alex -> company: 'toomus', slug: 'alex'
+// 1. setupod.com/nexus/alex -> company: 'nexus', slug: 'alex'
 // 2. setupod.com/alex -> company: null, slug: 'alex'
-// 3. ?id=alex 또는 ?id=toomus
+// 3. ?id=alex 또는 ?id=setupod
 function getCardIdentifier() {
   const urlParams = new URLSearchParams(window.location.search);
   const qId = urlParams.get('id') || urlParams.get('card');
@@ -25,10 +25,10 @@ function getCardIdentifier() {
     return { company: pathParts[0].toLowerCase(), slug: pathParts[1].toLowerCase() };
   }
   if (pathParts.length === 1 && !pathParts[0].includes('.html')) {
-    if (pathParts[0] === 'card') return { company: null, slug: 'toomus' };
+    if (pathParts[0] === 'card') return { company: null, slug: 'setupod' };
     return { company: null, slug: pathParts[0].toLowerCase() };
   }
-  return { company: null, slug: 'toomus' };
+  return { company: null, slug: 'setupod' };
 }
 
 function getCardSlug() {
@@ -476,8 +476,8 @@ function populateCardFromCloud(cloud, company) {
     socials: [
       {
         type: 'kakao',
-        url: 'https://open.kakao.com/o/sySmTxKi',
-        label: '카카오톡 상담',
+        url: 'https://open.kakao.com',
+        label: '카카오톡 채널',
         color: '#ffd978'
       },
       {
@@ -540,10 +540,10 @@ async function initCardEngine() {
     } catch (e) {}
   }
 
-  // 3. 기본 toomus 명함 폴백
+  // 3. 기본 setupod 명함 폴백
   if (!loaded) {
     try {
-      const fallbackRes = await fetch(`cards/toomus.json`);
+      const fallbackRes = await fetch(`cards/setupod.json`);
       const fallbackData = await fallbackRes.json();
       populateCard(fallbackData);
     } catch (e) {

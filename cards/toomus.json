@@ -1,90 +1,61 @@
 {
-  "slug": "toomus",
+  "slug": "nexus",
   "theme": "obsidian",
-  "company": "TOOMUS",
-  "companyWatermark": "TOOMUS",
-  "slogan": "무한한 가능성을 연결하는 비즈니스 플랫폼",
-  "tagline": "ENDLESS POTENTIAL",
-  "role": "총괄 디렉터",
+  "company": "NEXUS GLOBAL",
+  "companyWatermark": "NEXUS",
+  "slogan": "Global Cross-Border Expansion & Scale",
+  "tagline": "CONNECTING POSSIBILITIES",
+  "role": "Managing Director",
   "name": "Alex Rivera",
-  "phone": "010-5555-0200",
+  "phone": "010-5555-0100",
   "phoneLabel": "M",
-  "email": "contact@toomus.com",
+  "email": "contact@nexus-global.io",
   "emailLabel": "E",
   "moatTags": [
-    "디지털 자산화",
-    "전략적 비즈니스 빌드",
-    "글로벌 파트너십"
+    "Global Partnership",
+    "Digital Scaling",
+    "Cross-Border Asset"
   ],
   "logo": {
-    "src": "assets/toomus_rays.gif",
-    "fallback": "assets/toomus_master_ci.png",
-    "alt": "TOOMUS Logo"
+    "src": "assets/setupod_symbol.png",
+    "fallback": "assets/setupod_symbol.png",
+    "alt": "NEXUS Logo"
   },
   "primaryAction": {
     "url": "https://setupod.com",
-    "label": "공식 웹사이트",
+    "label": "Official Website",
     "icon": "sparkles"
   },
   "socials": [
     {
       "type": "kakao",
-      "url": "https://open.kakao.com/o/sySmTxKi",
-      "label": "카카오톡 상담",
+      "url": "https://open.kakao.com",
+      "label": "Kakao Channel",
       "color": "#ffd978"
     },
     {
-      "type": "social_modal",
-      "label": "소셜 채널 ▾",
-      "icon": "globe",
-      "channels": [
-        {
-          "name": "Instagram",
-          "id": "@toomus",
-          "url": "https://instagram.com",
-          "badge": "OFFICIAL",
-          "icon": "instagram"
-        },
-        {
-          "name": "TikTok",
-          "id": "@toomus_official",
-          "url": "https://tiktok.com",
-          "badge": "REELS",
-          "icon": "video"
-        },
-        {
-          "name": "X (Twitter)",
-          "id": "@toomus_global",
-          "url": "https://twitter.com",
-          "badge": "NEWS",
-          "icon": "twitter"
-        },
-        {
-          "name": "Threads",
-          "id": "@toomus_hq",
-          "url": "https://threads.net",
-          "badge": "COMMUNITY",
-          "icon": "message-circle"
-        }
-      ]
+      "type": "instagram",
+      "url": "https://instagram.com",
+      "label": "Instagram",
+      "color": "#f472b6"
     }
   ],
   "vcard": {
     "lastName": "Rivera",
     "firstName": "Alex",
-    "formattedName": "Alex Rivera (총괄 디렉터)",
-    "org": "TOOMUS",
-    "title": "총괄 디렉터",
-    "tel": "010-5555-0200",
-    "email": "contact@toomus.com",
+    "formattedName": "Alex Rivera (Managing Director)",
+    "org": "NEXUS GLOBAL",
+    "title": "Managing Director",
+    "tel": "010-5555-0100",
+    "email": "contact@nexus-global.io",
     "url": "https://setupod.com",
-    "note": "ENDLESS POTENTIAL | 무한한 가능성을 연결하는 비즈니스 플랫폼"
+    "note": "NEXUS GLOBAL | Connecting Possibilities"
   },
   "meta": {
-    "title": "TOOMUS | Alex Rivera 디렉터 디지털 명함",
-    "siteName": "TOOMUS",
-    "ogTitle": "Alex Rivera 디렉터 | TOOMUS",
-    "ogDescription": "ENDLESS POTENTIAL | TOOMUS 공식 디지털 명함",
-    "ogImage": "assets/toomus_master_ci.png"
+    "title": "NEXUS GLOBAL | Alex Rivera Digital Card",
+    "siteName": "NEXUS GLOBAL",
+    "ogTitle": "Alex Rivera | NEXUS GLOBAL",
+    "ogDescription": "NEXUS GLOBAL Official Digital Card",
+    "ogImage": "assets/setupod_symbol.png"
   }
 }

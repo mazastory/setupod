@@ -1,14 +1,14 @@
 {
-  "slug": "maza",
+  "slug": "setupod",
   "theme": "violet",
   "company": "SETUPOD",
   "companyWatermark": "SETUPOD",
-  "slogan": "비즈니스의 압도적인 첫인상, 3D 디지털 명함",
-  "tagline": "SETUP YOUR BUSINESS",
-  "role": "대표이사",
-  "name": "김민준",
+  "slogan": "차세대 올인원 비즈니스 자산 & 3D 인터랙티브 명함",
+  "tagline": "ALL-IN-ONE BUSINESS ASSET",
+  "role": "총괄 디렉터",
+  "name": "Alex Rivera",
   "phone": "010-5555-0100",
-  "phoneLabel": "T",
+  "phoneLabel": "M",
   "email": "official@setupod.com",
   "emailLabel": "E",
   "moatTags": [
@@ -30,7 +30,7 @@
     {
       "type": "kakao",
       "url": "https://open.kakao.com",
-      "label": "카카오톡 상담",
+      "label": "카카오톡 채널",
       "color": "#ffd978"
     },
     {
@@ -41,21 +41,21 @@
     }
   ],
   "vcard": {
-    "lastName": "김",
-    "firstName": "민준",
-    "formattedName": "김민준 (대표이사)",
+    "lastName": "Rivera",
+    "firstName": "Alex",
+    "formattedName": "Alex Rivera (총괄 디렉터)",
     "org": "SETUPOD",
-    "title": "대표이사",
+    "title": "총괄 디렉터",
     "tel": "010-5555-0100",
     "email": "official@setupod.com",
     "url": "https://setupod.com",
-    "note": "SETUPOD | 차세대 올인원 비즈니스 자산 솔루션"
+    "note": "SETUPOD | 차세대 올인원 비즈니스 자산 & 3D 인터랙티브 명함"
   },
   "meta": {
-    "title": "SETUPOD | 김민준 대표이사 디지털 명함",
+    "title": "SETUPOD | Alex Rivera 디렉터 디지털 명함",
     "siteName": "SETUPOD",
-    "ogTitle": "김민준 대표이사 | SETUPOD",
-    "ogDescription": "차세대 올인원 비즈니스 자산 솔루션 | SETUPOD 공식 디지털 명함",
+    "ogTitle": "Alex Rivera 디렉터 | SETUPOD",
+    "ogDescription": "ALL-IN-ONE BUSINESS ASSET | SETUPOD 공식 디지털 명함",
     "ogImage": "assets/setupod_symbol.png"
   }
 }

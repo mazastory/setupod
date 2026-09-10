@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 );
 
 -- 2. 유저별 컴포넌트 팟 데이터 (3D 명함, 카카오, 인스타, 링크 등)
--- slug 는 개인 고유 슬러그 (예: 'alex') 또는 기업/팀원 네임스페이스 (예: 'toomus/alex') 지원
+-- slug 는 개인 고유 슬러그 (예: 'alex') 또는 기업/팀원 네임스페이스 (예: 'setupod/alex') 지원
 CREATE TABLE IF NOT EXISTS public.pods (
   id BIGSERIAL PRIMARY KEY,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
