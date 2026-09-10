@@ -5,16 +5,16 @@
   "companyWatermark": "MAZA",
   "slogan": "플립마켓에서 달러자산 플랫폼으로",
   "tagline": "BUILD · SCALE · EXIT",
-  "role": "이사",
-  "name": "Andrew K",
-  "phone": "010-8186-0010",
+  "role": "대표이사",
+  "name": "김민준",
+  "phone": "010-5555-0100",
   "phoneLabel": "T",
-  "email": "maza@mazastudio.kr",
+  "email": "official@setupod.com",
   "emailLabel": "E",
   "moatTags": [
-    "디지털 자산 구축",
-    "글로벌 플립 매각",
-    "수익형 플랫폼 빌드"
+    "3D 인터랙티브",
+    "vCard 주소록 저장",
+    "올인원 멀티링크"
   ],
   "logo": {
     "src": "assets/logo.gif",
@@ -22,39 +22,39 @@
     "alt": "MAZA STUDIO Logo"
   },
   "primaryAction": {
-    "url": "https://about.mazastudio.kr",
-    "label": "MAZA 바로가기",
+    "url": "https://setupod.com",
+    "label": "공식 웹사이트",
     "icon": "sparkles"
   },
   "socials": [
     {
       "type": "kakao",
       "url": "https://open.kakao.com/o/sySmTxKi",
-      "label": "mazastudio",
+      "label": "카카오톡 상담",
       "color": "#ffd978"
     },
     {
       "type": "instagram",
-      "url": "https://instagram.com/mazabase",
-      "label": "인스타",
+      "url": "https://instagram.com",
+      "label": "인스타그램",
       "color": "#f472b6"
     }
   ],
   "vcard": {
-    "lastName": "K",
-    "firstName": "Andrew",
-    "formattedName": "Andrew K (이사)",
+    "lastName": "김",
+    "firstName": "민준",
+    "formattedName": "김민준 (대표이사)",
     "org": "MAZA STUDIO",
-    "title": "이사",
-    "tel": "010-8186-0010",
-    "email": "maza@mazastudio.kr",
-    "url": "https://about.mazastudio.kr",
-    "note": "플립마켓에서 달러자산 플랫폼으로 | 디지털 자산화 & 플립 비즈니스 아키텍트"
+    "title": "대표이사",
+    "tel": "010-5555-0100",
+    "email": "official@setupod.com",
+    "url": "https://setupod.com",
+    "note": "플립마켓에서 달러자산 플랫폼으로 | 디지털 자산화 & 3D 비즈니스 카드"
   },
   "meta": {
-    "title": "MAZA STUDIO | Andrew K 이사 디지털 명함",
+    "title": "MAZA STUDIO | 김민준 대표이사 디지털 명함",
     "siteName": "MAZA STUDIO",
-    "ogTitle": "Andrew K 이사 | MAZA STUDIO",
+    "ogTitle": "김민준 대표이사 | MAZA STUDIO",
     "ogDescription": "플립마켓에서 달러자산 플랫폼으로 | MAZA STUDIO 공식 디지털 명함",
     "ogImage": "assets/business_card_mockup.png"
   }

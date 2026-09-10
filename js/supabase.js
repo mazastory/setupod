@@ -83,7 +83,7 @@ async function syncPodToCloud(slug, profileData, componentsData) {
 
   if (profileErr) return { error: profileErr.message };
 
-  // 팟 컴포넌트 목록 업데이트/생성
+  // 팟 컴포넌트 목록 업데이트/생성 (slug 기준 upsert)
   const { error: podErr } = await supabaseClient
     .from('pods')
     .upsert({
@@ -91,11 +91,77 @@ async function syncPodToCloud(slug, profileData, componentsData) {
       slug: slug,
       components_json: componentsData,
       updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' });
+    }, { onConflict: 'slug' });
 
   if (podErr) return { error: podErr.message };
 
   return { success: true };
+}
+
+// 7-2. 팀/기업 명함 일괄 클라우드 저장
+async function syncTeamPodsToCloud(companySlug, companyData, members) {
+  const user = await getCurrentUser();
+  if (!user) return { error: "로그인이 필요합니다." };
+
+  const results = [];
+  const cleanCompSlug = companySlug.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+
+  for (const m of members) {
+    const memberSlug = (m.slug || m.name).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    const fullSlug = `${cleanCompSlug}/${memberSlug}`;
+
+    const cardModel = {
+      theme: companyData.theme || 'obsidian',
+      name: m.name,
+      role: m.role,
+      company: companyData.company,
+      companyWatermark: companyData.watermark || companyData.company,
+      slogan: companyData.slogan || '',
+      tagline: companyData.tagline || 'ALL-IN-ONE BUSINESS ASSET',
+      phone: m.phone || '',
+      email: m.email || '',
+      moatTags: companyData.tags || ['3D 인터랙티브', 'vCard 주소록 저장', '올인원 멀티링크'],
+      primaryAction: {
+        url: companyData.websiteUrl || 'https://setupod.com',
+        label: companyData.websiteLabel || '공식 웹사이트'
+      },
+      socials: [
+        { type: 'kakao', url: companyData.kakaoUrl || '#', label: companyData.kakaoLabel || '카카오톡' },
+        { type: 'instagram', url: companyData.instaUrl || '#', label: companyData.instaLabel || '인스타그램' }
+      ],
+      logo: {
+        src: companyData.logoSrc || 'assets/logo.gif',
+        fallback: 'assets/logo.gif',
+        alt: companyData.company
+      },
+      vcard: {
+        firstName: m.name,
+        org: companyData.company,
+        title: m.role,
+        tel: m.phone,
+        email: m.email,
+        url: `https://setupod.com/${fullSlug}`
+      }
+    };
+
+    const { error: err } = await supabaseClient
+      .from('pods')
+      .upsert({
+        user_id: user.id,
+        slug: fullSlug,
+        components_json: { card: cardModel },
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'slug' });
+
+    if (err) {
+      console.warn(`Failed to sync pod ${fullSlug}:`, err);
+      results.push({ slug: fullSlug, success: false, error: err.message });
+    } else {
+      results.push({ slug: fullSlug, success: true });
+    }
+  }
+
+  return { success: true, results };
 }
 
 // 8. 클라우드에서 팟 불러오기 (공개 페이지 조회)

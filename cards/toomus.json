@@ -5,11 +5,11 @@
   "companyWatermark": "TOOMUS",
   "slogan": "무한한 가능성을 연결하는 비즈니스 플랫폼",
   "tagline": "ENDLESS POTENTIAL",
-  "role": "이사",
-  "name": "Andrew K",
-  "phone": "010-2661-0070",
+  "role": "총괄 디렉터",
+  "name": "Alex Rivera",
+  "phone": "010-5555-0200",
   "phoneLabel": "M",
-  "email": "maza@mazastudio.kr",
+  "email": "contact@toomus.com",
   "emailLabel": "E",
   "moatTags": [
     "디지털 자산화",
@@ -22,8 +22,8 @@
     "alt": "TOOMUS Logo"
   },
   "primaryAction": {
-    "url": "https://about.mazastudio.kr",
-    "label": "MAZA 바로가기",
+    "url": "https://setupod.com",
+    "label": "공식 웹사이트",
     "icon": "sparkles"
   },
   "socials": [
@@ -40,8 +40,8 @@
       "channels": [
         {
           "name": "Instagram",
-          "id": "@mazabase",
-          "url": "https://instagram.com/mazabase",
+          "id": "@toomus",
+          "url": "https://instagram.com",
           "badge": "OFFICIAL",
           "icon": "instagram"
         },
@@ -70,20 +70,20 @@
     }
   ],
   "vcard": {
-    "lastName": "K",
-    "firstName": "Andrew",
-    "formattedName": "Andrew K (이사)",
+    "lastName": "Rivera",
+    "firstName": "Alex",
+    "formattedName": "Alex Rivera (총괄 디렉터)",
     "org": "TOOMUS",
-    "title": "이사",
-    "tel": "010-2661-0070",
-    "email": "maza@mazastudio.kr",
-    "url": "https://about.mazastudio.kr",
+    "title": "총괄 디렉터",
+    "tel": "010-5555-0200",
+    "email": "contact@toomus.com",
+    "url": "https://setupod.com",
     "note": "ENDLESS POTENTIAL | 무한한 가능성을 연결하는 비즈니스 플랫폼"
   },
   "meta": {
-    "title": "TOOMUS | Andrew K 이사 디지털 명함",
+    "title": "TOOMUS | Alex Rivera 디렉터 디지털 명함",
     "siteName": "TOOMUS",
-    "ogTitle": "Andrew K 이사 | TOOMUS",
+    "ogTitle": "Alex Rivera 디렉터 | TOOMUS",
     "ogDescription": "ENDLESS POTENTIAL | TOOMUS 공식 디지털 명함",
     "ogImage": "assets/toomus_master_ci.png"
   }

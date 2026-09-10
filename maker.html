@@ -24,6 +24,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
   <!-- 동적 테마 CSS (프리뷰 카드용) -->
   <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
 
@@ -739,6 +743,284 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    /* 모드 전환 탭 (1인 개인 vs 기업 단체) */
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 8px;
+    }
+
+    .mode-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .mode-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .mode-tab.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(99, 102, 241, 0.25));
+      color: #ffffff;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25);
+    }
+
+    .badge-free {
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #10b981;
+      color: #032014;
+      letter-spacing: 0.05em;
+    }
+
+    /* 팀원 관리 스타일 */
+    .team-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .team-actions-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-team-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-team-action:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-team-action.primary {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      border-color: transparent;
+      color: #ffffff;
+    }
+
+    .team-member-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .team-member-item:hover, .team-member-item.active-preview {
+      border-color: rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.06);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .team-member-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .team-member-slug-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      font-family: monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .team-member-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .team-member-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .team-member-contacts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .team-member-contacts {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 발행된 링크 목록 리스트 */
+    .published-urls-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .url-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      font-size: 12.5px;
+      gap: 12px;
+    }
+
+    .url-info-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .url-member-name {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .url-text {
+      font-family: monospace;
+      color: #c084fc;
+      word-break: break-all;
+    }
+
+    .url-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-icon-sm {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon-sm:hover {
+      background: var(--maker-accent);
+      border-color: var(--maker-accent);
+    }
+
+    /* 모달 오버레이 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #130c22;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 580px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #ffffff;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -754,11 +1036,11 @@
         <i data-lucide="link" style="width:14px;height:14px;color:#38bdf8;"></i>
         <span>멀티링크 뷰</span>
       </a>
-      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('maza')">
+      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('setupod')" title="SETUPOD 공식 명함 프리셋">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>MAZA</span>
+        <span>SETUPOD</span>
       </button>
-      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('toomus')">
+      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('toomus')" title="TOOMUS 비즈니스 프리셋">
         <i data-lucide="layers" style="width:14px;height:14px;"></i>
         <span>TOOMUS</span>
       </button>
@@ -774,6 +1056,22 @@
 
     <!-- 좌측 에디터 패널 -->
     <div class="editor-panel">
+
+      <!-- 모드 전환 탭 (1인 개인 vs 기업 단체) -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" id="tabSingle" onclick="switchMakerMode('single')">
+          <i data-lucide="user" style="width:16px;height:16px;"></i>
+          <span>1인 개인 명함 제작</span>
+        </button>
+        <button class="mode-tab" id="tabTeam" onclick="switchMakerMode('team')">
+          <i data-lucide="building-2" style="width:16px;height:16px;color:#c084fc;"></i>
+          <span>🏢 기업 / 팀원 단체 발행</span>
+          <span class="badge-free">무제한 무료</span>
+        </button>
+      </div>
+
+      <!-- [패널 A] 1인 개인 명함 에디터 -->
+      <div id="panelSingle" style="display:flex;flex-direction:column;gap:28px;">
 
       <!-- 1. 테마 선택 -->
       <div>
@@ -921,6 +1219,142 @@
         </button>
       </div>
 
+      </div> <!-- /[패널 A] 1인 개인 명함 에디터 -->
+
+      <!-- [패널 B] 기업 / 팀원 단체 일괄 발행 에디터 -->
+      <div id="panelTeam" style="display:none;flex-direction:column;gap:24px;">
+
+        <!-- 안내 배너 -->
+        <div style="background:linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.1));border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;">
+          <i data-lucide="shield-check" style="width:20px;height:20px;color:#a855f7;flex-shrink:0;margin-top:2px;"></i>
+          <div style="font-size:12.5px;line-height:1.6;color:rgba(255,255,255,0.85);">
+            <strong style="color:#ffffff;">동명이인 충돌 없는 기업 전용 네임스페이스 무료 지원</strong><br>
+            회사 영문 코드를 등록하면 모든 팀원이 <code style="color:#38bdf8;">setupod.com/회사명/직원ID</code> 고유 주소를 즉시 무료로 발급받습니다.
+          </div>
+        </div>
+
+        <!-- 1. 회사 공통 브랜딩 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="building" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">1. 회사 공통 브랜드 & 테마</h2>
+          </div>
+
+          <!-- 테마 선택 -->
+          <div class="theme-selector" style="margin-bottom:14px;">
+            <div class="theme-card" data-team-theme="violet" onclick="selectTeamTheme('violet', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
+              <span class="theme-name">Violet Luxury</span>
+            </div>
+            <div class="theme-card active" data-team-theme="obsidian" onclick="selectTeamTheme('obsidian', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
+              <span class="theme-name">Obsidian Dark</span>
+            </div>
+            <div class="theme-card" data-team-theme="emerald" onclick="selectTeamTheme('emerald', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
+              <span class="theme-name">Emerald Tech</span>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">회사 / 브랜드 공식 명칭 <span class="sub">필수</span></label>
+              <input type="text" id="teamCompany" class="form-input" value="TOOMUS" placeholder="예: TOOMUS, SETUPOD" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">회사 영문 슬러그 <span class="sub">URL 경로 식별자</span></label>
+              <input type="text" id="teamCompanySlug" class="form-input" value="toomus" placeholder="예: toomus, apple" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group full-width">
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:10px;border:1px dashed rgba(56,189,248,0.35);">
+                <i data-lucide="link-2" style="width:14px;height:14px;color:#38bdf8;"></i>
+                <span>발행 URL 프리픽스: <strong id="teamUrlPrefix" style="color:#38bdf8;font-family:monospace;">https://setupod.com/toomus/</strong>[직원영문ID]</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">배경 워터마크 영문</label>
+              <input type="text" id="teamWatermark" class="form-input" value="TOOMUS" placeholder="예: TOOMUS" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">영문 각인 태그라인</label>
+              <input type="text" id="teamTagline" class="form-input" value="ENDLESS POTENTIAL" placeholder="예: ENDLESS POTENTIAL" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">회사 슬로건 / 비전</label>
+              <input type="text" id="teamSlogan" class="form-input" value="무한한 가능성을 연결하는 비즈니스 플랫폼" placeholder="회사의 핵심 비전" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">공식 웹사이트 URL</label>
+              <input type="url" id="teamWebsiteUrl" class="form-input" value="https://setupod.com" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">웹사이트 버튼 텍스트</label>
+              <input type="text" id="teamWebsiteLabel" class="form-input" value="공식 웹사이트" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">카카오톡 채널 링크</label>
+              <input type="url" id="teamKakaoUrl" class="form-input" value="https://open.kakao.com/o/sySmTxKi" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">카카오 버튼 텍스트</label>
+              <input type="text" id="teamKakaoLabel" class="form-input" value="카카오톡 상담" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">인스타그램 URL</label>
+              <input type="text" id="teamInstaUrl" class="form-input" value="https://instagram.com" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">인스타 버튼 텍스트</label>
+              <input type="text" id="teamInstaLabel" class="form-input" value="인스타그램" oninput="liveUpdateTeam()">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 임직원 명단 관리 -->
+        <div>
+          <div class="team-header-row">
+            <div class="section-title-wrap" style="margin-bottom:0;">
+              <div class="section-icon-box"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
+              <h2 class="section-title">2. 임직원 명단 (<span id="teamMemberCount">3</span>명)</h2>
+            </div>
+            <div class="team-actions-row">
+              <button class="btn-team-action" onclick="openBatchModal()">
+                <i data-lucide="clipboard-paste" style="width:14px;height:14px;"></i>
+                <span>📋 엑셀/일괄 붙여넣기</span>
+              </button>
+              <button class="btn-team-action primary" onclick="addTeamMember()">
+                <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+                <span>+ 팀원 1명 추가</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="teamMembersList"></div>
+        </div>
+
+        <!-- 3. 실시간 생성된 팀원 명함 URL 목록 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="globe" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">3. 실시간 생성된 팀원 명함 링크</h2>
+          </div>
+          <div class="published-urls-card" id="teamPublishedUrlsList"></div>
+        </div>
+
+        <!-- 하단 단체 발행 액션바 -->
+        <div class="publish-bar">
+          <button class="btn-publish btn-publish-secondary" onclick="exportTeamData()">
+            <i data-lucide="download" style="width:18px;height:18px;"></i>
+            <span>전체 명단 JSON 다운로드</span>
+          </button>
+          <button class="btn-publish btn-publish-main" onclick="publishTeamToCloud()">
+            <i data-lucide="cloud-upload" style="width:18px;height:18px;"></i>
+            <span>클라우드 전원 일괄 발행</span>
+          </button>
+        </div>
+
+      </div> <!-- /[패널 B] -->
+
     </div>
 
     <!-- 우측 라이브 3D 프리뷰 컬럼 -->
@@ -953,9 +1387,9 @@
                 </div>
 
                 <div class="front-info-container">
-                  <div class="brand-sub-engraving" id="frontTagline">BUILD · SCALE · EXIT</div>
-                  <div class="front-company" id="frontCompany">MAZA STUDIO</div>
-                  <div class="front-slogan" id="frontSlogan">플립마켓에서 달러자산 플랫폼으로</div>
+                  <div class="brand-sub-engraving" id="frontTagline">ALL-IN-ONE BUSINESS ASSET</div>
+                  <div class="front-company" id="frontCompany">SETUPOD</div>
+                  <div class="front-slogan" id="frontSlogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
 
                   <div class="moat-tags" id="frontMoatTags"></div>
 
@@ -976,23 +1410,23 @@
                 </div>
 
                 <div class="back-info-container">
-                  <div class="brand-sub-engraving" id="backTagline">BUILD · SCALE · EXIT</div>
-                  <div class="back-company-name" id="backCompany">MAZA STUDIO</div>
-                  <div class="back-company-slogan" id="backSlogan">플립마켓에서 달러자산 플랫폼으로</div>
+                  <div class="brand-sub-engraving" id="backTagline">ALL-IN-ONE BUSINESS ASSET</div>
+                  <div class="back-company-name" id="backCompany">SETUPOD</div>
+                  <div class="back-company-slogan" id="backSlogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
 
                   <div class="profile-row">
-                    <span class="role-title" id="roleTitle">이사</span>
-                    <span class="name-title" id="nameTitle">Andrew K</span>
+                    <span class="role-title" id="roleTitle">대표이사</span>
+                    <span class="name-title" id="nameTitle">김민준</span>
                   </div>
 
                   <div class="contact-group">
                     <div class="contact-row">
                       <span class="contact-key" id="phoneKey">T</span>
-                      <span class="contact-value" id="phoneValue">010-8186-0010</span>
+                      <span class="contact-value" id="phoneValue">010-5555-0100</span>
                     </div>
                     <div class="contact-row">
                       <span class="contact-key" id="emailKey">E</span>
-                      <span class="contact-value" id="emailValue">maza@mazastudio.kr</span>
+                      <span class="contact-value" id="emailValue">official@setupod.com</span>
                     </div>
                   </div>
 
@@ -1187,30 +1621,30 @@
     }
 
     function loadPreset(type) {
-      if (type === 'maza') {
+      if (type === 'setupod' || type === 'maza') {
         selectTheme('violet', document.querySelector('[data-theme="violet"]'));
-        document.getElementById('inputName').value = "Andrew K";
-        document.getElementById('inputRole').value = "이사";
-        document.getElementById('inputCompany').value = "MAZA STUDIO";
-        document.getElementById('inputWatermark').value = "MAZA";
-        document.getElementById('inputSlogan').value = "플립마켓에서 달러자산 플랫폼으로";
-        document.getElementById('inputTagline').value = "BUILD · SCALE · EXIT";
-        document.getElementById('inputPhone').value = "010-8186-0010";
-        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
-        document.getElementById('inputTag1').value = "디지털 자산 구축";
-        document.getElementById('inputTag2').value = "글로벌 플립 매각";
-        document.getElementById('inputTag3').value = "수익형 플랫폼 빌드";
+        document.getElementById('inputName').value = "Alex Rivera";
+        document.getElementById('inputRole').value = "대표이사";
+        document.getElementById('inputCompany').value = "SETUPOD";
+        document.getElementById('inputWatermark').value = "SETUPOD";
+        document.getElementById('inputSlogan').value = "차세대 올인원 비즈니스 자산 & 3D 명함";
+        document.getElementById('inputTagline').value = "ALL-IN-ONE BUSINESS ASSET";
+        document.getElementById('inputPhone').value = "010-5555-0100";
+        document.getElementById('inputEmail').value = "official@setupod.com";
+        document.getElementById('inputTag1').value = "3D 인터랙티브";
+        document.getElementById('inputTag2').value = "vCard 주소록 저장";
+        document.getElementById('inputTag3').value = "올인원 멀티링크";
         currentLogoSrc = 'assets/logo.gif';
       } else if (type === 'toomus') {
         selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
-        document.getElementById('inputName').value = "Andrew K";
-        document.getElementById('inputRole').value = "이사";
+        document.getElementById('inputName').value = "김민준";
+        document.getElementById('inputRole').value = "총괄 디렉터";
         document.getElementById('inputCompany').value = "TOOMUS";
         document.getElementById('inputWatermark').value = "TOOMUS";
         document.getElementById('inputSlogan').value = "무한한 가능성을 연결하는 비즈니스 플랫폼";
         document.getElementById('inputTagline').value = "ENDLESS POTENTIAL";
-        document.getElementById('inputPhone').value = "010-2661-0070";
-        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
+        document.getElementById('inputPhone').value = "010-5555-0200";
+        document.getElementById('inputEmail').value = "contact@toomus.com";
         document.getElementById('inputTag1').value = "디지털 자산화";
         document.getElementById('inputTag2').value = "전략적 비즈니스 빌드";
         document.getElementById('inputTag3').value = "글로벌 파트너십";
@@ -1222,11 +1656,480 @@
       showToast(`${type.toUpperCase()} 프리셋이 로드되었습니다.`);
     }
 
+    // ==========================================
+    // 팀 / 기업 단체 일괄 발행 시스템
+    // ==========================================
+    let currentMode = 'single';
+    let currentTeamTheme = 'obsidian';
+    let activeTeamPreviewIndex = 0;
+
+    let teamMembers = [
+      {
+        slug: 'alex',
+        name: 'Alex Rivera',
+        role: '대표이사 / CEO',
+        phone: '010-5555-0100',
+        email: 'alex@toomus.com'
+      },
+      {
+        slug: 'minjun',
+        name: '김민준',
+        role: '총괄 디렉터 / VP',
+        phone: '010-5555-0200',
+        email: 'minjun@toomus.com'
+      },
+      {
+        slug: 'seoyeon',
+        name: '이서연',
+        role: '수석 제품 디자이너',
+        phone: '010-5555-0300',
+        email: 'seoyeon@toomus.com'
+      }
+    ];
+
+    function switchMakerMode(mode) {
+      currentMode = mode;
+      const tabSingle = document.getElementById('tabSingle');
+      const tabTeam = document.getElementById('tabTeam');
+      const panelSingle = document.getElementById('panelSingle');
+      const panelTeam = document.getElementById('panelTeam');
+
+      if (mode === 'single') {
+        tabSingle.classList.add('active');
+        tabTeam.classList.remove('active');
+        panelSingle.style.display = 'flex';
+        panelTeam.style.display = 'none';
+        document.getElementById('themeStylesheet').href = `themes/${currentTheme}.css`;
+        liveUpdate();
+      } else {
+        tabSingle.classList.remove('active');
+        tabTeam.classList.add('active');
+        panelSingle.style.display = 'none';
+        panelTeam.style.display = 'flex';
+        document.getElementById('themeStylesheet').href = `themes/${currentTeamTheme}.css`;
+        renderTeamRoster();
+        liveUpdateTeam();
+      }
+      lucide.createIcons();
+    }
+
+    function selectTeamTheme(themeName, el) {
+      currentTeamTheme = themeName;
+      document.querySelectorAll('[data-team-theme]').forEach(c => c.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.getElementById('themeStylesheet').href = `themes/${themeName}.css`;
+      liveUpdateTeam();
+      showToast(`팀 테마가 ${themeName.toUpperCase()}로 변경되었습니다.`);
+    }
+
+    function renderTeamRoster() {
+      const container = document.getElementById('teamMembersList');
+      const countEl = document.getElementById('teamMemberCount');
+      if (countEl) countEl.innerText = teamMembers.length;
+
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'toomus').trim().toLowerCase();
+
+      let html = '';
+      teamMembers.forEach((m, idx) => {
+        const isAct = (idx === activeTeamPreviewIndex);
+        html += `
+          <div class="team-member-item ${isAct ? 'active-preview' : ''}" id="teamMemberRow_${idx}">
+            <div class="team-member-top">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:700;color:#c084fc;">#${idx + 1}</span>
+                <span class="team-member-slug-badge">
+                  <i data-lucide="link" style="width:12px;height:12px;"></i>
+                  /${compSlug}/${m.slug || 'id'}
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <button class="btn-team-action ${isAct ? 'primary' : ''}" style="padding:4px 8px;font-size:11px;" onclick="previewTeamMember(${idx})">
+                  <i data-lucide="eye" style="width:12px;height:12px;"></i>
+                  <span>${isAct ? '3D 보는 중' : '3D 미리보기'}</span>
+                </button>
+                <button class="btn-icon-sm" style="color:#ef4444;" onclick="deleteTeamMember(${idx})" title="팀원 삭제">
+                  <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="team-member-inputs">
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">영문 식별 ID (슬러그)</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.slug}" placeholder="예: alex" oninput="updateMemberField(${idx}, 'slug', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">이름</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.name}" placeholder="예: Alex Rivera" oninput="updateMemberField(${idx}, 'name', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">직함 / 포지션</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.role}" placeholder="예: 대표이사, 팀장" oninput="updateMemberField(${idx}, 'role', this.value)">
+              </div>
+            </div>
+            <div class="team-member-contacts">
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">전화번호</label>
+                <input type="tel" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.phone}" placeholder="010-0000-0000" oninput="updateMemberField(${idx}, 'phone', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">이메일</label>
+                <input type="email" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.email}" placeholder="member@company.com" oninput="updateMemberField(${idx}, 'email', this.value)">
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      if (container) container.innerHTML = html;
+      renderPublishedUrlsList();
+      lucide.createIcons();
+    }
+
+    function updateMemberField(idx, field, val) {
+      if (!teamMembers[idx]) return;
+      teamMembers[idx][field] = val;
+      if (idx === activeTeamPreviewIndex) {
+        liveUpdateTeam();
+      }
+      renderPublishedUrlsList();
+    }
+
+    function addTeamMember() {
+      const newNum = teamMembers.length + 1;
+      teamMembers.push({
+        slug: `member${newNum}`,
+        name: `팀원 ${newNum}`,
+        role: '팀원',
+        phone: '010-5555-0000',
+        email: `member${newNum}@company.com`
+      });
+      activeTeamPreviewIndex = teamMembers.length - 1;
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast('새 팀원이 추가되었습니다!');
+    }
+
+    function deleteTeamMember(idx) {
+      if (teamMembers.length <= 1) {
+        showToast('최소 1명의 팀원은 유지되어야 합니다.');
+        return;
+      }
+      teamMembers.splice(idx, 1);
+      if (activeTeamPreviewIndex >= teamMembers.length) {
+        activeTeamPreviewIndex = teamMembers.length - 1;
+      }
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast('팀원이 삭제되었습니다.');
+    }
+
+    function previewTeamMember(idx) {
+      activeTeamPreviewIndex = idx;
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast(`${teamMembers[idx].name} 님의 명함으로 3D 뷰가 전환되었습니다.`);
+    }
+
+    function renderPublishedUrlsList() {
+      const container = document.getElementById('teamPublishedUrlsList');
+      if (!container) return;
+
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'toomus').trim().toLowerCase();
+
+      let html = '';
+      teamMembers.forEach((m) => {
+        const fullSlug = `${compSlug}/${m.slug || 'id'}`;
+        const url = `https://setupod.com/${fullSlug}`;
+        html += `
+          <div class="url-item-row">
+            <div class="url-info-left">
+              <span class="url-member-name">${m.name || '팀원'} (${m.role || '팀원'})</span>
+              <span class="url-text">${url}</span>
+            </div>
+            <div class="url-actions">
+              <button class="btn-icon-sm" onclick="copyUrlToClipboard('${url}')" title="URL 복사">
+                <i data-lucide="copy" style="width:14px;height:14px;"></i>
+              </button>
+              <a href="/${fullSlug}" target="_blank" class="btn-icon-sm" title="새 창에서 명함 열기">
+                <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    function liveUpdateTeam() {
+      if (currentMode !== 'team') return;
+      const m = teamMembers[activeTeamPreviewIndex] || teamMembers[0] || {};
+
+      const company = document.getElementById('teamCompany')?.value || 'TOOMUS';
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'toomus').trim().toLowerCase();
+      const watermark = document.getElementById('teamWatermark')?.value || company;
+      const slogan = document.getElementById('teamSlogan')?.value || '';
+      const tagline = document.getElementById('teamTagline')?.value || '';
+
+      const prefixEl = document.getElementById('teamUrlPrefix');
+      if (prefixEl) prefixEl.innerText = `https://setupod.com/${compSlug}/`;
+
+      const webUrl = document.getElementById('teamWebsiteUrl')?.value || '#';
+      const webLabel = document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트';
+      const kakaoUrl = document.getElementById('teamKakaoUrl')?.value || '#';
+      const kakaoLabel = document.getElementById('teamKakaoLabel')?.value || '카카오톡';
+      const instaUrl = document.getElementById('teamInstaUrl')?.value || '#';
+      const instaLabel = document.getElementById('teamInstaLabel')?.value || '인스타그램';
+
+      // 3D 카드 뷰 바인딩
+      document.getElementById('frontCompany').innerText = company;
+      document.getElementById('backCompany').innerText = company;
+      document.getElementById('frontSlogan').innerText = slogan;
+      document.getElementById('backSlogan').innerText = slogan;
+      document.getElementById('frontTagline').innerText = tagline;
+      document.getElementById('backTagline').innerText = tagline;
+      document.getElementById('roleTitle').innerText = m.role || '팀원';
+      document.getElementById('nameTitle').innerText = m.name || '팀원';
+      document.getElementById('phoneValue').innerText = m.phone || '';
+      document.getElementById('emailValue').innerText = m.email || '';
+
+      renderWatermark(watermark);
+
+      // 해자 태그
+      const tagHtml = `<span class="moat-tag">3D 인터랙티브</span><span class="moat-tag">vCard 자동저장</span><span class="moat-tag">기업 공식명함</span>`;
+      document.getElementById('frontMoatTags').innerHTML = tagHtml;
+      document.getElementById('backMoatTags').innerHTML = tagHtml;
+
+      // 액션 도크
+      const dockHtml = `
+        <div class="inside-action-row">
+          <button class="btn-action btn-save" onclick="event.stopPropagation(); downloadMemberVcard(${activeTeamPreviewIndex});">
+            <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+            <span>연락처 저장</span>
+          </button>
+          <a href="${webUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>${webLabel}</span>
+          </a>
+        </div>
+        <div class="inside-action-row">
+          <a href="${kakaoUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
+            <span>${kakaoLabel}</span>
+          </a>
+          <a href="${instaUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+            <span>${instaLabel}</span>
+          </a>
+        </div>
+      `;
+
+      document.getElementById('frontActionDock').innerHTML = dockHtml;
+      document.getElementById('backActionDock').innerHTML = dockHtml;
+
+      lucide.createIcons();
+    }
+
+    function downloadMemberVcard(idx) {
+      const m = teamMembers[idx] || {};
+      const comp = document.getElementById('teamCompany')?.value || 'TOOMUS';
+      const vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${m.name}`,
+        `ORG:${comp}`,
+        `TITLE:${m.role}`,
+        `TEL;TYPE=CELL:${m.phone}`,
+        `EMAIL;TYPE=WORK:${m.email}`,
+        'END:VCARD'
+      ].join('\r\n');
+
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${m.name}_${comp}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`${m.name} 님의 연락처(vCard)가 저장되었습니다.`);
+    }
+
+    function openBatchModal() {
+      document.getElementById('modalBatchPaste').style.display = 'flex';
+    }
+
+    function closeBatchModal() {
+      document.getElementById('modalBatchPaste').style.display = 'none';
+    }
+
+    function applyBatchPaste() {
+      const text = document.getElementById('batchPasteInput').value.trim();
+      if (!text) {
+        showToast('입력된 텍스트가 없습니다.');
+        return;
+      }
+
+      const lines = text.split('\n');
+      const newMembers = [];
+      lines.forEach((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        const parts = trimmed.includes('\t') ? trimmed.split('\t') : trimmed.split(/[,，]/);
+        const cleanParts = parts.map(p => p.trim());
+        
+        if (cleanParts.length >= 2) {
+          newMembers.push({
+            name: cleanParts[0] || `팀원 ${i+1}`,
+            role: cleanParts[1] || '팀원',
+            slug: (cleanParts[2] || `member${i+1}`).toLowerCase().replace(/[^a-z0-9_-]/g, ''),
+            phone: cleanParts[3] || '010-5555-0000',
+            email: cleanParts[4] || 'member@company.com'
+          });
+        }
+      });
+
+      if (newMembers.length > 0) {
+        teamMembers = newMembers;
+        activeTeamPreviewIndex = 0;
+        renderTeamRoster();
+        liveUpdateTeam();
+        closeBatchModal();
+        showToast(`${newMembers.length}명의 팀원이 성공적으로 등록되었습니다!`);
+      } else {
+        showToast('형식을 인식하지 못했습니다. 형식: 이름, 직함, 슬러그, 전화번호, 이메일');
+      }
+    }
+
+    function exportTeamData() {
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'toomus').trim().toLowerCase();
+      const data = {
+        company: document.getElementById('teamCompany')?.value || 'TOOMUS',
+        companySlug: compSlug,
+        theme: currentTeamTheme,
+        watermark: document.getElementById('teamWatermark')?.value || 'TOOMUS',
+        tagline: document.getElementById('teamTagline')?.value || '',
+        slogan: document.getElementById('teamSlogan')?.value || '',
+        website: {
+          url: document.getElementById('teamWebsiteUrl')?.value || '',
+          label: document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트'
+        },
+        kakao: {
+          url: document.getElementById('teamKakaoUrl')?.value || '',
+          label: document.getElementById('teamKakaoLabel')?.value || '카카오톡 상담'
+        },
+        instagram: {
+          url: document.getElementById('teamInstaUrl')?.value || '',
+          label: document.getElementById('teamInstaLabel')?.value || '인스타그램'
+        },
+        members: teamMembers.map(m => ({
+          ...m,
+          url: `https://setupod.com/${compSlug}/${m.slug}`
+        }))
+      };
+
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+      const a = document.createElement('a');
+      a.href = jsonStr;
+      a.download = `${compSlug}_team_digital_cards.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("팀 전체 명함 데이터가 다운로드되었습니다!");
+    }
+
+    async function publishTeamToCloud() {
+      if (typeof syncTeamPodsToCloud !== 'function') {
+        showToast("Supabase 클라우드 모듈이 연결되지 않았습니다.");
+        return;
+      }
+
+      showToast("클라우드에 팀 명함을 발행 중입니다...");
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'toomus').trim().toLowerCase();
+      const companyData = {
+        company: document.getElementById('teamCompany')?.value || 'TOOMUS',
+        theme: currentTeamTheme,
+        watermark: document.getElementById('teamWatermark')?.value || 'TOOMUS',
+        slogan: document.getElementById('teamSlogan')?.value || '',
+        tagline: document.getElementById('teamTagline')?.value || '',
+        websiteUrl: document.getElementById('teamWebsiteUrl')?.value || 'https://setupod.com',
+        websiteLabel: document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트',
+        kakaoUrl: document.getElementById('teamKakaoUrl')?.value || '#',
+        kakaoLabel: document.getElementById('teamKakaoLabel')?.value || '카카오톡',
+        instaUrl: document.getElementById('teamInstaUrl')?.value || '#',
+        instaLabel: document.getElementById('teamInstaLabel')?.value || '인스타그램',
+        logoSrc: currentLogoSrc
+      };
+
+      try {
+        const res = await syncTeamPodsToCloud(compSlug, companyData, teamMembers);
+        if (res && res.error) {
+          if (res.error.includes("로그인")) {
+            showToast("클라우드 발행을 위해 먼저 구글 로그인이 필요합니다.");
+            if (typeof signInWithGoogle === 'function') {
+              setTimeout(() => {
+                if (confirm("클라우드 저장을 위해 구글 간편 로그인을 진행할까요?")) {
+                  signInWithGoogle();
+                }
+              }, 600);
+            }
+          } else {
+            showToast(`발행 오류: ${res.error}`);
+          }
+        } else {
+          showToast(`🎉 ${teamMembers.length}명의 기업 명함이 클라우드에 발행 완료되었습니다!`);
+        }
+      } catch (err) {
+        console.error("Publish error:", err);
+        showToast("발행 중 오류가 발생했습니다.");
+      }
+    }
+
+    function copyUrlToClipboard(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast(`링크 복사 완료: ${url}`);
+      }).catch(() => {
+        showToast(`복사 실패. 링크: ${url}`);
+      });
+    }
+
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       liveUpdate();
     });
   </script>
+
+  <!-- 일괄 붙여넣기 모달 -->
+  <div id="modalBatchPaste" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeBatchModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="clipboard-paste" style="width:18px;height:18px;color:#c084fc;"></i>
+          <h3>📋 팀원 명단 일괄 붙여넣기 (엑셀 / CSV)</h3>
+        </div>
+        <button class="modal-close" onclick="closeBatchModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:10px;line-height:1.6;background:rgba(255,255,255,0.04);padding:10px 12px;border-radius:8px;">
+          엑셀에서 복사하거나 아래 형식(쉼표 또는 탭)으로 한 줄에 한 명씩 입력하세요:<br>
+          <code style="color:#38bdf8;">이름, 직함, 슬러그(영문ID), 전화번호, 이메일</code>
+        </div>
+        <textarea id="batchPasteInput" class="form-textarea" rows="7" style="width:100%;font-family:monospace;font-size:12px;" placeholder="Alex Rivera, 대표이사, alex, 010-5555-0100, alex@toomus.com
+김민준, 총괄 디렉터, minjun, 010-5555-0200, minjun@toomus.com
+이서연, 수석 디자이너, seoyeon, 010-5555-0300, seoyeon@toomus.com"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-team-action" onclick="closeBatchModal()">취소</button>
+        <button class="btn-team-action primary" onclick="applyBatchPaste()">
+          <i data-lucide="check" style="width:14px;height:14px;"></i>
+          <span>명단에 일괄 적용하기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

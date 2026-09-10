@@ -436,7 +436,17 @@ END:VCARD`;
 // 클라우드 프로필을 3D 명함 모델로 매핑
 function populateCardFromCloud(cloud, company) {
   const p = cloud.profile || {};
-  const compList = (cloud.pod && cloud.pod.components_json) ? cloud.pod.components_json : [];
+  const podJson = (cloud.pod && cloud.pod.components_json) ? cloud.pod.components_json : null;
+
+  // 1. 직접 저장된 고품질 명함 객체(card)가 있는 경우 바로 렌더링
+  if (podJson && podJson.card && podJson.card.company && podJson.card.name) {
+    populateCard(podJson.card);
+    return;
+  }
+  if (podJson && podJson.company && podJson.name) {
+    populateCard(podJson);
+    return;
+  }
 
   const role = p.handle ? p.handle.replace(/@\w+\s*[·•-]?\s*/, '').trim() : 'Creator';
   const companyName = company ? company.toUpperCase() : (p.handle && p.handle.includes('@') ? p.handle.split('·')[0].replace('@', '').trim().toUpperCase() : 'SETUPOD');
