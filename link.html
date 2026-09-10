@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SETUPOD Link | 올인원 비즈니스 멀티링크</title>
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" id="ogTitle" content="SETUPOD Link | 올인원 비즈니스 멀티링크">
+  <meta property="og:description" id="ogDesc" content="카카오톡, 인스타그램, 틱톡, 3D 명함까지 한곳에서 연결되는 스마트 프로필">
+  <meta property="og:image" content="assets/business_card_mockup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #07050d;
+      --card-bg: rgba(22, 14, 38, 0.7);
+      --border-accent: rgba(168, 85, 247, 0.3);
+      --neon-violet: #a855f7;
+      --gold-accent: #ffd978;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(circle at 50% 0%, #1a0f35 0%, #080512 60%, #030206 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 50px 0;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* ── 상단 히어로 커버 이미지 ── */
+    .cover-wrap {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%);
+    }
+
+    .cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(7, 5, 13, 0.95) 100%);
+    }
+
+    /* 상단 우측 공유/QR 액션 */
+    .top-floating-actions {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .btn-top-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-top-circle:hover {
+      background: rgba(168, 85, 247, 0.5);
+      transform: scale(1.08);
+    }
+
+    /* ── 프로필 정보 영역 ── */
+    .profile-card-area {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -60px;
+      padding: 0 20px;
+      z-index: 5;
+    }
+
+    .avatar-box {
+      width: 110px;
+      height: 110px;
+      border-radius: 30px;
+      background: #110822;
+      border: 2px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.35);
+      overflow: hidden;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .profile-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+
+    .badge-verified {
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-handle {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      word-break: keep-all;
+    }
+
+    /* ── 3D 디지털 명함 하이라이트 배너 ── */
+    .card-highlight-banner {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(99, 102, 241, 0.25) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25);
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: #ffffff;
+      margin-bottom: 18px;
+      transition: all 0.25s;
+    }
+
+    .card-highlight-banner:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(168, 85, 247, 0.45);
+      border-color: rgba(168, 85, 247, 0.7);
+    }
+
+    .card-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .card-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.4);
+    }
+
+    .card-banner-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-banner-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ── 멀티링크 버튼 리스트 ── */
+    .links-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .link-item {
+      width: 100%;
+      min-height: 58px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .link-item:hover {
+      transform: translateY(-2px);
+      background: rgba(36, 22, 60, 0.85);
+      border-color: rgba(168, 85, 247, 0.45);
+      box-shadow: 0 8px 26px rgba(168, 85, 247, 0.25);
+    }
+
+    .link-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .link-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .link-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .link-desc {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ── 리드 수집 / 1:1 상담 팝업 바 ── */
+    .lead-capture-box {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .lead-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--gold-accent);
+    }
+
+    .lead-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
+    }
+
+    .lead-input-group {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+    }
+
+    .lead-input {
+      flex: 1;
+      height: 42px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 0 12px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .lead-input:focus {
+      border-color: var(--neon-violet);
+    }
+
+    .btn-lead-submit {
+      height: 42px;
+      padding: 0 16px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* ── 하단 파워드 바이 ── */
+    .footer-powered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 12px;
+      transition: color 0.2s;
+    }
+
+    .footer-powered:hover {
+      color: #ffffff;
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-weight: 700;
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: #1e113a;
+      border: 1px solid #a855f7;
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 상단 커버 이미지 -->
+    <div class="cover-wrap">
+      <img id="coverImg" src="assets/cover.jpg" alt="Cover" class="cover-img" onerror="this.style.display='none'">
+      <div class="cover-overlay"></div>
+      
+      <div class="top-floating-actions">
+        <button class="btn-top-circle" onclick="copyPageUrl()" title="프로필 링크 복사">
+          <i data-lucide="share-2" style="width:16px;height:16px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 프로필 영역 -->
+    <div class="profile-card-area">
+      <div class="avatar-box">
+        <img id="avatarImg" src="assets/logo.gif" alt="Avatar" class="avatar-img" onerror="this.src='assets/toomus_master_ci.png'">
+      </div>
+
+      <div class="profile-name-row">
+        <h1 class="profile-name" id="profileName">Andrew K</h1>
+        <span class="badge-verified" title="인증된 비즈니스 팟">
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;fill:#38bdf8;color:#07050d;"></i>
+        </span>
+      </div>
+
+      <div class="profile-handle" id="profileHandle">@mazastudio · 이사</div>
+      <p class="profile-bio" id="profileBio">플립마켓에서 달러자산 플랫폼으로<br>디지털 자산화 & 글로벌 비즈니스 아키텍트</p>
+
+      <!-- 🌟 핵심: 3D 디지털 명함 하이라이트 배너 -->
+      <a href="card.html?id=maza" class="card-highlight-banner" id="cardBannerLink">
+        <div class="card-banner-left">
+          <div class="card-banner-icon">
+            <i data-lucide="rotate-3d" style="width:22px;height:22px;"></i>
+          </div>
+          <div>
+            <div class="card-banner-title">
+              <span>3D 공식 디지털 명함 열기</span>
+              <i data-lucide="sparkles" style="width:14px;height:14px;color:#ffd978;"></i>
+            </div>
+            <div class="card-banner-sub">손끝으로 회전하는 3D 실물 카드 & vCard 주소록 저장</div>
+          </div>
+        </div>
+        <i data-lucide="chevron-right" style="width:18px;height:18px;color:rgba(255,255,255,0.4);"></i>
+      </a>
+
+      <!-- 멀티링크 버튼 목록 -->
+      <div class="links-list" id="linksList">
+        
+        <!-- 카카오톡 1:1 상담 -->
+        <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" rel="noopener noreferrer" class="link-item">
+          <div class="link-left">
+            <div class="link-icon-box" style="background:rgba(255, 217, 120, 0.15);">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;color:#ffd978;">
+                <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="link-title">카카오톡 1:1 비즈니스 상담</div>
+              <div class="link-desc">궁금한 점은 카카오톡으로 실시간 답변 받으세요</div>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
+        </a>
+
+        <!-- 공식 인스타그램 -->
+        <a href="https://instagram.com/mazabase" target="_blank" rel="noopener noreferrer" class="link-item">
+          <div class="link-left">
+            <div class="link-icon-box" style="background:rgba(244, 114, 182, 0.15);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;color:#f472b6;">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+              </svg>
+            </div>
+            <div>
+              <div class="link-title">공식 인스타그램 @mazabase</div>
+              <div class="link-desc">최신 비즈니스 인사이트 및 릴스 소식</div>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
+        </a>
+
+        <!-- 공식 웹사이트 솔루션 -->
+        <a href="https://about.mazastudio.kr" target="_blank" rel="noopener noreferrer" class="link-item">
+          <div class="link-left">
+            <div class="link-icon-box" style="background:rgba(56, 189, 248, 0.15);">
+              <i data-lucide="globe" style="width:18px;height:18px;color:#38bdf8;"></i>
+            </div>
+            <div>
+              <div class="link-title">MAZA STUDIO 공식 웹사이트</div>
+              <div class="link-desc">플랫폼 빌드 및 글로벌 플립 솔루션 보기</div>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
+        </a>
+
+        <!-- 전화 걸기 다이렉트 -->
+        <a href="tel:010-8186-0010" class="link-item">
+          <div class="link-left">
+            <div class="link-icon-box" style="background:rgba(74, 222, 128, 0.15);">
+              <i data-lucide="phone-call" style="width:18px;height:18px;color:#4ade80;"></i>
+            </div>
+            <div>
+              <div class="link-title">직통 전화 연결</div>
+              <div class="link-desc">010-8186-0010 (터치 시 통화 연결)</div>
+            </div>
+          </div>
+          <i data-lucide="arrow-up-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
+        </a>
+
+      </div>
+
+      <!-- 리드/DB 수집 박스 (비즈니스 문의 남기기) -->
+      <div class="lead-capture-box">
+        <div class="lead-title">비즈니스 제휴 및 자료 요청</div>
+        <div class="lead-sub">연락처를 남겨주시면 최신 사업 소개서와 혜택을 전달해 드립니다.</div>
+        <div class="lead-input-group">
+          <input type="tel" id="leadPhone" class="lead-input" placeholder="전화번호 (010-0000-0000)">
+          <button class="btn-lead-submit" onclick="submitLead()">신청하기</button>
+        </div>
+      </div>
+
+      <!-- 하단 파워드 바이 셋업팟 -->
+      <a href="index.html" class="footer-powered">
+        <div class="brand-pill">
+          <i data-lucide="sparkles" style="width:12px;height:12px;color:#c084fc;"></i>
+          <span>Setup your business with <strong>SETUPOD</strong></span>
+        </div>
+        <span style="font-size:11px;opacity:0.6;">A TOOMUS Platform Company</span>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- 토스트 -->
+  <div class="toast" id="toastMsg">링크가 복사되었습니다!</div>
+
+  <script>
+    lucide.createIcons();
+
+    function showToast(text) {
+      const toast = document.getElementById('toastMsg');
+      toast.innerText = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function copyPageUrl() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast("프로필 링크가 복사되었습니다!");
+      }).catch(() => {
+        showToast("링크 복사에 실패했습니다.");
+      });
+    }
+
+    function submitLead() {
+      const phone = document.getElementById('leadPhone').value.trim();
+      if (!phone) {
+        showToast("전화번호를 입력해 주세요.");
+        return;
+      }
+      showToast("신청이 완료되었습니다! 확인 후 연락드리겠습니다.");
+      document.getElementById('leadPhone').value = "";
+    }
+  </script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 {
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/link", "destination": "/link.html" },
     { "source": "/maker", "destination": "/maker.html" },
     { "source": "/studio", "destination": "/maker.html" },
     { "source": "/card/:id", "destination": "/card.html" },
     { "source": "/:id", "destination": "/card.html" },
-    { "source": "/", "destination": "/maker.html" }
+    { "source": "/", "destination": "/index.html" }
   ]
 }
