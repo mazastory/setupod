@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>FOCUSIO | 디지털 명함</title>
+  <title>NEXT-GEN 3D DIGITAL BUSINESS CARD | 공식 플랫폼</title>
 
-  <!-- OpenGraph Placeholder -->
+  <!-- OpenGraph -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="FOCUSIO">
-  <meta property="og:title" content="FOCUSIO 공식 디지털 명함">
-  <meta property="og:description" content="FOCUSIO - 프리미엄 인터랙티브 디지털 명함 솔루션">
+  <meta property="og:title" content="종이 명함은 버려지지만, 3D 디지털 명함은 각인됩니다">
+  <meta property="og:description" content="1분 만에 완성하는 압도적 비주얼의 3D 인터랙티브 명함 플랫폼. vCard 주소록 원클릭 저장, 소셜 채널 연동.">
   <meta property="og:image" content="assets/business_card_mockup.png">
 
   <!-- Favicon -->
@@ -22,50 +21,231 @@
 
   <!-- Lucide Icons & QRCode -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-  <!-- Default Theme Stylesheet (동적으로 교체됨) -->
+  <!-- 테마 기본값 (바이올렛) -->
   <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
 
   <style>
+    :root {
+      --bg-main: #06040a;
+      --panel-bg: rgba(18, 12, 30, 0.65);
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --neon-violet: #a855f7;
+      --neon-cyan: #38bdf8;
+      --gold-accent: #ffd978;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      user-select: none;
     }
 
     body {
       font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: var(--bg-body);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background: radial-gradient(circle at 50% 0%, #160c2b 0%, #080512 55%, #030206 100%);
       color: #ffffff;
-      padding: 24px 16px;
       overflow-x: hidden;
-      transition: background 0.4s ease;
+      line-height: 1.5;
     }
 
-    .container {
+    /* ── 글로벌 네비게이션 ── */
+    nav {
       width: 100%;
-      max-width: 375px;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(6, 4, 10, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .nav-logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .btn-create-nav {
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
+      transition: all 0.2s;
+    }
+
+    .btn-create-nav:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* ── 히어로 섹션 ── */
+    .hero-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    @media (max-width: 960px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 40px;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #d8b4fe;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+    }
+
+    .hero-title span.gradient-text {
+      background: linear-gradient(135deg, #c084fc 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      word-break: keep-all;
+    }
+
+    .hero-cta-group {
+      display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    /* 3D Vertical Card Scene */
+    @media (max-width: 960px) {
+      .hero-cta-group {
+        justify-content: center;
+      }
+    }
+
+    .btn-hero-main {
+      height: 54px;
+      padding: 0 32px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+      transition: all 0.25s;
+    }
+
+    .btn-hero-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(168, 85, 247, 0.7);
+    }
+
+    .btn-hero-sub {
+      height: 54px;
+      padding: 0 24px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-hero-sub:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* ── 히어로 인터랙티브 3D 카드 쇼케이스 ── */
+    .hero-card-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
     .card-scene {
       width: 100%;
-      height: 645px;
-      min-height: 620px;
-      max-height: 660px;
+      max-width: 350px;
+      height: 600px;
       perspective: 1400px;
       cursor: pointer;
     }
@@ -76,14 +256,13 @@
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
-      border-radius: 28px;
+      border-radius: 26px;
     }
 
     .card-scene.flipped .card-flipper {
       transform: rotateY(180deg);
     }
 
-    /* Card Faces (Front & Back) */
     .card-face {
       position: absolute;
       inset: 0;
@@ -91,41 +270,26 @@
       height: 100%;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      border-radius: 28px;
+      border-radius: 26px;
       border: 1px solid var(--border-accent);
       background: var(--card-gradient);
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      padding: 34px 26px 26px 26px;
+      padding: 30px 24px 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      transition: background 0.4s ease, border-color 0.4s ease;
     }
 
     .card-face.front {
       z-index: 2;
-      pointer-events: auto;
     }
 
     .card-face.back {
       z-index: 1;
-      pointer-events: none;
       transform: rotateY(180deg);
-      padding: 34px 26px 26px 26px;
     }
 
-    .card-scene.flipped .card-face.front {
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .card-scene.flipped .card-face.back {
-      z-index: 2;
-      pointer-events: auto;
-    }
-
-    /* Dynamic Watermark on Card */
     .watermark-dynamic {
       position: absolute;
       right: -24px;
@@ -134,31 +298,25 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 2px;
       pointer-events: none;
       z-index: 1;
-      user-select: none;
     }
 
     .watermark-dynamic span {
       font-family: 'Montserrat', sans-serif;
-      font-size: 135px;
+      font-size: 120px;
       font-weight: 900;
-      line-height: 1;
       color: var(--watermark-color);
       transform: rotate(-90deg);
-      width: 135px;
-      height: 105px;
+      width: 120px;
+      height: 95px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* =========================================
-       FRONT FACE
-       ========================================= */
-    .front-wrapper {
+    .front-wrapper, .back-wrapper {
       position: relative;
       z-index: 2;
       height: 100%;
@@ -167,645 +325,583 @@
       justify-content: space-between;
     }
 
-    .front-logo-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 10px;
-    }
-
-    .front-logo-box {
-      width: 148px;
-      height: 148px;
+    .front-logo-box, .back-top-logo {
+      width: 136px;
+      height: 136px;
       background: var(--logo-bg);
       border: 1px solid var(--logo-border);
-      border-radius: 26px;
+      border-radius: 24px;
+      margin: 10px auto 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       box-shadow: var(--logo-shadow);
-      overflow: hidden;
-      padding: 14px;
-      cursor: pointer;
+      padding: 12px;
       animation: logoPulse 4.5s ease-in-out infinite;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .front-logo-box:hover {
-      transform: scale(1.05);
-    }
-
-    .front-logo-box:active {
-      transform: scale(0.96);
-    }
-
-    .front-logo-box img {
+    .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-    }
-
-    .front-info-container {
-      margin-top: auto;
-      margin-bottom: 2px;
     }
 
     .brand-sub-engraving {
       font-family: 'Montserrat', sans-serif;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       letter-spacing: 0.28em;
       color: var(--tagline-color);
       text-transform: uppercase;
-      margin-bottom: 4px;
-      user-select: none;
+      margin-bottom: 3px;
     }
 
-    .front-company {
+    .front-company, .back-company-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       text-transform: uppercase;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .front-slogan {
-      font-size: 12.5px;
+    .front-slogan, .back-company-slogan {
+      font-size: 12px;
       font-weight: 700;
       color: var(--gold-accent);
-      margin-bottom: 20px;
-      letter-spacing: 0.02em;
-    }
-
-    /* =========================================
-       BACK FACE
-       ========================================= */
-    .back-wrapper {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .back-top-logo-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 6px;
-    }
-
-    .back-top-logo {
-      width: 144px;
-      height: 144px;
-      background: var(--logo-bg);
-      border-radius: 26px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--logo-border);
-      box-shadow: var(--logo-shadow);
-      padding: 12px;
-      cursor: pointer;
-      animation: logoPulse 4.5s ease-in-out infinite;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .back-top-logo:hover {
-      transform: scale(1.05);
-    }
-
-    .back-top-logo:active {
-      transform: scale(0.96);
-    }
-
-    .back-top-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .back-info-container {
-      margin-top: auto;
-      margin-bottom: 2px;
-    }
-
-    .back-company-name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    }
-
-    .back-company-slogan {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--gold-accent);
-      margin-bottom: 16px;
-      letter-spacing: 0.02em;
+      margin-bottom: 14px;
     }
 
     .profile-row {
       display: flex;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .role-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.8);
-      letter-spacing: 0.05em;
-      width: 50px;
-      display: inline-block;
-      flex-shrink: 0;
+      width: 45px;
     }
 
     .name-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .contact-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 22px;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .contact-row {
       display: flex;
       align-items: center;
-      text-decoration: none;
-      color: #ffffff;
-      transition: transform 0.15s ease;
-      cursor: pointer;
-    }
-
-    .contact-row:hover {
-      transform: translateX(4px);
+      font-size: 13.5px;
+      font-weight: 600;
     }
 
     .contact-key {
       font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
       font-weight: 900;
       color: var(--key-color);
-      width: 50px;
-      letter-spacing: 0.05em;
+      width: 45px;
     }
 
-    .contact-value {
-      font-size: 14.5px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
-      letter-spacing: 0.02em;
-    }
-
-    /* Moat Tags */
     .moat-tags {
       display: flex;
       gap: 6px;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     .moat-tag {
       background: var(--moat-bg);
       border: 1px solid var(--moat-border);
-      border-radius: 8px;
-      padding: 5px 8px;
-      font-size: 11px;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--moat-text);
-      letter-spacing: 0.01em;
-      white-space: nowrap;
+      flex: 1;
       text-align: center;
-      flex: 1;
     }
 
-    /* 2x2 Inside Action Dock */
-    .inside-action-dock {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    .btn-action-demo {
       width: 100%;
-    }
-
-    .inside-action-row {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .btn-action {
-      flex: 1;
-      height: 42px;
-      border-radius: 12px;
-      font-size: 12.5px;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 12px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-      border: none;
-      outline: none;
-      letter-spacing: 0.01em;
-    }
-
-    .btn-save {
       background: var(--save-btn-bg);
       color: #ffffff;
+      border: none;
       box-shadow: var(--save-btn-shadow);
     }
 
-    .btn-save:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-    }
-
-    .btn-save:active {
-      transform: translateY(1px);
-    }
-
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-    }
-
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(255, 255, 255, 0.32);
-      transform: translateY(-2px);
-    }
-
-    .btn-glass:active {
-      transform: translateY(1px);
-    }
-
-    /* Flip Hint Bar */
-    .flip-hint {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.5);
-      margin-top: 4px;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-
-    .flip-hint:hover {
-      color: rgba(255, 255, 255, 0.85);
-    }
-
-    .flip-icon {
-      animation: spinSlow 9s linear infinite;
-    }
-
-    @keyframes spinSlow {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Modal Styling */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-box {
-      background: #140d24;
-      border: 1px solid var(--border-accent);
-      border-radius: 24px;
-      padding: 28px 24px;
-      width: 100%;
-      max-width: 320px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--neon-glow);
-      transform: scale(0.92);
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .modal-overlay.active .modal-box {
-      transform: scale(1);
-    }
-
-    .modal-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-
-    .modal-desc {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.6);
-      margin-bottom: 18px;
-    }
-
-    .qr-container {
-      background: #ffffff;
-      padding: 12px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-close-btn {
+    .tap-hint-pill {
       margin-top: 14px;
-      background: transparent;
-      border: none;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 12.5px;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 6px 12px;
-    }
-
-    .modal-close-btn:hover {
-      color: #ffffff;
-    }
-
-    /* Social Channels Modal Rows */
-    .channel-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      width: 100%;
-      margin-bottom: 8px;
-    }
-
-    .channel-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      padding: 11px 14px;
-      text-decoration: none;
-      color: #ffffff;
-      transition: all 0.2s ease;
-    }
-
-    .channel-row:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.28);
-      transform: translateX(3px);
-    }
-
-    .channel-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .channel-info {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-
-    .channel-name {
-      font-size: 13.5px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 12px;
       font-weight: 700;
-      color: #ffffff;
-    }
-
-    .channel-handle {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .channel-right {
+      color: rgba(255, 255, 255, 0.7);
       display: flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
     }
 
-    .channel-badge {
-      font-size: 9.5px;
+    .tap-hint-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* ── 특징 4대 해자 그리드 ── */
+    .features-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
       font-weight: 800;
-      padding: 3px 6px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--gold-accent);
+      letter-spacing: 0.2em;
+      color: var(--neon-violet);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-heading {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px 26px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(168, 85, 247, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d8b4fe;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .feature-desc {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+    }
+
+    /* ── 가격 안내 ── */
+    .pricing-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 36px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .price-card.featured {
+      border-color: rgba(168, 85, 247, 0.6);
+      box-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
+      background: linear-gradient(165deg, rgba(28, 16, 48, 0.8) 0%, rgba(14, 8, 26, 0.8) 100%);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -12px;
+      right: 28px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
       letter-spacing: 0.05em;
     }
 
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(50px);
-      background: #1e113a;
-      border: 1px solid var(--border-accent);
-      color: #ffffff;
-      padding: 12px 22px;
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 700;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    .price-tier {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .price-amount {
+      font-size: 38px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .price-amount span.period {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .price-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .price-features li {
       display: flex;
       align-items: center;
       gap: 8px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 200;
-      white-space: nowrap;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .price-btn {
+      width: 100%;
+      height: 48px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .price-btn-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
+    }
+
+    .price-btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .price-btn-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .price-btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* ── 하단 푸터 ── */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <!-- 글로벌 네비게이션 -->
+  <nav>
+    <a href="#" class="nav-brand">
+      <span class="nav-logo-text" id="globalBrandName">DIGITAL CARD</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">특징</a>
+      <a href="#pricing" class="nav-link">가격</a>
+      <a href="maker.html" class="btn-create-nav">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>내 명함 만들기</span>
+      </a>
+    </div>
+  </nav>
 
-    <!-- 3D Interactive Unified Flip Card -->
-    <div class="card-scene" id="cardScene" onclick="toggleCardFlip()" title="카드를 탭하거나 슬라이드하면 앞뒤가 뒤집힙니다">
-      <div class="card-flipper">
-        
-        <!-- =========================================
-             FRONT (앞면)
-             ========================================= -->
-        <div class="card-face front">
-          <!-- 거대 동적 워터마크 -->
-          <div class="watermark-dynamic" id="watermarkContainerFront" aria-hidden="true"></div>
-
-          <div class="front-wrapper">
-            <!-- 로고 박스 (탭 시 QR 팝업) -->
-            <div class="front-logo-container">
-              <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="frontLogoImg" src="assets/logo.gif" alt="Logo">
-              </div>
-            </div>
-
-            <div class="front-info-container">
-              <div class="brand-sub-engraving" id="frontTagline"></div>
-              <div class="front-company" id="frontCompany"></div>
-              <div class="front-slogan" id="frontSlogan"></div>
-
-              <!-- Moat Tags on Front -->
-              <div class="moat-tags" id="frontMoatTags"></div>
-
-              <!-- 2x2 Buttons on Front -->
-              <div class="inside-action-dock" id="insideActionDockFront"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- =========================================
-             BACK (뒷면)
-             ========================================= -->
-        <div class="card-face back">
-          <!-- 거대 동적 워터마크 -->
-          <div class="watermark-dynamic" id="watermarkContainerBack" aria-hidden="true"></div>
-
-          <div class="back-wrapper">
-            <!-- Top Logo on Back -->
-            <div class="back-top-logo-container">
-              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="backLogoImg" src="assets/logo.gif" alt="Logo">
-              </div>
-            </div>
-
-            <!-- Main Business Info -->
-            <div class="back-info-container">
-              <div class="brand-sub-engraving" id="backTagline"></div>
-              <div class="back-company-name" id="backCompany"></div>
-              <div class="back-company-slogan" id="backSlogan"></div>
-
-              <div class="profile-row">
-                <span class="role-title" id="roleTitle"></span>
-                <span class="name-title" id="nameTitle"></span>
-              </div>
-
-              <div class="contact-group">
-                <!-- Phone -->
-                <a href="#" class="contact-row" id="phoneLink" onclick="event.stopPropagation()" title="전화 걸기">
-                  <span class="contact-key" id="phoneKey">T</span>
-                  <span class="contact-value" id="phoneValue"></span>
-                </a>
-
-                <!-- Email -->
-                <a href="#" class="contact-row" id="emailLink" onclick="event.stopPropagation()" title="이메일 보내기">
-                  <span class="contact-key" id="emailKey">E</span>
-                  <span class="contact-value" id="emailValue"></span>
-                </a>
-              </div>
-
-              <!-- Moat Tags on Back -->
-              <div class="moat-tags" id="backMoatTags"></div>
-
-              <!-- Inside-Card 2x2 Buttons on Back -->
-              <div class="inside-action-dock" id="insideActionDockBack"></div>
-
-            </div>
-          </div>
-        </div>
-
+  <!-- 히어로 섹션 -->
+  <section class="hero-section">
+    <div>
+      <div class="hero-badge">
+        <i data-lucide="zap" style="width:14px;height:14px;color:#ffd978;"></i>
+        <span>차세대 3D 인터랙티브 디지털 명함</span>
+      </div>
+      <h1 class="hero-title">
+        종이 명함은 버려지지만,<br>
+        <span class="gradient-text">3D 디지털 명함</span>은 각인됩니다.
+      </h1>
+      <p class="hero-desc">
+        스마트폰에서 직접 3D로 회전하고 터치하는 압도적인 첫인상.<br>
+        상대방 주소록에 터치 한 번으로 연락처가 저장되고,<br>
+        카카오톡, 인스타, 웹사이트까지 완벽하게 연결됩니다.
+      </p>
+      <div class="hero-cta-group">
+        <a href="maker.html" class="btn-hero-main">
+          <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
+          <span>1분 만에 무료로 만들기</span>
+        </a>
+        <a href="card.html?id=toomus" class="btn-hero-sub">
+          <i data-lucide="eye" style="width:16px;height:16px;"></i>
+          <span>실제 명함 예시 보기</span>
+        </a>
       </div>
     </div>
 
-    <!-- Flip Hint Bar -->
-    <div class="flip-hint" onclick="toggleCardFlip()">
-      <i data-lucide="refresh-cw" class="flip-icon" style="width: 14px; height: 14px;"></i>
-      <span>카드를 탭하거나 슬라이드하면 앞면 ↔ 뒷면이 뒤집힙니다</span>
-    </div>
+    <!-- 우측 3D 카드 실시간 인터랙티브 체험 -->
+    <div class="hero-card-display">
+      <div class="card-scene" id="heroCardScene" onclick="toggleHeroFlip()">
+        <div class="card-flipper">
+          
+          <!-- FRONT -->
+          <div class="card-face front">
+            <div class="watermark-dynamic" aria-hidden="true">
+              <span>A</span><span>Z</span><span>A</span><span>M</span>
+            </div>
+            <div class="front-wrapper">
+              <div class="front-logo-box">
+                <img src="assets/logo.gif" alt="Logo">
+              </div>
+              <div>
+                <div class="brand-sub-engraving">BUILD · SCALE · EXIT</div>
+                <div class="front-company">MAZA STUDIO</div>
+                <div class="front-slogan">플립마켓에서 달러자산 플랫폼으로</div>
+                <div class="moat-tags">
+                  <span class="moat-tag">디지털 자산화</span>
+                  <span class="moat-tag">글로벌 플립</span>
+                  <span class="moat-tag">플랫폼 빌드</span>
+                </div>
+                <button class="btn-action-demo">
+                  <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+                  <span>연락처 주소록 저장</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-  </div>
+          <!-- BACK -->
+          <div class="card-face back">
+            <div class="watermark-dynamic" aria-hidden="true">
+              <span>A</span><span>Z</span><span>A</span><span>M</span>
+            </div>
+            <div class="back-wrapper">
+              <div class="back-top-logo">
+                <img src="assets/logo.gif" alt="Logo">
+              </div>
+              <div>
+                <div class="brand-sub-engraving">BUILD · SCALE · EXIT</div>
+                <div class="back-company-name">MAZA STUDIO</div>
+                <div class="back-company-slogan">플립마켓에서 달러자산 플랫폼으로</div>
+                <div class="profile-row">
+                  <span class="role-title">이사</span>
+                  <span class="name-title">Andrew K</span>
+                </div>
+                <div class="contact-group">
+                  <div class="contact-row">
+                    <span class="contact-key">T</span>
+                    <span>010-8186-0010</span>
+                  </div>
+                  <div class="contact-row">
+                    <span class="contact-key">E</span>
+                    <span>maza@mazastudio.kr</span>
+                  </div>
+                </div>
+                <div class="moat-tags">
+                  <span class="moat-tag">디지털 자산화</span>
+                  <span class="moat-tag">글로벌 플립</span>
+                  <span class="moat-tag">플랫폼 빌드</span>
+                </div>
+                <button class="btn-action-demo">
+                  <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+                  <span>솔루션 바로가기</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-  <!-- QR Code Modal -->
-  <div class="modal-overlay" id="shareModal" onclick="handleModalBgClick(event)">
-    <div class="modal-box">
-      <div class="modal-title">디지털 명함 QR코드</div>
-      <div class="modal-desc">상대방 카메라로 QR코드를 스캔하세요</div>
-
-      <div class="qr-container" id="qrContainer"></div>
-
-      <div style="display: flex; gap: 8px; margin-top: 14px; width: 100%;">
-        <button class="btn-action btn-save" style="flex: 1; padding: 11px 12px; font-size: 13px;" onclick="copyCardUrl()">
-          <i data-lucide="copy" style="width: 15px; height: 15px;"></i>
-          <span>링크 복사</span>
-        </button>
-        <button class="btn-action btn-glass" style="flex: 1; padding: 11px 12px; font-size: 13px;" onclick="nativeShare()">
-          <i data-lucide="share-2" style="width: 15px; height: 15px;"></i>
-          <span>공유하기</span>
-        </button>
+        </div>
       </div>
 
-      <button class="modal-close-btn" onclick="closeShareModal()">닫기</button>
+      <div class="tap-hint-pill" onclick="toggleHeroFlip()">
+        <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
+        <span>카드를 클릭하면 3D로 뒤집힙니다</span>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Social Channels Modal -->
-  <div class="modal-overlay" id="socialModal" onclick="handleSocialModalBgClick(event)">
-    <div class="modal-box" style="max-width: 320px;">
-      <div class="modal-title">공식 소셜 미디어</div>
-      <div class="modal-desc">공식 소셜 네트워크를 방문해 보세요</div>
-
-      <div class="channel-list" id="socialModalList"></div>
-
-      <button class="modal-close-btn" onclick="closeSocialModal()">닫기</button>
+  <!-- 특징 4대 해자 섹션 -->
+  <section class="features-section" id="features">
+    <div class="section-header">
+      <div class="section-tag">WHY IT MATTERS</div>
+      <h2 class="section-heading">단순한 링크가 아닌, 당신의 비즈니스 무기</h2>
     </div>
-  </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toastMsg">
-    <i data-lucide="check-circle-2" style="width: 16px; height: 16px; color: var(--neon-accent);"></i>
-    <span id="toastText">링크가 복사되었습니다!</span>
-  </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i data-lucide="rotate-3d" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="feature-title">압도적인 3D 인터랙션</h3>
+        <p class="feature-desc">손가락으로 카드를 회전시키며 앞뒷면을 확인하는 실물 감각의 3D 뷰어로 상대방에게 잊히지 않는 첫인상을 남깁니다.</p>
+      </div>
 
-  <!-- Dynamic Card Renderer Engine Script -->
-  <script src="js/card-renderer.js"></script>
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i data-lucide="user-check" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="feature-title">원클릭 vCard 주소록 저장</h3>
+        <p class="feature-desc">버튼 터치 한 번으로 고객의 스마트폰 연락처에 이름, 직책, 회사, 이메일, 명함 URL까지 완벽하게 자동 등록됩니다.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i data-lucide="share-2" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="feature-title">카카오톡 & 인스타 & QR</h3>
+        <p class="feature-desc">오프라인에서는 카메라 QR 스캔으로 1초 접속, 온라인에서는 카카오톡 링크 전송으로 비즈니스 채널을 직결합니다.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-box">
+          <i data-lucide="leaf" style="width:24px;height:24px;"></i>
+        </div>
+        <h3 class="feature-title">인쇄 비용 0원 & ESG 친환경</h3>
+        <p class="feature-desc">정보가 바뀌어도 비싼 종이 명함을 다시 인쇄할 필요가 없습니다. 실시간 수정으로 영구 보존되는 지속 가능한 명함입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가격 섹션 -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-header">
+      <div class="section-tag">PRICING PLANS</div>
+      <h2 class="section-heading">합리적인 플랜으로 지금 시작하세요</h2>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="price-card">
+        <div>
+          <div class="price-tier">Free (체험)</div>
+          <div class="price-amount">₩0 <span class="period">/ 평생</span></div>
+          <ul class="price-features">
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 3D 인터랙티브 명함 1개</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> vCard 주소록 자동 저장</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> QR 코드 공유 기능</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 기본 테마 제공</li>
+          </ul>
+        </div>
+        <a href="maker.html" class="price-btn price-btn-ghost">무료로 만들기</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="price-card featured">
+        <div class="price-badge">POPULAR</div>
+        <div>
+          <div class="price-tier">Pro (전문가/대표)</div>
+          <div class="price-amount">₩5,900 <span class="period">/ 월</span></div>
+          <ul class="price-features">
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> Free의 모든 기능 포함</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 하단 브랜드 워터마크 제거</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 전 테마 무제한 사용 (Violet / Obsidian / Emerald)</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 애니메이션 GIF 로고 지원</li>
+          </ul>
+        </div>
+        <a href="maker.html" class="price-btn price-btn-primary">Pro 시작하기</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="price-card">
+        <div>
+          <div class="price-tier">Enterprise (법인/팀)</div>
+          <div class="price-amount">별도 문의 <span class="period">/ 맞춤</span></div>
+          <ul class="price-features">
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 전 직원 명함 일괄 발급</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 기업 전용 커스텀 도메인 연결</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 실물 NFC 메탈 카드 패키지 옵션</li>
+            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 전담 디자이너 1:1 커스텀</li>
+          </ul>
+        </div>
+        <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" class="price-btn price-btn-ghost">법인 문의하기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer>
+    <p>© 2026 DIGITAL 3D CARD PLATFORM. All rights reserved.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    function toggleHeroFlip() {
+      document.getElementById('heroCardScene').classList.toggle('flipped');
+    }
+  </script>
 </body>
 </html>

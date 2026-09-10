@@ -481,6 +481,34 @@
       color: rgba(255, 255, 255, 0.85);
     }
 
+    /* Viral Powered-By Badge */
+    .viral-badge-link {
+      margin-top: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .viral-badge-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--neon-accent);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px var(--neon-glow);
+    }
+
     .flip-icon {
       animation: spinSlow 9s linear infinite;
     }
@@ -761,6 +789,12 @@
       <i data-lucide="refresh-cw" class="flip-icon" style="width: 14px; height: 14px;"></i>
       <span>카드를 탭하거나 슬라이드하면 앞면 ↔ 뒷면이 뒤집힙니다</span>
     </div>
+
+    <!-- Viral Powered-By Badge -->
+    <a href="index.html" class="viral-badge-link" title="나만의 3D 디지털 명함 만들기">
+      <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--neon-accent);"></i>
+      <span>Create your 3D Card</span>
+    </a>
 
   </div>
 
