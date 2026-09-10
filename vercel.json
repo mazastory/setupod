@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "rewrites": [
+    {
+      "source": "/:id",
+      "has": [{ "type": "host", "value": "link.setupod.com" }],
+      "destination": "/link.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "link.setupod.com" }],
+      "destination": "/link.html"
+    },
     { "source": "/link", "destination": "/link.html" },
     { "source": "/maker", "destination": "/maker.html" },
     { "source": "/studio", "destination": "/maker.html" },
