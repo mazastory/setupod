@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>FOCUSIO Studio | 나만의 3D 디지털 명함 빌더</title>
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FOCUSIO">
+  <meta property="og:title" content="FOCUSIO Studio | 나만의 3D 디지털 명함 만들기">
+  <meta property="og:description" content="1분 만에 완성하는 압도적 비주얼의 3D 인터랙티브 디지털 명함 셀프 메이커">
+  <meta property="og:image" content="assets/business_card_mockup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons & QRCode -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- 동적 테마 CSS (프리뷰 카드용) -->
+  <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+
+  <style>
+    :root {
+      --maker-bg: #090611;
+      --maker-panel: rgba(18, 12, 32, 0.7);
+      --maker-border: rgba(168, 85, 247, 0.25);
+      --maker-accent: #a855f7;
+      --maker-glow: rgba(168, 85, 247, 0.35);
+      --maker-input-bg: rgba(255, 255, 255, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(circle at 50% 0%, #160c29 0%, #080512 60%, #030207 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* 상단 네비게이션 */
+    header {
+      width: 100%;
+      height: 64px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(8, 5, 18, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-studio {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #d8b4fe;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-nav-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-nav-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-nav-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-nav-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* 메인 분할 레이아웃 */
+    .studio-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .studio-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    /* 좌측 입력 에디터 패널 */
+    .editor-panel {
+      background: var(--maker-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--maker-border);
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d8b4fe;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-label span.sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 400;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      background: var(--maker-input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--maker-accent);
+      box-shadow: 0 0 14px var(--maker-glow);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* 테마 선택 칩 */
+    .theme-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .theme-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .theme-card.active {
+      border-color: #c084fc;
+      background: rgba(168, 85, 247, 0.15);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+    }
+
+    .theme-color-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .theme-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* 파일 업로드 래퍼 */
+    .file-upload-box {
+      border: 1.5px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .file-upload-box:hover {
+      border-color: var(--maker-accent);
+      background: rgba(168, 85, 247, 0.06);
+    }
+
+    /* 우측 프리뷰 스티키 영역 */
+    .preview-column {
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .preview-header-bar {
+      width: 100%;
+      max-width: 375px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4ade80;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #4ade80;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .btn-preview-flip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 4px 10px;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-preview-flip:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* 카드 3D 씬 (프리뷰 내부) */
+    .card-preview-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-scene {
+      width: 100%;
+      max-width: 375px;
+      height: 645px;
+      perspective: 1400px;
+      cursor: pointer;
+    }
+
+    .card-flipper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+      border-radius: 28px;
+    }
+
+    .card-scene.flipped .card-flipper {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--border-accent);
+      background: var(--card-gradient);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      padding: 34px 26px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .card-face.front {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .card-face.back {
+      z-index: 1;
+      pointer-events: none;
+      transform: rotateY(180deg);
+      padding: 34px 26px 26px 26px;
+    }
+
+    .card-scene.flipped .card-face.front {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-scene.flipped .card-face.back {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    /* 거대 워터마크 */
+    .watermark-dynamic {
+      position: absolute;
+      right: -24px;
+      top: 45%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .watermark-dynamic span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 135px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--watermark-color);
+      transform: rotate(-90deg);
+      width: 135px;
+      height: 105px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .front-wrapper, .back-wrapper {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .front-logo-container, .back-top-logo-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 6px;
+    }
+
+    .front-logo-box, .back-top-logo {
+      width: 144px;
+      height: 144px;
+      background: var(--logo-bg);
+      border: 1px solid var(--logo-border);
+      border-radius: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--logo-shadow);
+      overflow: hidden;
+      padding: 12px;
+      cursor: pointer;
+      animation: logoPulse 4.5s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .front-logo-box img, .back-top-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-sub-engraving {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      color: var(--tagline-color);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      user-select: none;
+    }
+
+    .front-company, .back-company-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .front-slogan, .back-company-slogan {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold-accent);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .role-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.05em;
+      width: 50px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .name-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .contact-key {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--key-color);
+      width: 50px;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-value {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.02em;
+    }
+
+    .moat-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .moat-tag {
+      background: var(--moat-bg);
+      border: 1px solid var(--moat-border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--moat-text);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
+    }
+
+    .inside-action-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .inside-action-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-action {
+      flex: 1;
+      height: 42px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-save {
+      background: var(--save-btn-bg);
+      color: #ffffff;
+      box-shadow: var(--save-btn-shadow);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    /* 하단 발행 컨트롤 바 */
+    .publish-bar {
+      margin-top: 10px;
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn-publish {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-publish-main {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+    }
+
+    .btn-publish-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-publish-secondary {
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .btn-publish-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(70px);
+      background: #190e32;
+      border: 1px solid #a855f7;
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 헤더 -->
+  <header>
+    <a href="#" class="brand-logo">
+      <span class="brand-title">FOCUSIO</span>
+      <span class="badge-studio">STUDIO MAKER</span>
+    </a>
+    <div class="nav-actions">
+      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('maza')">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>MAZA 예시</span>
+      </button>
+      <button class="btn-nav btn-nav-ghost" onclick="loadPreset('toomus')">
+        <i data-lucide="layers" style="width:14px;height:14px;"></i>
+        <span>TOOMUS 예시</span>
+      </button>
+      <button class="btn-nav btn-nav-primary" onclick="exportCardData()">
+        <i data-lucide="download" style="width:14px;height:14px;"></i>
+        <span>데이터 저장</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 메인 2분할 레이아웃 -->
+  <div class="studio-container">
+
+    <!-- 좌측 에디터 패널 -->
+    <div class="editor-panel">
+
+      <!-- 1. 테마 선택 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="palette" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">1. 프리미엄 테마 선택</h2>
+        </div>
+        <div class="theme-selector">
+          <div class="theme-card active" data-theme="violet" onclick="selectTheme('violet', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
+            <span class="theme-name">Violet Luxury</span>
+          </div>
+          <div class="theme-card" data-theme="obsidian" onclick="selectTheme('obsidian', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
+            <span class="theme-name">Obsidian Dark</span>
+          </div>
+          <div class="theme-card" data-theme="emerald" onclick="selectTheme('emerald', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
+            <span class="theme-name">Emerald Tech</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 기본 인적사항 & 회사 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="user" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">2. 기본 정보 및 브랜드</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">이름 (영문/한글) <span class="sub">필수</span></label>
+            <input type="text" id="inputName" class="form-input" value="Andrew K" placeholder="예: Andrew K, 홍길동" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">직함 / 포지션 <span class="sub">필수</span></label>
+            <input type="text" id="inputRole" class="form-input" value="이사" placeholder="예: 대표이사, Founder, 팀장" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">회사 / 브랜드명 <span class="sub">필수</span></label>
+            <input type="text" id="inputCompany" class="form-input" value="MAZA STUDIO" placeholder="예: FOCUSIO, MAZA" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">배경 워터마크 영문 <span class="sub">대문자 권장</span></label>
+            <input type="text" id="inputWatermark" class="form-input" value="MAZA" placeholder="예: MAZA, FOCUS" oninput="liveUpdate()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">슬로건 / 비전 한 줄 <span class="sub">앞·뒷면 강조</span></label>
+            <input type="text" id="inputSlogan" class="form-input" value="플립마켓에서 달러자산 플랫폼으로" placeholder="회사의 핵심 가치" oninput="liveUpdate()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">영문 각인 태그라인 <span class="sub">상단 미니 럭셔리</span></label>
+            <input type="text" id="inputTagline" class="form-input" value="BUILD · SCALE · EXIT" placeholder="예: ENDLESS POTENTIAL" oninput="liveUpdate()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 로고 이미지 설정 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="image" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">3. 로고 / 엠블럼</h2>
+        </div>
+        <div class="file-upload-box" onclick="document.getElementById('logoFileInput').click()">
+          <i data-lucide="upload-cloud" style="width:24px;height:24px;color:#c084fc;"></i>
+          <span style="font-size:13px;font-weight:700;">로고 이미지 업로드 (GIF, PNG 권장)</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);">클릭하여 파일을 선택하세요. 업로드 즉시 3D 카드에 반영됩니다.</span>
+          <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+        </div>
+      </div>
+
+      <!-- 4. 핵심 해자 태그 (3개) -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="award" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">4. 핵심 비즈니스 키워드 (해자 태그 3개)</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">태그 1</label>
+            <input type="text" id="inputTag1" class="form-input" value="디지털 자산 구축" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">태그 2</label>
+            <input type="text" id="inputTag2" class="form-input" value="글로벌 플립 매각" oninput="liveUpdate()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">태그 3</label>
+            <input type="text" id="inputTag3" class="form-input" value="수익형 플랫폼 빌드" oninput="liveUpdate()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 연락처 및 다이렉트 링크 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="phone-call" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">5. 다이렉트 연락처 & 액션 버튼</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">전화번호 <span class="sub">탭 시 통화 연결</span></label>
+            <input type="tel" id="inputPhone" class="form-input" value="010-8186-0010" placeholder="010-0000-0000" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">이메일 주소 <span class="sub">탭 시 메일 작성</span></label>
+            <input type="email" id="inputEmail" class="form-input" value="maza@mazastudio.kr" placeholder="name@company.com" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">공식 웹사이트 URL</label>
+            <input type="url" id="inputWebsiteUrl" class="form-input" value="https://about.mazastudio.kr" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">웹사이트 버튼 텍스트</label>
+            <input type="text" id="inputWebsiteLabel" class="form-input" value="MAZA 바로가기" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">카카오톡 오픈채팅 / ID 링크</label>
+            <input type="text" id="inputKakaoUrl" class="form-input" value="https://open.kakao.com/o/sySmTxKi" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">카카오 버튼 표시 텍스트</label>
+            <input type="text" id="inputKakaoLabel" class="form-input" value="mazastudio" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">인스타그램 URL</label>
+            <input type="text" id="inputInstaUrl" class="form-input" value="https://instagram.com/mazabase" oninput="liveUpdate()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">인스타 버튼 표시 텍스트</label>
+            <input type="text" id="inputInstaLabel" class="form-input" value="인스타" oninput="liveUpdate()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 하단 액션 버튼 -->
+      <div class="publish-bar">
+        <button class="btn-publish btn-publish-secondary" onclick="exportCardData()">
+          <i data-lucide="file-code-2" style="width:18px;height:18px;"></i>
+          <span>JSON 다운로드</span>
+        </button>
+        <button class="btn-publish btn-publish-main" onclick="requestPublish()">
+          <i data-lucide="send" style="width:18px;height:18px;"></i>
+          <span>명함 발행 / 제작 의뢰하기</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 우측 라이브 3D 프리뷰 컬럼 -->
+    <div class="preview-column">
+      <div class="preview-header-bar">
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          <span>실시간 3D 라이브 뷰</span>
+        </div>
+        <button class="btn-preview-flip" onclick="toggleCardFlip()">
+          <i data-lucide="refresh-cw" style="width:12px;height:12px;"></i>
+          <span>앞뒤 뒤집기</span>
+        </button>
+      </div>
+
+      <div class="card-preview-wrap">
+        <!-- 3D Card Scene -->
+        <div class="card-scene" id="cardScene" onclick="toggleCardFlip()" title="탭하거나 슬라이드하면 뒤집힙니다">
+          <div class="card-flipper">
+            
+            <!-- FRONT -->
+            <div class="card-face front">
+              <div class="watermark-dynamic" id="watermarkContainerFront" aria-hidden="true"></div>
+
+              <div class="front-wrapper">
+                <div class="front-logo-container">
+                  <div class="front-logo-box" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
+                    <img id="frontLogoImg" src="assets/logo.gif" alt="Logo">
+                  </div>
+                </div>
+
+                <div class="front-info-container">
+                  <div class="brand-sub-engraving" id="frontTagline">BUILD · SCALE · EXIT</div>
+                  <div class="front-company" id="frontCompany">MAZA STUDIO</div>
+                  <div class="front-slogan" id="frontSlogan">플립마켓에서 달러자산 플랫폼으로</div>
+
+                  <div class="moat-tags" id="frontMoatTags"></div>
+
+                  <div class="inside-action-dock" id="frontActionDock"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK -->
+            <div class="card-face back">
+              <div class="watermark-dynamic" id="watermarkContainerBack" aria-hidden="true"></div>
+
+              <div class="back-wrapper">
+                <div class="back-top-logo-container">
+                  <div class="back-top-logo" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
+                    <img id="backLogoImg" src="assets/logo.gif" alt="Logo">
+                  </div>
+                </div>
+
+                <div class="back-info-container">
+                  <div class="brand-sub-engraving" id="backTagline">BUILD · SCALE · EXIT</div>
+                  <div class="back-company-name" id="backCompany">MAZA STUDIO</div>
+                  <div class="back-company-slogan" id="backSlogan">플립마켓에서 달러자산 플랫폼으로</div>
+
+                  <div class="profile-row">
+                    <span class="role-title" id="roleTitle">이사</span>
+                    <span class="name-title" id="nameTitle">Andrew K</span>
+                  </div>
+
+                  <div class="contact-group">
+                    <div class="contact-row">
+                      <span class="contact-key" id="phoneKey">T</span>
+                      <span class="contact-value" id="phoneValue">010-8186-0010</span>
+                    </div>
+                    <div class="contact-row">
+                      <span class="contact-key" id="emailKey">E</span>
+                      <span class="contact-value" id="emailValue">maza@mazastudio.kr</span>
+                    </div>
+                  </div>
+
+                  <div class="moat-tags" id="backMoatTags"></div>
+
+                  <div class="inside-action-dock" id="backActionDock"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center;">
+        카드를 탭하거나 드래그하면 앞면 ↔ 뒷면이 3D로 회전합니다.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 토스트 -->
+  <div class="toast" id="toastMsg">
+    <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#a855f7;"></i>
+    <span id="toastText">알림</span>
+  </div>
+
+  <script>
+    let currentTheme = 'violet';
+    let currentLogoSrc = 'assets/logo.gif';
+
+    function showToast(text) {
+      const toast = document.getElementById('toastMsg');
+      document.getElementById('toastText').innerText = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function toggleCardFlip() {
+      document.getElementById('cardScene').classList.toggle('flipped');
+    }
+
+    function selectTheme(themeName, element) {
+      currentTheme = themeName;
+      document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+
+      document.getElementById('themeStylesheet').href = `themes/${themeName}.css`;
+      showToast(`${themeName.toUpperCase()} 테마가 적용되었습니다.`);
+      liveUpdate();
+    }
+
+    function renderWatermark(text) {
+      if (!text) text = "CARD";
+      const letters = text.toUpperCase().split('').reverse();
+      const html = letters.map(c => `<span>${c}</span>`).join('');
+      document.getElementById('watermarkContainerFront').innerHTML = html;
+      document.getElementById('watermarkContainerBack').innerHTML = html;
+    }
+
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentLogoSrc = e.target.result;
+        document.getElementById('frontLogoImg').src = currentLogoSrc;
+        document.getElementById('backLogoImg').src = currentLogoSrc;
+        showToast('새 로고가 실시간 반영되었습니다!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function liveUpdate() {
+      const name = document.getElementById('inputName').value || '이름';
+      const role = document.getElementById('inputRole').value || '직함';
+      const company = document.getElementById('inputCompany').value || '회사명';
+      const watermark = document.getElementById('inputWatermark').value || company;
+      const slogan = document.getElementById('inputSlogan').value || '';
+      const tagline = document.getElementById('inputTagline').value || '';
+      const phone = document.getElementById('inputPhone').value || '';
+      const email = document.getElementById('inputEmail').value || '';
+
+      const tag1 = document.getElementById('inputTag1').value;
+      const tag2 = document.getElementById('inputTag2').value;
+      const tag3 = document.getElementById('inputTag3').value;
+
+      const webUrl = document.getElementById('inputWebsiteUrl').value;
+      const webLabel = document.getElementById('inputWebsiteLabel').value || '웹사이트';
+      const kakaoUrl = document.getElementById('inputKakaoUrl').value;
+      const kakaoLabel = document.getElementById('inputKakaoLabel').value || '카카오톡';
+      const instaUrl = document.getElementById('inputInstaUrl').value;
+      const instaLabel = document.getElementById('inputInstaLabel').value || '인스타';
+
+      // 텍스트 바인딩
+      document.getElementById('frontCompany').innerText = company;
+      document.getElementById('backCompany').innerText = company;
+      document.getElementById('frontSlogan').innerText = slogan;
+      document.getElementById('backSlogan').innerText = slogan;
+      document.getElementById('frontTagline').innerText = tagline;
+      document.getElementById('backTagline').innerText = tagline;
+      document.getElementById('roleTitle').innerText = role;
+      document.getElementById('nameTitle').innerText = name;
+      document.getElementById('phoneValue').innerText = phone;
+      document.getElementById('emailValue').innerText = email;
+
+      renderWatermark(watermark);
+
+      // 해자 태그 바인딩
+      const tags = [tag1, tag2, tag3].filter(Boolean);
+      const tagHtml = tags.map(t => `<span class="moat-tag">${t}</span>`).join('');
+      document.getElementById('frontMoatTags').innerHTML = tagHtml;
+      document.getElementById('backMoatTags').innerHTML = tagHtml;
+
+      // 2x2 액션 도크 바인딩
+      const dockHtml = `
+        <div class="inside-action-row">
+          <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록에 자동 저장됩니다.');">
+            <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+            <span>연락처 저장</span>
+          </button>
+          <a href="${webUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>${webLabel}</span>
+          </a>
+        </div>
+        <div class="inside-action-row">
+          <a href="${kakaoUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
+            <span>${kakaoLabel}</span>
+          </a>
+          <a href="${instaUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+            <span>${instaLabel}</span>
+          </a>
+        </div>
+      `;
+
+      document.getElementById('frontActionDock').innerHTML = dockHtml;
+      document.getElementById('backActionDock').innerHTML = dockHtml;
+
+      lucide.createIcons();
+    }
+
+    function exportCardData() {
+      const data = {
+        theme: currentTheme,
+        name: document.getElementById('inputName').value,
+        role: document.getElementById('inputRole').value,
+        company: document.getElementById('inputCompany').value,
+        companyWatermark: document.getElementById('inputWatermark').value,
+        slogan: document.getElementById('inputSlogan').value,
+        tagline: document.getElementById('inputTagline').value,
+        phone: document.getElementById('inputPhone').value,
+        email: document.getElementById('inputEmail').value,
+        moatTags: [
+          document.getElementById('inputTag1').value,
+          document.getElementById('inputTag2').value,
+          document.getElementById('inputTag3').value
+        ].filter(Boolean),
+        primaryAction: {
+          url: document.getElementById('inputWebsiteUrl').value,
+          label: document.getElementById('inputWebsiteLabel').value
+        },
+        socials: [
+          { type: 'kakao', url: document.getElementById('inputKakaoUrl').value, label: document.getElementById('inputKakaoLabel').value },
+          { type: 'instagram', url: document.getElementById('inputInstaUrl').value, label: document.getElementById('inputInstaLabel').value }
+        ]
+      };
+
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", jsonStr);
+      downloadAnchor.setAttribute("download", `${data.name}_digital_card.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showToast("명함 데이터(JSON)가 다운로드되었습니다!");
+    }
+
+    function requestPublish() {
+      const company = document.getElementById('inputCompany').value;
+      const name = document.getElementById('inputName').value;
+      const kakaoLink = `https://open.kakao.com/o/sySmTxKi`;
+      
+      showToast("카카오톡 상담 채널로 연결합니다...");
+      setTimeout(() => {
+        window.open(kakaoLink, '_blank');
+      }, 800);
+    }
+
+    function loadPreset(type) {
+      if (type === 'maza') {
+        selectTheme('violet', document.querySelector('[data-theme="violet"]'));
+        document.getElementById('inputName').value = "Andrew K";
+        document.getElementById('inputRole').value = "이사";
+        document.getElementById('inputCompany').value = "MAZA STUDIO";
+        document.getElementById('inputWatermark').value = "MAZA";
+        document.getElementById('inputSlogan').value = "플립마켓에서 달러자산 플랫폼으로";
+        document.getElementById('inputTagline').value = "BUILD · SCALE · EXIT";
+        document.getElementById('inputPhone').value = "010-8186-0010";
+        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
+        document.getElementById('inputTag1').value = "디지털 자산 구축";
+        document.getElementById('inputTag2').value = "글로벌 플립 매각";
+        document.getElementById('inputTag3').value = "수익형 플랫폼 빌드";
+        currentLogoSrc = 'assets/logo.gif';
+      } else if (type === 'toomus') {
+        selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
+        document.getElementById('inputName').value = "Andrew K";
+        document.getElementById('inputRole').value = "이사";
+        document.getElementById('inputCompany').value = "TOOMUS";
+        document.getElementById('inputWatermark').value = "TOOMUS";
+        document.getElementById('inputSlogan').value = "무한한 가능성을 연결하는 비즈니스 플랫폼";
+        document.getElementById('inputTagline').value = "ENDLESS POTENTIAL";
+        document.getElementById('inputPhone').value = "010-2661-0070";
+        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
+        document.getElementById('inputTag1').value = "디지털 자산화";
+        document.getElementById('inputTag2').value = "전략적 비즈니스 빌드";
+        document.getElementById('inputTag3').value = "글로벌 파트너십";
+        currentLogoSrc = 'assets/toomus_rays.gif';
+      }
+      document.getElementById('frontLogoImg').src = currentLogoSrc;
+      document.getElementById('backLogoImg').src = currentLogoSrc;
+      liveUpdate();
+      showToast(`${type.toUpperCase()} 프리셋이 로드되었습니다.`);
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      liveUpdate();
+    });
+  </script>
+</body>
+</html>
