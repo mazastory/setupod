@@ -6,18 +6,33 @@
 let cardData = null;
 let qrcodeObj = null;
 
-// URL 파라미터에서 카드 slug 추출 (?id=maza 또는 ?id=toomus, 기본값: maza)
-function getCardSlug() {
+// URL 파라미터 또는 경로에서 회사 및 카드 slug 추출
+// 지원 형식:
+// 1. setupod.com/toomus/alex -> company: 'toomus', slug: 'alex'
+// 2. setupod.com/alex -> company: null, slug: 'alex'
+// 3. ?id=alex 또는 ?id=toomus
+function getCardIdentifier() {
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get('id') || urlParams.get('card');
-  if (id) return id;
+  const qId = urlParams.get('id') || urlParams.get('card');
+  const qComp = urlParams.get('company') || urlParams.get('org');
+  if (qId) return { company: qComp || null, slug: qId.toLowerCase() };
 
-  // 경로 기반 (/maza 또는 /toomus) 지원
   const pathParts = window.location.pathname.split('/').filter(Boolean);
-  if (pathParts.length > 0 && !pathParts[0].includes('.html')) {
-    return pathParts[0];
+  if (pathParts.length >= 2 && !pathParts[0].includes('.html')) {
+    if (pathParts[0] === 'card') {
+      return { company: null, slug: pathParts[1].toLowerCase() };
+    }
+    return { company: pathParts[0].toLowerCase(), slug: pathParts[1].toLowerCase() };
   }
-  return 'maza';
+  if (pathParts.length === 1 && !pathParts[0].includes('.html')) {
+    if (pathParts[0] === 'card') return { company: null, slug: 'toomus' };
+    return { company: null, slug: pathParts[0].toLowerCase() };
+  }
+  return { company: null, slug: 'toomus' };
+}
+
+function getCardSlug() {
+  return getCardIdentifier().slug;
 }
 
 // 테마 스타일시트 동적 주입
@@ -418,25 +433,111 @@ END:VCARD`;
   showToast("연락처 파일(vCard)이 다운로드되었습니다!");
 }
 
+// 클라우드 프로필을 3D 명함 모델로 매핑
+function populateCardFromCloud(cloud, company) {
+  const p = cloud.profile || {};
+  const compList = (cloud.pod && cloud.pod.components_json) ? cloud.pod.components_json : [];
+
+  const role = p.handle ? p.handle.replace(/@\w+\s*[·•-]?\s*/, '').trim() : 'Creator';
+  const companyName = company ? company.toUpperCase() : (p.handle && p.handle.includes('@') ? p.handle.split('·')[0].replace('@', '').trim().toUpperCase() : 'SETUPOD');
+
+  const cardModel = {
+    slug: p.slug,
+    theme: p.theme || 'violet',
+    company: companyName,
+    companyWatermark: companyName,
+    slogan: p.bio || 'ALL-IN-ONE BUSINESS ASSET & 3D CARD',
+    tagline: 'ALL-IN-ONE BUSINESS ASSET',
+    role: role || '대표',
+    name: p.name || 'Member',
+    phone: p.phone || '010-0000-0000',
+    email: p.email || 'contact@setupod.com',
+    moatTags: ['3D 인터랙티브', 'vCard 자동저장', '올인원 멀티링크'],
+    logo: {
+      src: p.avatar_url || 'assets/logo.gif',
+      fallback: 'assets/logo.gif',
+      alt: companyName
+    },
+    primaryAction: {
+      url: `link.html?id=${p.slug}`,
+      label: '멀티링크 바로가기',
+      icon: 'link'
+    },
+    socials: [
+      {
+        type: 'kakao',
+        url: 'https://open.kakao.com/o/sySmTxKi',
+        label: '카카오톡 상담',
+        color: '#ffd978'
+      },
+      {
+        type: 'instagram',
+        url: 'https://instagram.com',
+        label: '인스타그램'
+      }
+    ],
+    vcard: {
+      firstName: p.name || 'Member',
+      org: companyName,
+      title: role || '대표',
+      tel: p.phone || '010-0000-0000',
+      email: p.email || 'contact@setupod.com',
+      note: p.bio || ''
+    },
+    meta: {
+      title: `${companyName} | ${p.name} 디지털 명함`,
+      siteName: companyName
+    }
+  };
+
+  populateCard(cardModel);
+}
+
 // 초기화 진입점
 async function initCardEngine() {
-  const slug = getCardSlug();
-  try {
-    const res = await fetch(`cards/${slug}.json`);
-    if (!res.ok) throw new Error(`카드 데이터를 불러올 수 없습니다 (${res.status})`);
-    const data = await res.json();
-    populateCard(data);
-  } catch (err) {
-    console.error("Card load error:", err);
-    // 폴백으로 maza 시도
-    if (slug !== 'maza') {
-      try {
-        const fallbackRes = await fetch(`cards/maza.json`);
-        const fallbackData = await fallbackRes.json();
-        populateCard(fallbackData);
-      } catch (e) {
-        showToast("명함 데이터를 불러오지 못했습니다.");
+  const { company, slug } = getCardIdentifier();
+
+  // 1. Supabase 클라우드에서 검색 시도
+  if (typeof loadPodFromCloud === 'function') {
+    try {
+      const searchSlug = company ? `${company}/${slug}` : slug;
+      let cloud = await loadPodFromCloud(searchSlug);
+      if (!cloud || !cloud.profile) {
+        cloud = await loadPodFromCloud(slug);
       }
+      if (cloud && cloud.profile) {
+        populateCardFromCloud(cloud, company);
+        setupSwipe();
+        return;
+      }
+    } catch (e) {
+      console.log("Cloud card fetch fallback:", e);
+    }
+  }
+
+  // 2. 로컬 JSON 파일 폴백
+  const paths = company ? [`cards/${company}_${slug}.json`, `cards/${slug}.json`] : [`cards/${slug}.json`];
+  let loaded = false;
+  for (const p of paths) {
+    try {
+      const res = await fetch(p);
+      if (res.ok) {
+        const data = await res.json();
+        populateCard(data);
+        loaded = true;
+        break;
+      }
+    } catch (e) {}
+  }
+
+  // 3. 기본 toomus 명함 폴백
+  if (!loaded) {
+    try {
+      const fallbackRes = await fetch(`cards/toomus.json`);
+      const fallbackData = await fallbackRes.json();
+      populateCard(fallbackData);
+    } catch (e) {
+      showToast("명함 데이터를 불러오지 못했습니다.");
     }
   }
 

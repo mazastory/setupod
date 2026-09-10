@@ -12,6 +12,7 @@
     { "source": "/privacy", "destination": "/privacy" },
     { "source": "/terms", "destination": "/terms" },
     { "source": "/card/:id", "destination": "/card" },
+    { "source": "/:company/:id", "destination": "/card" },
     { "source": "/:id", "destination": "/card" }
   ]
 }
