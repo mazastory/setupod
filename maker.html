@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD Studio | 올인원 비즈니스 자산 & 3D 명함 빌더</title>
@@ -1691,6 +1701,13 @@
       downloadAnchor.click();
       downloadAnchor.remove();
 
+      if (typeof gtag === 'function') {
+        gtag('event', 'export_card_json', {
+          event_category: 'engagement',
+          card_name: data.name
+        });
+      }
+
       showToast("명함 데이터(JSON)가 다운로드되었습니다!");
     }
 
@@ -1703,6 +1720,17 @@
       setTimeout(() => {
         const publishedUrl = `https://setupod.com/c/${safeName}`;
         showToast(`🎉 축하합니다! 첫 셋업팟이 완성됐어요! URL: ${publishedUrl}`);
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'card_published', {
+            event_category: 'conversion',
+            card_name: safeName
+          });
+          gtag('event', 'generate_lead', {
+            value: 1,
+            currency: 'KRW'
+          });
+        }
         
         // 클립보드에 자동 복사
         navigator.clipboard.writeText(publishedUrl).then(() => {
@@ -2130,6 +2158,15 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'export_team_data', {
+          event_category: 'engagement',
+          company_slug: compSlug,
+          member_count: teamMembers.length
+        });
+      }
+
       showToast("팀 전체 명함 데이터가 다운로드되었습니다!");
     }
 
@@ -2172,6 +2209,17 @@
             showToast(`발행 오류: ${res.error}`);
           }
         } else {
+          if (typeof gtag === 'function') {
+            gtag('event', 'team_published_cloud', {
+              event_category: 'conversion',
+              company_slug: compSlug,
+              member_count: teamMembers.length
+            });
+            gtag('event', 'generate_lead', {
+              value: teamMembers.length * 1000,
+              currency: 'KRW'
+            });
+          }
           showToast(`🎉 ${teamMembers.length}명의 기업 명함이 클라우드에 발행 완료되었습니다!`);
         }
       } catch (err) {

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>웨이트리스트 | SETUPOD</title>
@@ -238,6 +248,12 @@
     }
 
     function joinWaitlist() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'sign_up', {
+          method: 'waitlist',
+          event_category: 'conversion'
+        });
+      }
       showScreen('screenReferral');
       // Generate fake random rank for demo
       const randomRank = Math.floor(Math.random() * 5000) + 1000;
@@ -245,6 +261,12 @@
     }
 
     function copyRef() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'share', {
+          method: 'referral_link',
+          content_type: 'waitlist'
+        });
+      }
       const link = document.getElementById('uiRefLink').innerText;
       navigator.clipboard.writeText(link);
       alert('초대 링크가 복사되었습니다! 친구들에게 공유해보세요.');

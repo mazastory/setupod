@@ -342,6 +342,12 @@ function initQrCode() {
 }
 
 function openShareModal() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'view_qr', {
+      event_category: 'engagement',
+      card_name: cardData?.name || 'unknown'
+    });
+  }
   const modal = document.getElementById('shareModal');
   if (modal) {
     modal.classList.add('active');
@@ -393,6 +399,13 @@ function showToast(msg) {
 
 // Copy URL
 function copyCardUrl() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'share', {
+      method: 'copy_link',
+      content_type: 'digital_card',
+      item_id: window.location.pathname
+    });
+  }
   navigator.clipboard.writeText(window.location.href).then(() => {
     showToast("명함 링크가 복사되었습니다!");
     closeShareModal();
@@ -403,6 +416,13 @@ function copyCardUrl() {
 
 // Native Web Share
 function nativeShare() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'share', {
+      method: 'native_share',
+      content_type: 'digital_card',
+      item_id: window.location.pathname
+    });
+  }
   if (navigator.share) {
     navigator.share({
       title: (cardData && cardData.meta) ? cardData.meta.title : "SETUPOD 디지털 명함",
@@ -416,6 +436,12 @@ function nativeShare() {
 
 // Dynamic vCard Download
 function downloadVCard() {
+  if (typeof gtag === 'function') {
+    gtag('event', 'save_contact', {
+      event_category: 'conversion',
+      card_name: cardData?.name || 'unknown'
+    });
+  }
   if (!cardData || !cardData.vcard) {
     showToast("연락처 정보를 찾을 수 없습니다.");
     return;

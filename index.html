@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD | All-in-One Business Asset & 3D Card</title>
@@ -1263,6 +1273,31 @@
       if(e) e.stopPropagation();
       document.getElementById('shareModal').classList.remove('active');
     }
+
+    // GA4 Interaction Tracking
+    document.addEventListener('click', function(e) {
+      const target = e.target.closest('a, button');
+      if (!target) return;
+      const href = target.getAttribute('href') || '';
+      const text = (target.innerText || '').trim().replace(/\s+/g, ' ');
+
+      if (href.includes('maker.html')) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'click_cta_maker', {
+            event_category: 'conversion_funnel',
+            button_text: text,
+            link_url: href
+          });
+        }
+      } else if (href.includes('mailto:')) {
+        if (typeof gtag === 'function') {
+          gtag('event', 'contact_inquiry', {
+            event_category: 'lead',
+            inquiry_type: href.includes('NFC') ? 'nfc_order' : 'general_support'
+          });
+        }
+      }
+    });
   </script>
 </body>
 </html>
