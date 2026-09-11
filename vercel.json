@@ -20,6 +20,10 @@
     { "source": "/roi-calculator", "destination": "/roi_calculator" },
     { "source": "/privacy", "destination": "/privacy" },
     { "source": "/terms", "destination": "/terms" },
+    { "source": "/l/:company/:id", "destination": "/link" },
+    { "source": "/l/:id", "destination": "/link" },
+    { "source": "/c/:company/:id", "destination": "/card" },
+    { "source": "/c/:id", "destination": "/card" },
     { "source": "/card/:id", "destination": "/card" },
     { "source": "/:company/:id", "destination": "/card" },
     { "source": "/:id", "destination": "/card" }

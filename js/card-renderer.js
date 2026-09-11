@@ -19,13 +19,16 @@ function getCardIdentifier() {
 
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   if (pathParts.length >= 2 && !pathParts[0].includes('.html')) {
-    if (pathParts[0] === 'card') {
+    if (pathParts[0] === 'card' || pathParts[0] === 'c') {
+      if (pathParts.length >= 3) {
+        return { company: pathParts[1].toLowerCase(), slug: pathParts[2].toLowerCase() };
+      }
       return { company: null, slug: pathParts[1].toLowerCase() };
     }
     return { company: pathParts[0].toLowerCase(), slug: pathParts[1].toLowerCase() };
   }
   if (pathParts.length === 1 && !pathParts[0].includes('.html')) {
-    if (pathParts[0] === 'card') return { company: null, slug: 'setupod' };
+    if (pathParts[0] === 'card' || pathParts[0] === 'c') return { company: null, slug: 'setupod' };
     return { company: null, slug: pathParts[0].toLowerCase() };
   }
   return { company: null, slug: 'setupod' };

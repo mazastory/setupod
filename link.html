@@ -2323,10 +2323,14 @@
       let targetSlug = urlParams.get('id') || urlParams.get('slug');
       const pathParts = window.location.pathname.split('/').filter(Boolean);
       if (!targetSlug && pathParts.length > 0) {
-        if (pathParts[0] !== 'link' && pathParts[0] !== 'link.html') {
+        if (pathParts[0] === 'l' || pathParts[0] === 'link' || pathParts[0] === 'link.html') {
+          if (pathParts.length >= 3) {
+            targetSlug = pathParts[2];
+          } else if (pathParts[1]) {
+            targetSlug = pathParts[1];
+          }
+        } else if (pathParts[0] !== 'index.html') {
           targetSlug = pathParts[0];
-        } else if (pathParts[1]) {
-          targetSlug = pathParts[1];
         }
       }
 
