@@ -343,6 +343,132 @@
       position: relative;
     }
 
+    /* 테마 라이브 전환 바 */
+    .hero-theme-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 350px;
+      margin-bottom: 12px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      backdrop-filter: blur(12px);
+    }
+
+    .theme-bar-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.02em;
+    }
+
+    .live-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #a855f7;
+      box-shadow: 0 0 8px #a855f7;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    .theme-pills-wrap {
+      display: flex;
+      gap: 5px;
+    }
+
+    .theme-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 99px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .theme-pill.active {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .color-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .dot-violet { background: #c084fc; box-shadow: 0 0 6px #a855f7; }
+    .dot-obsidian { background: #94a3b8; box-shadow: 0 0 6px #64748b; }
+    .dot-emerald { background: #34d399; box-shadow: 0 0 6px #10b981; }
+
+    /* 카드 하단 액션 바 */
+    .card-action-bar {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 350px;
+      margin-top: 14px;
+    }
+
+    .card-action-pill {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .card-action-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .card-action-pill.pill-highlight {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+      color: #e0f2fe;
+    }
+
+    .card-action-pill.pill-highlight:hover {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+    }
+
     .card-scene {
       width: 100%;
       max-width: 350px;
@@ -938,31 +1064,54 @@
   <section class="hero-section">
     <div>
       <div class="hero-badge">
-        <i data-lucide="zap" style="width:14px;height:14px;color:#ffd978;"></i>
-        <span>1초 만에 셋업하는 올인원 비즈니스 자산 & 3D 명함</span>
+        <i data-lucide="zap" style="width:13px;height:13px;color:#ffd978;"></i>
+        <span>1초 셋업 · 3D 명함 · 멀티링크</span>
       </div>
       <h1 class="hero-title">
-        1초 만에 셋업하고, 링크 하나로 압도한다.<br>
-        <span class="gradient-text">3D 디지털 명함 & 세일즈 에코시스템</span>
+        1초 만에 셋업하고,<br>
+        <span class="gradient-text">링크 하나로 압도하다</span>
       </h1>
       <p class="hero-desc">
-        복잡한 홈페이지 제작은 그만. 각인되는 3D 인터랙티브 명함부터 잠재 고객을 모으는 세일즈 퍼널까지.<br>
-        단 1초 만에 완성하는 <strong style="color:#c084fc;">셋업팟(SETUPOD)</strong>을 지금 무료로 셋업하세요.
+        명함 한 장으로 거래처와 고객의 시선을 사로잡으세요.<br>
+        복잡한 준비 없이 지금 무료로 시작할 수 있습니다.
       </p>
       <div class="hero-cta-group">
         <a href="maker.html" class="btn-hero-main">
           <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
-          <span>1초 만에 셋업팟 만들기</span>
+          <span>무료로 셋업하기</span>
         </a>
         <a href="card.html?id=setupod" class="btn-hero-sub">
           <i data-lucide="eye" style="width:16px;height:16px;"></i>
-          <span>실제 명함 예시 보기</span>
+          <span>3D 명함 체험</span>
         </a>
       </div>
     </div>
 
     <!-- 우측 3D 카드 실시간 인터랙티브 체험 -->
     <div class="hero-card-display">
+      
+      <!-- 테마 라이브 전환 바 -->
+      <div class="hero-theme-bar">
+        <div class="theme-bar-label">
+          <span class="live-pulse-dot"></span>
+          <span>테마 프리뷰</span>
+        </div>
+        <div class="theme-pills-wrap">
+          <button class="theme-pill active" data-theme="violet" onclick="manualSwitchTheme('violet', this)" title="Violet Luxury">
+            <span class="color-dot dot-violet"></span>
+            <span>Violet</span>
+          </button>
+          <button class="theme-pill" data-theme="obsidian" onclick="manualSwitchTheme('obsidian', this)" title="Obsidian Dark">
+            <span class="color-dot dot-obsidian"></span>
+            <span>Obsidian</span>
+          </button>
+          <button class="theme-pill" data-theme="emerald" onclick="manualSwitchTheme('emerald', this)" title="Emerald Tech">
+            <span class="color-dot dot-emerald"></span>
+            <span>Emerald</span>
+          </button>
+        </div>
+      </div>
+
       <div class="card-scene" id="heroCardScene" onclick="toggleHeroFlip()">
         <div class="card-flipper">
           
@@ -1085,9 +1234,16 @@
         </div>
       </div>
 
-      <div class="tap-hint-pill" onclick="toggleHeroFlip()">
-        <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
-        <span>카드를 클릭하면 3D로 뒤집힙니다</span>
+      <!-- 하단 인터랙션 버튼 바 -->
+      <div class="card-action-bar">
+        <div class="card-action-pill" onclick="toggleHeroFlip()">
+          <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
+          <span>탭하여 3D 뒤집기</span>
+        </div>
+        <button class="card-action-pill pill-highlight" onclick="openShareModal()">
+          <i data-lucide="smartphone" style="width:13px;height:13px;color:#38bdf8;"></i>
+          <span>내 폰으로 직접 스캔 (QR)</span>
+        </button>
       </div>
     </div>
   </section>
@@ -1301,10 +1457,11 @@
   <!-- QR Code Modal (Demo) -->
   <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
     <div class="modal-box" onclick="event.stopPropagation()">
-      <div style="font-size:20px; font-weight:800; margin-bottom:8px; color:var(--cyan-accent);">디지털 명함 QR코드</div>
-      <div style="color:rgba(255,255,255,0.6); font-size:14px; margin-bottom:20px;">상대방 카메라로 QR코드를 스캔하세요</div>
-      <div id="qrContainer" style="background:#fff; padding:16px; border-radius:16px; display:inline-block; margin-bottom:20px;"></div>
-      <button onclick="closeShareModal()" style="width:100%; padding:14px; background:rgba(255,255,255,0.1); border:none; border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">닫기</button>
+      <div style="font-size:20px; font-weight:800; margin-bottom:6px; color:#fff;">내 스마트폰으로 직접 체험하기</div>
+      <div style="color:rgba(255,255,255,0.65); font-size:13.5px; margin-bottom:18px; line-height:1.5;">스마트폰 기본 카메라로 QR코드를 비춰보세요.<br><strong style="color:#c084fc;">3D 인터랙티브 명함</strong>이 스마트폰에서 바로 열립니다!</div>
+      <div id="qrContainer" style="background:#fff; padding:14px; border-radius:18px; display:inline-block; margin-bottom:18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></div>
+      <div style="font-size:12px; color:rgba(255,255,255,0.45); margin-bottom:16px;">앱 설치 없이 아이폰 / 갤럭시 즉시 100% 호환</div>
+      <button onclick="closeShareModal()" style="width:100%; padding:13px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">닫기</button>
     </div>
   </div>
 
@@ -1326,18 +1483,87 @@
       document.getElementById('heroCardScene').classList.toggle('flipped');
     }
 
+    // ── Auto Theme Tour & Manual Switcher ──
+    const heroThemes = ['violet', 'obsidian', 'emerald'];
+    let currentHeroThemeIdx = 0;
+    let autoTourTimer = null;
+    let isUserInteracting = false;
+    let resumeTimeout = null;
+
+    function applyHeroTheme(themeName) {
+      const themeStylesheet = document.getElementById('themeStylesheet');
+      if (themeStylesheet) {
+        themeStylesheet.href = `themes/${themeName}.css`;
+      }
+      document.querySelectorAll('.theme-pill').forEach(p => p.classList.remove('active'));
+      const activePill = document.querySelector(`.theme-pill[data-theme="${themeName}"]`);
+      if (activePill) activePill.classList.add('active');
+
+      const flipper = document.querySelector('.card-flipper');
+      if (flipper) {
+        flipper.style.filter = 'brightness(1.15)';
+        setTimeout(() => { flipper.style.filter = 'brightness(1)'; }, 350);
+      }
+    }
+
+    function manualSwitchTheme(themeName, btn) {
+      isUserInteracting = true;
+      clearInterval(autoTourTimer);
+      applyHeroTheme(themeName);
+      currentHeroThemeIdx = heroThemes.indexOf(themeName);
+
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(() => {
+        isUserInteracting = false;
+        startAutoTour();
+      }, 12000);
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'select_hero_theme', {
+          event_category: 'engagement',
+          theme_name: themeName
+        });
+      }
+    }
+
+    function startAutoTour() {
+      if (autoTourTimer) clearInterval(autoTourTimer);
+      autoTourTimer = setInterval(() => {
+        if (isUserInteracting) return;
+        currentHeroThemeIdx = (currentHeroThemeIdx + 1) % heroThemes.length;
+        applyHeroTheme(heroThemes[currentHeroThemeIdx]);
+      }, 4500);
+    }
+
+    startAutoTour();
+
+    const heroDisplay = document.querySelector('.hero-card-display');
+    if (heroDisplay) {
+      heroDisplay.addEventListener('mouseenter', () => { isUserInteracting = true; });
+      heroDisplay.addEventListener('mouseleave', () => {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => {
+          isUserInteracting = false;
+          startAutoTour();
+        }, 3000);
+      });
+    }
+
     // QR Modal logic
     function openShareModal() {
       document.getElementById('shareModal').classList.add('active');
       document.getElementById('qrContainer').innerHTML = '';
       new QRCode(document.getElementById("qrContainer"), {
-        text: "https://setupod.com",
-        width: 180,
-        height: 180,
+        text: "https://setupod.com/alex",
+        width: 190,
+        height: 190,
         colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
       });
+      if (typeof gtag === 'function') {
+        gtag('event', 'view_qr_demo', { event_category: 'engagement' });
+      }
     }
     function closeShareModal(e) {
       if(e) e.stopPropagation();
