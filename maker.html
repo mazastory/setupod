@@ -89,20 +89,67 @@
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       text-decoration: none;
       color: #ffffff;
     }
 
+    .nav-logo-symbol {
+      width: 32px;
+      height: 32px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-gif {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .brand-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
-      letter-spacing: 0.06em;
-      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .brand-title .part-setup {
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title .part-od {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-ko-tag {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      padding: 1.5px 5px;
+      border-radius: 5px;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
     }
 
     .badge-studio {
@@ -1044,7 +1091,11 @@
   <!-- 상단 헤더 -->
   <header>
     <a href="index.html" class="brand-logo">
-      <span class="brand-title">SETUPOD</span>
+      <div class="nav-logo-symbol">
+        <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
+      </div>
+      <span class="brand-title"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
+      <span class="logo-ko-tag">셋업팟</span>
       <span class="badge-studio">STUDIO</span>
     </a>
     <div class="nav-actions">

@@ -95,20 +95,96 @@
     .nav-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
       color: #ffffff;
     }
 
+    .nav-logo-symbol {
+      width: 36px;
+      height: 36px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-brand:hover .nav-logo-symbol {
+      transform: scale(1.06);
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
+    }
+
+    .nav-logo-gif {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
     .nav-logo-text {
       font-family: 'Montserrat', sans-serif;
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 900;
-      letter-spacing: 0.06em;
-      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .nav-logo-text .part-setup {
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .nav-logo-text .part-od {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .logo-ko-tag {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      padding: 1.5px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .nav-logo-tagline {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.02em;
+      line-height: 1;
     }
 
     .nav-links {
@@ -835,7 +911,16 @@
   <!-- 글로벌 네비게이션 -->
   <nav>
     <a href="index.html" class="nav-brand">
-      <span class="nav-logo-text">SETUPOD</span>
+      <div class="nav-logo-symbol">
+        <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
+      </div>
+      <div class="nav-logo-text-wrap">
+        <div class="nav-logo-row">
+          <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
+          <span class="logo-ko-tag">셋업팟</span>
+        </div>
+        <span class="nav-logo-tagline">1초 만에 셋업하는 비즈니스 팟</span>
+      </div>
     </a>
     <div class="nav-links">
       <a href="#marketing-tools" class="nav-link">마케팅 툴킷</a>
@@ -854,20 +939,20 @@
     <div>
       <div class="hero-badge">
         <i data-lucide="zap" style="width:14px;height:14px;color:#ffd978;"></i>
-        <span>나를 알리는 3D 명함부터 고객을 모으는 세일즈 퍼널까지</span>
+        <span>1초 만에 셋업하는 올인원 비즈니스 자산 & 3D 명함</span>
       </div>
       <h1 class="hero-title">
-        당신의 1인 비즈니스를 완벽하게 무장시킬<br>
-        <span class="gradient-text">마케팅 & 세일즈 에코시스템</span>
+        1초 만에 셋업하고, 링크 하나로 압도한다.<br>
+        <span class="gradient-text">3D 디지털 명함 & 세일즈 에코시스템</span>
       </h1>
       <p class="hero-desc">
-        성공적인 비즈니스에는 3가지가 필요합니다. 각인되는 정체성, 꾸준한 트래픽, 그리고 자동화된 세일즈 퍼널.<br>
-        이 모든 것을 <strong style="color:#c084fc;">셋업팟</strong> 단 한 곳에서 무료로 구축하세요.
+        복잡한 홈페이지 제작은 그만. 각인되는 3D 인터랙티브 명함부터 잠재 고객을 모으는 세일즈 퍼널까지.<br>
+        단 1초 만에 완성하는 <strong style="color:#c084fc;">셋업팟(SETUPOD)</strong>을 지금 무료로 셋업하세요.
       </p>
       <div class="hero-cta-group">
         <a href="maker.html" class="btn-hero-main">
           <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
-          <span>1분 만에 셋업팟 만들기</span>
+          <span>1초 만에 셋업팟 만들기</span>
         </a>
         <a href="card.html?id=setupod" class="btn-hero-sub">
           <i data-lucide="eye" style="width:16px;height:16px;"></i>
