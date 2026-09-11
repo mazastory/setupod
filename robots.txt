@@ -1,0 +1,11 @@
+# robots.txt for SETUPOD (https://www.setupod.com)
+User-agent: *
+Allow: /
+
+# Disallow private paths if any
+Disallow: /api/
+Disallow: /scratch/
+
+# Sitemap & Feed endpoints for Google Search Console & Naver Search Advisor
+Sitemap: https://www.setupod.com/sitemap.xml
+Sitemap: https://www.setupod.com/rss.xml

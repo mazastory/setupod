@@ -20,6 +20,13 @@
     { "source": "/roi-calculator", "destination": "/roi_calculator" },
     { "source": "/privacy", "destination": "/privacy" },
     { "source": "/terms", "destination": "/terms" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/sitemap", "destination": "/sitemap.xml" },
+    { "source": "/rss.xml", "destination": "/rss.xml" },
+    { "source": "/rss", "destination": "/rss.xml" },
+    { "source": "/feed.xml", "destination": "/rss.xml" },
+    { "source": "/feed", "destination": "/rss.xml" },
     { "source": "/l/:company/:id", "destination": "/link" },
     { "source": "/l/:id", "destination": "/link" },
     { "source": "/c/:company/:id", "destination": "/card" },
@@ -27,5 +34,28 @@
     { "source": "/card/:id", "destination": "/card" },
     { "source": "/:company/:id", "destination": "/card" },
     { "source": "/:id", "destination": "/card" }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/rss.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/rss+xml; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=3600" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
   ]
 }

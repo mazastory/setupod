@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SETUPOD (셋업팟) | 차세대 3D 인터랙티브 명함 &amp; 올인원 비즈니스 허브</title>
+    <link>https://www.setupod.com</link>
+    <description>1초 만에 셋업하고, 링크 하나로 압도하다. 3D 인터랙티브 디지털 명함, vCard 주소록 원클릭 저장, 고전환 올인원 멀티링크, 기업 단체 일괄 발행 솔루션.</description>
+    <language>ko</language>
+    <lastBuildDate>Fri, 11 Sep 2026 09:00:00 +0900</lastBuildDate>
+    <atom:link href="https://www.setupod.com/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>SETUPOD 3D 인터랙티브 명함 스튜디오 공식 출시</title>
+      <link>https://www.setupod.com/maker</link>
+      <guid isPermaLink="true">https://www.setupod.com/maker</guid>
+      <description><![CDATA[브라우저에서 1초 만에 나만의 3D 회전 명함을 디자인하고 배포하세요. Classic Glass, Executive Metal, Visual Hero 3대 템플릿과 3가지 컬러 테마를 즉시 지원합니다.]]></description>
+      <category>신규 기능</category>
+      <pubDate>Fri, 11 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+
+    <item>
+      <title>기업 및 팀원을 위한 네임스페이스 단체 명함 무료 발행 시스템</title>
+      <link>https://www.setupod.com/maker#team</link>
+      <guid isPermaLink="true">https://www.setupod.com/maker#team</guid>
+      <description><![CDATA[동명이인 충돌 없는 기업 전용 고유 URL(setupod.com/회사명/직원ID)을 지원합니다. 엑셀 붙여넣기 한 번으로 전 임직원의 3D 명함과 vCard를 클라우드에 일괄 배포할 수 있습니다.]]></description>
+      <category>기업 솔루션</category>
+      <pubDate>Fri, 11 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+
+    <item>
+      <title>NEXUS GLOBAL 테크 기업형 메탈 템플릿 쇼케이스</title>
+      <link>https://www.setupod.com/nexus/alex</link>
+      <guid isPermaLink="true">https://www.setupod.com/nexus/alex</guid>
+      <description><![CDATA[글로벌 엔터프라이즈 및 테크 리더를 위한 Executive Metal 템플릿의 실제 3D 렌더링을 직접 체험해보세요. 스마트폰 카메라로 QR 스캔 시 1초 만에 주소록에 자동 저장됩니다.]]></description>
+      <category>쇼케이스</category>
+      <pubDate>Fri, 11 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+
+    <item>
+      <title>인스타그램 &amp; SNS용 올인원 멀티링크 허브</title>
+      <link>https://www.setupod.com/link</link>
+      <guid isPermaLink="true">https://www.setupod.com/link</guid>
+      <description><![CDATA[단순한 링크 모음집을 넘어 세일즈 퍼널과 3D 브랜드 자산이 연결되는 고전환 멀티링크 페이지를 제공합니다.]]></description>
+      <category>마케팅 도구</category>
+      <pubDate>Fri, 11 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+
+    <item>
+      <title>마케팅 ROI 계산기 &amp; 비즈니스 진단 스코어카드 오픈</title>
+      <link>https://www.setupod.com/roi-calculator</link>
+      <guid isPermaLink="true">https://www.setupod.com/roi-calculator</guid>
+      <description><![CDATA[디지털 명함과 세일즈 퍼널을 통해 절감할 수 있는 인쇄 비용과 전환율 개선 기대치를 실시간으로 시뮬레이션하세요.]]></description>
+      <category>분석 도구</category>
+      <pubDate>Fri, 11 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+  </channel>
+</rss>

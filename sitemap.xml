@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- 1. 메인 랜딩 페이지 -->
+  <url>
+    <loc>https://www.setupod.com/</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 2. 명함 & 멀티링크 제작 스튜디오 -->
+  <url>
+    <loc>https://www.setupod.com/maker</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 3. 3D 인터랙티브 명함 체험 (공식 예시) -->
+  <url>
+    <loc>https://www.setupod.com/alex</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 4. 기업용 메탈 템플릿 명함 체험 (NEXUS GLOBAL 예시) -->
+  <url>
+    <loc>https://www.setupod.com/nexus/alex</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5. 멀티링크 프로필 허브 -->
+  <url>
+    <loc>https://www.setupod.com/link</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 6. 비즈니스 진단 스코어카드 -->
+  <url>
+    <loc>https://www.setupod.com/scorecard</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 7. 마케팅 ROI 계산기 -->
+  <url>
+    <loc>https://www.setupod.com/roi-calculator</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 8. 카카오 상담 / 퍼널 -->
+  <url>
+    <loc>https://www.setupod.com/kakao</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 9. 얼리액세스 웨이트리스트 -->
+  <url>
+    <loc>https://www.setupod.com/waitlist</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 10. 개인정보처리방침 -->
+  <url>
+    <loc>https://www.setupod.com/privacy</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- 11. 이용약관 -->
+  <url>
+    <loc>https://www.setupod.com/terms</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
