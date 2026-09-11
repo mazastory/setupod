@@ -753,7 +753,7 @@
             <div class="showcase-halo"></div>
             
             <div class="book-3d-frame">
-              <img src="assets/setupod_edu1_cover.jpg" id="previewCoverImg" class="book-3d-img" alt="3D Cover">
+              <img src="assets/setupod_edu1_cover.jpg" id="previewCoverImg" class="book-3d-img" alt="3D Cover" onerror="if(!this.dataset.fallbackTried){this.dataset.fallbackTried='1';this.src='assets/cover.jpg';}">
               <div class="book-shine-sweep"></div>
             </div>
           </div>
@@ -881,6 +881,11 @@
 
     function setCoverUrl(url) {
       document.getElementById('inputCoverUrl').value = url;
+      const img = document.getElementById('previewCoverImg');
+      if (img) {
+        delete img.dataset.fallbackTried;
+        img.src = url;
+      }
       updateReelsLive();
       showToastNotification('표지 이미지가 변경되었습니다.');
     }
@@ -1088,6 +1093,10 @@
         isRecording = false;
       }
     }
+
+    // Auto-init live preview
+    document.addEventListener('DOMContentLoaded', updateReelsLive);
+    updateReelsLive();
   </script>
 </body>
 </html>
