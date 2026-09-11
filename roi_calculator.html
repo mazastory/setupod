@@ -66,6 +66,7 @@
       margin-bottom: 12px;
       text-align: center;
       background: linear-gradient(135deg, #fff, #c4b5fd);
+      background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -92,11 +93,13 @@
     .input-value { font-family: 'Montserrat', sans-serif; font-weight: 900; color: var(--cyan); }
     
     input[type=range] {
+      appearance: none;
       -webkit-appearance: none;
       width: 100%;
       background: transparent;
     }
     input[type=range]::-webkit-slider-thumb {
+      appearance: none;
       -webkit-appearance: none;
       height: 24px;
       width: 24px;
