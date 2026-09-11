@@ -31,9 +31,12 @@
     { "source": "/l/:id", "destination": "/link" },
     { "source": "/c/:company/:id", "destination": "/card" },
     { "source": "/c/:id", "destination": "/card" },
+    { "source": "/card/:company/:id", "destination": "/card" },
     { "source": "/card/:id", "destination": "/card" },
-    { "source": "/:company/:id", "destination": "/card" },
-    { "source": "/:id", "destination": "/card" }
+    { "source": "/alex", "destination": "/card" },
+    { "source": "/setupod", "destination": "/card" },
+    { "source": "/nexus/alex", "destination": "/card" },
+    { "source": "/nexus", "destination": "/card" }
   ],
   "headers": [
     {

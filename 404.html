@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - 페이지를 찾을 수 없습니다 | SETUPOD</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: #06060c;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 배경 글로우 */
+    .bg-glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 70%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .error-card {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 48px 32px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 28px;
+    }
+
+    .logo-badge img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .error-code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 88px;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, #c084fc 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .error-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .error-desc {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      word-break: keep-all;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 24px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-sub {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sub:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .footer-note {
+      margin-top: 32px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <div class="error-card">
+    <div class="logo-badge">
+      <img src="assets/setupod.gif" alt="SETUPOD">
+      <span>SETUPOD · 404 NOT FOUND</span>
+    </div>
+
+    <div class="error-code">404</div>
+    <h1 class="error-title">존재하지 않는 페이지입니다</h1>
+    <p class="error-desc">
+      입력하신 주소가 올바르지 않거나, 비공개로 전환되었을 수 있습니다.<br>
+      아래 버튼을 눌러 메인 페이지로 이동하거나 나만의 3D 명함을 직접 셋업해보세요.
+    </p>
+
+    <div class="btn-group">
+      <a href="/" class="btn-main">
+        <i data-lucide="home" style="width:17px;height:17px;"></i>
+        <span>메인 홈으로 이동하기</span>
+      </a>
+      <a href="/maker" class="btn-sub">
+        <i data-lucide="sparkles" style="width:16px;height:16px;color:#c084fc;"></i>
+        <span>1초 만에 3D 명함 만들기</span>
+      </a>
+    </div>
+
+    <div class="footer-note">
+      SETUPOD © 2026. ALL-IN-ONE BUSINESS ASSET.
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
