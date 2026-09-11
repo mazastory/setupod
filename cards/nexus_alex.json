@@ -1,0 +1,63 @@
+{
+  "slug": "alex",
+  "company": "NEXUS GLOBAL",
+  "companySlug": "nexus",
+  "layout": "metal",
+  "theme": "obsidian",
+  "companyWatermark": "NEXUS",
+  "slogan": "미래를 여는 차세대 글로벌 엔터프라이즈 솔루션",
+  "tagline": "GLOBAL INNOVATION & ASSET",
+  "role": "대표이사 / CEO",
+  "name": "Alex Rivera",
+  "phone": "010-5555-0200",
+  "phoneLabel": "M",
+  "email": "alex@nexus-global.io",
+  "emailLabel": "E",
+  "moatTags": [
+    "3D 인터랙티브",
+    "vCard 주소록 저장",
+    "기업 공식명함"
+  ],
+  "logo": {
+    "src": "assets/setupod.gif",
+    "fallback": "assets/setupod.gif",
+    "alt": "NEXUS GLOBAL Logo"
+  },
+  "primaryAction": {
+    "url": "https://setupod.com",
+    "label": "공식 웹사이트",
+    "icon": "sparkles"
+  },
+  "socials": [
+    {
+      "type": "kakao",
+      "url": "https://open.kakao.com",
+      "label": "기업 카카오톡 채널",
+      "color": "#ffd978"
+    },
+    {
+      "type": "instagram",
+      "url": "https://instagram.com",
+      "label": "공식 인스타그램",
+      "color": "#f472b6"
+    }
+  ],
+  "vcard": {
+    "lastName": "Rivera",
+    "firstName": "Alex",
+    "formattedName": "Alex Rivera (NEXUS GLOBAL 대표이사)",
+    "org": "NEXUS GLOBAL",
+    "title": "대표이사 / CEO",
+    "tel": "010-5555-0200",
+    "email": "alex@nexus-global.io",
+    "url": "https://setupod.com/nexus/alex",
+    "note": "NEXUS GLOBAL | 미래를 여는 차세대 엔터프라이즈 솔루션"
+  },
+  "meta": {
+    "title": "NEXUS GLOBAL | Alex Rivera CEO 디지털 명함",
+    "siteName": "NEXUS GLOBAL",
+    "ogTitle": "Alex Rivera CEO | NEXUS GLOBAL",
+    "ogDescription": "GLOBAL INNOVATION | NEXUS GLOBAL 공식 디지털 명함",
+    "ogImage": "assets/setupod.gif"
+  }
+}

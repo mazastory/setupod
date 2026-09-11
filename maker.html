@@ -1322,27 +1322,55 @@
           </div>
         </div>
 
-        <!-- 1. 회사 공통 브랜딩 -->
+        <!-- 1. 기업 공통 프리미엄 템플릿 (레이아웃) -->
         <div>
           <div class="section-title-wrap">
-            <div class="section-icon-box"><i data-lucide="building" style="width:16px;height:16px;"></i></div>
-            <h2 class="section-title">1. 회사 공통 브랜드 & 테마</h2>
+            <div class="section-icon-box"><i data-lucide="layout" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">1. 기업 공통 템플릿 (레이아웃) 선택</h2>
           </div>
-
-          <!-- 테마 선택 -->
           <div class="theme-selector" style="margin-bottom:14px;">
-            <div class="theme-card" data-team-theme="violet" onclick="selectTeamTheme('violet', this)">
-              <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
-              <span class="theme-name">Violet Luxury</span>
+            <div class="theme-card team-layout-selector-card active" data-team-layout="classic" onclick="selectTeamLayout('classic', this)">
+              <div class="theme-color-dot" style="background: #1e293b; border-radius:4px;"></div>
+              <span class="theme-name">Classic Glass</span>
             </div>
+            <div class="theme-card team-layout-selector-card" data-team-layout="metal" onclick="selectTeamLayout('metal', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #94a3b8, #334155); border-radius:4px;"></div>
+              <span class="theme-name">Executive Metal</span>
+            </div>
+            <div class="theme-card team-layout-selector-card" data-team-layout="visual" onclick="selectTeamLayout('visual', this)">
+              <div class="theme-color-dot" style="background: url('assets/cover.jpg') center/cover; border-radius:4px;"></div>
+              <span class="theme-name">Visual Hero</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 기업 공통 컬러 & 재질 테마 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="palette" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">2. 기업 컬러 & 재질 테마 선택</h2>
+          </div>
+          <div class="theme-selector" style="margin-bottom:14px;">
             <div class="theme-card active" data-team-theme="obsidian" onclick="selectTeamTheme('obsidian', this)">
               <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
               <span class="theme-name">Obsidian Dark</span>
+            </div>
+            <div class="theme-card" data-team-theme="violet" onclick="selectTeamTheme('violet', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
+              <span class="theme-name">Violet Luxury</span>
             </div>
             <div class="theme-card" data-team-theme="emerald" onclick="selectTeamTheme('emerald', this)">
               <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
               <span class="theme-name">Emerald Tech</span>
             </div>
+          </div>
+        </div>
+
+        <!-- 3. 회사 공통 브랜딩 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="building" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">3. 회사 기본 브랜딩 & 공식 채널</h2>
           </div>
 
           <div class="form-grid">
@@ -1399,12 +1427,12 @@
           </div>
         </div>
 
-        <!-- 2. 임직원 명단 관리 -->
+        <!-- 4. 임직원 명단 관리 -->
         <div>
           <div class="team-header-row">
             <div class="section-title-wrap" style="margin-bottom:0;">
               <div class="section-icon-box"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
-              <h2 class="section-title">2. 임직원 명단 (<span id="teamMemberCount">3</span>명)</h2>
+              <h2 class="section-title">4. 임직원 명단 (<span id="teamMemberCount">3</span>명)</h2>
             </div>
             <div class="team-actions-row">
               <button class="btn-team-action" onclick="openBatchModal()">
@@ -1567,24 +1595,36 @@
       document.getElementById('cardScene').classList.add('flipped');
     }
 
-    function selectLayout(layoutName, element) {
-      currentLayout = layoutName;
-      document.querySelectorAll('.layout-selector-card').forEach(c => c.classList.remove('active'));
-      if (element) element.classList.add('active');
+    let currentTeamLayout = 'classic';
 
+    function applyLayoutToDom(layoutName) {
       const stylesheet = document.getElementById('layoutStylesheet');
       if (stylesheet) {
         stylesheet.href = layoutName === 'classic' ? '' : `themes/layout-${layoutName}.css?v=${Date.now()}`;
       }
-      
       const flipper = document.querySelector('.card-flipper');
       if (flipper) {
         flipper.classList.remove('layout-classic', 'layout-metal', 'layout-visual');
         flipper.classList.add(`layout-${layoutName}`);
       }
-      
+    }
+
+    function selectLayout(layoutName, element) {
+      currentLayout = layoutName;
+      document.querySelectorAll('.layout-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+      applyLayoutToDom(layoutName);
       showToast(`${layoutName.toUpperCase()} 레이아웃이 적용되었습니다.`);
       liveUpdate();
+    }
+
+    function selectTeamLayout(layoutName, element) {
+      currentTeamLayout = layoutName;
+      document.querySelectorAll('.team-layout-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+      applyLayoutToDom(layoutName);
+      showToast(`기업 공통 레이아웃이 ${layoutName.toUpperCase()}로 변경되었습니다.`);
+      liveUpdateTeam();
     }
 
     function selectTheme(themeName, element) {
@@ -1794,6 +1834,13 @@
     function loadPreset(type) {
       if (type === 'setupod') {
         selectTheme('violet', document.querySelector('[data-theme="violet"]'));
+        selectLayout('classic', document.querySelector('[data-layout="classic"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('violet', document.querySelector('[data-team-theme="violet"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('classic', document.querySelector('[data-team-layout="classic"]'));
+        }
         document.getElementById('inputName').value = "Alex Rivera";
         document.getElementById('inputRole').value = "대표이사";
         document.getElementById('inputCompany').value = "SETUPOD";
@@ -1808,6 +1855,13 @@
         currentLogoSrc = 'assets/setupod.gif';
       } else if (type === 'nexus') {
         selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
+        selectLayout('metal', document.querySelector('[data-layout="metal"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('obsidian', document.querySelector('[data-team-theme="obsidian"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('metal', document.querySelector('[data-team-layout="metal"]'));
+        }
         document.getElementById('inputName').value = "김민준";
         document.getElementById('inputRole').value = "총괄 디렉터";
         document.getElementById('inputCompany').value = "NEXUS GLOBAL";
@@ -1823,7 +1877,11 @@
       }
       document.getElementById('frontLogoImg').src = currentLogoSrc;
       document.getElementById('backLogoImg').src = currentLogoSrc;
-      liveUpdate();
+      if (currentMode === 'single') {
+        liveUpdate();
+      } else {
+        liveUpdateTeam();
+      }
       showToast(`${type.toUpperCase()} 예시가 로드되었습니다.`);
     }
 
@@ -1871,6 +1929,7 @@
         panelSingle.style.display = 'flex';
         panelTeam.style.display = 'none';
         document.getElementById('themeStylesheet').href = `themes/${currentTheme}.css`;
+        applyLayoutToDom(currentLayout);
         liveUpdate();
       } else {
         tabSingle.classList.remove('active');
@@ -1878,6 +1937,7 @@
         panelSingle.style.display = 'none';
         panelTeam.style.display = 'flex';
         document.getElementById('themeStylesheet').href = `themes/${currentTeamTheme}.css`;
+        applyLayoutToDom(currentTeamLayout);
         renderTeamRoster();
         liveUpdateTeam();
       }
@@ -2180,6 +2240,7 @@
         company: document.getElementById('teamCompany')?.value || 'SETUPOD',
         companySlug: compSlug,
         theme: currentTeamTheme,
+        layout: currentTeamLayout,
         watermark: document.getElementById('teamWatermark')?.value || 'SETUPOD',
         tagline: document.getElementById('teamTagline')?.value || '',
         slogan: document.getElementById('teamSlogan')?.value || '',
@@ -2231,6 +2292,7 @@
       const companyData = {
         company: document.getElementById('teamCompany')?.value || 'SETUPOD',
         theme: currentTeamTheme,
+        layout: currentTeamLayout,
         watermark: document.getElementById('teamWatermark')?.value || 'SETUPOD',
         slogan: document.getElementById('teamSlogan')?.value || '',
         tagline: document.getElementById('teamTagline')?.value || '',

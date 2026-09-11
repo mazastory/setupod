@@ -112,6 +112,7 @@ async function syncTeamPodsToCloud(companySlug, companyData, members) {
 
     const cardModel = {
       theme: companyData.theme || 'obsidian',
+      layout: companyData.layout || 'classic',
       name: m.name,
       role: m.role,
       company: companyData.company,
