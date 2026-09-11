@@ -482,6 +482,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
       border-radius: 26px;
     }
@@ -510,11 +511,24 @@
 
     .card-face.front {
       z-index: 2;
+      pointer-events: auto;
+      transform: rotateY(0deg);
     }
 
     .card-face.back {
       z-index: 1;
+      pointer-events: none;
       transform: rotateY(180deg);
+    }
+
+    .card-scene.flipped .card-face.front {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-scene.flipped .card-face.back {
+      z-index: 2;
+      pointer-events: auto;
     }
 
     .watermark-dynamic {
