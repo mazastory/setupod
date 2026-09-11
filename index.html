@@ -373,25 +373,33 @@
     }
 
     .front-logo-box, .back-top-logo {
-      width: 136px;
-      height: 136px;
+      width: 140px;
+      height: 140px;
+      aspect-ratio: 1 / 1 !important;
+      flex: 0 0 140px !important;
+      max-width: 140px;
+      max-height: 140px;
       background: var(--logo-bg);
       border: 1px solid var(--logo-border);
-      border-radius: 24px;
+      border-radius: 26px;
       margin: 10px auto 0;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: var(--logo-shadow);
       padding: 12px;
+      overflow: hidden;
+      box-sizing: border-box;
       animation: logoPulse 4.5s ease-in-out infinite;
     }
 
     .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
+      display: block;
     }
 
     .brand-sub-engraving {
@@ -902,8 +910,8 @@
               <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="front-wrapper">
-              <div class="front-logo-box" style="overflow: hidden; padding: 0;">
-                <video src="assets/setupod_logo.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain; background:rgba(0,0,0,0.4);"></video>
+              <div class="front-logo-box">
+                <img src="assets/setupod.gif" alt="SETUPOD 3D Logo">
               </div>
               <div>
                 <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
@@ -953,8 +961,8 @@
               <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
             </div>
             <div class="back-wrapper">
-              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer; overflow: hidden; padding: 0;" title="클릭 시 QR코드 팝업">
-                <video src="assets/setupod_logo.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:contain; background:rgba(0,0,0,0.4);"></video>
+              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer;" title="클릭 시 QR코드 팝업">
+                <img src="assets/setupod.gif" alt="SETUPOD 3D Logo">
               </div>
               <div>
                 <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
