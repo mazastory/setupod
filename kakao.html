@@ -725,16 +725,15 @@
 
   <!-- Top Header -->
   <header>
-    <a href="./index2.html" class="brand-wrap">
-      <span class="brand-title">
-        <span style="color:#fee500;">SETUPOD</span> MARKETING STUDIO
-      </span>
-      <span class="brand-pill">KAKAO PROMO BUILDER</span>
+    <a href="./index.html" class="brand-wrap">
+      <img src="assets/setupod.gif" alt="SETUPOD Logo" style="height:28px; width:auto;" onerror="this.src='assets/favicon-32x32.png'">
+      <span>SETUPOD KAKAO LAB</span>
+      <span class="brand-badge">LONG-FORM TEMPLATE</span>
     </a>
-    <div class="header-links">
-      <a href="./index2.html" class="header-link-btn">
-        <i data-lucide="building-2" style="width:14px;height:14px;"></i>
-        <span>SETUPOD 마스터</span>
+    <div class="header-right">
+      <a href="./index.html" class="header-link-btn">
+        <i data-lucide="layout-grid" style="width:14px;height:14px;"></i>
+        <span>메인 대시보드</span>
       </a>
       <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" class="header-link-btn" style="color:#fee500; border-color:rgba(254,229,0,0.3);">
         <i data-lucide="message-circle" style="width:14px;height:14px;"></i>
@@ -807,12 +806,12 @@
         </div>
 
         <input type="file" id="imageFileInput" accept="image/*" style="display:none;" onchange="handleLocalImageUpload(event)">
-        <input type="text" id="inputBannerUrl" class="form-input" value="./setupod_edu1_cover.jpg" oninput="updateLivePreview()" placeholder="이미지 URL 직접 입력 또는 파일 업로드">
+        <input type="text" id="inputBannerUrl" class="form-input" value="assets/setupod_edu1_cover.jpg" oninput="updateLivePreview()" placeholder="이미지 URL 직접 입력 또는 파일 업로드">
         
         <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
-          <span class="preset-chip active" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu1_cover.jpg')">📘 도메인 자산화 3D 표지 (1호 공식)</span>
-          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu2_cover.jpg')">🏢 블로그 빌딩 3D 표지 (2호)</span>
-          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('./setupod_edu3_cover.jpg')">💎 1:1 정밀 진단 3D 표지 (3호)</span>
+          <span class="preset-chip active" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('assets/setupod_edu1_cover.jpg')">📘 도메인 자산화 3D 표지 (1호 공식)</span>
+          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('assets/setupod_edu2_cover.jpg')">🏢 블로그 빌딩 3D 표지 (2호)</span>
+          <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('assets/setupod_edu3_cover.jpg')">💎 1:1 정밀 진단 3D 표지 (3호)</span>
           <span class="preset-chip" style="font-size:11px; padding:5px 9px;" onclick="setBannerUrl('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1000&q=80')">✨ 프리미엄 비즈니스</span>
         </div>
       </div>
@@ -920,7 +919,7 @@
         <!-- Chat Header Bar -->
         <div class="chat-top-nav">
           <div class="channel-profile-row">
-            <img src="./sample_avatar.png" id="simTopAvatar" class="channel-avatar" onerror="this.src='./favicon-32x32.png'">
+            <img src="assets/sample_avatar.png" id="simTopAvatar" class="channel-avatar" onerror="this.src='assets/favicon-32x32.png'">
             <div class="channel-meta">
               <div class="channel-name-bar">
                 <span id="simTopName">인피니티랩</span>
@@ -948,14 +947,14 @@
 
           <!-- Message Row -->
           <div class="message-stream">
-            <img src="assets/setupod.gif" id="simBubbleAvatar" class="sender-avatar-small" onerror="this.src='./favicon-32x32.png'">
+            <img src="assets/setupod.gif" id="simBubbleAvatar" class="sender-avatar-small" onerror="this.src='assets/favicon-32x32.png'">
 
             <!-- Pure White Message Bubble (Same as Reference Screenshot) -->
             <div class="kakao-card-bubble">
               
               <!-- Top Flyer Image -->
               <div class="card-banner-wrap">
-                <img src="./setupod_edu1_cover.jpg" id="simBannerImg" class="card-banner-img" onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80'">
+                <img src="assets/setupod_edu1_cover.jpg" id="simBannerImg" class="card-banner-img" onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80'">
               </div>
 
               <!-- Body Copywriting -->
@@ -1041,7 +1040,7 @@
         channel: 'SETUPOD',
         contact: '010-2661-0070 ▾',
         avatar: 'assets/setupod.gif',
-        banner: './setupod_edu1_cover.jpg',
+        banner: 'assets/setupod_edu1_cover.jpg',
         body: `안녕하세요, SETUPOD입니다 :)
 
 블로그 시작할 때 "서브도메인으로 여러 개 쪼개서 승인 많이 받아야지" 생각해보신 적 있으시죠?
@@ -1068,8 +1067,8 @@
       edu: {
         channel: '인피니티랩',
         contact: '01012016831 ▾',
-        avatar: './sample_avatar.png',
-        banner: './sample_flyer.png',
+        avatar: 'assets/sample_avatar.png',
+        banner: 'assets/setupod_edu2_cover.jpg',
         body: `안녕하세요, 홍아린입니다 :)
 
 요즘 여기저기서 "AI, AI" 하죠?
@@ -1097,7 +1096,7 @@
       lead: {
         channel: 'SETUPOD 리서치',
         contact: '010-2661-0070',
-        avatar: './favicon-32x32.png',
+        avatar: 'assets/favicon-32x32.png',
         banner: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1000&q=80',
         body: `안녕하세요, SETUPOD 팀입니다 :)
 
@@ -1121,7 +1120,7 @@
       consult: {
         channel: 'SETUPOD 파트너스',
         contact: '010-2661-0070',
-        avatar: './favicon-32x32.png',
+        avatar: 'assets/favicon-32x32.png',
         banner: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80',
         body: `안녕하세요, 비즈니스 리더 여러분 :)
 
@@ -1143,7 +1142,7 @@
       launch: {
         channel: 'SETUPOD Studio',
         contact: '010-2661-0070',
-        avatar: './favicon-32x32.png',
+        avatar: 'assets/favicon-32x32.png',
         banner: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1000&q=80',
         body: `안녕하세요! 기다려주신 분들께 가장 먼저 소식을 전합니다.
 

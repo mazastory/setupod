@@ -477,8 +477,8 @@ function populateCardFromCloud(cloud, company) {
     email: p.email || 'contact@setupod.com',
     moatTags: ['3D 인터랙티브', 'vCard 자동저장', '올인원 멀티링크'],
     logo: {
-      src: p.avatar_url || 'assets/setupod_symbol.png',
-      fallback: 'assets/setupod_symbol.png',
+      src: p.avatar_url || 'assets/setupod.gif',
+      fallback: 'assets/setupod.gif',
       alt: companyName
     },
     primaryAction: {

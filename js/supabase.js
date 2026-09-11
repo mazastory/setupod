@@ -130,8 +130,8 @@ async function syncTeamPodsToCloud(companySlug, companyData, members) {
         { type: 'instagram', url: companyData.instaUrl || '#', label: companyData.instaLabel || '인스타그램' }
       ],
       logo: {
-        src: companyData.logoSrc || 'assets/setupod_symbol.png',
-        fallback: 'assets/setupod_symbol.png',
+        src: companyData.logoSrc || 'assets/setupod.gif',
+        fallback: 'assets/setupod.gif',
         alt: companyData.company
       },
       vcard: {

@@ -592,7 +592,7 @@
 
   <header>
     <a href="./index.html" class="brand-logo">
-      <img src="assets/setupod.gif" alt="SETUPOD Logo" style="height:28px; width:auto;" onerror="this.src='./favicon-32x32.png'">
+      <img src="assets/setupod.gif" alt="SETUPOD Logo" style="height:28px; width:auto;" onerror="this.src='assets/favicon-32x32.png'">
       <span>SETUPOD REELS STUDIO</span>
       <span class="brand-badge">9:16 SHORT-FORM</span>
     </a>
@@ -654,7 +654,7 @@
         </div>
 
         <div class="upload-row">
-          <input type="text" id="inputCoverUrl" class="form-input" value="./setupod_edu1_cover.jpg" oninput="updateReelsLive()" placeholder="이미지 URL 입력 또는 파일 선택">
+          <input type="text" id="inputCoverUrl" class="form-input" value="assets/setupod_edu1_cover.jpg" oninput="updateReelsLive()" placeholder="이미지 URL 입력 또는 파일 선택">
           <button type="button" class="btn-file-picker" onclick="document.getElementById('fileUploadInput').click()">
             <i data-lucide="upload" style="width:14px;height:14px;"></i>
             <span>파일 올리기</span>
@@ -663,10 +663,10 @@
         <input type="file" id="fileUploadInput" accept="image/*" style="display:none;" onchange="handleCoverFileUpload(event)">
 
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:2px;">
-          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu1_cover.jpg')">1호 표지</span>
-          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu2_cover.jpg')">2호 표지</span>
-          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./setupod_edu3_cover.jpg')">3호 표지</span>
-          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('./cover.jpg')">전자책 커버</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('assets/setupod_edu1_cover.jpg')">1호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('assets/setupod_edu2_cover.jpg')">2호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('assets/setupod_edu3_cover.jpg')">3호 표지</span>
+          <span class="preset-chip-btn" style="font-size:11px; padding:4px 8px;" onclick="setCoverUrl('assets/cover.jpg')">전자책 커버</span>
         </div>
       </div>
 
@@ -753,7 +753,7 @@
             <div class="showcase-halo"></div>
             
             <div class="book-3d-frame">
-              <img src="./setupod_edu1_cover.jpg" id="previewCoverImg" class="book-3d-img" alt="3D Cover">
+              <img src="assets/setupod_edu1_cover.jpg" id="previewCoverImg" class="book-3d-img" alt="3D Cover">
               <div class="book-shine-sweep"></div>
             </div>
           </div>
@@ -811,7 +811,7 @@
     const REELS_PRESETS = {
       vol1: {
         badge: 'SERIAL MASTERCLASS · VOL.01',
-        cover: './setupod_edu1_cover.jpg',
+        cover: 'assets/setupod_edu1_cover.jpg',
         headline: '서브도메인 100개 파면<br>승인도 100개?<br><em>치명적인 착각입니다.</em>',
         desc: '구글이 보는 진짜 1사이트의 기준. 0원짜리 월세에서 100배로 팔리는 디지털 부동산으로.',
         cta: '👉 프로필 링크에서 1호 독점 웹 리더 열람',
@@ -819,7 +819,7 @@
       },
       vol2: {
         badge: 'SERIAL MASTERCLASS · VOL.02',
-        cover: './setupod_edu2_cover.jpg',
+        cover: 'assets/setupod_edu2_cover.jpg',
         headline: '이름 잘못 지으면<br>평생 후회합니다.<br><em>외국인 0.5초 작명법</em>',
         desc: '글로벌 바이어가 주소창에 칠 수도 없는 도메인의 최후. 실패 없는 도메인 네이밍 3원칙.',
         cta: '👉 프로필 링크에서 2호 사전 알림 신청',
@@ -827,7 +827,7 @@
       },
       vol4: {
         badge: 'SERIAL MASTERCLASS · VOL.04',
-        cover: './setupod_edu1_cover.jpg',
+        cover: 'assets/setupod_edu1_cover.jpg',
         headline: '밤새 고른 도메인이<br>원어민에겐 찰진 욕?!<br><em>슬랭·오역 대참사 실화</em>',
         desc: '외국인이 접속하자마자 기겁하고 뒤로 가기 누르는 슬랭 도메인의 충격적인 사례들.',
         cta: '👉 프로필 링크에서 내 도메인 셀프 진단',
@@ -835,7 +835,7 @@
       },
       vol8: {
         badge: 'SERIAL MASTERCLASS · VOL.08',
-        cover: './setupod_edu3_cover.jpg',
+        cover: 'assets/setupod_edu3_cover.jpg',
         headline: '내가 산 꿀 도메인이<br>성인·도박 스팸 전과자?!<br><em>과거 이력 1분 검증법</em>',
         desc: '글을 아무리 써도 구글에 절대 안 뜨는 저주받은 도메인의 비밀. 구매 전 족보 터는 법.',
         cta: '👉 프로필 링크에서 도메인 과거 이력 조회',
@@ -843,7 +843,7 @@
       },
       vol10: {
         badge: 'SERIAL MASTERCLASS · VOL.10',
-        cover: './setupod_edu1_cover.jpg',
+        cover: 'assets/setupod_edu1_cover.jpg',
         headline: '어떻게 지어야<br>10달러짜리가 100배로?<br><em>도메인 100배 엑싯 바이블</em>',
         desc: '1만 원에 등록한 도메인이 글로벌 플립 마켓에서 1,000달러에 팔리는 자산화 공식.',
         cta: '👉 프로필 링크에서 완결편 소장 예약',
@@ -851,7 +851,7 @@
       },
       ebook: {
         badge: 'EXCLUSIVE WHITEPAPER',
-        cover: './cover.jpg',
+        cover: 'assets/cover.jpg',
         headline: '단순 블로그를 넘어<br>달러 자산으로.<br><em>SETUPOD 전자책 3종 런칭</em>',
         desc: 'Flippa 실거래 데이터 기반 8단계 엑싯 파이프라인. 지금 바로 무료 열람하세요.',
         cta: '👉 프로필 링크에서 전자책 3종 즉시 열람',
