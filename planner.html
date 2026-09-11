@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>2026 프로젝트 & 라이프 플래너 | SETUPOD</title>
+  <meta name="description" content="1년의 리듬을 설계하는 비즈니스 OS. 연간 Life Compass, 분기 Big Rocks, 프로젝트 트래커, 2026 인터랙티브 캘린더 & 데일리 타임블록.">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD PLANNER">
+  <meta property="og:title" content="2026 프로젝트 & 라이프 플래너 | SETUPOD">
+  <meta property="og:description" content="목표 시스템 + 분기 프로젝트 관리 + 2026 인터랙티브 캘린더. 스마트폰/PC 실시간 동기화.">
+  <meta property="og:image" content="assets/business_card_mockup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-base: #06060c;
+      --bg-surface: rgba(255, 255, 255, 0.035);
+      --bg-surface-elevated: rgba(255, 255, 255, 0.06);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(168, 85, 247, 0.35);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.45);
+      --accent-purple: #a855f7;
+      --accent-cyan: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --card-radius: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 배경 은은한 오로라 */
+    .bg-aurora {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1400px;
+      height: 600px;
+      background: radial-gradient(circle at 50% 10%, rgba(168, 85, 247, 0.12) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(80px);
+    }
+
+    /* ── 헤더 ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 6, 12, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+    }
+
+    .brand-name-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(56, 189, 248, 0.2));
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+      letter-spacing: 0.05em;
+    }
+
+    /* 탭 컨트롤 네비게이션 */
+    .view-tabs {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .view-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .view-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .view-tab.active {
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+    }
+
+    /* 헤더 우측 액션 */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .save-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .save-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    .btn-action-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-action-icon:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-cta-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-cta-nav:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+    }
+
+    /* ── 메인 컨테이너 ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      flex: 1;
+    }
+
+    /* ── 공통 카드 스타일 ── */
+    .panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      transition: border-color 0.2s ease;
+    }
+
+    .panel-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .panel-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c084fc;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .panel-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* 인풋 공통 */
+    .input-field {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 70px;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TAB 1. LIFE COMPASS
+       ========================================================= */
+    #tabCompassView {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hero-banner-compass {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: var(--card-radius);
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compass-year-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: #c084fc;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .compass-headline {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .theme-of-year-box {
+      max-width: 780px;
+      margin: 20px auto 0;
+    }
+
+    .theme-input {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      padding: 16px 20px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1.5px solid rgba(168, 85, 247, 0.4);
+      color: #f3e8ff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .theme-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+    }
+
+    /* 5대 핵심 영역 그리드 */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .area-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .area-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--area-gradient, linear-gradient(90deg, #a855f7, #6366f1));
+    }
+
+    .area-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .area-code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .area-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .area-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* =========================================================
+       TAB 2. BIG ROCKS & PROJECT TRACKER
+       ========================================================= */
+    #tabProjectsView {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .quarter-control-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 10px 16px;
+    }
+
+    .quarter-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .quarter-pill {
+      padding: 8px 18px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .quarter-pill:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .quarter-pill.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.15));
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
+    }
+
+    .quarter-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .dday-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+
+    /* 3대 핵심 목표 (Big Rocks) */
+    .big-rocks-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .big-rock-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .big-rock-card.completed {
+      border-color: rgba(52, 211, 153, 0.4);
+      background: rgba(52, 211, 153, 0.04);
+    }
+
+    .big-rock-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rock-num-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      color: #c084fc;
+      background: rgba(168, 85, 247, 0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .rock-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .rock-checkbox-label input[type="checkbox"] {
+      accent-color: var(--accent-green);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* 프로젝트 트래커 테이블/리스트 */
+    .projects-table-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-row-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 2fr 2fr 1.2fr 2fr auto;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .project-row-item:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .progress-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .progress-bar-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #a855f7, #38bdf8);
+      transition: width 0.3s ease;
+    }
+
+    .status-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-del-project {
+      background: transparent;
+      border: none;
+      color: rgba(239, 68, 68, 0.7);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-del-project:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    /* 회고 섹션 (Lookback & Retro) */
+    .retro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .retro-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .retro-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       TAB 3. INTERACTIVE 2026 CALENDAR & DAILY
+       ========================================================= */
+    #tabCalendarView {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .calendar-layout-container {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* 캘린더 메인 */
+    .calendar-main-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 24px;
+    }
+
+    .calendar-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .cal-title-box {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .cal-month-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .cal-year-sub {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-purple);
+    }
+
+    .cal-nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-cal-nav {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cal-nav:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* 요일 헤더 */
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .cal-weekdays span:first-child { color: var(--accent-rose); }
+    .cal-weekdays span:last-child { color: var(--accent-cyan); }
+
+    /* 날짜 그리드 */
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .cal-day-cell {
+      min-height: 80px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .cal-day-cell:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(168, 85, 247, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .cal-day-cell.other-month {
+      opacity: 0.25;
+    }
+
+    .cal-day-cell.today {
+      border-color: var(--accent-purple);
+      background: rgba(168, 85, 247, 0.08);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+    }
+
+    .cal-day-cell.selected {
+      border-color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+    }
+
+    .cal-day-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .cal-day-cell:nth-child(7n+1) .cal-day-num { color: #fca5a5; }
+    .cal-day-cell:nth-child(7n) .cal-day-num { color: #7dd3fc; }
+
+    .cal-day-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .cal-todo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-purple);
+      box-shadow: 0 0 6px var(--accent-purple);
+    }
+
+    /* 데일리 포커스 패널 (오른쪽 사이드) */
+    .daily-side-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .daily-date-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .daily-date-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .daily-section-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .todo-list-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .todo-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 8px 12px;
+      transition: border-color 0.2s;
+    }
+
+    .todo-item-row:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .todo-item-row.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .todo-checkbox {
+      accent-color: var(--accent-purple);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .todo-text-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-todo-del {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .btn-todo-del:hover {
+      color: #ef4444;
+    }
+
+    .todo-add-box {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(18, 18, 28, 0.95);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(168, 85, 247, 0.3);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* 인쇄 모드 최적화 */
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      header, .bg-aurora, .view-tabs, .btn-action-icon, .btn-cta-nav, .quarter-control-bar { display: none !important; }
+      .panel-card { border: 1px solid #ddd !important; box-shadow: none !important; background: #fff !important; color: #000 !important; }
+      .input-field, textarea { border: 1px solid #ccc !important; color: #000 !important; background: #fff !important; }
+    }
+
+    /* 반응형 레이아웃 */
+    @media (max-width: 960px) {
+      .calendar-layout-container {
+        grid-template-columns: 1fr;
+      }
+      .daily-side-panel {
+        position: static;
+      }
+      .project-row-item {
+        grid-template-columns: 1fr;
+      }
+      .view-tab span {
+        display: none;
+      }
+      .view-tab {
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-aurora"></div>
+
+  <!-- 헤더 -->
+  <header>
+    <a href="/" class="brand-group">
+      <img src="assets/setupod.gif" alt="SETUPOD" class="brand-logo-img">
+      <div class="brand-name-wrap">
+        <span class="brand-title">SETUPOD</span>
+        <span class="brand-badge">2026 PLANNER</span>
+      </div>
+    </a>
+
+    <!-- 3대 뷰 탭 스위처 -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabCompassBtn" onclick="switchView('compass')">
+        <i data-lucide="compass" style="width:16px;height:16px;"></i>
+        <span>Life Compass</span>
+      </button>
+      <button class="view-tab" id="tabProjectsBtn" onclick="switchView('projects')">
+        <i data-lucide="target" style="width:16px;height:16px;"></i>
+        <span>Big Rocks & Projects</span>
+      </button>
+      <button class="view-tab" id="tabCalendarBtn" onclick="switchView('calendar')">
+        <i data-lucide="calendar" style="width:16px;height:16px;"></i>
+        <span>2026 캘린더 & 데일리</span>
+      </button>
+    </div>
+
+    <!-- 우측 액션 버튼들 -->
+    <div class="header-actions">
+      <div class="save-indicator">
+        <span class="save-dot"></span>
+        <span id="saveStatusText">자동 저장됨</span>
+      </div>
+      <button class="btn-action-icon" onclick="exportPlannerData()" title="데이터 JSON 백업">
+        <i data-lucide="download" style="width:16px;height:16px;"></i>
+      </button>
+      <button class="btn-action-icon" onclick="document.getElementById('importFileInput').click()" title="데이터 불러오기">
+        <i data-lucide="upload" style="width:16px;height:16px;"></i>
+      </button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importPlannerData(event)">
+      <button class="btn-action-icon" onclick="window.print()" title="인쇄 및 PDF 저장">
+        <i data-lucide="printer" style="width:16px;height:16px;"></i>
+      </button>
+      <a href="maker.html" class="btn-cta-nav">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>3D 명함 스튜디오</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         VIEW 1. LIFE COMPASS (연간 나침반)
+         ========================================================= -->
+    <div id="tabCompassView">
+      <div class="hero-banner-compass">
+        <div class="compass-year-badge">2026 · 한 해의 방향과 리듬</div>
+        <h1 class="compass-headline">올해가 끝났을 때 어떤 사람이 되어 있고 싶은가</h1>
+        <p style="font-size:14px;color:var(--text-secondary);max-width:620px;margin:0 auto;line-height:1.6;">
+          방향이 흔들릴 때마다 돌아올 기준이 되는 북극성을 설정하세요.<br>
+          한 해의 테마와 5대 삶의 영역을 균형 있게 설계합니다.
+        </p>
+        <div class="theme-of-year-box">
+          <input type="text" id="inputThemeOfYear" class="input-field theme-input" placeholder="올해의 한 문장 (THEME OF THE YEAR)을 입력하세요" oninput="triggerAutoSave()">
+        </div>
+      </div>
+
+      <div class="areas-grid">
+        <!-- 1. 커리어 & 비즈니스 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #a855f7, #6366f1);">
+          <div class="area-header">
+            <span class="area-code">AREA 01</span>
+            <div class="area-title-wrap">
+              <i data-lucide="briefcase" style="width:16px;height:16px;color:#c084fc;"></i>
+              <span class="area-title">커리어 · 일</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area1_goal" class="input-field" placeholder="예: 연 매출 1억 달성, 독립 사업체 론칭" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준 (측정 지표)</label>
+            <input type="text" id="area1_metric" class="input-field" placeholder="예: 월 순익 1,000만원 돌파, B2B 고객사 10곳" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area1_action" class="input-field" placeholder="매일 아침 1순위 업무 90분 집중, 주 3회 세일즈 제안" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 2. AI & 학습 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #38bdf8, #6366f1);">
+          <div class="area-header">
+            <span class="area-code">AREA 02</span>
+            <div class="area-title-wrap">
+              <i data-lucide="brain-circuit" style="width:16px;height:16px;color:#38bdf8;"></i>
+              <span class="area-title">AI · 역량 학습</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area2_goal" class="input-field" placeholder="예: 에이전틱 AI 워크플로우 100% 사내 도입" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area2_metric" class="input-field" placeholder="예: 자동화 파이프라인 5개 구축, 월 40시간 절감" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area2_action" class="input-field" placeholder="매주 신규 AI 도구 1개 실전 적용 및 프로토타입 작성" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 3. 수익 & 자산 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #34d399, #059669);">
+          <div class="area-header">
+            <span class="area-code">AREA 03</span>
+            <div class="area-title-wrap">
+              <i data-lucide="trending-up" style="width:16px;height:16px;color:#34d399;"></i>
+              <span class="area-title">수익 · 자산</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area3_goal" class="input-field" placeholder="예: 시드 자산 5,000만원 형성 및 복수 현금흐름" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area3_metric" class="input-field" placeholder="예: 고정 월 저축률 40% 이상, 디지털 자산 파이프라인" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area3_action" class="input-field" placeholder="월말 자산 결산 및 불필요 구독제 정리" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 4. 건강 & 체력 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #fbbf24, #d97706);">
+          <div class="area-header">
+            <span class="area-code">AREA 04</span>
+            <div class="area-title-wrap">
+              <i data-lucide="activity" style="width:16px;height:16px;color:#fbbf24;"></i>
+              <span class="area-title">건강 · 체력</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area4_goal" class="input-field" placeholder="예: 체지방률 15%, 하루 14시간 집중 가능한 에너자이저" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area4_metric" class="input-field" placeholder="예: 주 4회 유산소/웨이트, 수면 7시간 확보" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area4_action" class="input-field" placeholder="저녁 11시 취침 루틴, 주간 러닝 15km 달성" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 5. 관계 & 가족 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #fb7185, #e11d48);">
+          <div class="area-header">
+            <span class="area-code">AREA 05</span>
+            <div class="area-title-wrap">
+              <i data-lucide="heart" style="width:16px;height:16px;color:#fb7185;"></i>
+              <span class="area-title">관계 · 멘토링</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area5_goal" class="input-field" placeholder="예: 긍정적이고 영감을 주는 상위 5인 네트워크 구축" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area5_metric" class="input-field" placeholder="예: 가족과 주말 온전한 휴식, 분기별 업계 리더 티타임" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area5_action" class="input-field" placeholder="가장 가까운 사람들에게 감사의 마음 표현하기" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         VIEW 2. BIG ROCKS & PROJECT TRACKER
+         ========================================================= -->
+    <div id="tabProjectsView">
+      
+      <!-- 분기 컨트롤 바 -->
+      <div class="quarter-control-bar">
+        <div class="quarter-tabs">
+          <button class="quarter-pill active" onclick="switchQuarter('Q1', this)">Q1 (1~3월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q2', this)">Q2 (4~6월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q3', this)">Q3 (7~9월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q4', this)">Q4 (10~12월)</button>
+        </div>
+        <div class="quarter-meta">
+          <span class="dday-badge" id="quarterDdayBadge">
+            <i data-lucide="clock" style="width:13px;height:13px;"></i>
+            <span id="quarterDdayText">Q1 D-Day 계산 중...</span>
+          </span>
+          <div style="font-size:12px;color:var(--text-muted);">
+            분기 목표 달성률: <strong id="quarterCompletionRate" style="color:var(--accent-green);font-size:14px;">0%</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. 이번 분기 3대 핵심 목표 (BIG ROCKS) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="gem" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title"><span id="currentQuarterLabel">Q1</span> 3대 핵심 목표 (BIG ROCKS)</h2>
+              <p class="panel-subtitle">이 3가지만 완수해도 이번 분기는 대성공입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="big-rocks-wrap">
+          <!-- Rock 1 -->
+          <div class="big-rock-card" id="rockCard_1">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 01</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_1" onchange="toggleRockComplete(1)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_1" class="input-field" placeholder="1순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_1" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 신규 고객 10명 확보" oninput="triggerAutoSave()">
+          </div>
+
+          <!-- Rock 2 -->
+          <div class="big-rock-card" id="rockCard_2">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 02</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_2" onchange="toggleRockComplete(2)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_2" class="input-field" placeholder="2순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_2" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 제품 MVP 론칭" oninput="triggerAutoSave()">
+          </div>
+
+          <!-- Rock 3 -->
+          <div class="big-rock-card" id="rockCard_3">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 03</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_3" onchange="toggleRockComplete(3)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_3" class="input-field" placeholder="3순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_3" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 월 매출 1,500만원" oninput="triggerAutoSave()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 프로젝트 트래커 (Project Tracker) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="layers" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title">분기 프로젝트 트래커 (PROJECT TRACKER)</h2>
+              <p class="panel-subtitle">프로젝트별 핵심 결과물과 진척도를 실시간으로 추적합니다.</p>
+            </div>
+          </div>
+          <button class="btn-cta-nav" style="padding:7px 14px;font-size:12.5px;" onclick="addNewProjectRow()">
+            <i data-lucide="plus" style="width:14px;height:14px;"></i>
+            <span>프로젝트 추가</span>
+          </button>
+        </div>
+
+        <div class="projects-table-wrap" id="projectRowsContainer">
+          <!-- 동적 렌더링 영역 -->
+        </div>
+      </div>
+
+      <!-- 3. 분기 회고 (LOOKBACK & RETRO) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="rotate-ccw" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title"><span id="retroQuarterLabel">Q1</span> 마감 및 회고 (RETROSPECTIVE)</h2>
+              <p class="panel-subtitle">경험에서 배움을 추출해야 다음 분기에 더 빠르게 성장합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="retro-grid">
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-green);">
+              <i data-lucide="thumbs-up" style="width:14px;height:14px;"></i>
+              <span>잘된 것 (KEEP / SUCCESS)</span>
+            </span>
+            <textarea id="retroKeep" class="input-field" placeholder="이번 분기에 효과적이었고 계속 유지할 성공 요인은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-rose);">
+              <i data-lucide="alert-circle" style="width:14px;height:14px;"></i>
+              <span>아쉬운 것 (PROBLEM)</span>
+            </span>
+            <textarea id="retroProblem" class="input-field" placeholder="목표 달성을 가로막았거나 개선이 필요한 병목은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-cyan);">
+              <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+              <span>배운 것 (LEARNED / TRY)</span>
+            </span>
+            <textarea id="retroTry" class="input-field" placeholder="다음 분기에 새롭게 시도하거나 배운 원칙은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =========================================================
+         VIEW 3. INTERACTIVE 2026 CALENDAR & DAILY
+         ========================================================= -->
+    <div id="tabCalendarView">
+      <div class="calendar-layout-container">
+        
+        <!-- 왼쪽: 월간 인터랙티브 캘린더 -->
+        <div class="calendar-main-box">
+          <div class="calendar-nav-bar">
+            <div class="cal-title-box">
+              <span class="cal-month-title" id="calMonthTitle">3월</span>
+              <span class="cal-year-sub" id="calYearTitle">2026</span>
+            </div>
+            <div class="cal-nav-buttons">
+              <button class="btn-cal-nav" onclick="changeMonth(-1)">
+                <i data-lucide="chevron-left" style="width:14px;height:14px;"></i>
+              </button>
+              <button class="btn-cal-nav" onclick="jumpToToday()">오늘</button>
+              <button class="btn-cal-nav" onclick="changeMonth(1)">
+                <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="cal-weekdays">
+            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+          </div>
+
+          <div class="cal-days-grid" id="calDaysGrid">
+            <!-- 자바스크립트로 날짜 셀 생성 -->
+          </div>
+        </div>
+
+        <!-- 오른쪽: 선택된 날짜의 데일리 포커스 패널 -->
+        <div class="daily-side-panel">
+          <div class="daily-date-header">
+            <div>
+              <div style="font-size:11px;font-weight:800;color:var(--accent-purple);letter-spacing:0.1em;text-transform:uppercase;">DAILY FOCUS</div>
+              <h3 class="daily-date-title" id="selectedDateTitle">2026년 3월 15일 (일)</h3>
+            </div>
+            <button class="btn-action-icon" style="width:30px;height:30px;" onclick="addTodoToCurrentDate()" title="할 일 추가">
+              <i data-lucide="plus" style="width:14px;height:14px;"></i>
+            </button>
+          </div>
+
+          <!-- 오늘의 절대 1순위 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="flame" style="width:13px;height:13px;color:#f97316;"></i>
+              <span>오늘의 1순위 핵심 과제 (TOP PRIORITY)</span>
+            </div>
+            <input type="text" id="dailyPriorityInput" class="input-field" placeholder="오늘 반드시 끝낼 단 1가지" oninput="saveCurrentDayData()">
+          </div>
+
+          <!-- 데일리 체크리스트 투두 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="check-square" style="width:13px;height:13px;color:var(--accent-purple);"></i>
+              <span>체크리스트 & TO-DO (<span id="dailyTodoDoneCount">0</span>/<span id="dailyTodoTotalCount">0</span>)</span>
+            </div>
+            <div class="todo-list-wrap" id="dailyTodoList">
+              <!-- 동적 투두 렌더링 -->
+            </div>
+            <div class="todo-add-box">
+              <input type="text" id="newTodoInput" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="새 할 일 입력 후 Enter" onkeypress="if(event.key==='Enter')addTodoToCurrentDate()">
+              <button class="btn-cal-nav" onclick="addTodoToCurrentDate()">추가</button>
+            </div>
+          </div>
+
+          <!-- 타임블록 포커스 메모 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="clock-3" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
+              <span>타임블록 & 데일리 메모</span>
+            </div>
+            <textarea id="dailyNotesInput" class="input-field" style="min-height:90px;font-size:12.5px;" placeholder="• 오전 포커스: &#10;• 오후 세일즈: &#10;• 저녁 회고 & 아이디어:" oninput="saveCurrentDayData()"></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toastMsg">
+    <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#a855f7;"></i>
+    <span id="toastText">저장되었습니다</span>
+  </div>
+
+  <script>
+    // ==========================================
+    // 플래너 데이터 스토어 (State)
+    // ==========================================
+    const STORAGE_KEY = 'setupod_planner_2026_v1';
+
+    let plannerState = {
+      themeOfYear: '',
+      areas: {
+        area1: { goal: '', metric: '', action: '' },
+        area2: { goal: '', metric: '', action: '' },
+        area3: { goal: '', metric: '', action: '' },
+        area4: { goal: '', metric: '', action: '' },
+        area5: { goal: '', metric: '', action: '' }
+      },
+      currentQuarter: 'Q1',
+      quarters: {
+        Q1: {
+          rocks: [
+            { goal: '', metric: '', done: false },
+            { goal: '', metric: '', done: false },
+            { goal: '', metric: '', done: false }
+          ],
+          projects: [
+            { id: 1, name: 'SETUPOD 3D 명함 및 세일즈 퍼널 셋업', deliverable: '온라인 허브 완성 및 주소록 저장 연동', deadline: '2026-03-31', progress: 85, status: 'in-progress' },
+            { id: 2, name: '2026 프로젝트 플래너 디지털 패키지 출시', deliverable: '웹 앱 및 PDF 서식 론칭', deadline: '2026-03-15', progress: 100, status: 'completed' },
+            { id: 3, name: '첫 분기 유료 고객 30명 확보', deliverable: '마케팅 캠페인 및 콜드 리치', deadline: '2026-03-31', progress: 40, status: 'in-progress' }
+          ],
+          retro: { keep: '', problem: '', tryAction: '' }
+        },
+        Q2: {
+          rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }],
+          projects: [],
+          retro: { keep: '', problem: '', tryAction: '' }
+        },
+        Q3: {
+          rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }],
+          projects: [],
+          retro: { keep: '', problem: '', tryAction: '' }
+        },
+        Q4: {
+          rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }],
+          projects: [],
+          retro: { keep: '', problem: '', tryAction: '' }
+        }
+      },
+      days: {} // 날짜 키 예: '2026-03-15': { priority: '', todos: [{text:'', done:false}], notes: '' }
+    };
+
+    let calCurrentYear = 2026;
+    let calCurrentMonth = 2; // 0-indexed: 2 is March
+    let selectedDateStr = '2026-03-15';
+    let autoSaveTimer = null;
+
+    // ==========================================
+    // 탭 전환 엔진
+    // ==========================================
+    function switchView(viewName) {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tabCompassView').style.display = 'none';
+      document.getElementById('tabProjectsView').style.display = 'none';
+      document.getElementById('tabCalendarView').style.display = 'none';
+
+      if (viewName === 'compass') {
+        document.getElementById('tabCompassBtn').classList.add('active');
+        document.getElementById('tabCompassView').style.display = 'flex';
+      } else if (viewName === 'projects') {
+        document.getElementById('tabProjectsBtn').classList.add('active');
+        document.getElementById('tabProjectsView').style.display = 'flex';
+        renderQuarterView();
+      } else if (viewName === 'calendar') {
+        document.getElementById('tabCalendarBtn').classList.add('active');
+        document.getElementById('tabCalendarView').style.display = 'flex';
+        renderCalendar();
+        loadDailyPanel(selectedDateStr);
+      }
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 1. LIFE COMPASS 로딩 & 바인딩
+    // ==========================================
+    function loadCompassData() {
+      document.getElementById('inputThemeOfYear').value = plannerState.themeOfYear || '';
+      for (let i = 1; i <= 5; i++) {
+        const a = plannerState.areas[`area${i}`] || {};
+        if (document.getElementById(`area${i}_goal`)) document.getElementById(`area${i}_goal`).value = a.goal || '';
+        if (document.getElementById(`area${i}_metric`)) document.getElementById(`area${i}_metric`).value = a.metric || '';
+        if (document.getElementById(`area${i}_action`)) document.getElementById(`area${i}_action`).value = a.action || '';
+      }
+    }
+
+    function saveCompassData() {
+      plannerState.themeOfYear = document.getElementById('inputThemeOfYear').value;
+      for (let i = 1; i <= 5; i++) {
+        plannerState.areas[`area${i}`] = {
+          goal: document.getElementById(`area${i}_goal`)?.value || '',
+          metric: document.getElementById(`area${i}_metric`)?.value || '',
+          action: document.getElementById(`area${i}_action`)?.value || ''
+        };
+      }
+    }
+
+    // ==========================================
+    // 2. BIG ROCKS & PROJECTS
+    // ==========================================
+    function switchQuarter(qName, btn) {
+      plannerState.currentQuarter = qName;
+      document.querySelectorAll('.quarter-pill').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderQuarterView();
+      triggerAutoSave();
+    }
+
+    function renderQuarterView() {
+      const q = plannerState.currentQuarter;
+      document.getElementById('currentQuarterLabel').innerText = q;
+      document.getElementById('retroQuarterLabel').innerText = q;
+
+      const qData = plannerState.quarters[q] || { rocks: [], projects: [], retro: {} };
+
+      // D-Day 계산
+      const endDates = { Q1: '2026-03-31', Q2: '2026-06-30', Q3: '2026-09-30', Q4: '2026-12-31' };
+      const targetDate = new Date(endDates[q]);
+      const today = new Date();
+      const diffTime = targetDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const ddayText = diffDays > 0 ? `${q} 마감까지 D-${diffDays}` : (diffDays === 0 ? `${q} 마감일 오늘!` : `${q} 종료`);
+      document.getElementById('quarterDdayText').innerText = ddayText;
+
+      // Rocks 바인딩
+      for (let i = 1; i <= 3; i++) {
+        const rock = qData.rocks[i - 1] || { goal: '', metric: '', done: false };
+        const goalInput = document.getElementById(`rockGoal_${i}`);
+        const metricInput = document.getElementById(`rockMetric_${i}`);
+        const checkInput = document.getElementById(`rockCheck_${i}`);
+        const cardEl = document.getElementById(`rockCard_${i}`);
+
+        if (goalInput) goalInput.value = rock.goal || '';
+        if (metricInput) metricInput.value = rock.metric || '';
+        if (checkInput) checkInput.checked = !!rock.done;
+        if (cardEl) {
+          if (rock.done) cardEl.classList.add('completed');
+          else cardEl.classList.remove('completed');
+        }
+      }
+
+      // Projects 렌더링
+      renderProjectsList(qData.projects || []);
+
+      // Retro 바인딩
+      const retro = qData.retro || {};
+      document.getElementById('retroKeep').value = retro.keep || '';
+      document.getElementById('retroProblem').value = retro.problem || '';
+      document.getElementById('retroTry').value = retro.tryAction || '';
+
+      updateQuarterCompletionRate();
+      lucide.createIcons();
+    }
+
+    function toggleRockComplete(rockIndex) {
+      const q = plannerState.currentQuarter;
+      const isChecked = document.getElementById(`rockCheck_${rockIndex}`).checked;
+      if (!plannerState.quarters[q].rocks[rockIndex - 1]) {
+        plannerState.quarters[q].rocks[rockIndex - 1] = { goal: '', metric: '', done: false };
+      }
+      plannerState.quarters[q].rocks[rockIndex - 1].done = isChecked;
+      
+      const cardEl = document.getElementById(`rockCard_${rockIndex}`);
+      if (isChecked) cardEl.classList.add('completed');
+      else cardEl.classList.remove('completed');
+
+      updateQuarterCompletionRate();
+      triggerAutoSave();
+    }
+
+    function saveRocksAndRetroData() {
+      const q = plannerState.currentQuarter;
+      if (!plannerState.quarters[q]) plannerState.quarters[q] = { rocks: [], projects: [], retro: {} };
+
+      for (let i = 1; i <= 3; i++) {
+        plannerState.quarters[q].rocks[i - 1] = {
+          goal: document.getElementById(`rockGoal_${i}`)?.value || '',
+          metric: document.getElementById(`rockMetric_${i}`)?.value || '',
+          done: document.getElementById(`rockCheck_${i}`)?.checked || false
+        };
+      }
+
+      plannerState.quarters[q].retro = {
+        keep: document.getElementById('retroKeep')?.value || '',
+        problem: document.getElementById('retroProblem')?.value || '',
+        tryAction: document.getElementById('retroTry')?.value || ''
+      };
+    }
+
+    function renderProjectsList(projects) {
+      const container = document.getElementById('projectRowsContainer');
+      if (!projects || projects.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:32px;color:var(--text-muted);font-size:13.5px;">
+            등록된 프로젝트가 없습니다. [+ 프로젝트 추가] 버튼을 눌러 새 목표를 등록하세요.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = projects.map((p, idx) => `
+        <div class="project-row-item">
+          <div>
+            <div style="font-size:11px;font-weight:800;color:#c084fc;margin-bottom:2px;">PROJECT ${idx + 1}</div>
+            <input type="text" class="input-field" style="font-weight:700;" value="${escapeHtml(p.name)}" placeholder="프로젝트 이름" oninput="updateProjectField(${idx}, 'name', this.value)">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:2px;">핵심 결과물</div>
+            <input type="text" class="input-field" value="${escapeHtml(p.deliverable || '')}" placeholder="예: v1 론칭, 리드 100건" oninput="updateProjectField(${idx}, 'deliverable', this.value)">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:2px;">마감일</div>
+            <input type="date" class="input-field" style="font-size:12px;padding:10px 8px;" value="${p.deadline || ''}" onchange="updateProjectField(${idx}, 'deadline', this.value)">
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-top">
+              <span>진척도</span>
+              <span id="projProgLabel_${idx}">${p.progress || 0}%</span>
+            </div>
+            <input type="range" min="0" max="100" value="${p.progress || 0}" style="width:100%;accent-color:var(--accent-purple);cursor:pointer;" oninput="updateProjectProgress(${idx}, this.value)">
+            <div class="progress-track">
+              <div class="progress-fill" id="projProgFill_${idx}" style="width:${p.progress || 0}%;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <select class="status-select" onchange="updateProjectField(${idx}, 'status', this.value)">
+              <option value="ready" ${p.status === 'ready' ? 'selected' : ''}>대기</option>
+              <option value="in-progress" ${p.status === 'in-progress' ? 'selected' : ''}>진행중</option>
+              <option value="completed" ${p.status === 'completed' ? 'selected' : ''}>완료</option>
+            </select>
+            <button class="btn-del-project" onclick="deleteProjectRow(${idx})" title="프로젝트 삭제">
+              <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addNewProjectRow() {
+      const q = plannerState.currentQuarter;
+      if (!plannerState.quarters[q].projects) plannerState.quarters[q].projects = [];
+      plannerState.quarters[q].projects.push({
+        id: Date.now(),
+        name: '',
+        deliverable: '',
+        deadline: '2026-03-31',
+        progress: 0,
+        status: 'in-progress'
+      });
+      renderQuarterView();
+      triggerAutoSave();
+    }
+
+    function updateProjectField(idx, field, value) {
+      const q = plannerState.currentQuarter;
+      if (plannerState.quarters[q].projects[idx]) {
+        plannerState.quarters[q].projects[idx][field] = value;
+        triggerAutoSave();
+      }
+    }
+
+    function updateProjectProgress(idx, val) {
+      const q = plannerState.currentQuarter;
+      if (plannerState.quarters[q].projects[idx]) {
+        plannerState.quarters[q].projects[idx].progress = parseInt(val, 10);
+        document.getElementById(`projProgLabel_${idx}`).innerText = `${val}%`;
+        document.getElementById(`projProgFill_${idx}`).style.width = `${val}%`;
+        if (parseInt(val, 10) === 100) {
+          plannerState.quarters[q].projects[idx].status = 'completed';
+        }
+        updateQuarterCompletionRate();
+        triggerAutoSave();
+      }
+    }
+
+    function deleteProjectRow(idx) {
+      const q = plannerState.currentQuarter;
+      if (confirm("이 프로젝트를 삭제하시겠습니까?")) {
+        plannerState.quarters[q].projects.splice(idx, 1);
+        renderQuarterView();
+        triggerAutoSave();
+      }
+    }
+
+    function updateQuarterCompletionRate() {
+      const q = plannerState.currentQuarter;
+      const qData = plannerState.quarters[q];
+      if (!qData) return;
+
+      let totalItems = 0;
+      let completedItems = 0;
+
+      // Rocks 반영 (가중치 30%)
+      (qData.rocks || []).forEach(r => {
+        totalItems++;
+        if (r.done) completedItems++;
+      });
+
+      // Projects 반영 (진행률 평균)
+      let projProgSum = 0;
+      const projects = qData.projects || [];
+      if (projects.length > 0) {
+        projects.forEach(p => { projProgSum += (p.progress || 0); });
+        const avgProj = projProgSum / projects.length;
+        const rate = Math.round((completedItems / (totalItems || 1)) * 40 + avgProj * 0.6);
+        document.getElementById('quarterCompletionRate').innerText = `${Math.min(100, rate)}%`;
+      } else {
+        const rate = Math.round((completedItems / (totalItems || 1)) * 100);
+        document.getElementById('quarterCompletionRate').innerText = `${rate}%`;
+      }
+    }
+
+    // ==========================================
+    // 3. INTERACTIVE 2026 CALENDAR & DAILY
+    // ==========================================
+    const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+
+    function renderCalendar() {
+      document.getElementById('calYearTitle').innerText = calCurrentYear;
+      document.getElementById('calMonthTitle').innerText = monthNames[calCurrentMonth];
+
+      const firstDayOfMonth = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+      const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(calCurrentYear, calCurrentMonth, 0).getDate();
+
+      const container = document.getElementById('calDaysGrid');
+      container.innerHTML = '';
+
+      // 이전 달 날짜들 (패딩)
+      for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+        const d = daysInPrevMonth - i;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell other-month';
+        cell.innerHTML = `<span class="cal-day-num">${d}</span>`;
+        container.appendChild(cell);
+      }
+
+      // 이번 달 날짜들
+      const today = new Date();
+      const isCurrentRealMonth = (today.getFullYear() === calCurrentYear && today.getMonth() === calCurrentMonth);
+      const realTodayDate = today.getDate();
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = formatDateStr(calCurrentYear, calCurrentMonth + 1, d);
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell';
+        if (isCurrentRealMonth && d === realTodayDate) cell.classList.add('today');
+        if (dateStr === selectedDateStr) cell.classList.add('selected');
+
+        const dayData = plannerState.days[dateStr] || {};
+        const todos = dayData.todos || [];
+        const dotsHtml = todos.slice(0, 4).map(() => `<span class="cal-todo-dot"></span>`).join('');
+
+        cell.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="cal-day-num">${d}</span>
+            ${dayData.priority ? '<i data-lucide="flame" style="width:11px;height:11px;color:#f97316;"></i>' : ''}
+          </div>
+          <div class="cal-day-badges">${dotsHtml}</div>
+        `;
+
+        cell.onclick = () => {
+          document.querySelectorAll('.cal-day-cell').forEach(c => c.classList.remove('selected'));
+          cell.classList.add('selected');
+          selectedDateStr = dateStr;
+          loadDailyPanel(dateStr);
+        };
+
+        container.appendChild(cell);
+      }
+
+      lucide.createIcons();
+    }
+
+    function changeMonth(delta) {
+      calCurrentMonth += delta;
+      if (calCurrentMonth > 11) {
+        calCurrentMonth = 0;
+        calCurrentYear += 1;
+      } else if (calCurrentMonth < 0) {
+        calCurrentMonth = 11;
+        calCurrentYear -= 1;
+      }
+      renderCalendar();
+    }
+
+    function jumpToToday() {
+      const now = new Date();
+      calCurrentYear = now.getFullYear();
+      calCurrentMonth = now.getMonth();
+      selectedDateStr = formatDateStr(calCurrentYear, calCurrentMonth + 1, now.getDate());
+      renderCalendar();
+      loadDailyPanel(selectedDateStr);
+    }
+
+    function formatDateStr(y, m, d) {
+      const mm = m < 10 ? `0${m}` : m;
+      const dd = d < 10 ? `0${d}` : d;
+      return `${y}-${mm}-${dd}`;
+    }
+
+    // 데일리 패널 로딩
+    function loadDailyPanel(dateStr) {
+      const parts = dateStr.split('-');
+      const dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      const weekDayNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const weekDayStr = weekDayNames[dObj.getDay()];
+
+      document.getElementById('selectedDateTitle').innerText = `${parts[0]}년 ${parseInt(parts[1], 10)}월 ${parseInt(parts[2], 10)}일 (${weekDayStr})`;
+
+      const dayData = plannerState.days[dateStr] || { priority: '', todos: [], notes: '' };
+      document.getElementById('dailyPriorityInput').value = dayData.priority || '';
+      document.getElementById('dailyNotesInput').value = dayData.notes || '';
+
+      renderDailyTodos(dayData.todos || []);
+    }
+
+    function renderDailyTodos(todos) {
+      const listContainer = document.getElementById('dailyTodoList');
+      const doneCount = todos.filter(t => t.done).length;
+      document.getElementById('dailyTodoDoneCount').innerText = doneCount;
+      document.getElementById('dailyTodoTotalCount').innerText = todos.length;
+
+      if (!todos || todos.length === 0) {
+        listContainer.innerHTML = `<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:12px;">오늘의 할 일을 추가해보세요.</div>`;
+        return;
+      }
+
+      listContainer.innerHTML = todos.map((t, idx) => `
+        <div class="todo-item-row ${t.done ? 'done' : ''}">
+          <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodoDone(${idx})">
+          <input type="text" class="todo-text-input" value="${escapeHtml(t.text)}" oninput="updateTodoText(${idx}, this.value)">
+          <button class="btn-todo-del" onclick="deleteTodoItem(${idx})">
+            <i data-lucide="x" style="width:13px;height:13px;"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addTodoToCurrentDate() {
+      const input = document.getElementById('newTodoInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (!plannerState.days[selectedDateStr]) {
+        plannerState.days[selectedDateStr] = { priority: '', todos: [], notes: '' };
+      }
+      if (!plannerState.days[selectedDateStr].todos) {
+        plannerState.days[selectedDateStr].todos = [];
+      }
+
+      plannerState.days[selectedDateStr].todos.push({ text: text, done: false });
+      input.value = '';
+      loadDailyPanel(selectedDateStr);
+      renderCalendar();
+      triggerAutoSave();
+    }
+
+    function toggleTodoDone(idx) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos[idx].done = !plannerState.days[selectedDateStr].todos[idx].done;
+        loadDailyPanel(selectedDateStr);
+        triggerAutoSave();
+      }
+    }
+
+    function updateTodoText(idx, val) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos[idx].text = val;
+        triggerAutoSave();
+      }
+    }
+
+    function deleteTodoItem(idx) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos.splice(idx, 1);
+        loadDailyPanel(selectedDateStr);
+        renderCalendar();
+        triggerAutoSave();
+      }
+    }
+
+    function saveCurrentDayData() {
+      if (!plannerState.days[selectedDateStr]) {
+        plannerState.days[selectedDateStr] = { priority: '', todos: [], notes: '' };
+      }
+      plannerState.days[selectedDateStr].priority = document.getElementById('dailyPriorityInput').value;
+      plannerState.days[selectedDateStr].notes = document.getElementById('dailyNotesInput').value;
+      renderCalendar();
+      triggerAutoSave();
+    }
+
+    // ==========================================
+    // 영속성 관리 (LocalStorage & Auto-Save)
+    // ==========================================
+    function triggerAutoSave() {
+      const indicator = document.getElementById('saveStatusText');
+      if (indicator) indicator.innerText = '저장 중...';
+
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        saveCompassData();
+        saveRocksAndRetroData();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(plannerState));
+        if (indicator) indicator.innerText = '자동 저장됨';
+      }, 400);
+    }
+
+    function loadStateFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          plannerState = Object.assign(plannerState, parsed);
+        }
+      } catch (e) {
+        console.error("Failed to load planner storage:", e);
+      }
+    }
+
+    function exportPlannerData() {
+      saveCompassData();
+      saveRocksAndRetroData();
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(plannerState, null, 2));
+      const a = document.createElement('a');
+      a.href = jsonStr;
+      a.download = `SETUPOD_2026_Planner_Backup_${selectedDateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("플래너 전체 데이터(JSON)가 백업되었습니다!");
+    }
+
+    function importPlannerData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported && (imported.themeOfYear !== undefined || imported.quarters)) {
+            plannerState = imported;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(plannerState));
+            loadCompassData();
+            renderQuarterView();
+            renderCalendar();
+            loadDailyPanel(selectedDateStr);
+            showToast("플래너 데이터를 성공적으로 불러왔습니다!");
+          } else {
+            showToast("올바른 플래너 백업 파일이 아닙니다.");
+          }
+        } catch (err) {
+          showToast("JSON 파일 읽기 오류가 발생했습니다.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      document.getElementById('toastText').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromStorage();
+      loadCompassData();
+      renderQuarterView();
+      renderCalendar();
+      loadDailyPanel(selectedDateStr);
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

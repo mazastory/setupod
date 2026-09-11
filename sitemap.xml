@@ -17,6 +17,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- 2-1. 2026 프로젝트 & 라이프 플래너 (인터랙티브 웹 앱) -->
+  <url>
+    <loc>https://www.setupod.com/planner</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <!-- 3. 3D 인터랙티브 명함 체험 (공식 예시) -->
   <url>
     <loc>https://www.setupod.com/alex</loc>
