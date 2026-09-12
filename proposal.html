@@ -179,16 +179,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin-top: 16px;
       font-size: 12px;
       color: var(--text-sub);
     }
 
     .hero-meta-item {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 5px;
+      white-space: nowrap;
     }
 
     /* Section Wrapper */
@@ -198,9 +200,26 @@
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 28px 24px;
-      margin-bottom: 24px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
       transition: border-color 0.3s ease;
+    }
+
+    @media (max-width: 480px) {
+      .proposal-container {
+        padding: 16px 14px;
+      }
+      .section-box {
+        padding: 18px 14px;
+        border-radius: 18px;
+        margin-bottom: 16px;
+      }
+      .hero-title {
+        font-size: 22px;
+      }
+      .hero-desc {
+        font-size: 13.5px;
+      }
     }
 
     .section-box:hover {
@@ -651,13 +670,21 @@
       font-size: 11px;
       font-weight: 600;
       color: var(--text-sub);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
     }
 
     .dock-total-price {
       font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       color: #fff;
+      white-space: nowrap;
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
     }
 
     .dock-buttons {
@@ -669,19 +696,20 @@
     }
 
     .btn-secondary {
-      padding: 12px 14px;
+      padding: 10px 12px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
       color: #fff;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       transition: background 0.2s;
       text-decoration: none;
+      white-space: nowrap;
     }
 
     .btn-secondary:hover {
@@ -689,12 +717,12 @@
     }
 
     .btn-primary-cta {
-      padding: 12px 20px;
+      padding: 11px 18px;
       background: linear-gradient(135deg, #8b5cf6, #6366f1);
       border: none;
       border-radius: 12px;
       color: #fff;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
@@ -703,6 +731,41 @@
       box-shadow: 0 4px 20px rgba(139, 92, 246, 0.45);
       transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
       text-decoration: none;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 520px) {
+      .proposal-dock {
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+      }
+      .dock-inner {
+        gap: 8px;
+      }
+      .dock-total {
+        min-width: 90px;
+        max-width: 120px;
+      }
+      .dock-total-label {
+        font-size: 10px;
+        max-width: 100px;
+      }
+      .dock-total-price {
+        font-size: 16px;
+      }
+      .dock-buttons {
+        gap: 6px;
+      }
+      .btn-secondary {
+        padding: 9px 10px;
+        font-size: 11px;
+      }
+      .btn-secondary span {
+        display: none; /* Icon-only in tight viewports to prevent wrapping! */
+      }
+      .btn-primary-cta {
+        padding: 10px 14px;
+        font-size: 12px;
+      }
     }
 
     .btn-primary-cta:hover {
@@ -1206,7 +1269,9 @@
         document.getElementById('pkg2Title').textContent,
         document.getElementById('pkg3Title').textContent
       ];
-      document.getElementById('dockSelectedPkgName').textContent = `${pkgTitles[proposalState.selectedPkg - 1]} 선택됨`;
+      const rawTitle = pkgTitles[proposalState.selectedPkg - 1] || "플랜";
+      const shortTitle = rawTitle.split('(')[0].trim();
+      document.getElementById('dockSelectedPkgName').textContent = `${shortTitle} 선택됨`;
     }
 
     // Approve & Contact

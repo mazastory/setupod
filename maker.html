@@ -1226,9 +1226,15 @@
         </div>
         <div class="file-upload-box" onclick="document.getElementById('logoFileInput').click()">
           <i data-lucide="upload-cloud" style="width:24px;height:24px;color:#c084fc;"></i>
-          <span style="font-size:13px;font-weight:700;">로고 이미지 업로드 (GIF, PNG 권장)</span>
+          <span style="font-size:13px;font-weight:700;">로고 / 프로필 이미지 업로드 (GIF, PNG 권장)</span>
           <span style="font-size:11px;color:rgba(255,255,255,0.4);">클릭하여 파일을 선택하세요. 업로드 즉시 3D 카드에 반영됩니다.</span>
           <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+        </div>
+        <div style="margin-top:8px;">
+          <a href="profile_studio.html" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(56,189,248,0.15));border:1px solid rgba(139,92,246,0.3);color:#c4b5fd;font-size:12px;font-weight:800;text-decoration:none;transition:all 0.2s;">
+            <i data-lucide="sparkles" style="width:14px;height:14px;color:#38bdf8;"></i>
+            <span>AI 프로필 리터처 (셀카를 2026 테크 CEO 스타일로 변환)</span>
+          </a>
         </div>
       </div>
 
@@ -2350,6 +2356,16 @@
 
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
+      const savedAvatar = localStorage.getItem('setupod_custom_avatar');
+      if (savedAvatar) {
+        currentLogoSrc = savedAvatar;
+        const fImg = document.getElementById('frontLogoImg');
+        const bImg = document.getElementById('backLogoImg');
+        if (fImg) fImg.src = currentLogoSrc;
+        if (bImg) bImg.src = currentLogoSrc;
+        setTimeout(() => showToast('✨ AI 리터칭 프로필이 3D 명함에 적용되었습니다!'), 500);
+        localStorage.removeItem('setupod_custom_avatar');
+      }
       lucide.createIcons();
       liveUpdate();
     });
