@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semolake (세모레이크) — AI 지식 그래프 & 제2의 뇌 | Setupod</title>
+  <meta name="description" content="흩어진 메모, 링크, 아이디어를 AI가 자동 요약·태깅하고 상호 연결된 지식 그래프로 시각화하는 1인 창업가와 지식 근로자를 위한 AI 지식 레이크.">
+  <link rel="canonical" href="https://setupod.com/semolake">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Semolake — AI 지식 그래프 & 아이디어 레이크">
+  <meta property="og:description" content="비정형 생각을 1초 만에 시각적 지식 네트워크로. AI 자동 요약 & 스마트 태깅 & 인터랙티브 그래프.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://setupod.com/semolake">
+  <meta property="og:image" content="https://setupod.com/assets/og_semolake.png">
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-surface: #0f131c;
+      --bg-surface-elevated: #161b26;
+      --bg-card: rgba(22, 27, 38, 0.85);
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.35);
+      --border-glow: rgba(56, 189, 248, 0.25);
+      
+      --accent-primary: #6366f1; /* Indigo */
+      --accent-cyan: #38bdf8;    /* Cyber Cyan */
+      --accent-emerald: #10b981; /* Emerald */
+      --accent-amber: #f59e0b;   /* Amber */
+      --accent-purple: #a855f7;  /* Purple */
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* 상단 은은한 배경 오로라 */
+    .bg-aurora {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1400px;
+      height: 500px;
+      background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, rgba(56, 189, 248, 0.08) 35%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(80px);
+    }
+
+    /* ── 헤더 네비게이션 ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 14, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 16px rgba(79, 70, 229, 0.4);
+    }
+
+    .brand-name-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #818cf8;
+      letter-spacing: 0.05em;
+    }
+
+    /* 뷰 전환 탭 */
+    .view-tabs {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      color: #c7d2fe;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+    }
+
+    /* 헤더 우측 도구 액션 */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-icon:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border-color: var(--border-accent);
+    }
+
+    .btn-synergy-planner {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(56, 189, 248, 0.15));
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      transition: all 0.2s ease;
+    }
+
+    .btn-synergy-planner:hover {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(56, 189, 248, 0.25));
+      border-color: #34d399;
+      transform: translateY(-1px);
+    }
+
+    /* ── 메인 컨테이너 ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+      height: calc(100vh - 61px);
+    }
+
+    /* ── 상단 캡처 인풋 바 (Quick Capture Bar) ── */
+    .capture-bar-wrap {
+      padding: 12px 24px;
+      background: rgba(15, 19, 28, 0.75);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .capture-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(22, 27, 38, 0.9);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 6px 12px 6px 16px;
+      transition: all 0.25s ease;
+    }
+
+    .capture-input-row:focus-within {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .capture-type-select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .capture-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .capture-input::placeholder {
+      color: var(--text-muted);
+      font-size: 13.5px;
+    }
+
+    .btn-ai-process {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-ai-process:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .capture-hints {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      padding: 0 6px;
+    }
+
+    .active-tag-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      max-width: 70%;
+      padding-bottom: 2px;
+    }
+
+    .tag-filter-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 99px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .tag-filter-pill:hover {
+      color: #fff;
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .tag-filter-pill.active {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: #818cf8;
+      color: #c7d2fe;
+    }
+
+    /* ── 메인 뷰 영역 (그래프 뷰 vs 리스트 뷰) ── */
+    .view-content-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* 1. 인터랙티브 캔버스 그래프 뷰 */
+    #graphContainer {
+      position: absolute;
+      inset: 0;
+      display: block;
+    }
+
+    #graphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      background: radial-gradient(circle at center, #0c101a 0%, #07090e 100%);
+    }
+
+    #graphCanvas:active {
+      cursor: grabbing;
+    }
+
+    /* 그래프 캔버스 컨트롤러 (우측 하단) */
+    .graph-hud-controls {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .hud-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(22, 27, 38, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .hud-btn:hover {
+      color: #fff;
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--accent-primary);
+    }
+
+    /* 그래프 통계 뱃지 (좌측 하단) */
+    .graph-stats-hud {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(22, 27, 38, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .graph-stat-item strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* 2. 카드 리스트 뷰 */
+    #listViewContainer {
+      display: none;
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      padding: 24px;
+      background: var(--bg-dark);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .item-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .item-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .item-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .category-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-idea { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-link { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-business { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-note { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-tech { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+
+    .item-card-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .item-card-summary {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #f1f5f9;
+      line-height: 1.5;
+    }
+
+    .item-card-raw {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      max-height: 48px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .item-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── 우측 노드 상세 정보 서랍 (Detail Drawer) ── */
+    .detail-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 90vw;
+      background: rgba(15, 19, 28, 0.95);
+      backdrop-filter: blur(25px);
+      border-left: 1px solid var(--border-subtle);
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .detail-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .drawer-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .drawer-summary-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e0e7ff;
+      font-weight: 500;
+    }
+
+    .drawer-raw-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .drawer-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-drawer-action {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-send-planner {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+    }
+
+    .btn-send-planner:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-delete-node {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .btn-delete-node:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #ef4444;
+    }
+
+    /* ── 설정 모달 ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #fff;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .btn-modal-save {
+      background: var(--accent-primary);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* 토스트 알림 */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 16px;
+      }
+      .brand-title {
+        font-size: 17px;
+      }
+      .capture-bar-wrap {
+        padding: 10px 16px;
+      }
+      .btn-synergy-planner span {
+        display: none;
+      }
+      .detail-drawer {
+        width: 100vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-aurora"></div>
+
+  <!-- 헤더 -->
+  <header>
+    <a href="/semolake" class="brand-group">
+      <div class="brand-logo-badge">
+        <i data-lucide="network" style="width:20px;height:20px;"></i>
+      </div>
+      <div class="brand-name-wrap">
+        <span class="brand-title">SEMOLAKE</span>
+        <span class="brand-badge">AI KNOWLEDGE GRAPH</span>
+      </div>
+    </a>
+
+    <!-- 뷰 전환 탭 -->
+    <div class="view-tabs">
+      <button class="tab-btn active" id="tabGraphBtn" onclick="switchView('graph')">
+        <i data-lucide="share-2" style="width:14px;height:14px;"></i>
+        <span>지식 그래프</span>
+      </button>
+      <button class="tab-btn" id="tabListBtn" onclick="switchView('list')">
+        <i data-lucide="layout-grid" style="width:14px;height:14px;"></i>
+        <span>카드 스트림</span>
+      </button>
+    </div>
+
+    <!-- 우측 도구 액션 -->
+    <div class="header-actions">
+      <button class="btn-action-icon" onclick="openSettingsModal()" title="AI API 키 설정">
+        <i data-lucide="settings" style="width:16px;height:16px;"></i>
+      </button>
+      <button class="btn-action-icon" onclick="exportDataJSON()" title="데이터 JSON 내보내기">
+        <i data-lucide="download" style="width:16px;height:16px;"></i>
+      </button>
+      <button class="btn-action-icon" onclick="document.getElementById('importFile').click()" title="데이터 불러오기">
+        <i data-lucide="upload" style="width:16px;height:16px;"></i>
+      </button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importDataJSON(event)">
+
+      <!-- 2026 플래너와 상호 연결 -->
+      <a href="/planner" class="btn-synergy-planner" title="2026 실행 플래너로 이동">
+        <i data-lucide="calendar" style="width:14px;height:14px;"></i>
+        <span>2026 플래너 연결</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- 상단 캡처 인풋 바 -->
+    <div class="capture-bar-wrap">
+      <div class="capture-input-row">
+        <select class="capture-type-select" id="inputTypeSelect">
+          <option value="idea">💡 아이디어</option>
+          <option value="link">🔗 링크/URL</option>
+          <option value="business">🎯 비즈니스</option>
+          <option value="note">📝 빠른 메모</option>
+          <option value="tech">🛠️ 기술/프롬프트</option>
+        </select>
+        <input 
+          type="text" 
+          id="rawInput" 
+          class="capture-input" 
+          placeholder="아이디어, 아티클 링크, 회고, 영감을 자유롭게 입력하세요... (Enter 또는 AI 자동 요약)"
+          onkeypress="if(event.key==='Enter') handleAddContent()"
+        >
+        <button class="btn-ai-process" onclick="handleAddContent()">
+          <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+          <span>AI 구조화</span>
+        </button>
+      </div>
+
+      <div class="capture-hints">
+        <div class="active-tag-pills" id="tagPillsContainer">
+          <!-- 동적 태그 필터 -->
+        </div>
+        <div>
+          <span>Tip: 노드를 마우스로 드래그하거나 클릭하여 지식 연결망을 탐색하세요</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 뷰 컨텐츠 영역 -->
+    <div class="view-content-area">
+      
+      <!-- 1. 지식 그래프 캔버스 -->
+      <div id="graphContainer">
+        <canvas id="graphCanvas"></canvas>
+
+        <!-- 좌측 하단 통계 -->
+        <div class="graph-stats-hud">
+          <div class="graph-stat-item"><i data-lucide="file-text" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 지식 노드: <strong id="statItemCount">0</strong>개</div>
+          <div class="graph-stat-item"><i data-lucide="hash" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 태그 허브: <strong id="statTagCount">0</strong>개</div>
+          <div class="graph-stat-item"><i data-lucide="git-commit" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 연결 엣지: <strong id="statEdgeCount">0</strong>개</div>
+        </div>
+
+        <!-- 우측 하단 줌 & 리셋 HUD -->
+        <div class="graph-hud-controls">
+          <button class="hud-btn" onclick="zoomGraph(1.2)" title="확대">
+            <i data-lucide="plus" style="width:16px;height:16px;"></i>
+          </button>
+          <button class="hud-btn" onclick="zoomGraph(0.8)" title="축소">
+            <i data-lucide="minus" style="width:16px;height:16px;"></i>
+          </button>
+          <button class="hud-btn" onclick="resetGraphView()" title="화면 중앙 맞추기">
+            <i data-lucide="maximize-2" style="width:16px;height:16px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. 카드 스트림 뷰 -->
+      <div id="listViewContainer">
+        <div class="cards-grid" id="cardsGrid">
+          <!-- 동적 카드 -->
+        </div>
+      </div>
+
+      <!-- 노드 상세 정보 서랍 (오른쪽 사이드 패널) -->
+      <div class="detail-drawer" id="detailDrawer">
+        <div class="drawer-header">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="category-badge" id="drawerBadge">IDEA</span>
+            <span style="font-size:12px;color:var(--text-muted);" id="drawerDate">2026.09.12</span>
+          </div>
+          <button class="btn-action-icon" style="width:30px;height:30px;" onclick="closeDrawer()">
+            <i data-lucide="x" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+
+        <div class="drawer-body">
+          <div>
+            <div class="drawer-section-title">AI 핵심 요약 (SUMMARY)</div>
+            <div class="drawer-summary-box" id="drawerSummaryText"></div>
+          </div>
+
+          <div>
+            <div class="drawer-section-title">연결 태그 (TAGS)</div>
+            <div class="item-card-tags" id="drawerTagsContainer"></div>
+          </div>
+
+          <div>
+            <div class="drawer-section-title">원본 입력 내용 (RAW CONTENT)</div>
+            <div class="drawer-raw-box" id="drawerRawText"></div>
+          </div>
+        </div>
+
+        <div class="drawer-footer">
+          <!-- 킬러 시너지: 2026 플래너로 즉시 실행 항목 전송 -->
+          <button class="btn-drawer-action btn-send-planner" onclick="sendActiveNodeToPlanner()">
+            <i data-lucide="calendar-plus" style="width:15px;height:15px;"></i>
+            <span>2026 플래너 To-Do로 전송</span>
+          </button>
+          <button class="btn-drawer-action btn-delete-node" onclick="deleteActiveNode()">
+            <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
+            <span>삭제</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- AI API 설정 모달 -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="modal-title">
+          <i data-lucide="cpu" style="width:18px;height:18px;color:var(--accent-primary);"></i>
+          <span>AI 엔진 설정</span>
+        </div>
+        <button class="btn-action-icon" style="width:28px;height:28px;" onclick="closeSettingsModal()">
+          <i data-lucide="x" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+      <p style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">
+        Semolake는 API 키 없이도 <strong>내장 스마트 NLP 엔진</strong>을 통해 즉시 자동 요약 및 태깅이 작동합니다. 
+        보다 정밀한 초거대 언어모델을 원하시면 OpenAI 또는 Gemini API 키를 등록하세요. (브라우저 로컬에만 안전하게 보관됩니다.)
+      </p>
+      <div>
+        <label style="font-size:11.5px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:6px;">OPENAI API KEY (선택)</label>
+        <input type="password" id="openAiKeyInput" class="modal-input" placeholder="sk-...">
+      </div>
+      <button class="btn-modal-save" onclick="saveApiSettings()">설정 저장</button>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 -->
+  <div class="toast-msg" id="toastMsg">
+    <i data-lucide="check-circle" style="width:16px;height:16px;color:#34d399;"></i>
+    <span id="toastText">처리가 완료되었습니다.</span>
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT LOGIC & FORCE-DIRECTED GRAPH ENGINE
+       ========================================================= -->
+  <script>
+    /* ── 초기 시드 데이터 (1인 창업가 / 인디해커 실전자료) ── */
+    const SEED_DATA = [
+      {
+        id: 'seed-1',
+        type: 'business',
+        content: '2026 고단가 B2B 가치 프라이싱 공식: 원가나 투입 시간(Man-Month) 기준이 아닌, 클라이언트가 얻게 될 추가 매출의 10~20%를 견적으로 산정하는 Value-Based Pricing 원칙.',
+        summary: '원가 기준이 아닌 클라이언트 예상 추가 매출의 10~20%를 견적으로 산정하는 B2B 가치 프라이싱 공식.',
+        tags: ['pricing', 'b2b', 'business', 'growth'],
+        createdAt: '2026-09-10'
+      },
+      {
+        id: 'seed-2',
+        type: 'business',
+        content: '콜드 이메일 85% 오픈율 제목 카피 법칙: 질문형(e.g. 00 대표님, 이번 Q3 해외 바이어 발굴 건 질문입니다)과 괄호 태그 활용, 모바일 프리뷰 30자 이내 핵심 승부.',
+        summary: '구체적인 질문형 제목과 괄호 태그를 활용해 모바일 프리뷰 30자 이내 승부하는 콜드메일 전략.',
+        tags: ['marketing', 'copywriting', 'coldmail', 'b2b'],
+        createdAt: '2026-09-11'
+      },
+      {
+        id: 'seed-3',
+        type: 'tech',
+        content: 'AI 메가 프롬프트: 10초 만에 고객 페르소나와 결제 저항(Objection) 5가지를 도출하는 리버스 프롬프트 설계법.',
+        summary: '잠재 고객의 결제 저항 요인 5가지를 10초 만에 도출해내는 AI 리버스 프롬프팅 구조.',
+        tags: ['ai', 'prompt', 'copywriting'],
+        createdAt: '2026-09-11'
+      },
+      {
+        id: 'seed-4',
+        type: 'idea',
+        content: 'Setupod의 2대 축 결합: Semolake(생각 정리 & 지식 레이크)와 2026 플래너(실행 & 캘린더)를 원클릭 연동하여 인풋부터 아웃풋까지 원스톱 해결.',
+        summary: '지식 정리 도구(Semolake)와 실행 관리 도구(2026 플래너)를 상호 연동한 생산성 올인원 파이프라인.',
+        tags: ['setupod', 'product', 'semolake', 'planner'],
+        createdAt: '2026-09-12'
+      },
+      {
+        id: 'seed-5',
+        type: 'link',
+        content: 'https://setupod.com/planner — 2026년 인생 설계, 분기별 Big Rocks, 365일 인터랙티브 캘린더 및 뽀모도로 몰입 타이머.',
+        summary: '2026 올인원 프로젝트 플래너 웹 앱 링크. 480쪽 GoodNotes 서식과 100% 동기화된 디지털 실행 엔진.',
+        tags: ['planner', 'setupod', 'productivity'],
+        createdAt: '2026-09-12'
+      },
+      {
+        id: 'seed-6',
+        type: 'note',
+        content: '옵시디언(Obsidian) 지식 그래프 철학: 정보는 계층 폴더보다 상호 연관 태그 네트워크로 연결될 때 예측하지 못한 창의적 통찰이 발생한다.',
+        summary: '폴더식 분류 대신 노드 간의 유기적 네트워크 연결을 통해 새로운 창의적 발상을 유도하는 지식 관리 철학.',
+        tags: ['knowledge', 'graph', 'semolake', 'productivity'],
+        createdAt: '2026-09-12'
+      }
+    ];
+
+    /* ── 상태 관리 ── */
+    let items = [];
+    let activeFilterTag = null;
+    let activeNodeId = null;
+    let currentView = 'graph'; // 'graph' or 'list'
+
+    const STORAGE_KEY = 'semolake_data_v1';
+    const SETTINGS_KEY = 'semolake_settings_v1';
+
+    function initStorage() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          items = JSON.parse(saved);
+        } else {
+          items = SEED_DATA;
+          saveItems();
+        }
+      } catch (e) {
+        items = SEED_DATA;
+      }
+    }
+
+    function saveItems() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    /* ── 토스트 알림 ── */
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      const text = document.getElementById('toastText');
+      text.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    /* ── 뷰 전환 (그래프 vs 리스트) ── */
+    function switchView(view) {
+      currentView = view;
+      const graphBtn = document.getElementById('tabGraphBtn');
+      const listBtn = document.getElementById('tabListBtn');
+      const graphContainer = document.getElementById('graphContainer');
+      const listContainer = document.getElementById('listViewContainer');
+
+      if (view === 'graph') {
+        graphBtn.classList.add('active');
+        listBtn.classList.remove('active');
+        graphContainer.style.display = 'block';
+        listContainer.style.display = 'none';
+        rebuildGraph();
+      } else {
+        graphBtn.classList.remove('active');
+        listBtn.classList.add('active');
+        graphContainer.style.display = 'none';
+        listContainer.style.display = 'block';
+        renderListView();
+      }
+    }
+
+    /* ── 태그 필터 바 렌더링 ── */
+    function renderTagPills() {
+      const container = document.getElementById('tagPillsContainer');
+      const tagCounts = {};
+      items.forEach(item => {
+        (item.tags || []).forEach(t => {
+          tagCounts[t] = (tagCounts[t] || 0) + 1;
+        });
+      });
+
+      const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
+
+      let html = `<button class="tag-filter-pill ${!activeFilterTag ? 'active' : ''}" onclick="filterByTag(null)">전체 보기</button>`;
+      sortedTags.forEach(tag => {
+        const isActive = activeFilterTag === tag ? 'active' : '';
+        html += `<button class="tag-filter-pill ${isActive}" onclick="filterByTag('${tag}')">#${tag} (${tagCounts[tag]})</button>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterByTag(tag) {
+      activeFilterTag = (activeFilterTag === tag) ? null : tag;
+      renderTagPills();
+      if (currentView === 'graph') {
+        rebuildGraph();
+      } else {
+        renderListView();
+      }
+    }
+
+    /* ── 스마트 NLP 요약 & 태그 추출기 (API 키 없이도 즉시 작동) ── */
+    function smartLocalExtract(text, type) {
+      // 1. 요약 생성 (3문장 이하 정제)
+      let summary = text.trim();
+      if (summary.length > 90) {
+        const sentences = summary.split(/[.?!]\s+/);
+        if (sentences.length > 1) {
+          summary = sentences.slice(0, 2).join('. ') + '.';
+        } else {
+          summary = summary.substring(0, 85) + '...';
+        }
+      }
+
+      // 2. 키워드 사전 기반 자동 태깅
+      const tagMap = {
+        'b2b': ['b2b', '고객', '기업', '클라이언트', '수주'],
+        'pricing': ['가격', '단가', '프라이싱', '견적', '비용', '수익', 'pricing'],
+        'marketing': ['마케팅', '광고', '홍보', '유입', '트래픽', '세일즈'],
+        'copywriting': ['카피', '문구', '제목', '카피라이팅', '글쓰기', '메시지'],
+        'ai': ['ai', 'gpt', '프롬프트', '인공지능', 'llm', '클로드'],
+        'saas': ['saas', '구독', '앱', '서비스', '소프트웨어'],
+        'planner': ['플래너', '캘린더', '일정', '계획', '실행', '투두', '할일'],
+        'setupod': ['setupod', '셋업포드', '도구', '스튜디오'],
+        'knowledge': ['지식', '메모', '옵시디언', '정리', '노트', '생각'],
+        'growth': ['성장', '매출', '스케일', '전환율']
+      };
+
+      const lower = text.toLowerCase();
+      const extractedTags = new Set();
+
+      // 기본 타입 반영
+      if (type === 'idea') extractedTags.add('idea');
+      if (type === 'business') extractedTags.add('business');
+      if (type === 'link') extractedTags.add('link');
+      if (type === 'tech') extractedTags.add('tech');
+      if (type === 'note') extractedTags.add('note');
+
+      for (const [tag, keywords] of Object.entries(tagMap)) {
+        for (const kw of keywords) {
+          if (lower.includes(kw)) {
+            extractedTags.add(tag);
+            break;
+          }
+        }
+      }
+
+      if (extractedTags.size === 0) {
+        extractedTags.add('note');
+      }
+
+      return {
+        summary: summary,
+        tags: Array.from(extractedTags).slice(0, 5)
+      };
+    }
+
+    /* ── 새 컨텐츠 추가 ── */
+    function handleAddContent() {
+      const input = document.getElementById('rawInput');
+      const rawText = input.value.trim();
+      const type = document.getElementById('inputTypeSelect').value;
+
+      if (!rawText) {
+        showToast('내용을 입력해주세요.');
+        return;
+      }
+
+      // 스마트 AI/NLP 요약 및 태깅
+      const processed = smartLocalExtract(rawText, type);
+
+      const newItem = {
+        id: 'node-' + Date.now(),
+        type: type,
+        content: rawText,
+        summary: processed.summary,
+        tags: processed.tags,
+        createdAt: new Date().toISOString().split('T')[0]
+      };
+
+      items.unshift(newItem);
+      saveItems();
+      input.value = '';
+
+      renderTagPills();
+      if (currentView === 'graph') {
+        rebuildGraph();
+      } else {
+        renderListView();
+      }
+
+      openDrawer(newItem.id);
+      showToast('새 지식 노드가 생성되어 연결되었습니다!');
+    }
+
+    /* ── 카드 리스트 뷰 렌더링 ── */
+    function renderListView() {
+      const grid = document.getElementById('cardsGrid');
+      let filtered = items;
+      if (activeFilterTag) {
+        filtered = items.filter(i => (i.tags || []).includes(activeFilterTag));
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted);">표시할 지식 카드가 없습니다.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="item-card" onclick="openDrawer('${item.id}')">
+          <div class="item-card-header">
+            <span class="category-badge badge-${item.type}">${item.type.toUpperCase()}</span>
+            <span class="item-card-date">${item.createdAt || ''}</span>
+          </div>
+          <div class="item-card-summary">${escapeHtml(item.summary)}</div>
+          <div class="item-card-raw">${escapeHtml(item.content)}</div>
+          <div class="item-card-tags">
+            ${(item.tags || []).map(t => `<span class="card-tag">#${escapeHtml(t)}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    /* ── 노드 상세 정보 서랍 열기/닫기 ── */
+    function openDrawer(nodeId) {
+      const item = items.find(i => i.id === nodeId);
+      if (!item) return;
+
+      activeNodeId = nodeId;
+      const drawer = document.getElementById('detailDrawer');
+      const badge = document.getElementById('drawerBadge');
+      badge.className = `category-badge badge-${item.type}`;
+      badge.innerText = item.type.toUpperCase();
+
+      document.getElementById('drawerDate').innerText = item.createdAt || '';
+      document.getElementById('drawerSummaryText').innerText = item.summary;
+      document.getElementById('drawerRawText').innerText = item.content;
+
+      const tagsWrap = document.getElementById('drawerTagsContainer');
+      tagsWrap.innerHTML = (item.tags || []).map(t => `<span class="card-tag" style="padding:4px 9px;font-size:12px;">#${escapeHtml(t)}</span>`).join('');
+
+      drawer.classList.add('open');
+    }
+
+    function closeDrawer() {
+      document.getElementById('detailDrawer').classList.remove('open');
+      activeNodeId = null;
+    }
+
+    function deleteActiveNode() {
+      if (!activeNodeId) return;
+      if (!confirm('이 지식 노드를 삭제하시겠습니까?')) return;
+
+      items = items.filter(i => i.id !== activeNodeId);
+      saveItems();
+      closeDrawer();
+      renderTagPills();
+      if (currentView === 'graph') {
+        rebuildGraph();
+      } else {
+        renderListView();
+      }
+      showToast('노드가 삭제되었습니다.');
+    }
+
+    /* ── 킬러 연동: 2026 플래너(To-Do)로 전송 ── */
+    function sendActiveNodeToPlanner() {
+      const item = items.find(i => i.id === activeNodeId);
+      if (!item) return;
+
+      try {
+        const PLANNER_KEY = 'setupod_planner_2026_data';
+        let plannerData = {};
+        const saved = localStorage.getItem(PLANNER_KEY);
+        if (saved) {
+          plannerData = JSON.parse(saved);
+        }
+
+        // 오늘 날짜 키 (YYYY-MM-DD)
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+        const dateKey = `${y}-${m}-${d}`;
+
+        if (!plannerData[dateKey]) {
+          plannerData[dateKey] = { priority: '', todos: [], notes: '' };
+        }
+
+        // 투두 항목으로 추가
+        const todoText = `[Semolake] ${item.summary}`;
+        plannerData[dateKey].todos.push({
+          id: 'todo-' + Date.now(),
+          text: todoText,
+          done: false
+        });
+
+        localStorage.setItem(PLANNER_KEY, JSON.stringify(plannerData));
+        showToast('🎯 2026 플래너 오늘의 To-Do에 성공적으로 등록되었습니다!');
+      } catch (e) {
+        showToast('플래너 저장 중 오류가 발생했습니다.');
+      }
+    }
+
+    /* ── JSON 데이터 백업 & 불러오기 ── */
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `semolake_knowledge_backup_${new Date().toISOString().split('T')[0]}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('지식 데이터가 JSON으로 백업되었습니다.');
+    }
+
+    function importDataJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (Array.isArray(parsed)) {
+            items = parsed;
+            saveItems();
+            renderTagPills();
+            if (currentView === 'graph') rebuildGraph();
+            else renderListView();
+            showToast('데이터를 성공적으로 복원했습니다.');
+          }
+        } catch (err) {
+          showToast('올바른 JSON 형식이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* ── 설정 모달 ── */
+    function openSettingsModal() {
+      const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+      document.getElementById('openAiKeyInput').value = settings.openai || '';
+      document.getElementById('settingsModal').classList.add('open');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('open');
+    }
+
+    function saveApiSettings() {
+      const val = document.getElementById('openAiKeyInput').value.trim();
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify({ openai: val }));
+      closeSettingsModal();
+      showToast('AI 설정이 저장되었습니다.');
+    }
+
+    /* =========================================================
+       CANVAS 60FPS FORCE-DIRECTED GRAPH ENGINE
+       ========================================================= */
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let graphNodes = [];
+    let graphEdges = [];
+    let isDragging = false;
+    let draggedNode = null;
+    let hoveredNode = null;
+
+    let panX = 0;
+    let panY = 0;
+    let scale = 1.0;
+    let startPanX = 0;
+    let startPanY = 0;
+    let isPanning = false;
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      if (panX === 0 && panY === 0) {
+        panX = canvas.width / 2;
+        panY = canvas.height / 2;
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    function rebuildGraph() {
+      resizeCanvas();
+      graphNodes = [];
+      graphEdges = [];
+
+      let filteredItems = items;
+      if (activeFilterTag) {
+        filteredItems = items.filter(i => (i.tags || []).includes(activeFilterTag));
+      }
+
+      const tagMap = new Map();
+
+      // 1. 아이템 노드 생성
+      filteredItems.forEach((item, index) => {
+        const angle = (index / Math.max(1, filteredItems.length)) * Math.PI * 2;
+        const radius = 120 + Math.random() * 60;
+        graphNodes.push({
+          id: item.id,
+          kind: 'item',
+          type: item.type,
+          label: item.summary.length > 18 ? item.summary.substring(0, 16) + '...' : item.summary,
+          fullSummary: item.summary,
+          tags: item.tags || [],
+          x: Math.cos(angle) * radius + (Math.random() - 0.5) * 40,
+          y: Math.sin(angle) * radius + (Math.random() - 0.5) * 40,
+          vx: 0,
+          vy: 0,
+          radius: 18,
+          color: getNodeColor(item.type)
+        });
+
+        // 2. 태그 노드 수집
+        (item.tags || []).forEach(t => {
+          if (!tagMap.has(t)) {
+            tagMap.set(t, []);
+          }
+          tagMap.get(t).push(item.id);
+        });
+      });
+
+      // 3. 태그 허브 노드 생성
+      tagMap.forEach((linkedItemIds, tagName) => {
+        const tagNodeId = 'tag-' + tagName;
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 220 + Math.random() * 80;
+        
+        graphNodes.push({
+          id: tagNodeId,
+          kind: 'tag',
+          tagName: tagName,
+          label: '#' + tagName,
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius,
+          vx: 0,
+          vy: 0,
+          radius: 12 + Math.min(linkedItemIds.length * 2, 8),
+          color: '#818cf8'
+        });
+
+        // 엣지 생성: Item <-> Tag
+        linkedItemIds.forEach(itemId => {
+          graphEdges.push({
+            source: itemId,
+            target: tagNodeId,
+            length: 90
+          });
+        });
+      });
+
+      // HUD 통계 갱신
+      document.getElementById('statItemCount').innerText = filteredItems.length;
+      document.getElementById('statTagCount').innerText = tagMap.size;
+      document.getElementById('statEdgeCount').innerText = graphEdges.length;
+    }
+
+    function getNodeColor(type) {
+      switch (type) {
+        case 'idea': return '#f59e0b';
+        case 'link': return '#38bdf8';
+        case 'business': return '#10b981';
+        case 'tech': return '#6366f1';
+        case 'note': return '#a855f7';
+        default: return '#38bdf8';
+      }
+    }
+
+    /* ── 물리 엔진 시뮬레이션 (Spring & Coulomb Repulsion) ── */
+    function updatePhysics() {
+      const kRepulsion = 1600;
+      const kAttraction = 0.04;
+      const damping = 0.85;
+
+      // 1. 노드 간 척력
+      for (let i = 0; i < graphNodes.length; i++) {
+        for (let j = i + 1; j < graphNodes.length; j++) {
+          const n1 = graphNodes[i];
+          const n2 = graphNodes[j];
+          const dx = n2.x - n1.x;
+          const dy = n2.y - n1.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist === 0) dist = 0.1;
+
+          const force = kRepulsion / (dist * dist);
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+
+          if (n1 !== draggedNode) {
+            n1.vx -= fx;
+            n1.vy -= fy;
+          }
+          if (n2 !== draggedNode) {
+            n2.vx += fx;
+            n2.vy += fy;
+          }
+        }
+      }
+
+      // 2. 엣지 인력 (스프링)
+      graphEdges.forEach(edge => {
+        const src = graphNodes.find(n => n.id === edge.source);
+        const tgt = graphNodes.find(n => n.id === edge.target);
+        if (!src || !tgt) return;
+
+        const dx = tgt.x - src.x;
+        const dy = tgt.y - src.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const diff = dist - edge.length;
+        const force = diff * kAttraction;
+
+        const fx = (dx / (dist || 1)) * force;
+        const fy = (dy / (dist || 1)) * force;
+
+        if (src !== draggedNode) {
+          src.vx += fx;
+          src.vy += fy;
+        }
+        if (tgt !== draggedNode) {
+          tgt.vx -= fx;
+          tgt.vy -= fy;
+        }
+      });
+
+      // 3. 중앙 인력 (Gravity to center)
+      graphNodes.forEach(node => {
+        if (node !== draggedNode) {
+          node.vx += -node.x * 0.003;
+          node.vy += -node.y * 0.003;
+
+          node.vx *= damping;
+          node.vy *= damping;
+          node.x += node.vx;
+          node.y += node.vy;
+        }
+      });
+    }
+
+    /* ── 캔버스 렌더링 루프 ── */
+    function renderGraph() {
+      if (currentView === 'graph') {
+        updatePhysics();
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(panX, panY);
+        ctx.scale(scale, scale);
+
+        // 1. 엣지(연결선) 렌더링
+        graphEdges.forEach(edge => {
+          const src = graphNodes.find(n => n.id === edge.source);
+          const tgt = graphNodes.find(n => n.id === edge.target);
+          if (!src || !tgt) return;
+
+          const isConnected = (hoveredNode && (hoveredNode.id === src.id || hoveredNode.id === tgt.id));
+
+          ctx.beginPath();
+          ctx.moveTo(src.x, src.y);
+          ctx.lineTo(tgt.x, tgt.y);
+          ctx.strokeStyle = isConnected ? 'rgba(99, 102, 241, 0.7)' : 'rgba(255, 255, 255, 0.08)';
+          ctx.lineWidth = isConnected ? 2 : 1;
+          ctx.stroke();
+        });
+
+        // 2. 노드 렌더링
+        graphNodes.forEach(node => {
+          const isHovered = hoveredNode === node;
+          const isSelected = activeNodeId === node.id;
+
+          // 노드 외곽 글로우
+          if (isHovered || isSelected) {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.radius + 6, 0, Math.PI * 2);
+            ctx.fillStyle = node.color + '44';
+            ctx.fill();
+          }
+
+          // 노드 본체
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+          ctx.fillStyle = node.kind === 'tag' ? '#1e293b' : node.color;
+          ctx.fill();
+          ctx.strokeStyle = node.color;
+          ctx.lineWidth = node.kind === 'tag' ? 2 : 1.5;
+          ctx.stroke();
+
+          // 텍스트 라벨
+          ctx.fillStyle = '#f8fafc';
+          ctx.font = node.kind === 'tag' ? 'bold 10.5px JetBrains Mono' : '11px Pretendard';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(node.label, node.x, node.y + node.radius + 12);
+        });
+
+        ctx.restore();
+      }
+
+      requestAnimationFrame(renderGraph);
+    }
+
+    /* ── 마우스 인터랙션 (드래그, 호버, 클릭, 팬, 줌) ── */
+    function getMousePos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const rawX = e.clientX - rect.left;
+      const rawY = e.clientY - rect.top;
+      return {
+        screenX: rawX,
+        screenY: rawY,
+        worldX: (rawX - panX) / scale,
+        worldY: (rawY - panY) / scale
+      };
+    }
+
+    function findNodeAt(worldX, worldY) {
+      for (let i = graphNodes.length - 1; i >= 0; i--) {
+        const node = graphNodes[i];
+        const dx = worldX - node.x;
+        const dy = worldY - node.y;
+        if (dx * dx + dy * dy <= (node.radius + 4) * (node.radius + 4)) {
+          return node;
+        }
+      }
+      return null;
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      const pos = getMousePos(e);
+      const hit = findNodeAt(pos.worldX, pos.worldY);
+      if (hit) {
+        isDragging = true;
+        draggedNode = hit;
+        hit.vx = 0;
+        hit.vy = 0;
+      } else {
+        isPanning = true;
+        startPanX = pos.screenX - panX;
+        startPanY = pos.screenY - panY;
+      }
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      const pos = getMousePos(e);
+      if (isDragging && draggedNode) {
+        draggedNode.x = pos.worldX;
+        draggedNode.y = pos.worldY;
+      } else if (isPanning) {
+        panX = pos.screenX - startPanX;
+        panY = pos.screenY - startPanY;
+      } else {
+        hoveredNode = findNodeAt(pos.worldX, pos.worldY);
+        canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      draggedNode = null;
+      isPanning = false;
+    });
+
+    canvas.addEventListener('click', e => {
+      const pos = getMousePos(e);
+      const hit = findNodeAt(pos.worldX, pos.worldY);
+      if (hit) {
+        if (hit.kind === 'item') {
+          openDrawer(hit.id);
+        } else if (hit.kind === 'tag') {
+          filterByTag(hit.tagName);
+        }
+      }
+    });
+
+    // 마우스 휠 줌
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+      zoomGraph(zoomFactor);
+    }, { passive: false });
+
+    function zoomGraph(factor) {
+      const newScale = Math.min(Math.max(0.3, scale * factor), 2.5);
+      scale = newScale;
+    }
+
+    function resetGraphView() {
+      scale = 1.0;
+      panX = canvas.width / 2;
+      panY = canvas.height / 2;
+    }
+
+    /* ── 앱 시작 시 실행 ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      initStorage();
+      renderTagPills();
+      rebuildGraph();
+      renderGraph();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

@@ -10,6 +10,7 @@
     { "source": "/maker", "destination": "/maker" },
     { "source": "/studio", "destination": "/maker" },
     { "source": "/planner", "destination": "/planner" },
+    { "source": "/semolake", "destination": "/semolake" },
     { "source": "/kakao", "destination": "/kakao" },
     { "source": "/instagram-teaser", "destination": "/instagram_teaser" },
     { "source": "/instagram-slides", "destination": "/instagram_slides" },
