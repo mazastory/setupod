@@ -511,17 +511,18 @@
       pointer-events: auto;
     }
 
-    /* 거대 워터마크 - 카드 우측 내부에 완벽히 배치되어 잘리지 않음 */
+    /* 거대 워터마크 - 카드 우측 및 하단 라인에 완벽히 안착되어 잘리거나 뜨지 않음 */
     .watermark-dynamic {
       position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
+      right: 6px;
+      bottom: 24px;
+      top: auto;
+      transform: none;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 2px;
+      justify-content: flex-end;
+      gap: 0;
       pointer-events: none;
       z-index: 1;
       user-select: none;
@@ -529,15 +530,16 @@
 
     .watermark-dynamic span {
       font-family: 'Montserrat', sans-serif;
-      font-size: 62px;
+      font-size: 68px;
       font-weight: 900;
       color: var(--watermark-color);
       transform: rotate(-90deg);
-      width: 62px;
-      height: 62px;
+      width: 68px;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: center;
+      line-height: 1;
     }
 
     .front-wrapper, .back-wrapper {
