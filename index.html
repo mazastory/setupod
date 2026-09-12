@@ -685,6 +685,7 @@
 
     .card-scene.flipped .card-flipper {
       transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
     }
 
     .card-face {
@@ -694,37 +695,321 @@
       height: 100%;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       border-radius: 26px;
       border: 1px solid var(--border-accent);
       background: var(--card-gradient);
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      padding: 30px 24px 24px;
+      padding: 26px 22px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
     }
 
+    /* 앞면 기본: translateZ로 레이어 분리 + Safari fail-safe */
     .card-face.front {
       z-index: 2;
       pointer-events: auto;
-      transform: rotateY(0deg);
+      transform: rotateY(0deg) translateZ(1px);
+      -webkit-transform: rotateY(0deg) translateZ(1px);
+      transition: opacity 0.2s ease 0.1s;
+      opacity: 1;
+      visibility: visible;
     }
 
+    /* 뒷면 기본 */
     .card-face.back {
       z-index: 1;
       pointer-events: none;
-      transform: rotateY(180deg);
+      transform: rotateY(180deg) translateZ(1px);
+      -webkit-transform: rotateY(180deg) translateZ(1px);
+      transition: opacity 0.2s ease 0.1s;
+      opacity: 0;
+      visibility: hidden;
     }
 
+    /* 뒤집혔을 때: iOS Safari 완벽 대응 (앞면을 투명/숨김 처리하여 거울상 반사 원천 차단) */
     .card-scene.flipped .card-face.front {
-      z-index: 1;
-      pointer-events: none;
+      z-index: 1 !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
     }
 
     .card-scene.flipped .card-face.back {
-      z-index: 2;
-      pointer-events: auto;
+      z-index: 2 !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    /* ── 럭셔리 카드 뒷면 (Back Face) 전용 컴포넌트 ── */
+    .back-meta-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .nfc-chip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 7px;
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.28);
+    }
+
+    .nfc-chip-metal {
+      width: 16px;
+      height: 12px;
+      border-radius: 2.5px;
+      background: linear-gradient(135deg, #ffd700 0%, #b8860b 50%, #ffe066 100%);
+      position: relative;
+      box-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
+    }
+
+    .nfc-lines {
+      position: absolute;
+      inset: 2px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      border-radius: 1px;
+    }
+
+    .nfc-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      color: #ffd700;
+      letter-spacing: 0.06em;
+    }
+
+    .vip-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #e9d5ff;
+      letter-spacing: 0.04em;
+    }
+
+    .vip-pulse-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #a855f7;
+      box-shadow: 0 0 6px #a855f7;
+      animation: pulseDot 2s infinite;
+    }
+
+    .back-profile-hero {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+
+    .back-avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .back-avatar-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: var(--logo-bg);
+      border: 1px solid var(--logo-border);
+      box-shadow: var(--logo-shadow);
+      padding: 4px;
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .back-avatar-box:hover {
+      transform: scale(1.05);
+    }
+
+    .back-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .back-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .back-role-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--gold-accent);
+      text-transform: uppercase;
+    }
+
+    .back-name-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.1;
+    }
+
+    .verified-blue-badge {
+      width: 15px;
+      height: 15px;
+      color: #38bdf8;
+    }
+
+    .back-company-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+    }
+
+    .back-bio-text {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .back-contact-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .back-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 11px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+
+    .back-contact-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateX(2px);
+    }
+
+    .contact-icon-bubble {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d8b4fe;
+      flex-shrink: 0;
+    }
+
+    .contact-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .contact-item-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8.5px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.08em;
+    }
+
+    .contact-item-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f3f4f6;
+    }
+
+    .back-action-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: auto;
+    }
+
+    .btn-back-primary {
+      width: 100%;
+      height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-back-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .back-action-subrow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .btn-back-glass {
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-back-glass:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.22);
     }
 
     .watermark-dynamic {
@@ -1446,64 +1731,84 @@
 
           <!-- BACK -->
           <div class="card-face back">
+            <!-- 거대 동적 워터마크 (정방향 SETUPOD) -->
             <div class="watermark-dynamic" aria-hidden="true">
-              <span>D</span><span>O</span><span>P</span><span>U</span><span>T</span><span>E</span><span>S</span>
+              <span>S</span><span>E</span><span>T</span><span>U</span><span>P</span><span>O</span><span>D</span>
             </div>
             <div class="back-wrapper">
-              <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" style="cursor: pointer;" title="클릭 시 QR코드 팝업">
-                <img src="assets/setupod.gif" alt="SETUPOD 3D Logo">
+              <!-- 1. 상단 NFC 칩 및 VIP 인증 태그 -->
+              <div class="back-meta-header">
+                <div class="nfc-chip-badge">
+                  <div class="nfc-chip-metal">
+                    <div class="nfc-lines"></div>
+                  </div>
+                  <span class="nfc-text">NFC CONNECT · 2026</span>
+                </div>
+                <div class="vip-status-pill">
+                  <span class="vip-pulse-dot"></span>
+                  <span>VERIFIED VIP</span>
+                </div>
               </div>
-              <div>
-                <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
-                <div class="back-company-name">SETUPOD</div>
-                <div class="back-company-slogan">차세대 3D 인터랙티브 디지털 명함</div>
-                <div class="profile-row">
-                  <span class="role-title">CEO</span>
-                  <span class="name-title">Alex Rivera</span>
-                </div>
-                <div class="contact-group">
-                  <div class="contact-row">
-                    <span class="contact-key">T</span>
-                    <span>+82 10-5555-0100</span>
+
+              <!-- 2. 프로필 히어로 영역 (대표 & 회사 정보) -->
+              <div class="back-profile-hero">
+                <div class="back-avatar-row">
+                  <div class="back-avatar-box" onclick="event.stopPropagation(); openShareModal();" title="로고 탭 시 QR코드 팝업">
+                    <img src="assets/setupod.gif" alt="SETUPOD Logo">
                   </div>
-                  <div class="contact-row">
-                    <span class="contact-key">E</span>
-                    <span>official@setupod.com</span>
-                  </div>
-                </div>
-                <div class="moat-tags">
-                  <span class="moat-tag">3D 인터랙티브</span>
-                  <span class="moat-tag">vCard 자동저장</span>
-                  <span class="moat-tag">올인원 멀티링크</span>
-                </div>
-                <!-- 2x2 Action Dock -->
-                <div class="inside-action-dock">
-                  <div class="inside-action-row">
-                    <button class="btn-action btn-save" onclick="event.stopPropagation(); alert('실제 명함에서는 스마트폰 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
-                      <i data-lucide="user-plus" style="width:13px;height:13px;"></i>
-                      <span>연락처 저장</span>
-                    </button>
-                    <a href="maker.html" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
-                      <span>스튜디오</span>
-                    </a>
-                  </div>
-                  <div class="inside-action-row">
-                    <a href="https://open.kakao.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;color:#ffd978;">
-                        <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z" />
+                  <div class="back-title-group">
+                    <div class="back-role-tag">FOUNDER & CEO</div>
+                    <div class="back-name-title">
+                      <span>Alex Rivera</span>
+                      <svg class="verified-blue-badge" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                       </svg>
-                      <span>카카오톡</span>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:#f472b6;">
-                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
-                      </svg>
-                      <span>인스타그램</span>
-                    </a>
+                    </div>
+                    <div class="back-company-sub">SETUPOD Global Inc.</div>
                   </div>
+                </div>
+                <div class="back-bio-text">
+                  차세대 3D 디지털 명함 & 멀티링크 시스템 아키텍트
+                </div>
+              </div>
+
+              <!-- 3. 비즈니스 연락처 카드 (터치 시 즉시 연결) -->
+              <div class="back-contact-card">
+                <a href="tel:010-5555-0100" class="back-contact-item" onclick="event.stopPropagation()">
+                  <div class="contact-icon-bubble"><i data-lucide="phone" style="width:13px;height:13px;"></i></div>
+                  <div class="contact-item-info">
+                    <span class="contact-item-label">DIRECT PHONE</span>
+                    <span class="contact-item-value">+82 10-5555-0100</span>
+                  </div>
+                  <i data-lucide="chevron-right" style="width:13px;height:13px;color:rgba(255,255,255,0.3);margin-left:auto;"></i>
+                </a>
+                <a href="mailto:official@setupod.com" class="back-contact-item" onclick="event.stopPropagation()">
+                  <div class="contact-icon-bubble"><i data-lucide="mail" style="width:13px;height:13px;"></i></div>
+                  <div class="contact-item-info">
+                    <span class="contact-item-label">DIRECT EMAIL</span>
+                    <span class="contact-item-value">official@setupod.com</span>
+                  </div>
+                  <i data-lucide="chevron-right" style="width:13px;height:13px;color:rgba(255,255,255,0.3);margin-left:auto;"></i>
+                </a>
+              </div>
+
+              <!-- 4. 하단 럭셔리 액션 독 -->
+              <div class="back-action-dock">
+                <button class="btn-back-primary" onclick="event.stopPropagation(); alert('실제 명함에서는 스마트폰 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
+                  <i data-lucide="user-plus" style="width:15px;height:15px;"></i>
+                  <span>vCard 주소록 1초 저장</span>
+                </button>
+                <div class="back-action-subrow">
+                  <a href="https://open.kakao.com" target="_blank" class="btn-back-glass" onclick="event.stopPropagation()">
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;color:#ffd978;">
+                      <path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z" />
+                    </svg>
+                    <span>카카오톡</span>
+                  </a>
+                  <a href="maker.html" class="btn-back-glass" onclick="event.stopPropagation()">
+                    <i data-lucide="sparkles" style="width:13px;height:13px;color:#c084fc;"></i>
+                    <span>스튜디오</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -1771,6 +2076,7 @@
 
     function toggleHeroFlip() {
       document.getElementById('heroCardScene').classList.toggle('flipped');
+      if (window.lucide) lucide.createIcons();
     }
 
     // ── Auto Theme Tour & Manual Switcher ──
