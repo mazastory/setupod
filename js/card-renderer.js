@@ -244,6 +244,22 @@ function populateCard(data) {
     }
   }
 
+  // 3D 홀로그램 & GIF 모션 연출 바인딩
+  const logoMotion = data.logoMotion || data.avatarMotion;
+  const fLogoBox = document.querySelector('.front-logo-box');
+  const bLogoBox = document.querySelector('.back-top-logo');
+  if (logoMotion && logoMotion !== 'none') {
+    const motionClasses = ['fx-hologram-pulse', 'fx-cyber-shimmer', 'fx-3d-floating', 'fx-gold-sparkle'];
+    [fLogoBox, bLogoBox].forEach(box => {
+      if (!box) return;
+      motionClasses.forEach(c => box.classList.remove(c));
+      if (logoMotion === 'pulse') box.classList.add('fx-hologram-pulse');
+      else if (logoMotion === 'shimmer') box.classList.add('fx-cyber-shimmer');
+      else if (logoMotion === 'float') box.classList.add('fx-3d-floating');
+      else if (logoMotion === 'gold') box.classList.add('fx-gold-sparkle');
+    });
+  }
+
   // 앞면 정보 바인딩
   const frontTagline = document.getElementById('frontTagline');
   const frontCompany = document.getElementById('frontCompany');

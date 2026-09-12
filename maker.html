@@ -569,8 +569,9 @@
       justify-content: center;
       box-shadow: var(--logo-shadow);
       overflow: hidden;
-      padding: 12px;
+      padding: 10px;
       cursor: pointer;
+      position: relative;
       animation: logoPulse 4.5s ease-in-out infinite;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -578,8 +579,44 @@
     .front-logo-box img, .back-top-logo img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    /* Living Hologram GIF Motion FX Presets */
+    @keyframes cardPulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 38px rgba(6, 182, 212, 0.6)); transform: scale(1.05); }
+    }
+
+    @keyframes cardFloatMotion {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes cardShimmerSweep {
+      0% { transform: translateX(-150%) skewX(-25deg); }
+      35%, 100% { transform: translateX(250%) skewX(-25deg); }
+    }
+
+    @keyframes cardGoldAura {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.45)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 26px rgba(245, 158, 11, 0.95)) drop-shadow(0 0 35px rgba(251, 191, 36, 0.55)); transform: scale(1.04); }
+    }
+
+    .fx-hologram-pulse img { animation: cardPulseGlow 3.5s ease-in-out infinite !important; }
+    .fx-3d-floating img { animation: cardFloatMotion 3.8s ease-in-out infinite !important; }
+    .fx-gold-sparkle img { animation: cardGoldAura 3.5s ease-in-out infinite !important; }
+    .fx-cyber-shimmer { position: relative; overflow: hidden !important; }
+    .fx-cyber-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.45) 50%, transparent 65%);
+      pointer-events: none;
+      animation: cardShimmerSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
     .brand-sub-engraving {
@@ -1222,19 +1259,47 @@
       <div>
         <div class="section-title-wrap">
           <div class="section-icon-box"><i data-lucide="image" style="width:16px;height:16px;"></i></div>
-          <h2 class="section-title">3. 로고 / 엠블럼</h2>
+          <h2 class="section-title">3. 로고 / 프로필 & 누끼 연출</h2>
         </div>
         <div class="file-upload-box" onclick="document.getElementById('logoFileInput').click()">
           <i data-lucide="upload-cloud" style="width:24px;height:24px;color:#c084fc;"></i>
-          <span style="font-size:13px;font-weight:700;">로고 / 프로필 이미지 업로드 (GIF, PNG 권장)</span>
+          <span style="font-size:13px;font-weight:700;">로고 / 프로필 이미지 업로드 (투명 누끼 PNG, GIF 권장)</span>
           <span style="font-size:11px;color:rgba(255,255,255,0.4);">클릭하여 파일을 선택하세요. 업로드 즉시 3D 카드에 반영됩니다.</span>
           <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
         </div>
+
         <div style="margin-top:8px;">
-          <a href="profile_studio.html" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(56,189,248,0.15));border:1px solid rgba(139,92,246,0.3);color:#c4b5fd;font-size:12px;font-weight:800;text-decoration:none;transition:all 0.2s;">
-            <i data-lucide="sparkles" style="width:14px;height:14px;color:#38bdf8;"></i>
-            <span>AI 프로필 리터처 (셀카를 2026 테크 CEO 스타일로 변환)</span>
+          <a href="profile_studio.html" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(139,92,246,0.18),rgba(56,189,248,0.18));border:1px solid rgba(139,92,246,0.4);color:#c4b5fd;font-size:12.5px;font-weight:800;text-decoration:none;transition:all 0.2s;">
+            <i data-lucide="scissors" style="width:15px;height:15px;color:#38bdf8;"></i>
+            <span>AI 프로필 스튜디오 (배경 누끼 분리 & 2026 테크 CEO 림라이트 리터칭)</span>
           </a>
+        </div>
+
+        <!-- 홀로그램 & GIF 모션 선택 -->
+        <div style="margin-top:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:5px;">
+              <i data-lucide="zap" style="width:14px;height:14px;color:#38bdf8;"></i> 3D 홀로그램 & GIF 모션 연출
+            </span>
+            <span style="font-size:10.5px;color:#a78bfa;font-weight:700;">실시간 3D 연동</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:6px;" id="motionButtonGroup">
+            <button type="button" class="btn-motion-choice active" onclick="setCardMotion('pulse')" id="btnMotionChoicePulse" style="padding:8px;background:rgba(139,92,246,0.15);border:1px solid #8b5cf6;border-radius:8px;color:#fff;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              🌟 홀로그램 펄스
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('shimmer')" id="btnMotionChoiceShimmer" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              ⚡️ 사이버 시머
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('float')" id="btnMotionChoiceFloat" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              🌀 3D 무중력 부유
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('gold')" id="btnMotionChoiceGold" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              💎 골드 럭셔리
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('none')" id="btnMotionChoiceNone" style="grid-column:span 2;padding:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;">
+              ⚪️ 정적 모드 (효과 끄기)
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2308,7 +2373,8 @@
         kakaoLabel: document.getElementById('teamKakaoLabel')?.value || '카카오톡',
         instaUrl: document.getElementById('teamInstaUrl')?.value || '#',
         instaLabel: document.getElementById('teamInstaLabel')?.value || '인스타그램',
-        logoSrc: currentLogoSrc
+        logoSrc: currentLogoSrc,
+        logoMotion: currentLogoMotion
       };
 
       try {
@@ -2354,6 +2420,49 @@
       });
     }
 
+    // 3D 홀로그램 & GIF 모션 연출 관리
+    let currentLogoMotion = 'pulse';
+
+    function setCardMotion(motion) {
+      currentLogoMotion = motion;
+      const fBox = document.querySelector('.front-logo-box');
+      const bBox = document.querySelector('.back-top-logo');
+      
+      const motionClasses = ['fx-hologram-pulse', 'fx-cyber-shimmer', 'fx-3d-floating', 'fx-gold-sparkle'];
+      [fBox, bBox].forEach(box => {
+        if (!box) return;
+        motionClasses.forEach(c => box.classList.remove(c));
+        if (motion === 'pulse') box.classList.add('fx-hologram-pulse');
+        else if (motion === 'shimmer') box.classList.add('fx-cyber-shimmer');
+        else if (motion === 'float') box.classList.add('fx-3d-floating');
+        else if (motion === 'gold') box.classList.add('fx-gold-sparkle');
+      });
+
+      // Update button styling
+      const btns = {
+        pulse: document.getElementById('btnMotionChoicePulse'),
+        shimmer: document.getElementById('btnMotionChoiceShimmer'),
+        float: document.getElementById('btnMotionChoiceFloat'),
+        gold: document.getElementById('btnMotionChoiceGold'),
+        none: document.getElementById('btnMotionChoiceNone')
+      };
+
+      Object.keys(btns).forEach(key => {
+        const btn = btns[key];
+        if (!btn) return;
+        if (key === motion) {
+          btn.style.background = 'rgba(139,92,246,0.18)';
+          btn.style.borderColor = '#8b5cf6';
+          btn.style.color = '#fff';
+        } else {
+          btn.style.background = 'rgba(255,255,255,0.04)';
+          btn.style.borderColor = 'var(--border)';
+          btn.style.color = 'rgba(255,255,255,0.6)';
+        }
+      });
+      localStorage.setItem('setupod_avatar_motion', motion);
+    }
+
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
       const savedAvatar = localStorage.getItem('setupod_custom_avatar');
@@ -2363,9 +2472,13 @@
         const bImg = document.getElementById('backLogoImg');
         if (fImg) fImg.src = currentLogoSrc;
         if (bImg) bImg.src = currentLogoSrc;
-        setTimeout(() => showToast('✨ AI 리터칭 프로필이 3D 명함에 적용되었습니다!'), 500);
+        setTimeout(() => showToast('✨ 2026 누끼 프로필이 3D 명함에 장착되었습니다!'), 500);
         localStorage.removeItem('setupod_custom_avatar');
       }
+
+      const savedMotion = localStorage.getItem('setupod_avatar_motion') || 'pulse';
+      setCardMotion(savedMotion);
+
       lucide.createIcons();
       liveUpdate();
     });

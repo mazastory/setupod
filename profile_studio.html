@@ -433,6 +433,137 @@
     .btn-action-secondary:hover {
       background: rgba(255, 255, 255, 0.15);
     }
+
+    /* Motion Presets Grid */
+    .motion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .btn-motion-opt {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .btn-motion-opt:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-motion-opt.active {
+      border-color: var(--violet);
+      background: rgba(139, 92, 246, 0.15);
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.35);
+    }
+
+    /* Studio View Mode Toggle */
+    .studio-view-bar {
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px 8px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-view-mode {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .btn-view-mode.active {
+      background: var(--violet);
+      color: #fff;
+    }
+
+    /* 3D Card Preview Container */
+    .card-mockup-stage {
+      display: none;
+      width: 320px;
+      height: 520px;
+      background: #110d24;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.3);
+      padding: 24px 20px;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-mockup-stage.active {
+      display: flex;
+    }
+
+    .card-mockup-logo-box {
+      width: 140px;
+      height: 140px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card-mockup-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Animation Keyframes for Preview */
+    @keyframes cardPulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9)) drop-shadow(0 0 45px rgba(6, 182, 212, 0.6)); transform: scale(1.04); }
+    }
+
+    @keyframes cardFloatMotion {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes cardShimmerSweep {
+      0% { transform: translateX(-150%) skewX(-25deg); }
+      35%, 100% { transform: translateX(250%) skewX(-25deg); }
+    }
+
+    .fx-preview-pulse img { animation: cardPulseGlow 3.5s ease-in-out infinite; }
+    .fx-preview-float img { animation: cardFloatMotion 3.8s ease-in-out infinite; }
+    .fx-preview-shimmer { position: relative; overflow: hidden; }
+    .fx-preview-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.4) 50%, transparent 65%);
+      pointer-events: none;
+      animation: cardShimmerSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
   </style>
 </head>
 <body>
@@ -542,14 +673,76 @@
           </div>
           <input type="range" class="filter-slider" id="sliderClarity" min="90" max="140" value="110" oninput="updateSliders()">
         </div>
+
+        <!-- 5. 3D 홀로그램 & GIF 모션 연출 -->
+        <div class="section-label"><i data-lucide="zap" style="width:15px;height:15px;color:#38bdf8;"></i> 5. 3D 명함 홀로그램 모션 (GIF 연출)</div>
+        <div style="font-size:11.5px;color:var(--text-sub);margin-bottom:8px;">명함에 장착 시 정지된 사진이 아닌 살아 숨쉬는 GIF 홀로그램으로 연출됩니다.</div>
+        <div class="motion-grid">
+          <button class="btn-motion-opt active" id="btnMotionPulse" onclick="selectMotion('pulse')">
+            <div style="font-size:13px;font-weight:800;color:#c084fc;">🌟 홀로그램 펄스</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">네온 오라 숨쉬기</div>
+          </button>
+          <button class="btn-motion-opt" id="btnMotionShimmer" onclick="selectMotion('shimmer')">
+            <div style="font-size:13px;font-weight:800;color:#38bdf8;">⚡️ 사이버 시머</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">사선 광선 스윕</div>
+          </button>
+          <button class="btn-motion-opt" id="btnMotionFloat" onclick="selectMotion('float')">
+            <div style="font-size:13px;font-weight:800;color:#a78bfa;">🌀 무중력 3D 부유</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">부드러운 상하 유영</div>
+          </button>
+          <button class="btn-motion-opt" id="btnMotionGold" onclick="selectMotion('gold')">
+            <div style="font-size:13px;font-weight:800;color:#fbbf24;">💎 골드 럭셔리</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">샴페인 골드 펄스</div>
+          </button>
+        </div>
       </div>
     </aside>
 
     <!-- Right Canvas Stage -->
     <main class="preview-canvas-area">
-      <div class="canvas-stage-wrapper">
+      <!-- View Mode Switch -->
+      <div class="studio-view-bar">
+        <button class="btn-view-mode active" id="btnViewStudio" onclick="switchViewMode('studio')">
+          <i data-lucide="image" style="width:13px;height:13px;"></i> 스튜디오 뷰
+        </button>
+        <button class="btn-view-mode" id="btnViewCard" onclick="switchViewMode('card')">
+          <i data-lucide="credit-card" style="width:13px;height:13px;color:#38bdf8;"></i> 3D 명함 장착 뷰
+        </button>
+      </div>
+
+      <!-- Studio Mode Canvas -->
+      <div class="canvas-stage-wrapper" id="studioStageWrapper">
         <canvas id="stageCanvas" width="720" height="960"></canvas>
         <div class="watermark-brand">SETUPOD RETOUCH</div>
+      </div>
+
+      <!-- 3D Card Mockup Preview Mode -->
+      <div class="card-mockup-stage" id="cardMockupStage">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;letter-spacing:0.25em;color:rgba(255,255,255,0.5);">ALL-IN-ONE 3D ASSET</span>
+          <span style="font-size:10px;background:rgba(139,92,246,0.25);color:#c4b5fd;padding:2px 8px;border-radius:6px;font-weight:800;">LIVE PREVIEW</span>
+        </div>
+
+        <div style="text-align:center;margin-top:10px;">
+          <div class="card-mockup-logo-box fx-preview-pulse" id="cardMockupLogoBox">
+            <img id="cardMockupImg" src="assets/model_ceo_male.png" alt="Card Avatar">
+          </div>
+          <div style="font-family:'Pretendard',sans-serif;font-size:17px;font-weight:900;color:#fff;margin-top:12px;">SETUPOD CEO</div>
+          <div style="font-size:11.5px;color:#c084fc;font-weight:700;margin-top:2px;">차세대 올인원 3D 명함 & 비즈니스 자산</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;">
+              <i data-lucide="zap" style="width:16px;height:16px;color:#c084fc;"></i>
+            </div>
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.5);">적용된 모션 효과</div>
+              <div style="font-size:12.5px;font-weight:800;color:#fff;" id="cardMockupMotionLabel">🌟 홀로그램 펄스 (GIF)</div>
+            </div>
+          </div>
+          <div style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981;"></div>
+        </div>
       </div>
 
       <!-- Action Buttons -->
@@ -560,7 +753,7 @@
         </button>
         <button class="btn-action-secondary" onclick="applyToCardMaker()">
           <i data-lucide="credit-card" style="width:16px;height:16px;color:#38bdf8;"></i>
-          <span>3D 명함에 적용하기</span>
+          <span>3D 명함에 즉시 장착하기</span>
         </button>
       </div>
     </main>
@@ -578,6 +771,8 @@
       contrast: 115,
       clarity: 110,
       nukkiEnabled: true,
+      motionFx: 'pulse',
+      viewMode: 'studio',
       currentImg: null,
       processedCutout: null,
       activeModelId: 1
@@ -700,6 +895,68 @@
       renderCanvas();
     }
 
+    // Motion selection
+    const motionLabels = {
+      pulse: '🌟 홀로그램 펄스 (GIF)',
+      shimmer: '⚡️ 사이버 시머 (GIF)',
+      float: '🌀 무중력 3D 부유 (GIF)',
+      gold: '💎 골드 럭셔리 (GIF)'
+    };
+
+    function selectMotion(motion) {
+      studioState.motionFx = motion;
+      ['pulse', 'shimmer', 'float', 'gold'].forEach(m => {
+        const btnId = 'btnMotion' + m.charAt(0).toUpperCase() + m.slice(1);
+        const btn = document.getElementById(btnId);
+        if (btn) btn.classList.toggle('active', m === motion);
+      });
+
+      const box = document.getElementById('cardMockupLogoBox');
+      if (box) {
+        box.className = 'card-mockup-logo-box fx-preview-' + motion;
+      }
+
+      const label = document.getElementById('cardMockupMotionLabel');
+      if (label) {
+        label.textContent = motionLabels[motion] || motion;
+      }
+    }
+
+    // View Mode Switcher
+    function switchViewMode(mode) {
+      studioState.viewMode = mode;
+      const studioBtn = document.getElementById('btnViewStudio');
+      const cardBtn = document.getElementById('btnViewCard');
+      const studioStage = document.getElementById('studioStageWrapper');
+      const cardStage = document.getElementById('cardMockupStage');
+
+      if (mode === 'studio') {
+        studioBtn.classList.add('active');
+        cardBtn.classList.remove('active');
+        studioStage.style.display = 'flex';
+        cardStage.classList.remove('active');
+      } else {
+        cardBtn.classList.add('active');
+        studioBtn.classList.remove('active');
+        studioStage.style.display = 'none';
+        cardStage.classList.add('active');
+      }
+      syncCardMockup();
+    }
+
+    function syncCardMockup() {
+      const cardMockupImg = document.getElementById('cardMockupImg');
+      if (!cardMockupImg) return;
+
+      if (studioState.nukkiEnabled && studioState.currentImg) {
+        // Transparent cutout avatar on card mockup
+        cardMockupImg.src = studioState.currentImg.src;
+      } else {
+        // Rendered canvas image on card mockup
+        cardMockupImg.src = canvas.toDataURL('image/png');
+      }
+    }
+
     function renderCanvas() {
       const w = canvas.width;
       const h = canvas.height;
@@ -789,6 +1046,8 @@
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, w, h);
       ctx.restore();
+
+      syncCardMockup();
     }
 
     function downloadImage() {
@@ -799,14 +1058,49 @@
     }
 
     function applyToCardMaker() {
-      const dataUrl = canvas.toDataURL('image/png');
-      localStorage.setItem('setupod_custom_avatar', dataUrl);
-      alert("🎉 리터칭된 프로필이 저장되었습니다!\n\n3D 명함 제작 스튜디오로 이동합니다.");
+      let finalAvatarUrl;
+      if (studioState.nukkiEnabled && studioState.currentImg) {
+        // Generate transparent RGBA cutout PNG with rim glow effect intact
+        const cutC = document.createElement('canvas');
+        cutC.width = 720;
+        cutC.height = 960;
+        const cCtx = cutC.getContext('2d');
+        const img = studioState.currentImg;
+        const aspect = img.width / img.height;
+        let drawW = 720 * 0.94;
+        let drawH = drawW / aspect;
+        let drawX = (720 - drawW) / 2;
+        let drawY = 960 - drawH + 30;
+
+        // Rim glow
+        if (studioState.rimGlow > 0) {
+          cCtx.save();
+          let glowColor = 'rgba(168, 85, 247, 0.9)';
+          if (studioState.bgTheme === 'cyber-neon') glowColor = 'rgba(6, 182, 212, 0.95)';
+          else if (studioState.bgTheme === 'royal-amber') glowColor = 'rgba(245, 158, 11, 0.95)';
+          cCtx.shadowColor = glowColor;
+          cCtx.shadowBlur = (studioState.rimGlow / 100) * 40;
+          cCtx.drawImage(img, drawX, drawY, drawW, drawH);
+          cCtx.restore();
+        }
+        cCtx.filter = `contrast(${studioState.contrast}%) brightness(${studioState.clarity - 10}%) saturate(105%)`;
+        cCtx.drawImage(img, drawX, drawY, drawW, drawH);
+        finalAvatarUrl = cutC.toDataURL('image/png');
+      } else {
+        finalAvatarUrl = canvas.toDataURL('image/png');
+      }
+
+      localStorage.setItem('setupod_custom_avatar', finalAvatarUrl);
+      localStorage.setItem('setupod_avatar_motion', studioState.motionFx);
+      
+      const motionName = motionLabels[studioState.motionFx] || '홀로그램 모션';
+      alert(`🎉 2026 누끼 프로필 & [${motionName}]이 적용되었습니다!\n\n3D 명함 제작 스튜디오로 이동합니다.`);
       window.location.href = 'maker.html';
     }
 
     // Initial load
     selectModel(1);
+    selectMotion('pulse');
   </script>
 </body>
 </html>
