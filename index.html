@@ -413,34 +413,6 @@
       align-items: center;
     }
 
-    @media (max-width: 960px) {
-      nav {
-        padding: 0 16px;
-        height: 62px;
-      }
-      .nav-links {
-        display: none !important;
-      }
-      .mobile-nav-controls {
-        display: flex;
-      }
-      .nav-logo-tagline {
-        display: none;
-      }
-      .nav-logo-text {
-        font-size: 18px;
-      }
-      .nav-brand {
-        gap: 8px;
-      }
-      .hero-section {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding-top: 36px;
-        padding-bottom: 60px;
-      }
-    }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -482,12 +454,6 @@
       display: flex;
       align-items: center;
       gap: 14px;
-    }
-
-    @media (max-width: 960px) {
-      .hero-cta-group {
-        justify-content: center;
-      }
     }
 
     .btn-hero-main {
@@ -1285,12 +1251,449 @@
     }
 
     /* ── 하단 푸터 ── */
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 40px 24px;
-      text-align: center;
+    /* ═════════════════════════════════════════════════════════════
+       2026 NEXT-GEN MOBILE APP EXPERIENCE (< 960px & < 480px)
+       ═════════════════════════════════════════════════════════════ */
+    @media (max-width: 960px) {
+      nav {
+        padding: 0 16px;
+        height: 58px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(8, 5, 16, 0.78);
+      }
+      .nav-links {
+        display: none !important;
+      }
+      .mobile-nav-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-logo-tagline {
+        display: none;
+      }
+      .nav-logo-text {
+        font-size: 18px;
+      }
+      .nav-brand {
+        gap: 8px;
+      }
+      .btn-mobile-maker {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 13px;
+        border-radius: 99px;
+        background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 2px 12px rgba(168, 85, 247, 0.45);
+        transition: all 0.2s;
+      }
+      .btn-mobile-maker:active {
+        transform: scale(0.95);
+      }
+      .btn-mobile-planner {
+        display: none;
+      }
+
+      /* 2026 모바일 히어로: 컴팩트 & 카드 우선 */
+      .hero-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 24px 16px 40px !important;
+        gap: 24px;
+      }
+
+      .hero-badge {
+        font-size: 11.5px;
+        padding: 5px 12px;
+        margin-bottom: 12px;
+      }
+
+      .hero-title {
+        font-size: clamp(26px, 7vw, 34px) !important;
+        line-height: 1.25 !important;
+        margin-bottom: 12px !important;
+        letter-spacing: -0.02em;
+      }
+
+      .hero-desc {
+        font-size: 14.5px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .hero-cta-group {
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .btn-hero-main {
+        height: 48px;
+        padding: 0 22px;
+        font-size: 14.5px;
+        border-radius: 13px;
+        gap: 7px;
+      }
+
+      .btn-hero-sub {
+        height: 48px;
+        padding: 0 18px;
+        font-size: 14px;
+        border-radius: 13px;
+        gap: 6px;
+      }
+
+      /* 3D 카드 모바일 최적 스케일링 (황금 비율 330px x 540px) */
+      .hero-theme-bar {
+        max-width: 330px;
+        margin-bottom: 10px;
+        padding: 5px 10px;
+      }
+
+      .card-scene {
+        max-width: 330px !important;
+        height: 540px !important;
+      }
+
+      .card-face {
+        padding: 24px 20px 20px 20px !important;
+        border-radius: 24px !important;
+      }
+
+      .card-face.back {
+        padding: 24px 20px 20px 20px !important;
+      }
+
+      .front-logo-box, .back-top-logo {
+        width: 112px !important;
+        height: 112px !important;
+        border-radius: 20px !important;
+        padding: 9px !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.3) !important;
+      }
+
+      .brand-sub-engraving {
+        font-size: 8.5px !important;
+        letter-spacing: 0.22em !important;
+        margin-bottom: 2px !important;
+      }
+
+      .front-company, .back-company-name {
+        font-size: 20px !important;
+        margin-bottom: 2px !important;
+      }
+
+      .front-slogan, .back-company-slogan {
+        font-size: 11px !important;
+        margin-bottom: 10px !important;
+      }
+
+      .profile-row {
+        margin-bottom: 8px !important;
+        gap: 8px !important;
+      }
+
+      .role-title {
+        font-size: 11.5px !important;
+      }
+
+      .name-title {
+        font-size: 17px !important;
+      }
+
+      .contact-group {
+        gap: 6px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .contact-key {
+        font-size: 12px !important;
+        width: 16px !important;
+      }
+
+      .contact-value {
+        font-size: 13px !important;
+      }
+
+      .moat-tags {
+        gap: 4px !important;
+        margin-bottom: 10px !important;
+      }
+
+      .moat-tag {
+        padding: 4px 6px !important;
+        font-size: 9.5px !important;
+        border-radius: 6px !important;
+      }
+
+      .inside-action-dock {
+        gap: 6px !important;
+      }
+
+      .inside-action-row {
+        gap: 6px !important;
+      }
+
+      .btn-action {
+        height: 37px !important;
+        font-size: 11px !important;
+        border-radius: 10px !important;
+      }
+
+      .watermark-dynamic {
+        right: -16px !important;
+      }
+
+      .watermark-dynamic span {
+        font-size: 56px !important;
+        width: 56px !important;
+        height: 56px !important;
+      }
+
+      .card-action-bar {
+        max-width: 330px !important;
+        margin-top: 10px !important;
+        gap: 7px !important;
+      }
+
+      .card-action-pill {
+        padding: 9px 10px !important;
+        font-size: 11.5px !important;
+      }
+
+      /* 2026 햅틱 터치 압축 피드백 */
+      button:active, .btn-hero-main:active, .btn-hero-sub:active, .btn-action:active, .card-action-pill:active, .tool-card:active {
+        transform: scale(0.97) !important;
+      }
+
+      /* 하단 플로팅 독 공간 확보 */
+      body {
+        padding-bottom: 84px;
+      }
+
+      /* 섹션 여백 및 타이포 최적화 */
+      .pivot-section {
+        padding: 48px 18px !important;
+      }
+
+      .pivot-section h2 {
+        font-size: 22px !important;
+        line-height: 1.35 !important;
+        margin-bottom: 14px !important;
+      }
+
+      .pivot-section p {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+      }
+
+      .features-section, .tools-section, .pricing-section {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        padding-top: 44px !important;
+        padding-bottom: 44px !important;
+      }
+
+      .section-heading {
+        font-size: 24px !important;
+        line-height: 1.3 !important;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      .feature-card {
+        padding: 20px 18px !important;
+        border-radius: 18px !important;
+        gap: 10px !important;
+      }
+
+      .feature-icon-box {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 11px !important;
+      }
+
+      .feature-title {
+        font-size: 16px !important;
+      }
+
+      .feature-desc {
+        font-size: 13.5px !important;
+        line-height: 1.55 !important;
+      }
+
+      /* 2026 모바일 앱스토어 느낌의 2열 마케팅 툴킷 그리드 */
+      .tools-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+      }
+
+      .tool-card {
+        padding: 16px 14px !important;
+        border-radius: 16px !important;
+      }
+
+      .tool-icon-box {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 10px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .tool-icon-box svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      .tool-title {
+        font-size: 14px !important;
+        margin-bottom: 4px !important;
+      }
+
+      .tool-desc {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .tool-action {
+        font-size: 11px !important;
+        margin-top: 8px !important;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      .price-card {
+        padding: 28px 22px !important;
+        border-radius: 20px !important;
+      }
+
+      .price-amount {
+        font-size: 32px !important;
+        margin-bottom: 14px !important;
+      }
+    }
+
+    /* 초소형 화면 (< 360px) 세부 방어 */
+    @media (max-width: 360px) {
+      .card-scene {
+        max-width: 295px !important;
+        height: 500px !important;
+      }
+      .front-logo-box, .back-top-logo {
+        width: 96px !important;
+        height: 96px !important;
+      }
+      .tools-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    /* ── 2026 모바일 플로팅 스마트 독 ── */
+    .mobile-floating-dock {
+      display: none;
+      position: fixed;
+      bottom: max(14px, env(safe-area-inset-bottom, 14px));
+      left: 12px;
+      right: 12px;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    @media (max-width: 960px) {
+      .mobile-floating-dock {
+        display: block;
+      }
+    }
+
+    .dock-inner {
+      pointer-events: auto;
+      background: rgba(14, 9, 26, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 99px;
+      padding: 7px 8px 7px 14px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(168, 85, 247, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .dock-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .dock-live-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      flex-shrink: 0;
+      animation: pulseDot 2s infinite;
+    }
+
+    .dock-text-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .dock-brand {
+      font-size: 12px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .dock-sub {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.2;
+    }
+
+    .dock-cta-btn {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
       font-size: 13px;
-      color: rgba(255, 255, 255, 0.4);
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.5);
+      transition: all 0.2s;
+    }
+
+    .dock-cta-btn:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
@@ -1324,11 +1727,11 @@
       </a>
     </div>
 
-    <!-- 모바일 전용 네비 컨트롤 -->
+    <!-- 모바일 전용 네비 컨트롤 (2026 앱 스타일 빠른 셋업 CTA) -->
     <div class="mobile-nav-controls">
-      <a href="planner.html" class="btn-mobile-planner">
-        <i data-lucide="compass" style="width:13px;height:13px;color:#c084fc;"></i>
-        <span>플래너</span>
+      <a href="maker.html" class="btn-mobile-maker">
+        <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+        <span>1초 셋업</span>
       </a>
       <button class="btn-mobile-hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
         <i data-lucide="menu" id="hamburgerIcon" style="width:20px;height:20px;"></i>
@@ -1804,6 +2207,23 @@
       <div id="qrContainer" style="background:#fff; padding:14px; border-radius:18px; display:inline-block; margin-bottom:18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></div>
       <div style="font-size:12px; color:rgba(255,255,255,0.45); margin-bottom:16px;">앱 설치 없이 아이폰 / 갤럭시 즉시 100% 호환</div>
       <button onclick="closeShareModal()" style="width:100%; padding:13px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">닫기</button>
+    </div>
+  </div>
+
+  <!-- 2026 네이티브 앱 감성 모바일 플로팅 스마트 독 -->
+  <div class="mobile-floating-dock" id="mobileFloatingDock">
+    <div class="dock-inner">
+      <div class="dock-left">
+        <span class="dock-live-pulse"></span>
+        <div class="dock-text-group">
+          <span class="dock-brand">SETUPOD 3D 명함</span>
+          <span class="dock-sub">1초 만에 무료 생성</span>
+        </div>
+      </div>
+      <a href="maker.html" class="dock-cta-btn">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>무료 셋업</span>
+      </a>
     </div>
   </div>
 
