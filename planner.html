@@ -1219,6 +1219,177 @@
       .input-field, textarea { border: 1px solid #ccc !important; color: #000 !important; background: #fff !important; }
     }
 
+    /* =========================================================
+       TAB 4. 💎 비즈니스 시크릿 볼트 (Executive Secret Vault)
+       ========================================================= */
+    #tabVaultView {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .vault-hero-banner {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(13, 10, 24, 0.95) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: var(--card-radius);
+      padding: 32px 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(245, 158, 11, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vault-hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .vault-badge-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 99px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      width: fit-content;
+    }
+
+    .vault-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 8px 12px;
+    }
+
+    .vault-filter-btn {
+      padding: 7px 14px;
+      border-radius: 99px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vault-filter-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .vault-filter-btn.active {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+      font-weight: 800;
+    }
+
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .vault-grid { grid-template-columns: 1fr; }
+    }
+
+    .vault-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all 0.25s;
+    }
+
+    .vault-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .vault-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .vault-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .tag-b2b { color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.1); }
+    .tag-pricing { color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.1); }
+    .tag-copy { color: #f472b6; border-color: rgba(244, 114, 182, 0.3); background: rgba(244, 114, 182, 0.1); }
+    .tag-ai { color: #a78bfa; border-color: rgba(167, 139, 250, 0.3); background: rgba(167, 139, 250, 0.1); }
+    .tag-export { color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); }
+
+    .vault-snippet-box {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      max-height: 230px;
+      overflow-y: auto;
+      user-select: text;
+    }
+
+    .btn-copy-vault {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-vault:hover {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: #fbbf24;
+      transform: scale(1.02);
+    }
+
     /* 반응형 레이아웃 */
     @media (max-width: 960px) {
       .calendar-layout-container { grid-template-columns: 1fr; }
@@ -1256,6 +1427,10 @@
       <button class="view-tab" id="tabCalendarBtn" onclick="switchView('calendar')">
         <i data-lucide="calendar" style="width:16px;height:16px;"></i>
         <span>2026 캘린더 & 데일리</span>
+      </button>
+      <button class="view-tab" id="tabVaultBtn" onclick="switchView('vault')" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.06);">
+        <i data-lucide="gem" style="width:16px;height:16px;color:#f59e0b;"></i>
+        <span style="color:#fbbf24;font-weight:800;">💎 시크릿 볼트</span>
       </button>
     </div>
 
@@ -1698,6 +1873,376 @@
 
       </div>
     </div>
+
+    <!-- =========================================================
+         VIEW 4. 💎 비즈니스 시크릿 볼트 (Executive Secret Vault)
+         ========================================================= -->
+    <div id="tabVaultView">
+      <!-- 볼트 상단 배너 -->
+      <div class="vault-hero-banner">
+        <div class="vault-badge-gold">
+          <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+          <span>EXECUTIVE ASSET PACK · VALUE ₩380,000 FREE UNLOCKED</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <h2 style="font-size:24px;font-weight:900;letter-spacing:-0.02em;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+              <span>💎 비즈니스 시크릿 볼트</span>
+              <span style="font-size:13px;font-weight:700;color:#fbbf24;background:rgba(245,158,11,0.15);padding:3px 9px;border-radius:6px;border:1px solid rgba(245,158,11,0.3);">실전 유료급 소스 해금</span>
+            </h2>
+            <p style="font-size:13.5px;color:var(--text-secondary);max-width:760px;line-height:1.6;">
+              계획만 세우다 끝나는 플래너가 아닙니다. 실제 컨설팅과 고단가 에이전시, 인디해커들이 억대 매출을 만들 때 사용하는 
+              <strong>5대 실전 비즈니스 치트키(콜드메일, 가치 프라이싱, 전환 카피, AI 메가 프롬프트, 노션 마크다운 내보내기)</strong>를 무료로 해금했습니다.
+              원하는 소스의 <strong>[1초 복사]</strong>를 눌러 즉시 클라이언트에 전송하거나 사업에 적용하세요.
+            </p>
+          </div>
+          <button class="btn-copy-vault" style="background:#fbbf24;color:#000;font-weight:800;border:none;padding:10px 18px;" onclick="exportToNotionMarkdown()">
+            <i data-lucide="file-down" style="width:16px;height:16px;"></i>
+            <span>✨ 내 플래너 전체 노션 마크다운 변환 & 복사</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 카테고리 필터 바 -->
+      <div class="vault-filter-bar">
+        <button class="vault-filter-btn active" onclick="filterVault('all', this)">전체 보기 (11)</button>
+        <button class="vault-filter-btn" onclick="filterVault('b2b', this)">📩 B2B 세일즈 & 콜드메일 (4)</button>
+        <button class="vault-filter-btn" onclick="filterVault('pricing', this)">💰 고수익 가치 프라이싱 & 견적 (2)</button>
+        <button class="vault-filter-btn" onclick="filterVault('copywriting', this)">🎯 고전환 카피라이팅 20선 (2)</button>
+        <button class="vault-filter-btn" onclick="filterVault('ai', this)">🤖 1인 기업 AI 슈퍼 프롬프트 (3)</button>
+      </div>
+
+      <!-- 볼트 그리드 -->
+      <div class="vault-grid" id="vaultGrid">
+
+        <!-- Item 1: B2B Cold Outreach -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [대표 직격] 고통점 타격 & 10배 ROI 제안 메일</div>
+              <div style="font-size:12px;color:var(--text-muted);">미팅 수락률 38%를 기록한 C레벨 직격 아웃바운드 템플릿</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_1', '대표 직격 콜드메일')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_1">제목: [기업명] 대표님, [업계 트렌드] 관련 5분만 시간 내주실 수 있을까요?
+
+안녕하세요, [기업명] [대표자/담당자]님.
+[내 회사/팀명] [내 이름]입니다.
+
+최근 [기업명]의 [최근 성과/신제품 론칭/보도자료]를 인상 깊게 보았습니다. 특히 [타겟 분야]에서 빠르게 점유율을 확장하시는 모습이 매우 인상적이었습니다.
+
+다만 현재 [기업명]의 고객 유입/랜딩페이지/마케팅 구조를 분석해보았을 때, [구체적인 페인포인트 1가지: 예- 모바일 유입 고객 이탈률]로 인해 매달 상당한 잠재 매출 누수가 발생하고 있을 가능성을 확인했습니다.
+
+저희는 최근 [유사 고객사명]과 작업하여 [작업 후 성과: 예- 모바일 전환율 210% 상승, 리드 획득 단가 42% 절감]을 달성한 바 있습니다.
+
+당장 계약을 권유드리는 것이 아닙니다. 대표님 비즈니스에 바로 적용 가능한 [3가지 핵심 개선책 분석서]를 가볍게 공유해 드리고자 합니다.
+
+이번 주 목요일 또는 금요일 오후, 10분 정도 가볍게 커피챗이나 줌(Zoom) 가능하실까요?
+부담스러우시다면 이 메일에 "네"라고 회신만 주셔도 분석 PDF를 먼저 전달드리겠습니다.
+
+감사합니다.
+[내 이름] 드림 | [연락처] | [포트폴리오 링크]</div>
+        </div>
+
+        <!-- Item 2: Follow-up -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [읽씹 방지] 부담 제로 밸류 제공형 1차 팔로업</div>
+              <div style="font-size:12px;color:var(--text-muted);">바쁜 대표들이 답장하게 만드는 공감 + 가치 제공 스크립트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_2', '읽씹 방지 팔로업')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_2">제목: Re: [기업명] 대표님, [개선안] 관련 짧게 추가 공유드립니다.
+
+안녕하세요 [대표자/담당자]님, [내 이름]입니다.
+월초라 많이 바쁘실 텐데 지난번 메일 확인하셨을지 조심스레 연락드립니다.
+
+대표님의 소중한 시간을 아껴드리기 위해, 지난번 말씀드린 [기업명]의 [개선 포인트]를 내부 팀에서 바로 검토하실 수 있도록 1장짜리 체크리스트로 정리했습니다:
+👉 [체크리스트 링크 또는 첨부]
+
+이 자료만 보시고 사내에서 직접 적용하셔도 매출 개선에 큰 도움이 되실 겁니다.
+혹시 다음 주 중 편하신 시간에 5분 정도 짧게 의견 나누실 수 있다면 언제든 편하게 말씀 부탁드립니다!
+
+감사합니다.
+[내 이름] 드림</div>
+        </div>
+
+        <!-- Item 3: Post-Meeting Closing -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [미팅 직후] 당일 의사결정 유도 1-Page 제안 요약</div>
+              <div style="font-size:12px;color:var(--text-muted);">미팅 온기가 식기 전 2시간 이내 발송하여 당일 계약을 확정짓는 서식</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_3', '미팅 후 클로징 제안서')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_3">제목: [미팅 요약] [기업명] x [내 회사명] 실행 로드맵 및 확정 견적 안내
+
+[대표자/담당자]님, 오늘 미팅 시간 내어주셔서 진심으로 감사드립니다.
+나눈 대화를 바탕으로 [기업명]의 문제 해결 로드맵을 1페이지로 정리했습니다.
+
+[1] 핵심 해결 과제
+• 과제 1: [고통점 및 기회비용]
+• 과제 2: [전환율 병목 구간 해소]
+
+[2] 4주 스프린트 실행 일정
+• 1주차: [구조 설계 및 프로토타입]
+• 2주차: [디자인 및 개발 완성]
+• 3주차: [A/B 테스트 및 실시간 론칭]
+• 4주차: [데이터 분석 및 최종 인계]
+
+[3] 기대 ROI 및 투자 비용
+• 목표 지표: [기존 대비 전환율 +150% 목표 달성]
+• 확정 견적: [금액] (착수금 50% / 최종 검수 후 50%)
+
+[4] 다음 액션 안내
+저희는 퀄리티 유지를 위해 매월 2개 팀의 프로젝트만 집중 수주하고 있습니다.
+이번 주 금요일 18시까지 확정 회신을 주시면 [특별 보너스: 예- 3D 명함 셋업 또는 1개월 무료 최적화]를 무상 지원해 드리겠습니다.
+
+감사합니다.</div>
+        </div>
+
+        <!-- Item 4: Price Objection Handling -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [가격 저항 극복] "비싸다" 네고 방어 & 리테이너 화법</div>
+              <div style="font-size:12px;color:var(--text-muted);">단가를 깎지 않으면서 고객의 예산 걱정을 지워주는 앵커링 스크립트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_4', '가격 네고 방어 화법')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_4">"대표님, 가격에 대해 고민하시는 부분 충분히 공감합니다.
+다만 이 비용을 단순한 '비용 지출'이 아닌 '3개월 내 투자금의 몇 배를 회수하는 전략 자산'으로 봐주셨으면 합니다.
+
+만약 일시금 결제가 부담스러우시다면, 품질을 떨어뜨리지 않으면서 팀의 부담을 덜어드릴 2가지 대안이 있습니다:
+
+옵션 A [단계별 마일스톤]: 
+가장 핵심이 되는 1단계 MVP만 먼저 론칭하여 초기 성과를 검증하고, 발생한 수익으로 2단계를 진행하는 방식
+
+옵션 B [3개월 분할 리테이너]: 
+초기 착수금을 40%로 낮추고, 3개월 분할(월 유지보수 및 성과 개선 포함)로 부담 없이 진행하는 방식
+
+대표님 팀의 자금 흐름과 상황에 가장 편안한 방식은 어느 쪽이실까요?"</div>
+        </div>
+
+        <!-- Item 5: Value-based Pricing -->
+        <div class="vault-card" data-cat="pricing">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">💰 [가치 기반 프라이싱] 1인 기업/에이전시 시급 탈출 3-Tier 공식</div>
+              <div style="font-size:12px;color:var(--text-muted);">시급 3만원의 노예에서 벗어나 가치의 10~20%를 당당히 청구하는 프라이싱 뼈대</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-pricing">프라이싱 공식</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_5', '3-Tier 프라이싱 공식')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_5">[1] 프라이싱 황금 법칙: "시간(Hour)"이 아니라 "창출 가치(Value)"에 청구하라
+• 잘못된 계산법: 10시간 일함 x 시급 3만원 = 30만원 (X)
+• 올바른 계산법: 이 프로젝트로 고객이 3,000만원의 신규 매출을 창출함 ➔ 10%인 300만원 청구 (O)
+
+[2] 거절할 수 없는 3-Tier 가격 패키징 구조:
+1. Tier 1 [Basic / 80만원]:
+   • 필수 기본 기능만 제공. 비교 기준점(Decoy) 역할.
+2. Tier 2 [Pro / 240만원 - 🌟 Most Popular]:
+   • 고객이 가장 원하는 핵심 결과를 모두 포함. 우리가 가장 많이 팔고 싶은 주력 상품.
+3. Tier 3 [Executive VIP / 650만원 - ⚓ Anchor]:
+   • 1:1 무제한 컨설팅, 24시간 VIP 응대, 완벽 셋업 포함.
+   • 효과: Tier 3의 650만원을 먼저 본 고객은 Tier 2(240만원)를 압도적으로 가성비 좋은 상품으로 인식함.
+
+[3] 견적서 발송 시 마법의 멘트:
+"고객사 상황에 맞추어 선택하실 수 있도록 3가지 옵션을 준비했습니다. 80% 이상의 파트너사는 가장 성과가 빠른 [Option 2: Pro]를 선택하십니다."</div>
+        </div>
+
+        <!-- Item 6: Pricing Script -->
+        <div class="vault-card" data-cat="pricing">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">💰 [고수익 견적서] 클라이언트 심리를 장악하는 1-Page 견적 포맷</div>
+              <div style="font-size:12px;color:var(--text-muted);">단순한 금액표가 아니라 미래 가치를 보여주는 고단가 제안서 포맷</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-pricing">견적 포맷</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_6', '1-Page 견적서 포맷')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_6"># 프로젝트 실행 견적서 & 보증 플랜
+
+■ 의뢰사: [기업명] / 담당자: [이름/직책]
+■ 공급사: [내 회사명] / 총괄: [내 이름]
+■ 유효기간: 발행일로부터 7일간 유효
+
+1. 프로젝트 개요 & 핵심 달성 목표
+• 목표: [예- 신규 랜딩페이지 도입을 통한 리드 전환율 2.5배 달성]
+• 납기: 계약금 입금일로부터 [X] 영업일 이내
+
+2. 선택 가능 실행 패키지
+[옵션 A: Essential Pack] ₩[금액]
+- 기본 세팅 및 반응형 구현, 1회 무상 수정
+
+[옵션 B: Pro Growth Pack (추천)] ₩[금액]
+- 풀스택 맞춤 구축, A/B 테스트 세팅, 3D 에셋 셋업, 30일 성과 모니터링 포함
+
+[옵션 C: Total Executive Pack] ₩[금액]
+- 풀 패키지 + 광고 소재 카피라이팅 5종 + 대표 직통 우선 기술 지원 60일
+
+3. 리스크 제로 약정 (Our Guarantee)
+만약 약정된 납기일을 당사의 귀책으로 초과할 경우, 지체일수당 총 계약금의 1%를 감면해 드립니다.</div>
+        </div>
+
+        <!-- Item 7: High Converting Headlines -->
+        <div class="vault-card" data-cat="copywriting">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🎯 [스크롤 스토퍼] 방문자 이탈율을 20%로 낮추는 헤드라인 10선</div>
+              <div style="font-size:12px;color:var(--text-muted);">3초 안에 고객의 시선을 멈추게 하는 심리학 기반 카피라이팅 공식</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-copy">카피라이팅</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_7', '고전환 헤드라인 10선')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_7">1. [손실 회피형]
+"매달 [X만원]씩 새어나가는 마케팅 비용, 아직도 모르고 계셨습니까?"
+
+2. [기간 & 결과 보장형]
+"외주 업체에 1,000만원 쓰지 않고 7일 만에 완성하는 [결과물]"
+
+3. [반직관적 진실형]
+"열심히 SNS를 해도 결제가 안 일어나는 진짜 이유는 팔로워 수가 아닙니다."
+
+4. [사회적 증거형]
+"이미 상위 1% [직군/기업] 480곳이 조용히 도입한 [솔루션 이름]"
+
+5. [페인킬러형]
+"[가장 지긋지긋한 문제], 이제 단 1번의 셋업으로 영구 자동화하세요."
+
+6. [질문형 훅]
+"왜 당신의 경쟁사는 잠든 사이에도 고액 계약을 따내고 있을까요?"
+
+7. [초보자 안심형]
+"복잡한 코딩/디자인 0g, 마우스 클릭만으로 완성되는 [결과물]"
+
+8. [한정성 보장형]
+"이번 달 선착순 5개 기업 한정: 100% 만족하지 않으시면 전액 환불해 드립니다."
+
+9. [비포 & 애프터형]
+"월 매출 0원에서 3,200만원 달성까지 걸린 시간, 단 34일의 기록"
+
+10. [자격 부여형]
+"오직 [타겟 고객층]만을 위해 설계된 궁극의 [솔루션]"</div>
+        </div>
+
+        <!-- Item 8: CTA Copywriting -->
+        <div class="vault-card" data-cat="copywriting">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🎯 [전환율 3배] 지갑을 열게 만드는 CTA(행동 촉구) 버튼 카피 10선</div>
+              <div style="font-size:12px;color:var(--text-muted);">'가입하기', '신청하기' 대신 클릭율을 폭발시키는 동사 중심 카피</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-copy">카피라이팅</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_8', '고전환 CTA 버튼 카피 10선')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_8">1. 지금 1초 만에 무료로 시작하기 ➔
+2. 내 예상 추가 매출 무료 진단받기 ➔
+3. 더 이상 시간 낭비 없이 3분 만에 셋업하기
+4. 선착순 한정 혜택 받고 지금 해금하기
+5. 남들보다 먼저 검증된 템플릿 복제하기
+6. 리스크 제로: 14일 무료 체험 시작하기
+7. 대표님을 위한 1페이지 분석 리포트 열람하기
+8. 지금 바로 내 비즈니스에 즉시 적용하기
+9. 1분 만에 첫 번째 유료 고객 만들기
+10. 오늘 마감: 정가 29만원 ➔ 지금 무료 받기</div>
+        </div>
+
+        <!-- Item 9: AI Mega Prompt 1 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 비즈니스 모델 냉혹 스트레스 테스트 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">실리콘밸리 깐깐한 VC 심사역 모드로 내 사업의 치명적 약점을 찾아내는 프롬프트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_9', 'BM 스트레스 테스트 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_9">너는 실리콘밸리 최고 엑셀러레이터 Y-Combinator의 최고 수준 시니어 파트너이자 세상에서 가장 까다로운 VC 심사역이다. 
+내가 구상 중인 비즈니스 모델을 제시할 테니, 겉치레 칭찬이나 예의상 코멘트는 일절 배제하고 '현실에서 왜 망할 수밖에 없는지'를 가장 냉혹하고 날카롭게 공격해라.
+
+[분석 기준]:
+1. 진입 장벽의 부재 (경쟁자가 3일 만에 베낄 수 있는 취약점)
+2. 고객의 지갑을 열지 못하는 '비타민'형 아이템인지 '진통제(Painkiller)'인지 여부
+3. CAC(고객 획득 비용)가 LTV(생애 가치)를 초과할 위험 요소
+4. 이 아이템이 망하지 않고 생존하기 위해 당장 버려야 할 것과 집중해야 할 단 1가지 킬러 기능
+
+내 비즈니스 아이템: [여기에 입력]
+타겟 고객 및 예상 가격: [여기에 입력]</div>
+        </div>
+
+        <!-- Item 10: AI Mega Prompt 2 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 타겟 고객 지갑 여는 결제 트리거 역추적 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">고객이 밤잠을 설치며 괴로워하는 은밀한 불안과 즉시 구매 트리거 7가지 도출</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_10', '결제 트리거 역추적 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_10">너는 세계 최고의 행동 경제학자이자 다이렉트 리스폰스 카피라이터다.
+아래 제공하는 타겟 고객이 밤잠을 설치며 고민하는 가장 깊은 불안, 열등감, 그리고 지갑을 즉시 열게 만드는 결정적 심리 트리거 7가지를 분석해라.
+
+[작성 지침]:
+- 추상적인 단어 금지. 고객이 샤워할 때나 퇴근길 지하철에서 머릿속으로 읊조리는 구체적인 독백 형태로 작성해라.
+- '돈을 아끼고 싶다'가 아니라 '남들에게 뒤처지는 것 같은 수치심' 등 1차원적 욕구 뒤에 숨겨진 2차원적 감정을 파헤쳐라.
+
+타겟 페르소나: [예: 퇴사를 준비하는 30대 중반 직장인 / 월 매출 500만원 정체기에 빠진 1인 기업 대표]
+판매하려는 솔루션: [여기에 입력]</div>
+        </div>
+
+        <!-- Item 11: AI Mega Prompt 3 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 1인 기업 업무 자동화 & SOP 설계 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">직원 없이 혼자서 10인분의 생산성을 내는 자동화 시스템 & 표준 운영 절차 설계</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_11', '1인 기업 SOP 설계 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_11">너는 1인 유니콘 기업을 운영하는 최고운영책임자(COO)이자 노코드/AI 시스템 아키텍트다.
+내가 매일/매주 수행하는 반복 업무 목록을 보고, 1인 사업가가 시스템의 부품이 아니라 지휘자가 될 수 있도록 3단계 자동화 SOP를 구축해라.
+
+[설계 단계]:
+1. [제거 (Eliminate)]: 당장 그만두어도 매출에 지장 없는 낭비 업무 20% 식별
+2. [자동화 (Automate)]: Zapier/Make/AI API를 활용해 사람의 손을 거치지 않게 연결할 수 있는 프로세스
+3. [위임 및 템플릿화 (Delegate)]: 1시간 만에 외주 인력이나 파트타이머에게 인계할 수 있는 체크리스트형 표준 업무 매뉴얼(SOP)
+
+나의 현재 주간 업무 루틴: [여기에 입력]</div>
+        </div>
+
+      </div>
+    </div>
   </main>
 
   <!-- 킬러 기능 3: 추천 비즈니스 마일스톤 프리셋 모달 -->
@@ -2072,6 +2617,7 @@
       document.getElementById('tabCompassView').style.display = 'none';
       document.getElementById('tabProjectsView').style.display = 'none';
       document.getElementById('tabCalendarView').style.display = 'none';
+      if (document.getElementById('tabVaultView')) document.getElementById('tabVaultView').style.display = 'none';
 
       if (viewName === 'compass') {
         document.getElementById('tabCompassBtn').classList.add('active');
@@ -2085,6 +2631,9 @@
         document.getElementById('tabCalendarView').style.display = 'flex';
         renderCalendar();
         loadDailyPanel(selectedDateStr);
+      } else if (viewName === 'vault') {
+        document.getElementById('tabVaultBtn').classList.add('active');
+        document.getElementById('tabVaultView').style.display = 'flex';
       }
       lucide.createIcons();
     }
@@ -2594,6 +3143,97 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+    }
+
+    // ==========================================
+    // 💎 시크릿 볼트 (Executive Secret Vault) 로직
+    // ==========================================
+    function filterVault(category, btn) {
+      document.querySelectorAll('.vault-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.vault-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-cat') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function copyVaultText(elementId, label) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`📋 [${label}] 클립보드에 복사되었습니다!`);
+      }).catch(err => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(`📋 [${label}] 복사 완료!`);
+      });
+    }
+
+    function exportToNotionMarkdown() {
+      const p = plannerState;
+      const theme = p.themeOfYear || '미입력';
+      
+      let md = `# 🧭 SETUPOD 2026 비즈니스 실행 플래너\n\n`;
+      md += `> 💡 **2026 올해의 핵심 테마**: ${theme}\n`;
+      md += `> 📅 **데이터 생성일**: ${new Date().toLocaleDateString('ko-KR')}\n\n`;
+      
+      md += `## 🎯 5대 핵심 영역 (Life Compass)\n\n`;
+      md += `| 영역 | 2026 연간 목표 | 핵심 성공 지표 (KPI) | 매일의 실행 행동 |\n`;
+      md += `| :--- | :--- | :--- | :--- |\n`;
+      
+      const areaNames = {
+        area1: '💼 사업 & 커리어 (Business)',
+        area2: '💰 재정 & 자산 (Wealth)',
+        area3: '⚡ 건강 & 에너지 (Vitality)',
+        area4: '🤝 관계 & 네트워크 (Network)',
+        area5: '🧠 학습 & 지혜 (Wisdom)'
+      };
+      
+      for (let i = 1; i <= 5; i++) {
+        const a = p.areas[`area${i}`] || {};
+        md += `| ${areaNames[`area${i}`]} | ${a.goal || '-'} | ${a.metric || '-'} | ${a.action || '-'} |\n`;
+      }
+      
+      md += `\n## 🏔️ 1분기 3대 핵심 과제 (Big Rocks)\n\n`;
+      const q1Rocks = p.bigRocks['Q1'] || [];
+      if (q1Rocks.length > 0) {
+        q1Rocks.forEach((r, idx) => {
+          md += `${idx + 1}. **${r.title || '과제 ' + (idx+1)}**\n`;
+          md += `   - 핵심 성과 (KR): ${r.kr || '-'}\n`;
+          md += `   - 마감 일정: ${r.deadline || '-'}\n\n`;
+        });
+      } else {
+        md += `- 등록된 1분기 핵심 과제가 없습니다.\n\n`;
+      }
+
+      md += `## 🚀 1분기 프로젝트 트래커\n\n`;
+      const q1Projects = p.projects['Q1'] || [];
+      if (q1Projects.length > 0) {
+        q1Projects.forEach(proj => {
+          const statusIcon = proj.status === 'done' ? '✅ 완료' : (proj.status === 'ongoing' ? '⚡ 진행중' : '⏳ 대기');
+          md += `- [${statusIcon}] **${proj.title || '프로젝트'}** (${proj.period || '-'} / 담당: ${proj.owner || '-'} / 진척도: ${proj.progress || 0}%)\n`;
+        });
+      } else {
+        md += `- 등록된 1분기 프로젝트가 없습니다.\n`;
+      }
+
+      md += `\n---\n*Exported seamlessly from [SETUPOD 2026 PRO OS](https://setupod.com/planner)*\n`;
+
+      navigator.clipboard.writeText(md).then(() => {
+        showToast('🎉 내 플래너 전체가 Notion / Obsidian 마크다운으로 복사되었습니다! 노션에 바로 붙여넣으세요.');
+      }).catch(() => {
+        showToast('마크다운 클립보드 복사에 실패했습니다.');
+      });
     }
 
     // 초기화
