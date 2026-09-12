@@ -180,17 +180,22 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 8px 16px;
+      gap: 8px;
       margin-top: 16px;
       font-size: 12px;
-      color: var(--text-sub);
     }
 
-    .hero-meta-item {
+    .hero-meta-badge {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 5px 12px;
+      border-radius: 99px;
+      color: var(--text-muted);
       white-space: nowrap;
+      font-size: 12px;
     }
 
     /* Section Wrapper */
@@ -304,14 +309,20 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      font-size: 13.5px;
+      font-size: 13px;
       line-height: 1.45;
+      word-break: keep-all;
     }
 
     .matrix-list li {
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      word-break: keep-all;
+    }
+
+    .matrix-list li span {
+      word-break: keep-all;
     }
 
     .matrix-card.before .matrix-list li i {
@@ -734,37 +745,53 @@
       white-space: nowrap;
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 540px) {
       .proposal-dock {
-        padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
       }
       .dock-inner {
+        flex-direction: column;
+        align-items: stretch;
         gap: 8px;
       }
       .dock-total {
-        min-width: 90px;
-        max-width: 120px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        min-width: 0;
+        max-width: none;
+        width: 100%;
+        padding-bottom: 6px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
       .dock-total-label {
-        font-size: 10px;
-        max-width: 100px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #c4b5fd;
+        max-width: none;
+        white-space: nowrap;
       }
       .dock-total-price {
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 900;
       }
       .dock-buttons {
-        gap: 6px;
+        width: 100%;
+        display: flex;
+        gap: 8px;
       }
       .btn-secondary {
-        padding: 9px 10px;
-        font-size: 11px;
-      }
-      .btn-secondary span {
-        display: none; /* Icon-only in tight viewports to prevent wrapping! */
-      }
-      .btn-primary-cta {
         padding: 10px 14px;
         font-size: 12px;
+      }
+      .btn-secondary span {
+        display: inline;
+      }
+      .btn-primary-cta {
+        flex: 2;
+        padding: 11px 16px;
+        font-size: 13px;
+        justify-content: center;
       }
     }
 
@@ -841,13 +868,13 @@
       </p>
       
       <div class="hero-meta-row">
-        <div class="hero-meta-item">
+        <div class="hero-meta-badge">
           <i data-lucide="calendar" style="width:13px;height:13px;"></i>
-          <span>제안일: <strong id="proposalDate">2026.09.12</strong></span>
+          <span>제안 <strong id="proposalDate">2026.09.12</strong></span>
         </div>
-        <div class="hero-meta-item">
+        <div class="hero-meta-badge">
           <i data-lucide="clock" style="width:13px;height:13px;"></i>
-          <span>견적 유효기간: <strong>제안일로부터 14일</strong></span>
+          <span>유효기간 <strong>14일간</strong></span>
         </div>
       </div>
     </header>

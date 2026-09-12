@@ -30,7 +30,7 @@
     :root {
       --bg: #06040e;
       --panel: #110c22;
-      --card-bg: rgba(22, 17, 39, 0.7);
+      --card-bg: rgba(22, 17, 39, 0.75);
       --border: rgba(255, 255, 255, 0.08);
       --violet: #8b5cf6;
       --cyan: #06b6d4;
@@ -56,7 +56,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 24px;
+      padding: 14px 24px;
       border-bottom: 1px solid var(--border);
       background: rgba(10, 7, 20, 0.85);
       backdrop-filter: blur(20px);
@@ -92,7 +92,7 @@
     .studio-layout {
       display: flex;
       flex: 1;
-      height: calc(100vh - 65px);
+      height: calc(100vh - 61px);
       overflow: hidden;
     }
 
@@ -128,7 +128,7 @@
     .panel-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 22px;
     }
 
     .section-label {
@@ -138,7 +138,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      margin: 22px 0 12px;
+      margin: 20px 0 12px;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -150,7 +150,7 @@
       border: 2px dashed rgba(139, 92, 246, 0.35);
       background: rgba(139, 92, 246, 0.05);
       border-radius: 16px;
-      padding: 24px 16px;
+      padding: 20px 16px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -162,44 +162,45 @@
     }
 
     .upload-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 12px;
       background: rgba(139, 92, 246, 0.2);
       color: #c4b5fd;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 10px;
+      margin: 0 auto 8px;
     }
 
     /* Sample Avatars */
     .sample-models-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-top: 10px;
     }
 
     .sample-btn {
       flex: 1;
-      padding: 8px;
+      padding: 9px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: #fff;
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
       transition: all 0.2s;
     }
 
-    .sample-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+    .sample-btn.active {
+      background: var(--violet);
+      border-color: var(--violet);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
     }
 
     /* Background Themes Grid */
@@ -225,12 +226,12 @@
 
     .bg-card.selected {
       border-color: var(--violet);
-      background: rgba(139, 92, 246, 0.12);
+      background: rgba(139, 92, 246, 0.14);
       box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
     }
 
     .bg-preview-swatch {
-      height: 48px;
+      height: 44px;
       border-radius: 8px;
       margin-bottom: 8px;
       position: relative;
@@ -246,6 +247,54 @@
     .bg-card-desc {
       font-size: 11px;
       color: var(--text-sub);
+    }
+
+    /* 누끼 토글 바 */
+    .nukki-toggle-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.2);
+      transition: .3s;
+      border-radius: 99px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--violet);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
     }
 
     /* Lighting & Filter Sliders */
@@ -288,15 +337,16 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 50% 50%, #15102a 0%, #06040e 100%);
-      padding: 40px 20px;
+      background: radial-gradient(circle at 50% 50%, #17112e 0%, #06040e 100%);
+      padding: 30px 20px;
       position: relative;
     }
 
     .canvas-stage-wrapper {
       position: relative;
-      width: 360px;
-      height: 480px;
+      width: 375px;
+      height: 500px;
+      max-height: calc(100vh - 180px);
       border-radius: 28px;
       border: 8px solid #231c38;
       box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
@@ -305,6 +355,7 @@
       align-items: center;
       justify-content: center;
       transition: all 0.3s;
+      background: #000;
     }
 
     #stageCanvas {
@@ -330,45 +381,45 @@
 
     /* Bottom Actions */
     .canvas-actions-bar {
-      margin-top: 24px;
+      margin-top: 20px;
       display: flex;
       align-items: center;
       gap: 12px;
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
     }
 
     .btn-action-primary {
       flex: 1.2;
-      padding: 14px 20px;
+      padding: 13px 18px;
       background: linear-gradient(135deg, #8b5cf6, #38bdf8);
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       color: #fff;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      box-shadow: 0 6px 25px rgba(139, 92, 246, 0.45);
+      box-shadow: 0 6px 22px rgba(139, 92, 246, 0.4);
       transition: all 0.2s;
     }
 
     .btn-action-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+      box-shadow: 0 8px 28px rgba(139, 92, 246, 0.6);
     }
 
     .btn-action-secondary {
       flex: 1;
-      padding: 14px 18px;
+      padding: 13px 16px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
+      border-radius: 12px;
       color: #fff;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -389,12 +440,12 @@
   <!-- Top Nav -->
   <header class="top-nav">
     <a href="index.html" class="brand-logo-wrap">
-      <img src="assets/setupod.gif" style="width:28px;height:28px;border-radius:8px;" alt="로고">
+      <img src="assets/setupod.gif" style="width:26px;height:26px;border-radius:8px;" alt="로고">
       <span class="brand-title">SETUPOD STUDIO</span>
       <span class="nav-tag">AI 프로필 리터처</span>
     </a>
-    <a href="maker.html" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:12.5px; display:flex; align-items:center; gap:4px;">
-      <i data-lucide="credit-card" style="width:14px;height:14px;"></i> 3D 명함 만들기
+    <a href="maker.html" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:12.5px; display:flex; align-items:center; gap:5px;">
+      <i data-lucide="credit-card" style="width:14px;height:14px;color:#38bdf8;"></i> 3D 명함 스튜디오
     </a>
   </header>
 
@@ -403,26 +454,38 @@
     <!-- Left Controls Panel -->
     <aside class="controls-panel">
       <div class="panel-scroll">
-        <!-- 1. Upload -->
-        <div class="section-label"><i data-lucide="image" style="width:15px;height:15px;"></i> 1. 사진 업로드 & 샘플 모델</div>
-        <div class="upload-dropzone" onclick="document.getElementById('fileInput').click()">
+        <!-- 1. Upload & Preset Models -->
+        <div class="section-label"><i data-lucide="user-check" style="width:15px;height:15px;"></i> 1. 인물 선택 & 내 사진 업로드</div>
+        
+        <div class="sample-models-row">
+          <button class="sample-btn active" id="btnModel1" onclick="selectModel(1)"><i data-lucide="user" style="width:14px;height:14px;"></i> 남성 CEO</button>
+          <button class="sample-btn" id="btnModel2" onclick="selectModel(2)"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> 여성 디렉터</button>
+        </div>
+
+        <div class="upload-dropzone" style="margin-top:10px;" onclick="document.getElementById('fileInput').click()">
           <div class="upload-icon">
-            <i data-lucide="upload" style="width:20px;height:20px;"></i>
+            <i data-lucide="upload" style="width:18px;height:18px;"></i>
           </div>
-          <div style="font-size:13px; font-weight:800; margin-bottom:4px;">내 사진 업로드 (셀카/프로필)</div>
-          <div style="font-size:11.5px; color:var(--text-sub);">JPG, PNG, WEBP (클릭 또는 드래그)</div>
+          <div style="font-size:13px; font-weight:800; margin-bottom:2px;">내 셀카 / 사진 업로드</div>
+          <div style="font-size:11.5px; color:var(--text-sub);">JPG, PNG, WEBP (클릭하여 파일 선택)</div>
           <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileUpload(event)">
         </div>
 
-        <div style="font-size:11.5px; color:var(--text-sub); margin-top:10px; margin-bottom:4px;">또는 즉시 테스트할 CEO 샘플 선택:</div>
-        <div class="sample-models-row">
-          <button class="sample-btn" onclick="loadSample(1)"><i data-lucide="user" style="width:13px;height:13px;"></i> 테크 CEO</button>
-          <button class="sample-btn" onclick="loadSample(2)"><i data-lucide="sparkles" style="width:13px;height:13px;"></i> 크리에이터</button>
-          <button class="sample-btn" onclick="loadSample(3)"><i data-lucide="briefcase" style="width:13px;height:13px;"></i> 컨설턴트</button>
+        <!-- 2. 누끼 (배경 분리) 스위치 -->
+        <div class="section-label"><i data-lucide="scissors" style="width:15px;height:15px;"></i> 2. 스마트 배경 분리 (누끼 엔진)</div>
+        <div class="nukki-toggle-box">
+          <div>
+            <div style="font-size:13px; font-weight:800;">배경 자동 분리 (누끼)</div>
+            <div style="font-size:11px; color:var(--text-sub);">인물 실루엣만 정밀 추출하여 합성</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="chkNukki" checked onchange="toggleNukki(this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
         </div>
 
-        <!-- 2. Background Styles -->
-        <div class="section-label"><i data-lucide="palette" style="width:15px;height:15px;"></i> 2. 2026 테크 CEO 스튜디오 배경</div>
+        <!-- 3. Background Themes -->
+        <div class="section-label"><i data-lucide="palette" style="width:15px;height:15px;"></i> 3. 2026 테크 CEO 스튜디오 배경</div>
         <div class="bg-options-grid">
           <!-- BG 1 -->
           <div class="bg-card selected" onclick="selectBg('tech-office')" id="bgOpt1">
@@ -433,35 +496,35 @@
 
           <!-- BG 2 -->
           <div class="bg-card" onclick="selectBg('cyber-neon')" id="bgOpt2">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 60% 40%, #065986, #03121f);"></div>
+            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 60% 40%, #0284c7, #03121f);"></div>
             <div class="bg-card-title">Cybernetic Neon</div>
             <div class="bg-card-desc">시안 & 블루 림라이트</div>
           </div>
 
           <!-- BG 3 -->
           <div class="bg-card" onclick="selectBg('executive-grey')" id="bgOpt3">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 40%, #2e2e38, #0d0d12);"></div>
+            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 40%, #3f3f46, #09090b);"></div>
             <div class="bg-card-title">Executive Grey</div>
             <div class="bg-card-desc">B2B 전문가 흑백 톤</div>
           </div>
 
           <!-- BG 4 -->
           <div class="bg-card" onclick="selectBg('royal-amber')" id="bgOpt4">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 30%, #543810, #140c03);"></div>
+            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 30%, #78350f, #0c0501);"></div>
             <div class="bg-card-title">Royal Amber</div>
             <div class="bg-card-desc">골드 림라이트 이그제큐티브</div>
           </div>
         </div>
 
-        <!-- 3. Rim Lighting & Filters -->
-        <div class="section-label"><i data-lucide="sun" style="width:15px;height:15px;"></i> 3. 조명 & 림라이트 튜닝</div>
+        <!-- 4. Rim Lighting & Filters -->
+        <div class="section-label"><i data-lucide="sun" style="width:15px;height:15px;"></i> 4. 조명 & 림라이트 튜닝</div>
 
         <div class="filter-group">
           <div class="filter-label-row">
-            <span>림라이트 발광 강도 (Rim Glow)</span>
-            <span id="valGlow">60%</span>
+            <span>실루엣 림라이트 강도 (Rim Glow)</span>
+            <span id="valGlow">65%</span>
           </div>
-          <input type="range" class="filter-slider" id="sliderGlow" min="0" max="100" value="60" oninput="updateSliders()">
+          <input type="range" class="filter-slider" id="sliderGlow" min="0" max="100" value="65" oninput="updateSliders()">
         </div>
 
         <div class="filter-group">
@@ -474,7 +537,7 @@
 
         <div class="filter-group">
           <div class="filter-label-row">
-            <span>선명도 & 샤프닝 (Clarity)</span>
+            <span>인물 선명도 (Clarity)</span>
             <span id="valClarity">110%</span>
           </div>
           <input type="range" class="filter-slider" id="sliderClarity" min="90" max="140" value="110" oninput="updateSliders()">
@@ -506,38 +569,48 @@
   <script>
     lucide.createIcons();
 
-    // Canvas & State
     const canvas = document.getElementById('stageCanvas');
     const ctx = canvas.getContext('2d');
 
     const studioState = {
       bgTheme: 'tech-office',
-      rimGlow: 60,
+      rimGlow: 65,
       contrast: 115,
       clarity: 110,
-      currentImg: null
+      nukkiEnabled: true,
+      currentImg: null,
+      processedCutout: null,
+      activeModelId: 1
     };
 
-    // Load initial sample
-    function initStudio() {
-      loadSample(1);
-    }
+    // Preload models
+    const maleModelImg = new Image();
+    maleModelImg.crossOrigin = "anonymous";
+    maleModelImg.src = "assets/model_ceo_male.png";
 
-    function loadSample(id) {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      // Samples from public SVG/avatars
-      if (id === 1) {
-        img.src = "assets/setupod.gif";
-      } else if (id === 2) {
-        img.src = "assets/favicon-32x32.png";
-      } else {
-        img.src = "assets/setupod.gif";
-      }
-      img.onload = function() {
-        studioState.currentImg = img;
+    const femaleModelImg = new Image();
+    femaleModelImg.crossOrigin = "anonymous";
+    femaleModelImg.src = "assets/model_ceo_female.png";
+
+    maleModelImg.onload = function() {
+      if (studioState.activeModelId === 1) {
+        studioState.currentImg = maleModelImg;
         renderCanvas();
-      };
+      }
+    };
+
+    function selectModel(id) {
+      studioState.activeModelId = id;
+      document.getElementById('btnModel1').classList.toggle('active', id === 1);
+      document.getElementById('btnModel2').classList.toggle('active', id === 2);
+
+      if (id === 1) {
+        studioState.currentImg = maleModelImg;
+        renderCanvas();
+      } else if (id === 2) {
+        studioState.currentImg = femaleModelImg;
+        renderCanvas();
+      }
     }
 
     function handleFileUpload(e) {
@@ -546,14 +619,65 @@
 
       const reader = new FileReader();
       reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-          studioState.currentImg = img;
+        const userImg = new Image();
+        userImg.onload = function() {
+          document.getElementById('btnModel1').classList.remove('active');
+          document.getElementById('btnModel2').classList.remove('active');
+          studioState.activeModelId = 'user';
+
+          if (studioState.nukkiEnabled) {
+            studioState.currentImg = processAutoNukki(userImg);
+          } else {
+            studioState.currentImg = userImg;
+          }
           renderCanvas();
         };
-        img.src = event.target.result;
+        userImg.src = event.target.result;
       };
       reader.readAsDataURL(file);
+    }
+
+    // Client-side smart edge color distance keying for user uploads
+    function processAutoNukki(srcImg) {
+      const tempC = document.createElement('canvas');
+      tempC.width = srcImg.width;
+      tempC.height = srcImg.height;
+      const tCtx = tempC.getContext('2d');
+      tCtx.drawImage(srcImg, 0, 0);
+
+      try {
+        const imgData = tCtx.getImageData(0, 0, tempC.width, tempC.height);
+        const d = imgData.data;
+        const w = tempC.width;
+
+        // Sample background corner colors
+        const c1 = [d[0], d[1], d[2]];
+        const c2 = [d[(w-1)*4], d[(w-1)*4+1], d[(w-1)*4+2]];
+        const bgR = (c1[0] + c2[0]) / 2;
+        const bgG = (c1[1] + c2[1]) / 2;
+        const bgB = (c1[2] + c2[2]) / 2;
+
+        for (let i = 0; i < d.length; i += 4) {
+          const r = d[i], g = d[i+1], b = d[i+2];
+          const dist = Math.sqrt((r - bgR)**2 + (g - bgG)**2 + (b - bgB)**2);
+          if (dist < 32) {
+            d[i+3] = 0;
+          } else if (dist < 55) {
+            d[i+3] = Math.round(((dist - 32) / 23) * 255);
+          }
+        }
+        tCtx.putImageData(imgData, 0, 0);
+        const outImg = new Image();
+        outImg.src = tempC.toDataURL();
+        return outImg;
+      } catch (e) {
+        return srcImg;
+      }
+    }
+
+    function toggleNukki(enabled) {
+      studioState.nukkiEnabled = enabled;
+      renderCanvas();
     }
 
     function selectBg(theme) {
@@ -580,85 +704,88 @@
       const w = canvas.width;
       const h = canvas.height;
 
-      // 1. Draw Background
+      ctx.clearRect(0, 0, w, h);
+
+      // 1. Draw 2026 Tech CEO Studio Background
       ctx.save();
       if (studioState.bgTheme === 'tech-office') {
-        const grad = ctx.createRadialGradient(w/2, h*0.35, 80, w/2, h/2, w);
+        const grad = ctx.createRadialGradient(w/2, h*0.35, 60, w/2, h/2, w);
         grad.addColorStop(0, '#3b1d6e');
         grad.addColorStop(0.5, '#170c2e');
         grad.addColorStop(1, '#06040d');
         ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Soft ambient bokeh
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.15)';
+        ctx.beginPath();
+        ctx.arc(w*0.8, h*0.25, 120, 0, Math.PI*2);
+        ctx.fill();
       } else if (studioState.bgTheme === 'cyber-neon') {
-        const grad = ctx.createRadialGradient(w*0.6, h*0.4, 50, w/2, h/2, w);
+        const grad = ctx.createRadialGradient(w*0.5, h*0.35, 60, w/2, h/2, w);
         grad.addColorStop(0, '#0284c7');
-        grad.addColorStop(0.6, '#082f49');
+        grad.addColorStop(0.55, '#082f49');
         grad.addColorStop(1, '#020617');
         ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Cyan glow
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.2)';
+        ctx.beginPath();
+        ctx.arc(w*0.2, h*0.3, 140, 0, Math.PI*2);
+        ctx.fill();
       } else if (studioState.bgTheme === 'executive-grey') {
-        const grad = ctx.createRadialGradient(w/2, h*0.4, 50, w/2, h/2, w);
+        const grad = ctx.createRadialGradient(w/2, h*0.38, 40, w/2, h/2, w);
         grad.addColorStop(0, '#3f3f46');
-        grad.addColorStop(0.6, '#18181b');
+        grad.addColorStop(0.55, '#18181b');
         grad.addColorStop(1, '#09090b');
         ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
       } else if (studioState.bgTheme === 'royal-amber') {
-        const grad = ctx.createRadialGradient(w/2, h*0.3, 50, w/2, h/2, w);
+        const grad = ctx.createRadialGradient(w/2, h*0.35, 50, w/2, h/2, w);
         grad.addColorStop(0, '#78350f');
-        grad.addColorStop(0.5, '#291404');
+        grad.addColorStop(0.55, '#291404');
         grad.addColorStop(1, '#0c0501');
         ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
       }
-      ctx.fillRect(0, 0, w, h);
       ctx.restore();
 
-      // 2. Rim Light Aura
-      if (studioState.rimGlow > 0) {
-        ctx.save();
-        ctx.globalCompositeOperation = 'screen';
-        const glowRadius = (studioState.rimGlow / 100) * 180;
-        const glowGrad = ctx.createRadialGradient(w/2, h*0.4, 40, w/2, h*0.4, glowRadius + 100);
-
-        if (studioState.bgTheme === 'tech-office') {
-          glowGrad.addColorStop(0, 'rgba(168, 85, 247, 0.45)');
-          glowGrad.addColorStop(1, 'rgba(168, 85, 247, 0)');
-        } else if (studioState.bgTheme === 'cyber-neon') {
-          glowGrad.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
-          glowGrad.addColorStop(1, 'rgba(6, 182, 212, 0)');
-        } else if (studioState.bgTheme === 'royal-amber') {
-          glowGrad.addColorStop(0, 'rgba(245, 158, 11, 0.5)');
-          glowGrad.addColorStop(1, 'rgba(245, 158, 11, 0)');
-        } else {
-          glowGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-          glowGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-        }
-        ctx.fillStyle = glowGrad;
-        ctx.beginPath();
-        ctx.arc(w/2, h*0.4, glowRadius + 100, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-
-      // 3. Draw Subject Image
-      if (studioState.currentImg) {
-        ctx.save();
-        // Apply Contrast & Clarity filter
-        ctx.filter = `contrast(${studioState.contrast}%) brightness(${studioState.clarity - 10}%)`;
-
+      // 2. Draw Subject Image & Authentic Rim Light
+      if (studioState.currentImg && studioState.currentImg.complete) {
         const img = studioState.currentImg;
         const aspect = img.width / img.height;
-        let drawW = w * 0.78;
+        let drawW = w * 0.94;
         let drawH = drawW / aspect;
         let drawX = (w - drawW) / 2;
-        let drawY = h - drawH + 40;
+        let drawY = h - drawH + 30;
 
+        // A. True Rim Light Silhouette Glow
+        if (studioState.rimGlow > 0 && studioState.nukkiEnabled) {
+          ctx.save();
+          let glowColor = 'rgba(168, 85, 247, 0.85)';
+          if (studioState.bgTheme === 'cyber-neon') glowColor = 'rgba(6, 182, 212, 0.9)';
+          else if (studioState.bgTheme === 'royal-amber') glowColor = 'rgba(245, 158, 11, 0.9)';
+          else if (studioState.bgTheme === 'executive-grey') glowColor = 'rgba(255, 255, 255, 0.6)';
+
+          ctx.shadowColor = glowColor;
+          ctx.shadowBlur = (studioState.rimGlow / 100) * 45;
+          ctx.drawImage(img, drawX, drawY, drawW, drawH);
+          ctx.restore();
+        }
+
+        // B. Sharp Subject with Color Grade
+        ctx.save();
+        ctx.filter = `contrast(${studioState.contrast}%) brightness(${studioState.clarity - 10}%) saturate(105%)`;
         ctx.drawImage(img, drawX, drawY, drawW, drawH);
         ctx.restore();
       }
 
-      // 4. Subtle Vignette
+      // 3. Subtle Cinematic Vignette
       ctx.save();
-      const vignette = ctx.createRadialGradient(w/2, h/2, w*0.35, w/2, h/2, w*0.75);
+      const vignette = ctx.createRadialGradient(w/2, h/2, w*0.38, w/2, h/2, w*0.75);
       vignette.addColorStop(0, 'rgba(0,0,0,0)');
-      vignette.addColorStop(1, 'rgba(0,0,0,0.5)');
+      vignette.addColorStop(1, 'rgba(0,0,0,0.55)');
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, w, h);
       ctx.restore();
@@ -673,13 +800,13 @@
 
     function applyToCardMaker() {
       const dataUrl = canvas.toDataURL('image/png');
-      // Store in localStorage for maker to pick up
       localStorage.setItem('setupod_custom_avatar', dataUrl);
       alert("🎉 리터칭된 프로필이 저장되었습니다!\n\n3D 명함 제작 스튜디오로 이동합니다.");
       window.location.href = 'maker.html';
     }
 
-    initStudio();
+    // Initial load
+    selectModel(1);
   </script>
 </body>
 </html>
