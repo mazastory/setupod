@@ -54,18 +54,62 @@ function applyTheme(themeName) {
   }
 }
 
-// 텍스트를 거꾸로 분해하여 워터마크 세로 텍스트 생성
+// 텍스트를 거꾸로 분해하여 워터마크 세로 텍스트 생성 (글자 수에 따른 지능형 동적 스케일링)
 function renderWatermark(text) {
   const container = document.getElementById('watermarkContainerFront');
   const containerBack = document.getElementById('watermarkContainerBack');
   if (!text) return;
 
-  // 글자들을 역순으로 뒤집어서 상단부터 배치되게
   const letters = text.toUpperCase().split('').reverse();
-  const html = letters.map(char => `<span>${char}</span>`).join('');
+  const n = letters.length;
 
-  if (container) container.innerHTML = html;
-  if (containerBack) containerBack.innerHTML = html;
+  let fontSize, spanHeight, spanWidth, rightOffset;
+
+  if (n <= 3) {
+    fontSize = 140;
+    spanHeight = 115;
+    spanWidth = 140;
+    rightOffset = -22;
+  } else if (n === 4) {
+    // MAZA 원본 스펙: 135px x 105px
+    fontSize = 135;
+    spanHeight = 105;
+    spanWidth = 135;
+    rightOffset = -20;
+  } else if (n === 5) {
+    fontSize = 105;
+    spanHeight = 92;
+    spanWidth = 105;
+    rightOffset = -15;
+  } else if (n === 6) {
+    fontSize = 88;
+    spanHeight = 80;
+    spanWidth = 88;
+    rightOffset = -12;
+  } else if (n === 7) {
+    fontSize = 72;
+    spanHeight = 70;
+    spanWidth = 72;
+    rightOffset = -8;
+  } else if (n === 8) {
+    fontSize = 64;
+    spanHeight = 62;
+    spanWidth = 64;
+    rightOffset = -6;
+  } else {
+    spanHeight = Math.max(36, Math.floor(485 / n));
+    fontSize = Math.round(spanHeight * 1.12);
+    spanWidth = fontSize;
+    rightOffset = -4;
+  }
+
+  const html = letters.map(c => `<span style="font-size:${fontSize}px !important; width:${spanWidth}px !important; height:${spanHeight}px !important; line-height:1;">${c}</span>`).join('');
+
+  [container, containerBack].forEach(c => {
+    if (!c) return;
+    c.innerHTML = html;
+    c.style.right = `${rightOffset}px`;
+  });
 }
 
 // Lucide 아이콘 매핑 헬퍼

@@ -1711,9 +1711,64 @@
     function renderWatermark(text) {
       if (!text) text = "CARD";
       const letters = text.toUpperCase().split('').reverse();
-      const html = letters.map(c => `<span>${c}</span>`).join('');
-      document.getElementById('watermarkContainerFront').innerHTML = html;
-      document.getElementById('watermarkContainerBack').innerHTML = html;
+      const n = letters.length;
+
+      // 글자 수에 따른 지능형 동적 스케일링 (Dynamic Auto-Scaling)
+      // 4글자(MAZA)는 원본 그대로 압도적인 135px 거대 타이포그래피,
+      // 글자 수가 많아지면(SETUPOD 7자, TOOMUS 6자) 카드 높이에 맞춰 자동 최적화
+      let fontSize, spanHeight, spanWidth, rightOffset;
+
+      if (n <= 3) {
+        fontSize = 140;
+        spanHeight = 115;
+        spanWidth = 140;
+        rightOffset = -22;
+      } else if (n === 4) {
+        // MAZA 원본 스펙: 135px x 105px, right: -20px
+        fontSize = 135;
+        spanHeight = 105;
+        spanWidth = 135;
+        rightOffset = -20;
+      } else if (n === 5) {
+        fontSize = 105;
+        spanHeight = 92;
+        spanWidth = 105;
+        rightOffset = -15;
+      } else if (n === 6) {
+        // TOOMUS 6글자 스펙
+        fontSize = 88;
+        spanHeight = 80;
+        spanWidth = 88;
+        rightOffset = -12;
+      } else if (n === 7) {
+        // SETUPOD 7글자 스펙
+        fontSize = 72;
+        spanHeight = 70;
+        spanWidth = 72;
+        rightOffset = -8;
+      } else if (n === 8) {
+        fontSize = 64;
+        spanHeight = 62;
+        spanWidth = 64;
+        rightOffset = -6;
+      } else {
+        // 9글자 이상
+        spanHeight = Math.max(36, Math.floor(485 / n));
+        fontSize = Math.round(spanHeight * 1.12);
+        spanWidth = fontSize;
+        rightOffset = -4;
+      }
+
+      const html = letters.map(c => `<span style="font-size:${fontSize}px !important; width:${spanWidth}px !important; height:${spanHeight}px !important; line-height:1;">${c}</span>`).join('');
+      
+      const frontContainer = document.getElementById('watermarkContainerFront');
+      const backContainer = document.getElementById('watermarkContainerBack');
+      
+      [frontContainer, backContainer].forEach(c => {
+        if (!c) return;
+        c.innerHTML = html;
+        c.style.right = `${rightOffset}px`;
+      });
     }
 
     function handleLogoUpload(event) {
