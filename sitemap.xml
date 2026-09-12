@@ -81,6 +81,20 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- 10. 스마트 비즈니스 제안서 & 견적 승인 허브 -->
+  <url>
+    <loc>https://www.setupod.com/proposal</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/proposal-maker</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
   <!-- 10. 개인정보처리방침 -->
   <url>
     <loc>https://www.setupod.com/privacy</loc>

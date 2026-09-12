@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title id="pageTitle">스마트 비즈니스 제안서 & 견적 승인 허브 | SETUPOD</title>
+  <meta name="description" content="모바일에서 3분 만에 확인하고 1클릭으로 승인하는 차세대 인터랙티브 제안서">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD Proposal">
+  <meta property="og:title" content="스마트 비즈니스 제안서 | SETUPOD">
+  <meta property="og:description" content="모바일에서 3분 만에 확인하고 1클릭으로 견적을 승인하는 1페이지 인터랙티브 제안서">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <style>
+    :root {
+      --bg: #06040c;
+      --card-bg: rgba(22, 17, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.12);
+      --violet: #8b5cf6;
+      --violet-light: #a78bfa;
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --text-main: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.65);
+      --text-sub: rgba(255, 255, 255, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.22) 0%, transparent 65%),
+        radial-gradient(circle at 10% 35%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 120px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    .proposal-container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* Top Navigation Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(18, 14, 32, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 99px;
+      margin-bottom: 24px;
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--emerald);
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Hero Header */
+    .proposal-hero {
+      text-align: center;
+      padding: 24px 12px 36px;
+      position: relative;
+    }
+
+    .target-client-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.15));
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #c4b5fd;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: clamp(26px, 5.5vw, 36px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      word-break: keep-all;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 40%, #c4b5fd 75%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Section Wrapper */
+    .section-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      transition: border-color 0.3s ease;
+    }
+
+    .section-box:hover {
+      border-color: var(--card-hover);
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(139, 92, 246, 0.15);
+      color: var(--violet-light);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    /* Before vs After Matrix */
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .matrix-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .matrix-card {
+      border-radius: 18px;
+      padding: 18px;
+      position: relative;
+    }
+
+    .matrix-card.before {
+      background: rgba(244, 63, 94, 0.06);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+
+    .matrix-card.after {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .matrix-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .matrix-card.before .matrix-tag {
+      background: rgba(244, 63, 94, 0.2);
+      color: #fda4af;
+    }
+
+    .matrix-card.after .matrix-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+    }
+
+    .matrix-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+
+    .matrix-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .matrix-card.before .matrix-list li i {
+      color: var(--rose);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .matrix-card.after .matrix-list li i {
+      color: var(--emerald);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Packages / Pricing Selector */
+    .package-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pkg-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .pkg-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .pkg-item.selected {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(6, 182, 212, 0.08));
+      border-color: #8b5cf6;
+      box-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
+    }
+
+    .pkg-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .pkg-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pkg-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .pkg-item.selected .pkg-radio {
+      border-color: #8b5cf6;
+      background: #8b5cf6;
+    }
+
+    .pkg-radio-inner {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      display: none;
+    }
+
+    .pkg-item.selected .pkg-radio-inner {
+      display: block;
+    }
+
+    .pkg-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .pkg-popular-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .pkg-price-wrap {
+      text-align: right;
+    }
+
+    .pkg-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .pkg-price-unit {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .pkg-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 6px 0 14px 28px;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .pkg-features {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+      margin-left: 28px;
+    }
+
+    @media (max-width: 480px) {
+      .pkg-features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pkg-features li {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pkg-features li i {
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    /* Add-ons Checklist */
+    .addons-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .addon-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .addon-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .addon-item.checked {
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(6, 182, 212, 0.07);
+    }
+
+    .addon-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .addon-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .addon-item.checked .addon-checkbox {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #000;
+    }
+
+    .addon-name {
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .addon-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    /* Metrics Section */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px 12px;
+    }
+
+    .metric-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Process Steps */
+    .steps-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--violet-light);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .step-content p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Testimonial Quote */
+    .quote-box {
+      margin-top: 16px;
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--violet);
+      border-radius: 0 14px 14px 0;
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.85);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .quote-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-style: normal;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* Fixed Bottom Action Dock */
+    .proposal-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 7, 20, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+      z-index: 1000;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .dock-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .dock-total {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dock-total-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .dock-total-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .dock-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary {
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .btn-primary-cta {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.45);
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      text-decoration: none;
+    }
+
+    .btn-primary-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(139, 92, 246, 0.6);
+    }
+
+    .btn-primary-cta:active {
+      transform: scale(0.97);
+    }
+
+    /* Print / PDF Styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding-bottom: 0 !important;
+      }
+      .top-bar, .proposal-dock, .btn-secondary, .btn-primary-cta {
+        display: none !important;
+      }
+      .section-box {
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+        box-shadow: none !important;
+      }
+      .gradient-text {
+        -webkit-text-fill-color: #000 !important;
+        color: #000 !important;
+      }
+      .pkg-item {
+        background: #f9f9f9 !important;
+        border: 1px solid #ccc !important;
+        color: #000 !important;
+      }
+      .pkg-price {
+        color: #000 !important;
+      }
+      .pkg-desc, .matrix-list, .step-content p {
+        color: #333 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="proposal-container">
+    <!-- Top Navigation Bar -->
+    <nav class="top-bar">
+      <div class="brand-pill">
+        <span id="senderCompanyLogo">⚡️</span>
+        <span id="senderCompanyName">SETUPOD PARTNER</span>
+      </div>
+      <div class="status-badge">
+        <div class="pulse-dot"></div>
+        <span>실시간 견적 승인 허브</span>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="proposal-hero">
+      <div class="target-client-tag">
+        <i data-lucide="building" style="width:14px;height:14px;"></i>
+        <span id="clientNameDisplay">To. 귀사 대표님 및 프로젝트 담당자 귀하</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="gradient-text" id="proposalMainTitle">2026 비즈니스 세일즈 퍼널 & 전환 최적화 맞춤 제안서</span>
+      </h1>
+      <p class="hero-desc" id="proposalSubDesc">
+        단순 명함 교환에서 멈추지 않고, 잠재 고객의 이탈을 막아 실제 매출과 상담으로 직결시키는 원스톱 성장 솔루션을 제안합니다.
+      </p>
+      
+      <div class="hero-meta-row">
+        <div class="hero-meta-item">
+          <i data-lucide="calendar" style="width:13px;height:13px;"></i>
+          <span>제안일: <strong id="proposalDate">2026.09.12</strong></span>
+        </div>
+        <div class="hero-meta-item">
+          <i data-lucide="clock" style="width:13px;height:13px;"></i>
+          <span>견적 유효기간: <strong>제안일로부터 14일</strong></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: Before vs After -->
+    <section class="section-box">
+      <div class="section-title-wrap">
+        <div class="section-icon">
+          <i data-lucide="zap" style="width:18px;height:18px;"></i>
+        </div>
+        <h2 class="section-title">왜 지금 시스템 전환이 필요한가요?</h2>
+      </div>
+
+      <div class="matrix-grid">
+        <div class="matrix-card before">
+          <span class="matrix-tag">AS-IS 기존 방식의 한계</span>
+          <ul class="matrix-list">
+            <li>
+              <i data-lucide="x" style="width:16px;height:16px;"></i>
+              <span>버려지는 종이 명함과 흩어진 SNS 링크</span>
+            </li>
+            <li>
+              <i data-lucide="x" style="width:16px;height:16px;"></i>
+              <span>고객의 80%가 가격만 묻고 이탈하는 상담 비효율</span>
+            </li>
+            <li>
+              <i data-lucide="x" style="width:16px;height:16px;"></i>
+              <span>20MB 무거운 PDF 제안서 (모바일 가독성 0점)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="matrix-card after">
+          <span class="matrix-tag">TO-BE SETUPOD 도입 후 변화</span>
+          <ul class="matrix-list">
+            <li>
+              <i data-lucide="check" style="width:16px;height:16px;"></i>
+              <span>3D 디지털 명함으로 3초 만에 신뢰 각인</span>
+            </li>
+            <li>
+              <i data-lucide="check" style="width:16px;height:16px;"></i>
+              <span>진단 퀴즈로 검증된 진성 고객만 자동 필터링</span>
+            </li>
+            <li>
+              <i data-lucide="check" style="width:16px;height:16px;"></i>
+              <span>모바일 1페이지 제안서에서 1클릭 견적 승인</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Packages & Interactive Pricing -->
+    <section class="section-box">
+      <div class="section-title-wrap">
+        <div class="section-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan);">
+          <i data-lucide="check-circle-2" style="width:18px;height:18px;"></i>
+        </div>
+        <div>
+          <h2 class="section-title">제안 패키지 & 실시간 견적 선택</h2>
+          <p style="font-size:12px; color:var(--text-sub); margin-top:2px;">원하시는 플랜을 탭하시면 하단 총 견적이 실시간으로 계산됩니다.</p>
+        </div>
+      </div>
+
+      <div class="package-cards">
+        <!-- Plan 1 -->
+        <div class="pkg-item" onclick="selectPackage(1)" id="pkgCard1">
+          <div class="pkg-top-row">
+            <div class="pkg-name-wrap">
+              <div class="pkg-radio">
+                <div class="pkg-radio-inner"></div>
+              </div>
+              <span class="pkg-title" id="pkg1Title">Essential Package (스타터)</span>
+            </div>
+            <div class="pkg-price-wrap">
+              <span class="pkg-price" id="pkg1Price">990,000</span>
+              <span class="pkg-price-unit">원</span>
+            </div>
+          </div>
+          <p class="pkg-desc" id="pkg1Desc">1인 기업 및 프리랜서에게 꼭 필요한 3D 명함과 멀티링크 브랜드 자산 구축</p>
+          <ul class="pkg-features">
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 3D 인터랙티브 디지털 명함 제작</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 올인원 멀티링크 허브 세팅</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 카카오톡 프로필 썸네일 3종</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 작업 기간: 5영업일 이내</li>
+          </ul>
+        </div>
+
+        <!-- Plan 2 (Default / Best) -->
+        <div class="pkg-item selected" onclick="selectPackage(2)" id="pkgCard2">
+          <div class="pkg-top-row">
+            <div class="pkg-name-wrap">
+              <div class="pkg-radio">
+                <div class="pkg-radio-inner"></div>
+              </div>
+              <span class="pkg-title" id="pkg2Title">Growth Funnel (성장형 풀퍼널)</span>
+              <span class="pkg-popular-badge">가장 인기</span>
+            </div>
+            <div class="pkg-price-wrap">
+              <span class="pkg-price" id="pkg2Price">1,890,000</span>
+              <span class="pkg-price-unit">원</span>
+            </div>
+          </div>
+          <p class="pkg-desc" id="pkg2Desc">트래픽 유입부터 고객 DB 수집, 맞춤형 인터랙티브 진단 퀴즈까지 완벽 자동화</p>
+          <ul class="pkg-features">
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> <strong>Essential 패키지 전 항목 포함</strong></li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 맞춤형 인터랙티브 진단 스코어카드</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 모바일 1페이지 스마트 제안서 허브</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 카카오톡 1초 공유 최적화 연동</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 작업 기간: 10영업일 이내</li>
+          </ul>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="pkg-item" onclick="selectPackage(3)" id="pkgCard3">
+          <div class="pkg-top-row">
+            <div class="pkg-name-wrap">
+              <div class="pkg-radio">
+                <div class="pkg-radio-inner"></div>
+              </div>
+              <span class="pkg-title" id="pkg3Title">Enterprise (맞춤형 마케팅 OS)</span>
+            </div>
+            <div class="pkg-price-wrap">
+              <span class="pkg-price" id="pkg3Price">3,500,000</span>
+              <span class="pkg-price-unit">원</span>
+            </div>
+          </div>
+          <p class="pkg-desc" id="pkg3Desc">팀 단위 명함 관리, 맞춤형 CRM 연동, VIP 대기자 바이럴 웨이트리스트 포함</p>
+          <ul class="pkg-features">
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> <strong>Growth 패키지 전 항목 포함</strong></li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 팀/조직원 3D 명함 일괄 발급 (최대 10인)</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 고객사 전용 도메인 연결 세팅</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 2026 비즈니스 플래너 OS 교육</li>
+            <li><i data-lucide="check" style="width:14px;height:14px;"></i> 전담 디렉터 1:1 슬랙/카톡 채널 배정</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Add-ons Selection -->
+      <div class="addons-list">
+        <div style="font-size:13px; font-weight:700; color:var(--text-muted); margin-bottom:4px;">
+          선택 가능한 추가 옵션 (Add-on)
+        </div>
+
+        <div class="addon-item" onclick="toggleAddon(1)" id="addonItem1">
+          <div class="addon-left">
+            <div class="addon-checkbox" id="addonCheck1"><i data-lucide="check" style="width:12px;height:12px;"></i></div>
+            <span class="addon-name">긴급 패스트트랙 (3일 이내 우선 제작 및 납품)</span>
+          </div>
+          <span class="addon-price">+300,000원</span>
+        </div>
+
+        <div class="addon-item" onclick="toggleAddon(2)" id="addonItem2">
+          <div class="addon-left">
+            <div class="addon-checkbox" id="addonCheck2"><i data-lucide="check" style="width:12px;height:12px;"></i></div>
+            <span class="addon-name">런칭 후 3개월 무제한 텍스트/링크 유지보수</span>
+          </div>
+          <span class="addon-price">+400,000원</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Proof & Verified ROI Metrics -->
+    <section class="section-box">
+      <div class="section-title-wrap">
+        <div class="section-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald);">
+          <i data-lucide="trending-up" style="width:18px;height:18px;"></i>
+        </div>
+        <h2 class="section-title">숫자로 검증된 실적 & 기대 ROI</h2>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-number" id="metric1Num">+280%</div>
+          <div class="metric-label" id="metric1Lbl">평균 리드 전환율 증가</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-number" id="metric2Num">-65%</div>
+          <div class="metric-label" id="metric2Lbl">불필요한 상담 소요시간 단축</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-number" id="metric3Num">99.4%</div>
+          <div class="metric-label" id="metric3Lbl">프로젝트 만족도 & 추천율</div>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <p id="clientQuoteText">"기존에는 무거운 PDF 제안서를 보내도 읽었는지 알 수 없었는데, SETUPOD 스마트 제안서로 보낸 첫날 클라이언트가 미팅 전에 바로 견적을 확인하고 상담 승인 버튼을 눌러 계약을 맺었습니다."</p>
+        <div class="quote-author">
+          <i data-lucide="quote" style="width:12px;height:12px;"></i>
+          <span id="clientQuoteAuthor">실제 파트너사 대표 / B2B 컨설팅 그룹</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Process Flow -->
+    <section class="section-box">
+      <div class="section-title-wrap">
+        <div class="section-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--amber);">
+          <i data-lucide="milestone" style="width:18px;height:18px;"></i>
+        </div>
+        <h2 class="section-title">체계적인 4단계 런칭 프로세스</h2>
+      </div>
+
+      <div class="steps-flow">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>기획 & 타겟 분석 (Day 1-2)</h4>
+            <p>귀사의 핵심 차별점과 타겟 고객의 페인포인트를 분석해 전환 시나리오를 설계합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>인터랙티브 에셋 제작 (Day 3-6)</h4>
+            <p>3D 명함, 멀티링크, 진단 퀴즈 등 모바일에 최적화된 다크 럭셔리 디자인을 구현합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>테스트 & 피드백 반영 (Day 7-8)</h4>
+            <p>실제 모바일 환경(카카오톡, 인스타그램 인앱 브라우저)에서 완벽한 작동을 검수합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <h4>런칭 & 운영 인계 (Day 9-10)</h4>
+            <p>영구 보존 링크 제공 및 추후 자체 수정이 가능한 관리자 가이드를 전달합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FIXED BOTTOM PROPOSAL DOCK -->
+  <aside class="proposal-dock">
+    <div class="dock-inner">
+      <div class="dock-total">
+        <span class="dock-total-label" id="dockSelectedPkgName">Growth Funnel 선택됨</span>
+        <div class="dock-total-price">
+          <span id="dockFinalPrice">1,890,000</span>
+          <span style="font-size:13px; font-weight:600; color:var(--text-sub);">원</span>
+        </div>
+      </div>
+
+      <div class="dock-buttons">
+        <button class="btn-secondary" onclick="printProposal()" title="PDF로 저장 또는 인쇄">
+          <i data-lucide="printer" style="width:15px;height:15px;"></i>
+          <span>PDF 인쇄</span>
+        </button>
+        <a href="#" id="viewCardBtn" target="_blank" class="btn-secondary" title="제안자 3D 명함 보기">
+          <i data-lucide="credit-card" style="width:15px;height:15px;"></i>
+          <span>3D 명함</span>
+        </a>
+        <button class="btn-primary-cta" id="approveCtaBtn" onclick="approveAndContact()">
+          <i data-lucide="message-circle" style="width:16px;height:16px;"></i>
+          <span>견적 승인 & 상담</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    // State
+    const proposalState = {
+      selectedPkg: 2,
+      pkgPrices: [990000, 1890000, 3500000],
+      addon1: false,
+      addon1Price: 300000,
+      addon2: false,
+      addon2Price: 400000,
+      kakaoUrl: "https://pf.kakao.com",
+      cardUrl: "card.html",
+      companyName: "SETUPOD PARTNER",
+      clientName: "귀사 대표님 및 프로젝트 담당자 귀하"
+    };
+
+    // Format number to Korean Currency
+    function formatCurrency(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Parse URL params or localStorage
+    function loadProposalData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let data = null;
+
+      // 1. Check data parameter (Base64 JSON)
+      const rawData = urlParams.get('data');
+      if (rawData) {
+        try {
+          data = JSON.parse(decodeURIComponent(escape(atob(rawData))));
+        } catch (e) {
+          console.warn("Base64 parse error:", e);
+        }
+      }
+
+      // 2. Check localStorage if preview mode or saved config
+      if (!data && (urlParams.get('preview') === 'true' || urlParams.get('id'))) {
+        const saved = localStorage.getItem('setupod_proposal_cfg');
+        if (saved) {
+          try { data = JSON.parse(saved); } catch (e) {}
+        }
+      }
+
+      // Apply data if exists
+      if (data) {
+        if (data.companyName) {
+          document.getElementById('senderCompanyName').textContent = data.companyName;
+          proposalState.companyName = data.companyName;
+        }
+        if (data.clientName) {
+          document.getElementById('clientNameDisplay').textContent = "To. " + data.clientName;
+          proposalState.clientName = data.clientName;
+        }
+        if (data.title) {
+          document.getElementById('proposalMainTitle').textContent = data.title;
+          document.getElementById('pageTitle').textContent = data.title + " | SETUPOD";
+        }
+        if (data.desc) {
+          document.getElementById('proposalSubDesc').textContent = data.desc;
+        }
+        if (data.kakaoUrl) {
+          proposalState.kakaoUrl = data.kakaoUrl;
+        }
+        if (data.cardUrl) {
+          proposalState.cardUrl = data.cardUrl;
+        }
+
+        // Packages
+        if (data.pkg1Title) document.getElementById('pkg1Title').textContent = data.pkg1Title;
+        if (data.pkg1Price) {
+          proposalState.pkgPrices[0] = parseInt(data.pkg1Price) || 990000;
+          document.getElementById('pkg1Price').textContent = formatCurrency(proposalState.pkgPrices[0]);
+        }
+        if (data.pkg1Desc) document.getElementById('pkg1Desc').textContent = data.pkg1Desc;
+
+        if (data.pkg2Title) document.getElementById('pkg2Title').textContent = data.pkg2Title;
+        if (data.pkg2Price) {
+          proposalState.pkgPrices[1] = parseInt(data.pkg2Price) || 1890000;
+          document.getElementById('pkg2Price').textContent = formatCurrency(proposalState.pkgPrices[1]);
+        }
+        if (data.pkg2Desc) document.getElementById('pkg2Desc').textContent = data.pkg2Desc;
+
+        if (data.pkg3Title) document.getElementById('pkg3Title').textContent = data.pkg3Title;
+        if (data.pkg3Price) {
+          proposalState.pkgPrices[2] = parseInt(data.pkg3Price) || 3500000;
+          document.getElementById('pkg3Price').textContent = formatCurrency(proposalState.pkgPrices[2]);
+        }
+        if (data.pkg3Desc) document.getElementById('pkg3Desc').textContent = data.pkg3Desc;
+
+        // Metrics
+        if (data.metric1Num) document.getElementById('metric1Num').textContent = data.metric1Num;
+        if (data.metric1Lbl) document.getElementById('metric1Lbl').textContent = data.metric1Lbl;
+        if (data.metric2Num) document.getElementById('metric2Num').textContent = data.metric2Num;
+        if (data.metric2Lbl) document.getElementById('metric2Lbl').textContent = data.metric2Lbl;
+        if (data.metric3Num) document.getElementById('metric3Num').textContent = data.metric3Num;
+        if (data.metric3Lbl) document.getElementById('metric3Lbl').textContent = data.metric3Lbl;
+
+        // Quote
+        if (data.quoteText) document.getElementById('clientQuoteText').textContent = `"${data.quoteText}"`;
+        if (data.quoteAuthor) document.getElementById('clientQuoteAuthor').textContent = data.quoteAuthor;
+      }
+
+      // Update Card link
+      document.getElementById('viewCardBtn').href = proposalState.cardUrl;
+
+      // Set today's date formatted
+      const today = new Date();
+      const dateStr = today.getFullYear() + "." + String(today.getMonth() + 1).padStart(2, '0') + "." + String(today.getDate()).padStart(2, '0');
+      document.getElementById('proposalDate').textContent = dateStr;
+
+      recalcTotal();
+    }
+
+    // Select Package
+    function selectPackage(pkgIndex) {
+      proposalState.selectedPkg = pkgIndex;
+      [1, 2, 3].forEach(idx => {
+        const card = document.getElementById('pkgCard' + idx);
+        if (card) {
+          if (idx === pkgIndex) {
+            card.classList.add('selected');
+          } else {
+            card.classList.remove('selected');
+          }
+        }
+      });
+      recalcTotal();
+    }
+
+    // Toggle Addons
+    function toggleAddon(addonIdx) {
+      if (addonIdx === 1) {
+        proposalState.addon1 = !proposalState.addon1;
+        document.getElementById('addonItem1').classList.toggle('checked', proposalState.addon1);
+      } else if (addonIdx === 2) {
+        proposalState.addon2 = !proposalState.addon2;
+        document.getElementById('addonItem2').classList.toggle('checked', proposalState.addon2);
+      }
+      recalcTotal();
+    }
+
+    // Recalculate Total
+    function recalcTotal() {
+      let base = proposalState.pkgPrices[proposalState.selectedPkg - 1];
+      let add = 0;
+      if (proposalState.addon1) add += proposalState.addon1Price;
+      if (proposalState.addon2) add += proposalState.addon2Price;
+
+      const total = base + add;
+      document.getElementById('dockFinalPrice').textContent = formatCurrency(total);
+
+      const pkgTitles = [
+        document.getElementById('pkg1Title').textContent,
+        document.getElementById('pkg2Title').textContent,
+        document.getElementById('pkg3Title').textContent
+      ];
+      document.getElementById('dockSelectedPkgName').textContent = `${pkgTitles[proposalState.selectedPkg - 1]} 선택됨`;
+    }
+
+    // Approve & Contact
+    function approveAndContact() {
+      const pkgTitles = [
+        document.getElementById('pkg1Title').textContent,
+        document.getElementById('pkg2Title').textContent,
+        document.getElementById('pkg3Title').textContent
+      ];
+      const selectedTitle = pkgTitles[proposalState.selectedPkg - 1];
+      const totalPrice = document.getElementById('dockFinalPrice').textContent;
+
+      let addonNotes = [];
+      if (proposalState.addon1) addonNotes.push("긴급 패스트트랙(+30만)");
+      if (proposalState.addon2) addonNotes.push("3개월 유지보수(+40만)");
+      const addonStr = addonNotes.length > 0 ? `\n- 추가옵션: ${addonNotes.join(', ')}` : '';
+
+      const message = `[제안서 견적 승인 신청]\n\n` +
+        `• 제안 대상: ${proposalState.clientName}\n` +
+        `• 선택 패키지: ${selectedTitle}\n` +
+        `• 총 견적 금액: ${totalPrice}원 (VAT 별도)${addonStr}\n\n` +
+        `위 조건으로 상담 및 계약 절차를 진행하고 싶습니다.`;
+
+      // Copy text to clipboard
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(message).then(() => {
+          // alert toast
+        }).catch(() => {});
+      }
+
+      // If Kakao URL exists
+      if (proposalState.kakaoUrl && proposalState.kakaoUrl.startsWith('http')) {
+        const confirmGo = confirm(`선택하신 견적 내용이 클립보드에 복사되었습니다!\n\n총 견적: ${totalPrice}원\n카카오톡 상담으로 바로 이동하시겠습니까?`);
+        if (confirmGo) {
+          window.open(proposalState.kakaoUrl, '_blank');
+        }
+      } else {
+        alert(`견적 승인 문구가 클립보드에 복사되었습니다!\n\n담당자에게 메시지를 전송해 주세요:\n\n${message}`);
+      }
+    }
+
+    // Print to PDF
+    function printProposal() {
+      window.print();
+    }
+
+    // Message listener for maker live reload
+    window.addEventListener('message', function(e) {
+      if (e.data === 'reload_proposal') {
+        loadProposalData();
+      }
+    });
+
+    // Initialize
+    loadProposalData();
+    lucide.createIcons();
+  </script>
+</body>
+</html>

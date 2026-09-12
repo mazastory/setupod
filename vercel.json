@@ -18,6 +18,8 @@
     { "source": "/scorecard-maker", "destination": "/scorecard_maker" },
     { "source": "/waitlist", "destination": "/waitlist" },
     { "source": "/waitlist-maker", "destination": "/waitlist_maker" },
+    { "source": "/proposal", "destination": "/proposal" },
+    { "source": "/proposal-maker", "destination": "/proposal_maker" },
     { "source": "/roi-calculator", "destination": "/roi_calculator" },
     { "source": "/privacy", "destination": "/privacy" },
     { "source": "/terms", "destination": "/terms" },

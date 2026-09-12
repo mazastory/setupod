@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스마트 제안서 스튜디오 | SETUPOD</title>
+  <meta name="description" content="모바일에서 3분 만에 확인하고 1클릭으로 견적을 승인하는 차세대 인터랙티브 제안서 생성기">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <style>
+    :root {
+      --bg: #070510;
+      --panel: #100b21;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-focus: #8b5cf6;
+      --violet: #8b5cf6;
+      --cyan: #06b6d4;
+      --pink: #ec4899;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Left Sidebar */
+    .sidebar {
+      width: 480px;
+      min-width: 420px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-header-left h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #c4b5fd, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-header-left p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 2px;
+    }
+
+    .back-link {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      color: #c4b5fd;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13.5px;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+    }
+
+    .form-textarea {
+      height: 64px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .sidebar-footer {
+      padding: 20px 24px;
+      background: rgba(0, 0, 0, 0.35);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-group-sub {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sub {
+      flex: 1;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-sub:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Right Preview Area */
+    .preview-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 40%, #17112e 0%, #070510 100%);
+      padding: 30px;
+      position: relative;
+    }
+
+    .view-toggle-bar {
+      position: absolute;
+      top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+
+    .view-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .view-btn.active {
+      background: var(--violet);
+      color: #fff;
+    }
+
+    /* Device Mockup */
+    .device-mockup {
+      width: 400px;
+      height: 780px;
+      background: #000;
+      border-radius: 46px;
+      border: 10px solid #231c38;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .device-mockup.desktop-mode {
+      width: 90%;
+      max-width: 960px;
+      height: 85%;
+      border-radius: 16px;
+      border-width: 8px;
+    }
+
+    .device-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 22px;
+      background: #231c38;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 10;
+      transition: opacity 0.2s;
+    }
+
+    .device-mockup.desktop-mode .device-notch {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .preview-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #06040c;
+    }
+
+    .link-pill {
+      margin-top: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 18px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      max-width: 500px;
+    }
+
+    .link-url {
+      font-family: monospace;
+      color: #38bdf8;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left Sidebar (Form Studio) -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-header-left">
+        <h1><i data-lucide="file-spreadsheet" style="width:20px;height:20px;"></i> 스마트 제안서 스튜디오</h1>
+        <p>3분 만에 맞춤 제안서와 실시간 견적 승인 허브를 생성하세요.</p>
+      </div>
+      <a href="index.html" class="back-link">
+        <i data-lucide="home" style="width:13px;height:13px;"></i> 홈으로
+      </a>
+    </div>
+
+    <div class="scroll-area" id="proposalForm">
+      <!-- Section 1: 기본 정보 -->
+      <div class="section-title"><i data-lucide="info" style="width:15px;height:15px;"></i> 1. 제안 기본 정보</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">작성자 / 회사명</label>
+          <input type="text" id="cfgCompany" class="form-input" value="넥서스 크리에이티브" oninput="saveAndPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">제안 수신 대상 (고객사명)</label>
+          <input type="text" id="cfgClient" class="form-input" value="블루웨일 파트너스 대표님" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">메인 제안 제목</label>
+        <textarea id="cfgTitle" class="form-textarea" oninput="saveAndPreview()">2026 비즈니스 세일즈 퍼널 & 전환 최적화 맞춤 제안서</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">핵심 가치 제안 (서브 설명)</label>
+        <textarea id="cfgDesc" class="form-textarea" oninput="saveAndPreview()">단순 명함 교환에서 멈추지 않고, 잠재 고객의 이탈을 막아 실제 매출과 상담으로 직결시키는 원스톱 성장 솔루션을 제안합니다.</textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">카카오톡 상담 링크</label>
+          <input type="text" id="cfgKakao" class="form-input" value="https://open.kakao.com" placeholder="카카오 오픈채팅 or 채널 URL" oninput="saveAndPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">내 3D 명함 URL</label>
+          <input type="text" id="cfgCard" class="form-input" value="card.html" placeholder="card.html or 내 명함 링크" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <!-- Section 2: 패키지 3종 및 가격 -->
+      <div class="section-title"><i data-lucide="package" style="width:15px;height:15px;"></i> 2. 제안 패키지 & 가격 설정</div>
+      
+      <!-- Pkg 1 -->
+      <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:12px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.05);">
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 1 명칭</label>
+            <input type="text" id="cfgP1Title" class="form-input" value="Essential (스타터)" oninput="saveAndPreview()">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 1 가격 (원)</label>
+            <input type="number" id="cfgP1Price" class="form-input" value="990000" oninput="saveAndPreview()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">플랜 1 요약 설명</label>
+          <input type="text" id="cfgP1Desc" class="form-input" value="1인 기업 및 프리랜서에게 꼭 필요한 3D 명함과 멀티링크 브랜드 자산 구축" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <!-- Pkg 2 -->
+      <div style="background:rgba(139,92,246,0.08); padding:12px; border-radius:12px; margin-bottom:12px; border:1px solid rgba(139,92,246,0.3);">
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 2 명칭 (추천/베스트)</label>
+            <input type="text" id="cfgP2Title" class="form-input" value="Growth Funnel (성장형 풀퍼널)" oninput="saveAndPreview()">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 2 가격 (원)</label>
+            <input type="number" id="cfgP2Price" class="form-input" value="1890000" oninput="saveAndPreview()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">플랜 2 요약 설명</label>
+          <input type="text" id="cfgP2Desc" class="form-input" value="트래픽 유입부터 고객 DB 수집, 맞춤형 인터랙티브 진단 퀴즈까지 완벽 자동화" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <!-- Pkg 3 -->
+      <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:12px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.05);">
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 3 명칭</label>
+            <input type="text" id="cfgP3Title" class="form-input" value="Enterprise (맞춤형 마케팅 OS)" oninput="saveAndPreview()">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">플랜 3 가격 (원)</label>
+            <input type="number" id="cfgP3Price" class="form-input" value="3500000" oninput="saveAndPreview()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">플랜 3 요약 설명</label>
+          <input type="text" id="cfgP3Desc" class="form-input" value="팀 단위 명함 관리, 맞춤형 CRM 연동, VIP 대기자 바이럴 웨이트리스트 포함" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <!-- Section 3: 실적 지표 & 후기 -->
+      <div class="section-title"><i data-lucide="bar-chart-2" style="width:15px;height:15px;"></i> 3. 검증 지표 & 고객 추천사</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">지표 1 (숫자)</label>
+          <input type="text" id="cfgM1Num" class="form-input" value="+280%" oninput="saveAndPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">지표 1 (라벨)</label>
+          <input type="text" id="cfgM1Lbl" class="form-input" value="평균 리드 전환율 증가" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">지표 2 (숫자)</label>
+          <input type="text" id="cfgM2Num" class="form-input" value="-65%" oninput="saveAndPreview()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">지표 2 (라벨)</label>
+          <input type="text" id="cfgM2Lbl" class="form-input" value="상담 소요시간 단축" oninput="saveAndPreview()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">고객사 추천 후기 인용문</label>
+        <textarea id="cfgQuoteText" class="form-textarea" oninput="saveAndPreview()">기존에는 무거운 PDF 제안서를 보내도 읽었는지 알 수 없었는데, 스마트 제안서 링크로 보낸 후 클라이언트가 미팅 전에 바로 견적을 확인하고 승인 버튼을 눌러 당일 계약했습니다.</textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">후기 작성자 직책 / 회사</label>
+        <input type="text" id="cfgQuoteAuthor" class="form-input" value="주식회사 파트너스 대표이사" oninput="saveAndPreview()">
+      </div>
+    </div>
+
+    <!-- Sidebar Footer CTA -->
+    <div class="sidebar-footer">
+      <button class="btn-primary" onclick="generateShareLink()">
+        <i data-lucide="link" style="width:16px;height:16px;"></i> 제안서 공유 링크 생성 및 복사
+      </button>
+
+      <div class="btn-group-sub">
+        <button class="btn-sub" onclick="openLiveProposal()">
+          <i data-lucide="external-link" style="width:14px;height:14px;"></i> 새 탭에서 열기
+        </button>
+        <button class="btn-sub" onclick="copyKakaoMsg()">
+          <i data-lucide="message-circle" style="width:14px;height:14px;color:#fae100;"></i> 카톡 전송문구 복사
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Preview Area -->
+  <main class="preview-area">
+    <!-- View Mode Toggle -->
+    <div class="view-toggle-bar">
+      <button class="view-btn active" id="btnMobileView" onclick="setViewMode('mobile')">
+        <i data-lucide="smartphone" style="width:14px;height:14px;"></i> 모바일 뷰
+      </button>
+      <button class="view-btn" id="btnDesktopView" onclick="setViewMode('desktop')">
+        <i data-lucide="monitor" style="width:14px;height:14px;"></i> 데스크톱 뷰
+      </button>
+    </div>
+
+    <!-- Device Frame -->
+    <div class="device-mockup" id="mockupFrame">
+      <div class="device-notch"></div>
+      <iframe id="previewIframe" class="preview-iframe" src="proposal.html?preview=true"></iframe>
+    </div>
+
+    <!-- Generated Link Bar -->
+    <div class="link-pill">
+      <i data-lucide="globe" style="width:14px;height:14px;color:#38bdf8;"></i>
+      <span class="link-url" id="linkPreviewText">https://setupod.com/proposal.html</span>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    function getFormData() {
+      return {
+        companyName: document.getElementById('cfgCompany').value,
+        clientName: document.getElementById('cfgClient').value,
+        title: document.getElementById('cfgTitle').value,
+        desc: document.getElementById('cfgDesc').value,
+        kakaoUrl: document.getElementById('cfgKakao').value,
+        cardUrl: document.getElementById('cfgCard').value,
+        pkg1Title: document.getElementById('cfgP1Title').value,
+        pkg1Price: document.getElementById('cfgP1Price').value,
+        pkg1Desc: document.getElementById('cfgP1Desc').value,
+        pkg2Title: document.getElementById('cfgP2Title').value,
+        pkg2Price: document.getElementById('cfgP2Price').value,
+        pkg2Desc: document.getElementById('cfgP2Desc').value,
+        pkg3Title: document.getElementById('cfgP3Title').value,
+        pkg3Price: document.getElementById('cfgP3Price').value,
+        pkg3Desc: document.getElementById('cfgP3Desc').value,
+        metric1Num: document.getElementById('cfgM1Num').value,
+        metric1Lbl: document.getElementById('cfgM1Lbl').value,
+        metric2Num: document.getElementById('cfgM2Num').value,
+        metric2Lbl: document.getElementById('cfgM2Lbl').value,
+        metric3Num: "99.4%",
+        metric3Lbl: "프로젝트 만족도 & 추천율",
+        quoteText: document.getElementById('cfgQuoteText').value,
+        quoteAuthor: document.getElementById('cfgQuoteAuthor').value
+      };
+    }
+
+    function saveAndPreview() {
+      const data = getFormData();
+      localStorage.setItem('setupod_proposal_cfg', JSON.stringify(data));
+
+      const iframe = document.getElementById('previewIframe');
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage('reload_proposal', '*');
+      }
+    }
+
+    // Toggle Preview Mode
+    function setViewMode(mode) {
+      const mockup = document.getElementById('mockupFrame');
+      const btnM = document.getElementById('btnMobileView');
+      const btnD = document.getElementById('btnDesktopView');
+
+      if (mode === 'desktop') {
+        mockup.classList.add('desktop-mode');
+        btnD.classList.add('active');
+        btnM.classList.remove('active');
+      } else {
+        mockup.classList.remove('desktop-mode');
+        btnM.classList.add('active');
+        btnD.classList.remove('active');
+      }
+    }
+
+    // Generate Shareable URL
+    function generateShareUrl() {
+      const data = getFormData();
+      const jsonStr = JSON.stringify(data);
+      const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+      return `${window.location.origin}/proposal.html?data=${encoded}`;
+    }
+
+    function generateShareLink() {
+      saveAndPreview();
+      const url = generateShareUrl();
+      document.getElementById('linkPreviewText').textContent = url;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+          alert("🎉 스마트 제안서 링크가 클립보드에 복사되었습니다!\n\n카카오톡이나 이메일로 고객사에게 바로 전송하실 수 있습니다:\n" + url);
+        });
+      } else {
+        prompt("아래 제안서 링크를 복사하세요:", url);
+      }
+    }
+
+    function openLiveProposal() {
+      saveAndPreview();
+      const url = generateShareUrl();
+      window.open(url, '_blank');
+    }
+
+    function copyKakaoMsg() {
+      saveAndPreview();
+      const data = getFormData();
+      const url = generateShareUrl();
+      const msg = `[${data.companyName}] 맞춤형 비즈니스 제안서 안내\n\n` +
+        `To. ${data.clientName}\n\n` +
+        `안녕하세요! 귀사의 성장을 위해 1페이지로 요약된 맞춤형 인터랙티브 제안서 및 실시간 견적 링크를 전달드립니다.\n\n` +
+        `모바일에서 터치 한 번으로 상세 패키지와 예상 견적을 확인하시고 승인하실 수 있습니다.\n\n` +
+        `👉 스마트 제안서 확인하기:\n${url}\n\n` +
+        `궁금하신 점은 언제든 편하게 문의 주시면 감사하겠습니다.`;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(msg).then(() => {
+          alert("💬 카카오톡 전송용 제안서 메시지가 복사되었습니다!\n\n고객사 채팅방에 그대로 붙여넣기(Ctrl+V) 하세요.");
+        });
+      } else {
+        prompt("카카오톡 전송 문구 복사:", msg);
+      }
+    }
+
+    // Initial Trigger
+    saveAndPreview();
+  </script>
+</body>
+</html>
