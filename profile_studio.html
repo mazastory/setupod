@@ -26,6 +26,13 @@
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <!-- html2canvas for High-Res 1080x1350 PNG Export -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <!-- imgly Background Removal (ESM) -->
+  <script type="module">
+    import imglyRemoveBackground from 'https://esm.sh/@imgly/background-removal@1.4.3';
+    window.imglyRemoveBackground = imglyRemoveBackground;
+  </script>
 
   <style>
     :root {
@@ -815,19 +822,51 @@
       const file = e.target.files[0];
       if (!file) return;
 
+      document.getElementById('btnModel1').classList.remove('active');
+      document.getElementById('btnModel2').classList.remove('active');
+      studioState.activeModelId = 'user';
+      studioState.originalUserFile = file;
+
+      applyNukkiAndRender();
+    }
+
+    async function applyNukkiAndRender() {
+      if (!studioState.originalUserFile) return;
+      
+      const file = studioState.originalUserFile;
+      
+      if (studioState.nukkiEnabled) {
+        showToast("AI가 배경을 정밀 분리하고 있습니다... (최초 로딩 시 모델 다운로드로 수 초 소요)");
+        try {
+          if (!window.imglyRemoveBackground) {
+            throw new Error("Imgly SDK is not loaded yet.");
+          }
+          // Imgly background removal
+          const blob = await window.imglyRemoveBackground(file);
+          const url = URL.createObjectURL(blob);
+          const img = new Image();
+          img.onload = () => {
+            studioState.currentImg = img;
+            renderCanvas();
+            showToast("배경 분리 완료! 🎉");
+          };
+          img.src = url;
+        } catch (err) {
+          console.error("Nukki failed:", err);
+          showToast("배경 분리에 실패했습니다.");
+          loadOriginalUserImage(file);
+        }
+      } else {
+        loadOriginalUserImage(file);
+      }
+    }
+
+    function loadOriginalUserImage(file) {
       const reader = new FileReader();
       reader.onload = function(event) {
         const userImg = new Image();
         userImg.onload = function() {
-          document.getElementById('btnModel1').classList.remove('active');
-          document.getElementById('btnModel2').classList.remove('active');
-          studioState.activeModelId = 'user';
-
-          if (studioState.nukkiEnabled) {
-            studioState.currentImg = processAutoNukki(userImg);
-          } else {
-            studioState.currentImg = userImg;
-          }
+          studioState.currentImg = userImg;
           renderCanvas();
         };
         userImg.src = event.target.result;
@@ -835,47 +874,13 @@
       reader.readAsDataURL(file);
     }
 
-    // Client-side smart edge color distance keying for user uploads
-    function processAutoNukki(srcImg) {
-      const tempC = document.createElement('canvas');
-      tempC.width = srcImg.width;
-      tempC.height = srcImg.height;
-      const tCtx = tempC.getContext('2d');
-      tCtx.drawImage(srcImg, 0, 0);
-
-      try {
-        const imgData = tCtx.getImageData(0, 0, tempC.width, tempC.height);
-        const d = imgData.data;
-        const w = tempC.width;
-
-        // Sample background corner colors
-        const c1 = [d[0], d[1], d[2]];
-        const c2 = [d[(w-1)*4], d[(w-1)*4+1], d[(w-1)*4+2]];
-        const bgR = (c1[0] + c2[0]) / 2;
-        const bgG = (c1[1] + c2[1]) / 2;
-        const bgB = (c1[2] + c2[2]) / 2;
-
-        for (let i = 0; i < d.length; i += 4) {
-          const r = d[i], g = d[i+1], b = d[i+2];
-          const dist = Math.sqrt((r - bgR)**2 + (g - bgG)**2 + (b - bgB)**2);
-          if (dist < 32) {
-            d[i+3] = 0;
-          } else if (dist < 55) {
-            d[i+3] = Math.round(((dist - 32) / 23) * 255);
-          }
-        }
-        tCtx.putImageData(imgData, 0, 0);
-        const outImg = new Image();
-        outImg.src = tempC.toDataURL();
-        return outImg;
-      } catch (e) {
-        return srcImg;
-      }
-    }
-
     function toggleNukki(enabled) {
       studioState.nukkiEnabled = enabled;
-      renderCanvas();
+      if (studioState.activeModelId === 'user' && studioState.originalUserFile) {
+        applyNukkiAndRender();
+      } else {
+        renderCanvas();
+      }
     }
 
     function selectBg(theme) {
