@@ -12,9 +12,9 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>AI 비즈니스 프로필 리터처 & 스튜디오 | SETUPOD</title>
+  <title>AI 스마트스토어 상품 썸네일 누끼 스튜디오 | SETUPOD</title>
   <link rel="canonical" href="https://www.setupod.com/profile_studio">
-  <meta name="description" content="일상 셀카를 2026 테크 CEO 스타일로 리터칭하고 3D 명함에 딱 맞게 배경을 정제하는 AI 프로필 스튜디오">
+  <meta name="description" content="상품 사진을 올려 1초 만에 깔끔한 배경으로 분리하는 AI 썸네일 메이커">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
@@ -369,8 +369,7 @@
 
     .canvas-stage-wrapper {
       position: relative;
-      width: 375px;
-      height: 500px;
+      width: 400px; height: 400px;
       max-height: calc(100vh - 180px);
       border-radius: 28px;
       border: 8px solid #231c38;
@@ -636,7 +635,7 @@
     <a href="index.html" class="brand-logo-wrap">
       <img src="assets/setupod.gif" style="width:26px;height:26px;border-radius:8px;" alt="로고">
       <span class="brand-title">SETUPOD STUDIO</span>
-      <span class="nav-tag">AI 프로필 리터처</span>
+      <span class="nav-tag">AI 상품 누끼 툴</span>
     </a>
     <a href="maker.html" style="color:rgba(255,255,255,0.7); text-decoration:none; font-size:12.5px; display:flex; align-items:center; gap:5px;">
       <i data-lucide="credit-card" style="width:14px;height:14px;color:#38bdf8;"></i> 3D 명함 스튜디오
@@ -649,11 +648,11 @@
     <aside class="controls-panel">
       <div class="panel-scroll">
         <!-- 1. Upload & Preset Models -->
-        <div class="section-label"><i data-lucide="user-check" style="width:15px;height:15px;"></i> 1. 인물 선택 & 내 사진 업로드</div>
+        <div class="section-label"><i data-lucide="user-check" style="width:15px;height:15px;"></i> 1. 샘플 선택 & 내 사진 업로드</div>
         
         <div class="sample-models-row">
-          <button class="sample-btn active" id="btnModel1" onclick="selectModel(1)"><i data-lucide="user" style="width:14px;height:14px;"></i> 남성 CEO</button>
-          <button class="sample-btn" id="btnModel2" onclick="selectModel(2)"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> 여성 디렉터</button>
+          <button class="sample-btn active" id="btnModel1" onclick="selectModel(1)"><i data-lucide="user" style="width:14px;height:14px;"></i> 향수 (오브제)</button>
+          <button class="sample-btn" id="btnModel2" onclick="selectModel(2)"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> 스니커즈</button>
         </div>
 
         <div class="upload-dropzone" style="margin-top:10px;" onclick="document.getElementById('fileInput').click()">
@@ -670,7 +669,7 @@
         <div class="nukki-toggle-box">
           <div>
             <div style="font-size:13px; font-weight:800;">배경 자동 분리 (누끼)</div>
-            <div style="font-size:11px; color:var(--text-sub);">인물 실루엣만 정밀 추출하여 합성</div>
+            <div style="font-size:11px; color:var(--text-sub);">상품의 외곽선만 정밀 추출하여 합성</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="chkNukki" checked onchange="toggleNukki(this.checked)">
@@ -679,50 +678,34 @@
         </div>
 
         <!-- 3. Background Themes -->
-        <div class="section-label"><i data-lucide="palette" style="width:15px;height:15px;"></i> 3. 2026 테크 CEO 스튜디오 배경</div>
+        <div class="section-label"><i data-lucide="palette" style="width:15px;height:15px;"></i> 3. 상품 전용 스튜디오 배경</div>
         <div class="bg-options-grid">
           <!-- BG 1 -->
-          <div class="bg-card selected" onclick="selectBg('tech-office')" id="bgOpt1">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 30%, #3b1d6e, #0c0817);"></div>
-            <div class="bg-card-title">Tech Dark Office</div>
-            <div class="bg-card-desc">바이올렛 앰비언트 오피스</div>
+          <div class="bg-card selected" onclick="selectBg('pure-white')" id="bgOpt1">
+            <div class="bg-preview-swatch" style="background: #ffffff; border: 1px solid #ddd;"></div>
+            <div class="bg-card-title">Pure White</div>
+            <div class="bg-card-desc">순백색 (스마트스토어)</div>
           </div>
 
           <!-- BG 2 -->
-          <div class="bg-card" onclick="selectBg('cyber-neon')" id="bgOpt2">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 60% 40%, #0284c7, #03121f);"></div>
-            <div class="bg-card-title">Cybernetic Neon</div>
-            <div class="bg-card-desc">시안 & 블루 림라이트</div>
+          <div class="bg-card" onclick="selectBg('transparent')" id="bgOpt2">
+            <div class="bg-preview-swatch" style="background: repeating-conic-gradient(#333 0% 25%, #444 0% 50%) 50% / 10px 10px;"></div>
+            <div class="bg-card-title">Transparent (PNG)</div>
+            <div class="bg-card-desc">배경 투명화</div>
           </div>
 
           <!-- BG 3 -->
-          <div class="bg-card" onclick="selectBg('executive-grey')" id="bgOpt3">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 40%, #3f3f46, #09090b);"></div>
-            <div class="bg-card-title">Executive Grey</div>
-            <div class="bg-card-desc">B2B 전문가 흑백 톤</div>
+          <div class="bg-card" onclick="selectBg('soft-gray')" id="bgOpt3">
+            <div class="bg-preview-swatch" style="background: #f1f5f9;"></div>
+            <div class="bg-card-title">Soft Gray</div>
+            <div class="bg-card-desc">따뜻한 웜 그레이</div>
           </div>
 
           <!-- BG 4 -->
-          <div class="bg-card" onclick="selectBg('royal-amber')" id="bgOpt4">
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 30%, #78350f, #0c0501);"></div>
-            <div class="bg-card-title">Royal Amber</div>
-            <div class="bg-card-desc">골드 림라이트 이그제큐티브</div>
-          </div>
-
-          <!-- PRO BG 1 -->
-          <div class="bg-card" onclick="selectBg('silicon-valley', true)">
-            <div class="pro-badge">PRO</div>
-            <div class="bg-preview-swatch" style="background: linear-gradient(135deg, #f8fafc, #cbd5e1);"></div>
-            <div class="bg-card-title" style="color:#f59e0b;">Silicon HQ</div>
-            <div class="bg-card-desc">프리미엄 퓨어 화이트</div>
-          </div>
-
-          <!-- PRO BG 2 -->
-          <div class="bg-card" onclick="selectBg('luxury-lounge', true)">
-            <div class="pro-badge">PRO</div>
-            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 30%, #4c1d95, #1e1b4b);"></div>
-            <div class="bg-card-title" style="color:#f59e0b;">VIP Lounge</div>
-            <div class="bg-card-desc">깊고 화려한 딥 퍼플</div>
+          <div class="bg-card" onclick="selectBg('luxury-gradient')" id="bgOpt4">
+            <div class="bg-preview-swatch" style="background: radial-gradient(circle at 50% 50%, #fef3c7, #d97706);"></div>
+            <div class="bg-card-title">Luxury Gold</div>
+            <div class="bg-card-desc">명품/쥬얼리 톤</div>
           </div>
         </div>
 
@@ -747,37 +730,13 @@
 
         <div class="filter-group">
           <div class="filter-label-row">
-            <span>인물 선명도 (Clarity)</span>
+            <span>상품 선명도 (Clarity)</span>
             <span id="valClarity">110%</span>
           </div>
           <input type="range" class="filter-slider" id="sliderClarity" min="90" max="140" value="110" oninput="updateSliders()">
         </div>
 
-        <!-- 5. 3D 홀로그램 & GIF 모션 연출 -->
-        <div class="section-label"><i data-lucide="zap" style="width:15px;height:15px;color:#38bdf8;"></i> 5. 3D 명함 홀로그램 모션 (GIF 연출)</div>
-        <div style="font-size:11.5px;color:var(--text-sub);margin-bottom:8px;">명함에 장착 시 정지된 사진이 아닌 살아 숨쉬는 GIF 홀로그램으로 연출됩니다.</div>
-        <div class="motion-grid">
-          <button class="btn-motion-opt active" id="btnMotionPulse" onclick="selectMotion('pulse')">
-            <div style="font-size:13px;font-weight:800;color:#c084fc;">🌟 홀로그램 펄스</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">네온 오라 숨쉬기</div>
-          </button>
-          <button class="btn-motion-opt" id="btnMotionShimmer" onclick="selectMotion('shimmer')">
-            <div style="font-size:13px;font-weight:800;color:#38bdf8;">⚡️ 사이버 시머</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">사선 광선 스윕</div>
-          </button>
-          <button class="btn-motion-opt" id="btnMotionFloat" onclick="selectMotion('float')">
-            <div style="font-size:13px;font-weight:800;color:#a78bfa;">🌀 무중력 3D 부유</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">부드러운 상하 유영</div>
-          </button>
-          <button class="btn-motion-opt" id="btnMotionGold" onclick="selectMotion('gold')">
-            <div style="font-size:13px;font-weight:800;color:#fbbf24;">💎 골드 럭셔리</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">샴페인 골드 펄스</div>
-          </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Right Canvas Stage -->
+        <!-- Right Canvas Stage -->
     <main class="preview-canvas-area">
       <!-- View Mode Switch -->
       <div class="studio-view-bar">
@@ -791,37 +750,8 @@
 
       <!-- Studio Mode Canvas -->
       <div class="canvas-stage-wrapper" id="studioStageWrapper">
-        <canvas id="stageCanvas" width="720" height="960"></canvas>
+        <canvas id="stageCanvas" width="800" height="800"></canvas>
         <div class="watermark-brand">SETUPOD RETOUCH</div>
-      </div>
-
-      <!-- 3D Card Mockup Preview Mode -->
-      <div class="card-mockup-stage" id="cardMockupStage">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:900;letter-spacing:0.25em;color:rgba(255,255,255,0.5);">ALL-IN-ONE 3D ASSET</span>
-          <span style="font-size:10px;background:rgba(139,92,246,0.25);color:#c4b5fd;padding:2px 8px;border-radius:6px;font-weight:800;">LIVE PREVIEW</span>
-        </div>
-
-        <div style="text-align:center;margin-top:10px;">
-          <div class="card-mockup-logo-box fx-preview-pulse" id="cardMockupLogoBox">
-            <img id="cardMockupImg" src="assets/model_ceo_male.webp" alt="Card Avatar">
-          </div>
-          <div style="font-family:'Pretendard',sans-serif;font-size:17px;font-weight:900;color:#fff;margin-top:12px;">SETUPOD CEO</div>
-          <div style="font-size:11.5px;color:#c084fc;font-weight:700;margin-top:2px;">차세대 올인원 3D 명함 & 비즈니스 자산</div>
-        </div>
-
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;">
-              <i data-lucide="zap" style="width:16px;height:16px;color:#c084fc;"></i>
-            </div>
-            <div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.5);">적용된 모션 효과</div>
-              <div style="font-size:12.5px;font-weight:800;color:#fff;" id="cardMockupMotionLabel">🌟 홀로그램 펄스 (GIF)</div>
-            </div>
-          </div>
-          <div style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981;"></div>
-        </div>
       </div>
 
       <!-- Action Buttons -->
@@ -830,10 +760,7 @@
           <i data-lucide="download" style="width:16px;height:16px;"></i>
           <span>고화질 다운로드</span>
         </button>
-        <button class="btn-action-secondary" onclick="applyToCardMaker()">
-          <i data-lucide="credit-card" style="width:16px;height:16px;color:#38bdf8;"></i>
-          <span>3D 명함 만들기</span>
-        </button>
+        
       </div>
 
       <!-- Action Button for Multilink Integration -->
@@ -867,11 +794,11 @@
   <script>
     lucide.createIcons();
 
-    const canvas = document.getElementById('stageCanvas');
+    const canvas = document.getElementById('stageCanvas'); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
     const ctx = canvas.getContext('2d');
 
     const studioState = {
-      bgTheme: 'tech-office',
+      bgTheme: 'pure-white',
       rimGlow: 65,
       contrast: 115,
       clarity: 110,
@@ -989,7 +916,7 @@
         return;
       }
       studioState.bgTheme = themeId;
-      ['tech-office', 'cyber-neon', 'executive-grey', 'royal-amber'].forEach((t, i) => {
+      ['pure-white', 'transparent', 'soft-gray', 'luxury-gradient'].forEach((t, i) => {
         const el = document.getElementById('bgOpt' + (i + 1));
         if (el) el.classList.toggle('selected', t === themeId);
       });
@@ -1260,7 +1187,7 @@
         watermark.style.display = 'block';
         
         // Convert to dataURL
-        const dataUrl = canvasOutput.toDataURL("image/jpeg", 0.9);
+        const dataUrl = canvasOutput.toDataURL("image/png", 0.9);
         
         // Save to localStorage so link.html can pick it up
         localStorage.setItem('setupod_studio_profile', dataUrl);

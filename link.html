@@ -1078,6 +1078,11 @@
             <i data-lucide="camera" style="width:20px;height:20px;color:#ffffff;"></i>
           </div>
         </div>
+        
+        <button class="btn-edit-profile" style="margin-top: 12px; background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.4); color: #c4b5fd;" onclick="window.location.href='profile_studio.html?source=link'">
+          <i data-lucide="sparkles" style="width:14px;height:14px;color:#f59e0b;"></i>
+          <span>AI 스튜디오에서 프로필 생성하기</span>
+        </button>
 
         <h2 class="user-name" id="userNameDisplay">Alex Rivera</h2>
         <div class="user-handle" id="userHandleDisplay">@setupod · 총괄 디렉터</div>
@@ -1489,6 +1494,7 @@
 
   <script>
     // 세럽팟 초기 기본 컴포넌트 데이터 (로컬스토리지 영구 동기화)
+    
     const defaultComponents = [
       {
         id: 101,
