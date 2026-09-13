@@ -1558,12 +1558,16 @@
     
     // 기존 상태 불러오기
 
-    let componentsData = JSON.parse(localStorage.getItem('setupod_components')) || defaultComponents;
-    let collectedLeads = JSON.parse(localStorage.getItem('setupod_leads')) || [
+    let componentsData = defaultComponents;
+    try { componentsData = JSON.parse(localStorage.getItem('setupod_components')) || defaultComponents; } catch(e) {}
+
+    let collectedLeads = [
       { phone: "010-5555-0100", date: "2026-09-10 14:20" },
       { phone: "010-4829-1928", date: "2026-09-10 16:45" },
       { phone: "010-9941-3320", date: "2026-09-10 18:12" }
     ];
+    try { collectedLeads = JSON.parse(localStorage.getItem('setupod_leads')) || collectedLeads; } catch(e) {}
+
     let currentTheme = localStorage.getItem('setupod_theme') || 'violet';
     // 🛡️ 플랫폼 핵심 예약어 블랙리스트 (일반 사용자 선점 절대 불가)
     const RESERVED_SLUGS = new Set([
@@ -1572,19 +1576,20 @@
       // 2. 시스템 및 보안 인프라
       "admin", "root", "api", "auth", "login", "signup", "support", "help", "billing", "pay", "dashboard", "mail", "security",
       // 3. 자사 브랜드 및 플랫폼 그룹
-      "toomus", "toombase", "setupod", "maza", "mazastudio", "official", "team", "corp", "global", "hq",
+      "toomus", "toombase", "mazastudio", "team", "corp", "global", "hq",
       // 4. 서브도메인 기능명
       "link", "card", "talk", "deck", "maker", "studio", "blog", "store", "app", "web", "site", "dev",
       // 5. 프리미엄 VIP 단어
       "vip", "pro", "master", "ai", "kr", "us", "biz", "invest", "partner", "super"
     ]);
 
-    let currentProfile = JSON.parse(localStorage.getItem('setupod_profile')) || {
+    let currentProfile = {
       slug: "official",
       name: "SETUPOD Official",
       handle: "@setupod · 공식 팟",
       bio: "당신의 모든 비즈니스를 3D 명함과 하나의 링크에 담다 | 올인원 비즈니스 자산 플랫폼"
     };
+    try { currentProfile = JSON.parse(localStorage.getItem('setupod_profile')) || currentProfile; } catch(e) {}
 
     let currentUploadTarget = null;
     let editingLinkId = null;
