@@ -1494,7 +1494,9 @@
 
   <script>
     // 세럽팟 초기 기본 컴포넌트 데이터 (로컬스토리지 영구 동기화)
-    
+    const savedCardData = JSON.parse(localStorage.getItem('setupod_card_data')) || null;
+    const myCardId = savedCardData ? savedCardData.id : 'setupod';
+
     const defaultComponents = [
       {
         id: 101,
@@ -1561,10 +1563,7 @@
       }
     ];
 
-    
-    const savedCardData = JSON.parse(localStorage.getItem('setupod_card_data')) || null;
-    const myCardId = savedCardData ? savedCardData.id : 'setupod';
-    
+    // 기존 상태 불러오기
     // 기존 상태 불러오기
 
     let componentsData = defaultComponents;
