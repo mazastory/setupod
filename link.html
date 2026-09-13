@@ -14,6 +14,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD Studio | 멀티링크 관리자</title>
+  <link rel="canonical" href="https://www.setupod.com/link">
   <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- OpenGraph -->
@@ -715,7 +716,7 @@
       color: #ffffff;
     }
 
-    /* 컴포넌트 추가 선택기 (링크믹스 완벽 벤치마킹 + 셋업팟 툴킷) */
+    /* 컴포넌트 추가 선택기 (링크믹스 완벽 벤치마킹 + 세럽팟 툴킷) */
     .component-picker-section {
       display: flex;
       flex-direction: column;
@@ -1021,7 +1022,7 @@
         <i data-lucide="cloud" style="width:14px;height:14px;color:#38bdf8;"></i>
         <span id="cloudSyncText">클라우드 영구 저장</span>
       </button>
-      <a href="card.html?id=setupod" target="_blank" class="btn-header-view">
+      <a href="#" onclick="window.open('card.html?id=' + (JSON.parse(localStorage.getItem('setupod_card_data'))?.id || 'setupod'), '_blank'); return false;" class="btn-header-view">
         <i data-lucide="rotate-3d" style="width:14px;height:14px;color:#ffd978;"></i>
         <span>3D 명함 보기</span>
       </a>
@@ -1034,15 +1035,15 @@
     <!-- 내 주소 바 (링크믹스 시그니처) -->
     <div class="url-share-bar">
       <div class="url-info">
-        <span class="url-label">내 셋업팟 주소</span>
+        <span class="url-label">내 세럽팟 주소</span>
         <span class="url-text" id="myPageUrl">link.setupod.com/official</span>
       </div>
       <div class="url-btns">
         <button class="btn-icon-action" onclick="copyUrl()" title="주소 복사">
-          <i data-lucide="copy" style="width:15px;height:15px;"></i>
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         </button>
-        <button class="btn-icon-action" onclick="nativeShare()" title="공유하기">
-          <i data-lucide="share-2" style="width:15px;height:15px;"></i>
+        <button class="btn-icon-action" onclick="customShare()" title="공유하기">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
         </button>
       </div>
     </div>
@@ -1059,6 +1060,10 @@
           <button class="btn-cover-edit" onclick="openThemePicker()">
             <i data-lucide="palette" style="width:12px;height:12px;"></i>
             <span>배경색 바꾸기</span>
+          </button>
+          <button class="btn-cover-edit" onclick="window.open('https://open.kakao.com/o/sySmTxKi', '_blank')" style="background:rgba(244,114,182,0.15);border-color:rgba(244,114,182,0.4);color:#fbcfe8;">
+            <i data-lucide="zap" style="width:12px;height:12px;color:#f472b6;"></i>
+            <span>GIF 아바타 맞춤 제작 의뢰</span>
           </button>
         </div>
       </div>
@@ -1083,7 +1088,7 @@
     </div>
 
     <!-- 🌟 SETUPOD 시그니처: 3D 디지털 명함 연동 브릿지 배너 -->
-    <a href="card.html?id=setupod" target="_blank" class="card-bridge-banner">
+    <a href="#" onclick="window.open('card.html?id=' + (JSON.parse(localStorage.getItem('setupod_card_data'))?.id || 'setupod'), '_blank'); return false;" class="card-bridge-banner">
       <div class="bridge-left">
         <div class="bridge-icon">
           <i data-lucide="rotate-3d" style="width:20px;height:20px;"></i>
@@ -1134,20 +1139,20 @@
   <!-- 숨겨진 파일 인풋 -->
   <input type="file" id="fileUploadInput" accept="image/*" style="display:none" onchange="handleFileChange(event)">
 
-  <!-- 🌟 [핵심] 링크믹스 스타일 + 셋업팟 독점 툴킷 '컴포넌트 추가 선택' 모달 -->
-  <div class="modal-overlay" id="componentPickerModal">
+  <!-- 🌟 [핵심] 링크믹스 스타일 + 세럽팟 독점 툴킷 '컴포넌트 추가 선택' 모달 -->
+  <div class="modal-overlay" id="componentPickerModal" onclick="if(event.target === this) closeComponentPicker()">
     <div class="modal-card">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div>
           <div class="modal-title" style="font-size:18px;">+ 컴포넌트 추가</div>
-          <div style="font-size:11.5px;color:rgba(255,255,255,0.5);margin-top:2px;">링크믹스에는 없는 셋업팟만의 비즈니스 도구를 배치하세요</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,0.5);margin-top:2px;">링크믹스에는 없는 세럽팟만의 비즈니스 도구를 배치하세요</div>
         </div>
         <button onclick="closeComponentPicker()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
           <i data-lucide="x" style="width:20px;height:20px;"></i>
         </button>
       </div>
 
-      <!-- 1. 셋업팟 독점 네이티브 툴킷 (킬러 기능) -->
+      <!-- 1. 세럽팟 독점 네이티브 툴킷 (킬러 기능) -->
       <div class="component-picker-section">
         <div class="component-picker-cat-title">⚡ SETUPOD 독점 툴킷 (이탈 없는 비즈니스)</div>
         <div class="component-picker-grid">
@@ -1228,7 +1233,7 @@
   </div>
 
   <!-- 링크 추가/수정 모달 -->
-  <div class="modal-overlay" id="linkModal">
+  <div class="modal-overlay" id="linkModal" onclick="if(event.target === this) closeEditLinkModal()">
     <div class="modal-card">
       <div class="modal-title" id="modalLinkTitle">링크 추가하기</div>
       
@@ -1255,7 +1260,7 @@
   </div>
 
   <!-- 프로필 정보 수정 모달 -->
-  <div class="modal-overlay" id="profileModal">
+  <div class="modal-overlay" id="profileModal" onclick="if(event.target === this) closeProfileModal()">
     <div class="modal-card">
       <div class="modal-title">프로필 정보 수정</div>
       
@@ -1291,12 +1296,12 @@
   </div>
 
   <!-- 🎨 테마 변경 선택기 모달 -->
-  <div class="modal-overlay" id="themePickerModal">
+  <div class="modal-overlay" id="themePickerModal" onclick="if(event.target === this) closeThemePicker()">
     <div class="modal-card">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div class="modal-title">🎨 테마 & 배경 스타일 선택</div>
         <button onclick="closeThemePicker()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
-          <i data-lucide="x" style="width:20px;height:20px;"></i>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
       <p style="font-size:12px;color:rgba(255,255,255,0.6);">브랜드 무드에 맞는 하이엔드 컬러 팔레트를 클릭 한 번으로 적용하세요.</p>
@@ -1330,7 +1335,7 @@
   </div>
 
   <!-- 🧮 스마트 견적 & ROI 계산기 모달 -->
-  <div class="modal-overlay" id="calcModal">
+  <div class="modal-overlay" id="calcModal" onclick="if(event.target === this) closeCalcModal()">
     <div class="modal-card">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div class="modal-title">🧮 비즈니스 스마트 견적기</div>
@@ -1388,7 +1393,7 @@
   </div>
 
   <!-- 📊 통계 & CRM 고객 DB 관리 모달 -->
-  <div class="modal-overlay" id="analyticsModal">
+  <div class="modal-overlay" id="analyticsModal" onclick="if(event.target === this) closeAnalyticsModal()">
     <div class="modal-card" style="max-width:480px;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div class="modal-title">📊 실시간 분석 & 고객 DB (CRM)</div>
@@ -1445,12 +1450,12 @@
   </div>
 
   <!-- 🔐 회원가입 & 간편 로그인 모달 (3초 카카오/구글) -->
-  <div class="modal-overlay" id="authModal">
+  <div class="modal-overlay" id="authModal" onclick="if(event.target === this) closeAuthModal()">
     <div class="modal-card" style="max-width:380px;text-align:center;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div class="modal-title" style="font-size:18px;">✨ 3초 간편 시작하기</div>
         <button onclick="closeAuthModal()" style="background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;padding:4px;">
-          <i data-lucide="x" style="width:20px;height:20px;"></i>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
 
@@ -1480,7 +1485,7 @@
   <div class="toast" id="toastMsg">알림</div>
 
   <script>
-    // 셋업팟 초기 기본 컴포넌트 데이터 (로컬스토리지 영구 동기화)
+    // 세럽팟 초기 기본 컴포넌트 데이터 (로컬스토리지 영구 동기화)
     const defaultComponents = [
       {
         id: 101,
@@ -1488,7 +1493,7 @@
         title: "공식 3D 인터랙티브 디지털 명함",
         desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
         badge: "시그니처 툴",
-        url: "card.html?id=setupod"
+        url: "card.html?id=" + myCardId
       },
       {
         id: 102,
@@ -1518,7 +1523,7 @@
         type: "link_standard",
         title: "카카오톡 1:1 비즈니스 채널",
         desc: "궁금한 점은 카카오톡 채널로 실시간 문의하세요",
-        url: "https://open.kakao.com",
+        url: "https://open.kakao.com/o/sySmTxKi",
         iconColor: "#ffd978"
       },
       {
@@ -1543,11 +1548,16 @@
         title: "고객센터 및 제휴 문의",
         sub: "실시간 상담 채널",
         img: "assets/cover.jpg",
-        url: "https://open.kakao.com"
+        url: "https://open.kakao.com/o/sySmTxKi"
       }
     ];
 
-    // 상태 불러오기
+    
+    const savedCardData = JSON.parse(localStorage.getItem('setupod_card_data')) || null;
+    const myCardId = savedCardData ? savedCardData.id : 'setupod';
+    
+    // 기존 상태 불러오기
+
     let componentsData = JSON.parse(localStorage.getItem('setupod_components')) || defaultComponents;
     let collectedLeads = JSON.parse(localStorage.getItem('setupod_leads')) || [
       { phone: "010-5555-0100", date: "2026-09-10 14:20" },
@@ -1685,7 +1695,7 @@
               <div class="tool-title">${item.title}</div>
               <div class="tool-desc">${item.desc}</div>
             </div>
-            <button class="btn-tool-launch" onclick="launchInAppTool('3D 명함', 'card.html?id=setupod')">
+            <button class="btn-tool-launch" onclick="launchInAppTool('3D 명함', 'card.html?id=' + myCardId)">
               <i data-lucide="rotate-3d" style="width:16px;height:16px;"></i>
               <span>3D 명함 열기 & 연락처 저장하기</span>
             </button>
@@ -1931,7 +1941,7 @@
           type: "card_3d",
           title: "공식 3D 인터랙티브 디지털 명함",
           desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
-          url: "card.html?id=setupod"
+          url: "card.html?id=" + myCardId
         });
         showToast("3D 명함이 추가되었습니다!");
       } else if (type === 'lead_form') {
@@ -2176,7 +2186,7 @@
 
     function applyQuoteConsult() {
       closeCalcModal();
-      window.open("https://open.kakao.com", "_blank");
+      window.open("https://open.kakao.com/o/sySmTxKi", "_blank");
       showToast("카카오톡 상담창으로 연결합니다.");
     }
 
@@ -2241,6 +2251,17 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
+        if (file.type === 'image/gif') {
+          if (currentUploadTarget === 'avatar') {
+            document.getElementById('avatarImgDisplay').src = e.target.result;
+            showToast("프로필 아바타가 변경되었습니다. (GIF 지원)");
+          } else if (currentUploadTarget === 'cover') {
+            document.getElementById('coverImgDisplay').src = e.target.result;
+            showToast("커버 배경사진이 변경되었습니다. (GIF 지원)");
+          }
+          return;
+        }
+
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
@@ -2281,19 +2302,15 @@
 
     function copyUrl() {
       navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast("내 셋업팟 주소가 복사되었습니다!");
+        showToast("내 세럽팟 주소가 복사되었습니다!");
       });
     }
 
-    function nativeShare() {
-      if (navigator.share) {
-        navigator.share({
-          title: "SETUPOD 공식 멀티링크",
-          url: window.location.href
-        }).catch(() => {});
-      } else {
-        copyUrl();
-      }
+    function customShare() {
+      // 데스크탑 OS 기본 공유창이 유저에게 혼란을 주므로, 클립보드 복사로 통일
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast("내 세럽팟 주소가 클립보드에 복사되었습니다!");
+      });
     }
 
     function closeAuthModal() {
@@ -2392,5 +2409,38 @@
       <span>나만의 3D 명함 & 멀티링크 무료로 만들기 <strong>SETUPOD</strong></span>
     </a>
   </div>
+
+<!-- PRO Upsell Floating Banner -->
+<style>
+  .floating-upsell-cta {
+    position: fixed; bottom: 24px; right: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 14px 20px;
+    background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 20px rgba(168,85,247,0.15);
+    z-index: 9999; text-decoration: none; transition: all 0.3s;
+  }
+  .floating-upsell-cta:hover {
+    transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.7), 0 0 30px rgba(168,85,247,0.4);
+    border-color: rgba(168, 85, 247, 0.5);
+  }
+  .floating-cta-icon {
+    width: 40px; height: 40px; border-radius: 10px; background: rgba(168, 85, 247, 0.2);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .floating-cta-text { display: flex; flex-direction: column; gap: 4px; }
+  .floating-cta-title { color: #fff; font-size: 14px; font-weight: 800; font-family: 'Pretendard', sans-serif; }
+  .floating-cta-desc { color: #c084fc; font-size: 12px; font-weight: 600; font-family: 'Pretendard', sans-serif; }
+  @media (max-width: 768px) {
+    .floating-upsell-cta { bottom: 16px; right: 16px; left: 16px; justify-content: center; }
+  }
+</style>
+<a href="planner.html" class="floating-upsell-cta">
+  <div class="floating-cta-icon">🚀</div>
+  <div class="floating-cta-text">
+    <span class="floating-cta-title">비즈니스 셋업이 끝났다면?</span>
+    <span class="floating-cta-desc">2026 PRO 플래너로 압도적 실행 시작하기 ➔</span>
+  </div>
+</a>
 </body>
 </html>

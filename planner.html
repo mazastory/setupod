@@ -13,6 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>2026 프로젝트 & 라이프 플래너 | SETUPOD</title>
+  <link rel="canonical" href="https://www.setupod.com/planner">
   <meta name="description" content="1년의 리듬을 설계하는 비즈니스 OS. 연간 Life Compass, 365일 비즈니스 스트릭 잔디밭, 분기 Big Rocks, 뽀모도로 몰입 타이머 & 앰비언트 사운드, 2026 인터랙티브 캘린더.">
 
   <!-- OpenGraph -->
@@ -20,7 +21,7 @@
   <meta property="og:site_name" content="SETUPOD PLANNER">
   <meta property="og:title" content="2026 프로젝트 & 라이프 플래너 | SETUPOD">
   <meta property="og:description" content="목표 시스템 + 분기 프로젝트 관리 + 뽀모도로 사운드 + 365일 잔디밭. 스마트폰/PC 실시간 동기화.">
-  <meta property="og:image" content="assets/business_card_mockup.png">
+  <meta property="og:image" content="assets/setupod_symbol.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
@@ -1429,7 +1430,7 @@
         <i data-lucide="calendar" style="width:16px;height:16px;"></i>
         <span>2026 캘린더 & 데일리</span>
       </button>
-      <button class="view-tab" id="tabVaultBtn" onclick="switchView('vault')" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.06);">
+      <button class="view-tab" id="tabVaultBtn" onclick="if(window.ProModal) ProModal.show();" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.06);">
         <i data-lucide="gem" style="width:16px;height:16px;color:#f59e0b;"></i>
         <span style="color:#fbbf24;font-weight:800;">💎 시크릿 볼트</span>
       </button>
@@ -1456,7 +1457,7 @@
         <i data-lucide="upload" style="width:16px;height:16px;"></i>
       </button>
       <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importPlannerData(event)">
-      <button class="btn-action-icon" onclick="window.print()" title="인쇄 및 PDF 저장">
+      <button class="btn-action-icon" onclick="if(window.ProModal) ProModal.show();" title="인쇄 및 PDF 저장 (PRO 전용)">
         <i data-lucide="printer" style="width:16px;height:16px;"></i>
       </button>
       <a href="memopod.html" class="btn-action-icon" title="MemoPod AI 스마트 메모 & 지식 그래프" style="width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:700;color:#818cf8;border-color:rgba(99,102,241,0.3);text-decoration:none;">
@@ -3253,5 +3254,6 @@
       lucide.createIcons();
     });
   </script>
+  <script src="js/pro_modal.js"></script>
 </body>
 </html>

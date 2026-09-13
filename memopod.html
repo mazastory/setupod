@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MemoPod (메모포드) — AI 지식 그래프 & 스마트 메모 | Setupod</title>
+
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
   <meta name="description" content="흩어진 생각, 링크, 노트를 AI가 자동 요약·태깅하고 상호 연결된 지식 그래프로 시각화하는 1인 창업가를 위한 스마트 메모 포드.">
   <link rel="canonical" href="https://setupod.com/memopod">
 
@@ -12,7 +24,7 @@
   <meta property="og:description" content="비정형 생각을 1초 만에 시각적 지식 네트워크로. AI 자동 요약 & 스마트 태깅 & 인터랙티브 지식 그래프.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://setupod.com/memopod">
-  <meta property="og:image" content="https://setupod.com/assets/og_memopod.png">
+  <meta property="og:image" content="assets/setupod.gif">
 
   <!-- Fonts & Icons -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -244,12 +256,12 @@
 
     .capture-input-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       background: rgba(22, 27, 38, 0.9);
       border: 1px solid var(--border-subtle);
       border-radius: 14px;
-      padding: 6px 12px 6px 16px;
+      padding: 12px 12px 12px 16px;
       transition: all 0.25s ease;
     }
 
@@ -277,6 +289,12 @@
       color: #fff;
       font-size: 14px;
       outline: none;
+      resize: vertical;
+      min-height: 48px;
+      max-height: 400px;
+      font-family: inherit;
+      line-height: 1.5;
+      padding-top: 4px;
     }
 
     .capture-input::placeholder {
@@ -817,13 +835,12 @@
           <option value="note">📝 빠른 메모</option>
           <option value="tech">🛠️ 기술/프롬프트</option>
         </select>
-        <input 
-          type="text" 
+        <textarea 
           id="rawInput" 
           class="capture-input" 
-          placeholder="아이디어, 아티클 링크, 회고, 영감을 자유롭게 입력하세요... (Enter 또는 AI 자동 요약)"
-          onkeypress="if(event.key==='Enter') handleAddContent()"
-        >
+          placeholder="아이디어, 아티클 링크, 긴 메모, 회고 등을 자유롭게 작성하세요... (Shift+Enter로 줄바꿈, Enter로 저장)"
+          onkeypress="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); handleAddContent(); }"
+        ></textarea>
         <button class="btn-ai-process" onclick="handleAddContent()">
           <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
           <span>AI 구조화</span>
@@ -1122,7 +1139,7 @@
         'ai': ['ai', 'gpt', '프롬프트', '인공지능', 'llm', '클로드'],
         'saas': ['saas', '구독', '앱', '서비스', '소프트웨어'],
         'planner': ['플래너', '캘린더', '일정', '계획', '실행', '투두', '할일'],
-        'setupod': ['setupod', '셋업포드', '도구', '스튜디오'],
+        'setupod': ['setupod', '세럽팟', '도구', '스튜디오'],
         'knowledge': ['지식', '메모', '옵시디언', '정리', '노트', '생각'],
         'growth': ['성장', '매출', '스케일', '전환율']
       };
@@ -1158,6 +1175,11 @@
 
     /* ── 새 컨텐츠 추가 ── */
     function handleAddContent() {
+      if (items.length >= 20 && window.ProModal) {
+        window.ProModal.show();
+        return;
+      }
+      
       const input = document.getElementById('rawInput');
       const rawText = input.value.trim();
       const type = document.getElementById('inputTypeSelect').value;
@@ -1710,5 +1732,6 @@
       lucide.createIcons();
     });
   </script>
+  <script src="js/pro_modal.js"></script>
 </body>
 </html>

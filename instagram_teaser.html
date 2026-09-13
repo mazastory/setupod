@@ -14,6 +14,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD REELS STUDIO | 도메인 자산화 10부작 3D 숏폼 & 릴스 티저</title>
+  <link rel="canonical" href="https://www.setupod.com/instagram_teaser">
   <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- Google Fonts & Pretendard -->
@@ -1108,5 +1109,38 @@
     document.addEventListener('DOMContentLoaded', updateReelsLive);
     updateReelsLive();
   </script>
+
+<!-- PRO Upsell Floating Banner -->
+<style>
+  .floating-upsell-cta {
+    position: fixed; bottom: 24px; right: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 14px 20px;
+    background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 20px rgba(168,85,247,0.15);
+    z-index: 9999; text-decoration: none; transition: all 0.3s;
+  }
+  .floating-upsell-cta:hover {
+    transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.7), 0 0 30px rgba(168,85,247,0.4);
+    border-color: rgba(168, 85, 247, 0.5);
+  }
+  .floating-cta-icon {
+    width: 40px; height: 40px; border-radius: 10px; background: rgba(168, 85, 247, 0.2);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .floating-cta-text { display: flex; flex-direction: column; gap: 4px; }
+  .floating-cta-title { color: #fff; font-size: 14px; font-weight: 800; font-family: 'Pretendard', sans-serif; }
+  .floating-cta-desc { color: #c084fc; font-size: 12px; font-weight: 600; font-family: 'Pretendard', sans-serif; }
+  @media (max-width: 768px) {
+    .floating-upsell-cta { bottom: 16px; right: 16px; left: 16px; justify-content: center; }
+  }
+</style>
+<a href="planner.html" class="floating-upsell-cta">
+  <div class="floating-cta-icon">🚀</div>
+  <div class="floating-cta-text">
+    <span class="floating-cta-title">비즈니스 셋업이 끝났다면?</span>
+    <span class="floating-cta-desc">2026 PRO 플래너로 압도적 실행 시작하기 ➔</span>
+  </div>
+</a>
 </body>
 </html>

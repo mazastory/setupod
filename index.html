@@ -13,7 +13,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SETUPOD | All-in-One Business Asset & 3D Card</title>
+  <title>SETUPOD | 1인 창업가를 위한 올인원 비즈니스 도구 플랫폼</title>
   <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- Subdomain Routing (link.setupod.com -> /link) -->
@@ -1017,7 +1017,10 @@
       letter-spacing: 0.2em;
       color: var(--neon-violet);
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 16px;
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 99px;
     }
 
     .section-heading {
@@ -1033,8 +1036,8 @@
     }
 
     .feature-card {
-      background: var(--panel-bg);
-      border: 1px solid var(--border-subtle);
+      background: transparent;
+      border: none;
       border-radius: 20px;
       padding: 32px 26px;
       backdrop-filter: blur(16px);
@@ -1047,16 +1050,16 @@
 
     .feature-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(168, 85, 247, 0.4);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
     }
 
     .feature-icon-box {
       width: 48px;
       height: 48px;
       border-radius: 14px;
-      background: rgba(168, 85, 247, 0.15);
-      border: 1px solid rgba(168, 85, 247, 0.3);
+      background: transparent;
+      border: none;
+      filter: drop-shadow(0 0 16px currentColor);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1090,8 +1093,8 @@
     }
 
     .price-card {
-      background: var(--panel-bg);
-      border: 1px solid var(--border-subtle);
+      background: transparent;
+      border: none;
       border-radius: 24px;
       padding: 36px 30px;
       display: flex;
@@ -1203,8 +1206,8 @@
       margin-top: 30px;
     }
     .tool-card {
-      background: var(--panel-bg);
-      border: 1px solid var(--border-subtle);
+      background: transparent;
+      border: none;
       border-radius: 20px;
       padding: 30px 24px;
       text-align: left;
@@ -1699,9 +1702,31 @@
     .dock-cta-btn:active {
       transform: scale(0.95);
     }
+  
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 100; margin-top: 10px;
+    }
+    .nav-dropdown-menu::before {
+      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
+    .nav-dropdown-menu a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
   </style>
 </head>
 <body>
+  <div class="ambient-glow" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; overflow: hidden; pointer-events: none; z-index: 0;">
+    <div style="position: absolute; top: -10%; left: -10%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,0.12) 0%, rgba(0,0,0,0) 70%); filter: blur(60px);"></div>
+    <div style="position: absolute; bottom: 10%; right: -10%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, rgba(0,0,0,0) 70%); filter: blur(80px);"></div>
+  </div>
 
   <!-- 글로벌 네비게이션 -->
   <nav>
@@ -1712,7 +1737,7 @@
       <div class="nav-logo-text-wrap">
         <div class="nav-logo-row">
           <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
-          <span class="logo-ko-tag">셋업팟</span>
+          <span class="logo-ko-tag">세럽팟</span>
         </div>
         <span class="nav-logo-tagline">1초 만에 셋업하는 비즈니스 팟</span>
       </div>
@@ -1720,14 +1745,32 @@
 
     <!-- 데스크톱 메뉴 -->
     <div class="nav-links">
-      <a href="planner.html" class="nav-link" style="color:#c084fc;font-weight:700;"><i data-lucide="compass" style="width:13px;height:13px;display:inline-block;vertical-align:-1px;margin-right:3px;"></i>2026 플래너</a>
-      <a href="#marketing-tools" class="nav-link">마케팅 툴킷</a>
-      <a href="#growth-systems" class="nav-link">세일즈 시스템</a>
-      <a href="#pricing" class="nav-link">가격</a>
-      <a href="link.html" class="nav-link" target="_blank" title="인스타용 멀티링크 보기">멀티링크</a>
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">🧠 Think</span>
+        <div class="nav-dropdown-menu">
+          <a href="memopod.html">MemoPod (메모/지식)</a>
+          <a href="planner.html">2026 플래너</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">🎨 Create</span>
+        <div class="nav-dropdown-menu">
+          <a href="maker.html">3D 명함 스튜디오</a>
+          <a href="link.html">멀티링크 허브</a>
+          <a href="profile_studio.html">프로필 리터처</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">💼 Sell</span>
+        <div class="nav-dropdown-menu">
+          <a href="proposal.html">스마트 제안서</a>
+          <a href="proof.html">고객 후기 증명</a>
+          <a href="scorecard.html">비즈니스 진단</a>
+        </div>
+      </div>
       <a href="maker.html" class="btn-create-nav">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>내 팟(Pod) 만들기</span>
+        <span>무료로 시작하기</span>
       </a>
     </div>
 
@@ -2009,10 +2052,7 @@
   <!-- The Pivot Section -->
   <section class="pivot-section" style="padding: 80px 24px; text-align: center; max-width: 800px; margin: 0 auto;">
     <h2 style="font-size: 28px; font-weight: 900; line-height: 1.4; margin-bottom: 24px;">단순한 링크 모음집이나 종이 명함으로는<br><span style="color: #a855f7;">고객의 지갑을 열 수 없습니다.</span></h2>
-    <p style="font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.6; word-break: keep-all;">
-      SETUPOD는 트래픽이 새어나가는 것을 방치하지 않습니다.<br>
-      당신을 전문가로 각인시키는 <strong>'디지털 명함'</strong>을 허브로 삼고, 고객을 끌어오는 <strong>'마케팅 에셋'</strong>과 잠재 고객의 DB를 수집하는 <strong>'세일즈 퍼널'</strong>을 하나의 시스템으로 통합 제공합니다.
-    </p>
+    
   </section>
 
   <!-- 특징 4대 해자 섹션 (Pillar 1) -->
@@ -2020,7 +2060,7 @@
     <div class="section-header">
       <div class="section-tag" style="background: rgba(255, 255, 255, 0.1); color: #fff;">STEP 1. IDENTITY</div>
       <h2 class="section-heading">압도적인 첫인상, 3D 인터랙티브 명함</h2>
-      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">비즈니스의 중심이 될 당신만의 허브를 구축하세요. 단순한 링크가 아니라 강력한 무기입니다.</p>
+      
     </div>
 
     <div class="features-grid">
@@ -2059,16 +2099,16 @@
   </section>
 
   <!-- 마케팅 툴킷 섹션 (Pillar 2) -->
-  <section class="tools-section" id="marketing-tools" style="background: rgba(255,255,255,0.02); padding-top: 80px; padding-bottom: 80px;">
+  <section class="tools-section" id="marketing-tools" style="position: relative; z-index: 1; padding-top: 120px; padding-bottom: 100px;">
     <div class="section-header">
       <div class="section-tag" style="background: rgba(168, 85, 247, 0.2); color: #a855f7;">STEP 2. TRAFFIC</div>
       <h2 class="section-heading">트래픽을 쓸어담는 SNS 마케팅 툴킷</h2>
-      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">명함으로 연결된 고객들에게 보여줄 전문적인 콘텐츠를 디자이너 없이 1분 만에 제작합니다.</p>
+      
     </div>
 
     <div class="tools-grid">
       <a href="link.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(168, 85, 247, 0.15); color: #a855f7;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #a855f7;">
           <i data-lucide="link" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">올인원 멀티링크 셋업</h3>
@@ -2077,7 +2117,7 @@
       </a>
 
       <a href="kakao.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(250, 225, 0, 0.15); color: #fae100;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #fae100;">
           <i data-lucide="message-circle" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">카카오톡 배너 생성기</h3>
@@ -2086,7 +2126,7 @@
       </a>
 
       <a href="instagram_teaser.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
           <i data-lucide="instagram" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">인스타 릴스 3D 썸네일</h3>
@@ -2095,7 +2135,7 @@
       </a>
 
       <a href="instagram_slides.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
           <i data-lucide="layers" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">인스타 카드뉴스 생성기</h3>
@@ -2104,7 +2144,7 @@
       </a>
 
       <a href="instagram_3grid_banners.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(244, 114, 182, 0.15); color: #f472b6;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
           <i data-lucide="grid" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">인스타 3분할 파노라마</h3>
@@ -2112,8 +2152,8 @@
         <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
       </a>
 
-      <a href="profile_studio.html" class="tool-card" style="border-color: rgba(139, 92, 246, 0.35); background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));">
-        <div class="tool-icon-box" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd;">
+      <a href="profile_studio.html" class="tool-card">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c4b5fd;">
           <i data-lucide="sparkles" style="width:24px;height:24px;"></i>
         </div>
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
@@ -2127,16 +2167,16 @@
   </section>
 
   <!-- 세일즈 시스템 섹션 (Pillar 3) -->
-  <section class="tools-section" id="growth-systems" style="padding-top: 80px; padding-bottom: 80px;">
+  <section class="tools-section" id="growth-systems" style="position: relative; z-index: 1; padding-top: 120px; padding-bottom: 100px;">
     <div class="section-header">
       <div class="section-tag" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4;">STEP 3. CONVERSION</div>
       <h2 class="section-heading">방문자를 진짜 고객으로 바꾸는 세일즈 시스템</h2>
-      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">단순 방문자를 실제 수익과 리드(DB)로 전환시키는 고효율 마케팅 퍼널과 진단 시스템을 셋업하세요.</p>
+      
     </div>
 
     <div class="tools-grid">
-      <a href="proposal_maker.html" class="tool-card" style="border-color: rgba(139, 92, 246, 0.4); background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(6, 182, 212, 0.05));">
-        <div class="tool-icon-box" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd;">
+      <a href="proposal_maker.html" class="tool-card">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c4b5fd;">
           <i data-lucide="file-spreadsheet" style="width:24px;height:24px;"></i>
         </div>
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
@@ -2147,8 +2187,8 @@
         <span class="tool-action" style="color: #c4b5fd;">스튜디오에서 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
       </a>
 
-      <a href="proof_maker.html" class="tool-card" style="border-color: rgba(250, 225, 0, 0.35); background: linear-gradient(135deg, rgba(250, 225, 0, 0.08), rgba(139, 92, 246, 0.05));">
-        <div class="tool-icon-box" style="background: rgba(250, 225, 0, 0.2); color: #fae100;">
+      <a href="proof_maker.html" class="tool-card">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #fae100;">
           <i data-lucide="shield-check" style="width:24px;height:24px;"></i>
         </div>
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
@@ -2160,7 +2200,7 @@
       </a>
 
       <a href="scorecard_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #06b6d4;">
           <i data-lucide="bar-chart-2" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">진단 스코어카드 셋업</h3>
@@ -2169,7 +2209,7 @@
       </a>
 
       <a href="waitlist_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #10b981;">
           <i data-lucide="users" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">바이럴 웨이트리스트</h3>
@@ -2178,7 +2218,7 @@
       </a>
 
       <a href="roi_calculator.html" class="tool-card">
-        <div class="tool-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f59e0b;">
           <i data-lucide="calculator" style="width:24px;height:24px;"></i>
         </div>
         <h3 class="tool-title">기회비용(ROI) 계산기</h3>
@@ -2186,8 +2226,8 @@
         <span class="tool-action" style="color: #f59e0b;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
       </a>
 
-      <a href="planner.html" class="tool-card" style="border-color: rgba(168, 85, 247, 0.35); background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(56, 189, 248, 0.04));">
-        <div class="tool-icon-box" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">
+      <a href="planner.html" class="tool-card">
+        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c084fc;">
           <i data-lucide="compass" style="width:24px;height:24px;"></i>
         </div>
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
@@ -2205,9 +2245,7 @@
     <div class="section-header">
       <div class="section-tag">MEMBERSHIP & ADD-ONS</div>
       <h2 class="section-heading">핵심 기능은 언제나 무료,<br>필요한 프리미엄 자산만 가볍게</h2>
-      <p style="font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 10px; word-break: keep-all;">
-        월정액 구독 부담 없이 누구나 자유롭게 3D 명함을 만들고 공유하세요. 특별한 3D 로고나 실물 메탈 카드가 필요할 때만 가볍게 선택하시면 됩니다.
-      </p>
+      
     </div>
 
     <div class="pricing-grid">

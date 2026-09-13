@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SETUPOD (셋업팟) | 차세대 3D 인터랙티브 명함 &amp; 올인원 비즈니스 허브</title>
+    <title>SETUPOD (세럽팟) | 차세대 3D 인터랙티브 명함 &amp; 올인원 비즈니스 허브</title>
     <link>https://www.setupod.com</link>
     <description>1초 만에 셋업하고, 링크 하나로 압도하다. 3D 인터랙티브 디지털 명함, vCard 주소록 원클릭 저장, 고전환 올인원 멀티링크, 기업 단체 일괄 발행 솔루션.</description>
     <language>ko</language>
     <lastBuildDate>Fri, 11 Sep 2026 09:00:00 +0900</lastBuildDate>
     <atom:link href="https://www.setupod.com/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>MemoPod (메모팟) - AI 스마트 메모 & 지식 그래프 론칭</title>
+      <link>https://www.setupod.com/memopod</link>
+      <guid isPermaLink="true">https://www.setupod.com/memopod</guid>
+      <description><![CDATA[흩어진 아이디어와 노트를 하나로 연결하는 지식 관리 시스템. 머릿속 생각을 쏟아내고 직관적인 UI로 정리하세요.]]></description>
+      <category>생산성 도구</category>
+      <pubDate>Sat, 12 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
+
+    <item>
+      <title>AI 비즈니스 프로필 리터처 스튜디오 오픈</title>
+      <link>https://www.setupod.com/profile-studio</link>
+      <guid isPermaLink="true">https://www.setupod.com/profile-studio</guid>
+      <description><![CDATA[평범한 사진을 전문적인 CEO/임원급 비즈니스 프로필로 1초 만에 변환하세요. 3D 명함에 완벽하게 어울립니다.]]></description>
+      <category>신규 기능</category>
+      <pubDate>Sat, 12 Sep 2026 09:00:00 +0900</pubDate>
+    </item>
 
     <item>
       <title>2026 프로젝트 &amp; 라이프 플래너 웹 앱 공식 론칭</title>

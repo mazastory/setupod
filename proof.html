@@ -4,6 +4,7 @@
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
   <script>
+
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -13,6 +14,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title id="pageTitle">고객 후기 & 신뢰 증명 월 (Social Proof Wall) | SETUPOD</title>
+  <link rel="canonical" href="https://www.setupod.com/proof">
   <meta name="description" content="카카오톡 리얼 후기와 VIP 추천사로 증명하는 100% 검증된 비즈니스 신뢰 증명 허브">
 
   <!-- OpenGraph -->
@@ -743,7 +745,7 @@
   <!-- FIXED BOTTOM DOCK -->
   <aside class="proof-dock">
     <div class="dock-content">
-      <a href="card.html" id="dockCardBtn" class="btn-dock-sub" title="3D 명함 보기">
+      <a href="#" onclick="window.location.href='card.html?id=' + (JSON.parse(localStorage.getItem('setupod_card_data'))?.id || 'setupod'); return false;" id="dockCardBtn" class="btn-dock-sub" title="3D 명함 보기">
         <i data-lucide="credit-card" style="width:16px;height:16px;"></i>
         <span>3D 명함</span>
       </a>
@@ -759,6 +761,7 @@
   </aside>
 
   <script>
+
     lucide.createIcons();
 
     function switchTab(tabId) {

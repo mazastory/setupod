@@ -14,6 +14,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD Studio | 올인원 비즈니스 자산 & 3D 명함 빌더</title>
+  <link rel="canonical" href="https://www.setupod.com/maker">
   <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
 
   <!-- OpenGraph -->
@@ -1132,7 +1133,7 @@
         <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
       </div>
       <span class="brand-title"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
-      <span class="logo-ko-tag">셋업팟</span>
+      <span class="logo-ko-tag">세럽팟</span>
       <span class="badge-studio">STUDIO</span>
     </a>
     <div class="nav-actions">
@@ -1273,6 +1274,35 @@
             <i data-lucide="scissors" style="width:15px;height:15px;color:#38bdf8;"></i>
             <span>AI 프로필 스튜디오 (배경 누끼 분리 & 2026 테크 CEO 림라이트 리터칭)</span>
           </a>
+        </div>
+        <div style="margin-top:8px;">
+          <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(244,114,182,0.18),rgba(168,85,247,0.18));border:1px solid rgba(244,114,182,0.4);color:#fbcfe8;font-size:12.5px;font-weight:800;text-decoration:none;transition:all 0.2s;box-shadow:0 0 15px rgba(244,114,182,0.1);">
+            <i data-lucide="zap" style="width:15px;height:15px;color:#f472b6;"></i>
+            <span>🔥 3D 모션 GIF 아바타 맞춤 제작 의뢰하기 (카카오톡 1:1)</span>
+          </a>
+        </div>
+
+        <!-- GIF 샘플 갤러리 (레퍼런스) -->
+        <div style="margin-top:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:12px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:5px;">
+              <i data-lucide="image-play" style="width:14px;height:14px;color:#f472b6;"></i> GIF 모션 레퍼런스 샘플
+            </span>
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">
+            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="assets/sample_gif_1.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="assets/sample_gif_2.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="assets/sample_gif_3.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+          </div>
+          <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4;word-break:keep-all;">
+            * 맞춤 제작 의뢰 시, 위와 같은 고품질 모션 로고를 제작해 드립니다. 원하는 레퍼런스를 캡처하여 문의해주세요.
+          </p>
         </div>
 
         <!-- 홀로그램 & GIF 모션 선택 -->
@@ -1535,9 +1565,9 @@
             <i data-lucide="download" style="width:18px;height:18px;"></i>
             <span>전체 명단 JSON 다운로드</span>
           </button>
-          <button class="btn-publish btn-publish-main" onclick="publishTeamToCloud()">
+          <button class="btn-publish btn-publish-main" onclick="if(window.ProModal) ProModal.show(); else alert('PRO 전용 기능입니다.');">
             <i data-lucide="cloud-upload" style="width:18px;height:18px;"></i>
-            <span>클라우드 전원 일괄 발행</span>
+            <span>클라우드 전원 일괄 발행 (PRO)</span>
           </button>
         </div>
 
@@ -1777,6 +1807,14 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
+        if (file.type === 'image/gif') {
+          currentLogoSrc = e.target.result;
+          document.getElementById('frontLogoImg').src = currentLogoSrc;
+          document.getElementById('backLogoImg').src = currentLogoSrc;
+          showToast('새 로고가 실시간 반영되었습니다! (GIF 지원)');
+          return;
+        }
+
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
@@ -1931,11 +1969,19 @@
       const name = document.getElementById('inputName').value || 'User';
       const safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new';
       
+      const cardData = {
+        id: safeName,
+        name: name,
+        role: document.getElementById('inputRole').value,
+        company: document.getElementById('inputCompany').value
+      };
+      localStorage.setItem('setupod_card_data', JSON.stringify(cardData));
+      
       showToast("🚀 엣지 네트워크에 명함을 배포 중입니다...");
       
       setTimeout(() => {
         const publishedUrl = `https://setupod.com/c/${safeName}`;
-        showToast(`🎉 축하합니다! 첫 셋업팟이 완성됐어요! URL: ${publishedUrl}`);
+        showToast(`🎉 축하합니다! 첫 세럽팟이 완성됐어요! URL: ${publishedUrl}`);
 
         if (typeof gtag === 'function') {
           gtag('event', 'card_published', {
@@ -1950,7 +1996,7 @@
         
         // 클립보드에 자동 복사
         navigator.clipboard.writeText(publishedUrl).then(() => {
-          setTimeout(() => showToast("✅ 셋업팟 링크가 클립보드에 복사되었습니다!"), 2500);
+          setTimeout(() => showToast("✅ 세럽팟 링크가 클립보드에 복사되었습니다!"), 2500);
         }).catch(err => {
           console.error("클립보드 복사 실패:", err);
         });
@@ -2568,5 +2614,6 @@
     </div>
   </div>
 
+  <script src="js/pro_modal.js"></script>
 </body>
 </html>
