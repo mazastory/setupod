@@ -184,3 +184,12 @@
     }
   }, 100);
 })();
+
+  // App Mode 로고 클릭 시 드로어 메뉴 열기
+  document.addEventListener('click', function(e) {
+    const brand = e.target.closest('.nav-brand');
+    if (brand && document.body.classList.contains('app-mode')) {
+      e.preventDefault();
+      window.toggleMobileMenu();
+    }
+  });
