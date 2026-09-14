@@ -491,14 +491,14 @@
       const demoId = Math.random().toString(36).substring(2, 8);
       const url = `https://setupod.com/scorecard.html?id=${demoId}`;
       document.getElementById('publishedLink').innerText = url;
-      alert("발행 성공! (데모 버전이므로 LocalStorage 기반으로 작동합니다.)");
+      showToast("발행 성공! (데모 버전이므로 LocalStorage 기반으로 작동합니다.)");
     }
 
     function copyLink() {
       const txt = document.getElementById('publishedLink').innerText;
       if(txt.includes('setupod.com')) {
         navigator.clipboard.writeText(txt);
-        alert('링크가 복사되었습니다!');
+        showToast('링크가 복사되었습니다!');
       }
     }
 
@@ -507,5 +507,6 @@
     renderOutcomes();
     saveAndPreview();
   </script>
+  <script src="js/toast.js"></script>
 </body>
 </html>

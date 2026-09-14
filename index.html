@@ -33,7 +33,7 @@
   <meta property="og:site_name" content="SETUPOD">
   <meta property="og:title" content="SETUPOD | 올인원 비즈니스 자산 & 3D 명함 플랫폼">
   <meta property="og:description" content="카카오톡, 인스타그램, 틱톡, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 플랫폼">
-  <meta property="og:image" content="assets/business_card_mockup.png">
+  <meta property="og:image" content="https://www.setupod.com/assets/business_card_mockup.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
@@ -966,12 +966,6 @@
     }
     .modal-overlay.active .modal-box { transform: scale(1); }
 
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-      backdrop-filter: blur(8px);
-    }
 
     .btn-glass:hover {
       background: rgba(255, 255, 255, 0.16);
@@ -1958,7 +1952,7 @@
 
                 <div class="inside-action-dock">
                   <div class="inside-action-row">
-                    <button class="btn-action btn-save" onclick="event.stopPropagation(); alert('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
+                    <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
                       <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
                       <span>연락처 저장</span>
                     </button>
@@ -2024,7 +2018,7 @@
 
                 <div class="inside-action-dock">
                   <div class="inside-action-row">
-                    <button class="btn-action btn-save" onclick="event.stopPropagation(); alert('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
+                    <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
                       <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
                       <span>연락처 저장</span>
                     </button>
@@ -2324,7 +2318,7 @@
             <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 24시간 이내 카카오톡 1:1 맞춤 전달</li>
           </ul>
         </div>
-        <a href="mailto:official@setupod.com?subject=3D로고제작신청" target="_blank" class="price-btn price-btn-primary">3D 로고 제작 신청하기</a>
+        <a href="/billing?plan=3d_logo&price=9900&name=3D로고제작(단건)" class="price-btn price-btn-primary">3D 로고 제작 신청하기</a>
       </div>
 
       <!-- NFC Hardware Card Package -->
@@ -2339,7 +2333,7 @@
             <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 반영구 사용 가능한 고성능 NTAG216 칩 내장</li>
           </ul>
         </div>
-        <a href="mailto:official@setupod.com?subject=NFC카드주문신청" target="_blank" class="price-btn price-btn-ghost">실물 NFC 카드 주문하기</a>
+        <a href="/billing?plan=nfc_card&price=29900&name=실물NFC카드(주문제작)" class="price-btn price-btn-ghost">실물 NFC 카드 주문하기</a>
       </div>
     </div>
   </section>
@@ -2524,5 +2518,6 @@
       }
     });
   </script>
+  <script src="js/toast.js"></script>
 </body>
 </html>

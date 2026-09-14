@@ -1117,11 +1117,14 @@
       const extraInst = document.getElementById('extraInst').value.trim();
       const apiKey = document.getElementById('apiKey').value.trim();
 
-      if (!brandName) return alert('브랜드 이름을 입력해주세요.');
-      if (!productDesc) return alert('상품/서비스 설명을 입력해주세요.');
-      if (!apiKey) return alert('Gemini API 키를 입력해주세요.');
-
-      localStorage.setItem('VH_GEMINI_KEY', apiKey);
+      if (!brandName) return showToast('브랜드 이름을 입력해주세요.');
+      if (!productDesc) return showToast('상품/서비스 설명을 입력해주세요.');
+      
+      if (!apiKey) {
+        showToast('API 키가 없어 예시(Mock) 데이터로 시뮬레이션합니다.');
+      } else {
+        localStorage.setItem('VH_GEMINI_KEY', apiKey);
+      }
 
       const prompt = PROMPT_TEMPLATE
         .replace('{brandName}', brandName)
@@ -1137,7 +1140,52 @@
       document.querySelector('.preview-canvas-area').scrollTo({top:0, behavior:'smooth'});
 
       try {
-        const text = await callGemini(apiKey, prompt);
+        let text = "";
+        if (!apiKey) {
+          await new Promise(r => setTimeout(r, 2000));
+          text = `
+          {
+            "hero": {
+              "concept": "미래지향적이고 압도적인 사이버펑크 도시의 전경이 펼쳐진다. 빛나는 네온사인 아래로 SETUPOD 3D 명함이 회전하며 떠오른다.",
+              "image_prompt": "Cinematic wide shot, cyberpunk city, neon glowing, hovering digital business card, 8k resolution, highly detailed, photorealistic --ar 16:9"
+            },
+            "scroll_scenes": [
+              {
+                "step": 1,
+                "copy": "지금까지의 명함은 버려졌습니다.",
+                "image_prompt": "Close up shot, a trash can full of crumpled paper business cards, cinematic lighting, dark moody atmosphere --ar 16:9"
+              },
+              {
+                "step": 2,
+                "copy": "하지만 3D 인터랙티브 명함은",
+                "image_prompt": "Abstract glowing digital 3D model, spinning in dark space, futuristic blue grid, volumetric light --ar 16:9"
+              },
+              {
+                "step": 3,
+                "copy": "고객의 기억 속에 영원히 각인됩니다.",
+                "image_prompt": "A close up of a human eye reflecting a glowing digital interface, highly detailed iris, cyberpunk lighting --ar 16:9"
+              },
+              {
+                "step": 4,
+                "copy": "당신의 비즈니스를 압도적으로 증명하세요.",
+                "image_prompt": "A confident person standing in front of a glowing digital billboard, cinematic silhouette, neon lights --ar 16:9"
+              }
+            ],
+            "bottom_sections": [
+              {
+                "title": "3D 모델링 스튜디오",
+                "desc": "클릭 한 번으로 3D 명함을 자동으로 생성합니다."
+              },
+              {
+                "title": "NFC 연동 시스템",
+                "desc": "실물 NFC 카드에 3D 명함을 원터치로 맵핑하세요."
+              }
+            ]
+          }
+          `;
+        } else {
+          text = await callGemini(apiKey, prompt);
+        }
         let cleanJsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
         const data = JSON.parse(cleanJsonStr);
         
@@ -1148,7 +1196,7 @@
         // 탭 초기화
         switchTab('storyboard');
       } catch (err) {
-        alert('오류가 발생했습니다 (JSON 파싱 실패 또는 API 오류): ' + err.message);
+        showToast('오류가 발생했습니다 (JSON 파싱 실패 또는 API 오류): ' + err.message);
         document.getElementById('emptyState').style.display = 'flex';
       } finally {
         document.getElementById('loading').style.display = 'none';
@@ -1209,5 +1257,18 @@ function toggleMobileMenu() {
     })();
   
   </script>
+
+  <!-- 푸터 -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; z-index: 10; position: relative;">
+    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-size: 14px;">SETUPOD — All-in-One Business Asset &amp; 3D Card Platform</p>
+    <p style="font-size: 13px; margin-bottom: 8px;">
+      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    </p>
+    <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
+  </footer>
+
+  <script src="js/toast.js"></script>
 </body>
 </html>

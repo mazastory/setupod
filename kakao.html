@@ -1328,7 +1328,7 @@
       // Check if running on local file:// protocol
       if (window.location.protocol === 'file:') {
         navigator.clipboard.writeText(body).then(() => {
-          alert('💡 로컬 파일(file://) 환경에서는 카카오 보안 정책상 외부 공유 API 창이 차단됩니다.\n\n대신 [카카오톡 본문 텍스트]가 클립보드에 자동으로 복사되었습니다!\n\n카카오톡 단톡방이나 개인 채팅창을 열고 [붙여넣기 (Cmd/Ctrl + V)] 하시면 바로 전송하실 수 있습니다. 😊');
+          showToast('💡 로컬 파일(file://) 환경에서는 카카오 보안 정책상 외부 공유 API 창이 차단됩니다.\n\n대신 [카카오톡 본문 텍스트]가 클립보드에 자동으로 복사되었습니다!\n\n카카오톡 단톡방이나 개인 채팅창을 열고 [붙여넣기 (Cmd/Ctrl + V)] 하시면 바로 전송하실 수 있습니다. 😊');
           showToastNotification('본문이 복사되었습니다! 카톡에 붙여넣기(Cmd+V) 하세요.');
         });
         return;
@@ -1336,7 +1336,7 @@
 
       if (!window.Kakao || !Kakao.isInitialized()) {
         navigator.clipboard.writeText(body).then(() => {
-          alert('카카오 SDK 초기화 중입니다. 본문 텍스트가 클립보드에 복사되었으니 카카오톡에 바로 붙여넣어 전송해 보세요!');
+          showToast('카카오 SDK 초기화 중입니다. 본문 텍스트가 클립보드에 복사되었으니 카카오톡에 바로 붙여넣어 전송해 보세요!');
         });
         return;
       }
@@ -1374,7 +1374,7 @@
         });
       } catch (err) {
         navigator.clipboard.writeText(body).then(() => {
-          alert('카카오 도메인 미등록 환경입니다.\n대신 본문 텍스트가 클립보드에 복사되었으니 카톡 채팅창에 붙여넣기(Cmd+V) 하시면 됩니다!');
+          showToast('카카오 도메인 미등록 환경입니다.\n대신 본문 텍스트가 클립보드에 복사되었으니 카톡 채팅창에 붙여넣기(Cmd+V) 하시면 됩니다!');
         });
       }
     }
@@ -1415,5 +1415,18 @@
     <span class="floating-cta-desc">2026 PRO 플래너로 압도적 실행 시작하기 ➔</span>
   </div>
 </a>
+
+  <!-- 푸터 -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; z-index: 10; position: relative;">
+    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-size: 14px;">SETUPOD — All-in-One Business Asset &amp; 3D Card Platform</p>
+    <p style="font-size: 13px; margin-bottom: 8px;">
+      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    </p>
+    <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
+  </footer>
+
+  <script src="js/toast.js"></script>
 </body>
 </html>

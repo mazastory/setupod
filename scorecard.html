@@ -324,7 +324,7 @@
     }
 
     function startTest() {
-      if(!config || !config.questions || config.questions.length === 0) return alert("질문이 없습니다.");
+      if(!config || !config.questions || config.questions.length === 0) return showToast("질문이 없습니다.");
       currentQ = 0;
       totalScore = 0;
       renderQuestion();
@@ -421,5 +421,6 @@
     <span class="floating-cta-desc">2026 PRO 플래너로 압도적 실행 시작하기 ➔</span>
   </div>
 </a>
+  <script src="js/toast.js"></script>
 </body>
 </html>

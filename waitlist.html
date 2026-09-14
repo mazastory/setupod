@@ -272,10 +272,11 @@
       }
       const link = document.getElementById('uiRefLink').innerText;
       navigator.clipboard.writeText(link);
-      alert('초대 링크가 복사되었습니다! 친구들에게 공유해보세요.');
+      showToast('초대 링크가 복사되었습니다! 친구들에게 공유해보세요.');
     }
 
     loadConfig();
   </script>
+  <script src="js/toast.js"></script>
 </body>
 </html>

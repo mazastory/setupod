@@ -143,18 +143,19 @@
       const demoId = Math.random().toString(36).substring(2, 8);
       const url = `https://setupod.com/waitlist.html?id=${demoId}`;
       document.getElementById('publishedLink').innerText = url;
-      alert("웨이트리스트 발행 성공!");
+      showToast("웨이트리스트 발행 성공!");
     }
 
     function copyLink() {
       const txt = document.getElementById('publishedLink').innerText;
       if(txt.includes('setupod.com')) {
         navigator.clipboard.writeText(txt);
-        alert('링크가 복사되었습니다!');
+        showToast('링크가 복사되었습니다!');
       }
     }
 
     saveAndPreview();
   </script>
+  <script src="js/toast.js"></script>
 </body>
 </html>

@@ -145,7 +145,45 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- 10. 개인정보처리방침 -->
+  <!-- 15. 추가 AI 툴 & 랜딩페이지 -->
+  <url>
+    <loc>https://www.setupod.com/10k-studio</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/detail-studio</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/hook-maker</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/product-studio</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/scorecard-maker</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.setupod.com/waitlist-maker</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 16. 개인정보처리방침 -->
   <url>
     <loc>https://www.setupod.com/privacy</loc>
     <lastmod>2026-09-11</lastmod>
