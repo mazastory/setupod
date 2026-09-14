@@ -417,65 +417,9 @@
     }
     .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
     </style>
+  <link rel="stylesheet" href="themes/gnb.css">
 </head>
   <body class="bg-gray-50 text-gray-900">
-
-<nav>
-    <a href="index.html" class="nav-brand">
-      <div class="nav-logo-symbol">
-        <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
-      </div>
-      <div class="nav-logo-text-wrap">
-        <div class="nav-logo-row">
-          <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
-          <span class="logo-ko-tag">세럽팟</span>
-        </div>
-        <span class="nav-logo-tagline">1초 만에 셋업하는 비즈니스 팟</span>
-      </div>
-    </a>
-
-    <!-- 데스크톱 메뉴 -->
-    <div class="nav-links">
-      <div class="nav-dropdown">
-        <span class="nav-link" style="cursor:default;">🧠 Think</span>
-        <div class="nav-dropdown-menu">
-          <a href="memopod.html">MemoPod (메모/지식)</a>
-          <a href="planner.html">2026 플래너</a>
-        </div>
-      </div>
-      <div class="nav-dropdown">
-        <span class="nav-link" style="cursor:default;">🎨 Create</span>
-        <div class="nav-dropdown-menu">
-          <a href="maker.html">3D 명함 스튜디오</a>
-          <a href="link.html">멀티링크 허브</a>
-          <a href="profile_studio.html">프로필 리터처</a>
-        </div>
-      </div>
-      <div class="nav-dropdown">
-        <span class="nav-link" style="cursor:default;">💼 Sell</span>
-        <div class="nav-dropdown-menu">
-          <a href="proposal.html">스마트 제안서</a>
-          <a href="proof.html">고객 후기 증명</a>
-          <a href="scorecard.html">비즈니스 진단</a>
-        </div>
-      </div>
-      <a href="maker.html" class="btn-create-nav">
-        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>무료로 시작하기</span>
-      </a>
-    </div>
-
-    <!-- 모바일 전용 네비 컨트롤 (2026 앱 스타일 빠른 셋업 CTA) -->
-    <div class="mobile-nav-controls">
-      <a href="maker.html" class="btn-mobile-maker">
-        <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
-        <span>1초 셋업</span>
-      </a>
-      <button class="btn-mobile-hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
-        <i data-lucide="menu" id="hamburgerIcon" style="width:20px;height:20px;"></i>
-      </button>
-    </div>
-  </nav>
 
 <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()">
     <div class="mobile-menu-drawer" onclick="event.stopPropagation()">
@@ -605,5 +549,6 @@ function toggleMobileMenu() {
   </footer>
 
   <script src="js/toast.js"></script>
+  <script src="js/gnb.js"></script>
 </body>
 </html>
