@@ -4,7 +4,7 @@ nav {
   height: 70px;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 9999;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   background: rgba(6, 4, 10, 0.75);
@@ -325,7 +325,7 @@ nav {
   display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
   background: rgba(18,12,30,0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  z-index: 100;
+  z-index: 10000;
 }
 .nav-dropdown-menu::before {
   content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
