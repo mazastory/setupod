@@ -8,6 +8,9 @@ const files = [
   'roi_calculator.html',
   'proposal_maker.html',
   'proof.html',
+  'hook_maker.html',
+  'detail_studio.html',
+  '10k_studio.html'
 ];
 
 (async () => {

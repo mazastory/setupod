@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AI 바이럴 훅 메이커 | SETUPOD</title>
+  <meta name="description" content="잘 된 글을 내 글로 완벽하게 바꿔주는 AI 바이럴 훅 메이커">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --bg: #06040e;
+      --panel: #110c22;
+      --border: rgba(255, 255, 255, 0.08);
+      --violet: #8b5cf6;
+      --cyan: #06b6d4;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 7, 20, 0.85);
+      backdrop-filter: blur(20px);
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 17px;
+      background: linear-gradient(135deg, #c4b5fd, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+    }
+
+    /* Studio Main Layout */
+    .studio-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 61px);
+      overflow: hidden;
+    }
+
+    @media (max-width: 860px) {
+      .studio-layout {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+      }
+    }
+
+    /* Left Controls */
+    .controls-panel {
+      width: 440px;
+      min-width: 380px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    @media (max-width: 860px) {
+      .controls-panel {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    .panel-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #c4b5fd;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 20px 0 12px;
+    }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    }
+    
+    textarea.input-field {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* Action Buttons */
+    .btn-action-primary {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #8b5cf6, #38bdf8);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 22px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(139, 92, 246, 0.6);
+    }
+
+    .btn-action-secondary {
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-action-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Right Preview Area */
+    .preview-canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, #17112e 0%, #06040e 100%);
+      padding: 30px 20px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .result-box {
+      width: 100%;
+      max-width: 600px;
+      background: #110d24;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    
+    .result-text {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      min-height: 250px;
+      color: #f8fafc;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 40px; height: 40px;
+      border: 3px solid rgba(139, 92, 246, 0.3);
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+  </style>
+
+  <style>
+/* ── 글로벌 네비게이션 ── */
+    nav {
+      width: 100%;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(6, 4, 10, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .nav-logo-symbol {
+      width: 36px;
+      height: 36px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-brand:hover .nav-logo-symbol {
+      transform: scale(1.06);
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
+    }
+
+    .nav-logo-gif {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .nav-logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .nav-logo-text .part-setup {
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-logo-text .part-od {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .logo-ko-tag {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      padding: 1.5px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .nav-logo-tagline {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .btn-create-nav {
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
+      transition: all 0.2s;
+    }
+
+    .btn-create-nav:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* 모바일 전용 상단 네비게이션 컨트롤 */
+    .mobile-nav-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-mobile-planner {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #e9d5ff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-mobile-planner:hover {
+      background: rgba(168, 85, 247, 0.25);
+    }
+
+    .btn-mobile-hamburger {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-mobile-hamburger:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* 모바일 드로어 메뉴 오버레이 */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 82%;
+      max-width: 320px;
+      height: 100%;
+      background: #0d0818;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 24px 20px;
+    }
+
+    .mobile-menu-overlay.active .mobile-menu-drawer {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .mobile-menu-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-menu-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu-item:hover, .mobile-menu-item:active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .mobile-menu-item.highlight {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.35);
+      color: #f3e8ff;
+    }
+
+    .menu-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-badge-new {
+      font-size: 10px;
+      font-weight: 800;
+      background: #a855f7;
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    .mobile-menu-footer {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 100; margin-top: 10px;
+    }
+    .nav-dropdown-menu::before {
+      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
+    .nav-dropdown-menu a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  </style>
+
+  <style>
+
+    /* B2B2B Widget Embed Mode */
+    html.is-embedded nav,
+    html.is-embedded header,
+    html.is-embedded .mobile-menu-overlay,
+    html.is-embedded footer {
+      display: none !important;
+    }
+    html.is-embedded body {
+      background: transparent !important;
+      padding-top: 0 !important;
+    }
+  
+  </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo-symbol">
+        <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
+      </div>
+      <div class="nav-logo-text-wrap">
+        <div class="nav-logo-row">
+          <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
+          <span class="logo-ko-tag">세럽팟</span>
+        </div>
+        <span class="nav-logo-tagline">1초 만에 셋업하는 비즈니스 팟</span>
+      </div>
+    </a>
+
+    <!-- 데스크톱 메뉴 -->
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">🧠 Think</span>
+        <div class="nav-dropdown-menu">
+          <a href="memopod.html">MemoPod (메모/지식)</a>
+          <a href="planner.html">2026 플래너</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">🎨 Create</span>
+        <div class="nav-dropdown-menu">
+          <a href="maker.html">3D 명함 스튜디오</a>
+          <a href="link.html">멀티링크 허브</a>
+          <a href="profile_studio.html">프로필 리터처</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <span class="nav-link" style="cursor:default;">💼 Sell</span>
+        <div class="nav-dropdown-menu">
+          <a href="proposal.html">스마트 제안서</a>
+          <a href="proof.html">고객 후기 증명</a>
+          <a href="scorecard.html">비즈니스 진단</a>
+          <a href="detail_studio.html">AI 상세페이지 설계</a>
+        </div>
+      </div>
+      <a href="maker.html" class="btn-create-nav">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>무료로 시작하기</span>
+      </a>
+    </div>
+
+    <!-- 모바일 전용 네비 컨트롤 (2026 앱 스타일 빠른 셋업 CTA) -->
+    <div class="mobile-nav-controls">
+      <a href="maker.html" class="btn-mobile-maker">
+        <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+        <span>1초 셋업</span>
+      </a>
+      <button class="btn-mobile-hamburger" onclick="toggleMobileMenu()" aria-label="메뉴 열기">
+        <i data-lucide="menu" id="hamburgerIcon" style="width:20px;height:20px;"></i>
+      </button>
+    </div>
+  </nav>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()">
+    <div class="mobile-menu-drawer" onclick="event.stopPropagation()">
+      <div class="mobile-menu-header">
+        <div class="mobile-menu-brand">
+          <img src="assets/setupod.gif" class="nav-logo-gif" style="width:28px;height:28px;border-radius:8px;">
+          <span style="font-weight:900;font-size:16px;">SETUPOD</span>
+        </div>
+        <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="메뉴 닫기">
+          <i data-lucide="x" style="width:18px;height:18px;"></i>
+        </button>
+      </div>
+      <div class="mobile-menu-list">
+        <a href="planner.html" class="mobile-menu-item highlight" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="compass" style="width:18px;height:18px;color:#c084fc;"></i>
+            <span>2026 비즈니스 플래너</span>
+          </div>
+          <span class="menu-badge-new">NEW</span>
+        </a>
+        <a href="proposal_maker.html" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="file-spreadsheet" style="width:18px;height:18px;color:#38bdf8;"></i>
+            <span>스마트 제안서 & 견적</span>
+          </div>
+          <span class="menu-badge-new" style="background:#06b6d4;">HOT</span>
+        </a>
+        <a href="proof_maker.html" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="shield-check" style="width:18px;height:18px;color:#fae100;"></i>
+            <span>고객 후기 증명 월</span>
+          </div>
+          <span class="menu-badge-new" style="background:#fae100;color:#261601;">HOT</span>
+        </a>
+        <a href="profile_studio.html" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="sparkles" style="width:18px;height:18px;color:#c084fc;"></i>
+            <span>AI 프로필 리터처</span>
+          </div>
+          <span class="menu-badge-new" style="background:#8b5cf6;">AI</span>
+        </a>
+        <a href="detail_studio.html" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="layout-template" style="width:18px;height:18px;color:#f472b6;"></i>
+            <span>AI 상세페이지 마법사</span>
+          </div>
+          <span class="menu-badge-new" style="background:#ec4899;">AI</span>
+        </a>
+        <a href="#marketing-tools" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="wrench" style="width:18px;height:18px;color:#38bdf8;"></i>
+            <span>마케팅 툴킷</span>
+          </div>
+        </a>
+        <a href="#growth-systems" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="trending-up" style="width:18px;height:18px;color:#34d399;"></i>
+            <span>세일즈 시스템</span>
+          </div>
+        </a>
+        <a href="#pricing" class="mobile-menu-item" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="credit-card" style="width:18px;height:18px;color:#fbbf24;"></i>
+            <span>가격 안내</span>
+          </div>
+        </a>
+        <a href="link.html" class="mobile-menu-item" target="_blank" onclick="closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="link" style="width:18px;height:18px;color:#a78bfa;"></i>
+            <span>인스타 멀티링크</span>
+          </div>
+        </a>
+      </div>
+      <div class="mobile-menu-footer">
+        <a href="maker.html" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
+          <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+          <span>내 팟(Pod) 만들기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Top Nav -->
+  
+
+  <div class="studio-layout">
+    <!-- Left Controls -->
+    <div class="controls-panel">
+      <div class="panel-scroll">
+        <h2 style="font-size:20px; font-weight:900; margin-bottom:8px;">AI 바이럴 훅 설계</h2>
+        <p style="font-size:13.5px; color:#94a3b8; margin-bottom:24px; line-height:1.5;">다른 사람의 잘 된 글(원문)을 넣으면 나만의 스타일로 완벽하게 재창조합니다.</p>
+        
+        <label class="section-label">원문 텍스트 (참고용)</label>
+        <textarea id="sourceText" class="input-field" placeholder="여기에 벤치마킹할 원본 글을 붙여넣으세요..."></textarea>
+        
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <div style="flex:1;">
+            <label class="section-label" style="margin-top:0;">글 종류</label>
+            <select id="selKind" class="input-field" onchange="toggleShoppingFields()">
+              <option value="daily">📷 일상글 (정보성)</option>
+              <option value="shopping">🛒 쇼핑글 (판매/링크)</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <label class="section-label" style="margin-top:0;">말투 (문체)</label>
+            <select id="selPreset" class="input-field">
+              <option value="real">솔직 후기체</option>
+              <option value="monologue">혼잣말체</option>
+              <option value="tip">꿀팁체</option>
+              <option value="empathy">공감체</option>
+            </select>
+          </div>
+        </div>
+        
+        <div id="shoppingFields" style="display:none; background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; margin-bottom:8px; margin-top:8px;">
+          <label class="section-label" style="margin-top:0; color:#f472b6;">판매할 상품명 (선택)</label>
+          <input type="text" id="productName" class="input-field" style="margin-bottom:0;" placeholder="예: 무선 고데기, 다이어트 보조제">
+        </div>
+        
+        <label class="section-label">변경 강도</label>
+        <select id="selDepth" class="input-field">
+          <option value="same">내용 그대로 (표현만 다르게)</option>
+          <option value="loose">살짝 바꾸기 (내 예시 추가)</option>
+        </select>
+        
+        <label class="section-label">추가 지시사항 (선택)</label>
+        <input type="text" id="extraInst" class="input-field" placeholder="예: 마지막에 웃는 이모지 넣어줘">
+        
+        <label class="section-label"><i data-lucide="key" style="width:14px;height:14px;"></i> Gemini API Key</label>
+        <input type="password" id="apiKey" class="input-field" placeholder="AIzaSy...">
+        <p style="font-size:11.5px; color:#64748b; margin-top:4px; margin-bottom:20px;">
+          무료 키 발급: <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#38bdf8; text-decoration:none;">Google AI Studio ↗</a>
+        </p>
+        
+        <button id="btnGenerate" class="btn-action-primary">
+          <i data-lucide="sparkles" style="width:18px;height:18px;"></i> 후킹되는 글로 변환하기
+        </button>
+      </div>
+    </div>
+    
+    <!-- Right Preview Area -->
+    <div class="preview-canvas-area">
+      <div id="loading" class="loading-spinner"></div>
+      
+      <div id="resultBox" class="result-box" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:16px; font-weight:800; color:#c4b5fd;">✨ 변환 완료</h3>
+          <button id="btnCopy" class="btn-action-secondary">복사하기</button>
+        </div>
+        
+        <div id="outText" class="result-text"></div>
+        
+        <div id="linkBox" style="display:none; margin-top:10px;">
+          <h4 style="font-size:12px; font-weight:800; color:#f472b6; margin-bottom:8px;">🔗 링크 안내 멘트</h4>
+          <div id="outLink" class="result-text" style="min-height:auto; padding:12px; border-color:rgba(244, 114, 182, 0.4);"></div>
+        </div>
+      </div>
+      
+      <div id="emptyState" style="text-align:center; opacity:0.5; max-width: 320px; display:flex; flex-direction:column; align-items:center;">
+        <i data-lucide="edit-3" style="width:48px; height:48px; margin:0 auto 16px; color:#94a3b8;"></i>
+        <p style="line-height:1.6; font-size:14px; margin-bottom: 24px;">왼쪽 패널에서 원문을 입력하고<br>변환 버튼을 눌러주세요.</p>
+        
+        <div style="background:rgba(255,255,255,0.05); border:1px dashed rgba(255,255,255,0.15); padding:16px; border-radius:12px; width:100%;">
+          <p style="font-size:12px; font-weight:800; color:#c4b5fd; margin-bottom:8px;">💡 1클릭 북마크릿 (초간편 추출)</p>
+          <p style="font-size:11.5px; color:#94a3b8; line-height:1.5; margin-bottom:12px;">아래 버튼을 브라우저 <strong>북마크 바</strong>로 드래그해서 저장하세요. 인스타나 스레드에서 글을 드래그한 뒤 버튼을 누르면 이 화면으로 원문이 바로 넘어옵니다!</p>
+          <a href="javascript:(function(){var text=window.getSelection().toString()||document.body.innerText.slice(0,1000);window.open('https://setupod.com/hook_maker.html?text='+encodeURIComponent(text),'_blank');})();" style="display:inline-block; padding:8px 14px; background:rgba(139,92,246,0.2); border:1px solid rgba(139,92,246,0.4); color:#c4b5fd; font-size:12px; font-weight:700; text-decoration:none; border-radius:8px; cursor:grab;" title="브라우저 북마크 바로 끌어다 놓으세요">
+            🚀 훅 메이커로 보내기
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <script>
+    lucide.createIcons();
+
+    // Prompts and Presets
+    const COMMON = [
+      "너는 스레드(Threads)에 올릴 한국어 글을 쓰는 사람이다.",
+      "아래 원문을 **같은 소재·같은 주장으로** 다시 쓴다.",
+      "",
+      "[반드시 지킬 것]",
+      "· **무조건 반말로 쓴다.** 존댓말이 한 문장이라도 섞이면 실패다.",
+      "    «~해요/~합니다/~하세요» → «~해»,  «~네요» → «~네»,  «~거든요» → «~거든»",
+      "  ⚠️ 원문이 존댓말이어도 **반말로 바꿔서** 쓴다. 원문 말끝을 따라가지 마라.",
+      "· **무엇에 대한 글인지(소재)와 하려는 말(주장)은 원문 그대로 유지한다.**",
+      "· 다만 **문장과 표현은 새로 쓴다.** 원문 문장을 그대로 옮기면 도용이다.",
+      "· 원문에 없는 사실·숫자·경험을 **지어내지 마라.**",
+      "· 첫 줄은 아래 [첫 줄] 규칙을 따른다.",
+      "· **한 줄은 20자 안팎**(30자 넘기지 마라), 의미 단위로 끊는다.",
+      "  문단은 2~4줄, 문단 사이에 빈 줄 하나. 아래 [본보기] 모양 그대로.",
+      "· 실제 사람이 쓴 것처럼. 광고 문구 티가 나면 실패다.",
+      "· 해시태그는 쓰지 않는다.",
+      "· 과장·단정(최고·1위·무조건 효과)은 쓰지 않는다.",
+      "· 결과는 **올릴 글 본문만** 출력한다. 설명·머리말·따옴표·번호를 붙이지 마라.",
+      "",
+      "[첫 줄 — 여기서 승부가 난다]",
+      "· 첫 줄만 보고 **손가락을 멈추게** 해야 한다. 한 문장, 20자 안팎.",
+      "· **원문 첫 줄을 옮기지 마라.** 외국 글이면 번역투가 그대로 나온다 — 그건 훅이 아니다.",
+      "· ❌ **첫 줄에 물건 이름·가격·산 곳·브랜드를 넣지 마라.** 넣는 순간 훅이 아니라 설명이 된다.",
+      "· ✅ 셋 중 하나로 시작한다:",
+      "    ① 내 반응 — «이거 진작 알았으면 좋았을 텐데» / «돈 쓴 게 아까워 죽겠어»",
+      "    ② 뒤집기  — «비싼 거 살 필요 없더라» / «싼 게 더 오래 가는 거 실화냐»",
+      "    ③ 되묻기  — «나만 몰랐던 거야?» / «이런 거 다들 어떻게 알아?»",
+      "",
+      "[본보기 — 이 모양으로 써라]",
+      "사람 먹는 거 한참 쳐다보더니",
+      "갑자기 저러는 거 실화냐😹",
+      "",
+      "진짜 어이없고 귀여워 미치겠네",
+      "이거 나만 본 거 아니지?",
+      "",
+      "이런 행동하는 고양이 또 있어?",
+      "",
+      "↑ 보다시피 **한 줄이 짧고**, **두 줄씩 묶여** 있고, 문단 사이에 **빈 줄**이 있다.",
+      "  말끝은 반말이고, 마지막은 **질문으로 닫아** 댓글을 부른다."
+    ].join("\n");
+
+    const PRESETS = {
+      real: "말투는 «직접 써 본 사람의 솔직한 후기». 좋은 점만 늘어놓지 말고 사소한 아쉬움도 한 줄 섞는다.",
+      monologue: "말투는 «혼잣말». 감탄과 물음표를 섞고, 남에게 설명하는 게 아니라 혼자 놀란 것처럼 쓴다.",
+      tip: "말투는 «알려 주는 사람». 순서나 방법이 눈에 보이게 쓴다. 다만 강의처럼 딱딱해지면 안 된다.",
+      empathy: "말투는 «같은 처지의 사람». 읽는 사람이 겪었을 상황을 먼저 말하고, 그다음에 이야기를 잇는다."
+    };
+
+    const KIND_RULES = {
+      daily: [
+        "[이 글의 종류 — 일상글]",
+        "· **파는 말이 한 글자도 들어가면 안 된다.** 제품 추천·구매 유도·링크 언급 모두 금지.",
+        "· 목적은 «이 계정이 사람이 굴리는 계정이구나» 를 보여 주는 것이다.",
+        "· 공감이나 웃음이 남으면 성공이다."
+      ].join("\n"),
+      shopping: [
+        "[이 글의 종류 — 쇼핑글]",
+        "· 제품을 소개하되 **광고처럼 들리면 안 된다.** 써 본 이야기가 먼저고 제품은 그 안에 있다.",
+        "· 가격·할인율을 단정해서 적지 마라(바뀐다).",
+        "· 본문에 링크를 넣지 마라 — 링크는 따로 붙인다.",
+        "· 마지막은 «궁금하면 댓글» 처럼 가볍게 닫는다."
+      ].join("\n")
+    };
+
+    const DEPTHS = {
+      same: "원문의 소재와 주장을 **바꾸지 마라.** 예시나 상황도 원문 것을 쓰되 표현만 바꾼다.",
+      loose: "소재와 주장은 유지하되, 예시나 상황은 비슷한 다른 것으로 바꿔도 된다. 주제는 절대 바꾸지 마라."
+    };
+
+    function buildPrompt(source, kind, presetKey, depthKey, extra, product) {
+      const pBody = PRESETS[presetKey] || PRESETS.real;
+      const dBody = DEPTHS[depthKey] || DEPTHS.same;
+      
+      const out = [
+        COMMON,
+        "",
+        KIND_RULES[kind] || KIND_RULES.daily,
+        "",
+        "[얼마나 바꿀까]",
+        "· " + dBody,
+        "",
+        "[말투]",
+        "· " + pBody
+      ];
+      
+      if (kind === "shopping" && product.trim()) {
+        out.push("", "[소개할 것]", "· " + product.trim());
+      }
+      if (extra.trim()) {
+        out.push("", "[추가 지시 — 위와 겹치면 이쪽을 따른다]", "· " + extra.trim());
+      }
+      
+      if (kind === "shopping") {
+        out.push(
+          "",
+          "[하나 더 — 링크 앞에 붙일 한 줄]",
+          "본문을 다 쓴 뒤, 아래 구분줄을 **한 글자도 바꾸지 말고** 그대로 적고,",
+          "그 다음 줄에 «상품 링크를 걸면서 덧붙일 한 줄» 을 써라.",
+          "",
+          "  ===링크한줄===",
+          "",
+          "· **딱 한 줄.** 20자 안팎. 반말. 본문에서 이어지는 말이어야 한다.",
+          "· ❌ 최저가 · 역대급 · 강추 · 필수템 · 지금 사세요 · 할인 · 품절임박 —",
+          "  광고 티가 나는 말은 쓰지 마라. 스레드가 저품질로 잡는다.",
+          "· ✅ 조용히 알려 주는 말투 —",
+          "    «궁금하다는 사람 많아서 밑에 걸어둘게» / «내가 산 거 여기» / «찾기 귀찮을까봐 밑에 둠»",
+          "· 링크 주소는 쓰지 마라. 이모지는 없거나 하나까지."
+        );
+      }
+
+      out.push(
+        "",
+        "[원문 — 이 이야기를 내 말로 다시 쓴다. 문장을 옮기지는 마라]",
+        '"""',
+        source.slice(0, 1500),
+        '"""',
+        "",
+        "위 원문과 **같은 소재·같은 주장**으로, **반말로**, 표현만 새로 써라. 올릴 글 본문만 출력해라."
+      );
+      
+      return out.join("\n");
+    }
+
+    async function callGemini(apiKey, prompt) {
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.9,
+            maxOutputTokens: 2048,
+          }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || `HTTP ${res.status}`);
+      }
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    }
+
+    // Load API Key
+    document.getElementById('apiKey').value = localStorage.getItem('VH_GEMINI_KEY') || '';
+
+    // Handle Bookmarklet/URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('text')) {
+      document.getElementById('sourceText').value = urlParams.get('text');
+    }
+
+    window.toggleShoppingFields = function() {
+      const isShopping = document.getElementById('selKind').value === 'shopping';
+      document.getElementById('shoppingFields').style.display = isShopping ? 'block' : 'none';
+    };
+
+    document.getElementById('btnGenerate').addEventListener('click', async () => {
+      const source = document.getElementById('sourceText').value;
+      const apiKey = document.getElementById('apiKey').value;
+      
+      if (!source.trim()) return alert("원문 텍스트를 입력해주세요.");
+      if (!apiKey.trim()) return alert("Gemini API Key를 입력해주세요.");
+      
+      localStorage.setItem('VH_GEMINI_KEY', apiKey.trim());
+      
+      const kind = document.getElementById('selKind').value;
+      const preset = document.getElementById('selPreset').value;
+      const depth = document.getElementById('selDepth').value;
+      const extra = document.getElementById('extraInst').value;
+      const product = document.getElementById('productName').value;
+      
+      const prompt = buildPrompt(source, kind, preset, depth, extra, product);
+      
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('resultBox').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+      
+      try {
+        const resultText = await callGemini(apiKey.trim(), prompt);
+        
+        let mainText = resultText;
+        let linkText = "";
+        
+        if (kind === 'shopping' && resultText.includes('===링크한줄===')) {
+          const parts = resultText.split('===링크한줄===');
+          mainText = parts[0].trim();
+          linkText = parts[1] ? parts[1].trim() : "";
+        }
+        
+        document.getElementById('outText').textContent = mainText;
+        if (kind === 'shopping' && linkText) {
+          document.getElementById('outLink').textContent = linkText;
+          document.getElementById('linkBox').style.display = 'block';
+        } else {
+          document.getElementById('linkBox').style.display = 'none';
+        }
+        
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('resultBox').style.display = 'flex';
+        
+      } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'block';
+        alert("오류 발생: " + err.message);
+      }
+    });
+
+    document.getElementById('btnCopy').addEventListener('click', () => {
+      const main = document.getElementById('outText').textContent;
+      const link = document.getElementById('outLink').textContent;
+      const isShopping = document.getElementById('selKind').value === 'shopping';
+      
+      let copyText = main;
+      if (isShopping && link) {
+        copyText += '\n\n' + link;
+      }
+      
+      navigator.clipboard.writeText(copyText).then(() => {
+        const btn = document.getElementById('btnCopy');
+        btn.textContent = '복사 완료!';
+        btn.style.background = '#34d399';
+        setTimeout(() => {
+          btn.textContent = '복사하기';
+          btn.style.background = 'rgba(255, 255, 255, 0.08)';
+        }, 2000);
+      });
+    });
+  </script>
+
+  <script>
+function toggleMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      if (!overlay) return;
+      overlay.classList.toggle('active');
+      if (overlay.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  </script>
+
+  <script>
+
+    // B2B2B Widget Embed Logic
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('embed') === 'true') {
+        document.documentElement.classList.add('is-embedded');
+        const observer = new ResizeObserver(() => {
+          window.parent.postMessage({ type: 'setupod_resize', height: document.documentElement.scrollHeight }, '*');
+        });
+        observer.observe(document.body);
+        window.addEventListener('load', () => {
+          window.parent.postMessage({ type: 'setupod_ready', height: document.documentElement.scrollHeight }, '*');
+        });
+      }
+    })();
+  
+  </script>
+</body>
+</html>

@@ -1335,6 +1335,22 @@
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
   </style>
+
+  <style>
+
+    /* B2B2B Widget Embed Mode */
+    html.is-embedded nav,
+    html.is-embedded header,
+    html.is-embedded .mobile-menu-overlay,
+    html.is-embedded footer {
+      display: none !important;
+    }
+    html.is-embedded body {
+      background: transparent !important;
+      padding-top: 0 !important;
+    }
+  
+  </style>
 </head>
 <body>
 
@@ -2933,6 +2949,25 @@ function toggleMobileMenu() {
         document.body.style.overflow = '';
       }
     }
+  </script>
+
+  <script>
+
+    // B2B2B Widget Embed Logic
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('embed') === 'true') {
+        document.documentElement.classList.add('is-embedded');
+        const observer = new ResizeObserver(() => {
+          window.parent.postMessage({ type: 'setupod_resize', height: document.documentElement.scrollHeight }, '*');
+        });
+        observer.observe(document.body);
+        window.addEventListener('load', () => {
+          window.parent.postMessage({ type: 'setupod_ready', height: document.documentElement.scrollHeight }, '*');
+        });
+      }
+    })();
+  
   </script>
 </body>
 </html>

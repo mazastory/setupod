@@ -5,7 +5,25 @@ const indexHtml = fs.readFileSync('index.html', 'utf8');
 
 const cssStart = indexHtml.indexOf('/* ── 글로벌 네비게이션 ── */');
 const cssEnd = indexHtml.indexOf('/* ── 히어로 섹션 ── */');
-const gnbCss = indexHtml.substring(cssStart, cssEnd).trim();
+const dropdownCss = `
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 100; margin-top: 10px;
+    }
+    .nav-dropdown-menu::before {
+      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
+    .nav-dropdown-menu a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+`;
+const gnbCss = indexHtml.substring(cssStart, cssEnd).trim() + '\\n' + dropdownCss;
 
 const navStart = indexHtml.indexOf('<nav>');
 const navEnd = indexHtml.indexOf('</nav>') + 6;
@@ -23,7 +41,36 @@ const snippet = {
   css: gnbCss,
   nav: gnbNav,
   mobile: mobileMenuHtml,
-  js: gnbJs
+  js: gnbJs,
+  embedCss: `
+    /* B2B2B Widget Embed Mode */
+    html.is-embedded nav,
+    html.is-embedded header,
+    html.is-embedded .mobile-menu-overlay,
+    html.is-embedded footer {
+      display: none !important;
+    }
+    html.is-embedded body {
+      background: transparent !important;
+      padding-top: 0 !important;
+    }
+  `,
+  embedJs: `
+    // B2B2B Widget Embed Logic
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('embed') === 'true') {
+        document.documentElement.classList.add('is-embedded');
+        const observer = new ResizeObserver(() => {
+          window.parent.postMessage({ type: 'setupod_resize', height: document.documentElement.scrollHeight }, '*');
+        });
+        observer.observe(document.body);
+        window.addEventListener('load', () => {
+          window.parent.postMessage({ type: 'setupod_ready', height: document.documentElement.scrollHeight }, '*');
+        });
+      }
+    })();
+  `
 };
 
 console.log("CSS length:", snippet.css.length);
@@ -36,6 +83,9 @@ const files = [
   'roi_calculator.html',
   'proposal_maker.html',
   'proof.html',
+  'hook_maker.html',
+  'detail_studio.html',
+  '10k_studio.html',
 ];
 
 files.forEach(file => {
@@ -48,7 +98,11 @@ files.forEach(file => {
 
   // 2. Inject CSS before </head>
   if (!html.includes('/* ── 글로벌 네비게이션 ── */')) {
-    const styleBlock = `\n  <style>\n${snippet.css}\n  </style>\n`;
+    const styleBlock = `\n  <style>\n${snippet.css}\n${snippet.embedCss}\n  </style>\n`;
+    html = html.replace('</head>', styleBlock + '</head>');
+  } else if (!html.includes('/* B2B2B Widget Embed Mode */')) {
+    // If nav is already there but embed CSS is missing, add it
+    const styleBlock = `\n  <style>\n${snippet.embedCss}\n  </style>\n`;
     html = html.replace('</head>', styleBlock + '</head>');
   }
 
@@ -59,7 +113,10 @@ files.forEach(file => {
 
   // 4. Inject JS before </body>
   if (!html.includes('function toggleMobileMenu()')) {
-    const scriptBlock = `\n  <script>\n${snippet.js}\n  </script>\n`;
+    const scriptBlock = `\n  <script>\n${snippet.js}\n${snippet.embedJs}\n  </script>\n`;
+    html = html.replace('</body>', scriptBlock + '</body>');
+  } else if (!html.includes('// B2B2B Widget Embed Logic')) {
+    const scriptBlock = `\n  <script>\n${snippet.embedJs}\n  </script>\n`;
     html = html.replace('</body>', scriptBlock + '</body>');
   }
 
