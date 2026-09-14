@@ -100,10 +100,35 @@ files.forEach(file => {
   if (!html.includes('/* ── 글로벌 네비게이션 ── */')) {
     const styleBlock = `\n  <style>\n${snippet.css}\n${snippet.embedCss}\n  </style>\n`;
     html = html.replace('</head>', styleBlock + '</head>');
-  } else if (!html.includes('/* B2B2B Widget Embed Mode */')) {
+  } else {
     // If nav is already there but embed CSS is missing, add it
-    const styleBlock = `\n  <style>\n${snippet.embedCss}\n  </style>\n`;
-    html = html.replace('</head>', styleBlock + '</head>');
+    if (!html.includes('/* B2B2B Widget Embed Mode */')) {
+      const styleBlock = `\n  <style>\n${snippet.embedCss}\n  </style>\n`;
+      html = html.replace('</head>', styleBlock + '</head>');
+    }
+    // If nav is there but dropdown CSS is missing, add it
+    if (!html.includes('.nav-dropdown-menu {')) {
+      const dropdownCssBlock = `
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 100; margin-top: 10px;
+    }
+    .nav-dropdown-menu::before {
+      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
+    .nav-dropdown-menu a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    </style>\n`;
+      html = html.replace('</head>', dropdownCssBlock + '</head>');
+    }
   }
 
   // 3. Inject NAV after <body>
