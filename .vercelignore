@@ -1,0 +1,15 @@
+# 배포에 필요 없는 파일 — 저장소에는 두고 Vercel 업로드에서만 뺀다 (배포 저장공간 절약)
+# 사이트에서 참조하지 않는 원본 미디어 (화면은 .webp 를 쓴다)
+assets/setupod.mp4
+assets/model_ceo_female.png
+assets/model_ceo_male.png
+assets/model_ceo_female.jpg
+assets/model_ceo_male.jpg
+2026년 프로젝트 플래너.pdf
+
+# 개발용 스크립트·스키마
+create_hook_maker.py
+fix_all.js
+test_all.js
+test_detail.js
+supabase_schema.sql
