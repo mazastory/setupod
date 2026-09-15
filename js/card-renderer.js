@@ -614,10 +614,10 @@ async function initCardEngine() {
     try {
       const searchSlug = company ? `${company}/${slug}` : slug;
       let cloud = await loadPodFromCloud(searchSlug);
-      if (!cloud || !cloud.profile) {
+      if (!cloud || (!cloud.profile && !cloud.pod)) {
         cloud = await loadPodFromCloud(slug);
       }
-      if (cloud && cloud.profile) {
+      if (cloud && (cloud.profile || cloud.pod)) {
         populateCardFromCloud(cloud, company);
         setupSwipe();
         return;
