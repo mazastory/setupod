@@ -31,6 +31,7 @@
     { "source": "/hook-maker", "destination": "/hook_maker" },
     { "source": "/product-studio", "destination": "/product_studio" },
     { "source": "/roi-calculator", "destination": "/roi_calculator" },
+    { "source": "/brewoak", "destination": "/brewoak" },
     { "source": "/privacy", "destination": "/privacy" },
     { "source": "/terms", "destination": "/terms" },
     { "source": "/robots.txt", "destination": "/robots.txt" },
