@@ -1458,7 +1458,7 @@
     <div class="url-share-bar">
       <div class="url-info">
         <span class="url-label">내 세럽팟 주소</span>
-        <span class="url-text" id="myPageUrl">link.setupod.com/official</span>
+        <span class="url-text" id="myPageUrl"></span>
       </div>
       <div class="url-btns">
         <button class="btn-icon-action" onclick="copyUrl()" title="주소 복사">
@@ -1692,9 +1692,9 @@
       <div class="modal-title">프로필 정보 수정</div>
       
       <div class="modal-input-group">
-        <label class="modal-label">링크 주소 (서브패스) <span style="font-size:10px;color:var(--neon-cyan);">link.setupod.com/<strong>아이디</strong></span></label>
+        <label class="modal-label">링크 주소 (서브패스) <span style="font-size:10px;color:var(--neon-cyan);">/l/<strong>아이디</strong></span></label>
         <div style="display:flex;align-items:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0 12px;">
-          <span style="font-size:12.5px;color:rgba(255,255,255,0.4);font-family:'Montserrat',sans-serif;">link.setupod.com/</span>
+          <span style="font-size:12.5px;color:rgba(255,255,255,0.4);font-family:'Montserrat',sans-serif;">/l/</span>
           <input type="text" id="modalProfileSlug" class="modal-input" value="official" style="background:none;border:none;padding:10px 4px;color:#38bdf8;font-weight:800;" placeholder="영문/숫자 소문자">
         </div>
         <span style="font-size:10.5px;color:rgba(255,255,255,0.4);">* CEO, CTO, ADMIN 등 플랫폼 핵심 예약어는 사용할 수 없습니다.</span>
@@ -2539,14 +2539,18 @@
       currentProfile.handle = document.getElementById('modalProfileHandle').value;
       currentProfile.bio = document.getElementById('modalProfileBio').value;
 
-      document.getElementById('myPageUrl').innerText = `link.setupod.com/${currentProfile.slug}`;
+      const baseUrl = window.location.origin.includes('127.0.0.1') || window.location.origin.includes('localhost') 
+        ? `${window.location.origin}/l/${currentProfile.slug}`
+        : `https://setupod.com/l/${currentProfile.slug}`;
+        
+      document.getElementById('myPageUrl').innerText = baseUrl;
       document.getElementById('userNameDisplay').innerText = currentProfile.name;
       document.getElementById('userHandleDisplay').innerText = currentProfile.handle;
       document.getElementById('userBioDisplay').innerText = currentProfile.bio;
 
       saveState();
       closeProfileModal();
-      showToast(`'link.setupod.com/${currentProfile.slug}' 주소가 저장되었습니다.`);
+      showToast(`'${baseUrl}' 주소가 저장되었습니다.`);
     }
 
     // ── 🎨 테마 변경 시스템 ──
@@ -2820,6 +2824,22 @@
           document.body.classList.remove('visitor-mode');
           document.getElementById('cloudSyncText').innerText = "클라우드 동기화됨";
           document.getElementById('btnCloudSync').style.borderColor = "var(--neon-cyan)";
+          
+          // 본인의 데이터 로드
+          if (typeof loadPodByUserId === 'function') {
+            try {
+              const myCloud = await loadPodByUserId(user.id);
+              if (myCloud && myCloud.profile) {
+                currentProfile = myCloud.profile;
+                if (myCloud.pod && myCloud.pod.components_json) {
+                  componentsData = myCloud.pod.components_json;
+                }
+                currentTheme = currentProfile.theme || 'violet';
+              }
+            } catch (e) {
+              console.error("My cloud load error:", e);
+            }
+          }
         }
       }
       // --- 4. Studio Profile Integration ---
@@ -2838,7 +2858,10 @@
       document.getElementById('userNameDisplay').innerText = currentProfile.name || 'Alex Rivera';
       document.getElementById('userHandleDisplay').innerText = currentProfile.handle || '@setupod';
       document.getElementById('userBioDisplay').innerText = currentProfile.bio || '';
-      document.getElementById('myPageUrl').innerText = `link.setupod.com/${currentProfile.slug || 'official'}`;
+      const baseUrl = window.location.origin.includes('127.0.0.1') || window.location.origin.includes('localhost') 
+        ? `${window.location.origin}/l/${currentProfile.slug || 'official'}`
+        : `https://setupod.com/l/${currentProfile.slug || 'official'}`;
+      document.getElementById('myPageUrl').innerText = baseUrl;
       
       if (currentProfile.avatar) {
         document.getElementById('avatarImgDisplay').src = currentProfile.avatar;
