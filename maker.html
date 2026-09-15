@@ -1577,6 +1577,13 @@
           <h2 class="section-title">2. 기본 정보 및 브랜드</h2>
         </div>
         <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom: 8px;">
+            <label class="form-label">커스텀 URL (선택) <span class="sub" style="color:var(--neon-accent);">*입력 시 해당 주소로 덮어씌워집니다 (예: ceo)</span></label>
+            <div style="display:flex;align-items:center;background:var(--input-bg);border:1px solid var(--input-border);border-radius:12px;padding:0 12px;overflow:hidden;transition:all 0.3s ease;">
+              <span style="color:rgba(255,255,255,0.4);font-size:13px;padding-right:6px;">setupod.com/c/</span>
+              <input type="text" id="inputSlug" class="form-input" style="flex:1;background:transparent;border:none;padding-left:0;outline:none;" placeholder="영문/숫자 (공백 비워두면 자동 생성)">
+            </div>
+          </div>
           <div class="form-group">
             <label class="form-label">이름 (영문/한글) <span class="sub">필수</span></label>
             <input type="text" id="inputName" class="form-input" value="김민준" placeholder="예: 김민준, Alex Rivera" oninput="liveUpdate()" onfocus="forceCardBack()">
@@ -2374,7 +2381,8 @@
     function publishSingleCard() {
       // 1. 폼 데이터 추출
       const name = document.getElementById('inputName').value || 'User';
-      const safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new' + Date.now().toString().slice(-4);
+      let safeName = (document.getElementById('inputSlug')?.value || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      if (!safeName) safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new' + Date.now().toString().slice(-4);
       
       const profileData = {
         name: name,
@@ -2497,6 +2505,7 @@
         if (typeof selectTeamLayout === 'function') {
           selectTeamLayout('classic', document.querySelector('[data-team-layout="classic"]'));
         }
+        document.getElementById('inputSlug').value = "ceo";
         document.getElementById('inputName').value = "Andrew K";
         document.getElementById('inputRole').value = "이사";
         document.getElementById('inputCompany').value = "TOOMUS";
