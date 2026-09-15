@@ -1585,6 +1585,19 @@
       <!-- [패널 A] 1인 개인 명함 에디터 -->
       <div id="panelSingle" style="display:flex;flex-direction:column;gap:28px;">
 
+      <!-- 0. 예시 템플릿 로드 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="sparkles" style="width:16px;height:16px;color:#a855f7;"></i></div>
+          <h2 class="section-title">0. 미리 채워진 예시 불러오기</h2>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('setupod')">SETUPOD 예시</button>
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('nexus')">NEXUS 예시</button>
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('toomus')">TOOMUS (내꺼)</button>
+        </div>
+      </div>
+
       <!-- 1. 디자인 레이아웃 (구조) 선택 -->
       <div>
         <div class="section-title-wrap">
@@ -2456,6 +2469,27 @@
         document.getElementById('inputTag2').value = "AI 데이터 솔루션";
         document.getElementById('inputTag3').value = "글로벌 파트너십";
         currentLogoSrc = 'assets/setupod.gif';
+      } else if (type === 'toomus') {
+        selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
+        selectLayout('classic', document.querySelector('[data-layout="classic"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('obsidian', document.querySelector('[data-team-theme="obsidian"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('classic', document.querySelector('[data-team-layout="classic"]'));
+        }
+        document.getElementById('inputName').value = "Andrew K";
+        document.getElementById('inputRole').value = "이사";
+        document.getElementById('inputCompany').value = "TOOMUS";
+        document.getElementById('inputWatermark').value = "TOOMUS";
+        document.getElementById('inputSlogan').value = "무한한 가능성을 연결하는 비즈니스 플랫폼";
+        document.getElementById('inputTagline').value = "ENDLESS POTENTIAL";
+        document.getElementById('inputPhone').value = "010-2661-0070";
+        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
+        document.getElementById('inputTag1').value = "디지털 자산화";
+        document.getElementById('inputTag2').value = "전략적 비즈니스 빌드";
+        document.getElementById('inputTag3').value = "글로벌 파트너십";
+        currentLogoSrc = 'assets/sample_client_toomus.png';
       }
       document.getElementById('frontLogoImg').src = currentLogoSrc;
       document.getElementById('backLogoImg').src = currentLogoSrc;
