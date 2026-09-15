@@ -184,6 +184,26 @@ async function loadPodFromCloud(slug) {
   return { profile, pod };
 }
 
+async function loadPodByUserId(userId) {
+  if (!supabaseClient) return null;
+
+  const { data: profile } = await supabaseClient
+    .from('profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (!profile) return null;
+
+  const { data: pod } = await supabaseClient
+    .from('pods')
+    .select('*')
+    .eq('slug', profile.slug)
+    .single();
+
+  return { profile, pod };
+}
+
 // 9. 방문자 리드(전화번호) 클라우드 DB 저장
 async function saveLeadToCloud(targetSlug, phone) {
   if (!supabaseClient) return false;
