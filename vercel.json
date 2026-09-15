@@ -47,6 +47,7 @@
     { "source": "/card/:company/:id", "destination": "/card" },
     { "source": "/card/:id", "destination": "/card" },
     { "source": "/alex", "destination": "/card" },
+    { "source": "/ceo", "destination": "/card" },
     { "source": "/setupod", "destination": "/card" },
     { "source": "/nexus/alex", "destination": "/card" },
     { "source": "/nexus", "destination": "/card" }
