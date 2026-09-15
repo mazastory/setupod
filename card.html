@@ -25,7 +25,7 @@
   <meta property="og:image" content="https://www.setupod.com/assets/setupod.gif">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" href="/assets/favicon-32x32.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,10 +38,10 @@
 
   <!-- Supabase Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
+  <script src="/js/supabase.js"></script>
 
   <!-- Default Theme Stylesheet (동적으로 교체됨) -->
-  <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+  <link rel="stylesheet" id="themeStylesheet" href="/themes/violet.css">
 
   <!-- 레이아웃 전용 스타일시트 (동적 로드) -->
   <link rel="stylesheet" id="layoutStylesheet" href="">
@@ -768,7 +768,7 @@
             <!-- 로고 박스 (탭 시 QR 팝업) -->
             <div class="front-logo-container">
               <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="frontLogoImg" src="assets/setupod.gif" alt="Logo">
+                <img id="frontLogoImg" src="/assets/setupod.gif" alt="Logo">
               </div>
             </div>
 
@@ -797,7 +797,7 @@
             <!-- Top Logo on Back -->
             <div class="back-top-logo-container">
               <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR코드가 열립니다">
-                <img id="backLogoImg" src="assets/setupod.gif" alt="Logo">
+                <img id="backLogoImg" src="/assets/setupod.gif" alt="Logo">
               </div>
             </div>
 
@@ -846,7 +846,7 @@
     </div>
 
     <!-- Viral Powered-By Badge -->
-    <a href="index.html" class="viral-badge-link" title="SETUPOD에서 나만의 비즈니스 팟 만들기">
+    <a href="/index.html" class="viral-badge-link" title="SETUPOD에서 나만의 비즈니스 팟 만들기">
       <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--neon-accent);"></i>
       <span>Setup your business with <strong>SETUPOD</strong></span>
     </a>
@@ -895,7 +895,7 @@
   </div>
 
   <!-- Dynamic Card Renderer Engine Script -->
-  <script src="js/card-renderer.js"></script>
-  <script src="js/toast.js"></script>
+  <script src="/js/card-renderer.js"></script>
+  <script src="/js/toast.js"></script>
 </body>
 </html>
