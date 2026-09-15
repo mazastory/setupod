@@ -2022,7 +2022,7 @@
 
               <div class="front-wrapper">
                 <div class="front-logo-container">
-                  <div class="front-logo-box" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
+                  <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR 코드가 열립니다.">
                     <img id="frontLogoImg" src="assets/setupod.gif" alt="Logo">
                   </div>
                 </div>
@@ -2045,7 +2045,7 @@
 
               <div class="back-wrapper">
                 <div class="back-top-logo-container">
-                  <div class="back-top-logo" onclick="event.stopPropagation(); showToast('로고를 탭하면 QR 코드가 열립니다.');">
+                  <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR 코드가 열립니다.">
                     <img id="backLogoImg" src="assets/setupod.gif" alt="Logo">
                   </div>
                 </div>
@@ -2089,22 +2089,77 @@
 
   </div>
 
-  <!-- 토스트 -->
-  <div class="toast" id="toastMsg">
-    <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#a855f7;"></i>
-    <span id="toastText">알림</span>
+  <!-- QR Code Modal (에디터 뷰) -->
+  <div class="modal-overlay" id="shareModal" onclick="handleModalBgClick(event)">
+    <div class="modal-box" style="position: relative; width: 90%; max-width: 340px; background: rgba(17, 12, 34, 0.95); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 24px; padding: 32px 24px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.6); backdrop-filter: blur(12px);">
+      <div class="modal-title" style="font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px;">임시 QR코드 미리보기</div>
+      <div class="modal-desc" style="font-size: 13px; color: #94a3b8; margin-bottom: 24px;">'발행하기' 후 실제 스캔 가능한 코드가 생성됩니다</div>
+
+      <div class="qr-container" id="qrContainer" style="background: #fff; width: 176px; height: 176px; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 16px; padding: 8px;"></div>
+
+      <button class="modal-close-btn" onclick="closeShareModal()" style="margin-top: 24px; width: 100%; height: 46px; background: rgba(255,255,255,0.08); border: none; color: #fff; font-size: 14px; font-weight: 700; border-radius: 12px; cursor: pointer;">닫기</button>
+    </div>
   </div>
+
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
 
   <script>
     let currentLayout = 'classic';
     let currentTheme = 'violet';
     let currentLogoSrc = 'assets/setupod.gif';
 
-    function showToast(text) {
-      const toast = document.getElementById('toastMsg');
-      document.getElementById('toastText').innerText = text;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2400);
+    let qrcodeObj = null;
+
+    function openShareModal() {
+      const modal = document.getElementById('shareModal');
+      if (modal) {
+        modal.classList.add('active');
+        if (!qrcodeObj) {
+          const qrTarget = document.getElementById('qrContainer');
+          qrTarget.innerHTML = "";
+          qrcodeObj = new QRCode(qrTarget, {
+            text: "https://setupod.com",
+            width: 160,
+            height: 160,
+            colorDark: "#100a24",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        }
+      }
+    }
+
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function handleModalBgClick(event) {
+      if (event.target.id === 'shareModal') {
+        closeShareModal();
+      }
     }
 
     function toggleCardFlip() {
@@ -2389,41 +2444,77 @@
     }
 
     function publishSingleCard() {
+      // 1. 폼 데이터 추출
       const name = document.getElementById('inputName').value || 'User';
-      const safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new';
+      const safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new' + Date.now().toString().slice(-4);
       
-      const cardData = {
-        id: safeName,
+      const profileData = {
         name: name,
-        role: document.getElementById('inputRole').value,
-        company: document.getElementById('inputCompany').value
+        handle: document.getElementById('inputRole').value,
+        bio: document.getElementById('inputCompany').value,
+        theme: currentTheme
       };
-      localStorage.setItem('setupod_card_data', JSON.stringify(cardData));
-      
-      showToast("🚀 엣지 네트워크에 명함을 배포 중입니다...");
-      
-      setTimeout(() => {
-        const publishedUrl = `https://setupod.com/c/${safeName}`;
-        showToast(`🎉 축하합니다! 첫 세럽팟이 완성됐어요! URL: ${publishedUrl}`);
 
-        if (typeof gtag === 'function') {
-          gtag('event', 'card_published', {
-            event_category: 'conversion',
-            card_name: safeName
-          });
-          gtag('event', 'generate_lead', {
-            value: 1,
-            currency: 'KRW'
-          });
-        }
-        
-        // 클립보드에 자동 복사
-        navigator.clipboard.writeText(publishedUrl).then(() => {
-          setTimeout(() => showToast("✅ 세럽팟 링크가 클립보드에 복사되었습니다!"), 2500);
-        }).catch(err => {
-          console.error("클립보드 복사 실패:", err);
+      const componentsData = {
+        layout: currentLayout,
+        companyWatermark: document.getElementById('inputWatermark').value,
+        slogan: document.getElementById('inputSlogan').value,
+        tagline: document.getElementById('inputTagline').value,
+        phone: document.getElementById('inputPhone').value,
+        email: document.getElementById('inputEmail').value,
+        moatTags: [
+          document.getElementById('inputTag1').value,
+          document.getElementById('inputTag2').value,
+          document.getElementById('inputTag3').value
+        ].filter(Boolean),
+        primaryAction: {
+          url: document.getElementById('inputWebsiteUrl').value,
+          label: document.getElementById('inputWebsiteLabel').value
+        },
+        socials: [
+          { type: 'kakao', url: document.getElementById('inputKakaoUrl').value, label: document.getElementById('inputKakaoLabel').value },
+          { type: 'instagram', url: document.getElementById('inputInstaUrl').value, label: document.getElementById('inputInstaLabel').value }
+        ]
+      };
+
+      // 2. 로그인 여부 확인 및 클라우드 동기화
+      if (typeof window.requireAuth === 'function') {
+        window.requireAuth(async (user) => {
+          showToast("🚀 클라우드에 팟(Pod)을 발행하는 중입니다...");
+          
+          if (typeof syncPodToCloud === 'function') {
+            const res = await syncPodToCloud(safeName, profileData, componentsData);
+            
+            if (res.error) {
+              showToast(`❌ 발행 실패: ${res.error}`);
+            } else {
+              // 로컬 및 운영 환경 모두에서 작동하도록 URL 생성
+              const baseUrl = window.location.origin.includes('127.0.0.1') || window.location.origin.includes('localhost') 
+                ? `${window.location.origin}/card.html?id=${safeName}`
+                : `https://setupod.com/c/${safeName}`;
+                
+              showToast(`🎉 클라우드 발행 완료!`);
+              
+              if (typeof gtag === 'function') {
+                gtag('event', 'card_published', {
+                  event_category: 'conversion',
+                  card_name: safeName
+                });
+              }
+              
+              navigator.clipboard.writeText(baseUrl).then(() => {
+                setTimeout(() => showToast(`✅ 생성된 링크가 클립보드에 복사되었습니다!\n${baseUrl}`), 1000);
+              });
+            }
+          } else {
+            showToast("⚠️ Supabase 연동 모듈을 찾을 수 없습니다.");
+          }
         });
-      }, 1500);
+      } else {
+        // 기존 localStorage 백업 로직 (auth-modal 실패 시 폴백)
+        localStorage.setItem('setupod_card_data', JSON.stringify({id: safeName, ...profileData, ...componentsData}));
+        showToast("⚠️ 로그인 모듈 로드 실패. 브라우저에 임시 저장되었습니다.");
+      }
     }
 
     function loadPreset(type) {
@@ -3113,6 +3204,7 @@ function toggleMobileMenu() {
   </footer>
 
   <script src="js/toast.js"></script>
+  <script src="js/auth-modal.js"></script>
   <script src="js/gnb.js"></script>
 </body>
 </html>

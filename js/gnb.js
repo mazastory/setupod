@@ -183,6 +183,41 @@
       window.lucide.createIcons();
     }
   }, 100);
+
+  // Auth 상태 체크 및 GNB 버튼 업데이트
+  setTimeout(async () => {
+    if (typeof window.getCurrentUser === 'function') {
+      const user = await window.getCurrentUser();
+      const btnCreateNav = document.querySelector('.btn-create-nav');
+      
+      if (user && btnCreateNav) {
+        // 로그인 상태: 계정 버튼으로 변경
+        const avatarUrl = user.user_metadata?.avatar_url || 'assets/sample_avatar.png';
+        btnCreateNav.innerHTML = `<img src="${avatarUrl}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"><span>내 계정</span>`;
+        btnCreateNav.href = "#";
+        btnCreateNav.title = "클릭하여 로그아웃";
+        btnCreateNav.onclick = (e) => {
+          e.preventDefault();
+          if (confirm('로그아웃 하시겠습니까?')) {
+            if (typeof signOutUser === 'function') signOutUser();
+          }
+        };
+      } else if (!user && btnCreateNav) {
+        // 비로그인 상태: 무료로 시작하기 버튼 클릭 시 로그인 모달 호출
+        btnCreateNav.href = "#";
+        btnCreateNav.onclick = (e) => {
+          e.preventDefault();
+          if (typeof window.requireAuth === 'function') {
+            window.requireAuth(() => {
+              window.location.href = 'maker.html';
+            });
+          } else {
+            window.location.href = 'maker.html';
+          }
+        };
+      }
+    }
+  }, 300);
 })();
 
   // App Mode 로고 클릭 시 드로어 메뉴 열기
