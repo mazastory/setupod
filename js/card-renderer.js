@@ -41,7 +41,7 @@ function getCardSlug() {
 // 테마 스타일시트 동적 주입
 function applyTheme(themeName) {
   const existingThemeLink = document.getElementById('themeStylesheet');
-  const themeHref = `themes/${themeName || 'violet'}.css`;
+  const themeHref = `/themes/${themeName || 'violet'}.css`;
   
   if (existingThemeLink) {
     existingThemeLink.href = themeHref;
@@ -249,7 +249,7 @@ function populateCard(data) {
   const layout = data.layout || 'classic';
   const layoutStylesheet = document.getElementById('layoutStylesheet');
   if (layoutStylesheet) {
-    layoutStylesheet.href = layout === 'classic' ? '' : `themes/layout-${layout}.css`;
+    layoutStylesheet.href = layout === 'classic' ? '' : `/themes/layout-${layout}.css`;
   }
   const cardElement = document.getElementById('cardElement');
   if (cardElement) {
@@ -566,8 +566,8 @@ function populateCardFromCloud(cloud, company) {
     email: p.email || 'contact@setupod.com',
     moatTags: ['3D 인터랙티브', 'vCard 자동저장', '올인원 멀티링크'],
     logo: {
-      src: p.avatar_url || 'assets/setupod.gif',
-      fallback: 'assets/setupod.gif',
+      src: p.avatar_url || '/assets/setupod.gif',
+      fallback: '/assets/setupod.gif',
       alt: companyName
     },
     primaryAction: {
@@ -628,7 +628,7 @@ async function initCardEngine() {
   }
 
   // 2. 로컬 JSON 파일 폴백
-  const paths = company ? [`cards/${company}_${slug}.json`, `cards/${slug}.json`] : [`cards/${slug}.json`];
+  const paths = company ? [`/cards/${company}_${slug}.json`, `/cards/${slug}.json`] : [`/cards/${slug}.json`];
   let loaded = false;
   for (const p of paths) {
     try {
@@ -645,7 +645,7 @@ async function initCardEngine() {
   // 3. 기본 setupod 명함 폴백
   if (!loaded) {
     try {
-      const fallbackRes = await fetch(`cards/setupod.json`);
+      const fallbackRes = await fetch(`/cards/setupod.json`);
       const fallbackData = await fallbackRes.json();
       populateCard(fallbackData);
     } catch (e) {
