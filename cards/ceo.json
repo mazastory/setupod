@@ -8,7 +8,7 @@
   "slogan": "무한한 가능성을 연결하는 비즈니스 플랫폼",
   "tagline": "ENDLESS POTENTIAL",
   "phone": "010-2661-0070",
-  "email": "andrew@toomus.com",
+  "email": "ceo@toomus.com",
   "moatTags": ["디지털 자산화", "전략적 비즈니스 빌드", "글로벌 파트너십"],
   "primaryAction": {
     "url": "https://toomus.com",
@@ -19,8 +19,8 @@
     { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
   ],
   "logo": {
-    "src": "assets/sample_client_toomus.png",
-    "fallback": "assets/setupod.gif",
+    "src": "/assets/setupod.gif",
+    "fallback": "/assets/setupod.gif",
     "alt": "TOOMUS"
   },
   "vcard": {
@@ -29,7 +29,7 @@
     "org": "TOOMUS",
     "title": "투머스 대표 / Product Lead",
     "tel": "010-2661-0070",
-    "email": "andrew@toomus.com",
+    "email": "ceo@toomus.com",
     "url": "https://setupod.com/ceo"
   }
 }
