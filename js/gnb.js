@@ -3,9 +3,6 @@
   const gnbHtml = `
   <nav>
     <a href="index.html" class="nav-brand">
-      <div class="nav-logo-symbol">
-        <img src="assets/setupod.gif" alt="SETUPOD" class="nav-logo-gif">
-      </div>
       <div class="nav-logo-text-wrap">
         <div class="nav-logo-row">
           <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
@@ -65,7 +62,6 @@
     <div class="mobile-menu-drawer" onclick="event.stopPropagation()">
       <div class="mobile-menu-header">
         <div class="mobile-menu-brand">
-          <img src="assets/setupod.gif" class="nav-logo-gif" style="width:28px;height:28px;border-radius:8px;">
           <span style="font-weight:900;font-size:16px;">SETUPOD</span>
         </div>
         <button class="mobile-menu-close" onclick="window.closeMobileMenu()" aria-label="메뉴 닫기">
@@ -73,6 +69,12 @@
         </button>
       </div>
       <div class="mobile-menu-list">
+        <a href="index.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="home" style="width:18px;height:18px;color:#a855f7;"></i>
+            <span>홈으로 가기</span>
+          </div>
+        </a>
         <a href="planner.html" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="compass" style="width:18px;height:18px;color:#c084fc;"></i>
