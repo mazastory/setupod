@@ -1,13 +1,19 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "brewoak.com" }],
+      "destination": "/brewoak",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "link.setupod.com" }],
       "destination": "/link"
     },
-    { "source": "/", "has": [{ "type": "host", "value": "brewoak.com" }], "destination": "/brewoak" },
-    { "source": "/", "has": [{ "type": "host", "value": "www.brewoak.com" }], "destination": "/brewoak" },
     { "source": "/link", "destination": "/link" },
     { "source": "/maker", "destination": "/maker" },
     { "source": "/studio", "destination": "/maker" },
