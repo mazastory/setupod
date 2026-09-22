@@ -3208,9 +3208,47 @@ function toggleMobileMenu() {
     </p>
     <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
+  <!-- Maker Intro Overlay (UX Revamp Phase 1) -->
+  <div id="makerIntroOverlay" style="position: fixed; inset: 0; background: #000000; z-index: 10000; display: flex; flex-direction: column; padding: 40px 20px; overflow-y: auto;">
+    <div style="max-width: 600px; width: 100%; margin: 0 auto;">
+      <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; background: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">어떤 명함을 만들까요?</h1>
+      <p style="text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 40px; font-size: 15px;">AI로 3초 만에 만들거나, 템플릿을 선택해 직접 만들어보세요.</p>
+
+      <!-- AI Scanner Option -->
+      <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 32px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(168, 85, 247, 0.2)'" onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'" onclick="document.getElementById('aiScannerInput').click()">
+        <i data-lucide="scan-line" style="width: 48px; height: 48px; color: #d8b4fe; margin-bottom: 16px;"></i>
+        <h3 style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px;">📸 내 종이 명함 찍어서 AI 자동 완성</h3>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 0;">사진 한 장이면 이름, 회사, 번호가 자동으로 채워집니다.</p>
+        <input type="file" id="aiScannerInput" accept="image/*" capture="environment" style="display: none;" onchange="handleAiScanUpload(event)">
+      </div>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="color: rgba(255,255,255,0.4); font-size: 13px; font-weight: 700;">OR 템플릿을 선택해 직접 입력하기</span>
+      </div>
+
+      <!-- Templates -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div onclick="loadPreset('setupod'); document.getElementById('makerIntroOverlay').style.display='none';" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; cursor: pointer; text-align: center;">
+          <div style="height: 120px; background: url('assets/preview_classic.png') center/cover no-repeat; border-radius: 8px; margin-bottom: 12px; opacity: 0.8;"></div>
+          <h4 style="font-weight: 600; font-size: 15px; margin-bottom: 4px;">클래식 프로페셔널</h4>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.5); margin: 0;">가장 대중적이고 신뢰감 있는 스타일</p>
+        </div>
+        <div onclick="loadPreset('nexus'); document.getElementById('makerIntroOverlay').style.display='none';" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; cursor: pointer; text-align: center;">
+          <div style="height: 120px; background: url('assets/preview_tech.png') center/cover no-repeat; border-radius: 8px; margin-bottom: 12px; opacity: 0.8;"></div>
+          <h4 style="font-weight: 600; font-size: 15px; margin-bottom: 4px;">크리에이티브 테크</h4>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.5); margin: 0;">개발자, 디자이너, 스타트업</p>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 32px;">
+        <button onclick="document.getElementById('makerIntroOverlay').style.display='none';" style="background: transparent; border: none; color: rgba(255,255,255,0.5); text-decoration: underline; cursor: pointer; font-size: 14px;">건너뛰기 (빈 화면에서 시작)</button>
+      </div>
+    </div>
+  </div>
 
   <script src="js/toast.js"></script>
   <script src="js/auth-modal.js"></script>
   <script src="js/gnb.js"></script>
+  <script src="js/maker-ai.js"></script>
 </body>
 </html>
