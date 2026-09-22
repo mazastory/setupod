@@ -460,6 +460,61 @@ function showToast(msg) {
   }, 2200);
 }
 
+// Kakao SDK Init
+if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+  Kakao.init('a9f1f4d2bdd716519cf711ef516bf8b9');
+}
+
+// Kakao Share
+function shareToKakao() {
+  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+    showToast("카카오톡 공유를 초기화할 수 없습니다.");
+    return;
+  }
+  
+  const title = (cardData && cardData.meta) ? cardData.meta.title : "SETUPOD 디지털 명함";
+  const desc = (cardData && cardData.meta) ? cardData.meta.ogDescription : "디지털 명함을 확인해보세요.";
+  let imageUrl = "https://setupod.com/assets/setupod.gif";
+  
+  if (cardData && cardData.logo && cardData.logo.src) {
+    if (cardData.logo.src.startsWith('http')) {
+      imageUrl = cardData.logo.src;
+    } else {
+      imageUrl = "https://setupod.com/" + cardData.logo.src.replace(/^\/+/, '');
+    }
+  }
+
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: title,
+      description: desc,
+      imageUrl: imageUrl,
+      link: {
+        mobileWebUrl: window.location.href,
+        webUrl: window.location.href,
+      },
+    },
+    buttons: [
+      {
+        title: '명함 보기',
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+    ],
+  });
+  
+  if (typeof gtag === 'function') {
+    gtag('event', 'share', {
+      method: 'kakao_share',
+      content_type: 'digital_card',
+      item_id: window.location.pathname
+    });
+  }
+}
+
 // Copy URL
 function copyCardUrl() {
   if (typeof gtag === 'function') {
