@@ -390,6 +390,8 @@ function setupSwipe() {
 }
 
 // QR Code Modal
+let qrcodeObj = null;
+
 function initQrCode() {
   const qrTarget = document.getElementById('qrContainer');
   if (!qrTarget) return;
@@ -403,6 +405,34 @@ function initQrCode() {
     correctLevel: QRCode.CorrectLevel.H
   });
 }
+
+window.switchQrType = function(type) {
+  if (!qrcodeObj) return;
+
+  const btnWeb = document.getElementById('btnQrWeb');
+  const btnKakao = document.getElementById('btnQrKakao');
+
+  if (type === 'web') {
+    btnWeb.style.background = 'rgba(168, 85, 247, 0.2)';
+    btnWeb.style.color = '#d8b4fe';
+    btnKakao.style.background = 'transparent';
+    btnKakao.style.color = 'rgba(255, 255, 255, 0.5)';
+    qrcodeObj.clear();
+    qrcodeObj.makeCode(window.location.href);
+  } else if (type === 'kakao') {
+    const kakaoSocial = currentCardData?.card?.socials?.find(s => s.type === 'kakao');
+    if (!kakaoSocial || !kakaoSocial.url || !kakaoSocial.url.startsWith('http')) {
+      showToast("❌ 카카오톡 링크가 등록되지 않았습니다.");
+      return;
+    }
+    btnKakao.style.background = '#fee500';
+    btnKakao.style.color = '#371d1e';
+    btnWeb.style.background = 'transparent';
+    btnWeb.style.color = 'rgba(255, 255, 255, 0.5)';
+    qrcodeObj.clear();
+    qrcodeObj.makeCode(kakaoSocial.url);
+  }
+};
 
 function openShareModal() {
   if (typeof gtag === 'function') {
