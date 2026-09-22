@@ -219,7 +219,8 @@
 
     @media (max-width: 980px) {
       .studio-container {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column-reverse;
         gap: 40px;
       }
     }
@@ -1644,17 +1645,17 @@
               <i data-lucide="image-play" style="width:14px;height:14px;color:#f472b6;"></i> GIF 모션 레퍼런스 샘플
             </span>
           </div>
-          <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">
-            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+          <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
               <img src="assets/sample_gif_1.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
               <img src="assets/sample_gif_2.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
               <img src="assets/sample_gif_3.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <div style="min-width:70px;height:70px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
               <img src="assets/sample_gif_4.gif" onerror="this.src='assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
             </div>
           </div>
