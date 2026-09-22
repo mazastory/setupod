@@ -7,16 +7,15 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-67QE5VV6XR');
   </script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SETUPOD | 1인 창업가를 위한 올인원 비즈니스 도구 플랫폼</title>
-  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+  <title>SETUPOD | 비즈니스의 모든 것을 셋업하다</title>
+  <meta name="description" content="SETUPOD - 3D 명함, 멀티링크, AI 마케팅, 제안서까지. 1인 창업가를 위한 16가지 비즈니스 도구를 무료로 제공합니다.">
 
-  <!-- Subdomain Routing (link.setupod.com -> /link) -->
+  <!-- Subdomain Routing -->
   <script>
     if (window.location.hostname === 'link.setupod.com' || window.location.hostname.startsWith('link.')) {
       var slug = window.location.pathname.replace(/^\/+/, '');
@@ -31,14 +30,14 @@
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SETUPOD">
-  <meta property="og:title" content="SETUPOD | 올인원 비즈니스 자산 & 3D 명함 플랫폼">
-  <meta property="og:description" content="카카오톡, 인스타그램, 틱톡, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 플랫폼">
+  <meta property="og:title" content="SETUPOD | 비즈니스의 모든 것을 셋업하다">
+  <meta property="og:description" content="3D 명함, 멀티링크, AI 마케팅, 제안서까지. 1인 창업가를 위한 16가지 무료 비즈니스 도구.">
   <meta property="og:image" content="https://www.setupod.com/assets/business_card_mockup.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
 
-  <!-- SEO, Sitemap & RSS Feed -->
+  <!-- SEO -->
   <link rel="canonical" href="https://www.setupod.com/">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <link rel="alternate" type="application/rss+xml" title="SETUPOD RSS Feed" href="/rss.xml">
@@ -48,395 +47,56 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons & QRCode -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@0.344.0"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-  <!-- 테마 기본값 (바이올렛) -->
-  <link rel="stylesheet" id="themeStylesheet" href="themes/violet.css">
+  <!-- GNB 공통 스타일 -->
+  <link rel="stylesheet" href="themes/gnb.css">
 
   <style>
-    :root {
-      --bg-main: #06040a;
-      --panel-bg: rgba(18, 12, 30, 0.65);
-      --border-subtle: rgba(255, 255, 255, 0.1);
-      --neon-violet: #a855f7;
-      --neon-cyan: #38bdf8;
-      --gold-accent: #ffd978;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at 50% 0%, #160c2b 0%, #080512 55%, #030206 100%);
+      background: #06040a;
       color: #ffffff;
       overflow-x: hidden;
       line-height: 1.5;
     }
 
-    /* ── 글로벌 네비게이션 ── */
-    nav {
-      width: 100%;
-      height: 70px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(6, 4, 10, 0.75);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: #ffffff;
-    }
-
-    .nav-logo-symbol {
-      width: 36px;
-      height: 36px;
-      aspect-ratio: 1 / 1;
-      flex-shrink: 0;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(192, 132, 252, 0.35);
-      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .nav-brand:hover .nav-logo-symbol {
-      transform: scale(1.06);
-      box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
-    }
-
-    .nav-logo-gif {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .nav-logo-text-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .nav-logo-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .nav-logo-text {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 21px;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      line-height: 1.1;
-      display: inline-flex;
-      align-items: baseline;
-    }
-
-    .nav-logo-text .part-setup {
-      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .nav-logo-text .part-od {
-      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
-    }
-
-    .logo-ko-tag {
-      font-family: 'Pretendard', sans-serif;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #e9d5ff;
-      background: rgba(168, 85, 247, 0.18);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      padding: 1.5px 6px;
-      border-radius: 6px;
-      letter-spacing: 0.04em;
-      line-height: 1.2;
-    }
-
-    .nav-logo-tagline {
-      font-family: 'Pretendard', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.5);
-      letter-spacing: 0.02em;
-      line-height: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .nav-link {
-      font-size: 14px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-link:hover {
-      color: #ffffff;
-    }
-
-    .btn-create-nav {
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 99px;
-      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 800;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
-      transition: all 0.2s;
-    }
-
-    .btn-create-nav:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.1);
-    }
-
-    /* 모바일 전용 상단 네비게이션 컨트롤 */
-    .mobile-nav-controls {
-      display: none;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-mobile-planner {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 6px 12px;
-      border-radius: 99px;
-      background: rgba(168, 85, 247, 0.14);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      color: #e9d5ff;
-      font-size: 12px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-mobile-planner:hover {
-      background: rgba(168, 85, 247, 0.25);
-    }
-
-    .btn-mobile-hamburger {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-mobile-hamburger:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-
-    /* 모바일 드로어 메뉴 오버레이 */
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .mobile-menu-drawer {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 82%;
-      max-width: 320px;
-      height: 100%;
-      background: #0d0818;
-      border-left: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      padding: 24px 20px;
-    }
-
-    .mobile-menu-overlay.active .mobile-menu-drawer {
-      transform: translateX(0);
-    }
-
-    .mobile-menu-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-bottom: 20px;
-    }
-
-    .mobile-menu-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mobile-menu-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .mobile-menu-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .mobile-menu-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 13px 16px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #e5e7eb;
-      text-decoration: none;
-      font-size: 14.5px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .mobile-menu-item:hover, .mobile-menu-item:active {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-    }
-
-    .mobile-menu-item.highlight {
-      background: rgba(168, 85, 247, 0.12);
-      border-color: rgba(168, 85, 247, 0.35);
-      color: #f3e8ff;
-    }
-
-    .menu-item-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .menu-badge-new {
-      font-size: 10px;
-      font-weight: 800;
-      background: #a855f7;
-      color: #ffffff;
-      padding: 2px 7px;
-      border-radius: 99px;
-      letter-spacing: 0.05em;
-    }
-
-    .mobile-menu-footer {
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    /* ── 히어로 섹션 ── */
-    .hero-section {
-      max-width: 1200px;
+    /* ── Hero ── */
+    .hero {
+      max-width: 800px;
       margin: 0 auto;
-      padding: 80px 24px 100px;
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 60px;
-      align-items: center;
+      padding: 100px 24px 60px;
+      text-align: center;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(168, 85, 247, 0.15);
-      border: 1px solid rgba(168, 85, 247, 0.4);
-      padding: 6px 14px;
+      gap: 6px;
+      padding: 6px 16px;
       border-radius: 99px;
-      font-size: 12.5px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      font-size: 13px;
       font-weight: 700;
-      color: #d8b4fe;
-      margin-bottom: 24px;
+      color: #c084fc;
+      margin-bottom: 32px;
     }
 
-    .hero-title {
-      font-size: clamp(34px, 5vw, 54px);
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
       font-weight: 900;
+      letter-spacing: -0.03em;
       line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
-    .hero-title span.gradient-text {
-      background: linear-gradient(135deg, #c084fc 0%, #38bdf8 100%);
+    .hero h1 .accent {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7e22ce 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -444,1914 +104,545 @@
 
     .hero-desc {
       font-size: 17px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.6);
       line-height: 1.7;
       margin-bottom: 36px;
-      word-break: keep-all;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero-cta-group {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .btn-hero-main {
-      height: 54px;
-      padding: 0 32px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
-      transition: all 0.25s;
-    }
-
-    .btn-hero-main:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(168, 85, 247, 0.7);
-    }
-
-    .btn-hero-sub {
-      height: 54px;
-      padding: 0 24px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      display: flex;
+    .hero-cta {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
+      height: 52px;
+      padding: 0 28px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 800;
       text-decoration: none;
+      box-shadow: 0 4px 24px rgba(168, 85, 247, 0.4);
       transition: all 0.2s;
     }
 
-    .btn-hero-sub:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(168, 85, 247, 0.5);
     }
 
-    /* ── 히어로 인터랙티브 3D 카드 쇼케이스 ── */
-    .hero-card-display {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    /* 테마 라이브 전환 바 */
-    .hero-theme-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 350px;
-      margin-bottom: 12px;
-      padding: 6px 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 99px;
-      backdrop-filter: blur(12px);
-    }
-
-    .theme-bar-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.5);
-      letter-spacing: 0.02em;
-    }
-
-    .live-pulse-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #a855f7;
-      box-shadow: 0 0 8px #a855f7;
-      animation: pulseDot 2s infinite;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(0.8); }
-    }
-
-    .theme-pills-wrap {
-      display: flex;
-      gap: 5px;
-    }
-
-    .theme-pill {
+    /* ── Section Common ── */
+    .section-label {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 99px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .theme-pill:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .theme-pill.active {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #ffffff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .color-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-    .dot-violet { background: #c084fc; box-shadow: 0 0 6px #a855f7; }
-    .dot-obsidian { background: #94a3b8; box-shadow: 0 0 6px #64748b; }
-    .dot-emerald { background: #34d399; box-shadow: 0 0 6px #10b981; }
-
-    /* 카드 하단 액션 바 */
-    .card-action-bar {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-      max-width: 350px;
-      margin-top: 14px;
-    }
-
-    .card-action-pill {
-      flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       gap: 6px;
-      padding: 10px 12px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .card-action-pill:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-
-    .card-action-pill.pill-highlight {
-      background: rgba(56, 189, 248, 0.1);
-      border-color: rgba(56, 189, 248, 0.3);
-      color: #e0f2fe;
-    }
-
-    .card-action-pill.pill-highlight:hover {
-      background: rgba(56, 189, 248, 0.18);
-      border-color: rgba(56, 189, 248, 0.5);
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
-    }
-
-    /* ── 카드 3D 씬 (maker.html과 100% 동일한 정통 디자인) ── */
-    .card-scene {
-      width: 100%;
-      max-width: 375px;
-      height: 645px;
-      perspective: 1400px;
-      cursor: pointer;
-    }
-
-    .card-flipper {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
-      border-radius: 28px;
-    }
-
-    .card-scene.flipped .card-flipper {
-      transform: rotateY(180deg);
-      -webkit-transform: rotateY(180deg);
-    }
-
-    .card-face {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      border-radius: 28px;
-      border: 1px solid var(--border-accent);
-      background: var(--card-gradient);
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-      padding: 34px 26px 26px 26px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      transition: all 0.4s ease;
-    }
-
-    /* 앞면 기본: translateZ + Safari 거울상 방지 */
-    .card-face.front {
-      z-index: 2;
-      pointer-events: auto;
-      transform: rotateY(0deg) translateZ(1px);
-      -webkit-transform: rotateY(0deg) translateZ(1px);
-      transition: opacity 0.2s ease 0.1s;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* 뒷면 기본 */
-    .card-face.back {
-      z-index: 1;
-      pointer-events: none;
-      transform: rotateY(180deg) translateZ(1px);
-      -webkit-transform: rotateY(180deg) translateZ(1px);
-      padding: 34px 26px 26px 26px;
-      transition: opacity 0.2s ease 0.1s;
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    /* 뒤집혔을 때: iOS Safari 완벽 대응 */
-    .card-scene.flipped .card-face.front {
-      z-index: 1 !important;
-      pointer-events: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-    }
-
-    .card-scene.flipped .card-face.back {
-      z-index: 2 !important;
-      pointer-events: auto !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-    }
-
-    /* 거대 워터마크 (maker.html과 동일한 은은한 배경 워터마크) */
-    .watermark-dynamic {
-      position: absolute;
-      right: -8px;
-      top: 45%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-      pointer-events: none;
-      z-index: 1;
-      user-select: none;
-    }
-
-    .watermark-dynamic span {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 72px;
-      font-weight: 900;
-      color: var(--watermark-color, rgba(255, 255, 255, 0.045));
-      transform: rotate(-90deg);
-      width: 72px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .front-wrapper, .back-wrapper {
-      position: relative;
-      z-index: 2;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .front-logo-container, .back-top-logo-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 6px;
-    }
-
-    .front-logo-box, .back-top-logo {
-      width: 144px;
-      height: 144px;
-      background: var(--logo-bg);
-      border: 1px solid var(--logo-border);
-      border-radius: 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--logo-shadow);
-      overflow: hidden;
-      padding: 12px;
-      cursor: pointer;
-      animation: logoPulse 4.5s ease-in-out infinite;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .front-logo-box img, .back-top-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
-    .brand-sub-engraving {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.28em;
-      color: var(--tagline-color);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      user-select: none;
-    }
-
-    .front-company, .back-company-name {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-    }
-
-    .front-slogan, .back-company-slogan {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--gold-accent);
-      margin-bottom: 16px;
-      letter-spacing: 0.02em;
-    }
-
-    .profile-row {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .role-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.75);
-      letter-spacing: 0.05em;
-      white-space: nowrap;
-      flex-shrink: 0;
-      line-height: 1.2;
-    }
-
-    .name-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 0.05em;
-      line-height: 1.2;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .contact-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #ffffff;
-      cursor: pointer;
-    }
-
-    .contact-key {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--key-color);
-      width: 18px;
-      flex-shrink: 0;
-      letter-spacing: 0.05em;
-    }
-
-    .contact-value {
-      font-size: 14.5px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
-      letter-spacing: 0.02em;
-    }
-
-    .moat-tags {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .moat-tag {
-      background: var(--moat-bg);
-      border: 1px solid var(--moat-border);
-      border-radius: 8px;
-      padding: 5px 8px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--moat-text);
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-      text-align: center;
-      flex: 1;
-    }
-
-    .inside-action-dock {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .inside-action-row {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .btn-action {
-      flex: 1;
-      height: 42px;
-      border-radius: 12px;
-      font-size: 12.5px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      border: none;
-      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .btn-action:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
-    }
-
-    .btn-save {
-      background: var(--save-btn-bg);
-      color: #ffffff;
-      box-shadow: var(--save-btn-shadow);
-    }
-
-    .btn-glass {
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      color: #ffffff;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    /* Modal Styles */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); z-index: 9999;
-      display: none; justify-content: center; align-items: center;
-      opacity: 0; transition: opacity 0.3s ease;
-    }
-    .modal-overlay.active {
-      display: flex; opacity: 1;
-    }
-    .modal-box {
-      background: #110c22; padding: 24px; border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.1); text-align: center;
-      width: 90%; max-width: 320px;
-      transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .modal-overlay.active .modal-box { transform: scale(1); }
-
-
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.16);
-      transform: translateY(-1px);
-    }
-
-    .tap-hint-pill {
-      margin-top: 14px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 99px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.7);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-
-    .tap-hint-pill:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    /* ── 특징 4대 해자 그리드 ── */
-    .features-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 24px;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-tag {
-      font-family: 'Montserrat', sans-serif;
       font-size: 12px;
       font-weight: 800;
-      letter-spacing: 0.2em;
-      color: var(--neon-violet);
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       margin-bottom: 16px;
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 99px;
     }
 
-    .section-heading {
-      font-size: clamp(28px, 4vw, 42px);
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(22px, 3.5vw, 32px);
       font-weight: 900;
       letter-spacing: -0.02em;
+      margin-bottom: 12px;
     }
 
-    .features-grid {
+    .section-desc {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 40px;
+    }
+
+    /* ── Service Grid ── */
+    .services-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .services-category {
+      margin-bottom: 64px;
+    }
+
+    .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-    }
-
-    .feature-card {
-      background: transparent;
-      border: none;
-      border-radius: 20px;
-      padding: 32px 26px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: all 0.3s;
-      display: flex;
-      flex-direction: column;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
     }
 
-    .feature-card:hover {
-      transform: translateY(-4px);
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+    .service-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 22px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .feature-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: transparent;
-      border: none;
-      filter: drop-shadow(0 0 16px currentColor);
+    .service-card:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #d8b4fe;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .feature-title {
-      font-size: 18px;
+    .service-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .service-name {
+      font-size: 15px;
       font-weight: 800;
-      color: #ffffff;
-    }
-
-    .feature-desc {
-      font-size: 14.5px;
-      color: rgba(255, 255, 255, 0.65);
-      line-height: 1.6;
-    }
-
-    /* ── 가격 안내 ── */
-    .pricing-section {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 60px 24px 100px;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      align-items: stretch;
-    }
-
-    .price-card {
-      background: transparent;
-      border: none;
-      border-radius: 24px;
-      padding: 36px 30px;
+      margin-bottom: 4px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: all 0.3s;
-      position: relative;
+      align-items: center;
+      gap: 6px;
     }
 
-    .price-card.featured {
-      border-color: rgba(168, 85, 247, 0.6);
-      box-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
-      background: linear-gradient(165deg, rgba(28, 16, 48, 0.8) 0%, rgba(14, 8, 26, 0.8) 100%);
-    }
-
-    .price-badge {
-      position: absolute;
-      top: -12px;
-      right: 28px;
-      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-      color: #ffffff;
-      padding: 4px 12px;
-      border-radius: 99px;
-      font-size: 11px;
+    .service-badge {
+      font-size: 9px;
       font-weight: 800;
-      letter-spacing: 0.05em;
+      padding: 2px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
     }
 
-    .price-tier {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 8px;
+    .service-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.45);
+      line-height: 1.5;
     }
 
-    .price-amount {
-      font-size: 38px;
-      font-weight: 900;
-      margin-bottom: 18px;
+    .service-card .arrow {
+      color: rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+      align-self: center;
+      transition: color 0.2s;
     }
 
-    .price-amount span.period {
-      font-size: 14px;
-      font-weight: 500;
+    .service-card:hover .arrow {
       color: rgba(255, 255, 255, 0.5);
     }
 
-    .price-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 30px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .price-features li {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .price-btn {
-      width: 100%;
-      height: 48px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .price-btn-primary {
-      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
-    }
-
-    .price-btn-primary:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
-
-    .price-btn-ghost {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-    }
-
-    .price-btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    /* ── 마케팅 툴킷 & 세일즈 시스템 ── */
-    .tools-section {
-      padding: 60px 24px;
-      max-width: 1200px;
+    /* ── Stats Strip ── */
+    .stats-strip {
+      max-width: 800px;
       margin: 0 auto;
-    }
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 30px;
-    }
-    .tool-card {
-      background: transparent;
-      border: none;
-      border-radius: 20px;
-      padding: 30px 24px;
-      text-align: left;
-      transition: all 0.3s;
-      text-decoration: none;
+      padding: 40px 24px 80px;
       display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    .tool-card:hover {
-      background: rgba(255,255,255,0.05);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-      border-color: rgba(255,255,255,0.2);
-    }
-    .tool-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      gap: 48px;
+      text-align: center;
     }
-    .tool-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
+
+    .stat-item .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #c084fc, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .tool-desc {
-      font-size: 14px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.5;
-      margin-bottom: 20px;
-      flex: 1;
-    }
-    .tool-action {
+
+    .stat-item .stat-label {
       font-size: 13px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ── 하단 푸터 ── */
-    /* ═════════════════════════════════════════════════════════════
-       2026 NEXT-GEN MOBILE APP EXPERIENCE (< 960px & < 480px)
-       ═════════════════════════════════════════════════════════════ */
-    @media (max-width: 960px) {
-      nav {
-        padding: 0 16px;
-        height: 58px;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        background: rgba(8, 5, 16, 0.78);
-      }
-      .nav-links {
-        display: none !important;
-      }
-      .mobile-nav-controls {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .nav-logo-tagline {
-        display: none;
-      }
-      .nav-logo-text {
-        font-size: 18px;
-      }
-      .nav-brand {
-        gap: 8px;
-      }
-      .btn-mobile-maker {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 6px 13px;
-        border-radius: 99px;
-        background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
-        color: #ffffff;
-        font-size: 12px;
-        font-weight: 800;
-        text-decoration: none;
-        box-shadow: 0 2px 12px rgba(168, 85, 247, 0.45);
-        transition: all 0.2s;
-      }
-      .btn-mobile-maker:active {
-        transform: scale(0.95);
-      }
-      .btn-mobile-planner {
-        display: none;
-      }
-
-      /* 2026 모바일 히어로: 컴팩트 & 카드 우선 */
-      .hero-section {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 24px 16px 40px !important;
-        gap: 24px;
-      }
-
-      .hero-badge {
-        font-size: 11.5px;
-        padding: 5px 12px;
-        margin-bottom: 12px;
-      }
-
-      .hero-title {
-        font-size: clamp(26px, 7vw, 34px) !important;
-        line-height: 1.25 !important;
-        margin-bottom: 12px !important;
-        letter-spacing: -0.02em;
-      }
-
-      .hero-desc {
-        font-size: 14.5px !important;
-        line-height: 1.6 !important;
-        margin-bottom: 20px !important;
-        color: rgba(255, 255, 255, 0.72);
-      }
-
-      .hero-cta-group {
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 16px;
-      }
-
-      .btn-hero-main {
-        height: 48px;
-        padding: 0 22px;
-        font-size: 14.5px;
-        border-radius: 13px;
-        gap: 7px;
-      }
-
-      .btn-hero-sub {
-        height: 48px;
-        padding: 0 18px;
-        font-size: 14px;
-        border-radius: 13px;
-        gap: 6px;
-      }
-
-      /* 3D 카드 모바일 최적 스케일링 (황금 비율 330px x 540px) */
-      .hero-theme-bar {
-        max-width: 330px;
-        margin-bottom: 10px;
-        padding: 5px 10px;
-      }
-
-      .card-scene {
-        max-width: 330px !important;
-        height: 540px !important;
-      }
-
-      .card-face {
-        padding: 24px 20px 20px 20px !important;
-        border-radius: 24px !important;
-      }
-
-      .card-face.back {
-        padding: 24px 20px 20px 20px !important;
-      }
-
-      .front-logo-box, .back-top-logo {
-        width: 112px !important;
-        height: 112px !important;
-        border-radius: 20px !important;
-        padding: 9px !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.3) !important;
-      }
-
-      .brand-sub-engraving {
-        font-size: 8.5px !important;
-        letter-spacing: 0.22em !important;
-        margin-bottom: 2px !important;
-      }
-
-      .front-company, .back-company-name {
-        font-size: 20px !important;
-        margin-bottom: 2px !important;
-      }
-
-      .front-slogan, .back-company-slogan {
-        font-size: 11px !important;
-        margin-bottom: 10px !important;
-      }
-
-      .profile-row {
-        margin-bottom: 8px !important;
-        gap: 8px !important;
-      }
-
-      .role-title {
-        font-size: 11.5px !important;
-      }
-
-      .name-title {
-        font-size: 17px !important;
-      }
-
-      .contact-group {
-        gap: 6px !important;
-        margin-bottom: 12px !important;
-      }
-
-      .contact-key {
-        font-size: 12px !important;
-        width: 16px !important;
-      }
-
-      .contact-value {
-        font-size: 13px !important;
-      }
-
-      .moat-tags {
-        gap: 4px !important;
-        margin-bottom: 10px !important;
-      }
-
-      .moat-tag {
-        padding: 4px 6px !important;
-        font-size: 9.5px !important;
-        border-radius: 6px !important;
-      }
-
-      .inside-action-dock {
-        gap: 6px !important;
-      }
-
-      .inside-action-row {
-        gap: 6px !important;
-      }
-
-      .btn-action {
-        height: 37px !important;
-        font-size: 11px !important;
-        border-radius: 10px !important;
-      }
-
-      .watermark-dynamic {
-        right: 4px !important;
-        bottom: 18px !important;
-        top: auto !important;
-        transform: none !important;
-      }
-
-      .watermark-dynamic span {
-        font-size: 52px !important;
-        width: 52px !important;
-        height: 52px !important;
-      }
-
-      .card-action-bar {
-        max-width: 330px !important;
-        margin-top: 10px !important;
-        gap: 7px !important;
-      }
-
-      .card-action-pill {
-        padding: 9px 10px !important;
-        font-size: 11.5px !important;
-      }
-
-      /* 2026 햅틱 터치 압축 피드백 */
-      button:active, .btn-hero-main:active, .btn-hero-sub:active, .btn-action:active, .card-action-pill:active, .tool-card:active {
-        transform: scale(0.97) !important;
-      }
-
-      /* 하단 플로팅 독 공간 확보 */
-      body {
-        padding-bottom: 84px;
-      }
-
-      /* 섹션 여백 및 타이포 최적화 */
-      .pivot-section {
-        padding: 48px 18px !important;
-      }
-
-      .pivot-section h2 {
-        font-size: 22px !important;
-        line-height: 1.35 !important;
-        margin-bottom: 14px !important;
-      }
-
-      .pivot-section p {
-        font-size: 14px !important;
-        line-height: 1.6 !important;
-      }
-
-      .features-section, .tools-section, .pricing-section {
-        padding-left: 16px !important;
-        padding-right: 16px !important;
-        padding-top: 44px !important;
-        padding-bottom: 44px !important;
-      }
-
-      .section-heading {
-        font-size: 24px !important;
-        line-height: 1.3 !important;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-      }
-
-      .feature-card {
-        padding: 20px 18px !important;
-        border-radius: 18px !important;
-        gap: 10px !important;
-      }
-
-      .feature-icon-box {
-        width: 40px !important;
-        height: 40px !important;
-        border-radius: 11px !important;
-      }
-
-      .feature-title {
-        font-size: 16px !important;
-      }
-
-      .feature-desc {
-        font-size: 13.5px !important;
-        line-height: 1.55 !important;
-      }
-
-      /* 2026 모바일 앱스토어 느낌의 2열 마케팅 툴킷 그리드 */
-      .tools-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-      }
-
-      .tool-card {
-        padding: 16px 14px !important;
-        border-radius: 16px !important;
-      }
-
-      .tool-icon-box {
-        width: 36px !important;
-        height: 36px !important;
-        border-radius: 10px !important;
-        margin-bottom: 8px !important;
-      }
-
-      .tool-icon-box svg {
-        width: 18px !important;
-        height: 18px !important;
-      }
-
-      .tool-title {
-        font-size: 14px !important;
-        margin-bottom: 4px !important;
-      }
-
-      .tool-desc {
-        font-size: 12px !important;
-        line-height: 1.4 !important;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .tool-action {
-        font-size: 11px !important;
-        margin-top: 8px !important;
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-      }
-
-      .price-card {
-        padding: 28px 22px !important;
-        border-radius: 20px !important;
-      }
-
-      .price-amount {
-        font-size: 32px !important;
-        margin-bottom: 14px !important;
-      }
-    }
-
-    /* 초소형 화면 (< 360px) 세부 방어 */
-    @media (max-width: 360px) {
-      .card-scene {
-        max-width: 295px !important;
-        height: 500px !important;
-      }
-      .front-logo-box, .back-top-logo {
-        width: 96px !important;
-        height: 96px !important;
-      }
-      .tools-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    /* ── 2026 모바일 플로팅 스마트 독 ── */
-    .mobile-floating-dock {
-      display: none;
-      position: fixed;
-      bottom: max(14px, env(safe-area-inset-bottom, 14px));
-      left: 12px;
-      right: 12px;
-      z-index: 999;
-      pointer-events: none;
-    }
-
-    @media (max-width: 960px) {
-      .mobile-floating-dock {
-        display: block;
-      }
-    }
-
-    .dock-inner {
-      pointer-events: auto;
-      background: rgba(14, 9, 26, 0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      border-radius: 99px;
-      padding: 7px 8px 7px 14px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(168, 85, 247, 0.28);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .dock-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-    }
-
-    .dock-live-pulse {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #34d399;
-      box-shadow: 0 0 8px #34d399;
-      flex-shrink: 0;
-      animation: pulseDot 2s infinite;
-    }
-
-    .dock-text-group {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .dock-brand {
-      font-size: 12px;
-      font-weight: 800;
-      color: #ffffff;
-      line-height: 1.2;
-    }
-
-    .dock-sub {
-      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.4);
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.2;
+      margin-top: 4px;
     }
 
-    .dock-cta-btn {
-      height: 38px;
-      padding: 0 16px;
-      border-radius: 99px;
-      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-      color: #ffffff;
+    /* ── Footer ── */
+    footer {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
       font-size: 13px;
-      font-weight: 800;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.4);
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.5);
-      transition: all 0.2s;
+      margin: 0 12px;
+      transition: color 0.2s;
     }
 
-    .dock-cta-btn:active {
-      transform: scale(0.95);
-    }
-  
-    .nav-dropdown { position: relative; display: inline-block; }
-    .nav-dropdown-menu {
-      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
-      z-index: 100; margin-top: 10px;
-    }
-    .nav-dropdown-menu::before {
-      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
-    }
-    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
-    .nav-dropdown-menu a {
-      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
-      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
-    }
-    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    footer a:hover { color: rgba(255, 255, 255, 0.7); }
 
+    .footer-brand {
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 8px;
+    }
+
+    .footer-links { margin-bottom: 16px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 60px 20px 40px; }
+      .hero h1 { font-size: 28px; }
+      .hero-desc { font-size: 15px; }
+      .services-section { padding: 20px 16px 60px; }
+      .services-grid { grid-template-columns: 1fr; gap: 10px; }
+      .stats-strip { gap: 28px; flex-wrap: wrap; }
+      .stat-item .stat-number { font-size: 28px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
-  <link rel="stylesheet" href="themes/gnb.css">
 </head>
 <body>
-  <div class="ambient-glow" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; overflow: hidden; pointer-events: none; z-index: 0;">
-    <div style="position: absolute; top: -10%; left: -10%; width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,0.12) 0%, rgba(0,0,0,0) 70%); filter: blur(60px);"></div>
-    <div style="position: absolute; bottom: 10%; right: -10%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, rgba(0,0,0,0) 70%); filter: blur(80px);"></div>
-  </div>
 
-  <!-- 글로벌 네비게이션 -->
-
-  <!-- 히어로 섹션 -->
-  <section class="hero-section">
-    <div>
-      <div class="hero-badge">
-        <i data-lucide="zap" style="width:13px;height:13px;color:#ffd978;"></i>
-        <span>1초 셋업 · 3D 명함 · 멀티링크</span>
-      </div>
-      <h1 class="hero-title">
-        1초 만에 셋업하고,<br>
-        <span class="gradient-text">링크 하나로 압도하다</span>
-      </h1>
-      <p class="hero-desc">
-        명함 한 장으로 거래처와 고객의 시선을 사로잡으세요.<br>
-        복잡한 준비 없이 지금 무료로 시작할 수 있습니다.
-      </p>
-      <div class="hero-cta-group">
-        <a href="maker.html" class="btn-hero-main">
-          <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
-          <span>무료로 셋업하기</span>
-        </a>
-        <a href="card.html?id=setupod" class="btn-hero-sub">
-          <i data-lucide="eye" style="width:16px;height:16px;"></i>
-          <span>3D 명함 체험</span>
-        </a>
-      </div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <i data-lucide="zap" style="width:14px;height:14px;"></i>
+      <span>16가지 비즈니스 도구, 모두 무료</span>
     </div>
 
-    <!-- 우측 3D 카드 실시간 인터랙티브 체험 -->
-    <div class="hero-card-display">
-      
-      <!-- 테마 라이브 전환 바 -->
-      <div class="hero-theme-bar">
-        <div class="theme-bar-label">
-          <span class="live-pulse-dot"></span>
-          <span>테마 프리뷰</span>
-        </div>
-        <div class="theme-pills-wrap">
-          <button class="theme-pill active" data-theme="violet" onclick="manualSwitchTheme('violet', this)" title="Violet Luxury">
-            <span class="color-dot dot-violet"></span>
-            <span>Violet</span>
-          </button>
-          <button class="theme-pill" data-theme="obsidian" onclick="manualSwitchTheme('obsidian', this)" title="Obsidian Dark">
-            <span class="color-dot dot-obsidian"></span>
-            <span>Obsidian</span>
-          </button>
-          <button class="theme-pill" data-theme="emerald" onclick="manualSwitchTheme('emerald', this)" title="Emerald Tech">
-            <span class="color-dot dot-emerald"></span>
-            <span>Emerald</span>
-          </button>
-        </div>
-      </div>
+    <h1>비즈니스의 모든 것을<br><span class="accent">셋업하다.</span></h1>
 
-      <div class="card-scene" id="heroCardScene" onclick="toggleHeroFlip()">
-        <div class="card-flipper">
-          
-          <!-- FRONT -->
-          <div class="card-face front">
-            <div class="watermark-dynamic" aria-hidden="true" style="right: -8px; top: 45%; transform: translateY(-50%);">
-              <span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">D</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">O</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">P</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">U</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">T</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">E</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">S</span>
-            </div>
-
-            <div class="front-wrapper">
-              <div class="front-logo-container">
-                <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고 탭 시 QR 코드">
-                  <img src="assets/setupod.gif" alt="SETUPOD 3D Logo">
-                </div>
-              </div>
-
-              <div class="front-info-container">
-                <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
-                <div class="front-company">SETUPOD</div>
-                <div class="front-slogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
-
-                <div class="moat-tags">
-                  <span class="moat-tag">3D 인터랙티브</span>
-                  <span class="moat-tag">vCard 주소록 저장</span>
-                  <span class="moat-tag">올인원 멀티링크</span>
-                </div>
-
-                <div class="inside-action-dock">
-                  <div class="inside-action-row">
-                    <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
-                      <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
-                      <span>연락처 저장</span>
-                    </button>
-                    <a href="maker.html" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-                      <span>공식 웹사이트</span>
-                    </a>
-                  </div>
-                  <div class="inside-action-row">
-                    <a href="https://open.kakao.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
-                      <span>카카오톡 상담</span>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                      <span>인스타그램</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- BACK (maker.html과 100% 동일한 정통 디자인) -->
-          <div class="card-face back">
-            <div class="watermark-dynamic" aria-hidden="true" style="right: -8px; top: 45%; transform: translateY(-50%);">
-              <span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">D</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">O</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">P</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">U</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">T</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">E</span><span style="font-size:72px !important; width:72px !important; height:70px !important; line-height:1;">S</span>
-            </div>
-
-            <div class="back-wrapper">
-              <div class="back-top-logo-container">
-                <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고 탭 시 QR 코드">
-                  <img src="assets/setupod.gif" alt="SETUPOD 3D Logo">
-                </div>
-              </div>
-
-              <div class="back-info-container">
-                <div class="brand-sub-engraving">ALL-IN-ONE BUSINESS ASSET</div>
-                <div class="back-company-name">SETUPOD</div>
-                <div class="back-company-slogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
-
-                <div class="profile-row">
-                  <span class="role-title">대표이사</span>
-                  <span class="name-title">김민준</span>
-                </div>
-
-                <div class="contact-group">
-                  <a href="tel:010-5555-0100" class="contact-row" onclick="event.stopPropagation()">
-                    <span class="contact-key">T</span>
-                    <span class="contact-value">010-5555-0100</span>
-                  </a>
-                  <a href="mailto:official@setupod.com" class="contact-row" onclick="event.stopPropagation()">
-                    <span class="contact-key">E</span>
-                    <span class="contact-value">official@setupod.com</span>
-                  </a>
-                </div>
-
-                <div class="moat-tags">
-                  <span class="moat-tag">3D 인터랙티브</span>
-                  <span class="moat-tag">vCard 주소록 저장</span>
-                  <span class="moat-tag">올인원 멀티링크</span>
-                </div>
-
-                <div class="inside-action-dock">
-                  <div class="inside-action-row">
-                    <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록(vCard)에 1초 만에 자동 저장됩니다.');">
-                      <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
-                      <span>연락처 저장</span>
-                    </button>
-                    <a href="maker.html" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-                      <span>공식 웹사이트</span>
-                    </a>
-                  </div>
-                  <div class="inside-action-row">
-                    <a href="https://open.kakao.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
-                      <span>카카오톡 상담</span>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-                      <span>인스타그램</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 하단 인터랙션 버튼 바 -->
-      <div class="card-action-bar">
-        <div class="card-action-pill" onclick="toggleHeroFlip()">
-          <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i>
-          <span>탭하여 3D 뒤집기</span>
-        </div>
-        <button class="card-action-pill pill-highlight" onclick="openShareModal()">
-          <i data-lucide="smartphone" style="width:13px;height:13px;color:#38bdf8;"></i>
-          <span>내 폰으로 직접 스캔 (QR)</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- The Pivot Section -->
-  <section class="pivot-section" style="padding: 80px 24px; text-align: center; max-width: 800px; margin: 0 auto;">
-    <h2 style="font-size: 28px; font-weight: 900; line-height: 1.4; margin-bottom: 24px;">단순한 링크 모음집이나 종이 명함으로는<br><span style="color: #a855f7;">고객의 지갑을 열 수 없습니다.</span></h2>
-    
-  </section>
-
-  <!-- 특징 4대 해자 섹션 (Pillar 1) -->
-  <section class="features-section" id="identity" style="margin-bottom: 40px;">
-    <div class="section-header">
-      <div class="section-tag" style="background: rgba(255, 255, 255, 0.1); color: #fff;">STEP 1. IDENTITY</div>
-      <h2 class="section-heading">압도적인 첫인상, 3D 인터랙티브 명함</h2>
-      
-    </div>
-
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <i data-lucide="rotate-3d" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="feature-title">압도적인 3D 인터랙션</h3>
-        <p class="feature-desc">손가락으로 카드를 회전시키며 앞뒷면을 확인하는 실물 감각의 3D 뷰어로 상대방에게 잊히지 않는 첫인상을 남깁니다.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <i data-lucide="user-check" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="feature-title">원클릭 vCard 주소록 저장</h3>
-        <p class="feature-desc">버튼 터치 한 번으로 고객의 스마트폰 연락처에 이름, 직책, 회사, 이메일, 명함 URL까지 완벽하게 자동 등록됩니다.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <i data-lucide="share-2" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="feature-title">카카오톡 & 인스타 & QR</h3>
-        <p class="feature-desc">오프라인에서는 카메라 QR 스캔으로 1초 접속, 온라인에서는 카카오톡 링크 전송으로 비즈니스 채널을 직결합니다.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <i data-lucide="leaf" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="feature-title">인쇄 비용 0원 & ESG 친환경</h3>
-        <p class="feature-desc">정보가 바뀌어도 비싼 종이 명함을 다시 인쇄할 필요가 없습니다. 실시간 수정으로 영구 보존되는 지속 가능한 명함입니다.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 마케팅 툴킷 섹션 (Pillar 2) -->
-  <section class="tools-section" id="marketing-tools" style="position: relative; z-index: 1; padding-top: 120px; padding-bottom: 100px;">
-    <div class="section-header">
-      <div class="section-tag" style="background: rgba(168, 85, 247, 0.2); color: #a855f7;">STEP 2. TRAFFIC</div>
-      <h2 class="section-heading">트래픽을 쓸어담는 SNS 마케팅 툴킷</h2>
-      
-    </div>
-
-    <div class="tools-grid">
-      <a href="link.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #a855f7;">
-          <i data-lucide="link" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">올인원 멀티링크 셋업</h3>
-        <p class="tool-desc">인스타그램, 틱톡, 카카오톡 등 모든 채널의 트래픽을 하나로 모으는 강력한 링크 허브를 만듭니다.</p>
-        <span class="tool-action" style="color: #a855f7;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="kakao.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #fae100;">
-          <i data-lucide="message-circle" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">카카오톡 배너 생성기</h3>
-        <p class="tool-desc">오픈채팅방, 카카오 채널에서 눈에 띄는 완벽한 비율의 홍보용 썸네일과 배너를 실시간으로 만듭니다.</p>
-        <span class="tool-action" style="color: #fae100;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="instagram_teaser.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
-          <i data-lucide="instagram" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">인스타 릴스 3D 썸네일</h3>
-        <p class="tool-desc">밋밋한 릴스 커버는 이제 그만. 전자책이나 서비스를 입체적인 3D 커버로 변환해 클릭률을 높이세요.</p>
-        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="instagram_slides.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
-          <i data-lucide="layers" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">인스타 카드뉴스 생성기</h3>
-        <p class="tool-desc">정보성 캐러셀(슬라이드) 콘텐츠를 일관된 브랜드 디자인으로 손쉽게 대량 제작할 수 있습니다.</p>
-        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="hook_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #8b5cf6;">
-          <i data-lucide="sparkles" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">AI 바이럴 훅 메이커</h3>
-        <p class="tool-desc">다른 사람의 잘 된 글(원문)을 넣으면 나만의 스타일로 완벽하게 재창조하여 전환율을 높입니다.</p>
-        <span class="tool-action" style="color: #8b5cf6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="10k_studio.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c084fc;">
-          <i data-lucide="monitor-play" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">시네마틱 10K 스튜디오</h3>
-        <p class="tool-desc">단어 몇 개로 압도적인 퀄리티의 시네마틱 스크롤 웹사이트 기획안을 만들고 프리미엄 렌더링을 의뢰해보세요.</p>
-        <span class="tool-action" style="color: #c084fc;">무료 기획하기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="instagram_3grid_banners.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
-          <i data-lucide="grid" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">인스타 3분할 파노라마</h3>
-        <p class="tool-desc">인스타그램 프로필 피드를 3개의 게시물로 완벽하게 이어붙이는 파노라마 배너를 자동 분할해 줍니다.</p>
-        <span class="tool-action" style="color: #f472b6;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="profile_studio.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c4b5fd;">
-          <i data-lucide="sparkles" style="width:24px;height:24px;"></i>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <h3 class="tool-title" style="margin-bottom:0;">AI 누끼 & 홀로그램 스튜디오</h3>
-          <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:linear-gradient(135deg,#8b5cf6,#38bdf8);color:#fff;">NEW</span>
-        </div>
-        <p class="tool-desc">인물 배경을 투명하게(누끼) 분리하고, 3D 명함 안에서 살아 숨쉬는 GIF 홀로그램 모션을 장착합니다.</p>
-        <span class="tool-action" style="color: #c4b5fd;">스튜디오에서 변환하기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 세일즈 시스템 섹션 (Pillar 3) -->
-  <section class="tools-section" id="growth-systems" style="position: relative; z-index: 1; padding-top: 120px; padding-bottom: 100px;">
-    <div class="section-header">
-      <div class="section-tag" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4;">STEP 3. CONVERSION</div>
-      <h2 class="section-heading">방문자를 진짜 고객으로 바꾸는 세일즈 시스템</h2>
-      
-    </div>
-
-    <div class="tools-grid">
-      <a href="detail_studio.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f472b6;">
-          <i data-lucide="layout-template" style="width:24px;height:24px;"></i>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <h3 class="tool-title" style="margin-bottom:0;">AI 상세페이지 마법사</h3>
-          <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:linear-gradient(135deg,#ec4899,#f43f5e);color:#fff;">AI</span>
-        </div>
-        <p class="tool-desc">상품 사진 한 장만 올리면 잘 팔리는 와디즈급 상세페이지 스토리라인과 블루프린트를 자동 설계합니다.</p>
-        <span class="tool-action" style="color: #f472b6;">무료로 설계하기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="proposal_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c4b5fd;">
-          <i data-lucide="file-spreadsheet" style="width:24px;height:24px;"></i>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <h3 class="tool-title" style="margin-bottom:0;">스마트 제안서 & 견적 승인</h3>
-          <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;">HOT</span>
-        </div>
-        <p class="tool-desc">무거운 PDF 대신 모바일에서 3분 만에 확인하고 터치 한 번으로 견적을 승인받는 1페이지 인터랙티브 제안서입니다.</p>
-        <span class="tool-action" style="color: #c4b5fd;">스튜디오에서 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="proof_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #fae100;">
-          <i data-lucide="shield-check" style="width:24px;height:24px;"></i>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <h3 class="tool-title" style="margin-bottom:0;">고객 후기 증명 월</h3>
-          <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:#fae100;color:#261601;">HOT</span>
-        </div>
-        <p class="tool-desc">카카오톡 1:1 리얼 칭찬 캡처와 VIP 추천사로 내 실력을 100% 증명하는 인터랙티브 위젯입니다.</p>
-        <span class="tool-action" style="color: #fae100;">후기 월 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="scorecard_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #06b6d4;">
-          <i data-lucide="bar-chart-2" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">진단 스코어카드 셋업</h3>
-        <p class="tool-desc">고객의 현 상태를 진단하고 맞춤형 솔루션을 제안하는 인터랙티브 퀴즈(스코어카드)를 만듭니다.</p>
-        <span class="tool-action" style="color: #06b6d4;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="waitlist_maker.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #10b981;">
-          <i data-lucide="users" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">바이럴 웨이트리스트</h3>
-        <p class="tool-desc">출시 전 기대감을 높이고 고객 DB를 수집하는 대기 명단 페이지를 30초 만에 구축하세요.</p>
-        <span class="tool-action" style="color: #10b981;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="roi_calculator.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #f59e0b;">
-          <i data-lucide="calculator" style="width:24px;height:24px;"></i>
-        </div>
-        <h3 class="tool-title">기회비용(ROI) 계산기</h3>
-        <p class="tool-desc">고객이 서비스를 사용했을 때 절약되는 시간과 돈을 시각적으로 계산해주는 설득형 도구입니다.</p>
-        <span class="tool-action" style="color: #f59e0b;">무료로 만들기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-
-      <a href="planner.html" class="tool-card">
-        <div class="tool-icon-box" style="background: transparent; border: none; filter: drop-shadow(0 0 12px currentColor); color: #c084fc;">
-          <i data-lucide="compass" style="width:24px;height:24px;"></i>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <h3 class="tool-title" style="margin-bottom:0;">2026 비즈니스 플래너</h3>
-          <span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:#a855f7;color:#fff;">NEW</span>
-        </div>
-        <p class="tool-desc">1년의 리듬을 설계하는 비즈니스 OS. Life Compass 5대 영역, 분기 Big Rocks, 2026 캘린더 & 데일리 타임블록을 실시간으로 관리하세요.</p>
-        <span class="tool-action" style="color: #c084fc;">웹 플래너 체험하기 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 가격 및 부가서비스 섹션 -->
-  <section class="pricing-section" id="pricing">
-    <div class="section-header">
-      <div class="section-tag">MEMBERSHIP & ADD-ONS</div>
-      <h2 class="section-heading">핵심 기능은 언제나 무료,<br>필요한 프리미엄 자산만 가볍게</h2>
-      
-    </div>
-
-    <div class="pricing-grid">
-      <!-- Free Core -->
-      <div class="price-card">
-        <div>
-          <div class="price-tier">SETUPOD Core (기본)</div>
-          <div class="price-amount">₩0 <span class="period">/ 무료 플랜 (Free)</span></div>
-          <ul class="price-features">
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 3D 인터랙티브 디지털 명함 무제한</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 기업/팀원 네임스페이스 (setupod.com/회사/직원)</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> vCard 주소록 원클릭 자동 저장 & QR</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 올인원 멀티링크 바이오 페이지</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 전 테마 자유 선택 (Violet / Obsidian / Emerald)</li>
-          </ul>
-        </div>
-        <a href="maker.html" class="price-btn price-btn-ghost">무료로 명함 만들기</a>
-      </div>
-
-      <!-- 3D Logo GIF Add-on (Best Popular) -->
-      <div class="price-card featured">
-        <div class="price-badge">BEST ADD-ON</div>
-        <div>
-          <div class="price-tier">3D 입체 회전 로고(GIF) 제작</div>
-          <div class="price-amount">₩9,900 <span class="period">/ 단건 (영구 소장)</span></div>
-          <ul class="price-features">
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 내 평면 로고를 360° 입체 회전 3D GIF로 변환</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 3D 디지털 명함에 딱 맞는 투명 배경 고화질 파일</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 스마트폰에서 시선을 사로잡는 압도적인 첫인상</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 24시간 이내 카카오톡 1:1 맞춤 전달</li>
-          </ul>
-        </div>
-        <a href="/billing?plan=3d_logo&price=9900&name=3D로고제작(단건)" class="price-btn price-btn-primary">3D 로고 제작 신청하기</a>
-      </div>
-
-      <!-- NFC Hardware Card Package -->
-      <div class="price-card">
-        <div>
-          <div class="price-tier">스마트 NFC 메탈 실물 카드</div>
-          <div class="price-amount">₩24,900 <span class="period">/ 1장 (무료배송)</span></div>
-          <ul class="price-features">
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 스마트폰 뒷면에 태그하면 3D 명함 즉시 오픈</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 앱 설치 없이 아이폰 / 갤럭시 100% 호환</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 최고급 매트 블랙 메탈 마감 & 정밀 레이저 각인</li>
-            <li><i data-lucide="check" style="width:16px;height:16px;color:#a855f7;"></i> 반영구 사용 가능한 고성능 NTAG216 칩 내장</li>
-          </ul>
-        </div>
-        <a href="/billing?plan=nfc_card&price=29900&name=실물NFC카드(주문제작)" class="price-btn price-btn-ghost">실물 NFC 카드 주문하기</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- QR Code Modal (Demo) -->
-  <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <div style="font-size:20px; font-weight:800; margin-bottom:6px; color:#fff;">내 스마트폰으로 직접 체험하기</div>
-      <div style="color:rgba(255,255,255,0.65); font-size:13.5px; margin-bottom:18px; line-height:1.5;">스마트폰 기본 카메라로 QR코드를 비춰보세요.<br><strong style="color:#c084fc;">3D 인터랙티브 명함</strong>이 스마트폰에서 바로 열립니다!</div>
-      <div id="qrContainer" style="background:#fff; padding:14px; border-radius:18px; display:inline-block; margin-bottom:18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></div>
-      <div style="font-size:12px; color:rgba(255,255,255,0.45); margin-bottom:16px;">앱 설치 없이 아이폰 / 갤럭시 즉시 100% 호환</div>
-      <button onclick="closeShareModal()" style="width:100%; padding:13px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">닫기</button>
-    </div>
-  </div>
-
-  <!-- 2026 네이티브 앱 감성 모바일 플로팅 스마트 독 -->
-  <div class="mobile-floating-dock" id="mobileFloatingDock">
-    <div class="dock-inner">
-      <div class="dock-left">
-        <span class="dock-live-pulse"></span>
-        <div class="dock-text-group">
-          <span class="dock-brand">SETUPOD 3D 명함</span>
-          <span class="dock-sub">1초 만에 무료 생성</span>
-        </div>
-      </div>
-      <a href="maker.html" class="dock-cta-btn">
-        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>무료 셋업</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- 푸터 -->
-  <footer>
-    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px;">SETUPOD — All-in-One Business Asset & 3D Card Platform</p>
-    <p style="font-size: 0.85rem; margin-bottom: 8px;">
-      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
-      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
-      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    <p class="hero-desc">
+      3D 명함부터 멀티링크, AI 마케팅, 제안서까지.<br>
+      1인 창업가에게 필요한 모든 도구를 한 곳에서.
     </p>
+
+    <a href="maker.html" class="hero-cta" id="heroCta">
+      <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+      <span>무료로 시작하기</span>
+    </a>
+  </section>
+
+  <!-- Services -->
+  <section class="services-section">
+
+    <!-- 메인 서비스 -->
+    <div class="services-category">
+      <div class="section-label" style="color: #a855f7;">
+        <i data-lucide="star" style="width:14px;height:14px;"></i> CORE PRODUCTS
+      </div>
+      <div class="section-title">핵심 서비스</div>
+      <p class="section-desc">고객에게 당신의 가치를 전달하는 가장 강력한 도구들</p>
+
+      <div class="services-grid">
+        <a href="maker.html" class="service-card">
+          <div class="service-icon" style="color: #a855f7;">
+            <i data-lucide="rotate-3d" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              3D 인터랙티브 명함
+              <span class="service-badge" style="background:#a855f7;color:#fff;">BEST</span>
+            </div>
+            <div class="service-desc">손가락으로 회전시키는 3D 명함. vCard 자동 저장, QR 공유까지.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="link.html" class="service-card">
+          <div class="service-icon" style="color: #38bdf8;">
+            <i data-lucide="link" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">올인원 멀티링크</div>
+            <div class="service-desc">모든 SNS와 채널을 하나의 링크로 통합하는 바이오 페이지.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="proposal_maker.html" class="service-card">
+          <div class="service-icon" style="color: #06b6d4;">
+            <i data-lucide="file-spreadsheet" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              스마트 제안서 & 견적
+              <span class="service-badge" style="background:#06b6d4;color:#fff;">HOT</span>
+            </div>
+            <div class="service-desc">모바일에서 터치 한 번으로 견적을 승인받는 인터랙티브 제안서.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- 마케팅 & 콘텐츠 -->
+    <div class="services-category">
+      <div class="section-label" style="color: #f472b6;">
+        <i data-lucide="megaphone" style="width:14px;height:14px;"></i> MARKETING & CONTENT
+      </div>
+      <div class="section-title">마케팅 & 콘텐츠 도구</div>
+      <p class="section-desc">SNS 콘텐츠 제작부터 바이럴까지, AI가 도와드립니다</p>
+
+      <div class="services-grid">
+        <a href="kakao.html" class="service-card">
+          <div class="service-icon" style="color: #fae100;">
+            <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">카카오톡 배너 생성기</div>
+            <div class="service-desc">오픈채팅방 홍보용 완벽 비율 썸네일 & 배너 실시간 제작.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="instagram_teaser.html" class="service-card">
+          <div class="service-icon" style="color: #f472b6;">
+            <i data-lucide="image" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">인스타 릴스 3D 썸네일</div>
+            <div class="service-desc">서비스를 입체적인 3D 커버로 변환해 클릭률을 높이세요.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="instagram_slides.html" class="service-card">
+          <div class="service-icon" style="color: #f472b6;">
+            <i data-lucide="layers" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">인스타 카드뉴스 생성기</div>
+            <div class="service-desc">캐러셀 콘텐츠를 브랜드 디자인으로 대량 제작.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="instagram_3grid_banners.html" class="service-card">
+          <div class="service-icon" style="color: #f472b6;">
+            <i data-lucide="grid-3x3" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">인스타 3분할 파노라마</div>
+            <div class="service-desc">프로필 피드를 3개 게시물로 이어붙이는 파노라마 자동 분할.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="hook_maker.html" class="service-card">
+          <div class="service-icon" style="color: #8b5cf6;">
+            <i data-lucide="sparkles" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              AI 바이럴 훅 메이커
+              <span class="service-badge" style="background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;">AI</span>
+            </div>
+            <div class="service-desc">잘 된 글을 나만의 스타일로 재창조하여 전환율을 높입니다.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="profile_studio.html" class="service-card">
+          <div class="service-icon" style="color: #c4b5fd;">
+            <i data-lucide="wand-2" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              AI 누끼 & 홀로그램
+              <span class="service-badge" style="background:linear-gradient(135deg,#8b5cf6,#38bdf8);color:#fff;">NEW</span>
+            </div>
+            <div class="service-desc">인물 배경 제거 + 3D 명함용 GIF 홀로그램 모션 장착.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- 세일즈 & 전환 -->
+    <div class="services-category">
+      <div class="section-label" style="color: #06b6d4;">
+        <i data-lucide="trending-up" style="width:14px;height:14px;"></i> SALES & CONVERSION
+      </div>
+      <div class="section-title">세일즈 & 전환 도구</div>
+      <p class="section-desc">방문자를 실제 고객으로 전환하는 시스템</p>
+
+      <div class="services-grid">
+        <a href="detail_studio.html" class="service-card">
+          <div class="service-icon" style="color: #f472b6;">
+            <i data-lucide="layout-template" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              AI 상세페이지 마법사
+              <span class="service-badge" style="background:linear-gradient(135deg,#ec4899,#f43f5e);color:#fff;">AI</span>
+            </div>
+            <div class="service-desc">사진 한 장으로 와디즈급 상세페이지 스토리라인 자동 설계.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="proof_maker.html" class="service-card">
+          <div class="service-icon" style="color: #fae100;">
+            <i data-lucide="shield-check" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              고객 후기 증명 월
+              <span class="service-badge" style="background:#fae100;color:#261601;">HOT</span>
+            </div>
+            <div class="service-desc">실제 카카오톡 칭찬 캡처와 VIP 추천사로 실력을 증명.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="scorecard_maker.html" class="service-card">
+          <div class="service-icon" style="color: #06b6d4;">
+            <i data-lucide="bar-chart-2" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">진단 스코어카드</div>
+            <div class="service-desc">고객 상태를 진단하고 맞춤 솔루션을 제안하는 인터랙티브 퀴즈.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="waitlist_maker.html" class="service-card">
+          <div class="service-icon" style="color: #10b981;">
+            <i data-lucide="users" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">바이럴 웨이트리스트</div>
+            <div class="service-desc">출시 전 기대감을 높이고 고객 DB를 수집하는 대기 명단.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="roi_calculator.html" class="service-card">
+          <div class="service-icon" style="color: #f59e0b;">
+            <i data-lucide="calculator" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">기회비용(ROI) 계산기</div>
+            <div class="service-desc">서비스 사용 시 절약되는 시간과 돈을 시각적으로 설득.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="10k_studio.html" class="service-card">
+          <div class="service-icon" style="color: #c084fc;">
+            <i data-lucide="monitor-play" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">시네마틱 10K 스튜디오</div>
+            <div class="service-desc">시네마틱 스크롤 웹사이트 기획 & 프리미엄 렌더링 의뢰.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- 비즈니스 운영 -->
+    <div class="services-category">
+      <div class="section-label" style="color: #34d399;">
+        <i data-lucide="settings" style="width:14px;height:14px;"></i> BUSINESS OPS
+      </div>
+      <div class="section-title">비즈니스 운영</div>
+      <p class="section-desc">매일의 비즈니스를 체계적으로 관리하세요</p>
+
+      <div class="services-grid">
+        <a href="planner.html" class="service-card">
+          <div class="service-icon" style="color: #c084fc;">
+            <i data-lucide="compass" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              2026 비즈니스 플래너
+              <span class="service-badge" style="background:#a855f7;color:#fff;">NEW</span>
+            </div>
+            <div class="service-desc">Life Compass, 분기 Big Rocks, 캘린더 & 타임블록 관리.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="memopod.html" class="service-card">
+          <div class="service-icon" style="color: #38bdf8;">
+            <i data-lucide="brain" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">MemoPod</div>
+            <div class="service-desc">아이디어와 메모를 빠르게 저장하고 정리하는 지식 허브.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+
+        <a href="brewoak.html" class="service-card">
+          <div class="service-icon" style="color: #d97706;">
+            <i data-lucide="flask-conical" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="service-info">
+            <div class="service-name">
+              BrewOak 숙성통
+              <span class="service-badge" style="background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;">AI</span>
+            </div>
+            <div class="service-desc">메모 하나를 AI가 숙성시켜 3대 SNS 콘텐츠로 자동 변환.</div>
+          </div>
+          <i data-lucide="chevron-right" class="arrow" style="width:16px;height:16px;"></i>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-number">16+</div>
+      <div class="stat-label">비즈니스 도구</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">₩0</div>
+      <div class="stat-label">핵심 기능 가격</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1초</div>
+      <div class="stat-label">셋업 소요 시간</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">SETUPOD — All-in-One Business Toolkit Platform</div>
+    <div class="footer-links">
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/terms">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com">고객센터</a>
+    </div>
     <p>© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
 
   <script>
     lucide.createIcons();
-
-    function toggleHeroFlip() {
-      document.getElementById('heroCardScene').classList.toggle('flipped');
-      if (window.lucide) lucide.createIcons();
-    }
-
-    // ── Auto Theme Tour & Manual Switcher ──
-    const heroThemes = ['violet', 'obsidian', 'emerald'];
-    let currentHeroThemeIdx = 0;
-    let autoTourTimer = null;
-    let isUserInteracting = false;
-    let resumeTimeout = null;
-
-    function applyHeroTheme(themeName) {
-      const themeStylesheet = document.getElementById('themeStylesheet');
-      if (themeStylesheet) {
-        themeStylesheet.href = `themes/${themeName}.css`;
-      }
-      document.querySelectorAll('.theme-pill').forEach(p => p.classList.remove('active'));
-      const activePill = document.querySelector(`.theme-pill[data-theme="${themeName}"]`);
-      if (activePill) activePill.classList.add('active');
-
-      const flipper = document.querySelector('.card-flipper');
-      if (flipper) {
-        flipper.style.filter = 'brightness(1.15)';
-        setTimeout(() => { flipper.style.filter = 'brightness(1)'; }, 350);
-      }
-    }
-
-    function manualSwitchTheme(themeName, btn) {
-      isUserInteracting = true;
-      clearInterval(autoTourTimer);
-      applyHeroTheme(themeName);
-      currentHeroThemeIdx = heroThemes.indexOf(themeName);
-
-      clearTimeout(resumeTimeout);
-      resumeTimeout = setTimeout(() => {
-        isUserInteracting = false;
-        startAutoTour();
-      }, 12000);
-
-      if (typeof gtag === 'function') {
-        gtag('event', 'select_hero_theme', {
-          event_category: 'engagement',
-          theme_name: themeName
-        });
-      }
-    }
-
-    function startAutoTour() {
-      if (autoTourTimer) clearInterval(autoTourTimer);
-      autoTourTimer = setInterval(() => {
-        if (isUserInteracting) return;
-        currentHeroThemeIdx = (currentHeroThemeIdx + 1) % heroThemes.length;
-        applyHeroTheme(heroThemes[currentHeroThemeIdx]);
-      }, 4500);
-    }
-
-    startAutoTour();
-
-    const heroDisplay = document.querySelector('.hero-card-display');
-    if (heroDisplay) {
-      heroDisplay.addEventListener('mouseenter', () => { isUserInteracting = true; });
-      heroDisplay.addEventListener('mouseleave', () => {
-        clearTimeout(resumeTimeout);
-        resumeTimeout = setTimeout(() => {
-          isUserInteracting = false;
-          startAutoTour();
-        }, 3000);
-      });
-    }
-
-    // QR Modal logic
-    function openShareModal() {
-      document.getElementById('shareModal').classList.add('active');
-      document.getElementById('qrContainer').innerHTML = '';
-      new QRCode(document.getElementById("qrContainer"), {
-        text: "https://setupod.com/alex",
-        width: 190,
-        height: 190,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
-      if (typeof gtag === 'function') {
-        gtag('event', 'view_qr_demo', { event_category: 'engagement' });
-      }
-    }
-    function closeShareModal(e) {
-      if(e) e.stopPropagation();
-      document.getElementById('shareModal').classList.remove('active');
-    }
-
-    // GA4 Interaction Tracking
-    document.addEventListener('click', function(e) {
-      const target = e.target.closest('a, button');
-      if (!target) return;
-      const href = target.getAttribute('href') || '';
-      const text = (target.innerText || '').trim().replace(/\s+/g, ' ');
-
-      if (href.includes('maker.html')) {
-        if (typeof gtag === 'function') {
-          gtag('event', 'click_cta_maker', {
-            event_category: 'conversion_funnel',
-            button_text: text,
-            link_url: href
-          });
-        }
-      } else if (href.includes('mailto:')) {
-        if (typeof gtag === 'function') {
-          gtag('event', 'contact_inquiry', {
-            event_category: 'lead',
-            inquiry_type: href.includes('NFC') ? 'nfc_order' : 'general_support'
-          });
-        }
-      }
-    });
   </script>
-  <script src="js/toast.js"></script>
   <script src="js/gnb.js"></script>
 </body>
 </html>

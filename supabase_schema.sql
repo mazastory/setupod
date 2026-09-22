@@ -43,15 +43,49 @@ ALTER TABLE public.pods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 
 -- 누구나 프로필 및 팟 정보는 읽을 수 있음 (공개 프로필)
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.profiles;
 CREATE POLICY "Public profiles are viewable by everyone" ON public.profiles FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Public pods are viewable by everyone" ON public.pods;
 CREATE POLICY "Public pods are viewable by everyone" ON public.pods FOR SELECT USING (true);
 
 -- 본인만 자기 프로필/팟 수정 가능
+DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
 CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can insert own profile" ON public.profiles;
 CREATE POLICY "Users can insert own profile" ON public.profiles FOR INSERT WITH CHECK (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can manage own pods" ON public.pods;
 CREATE POLICY "Users can manage own pods" ON public.pods FOR ALL USING (auth.uid() = user_id);
 
 -- 리드 수집은 누구나 INSERT 가능 (방문자 연락처 등록)
+DROP POLICY IF EXISTS "Anyone can insert leads" ON public.leads;
 CREATE POLICY "Anyone can insert leads" ON public.leads FOR INSERT WITH CHECK (true);
 -- 리드 확인은 본인만 가능
+DROP POLICY IF EXISTS "Users can view their own leads" ON public.leads;
 CREATE POLICY "Users can view their own leads" ON public.leads FOR SELECT USING (auth.uid() = user_id);
+
+-- 4. BrewOak 숙성통 작업 테이블 (비동기 결과 저장)
+CREATE TABLE IF NOT EXISTS public.brewoak_jobs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  memo TEXT NOT NULL,
+  target_days INT NOT NULL DEFAULT 1,
+  threads_out TEXT,
+  insta_out TEXT,
+  kakao_out TEXT,
+  unlock_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.brewoak_jobs ENABLE ROW LEVEL SECURITY;
+
+-- 본인만 자신의 글을 읽을 수 있음
+DROP POLICY IF EXISTS "Users can view own brewoak jobs" ON public.brewoak_jobs;
+CREATE POLICY "Users can view own brewoak jobs" ON public.brewoak_jobs FOR SELECT USING (auth.uid() = user_id);
+
+-- Edge Function(Service Role) 등에서만 INSERT/UPDATE 가능하게 제한하거나, 클라이언트에서 바로 INSERT 가능하게 할지 결정.
+-- 클라이언트에서 바로 INSERT 하는 것을 허용 (Edge Function에서 바로 업데이트)
+DROP POLICY IF EXISTS "Users can insert own brewoak jobs" ON public.brewoak_jobs;
+CREATE POLICY "Users can insert own brewoak jobs" ON public.brewoak_jobs FOR INSERT WITH CHECK (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can update own brewoak jobs" ON public.brewoak_jobs;
+CREATE POLICY "Users can update own brewoak jobs" ON public.brewoak_jobs FOR UPDATE USING (auth.uid() = user_id);

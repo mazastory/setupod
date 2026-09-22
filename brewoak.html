@@ -255,14 +255,16 @@
     <div class="branding"><a href="/">Powered by <strong style="color:var(--text);">SETUPOD</strong></a></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/auth-modal.js"></script>
   <script>
-  (function () {
-    const KEY = 'brewoak_proto_v1';
+  (async function () {
     const WEEKLY_FREE = 3;
     const $ = (id) => document.getElementById(id);
     const track = (name, params) => { if (typeof gtag === 'function') gtag('event', name, Object.assign({ event_category: 'brewoak' }, params || {})); };
 
-    // ---- 브루 표정 (캐릭터 시안의 네 가지 상태) ----
+    // ---- 브루 표정 ----
     const FACES = {
       empty: `<g class="bob"><use href="#barrel"/><use href="#lid"/>
         <ellipse cx="49" cy="77" rx="4.5" ry="6" fill="#2A211B"/><circle cx="50.5" cy="75" r="1.8" fill="#fff"/>
@@ -299,17 +301,6 @@
       $('stage').innerHTML = `<svg viewBox="0 0 120 130" role="img" aria-label="${LABELS[state]}">${FACES[state]}</svg>`;
     }
 
-    // ---- 저장 (시제품: 이 브라우저에만) ----
-    function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
-    function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
-    let st = load();
-
-    function weekKey() {
-      const d = new Date(); const onejan = new Date(d.getFullYear(), 0, 1);
-      return d.getFullYear() + '-' + Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);
-    }
-    function usedThisWeek() { return st.week === weekKey() ? (st.used || 0) : 0; }
-
     function show(screen, face) {
       document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
       $(screen).classList.add('active');
@@ -318,93 +309,148 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    let activeJob = null; // 현재 진행 중이거나 완료된 job
+
     // ---- 1. 빈 통 ----
     const memo = $('memoInput');
     function syncMemo() { $('memoCount').textContent = memo.value.length; $('btnPut').disabled = memo.value.trim().length < 2; }
     memo.addEventListener('input', syncMemo);
     document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { memo.value = c.dataset.sample; syncMemo(); memo.focus(); }));
+    
     $('btnPut').addEventListener('click', () => {
-      if (usedThisWeek() >= WEEKLY_FREE) { showToast('이번 주 무료 통 3개를 다 썼어요. 다음 주에 다시 채워져요.'); return; }
-      $('fillMemo').textContent = memo.value.trim();
-      track('brewoak_memo_added', { length: memo.value.trim().length });
-      show('screenFill', 'fill');
+      window.requireAuth(async (user) => {
+        // (Optional) Here we could check quota from a `users` or `brewoak_jobs` count in Supabase
+        $('fillMemo').textContent = memo.value.trim();
+        track('brewoak_memo_added', { length: memo.value.trim().length });
+        show('screenFill', 'fill');
+      });
     });
 
     // ---- 2. 담는 중 ----
     $('btnBack').addEventListener('click', () => show('screenEmpty', 'empty'));
-    $('btnBrew').addEventListener('click', () => {
+    $('btnBrew').addEventListener('click', async () => {
       const email = $('emailInput').value.trim();
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('이메일 주소를 다시 확인해 주세요.'); $('emailInput').focus(); return; }
+      
       const days = document.querySelector('input[name="days"]:checked').value === '3' ? 3 : 1;
-      st = { memo: memo.value.trim(), days, startedAt: Date.now(), stage: 'brewing', week: weekKey(), used: usedThisWeek() + 1 };
-      save(st); // 이메일은 저장하지 않는다
-      track('brewoak_brew_started', { days, has_email: email ? 'yes' : 'no' });
-      startBrewing();
+      
+      $('btnBrew').disabled = true;
+      $('btnBrew').textContent = '빚어내는 중...';
+
+      try {
+        const { data, error } = await supabaseClient.functions.invoke('brew', {
+          body: { memo: memo.value.trim(), days }
+        });
+
+        if (error) throw error;
+        
+        track('brewoak_brew_started', { days, has_email: email ? 'yes' : 'no' });
+        
+        // 새로 생성된 job의 unlock_at을 기준으로 시작
+        startBrewing(new Date(data.unlock_at), memo.value.trim());
+
+      } catch (err) {
+        console.error(err);
+        showToast('숙성에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      } finally {
+        $('btnBrew').disabled = false;
+        $('btnBrew').textContent = '숙성 시작';
+      }
     });
 
     // ---- 3. 숙성 중 ----
     let tick = null;
-    function startBrewing() {
-      $('brewMemo').textContent = st.memo;
+    function startBrewing(unlockDate, originalMemo) {
+      $('brewMemo').textContent = originalMemo;
       show('screenBrewing', 'brewing');
       clearInterval(tick);
-      const end = st.startedAt + st.days * 86400000;
+      
       const render = () => {
-        const left = Math.max(0, end - Date.now());
+        const left = Math.max(0, unlockDate.getTime() - Date.now());
         const h = Math.floor(left / 3600000), m = Math.floor(left % 3600000 / 60000), s = Math.floor(left % 60000 / 1000);
         $('timer').textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-        $('timerLabel').textContent = st.days === 3 ? '3일 숙성 · 남은 시간' : '하루 숙성 · 남은 시간';
-        if (left === 0) { clearInterval(tick); finish('timer'); }
+        $('timerLabel').textContent = '남은 시간';
+        if (left === 0) { 
+          clearInterval(tick); 
+          // 실제로는 폴링이나 페이지 리로드를 통해 결과를 가져와야 합니다.
+          // 편의상 강제로 페이지를 새로고침하여 완료된 결과를 가져옵니다.
+          window.location.reload(); 
+        }
       };
       render(); tick = setInterval(render, 1000);
     }
-    $('btnPeek').addEventListener('click', () => finish('peek'));
+    
+    // 시제품 데모용: 강제 완료 (실제 운영 시에는 숨기거나 어드민 전용)
+    $('btnPeek').addEventListener('click', () => {
+        clearInterval(tick);
+        if (activeJob) {
+            finish(activeJob);
+        } else {
+            showToast('백그라운드에서 아직 준비 중입니다.');
+        }
+    });
+
     $('btnCancel').addEventListener('click', () => {
-      clearInterval(tick); st.stage = 'empty'; st.used = Math.max(0, (st.used || 1) - 1); save(st);
+      clearInterval(tick); 
+      activeJob = null;
       show('screenEmpty', 'empty');
     });
 
-    // ---- 4. 완성 (시제품: 규칙으로 만든 예시 문장) ----
-    function hookFor(text) {
-      if (/할인|세일|%|이벤트/.test(text)) return '이번엔 조용히, 단골분들께 먼저 알려드려요.';
-      if (/신메뉴|새로|출시|나왔/.test(text)) return '드디어 나왔습니다. 오래 준비했어요.';
-      if (/후기|손님|리뷰/.test(text)) return '손님이 남겨 주신 한마디에 하루가 녹았어요.';
-      return '오늘 꼭 전하고 싶은 소식이 있어요.';
-    }
-    function tagsFor(text) {
-      const tags = ['#오늘의소식', '#동네가게'];
-      if (/라떼|커피|카페|음료/.test(text)) tags.push('#카페', '#신메뉴');
-      if (/할인|세일/.test(text)) tags.push('#주말할인');
-      if (/후기|리뷰/.test(text)) tags.push('#고객후기');
-      return tags.join(' ');
-    }
-    function finish(via) {
+    // ---- 4. 완성 ----
+    function finish(jobData) {
       clearInterval(tick);
-      const text = st.memo;
-      const threads = `${hookFor(text)}\n\n${text}\n\n궁금한 건 댓글로 편하게 물어봐 주세요.`;
-      const insta = `${hookFor(text)}\n\n${text}\n\n지나가다 들러 주시면 반갑게 맞을게요 🙂\n\n${tagsFor(text)}`;
-      const kakao = `[소식] ${text}\n자세한 내용은 프로필 링크에서 확인해 주세요.`;
-      $('outThreads').textContent = threads; $('lenThreads').textContent = threads.length;
-      $('outInsta').textContent = insta; $('lenInsta').textContent = insta.length.toLocaleString();
-      $('outKakao').textContent = kakao;
-      $('quotaLeft').textContent = Math.max(0, WEEKLY_FREE - usedThisWeek());
-      st.stage = 'done'; save(st);
-      track('brewoak_opened', { via });
+      
+      // AI가 생성한 텍스트로 표시
+      $('outThreads').textContent = jobData.threads_out || ''; 
+      $('lenThreads').textContent = (jobData.threads_out || '').length;
+      $('outInsta').textContent = jobData.insta_out || ''; 
+      $('lenInsta').textContent = (jobData.insta_out || '').length.toLocaleString();
+      $('outKakao').textContent = jobData.kakao_out || '';
+      
+      track('brewoak_opened', { via: 'timer' });
       show('screenDone', 'done');
     }
+
     document.querySelectorAll('.btn-copy').forEach((b) => b.addEventListener('click', async () => {
       const t = $(b.dataset.target).textContent;
       try { await navigator.clipboard.writeText(t); showToast('복사했어요. 바로 붙여 넣으세요.'); }
       catch (e) { showToast('복사가 막혔어요. 글을 길게 눌러 직접 복사해 주세요.'); }
       track('brewoak_copied', { channel: b.dataset.target.replace('out', '').toLowerCase() });
     }));
-    $('btnNew').addEventListener('click', () => { memo.value = ''; syncMemo(); st.stage = 'empty'; save(st); show('screenEmpty', 'empty'); });
+    
+    $('btnNew').addEventListener('click', () => { 
+        memo.value = ''; 
+        syncMemo(); 
+        activeJob = null; 
+        show('screenEmpty', 'empty'); 
+    });
 
-    // ---- 처음 열 때: 익히던 통이 있으면 이어서 ----
-    if (st.stage === 'brewing' && st.memo) startBrewing();
-    else if (st.stage === 'done' && st.memo) finish('resume');
-    else setFace('empty');
+    // ---- 처음 열 때: Supabase에서 상태 확인 ----
+    setFace('empty');
     syncMemo();
+
+    // 로그인된 유저가 있다면 최근 작업을 불러옵니다.
+    const user = await getCurrentUser();
+    if (user && supabaseClient) {
+        const { data, error } = await supabaseClient
+            .from('brewoak_jobs')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+            
+        if (data) {
+            activeJob = data;
+            const unlockAt = new Date(data.unlock_at);
+            if (unlockAt.getTime() > Date.now()) {
+                startBrewing(unlockAt, data.memo);
+            } else {
+                finish(data);
+            }
+        }
+    }
+
     if (window.lucide) lucide.createIcons();
   })();
   </script>
