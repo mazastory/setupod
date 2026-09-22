@@ -10,6 +10,16 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "card.setupod.com" }],
+      "destination": "/maker"
+    },
+    {
+      "source": "/:path+",
+      "has": [{ "type": "host", "value": "card.setupod.com" }],
+      "destination": "/card"
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "link.setupod.com" }],
       "destination": "/link"
