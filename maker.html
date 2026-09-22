@@ -3038,6 +3038,75 @@
 
     // 초기화
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. 임시 저장된 카드 데이터 복구 로직 (로그인 전 작성본 유실 방지)
+      const savedCardDataStr = localStorage.getItem('setupod_card_data');
+      if (savedCardDataStr) {
+        try {
+          const sd = JSON.parse(savedCardDataStr);
+          const card = sd.card;
+          if (card) {
+            if(document.getElementById('inputSlug')) document.getElementById('inputSlug').value = sd.id || '';
+            if(document.getElementById('inputName')) document.getElementById('inputName').value = card.name || '';
+            if(document.getElementById('inputRole')) document.getElementById('inputRole').value = card.role || '';
+            if(document.getElementById('inputCompany')) document.getElementById('inputCompany').value = card.company || '';
+            if(document.getElementById('inputWatermark')) document.getElementById('inputWatermark').value = card.companyWatermark || '';
+            if(document.getElementById('inputSlogan')) document.getElementById('inputSlogan').value = card.slogan || '';
+            if(document.getElementById('inputTagline')) document.getElementById('inputTagline').value = card.tagline || '';
+            if(document.getElementById('inputPhone')) document.getElementById('inputPhone').value = card.phone || '';
+            if(document.getElementById('inputEmail')) document.getElementById('inputEmail').value = card.email || '';
+            
+            if(card.moatTags) {
+              if(document.getElementById('inputTag1')) document.getElementById('inputTag1').value = card.moatTags[0] || '';
+              if(document.getElementById('inputTag2')) document.getElementById('inputTag2').value = card.moatTags[1] || '';
+              if(document.getElementById('inputTag3')) document.getElementById('inputTag3').value = card.moatTags[2] || '';
+            }
+            if(card.primaryAction) {
+              if(document.getElementById('inputWebsiteUrl')) document.getElementById('inputWebsiteUrl').value = card.primaryAction.url || '';
+              if(document.getElementById('inputWebsiteLabel')) document.getElementById('inputWebsiteLabel').value = card.primaryAction.label || '';
+            }
+            if(card.socials) {
+              const kakao = card.socials.find(s => s.type === 'kakao');
+              if(kakao) {
+                if(document.getElementById('inputKakaoUrl')) document.getElementById('inputKakaoUrl').value = kakao.url || '';
+                if(document.getElementById('inputKakaoLabel')) document.getElementById('inputKakaoLabel').value = kakao.label || '';
+              }
+              const insta = card.socials.find(s => s.type === 'instagram');
+              if(insta) {
+                if(document.getElementById('inputInstaUrl')) document.getElementById('inputInstaUrl').value = insta.url || '';
+                if(document.getElementById('inputInstaLabel')) document.getElementById('inputInstaLabel').value = insta.label || '';
+              }
+            }
+            
+            // 테마와 레이아웃 복원
+            if (card.theme) {
+              const themeEl = document.querySelector(`[data-theme="${card.theme}"]`);
+              if (themeEl && typeof selectTheme === 'function') selectTheme(card.theme, themeEl);
+            }
+            if (card.layout) {
+              const layoutEl = document.querySelector(`[data-layout="${card.layout}"]`);
+              if (layoutEl && typeof selectLayout === 'function') selectLayout(card.layout, layoutEl);
+            }
+            
+            showToast("💾 로그인 전 작업하던 명함 데이터를 복구했습니다.");
+            
+            // 로그인 후 돌아온 상태라면 곧바로 클라우드 발행까지 연계
+            if (typeof getCurrentUser === 'function') {
+               getCurrentUser().then(user => {
+                 if(user) {
+                    setTimeout(() => {
+                        if (typeof submitMakerForm === 'function') submitMakerForm();
+                        // 발행 후 localStorage 비우기
+                        localStorage.removeItem('setupod_card_data');
+                    }, 500);
+                 }
+               });
+            }
+          }
+        } catch(e) {
+          console.error("Draft restore error:", e);
+        }
+      }
+
       const savedAvatar = localStorage.getItem('setupod_custom_avatar');
       if (savedAvatar) {
         currentLogoSrc = savedAvatar;
