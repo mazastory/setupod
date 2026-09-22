@@ -28,7 +28,7 @@ serve(async (req) => {
       })
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     const base64Data = imageBase64.includes('base64,') 
       ? imageBase64.split('base64,')[1] 
