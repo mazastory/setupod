@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SETUPOD | 내 명함 관리 (대시보드)</title>
+  
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <link rel="stylesheet" href="themes/gnb.css">
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: "Pretendard", -apple-system, sans-serif;
+      background: #06040a;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 120px 24px 60px;
+      flex: 1;
+      width: 100%;
+    }
+    
+    .header-box {
+      margin-bottom: 40px;
+    }
+    .header-box h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .header-box p {
+      color: rgba(255,255,255,0.6);
+      font-size: 15px;
+    }
+    
+    .btn-create {
+      background: #a855f7;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 99px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-create:hover { background: #9333ea; }
+    
+    /* Login State */
+    #loginRequired {
+      text-align: center;
+      padding: 100px 20px;
+      display: none;
+    }
+    #dashboardContent {
+      display: none;
+    }
+    
+    /* Grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .pod-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .pod-card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+    
+    .pod-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    
+    .pod-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .pod-role {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+    .pod-slug-box {
+      margin-top: 16px;
+      background: rgba(0,0,0,0.4);
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .pod-slug-text {
+      font-size: 13px;
+      color: #a855f7;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .btn-copy {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .btn-copy:hover { color: #fff; }
+    
+    .pod-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(255,255,255,0.1);
+    }
+    .btn-action {
+      flex: 1;
+      padding: 12px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-action:hover { background: rgba(255,255,255,0.15); }
+    .btn-danger { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    .btn-danger:hover { background: rgba(248, 113, 113, 0.2); }
+    
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(255,255,255,0.5);
+      grid-column: 1 / -1;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 20px;
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GNB -->
+  <header class="gnb">
+    <div class="gnb-inner">
+      <a href="/" class="logo">
+        <span class="logo-text">SETUP<span class="highlight">OD</span></span>
+      </a>
+      <div class="gnb-actions">
+        <a href="/maker" class="btn-create-nav" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#c084fc;background:rgba(168,85,247,0.1);padding:6px 14px;border-radius:99px;text-decoration:none;"><i data-lucide="wand-2" style="width:14px;height:14px;"></i> 명함 만들기</a>
+        <button id="authBtn" class="btn-login" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 16px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;" onclick="handleAuthClick()">로그인</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="loginRequired">
+      <i data-lucide="lock" style="width: 48px; height: 48px; color: rgba(255,255,255,0.2); margin-bottom: 20px;"></i>
+      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">로그인이 필요합니다</h2>
+      <p style="color: rgba(255,255,255,0.6); margin-bottom: 24px;">만드신 명함을 관리하려면 구글 계정으로 로그인해주세요.</p>
+      <button class="btn-create" onclick="signInWithGoogle()">구글 간편 로그인</button>
+    </div>
+    
+    <div id="dashboardContent">
+      <div class="header-box" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px;">
+        <div>
+          <h1>내 명함 대시보드</h1>
+          <p>내가 만든 3D 명함과 멀티링크를 한곳에서 관리하세요.</p>
+        </div>
+        <a href="/maker" class="btn-create"><i data-lucide="plus"></i> 새 명함 만들기</a>
+      </div>
+      
+      <div id="podsList" class="card-grid">
+        <div class="loading-state">
+          <i data-lucide="loader-2" style="animation: spin 1s linear infinite; margin-bottom: 10px;"></i>
+          <p>명함 데이터를 불러오는 중...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+  </style>
+
+  <script>
+    lucide.createIcons();
+    
+    async function initDashboard() {
+      const user = await getCurrentUser();
+      const authBtn = document.getElementById('authBtn');
+      
+      if (user) {
+        authBtn.textContent = '로그아웃';
+        authBtn.onclick = signOutUser;
+        document.getElementById('loginRequired').style.display = 'none';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadDashboardData();
+      } else {
+        authBtn.textContent = '로그인';
+        authBtn.onclick = signInWithGoogle;
+        document.getElementById('loginRequired').style.display = 'block';
+        document.getElementById('dashboardContent').style.display = 'none';
+      }
+    }
+    
+    function handleAuthClick() {
+      const btn = document.getElementById('authBtn');
+      if (btn.textContent === '로그아웃') {
+        signOutUser();
+      } else {
+        signInWithGoogle();
+      }
+    }
+    
+    async function loadDashboardData() {
+      const grid = document.getElementById('podsList');
+      const pods = await getMyPods();
+      
+      if (!pods || pods.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i data-lucide="id-card" style="width: 48px; height: 48px; color: rgba(255,255,255,0.2); margin-bottom: 16px;"></i>
+            <h3 style="font-size: 18px; margin-bottom: 8px;">아직 만든 명함이 없네요!</h3>
+            <p style="color: rgba(255,255,255,0.5); margin-bottom: 24px;">1분 만에 나만의 3D 명함을 만들어보세요.</p>
+            <a href="/maker" class="btn-create" style="font-size: 14px;">첫 명함 만들기</a>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+      
+      grid.innerHTML = '';
+      
+      pods.forEach(pod => {
+        const data = pod.components_json?.card || {};
+        const name = data.name || pod.slug;
+        const role = data.role || data.company || '프로필 정보 없음';
+        const url = `https://setupod.com/${pod.slug}`;
+        
+        const cardEl = document.createElement('div');
+        cardEl.className = 'pod-card';
+        cardEl.innerHTML = `
+          <div class="pod-header">
+            <div>
+              <div class="pod-title">${name}</div>
+              <div class="pod-role">${role}</div>
+            </div>
+            <div style="background: rgba(168,85,247,0.2); color: #a855f7; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">
+              3D CARD
+            </div>
+          </div>
+          
+          <div class="pod-slug-box">
+            <a href="/${pod.slug}" target="_blank" class="pod-slug-text" style="text-decoration:none;">setupod.com/${pod.slug}</a>
+            <button class="btn-copy" onclick="copyToClipboard('https://setupod.com/${pod.slug}')" title="주소 복사">
+              <i data-lucide="copy" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+          
+          <div class="pod-actions">
+            <a href="/${pod.slug}" target="_blank" class="btn-action">
+              <i data-lucide="external-link" style="width:16px;height:16px;"></i> 보기
+            </a>
+            <a href="/maker?edit=${pod.slug}" class="btn-action">
+              <i data-lucide="edit-3" style="width:16px;height:16px;"></i> 수정
+            </a>
+            <button class="btn-action btn-danger" onclick="handleDelete('${pod.slug}')">
+              <i data-lucide="trash-2" style="width:16px;height:16px;"></i> 삭제
+            </button>
+          </div>
+        `;
+        grid.appendChild(cardEl);
+      });
+      
+      lucide.createIcons();
+    }
+    
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("주소가 복사되었습니다.");
+      });
+    }
+    
+    async function handleDelete(slug) {
+      if (!confirm(`'${slug}' 명함을 정말 삭제하시겠습니까? (되돌릴 수 없습니다)`)) return;
+      
+      const success = await deleteMyPod(slug);
+      if (success) {
+        loadDashboardData();
+      } else {
+        alert("삭제에 실패했습니다. 다시 시도해주세요.");
+      }
+    }
+    
+    window.onload = initDashboard;
+  </script>
+</body>
+</html>

@@ -1512,6 +1512,19 @@
       </div>
 
       <!-- [패널 A] 1인 개인 명함 에디터 -->
+      
+      <!-- Wizard Progress (Single Mode) -->
+      <div id="wizardProgress" class="wizard-progress-container" style="display:none; margin-bottom: 20px;">
+        <div class="wizard-steps-nav">
+          <div class="wizard-step-indicator active" onclick="goToWizardStep(1)">1. 기본 정보</div>
+          <div class="wizard-step-indicator" onclick="goToWizardStep(2)">2. 연락처/링크</div>
+          <div class="wizard-step-indicator" onclick="goToWizardStep(3)">3. 디자인/연출</div>
+        </div>
+        <div class="wizard-progress-bar">
+          <div class="wizard-progress-fill" id="wizardProgressFill" style="width: 33.33%;"></div>
+        </div>
+      </div>
+
       <div id="panelSingle" style="display:flex;flex-direction:column;gap:28px;">
 
       <!-- 0. 예시 템플릿 로드 -->
@@ -2978,7 +2991,10 @@
               currency: 'KRW'
             });
           }
-          showToast(`🎉 ${teamMembers.length}명의 기업 명함이 클라우드에 발행 완료되었습니다!`);
+          showToast(`🎉 명함 발행이 완료되었습니다! 대시보드로 이동합니다.`);
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1500);
         }
       } catch (err) {
         console.error("Publish error:", err);

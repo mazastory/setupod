@@ -3,7 +3,12 @@
   "redirects": [
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "brewoak.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "brewoak.com"
+        }
+      ],
       "destination": "/brewoak",
       "permanent": false
     }
@@ -11,86 +16,841 @@
   "rewrites": [
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "card.setupod.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "card.setupod.com"
+        }
+      ],
       "destination": "/maker"
     },
     {
       "source": "/:path+",
-      "has": [{ "type": "host", "value": "card.setupod.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "card.setupod.com"
+        }
+      ],
       "destination": "/card"
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "link.setupod.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "link.setupod.com"
+        }
+      ],
       "destination": "/link"
     },
-    { "source": "/link", "destination": "/link" },
-    { "source": "/maker", "destination": "/maker" },
-    { "source": "/studio", "destination": "/maker" },
-    { "source": "/planner", "destination": "/planner" },
-    { "source": "/memopod", "destination": "/memopod" },
-    { "source": "/memo", "destination": "/memopod" },
-    { "source": "/semolake", "destination": "/memopod" },
-    { "source": "/kakao", "destination": "/kakao" },
-    { "source": "/instagram-teaser", "destination": "/instagram_teaser" },
-    { "source": "/instagram-slides", "destination": "/instagram_slides" },
-    { "source": "/instagram-3grid", "destination": "/instagram_3grid_banners" },
-    { "source": "/scorecard", "destination": "/scorecard" },
-    { "source": "/scorecard-maker", "destination": "/scorecard_maker" },
-    { "source": "/waitlist", "destination": "/waitlist" },
-    { "source": "/waitlist-maker", "destination": "/waitlist_maker" },
-    { "source": "/proposal", "destination": "/proposal" },
-    { "source": "/proposal-maker", "destination": "/proposal_maker" },
-    { "source": "/proof", "destination": "/proof" },
-    { "source": "/proof-maker", "destination": "/proof_maker" },
-    { "source": "/profile-studio", "destination": "/profile_studio" },
-    { "source": "/10k-studio", "destination": "/10k_studio" },
-    { "source": "/detail-studio", "destination": "/detail_studio" },
-    { "source": "/hook-maker", "destination": "/hook_maker" },
-    { "source": "/product-studio", "destination": "/product_studio" },
-    { "source": "/roi-calculator", "destination": "/roi_calculator" },
-    { "source": "/brewoak", "destination": "/brewoak" },
-    { "source": "/privacy", "destination": "/privacy" },
-    { "source": "/terms", "destination": "/terms" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/sitemap", "destination": "/sitemap.xml" },
-    { "source": "/rss.xml", "destination": "/rss.xml" },
-    { "source": "/rss", "destination": "/rss.xml" },
-    { "source": "/feed.xml", "destination": "/rss.xml" },
-    { "source": "/feed", "destination": "/rss.xml" },
-    { "source": "/l/:company/:id", "destination": "/link" },
-    { "source": "/l/:id", "destination": "/link" },
-    { "source": "/c/:company/:id", "destination": "/card" },
-    { "source": "/c/:id", "destination": "/card" },
-    { "source": "/card/:company/:id", "destination": "/card" },
-    { "source": "/card/:id", "destination": "/card" },
-    { "source": "/alex", "destination": "/card" },
-    { "source": "/ceo", "destination": "/card" },
-    { "source": "/setupod", "destination": "/card" },
-    { "source": "/nexus/alex", "destination": "/card" },
-    { "source": "/nexus", "destination": "/card" }
+    {
+      "source": "/planner",
+      "destination": "/planner"
+    },
+    {
+      "source": "/planner/(.*)",
+      "destination": "/planner/$1"
+    },
+    {
+      "source": "/detail_studio",
+      "destination": "/detail_studio"
+    },
+    {
+      "source": "/detail_studio/(.*)",
+      "destination": "/detail_studio/$1"
+    },
+    {
+      "source": "/proof_maker",
+      "destination": "/proof_maker"
+    },
+    {
+      "source": "/proof_maker/(.*)",
+      "destination": "/proof_maker/$1"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
+      "source": "/sitemap.xml/(.*)",
+      "destination": "/sitemap.xml/$1"
+    },
+    {
+      "source": "/link",
+      "destination": "/link"
+    },
+    {
+      "source": "/link/(.*)",
+      "destination": "/link/$1"
+    },
+    {
+      "source": "/themes",
+      "destination": "/themes"
+    },
+    {
+      "source": "/themes/(.*)",
+      "destination": "/themes/$1"
+    },
+    {
+      "source": "/link.html",
+      "destination": "/link.html"
+    },
+    {
+      "source": "/link.html/(.*)",
+      "destination": "/link.html/$1"
+    },
+    {
+      "source": "/10k_studio",
+      "destination": "/10k_studio"
+    },
+    {
+      "source": "/10k_studio/(.*)",
+      "destination": "/10k_studio/$1"
+    },
+    {
+      "source": "/_vercel",
+      "destination": "/_vercel"
+    },
+    {
+      "source": "/_vercel/(.*)",
+      "destination": "/_vercel/$1"
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/terms.html/(.*)",
+      "destination": "/terms.html/$1"
+    },
+    {
+      "source": "/instagram_teaser",
+      "destination": "/instagram_teaser"
+    },
+    {
+      "source": "/instagram_teaser/(.*)",
+      "destination": "/instagram_teaser/$1"
+    },
+    {
+      "source": "/scorecard_maker.html",
+      "destination": "/scorecard_maker.html"
+    },
+    {
+      "source": "/scorecard_maker.html/(.*)",
+      "destination": "/scorecard_maker.html/$1"
+    },
+    {
+      "source": "/studio",
+      "destination": "/studio"
+    },
+    {
+      "source": "/studio/(.*)",
+      "destination": "/studio/$1"
+    },
+    {
+      "source": "/maker",
+      "destination": "/maker"
+    },
+    {
+      "source": "/maker/(.*)",
+      "destination": "/maker/$1"
+    },
+    {
+      "source": "/privacy.html",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/privacy.html/(.*)",
+      "destination": "/privacy.html/$1"
+    },
+    {
+      "source": "/instagram_teaser.html",
+      "destination": "/instagram_teaser.html"
+    },
+    {
+      "source": "/instagram_teaser.html/(.*)",
+      "destination": "/instagram_teaser.html/$1"
+    },
+    {
+      "source": "/detail-studio",
+      "destination": "/detail-studio"
+    },
+    {
+      "source": "/detail-studio/(.*)",
+      "destination": "/detail-studio/$1"
+    },
+    {
+      "source": "/proposal_maker",
+      "destination": "/proposal_maker"
+    },
+    {
+      "source": "/proposal_maker/(.*)",
+      "destination": "/proposal_maker/$1"
+    },
+    {
+      "source": "/maker.html",
+      "destination": "/maker.html"
+    },
+    {
+      "source": "/maker.html/(.*)",
+      "destination": "/maker.html/$1"
+    },
+    {
+      "source": "/proposal-maker",
+      "destination": "/proposal-maker"
+    },
+    {
+      "source": "/proposal-maker/(.*)",
+      "destination": "/proposal-maker/$1"
+    },
+    {
+      "source": "/proof_maker.html",
+      "destination": "/proof_maker.html"
+    },
+    {
+      "source": "/proof_maker.html/(.*)",
+      "destination": "/proof_maker.html/$1"
+    },
+    {
+      "source": "/scorecard_maker",
+      "destination": "/scorecard_maker"
+    },
+    {
+      "source": "/scorecard_maker/(.*)",
+      "destination": "/scorecard_maker/$1"
+    },
+    {
+      "source": "/memo",
+      "destination": "/memo"
+    },
+    {
+      "source": "/memo/(.*)",
+      "destination": "/memo/$1"
+    },
+    {
+      "source": "/404",
+      "destination": "/404"
+    },
+    {
+      "source": "/404/(.*)",
+      "destination": "/404/$1"
+    },
+    {
+      "source": "/proposal_maker.html",
+      "destination": "/proposal_maker.html"
+    },
+    {
+      "source": "/proposal_maker.html/(.*)",
+      "destination": "/proposal_maker.html/$1"
+    },
+    {
+      "source": "/scorecard.html",
+      "destination": "/scorecard.html"
+    },
+    {
+      "source": "/scorecard.html/(.*)",
+      "destination": "/scorecard.html/$1"
+    },
+    {
+      "source": "/index",
+      "destination": "/index"
+    },
+    {
+      "source": "/index/(.*)",
+      "destination": "/index/$1"
+    },
+    {
+      "source": "/waitlist.html",
+      "destination": "/waitlist.html"
+    },
+    {
+      "source": "/waitlist.html/(.*)",
+      "destination": "/waitlist.html/$1"
+    },
+    {
+      "source": "/.vercel",
+      "destination": "/.vercel"
+    },
+    {
+      "source": "/.vercel/(.*)",
+      "destination": "/.vercel/$1"
+    },
+    {
+      "source": "/kakao.html",
+      "destination": "/kakao.html"
+    },
+    {
+      "source": "/kakao.html/(.*)",
+      "destination": "/kakao.html/$1"
+    },
+    {
+      "source": "/api",
+      "destination": "/api"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/proof",
+      "destination": "/proof"
+    },
+    {
+      "source": "/proof/(.*)",
+      "destination": "/proof/$1"
+    },
+    {
+      "source": "/billing",
+      "destination": "/billing"
+    },
+    {
+      "source": "/billing/(.*)",
+      "destination": "/billing/$1"
+    },
+    {
+      "source": "/roi_calculator",
+      "destination": "/roi_calculator"
+    },
+    {
+      "source": "/roi_calculator/(.*)",
+      "destination": "/roi_calculator/$1"
+    },
+    {
+      "source": "/waitlist-maker",
+      "destination": "/waitlist-maker"
+    },
+    {
+      "source": "/waitlist-maker/(.*)",
+      "destination": "/waitlist-maker/$1"
+    },
+    {
+      "source": "/instagram-teaser",
+      "destination": "/instagram-teaser"
+    },
+    {
+      "source": "/instagram-teaser/(.*)",
+      "destination": "/instagram-teaser/$1"
+    },
+    {
+      "source": "/instagram_3grid_banners",
+      "destination": "/instagram_3grid_banners"
+    },
+    {
+      "source": "/instagram_3grid_banners/(.*)",
+      "destination": "/instagram_3grid_banners/$1"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy"
+    },
+    {
+      "source": "/privacy/(.*)",
+      "destination": "/privacy/$1"
+    },
+    {
+      "source": "/hook_maker",
+      "destination": "/hook_maker"
+    },
+    {
+      "source": "/hook_maker/(.*)",
+      "destination": "/hook_maker/$1"
+    },
+    {
+      "source": "/.git",
+      "destination": "/.git"
+    },
+    {
+      "source": "/.git/(.*)",
+      "destination": "/.git/$1"
+    },
+    {
+      "source": "/product_studio",
+      "destination": "/product_studio"
+    },
+    {
+      "source": "/product_studio/(.*)",
+      "destination": "/product_studio/$1"
+    },
+    {
+      "source": "/instagram_slides",
+      "destination": "/instagram_slides"
+    },
+    {
+      "source": "/instagram_slides/(.*)",
+      "destination": "/instagram_slides/$1"
+    },
+    {
+      "source": "/proof.html",
+      "destination": "/proof.html"
+    },
+    {
+      "source": "/proof.html/(.*)",
+      "destination": "/proof.html/$1"
+    },
+    {
+      "source": "/product-studio",
+      "destination": "/product-studio"
+    },
+    {
+      "source": "/product-studio/(.*)",
+      "destination": "/product-studio/$1"
+    },
+    {
+      "source": "/c",
+      "destination": "/c"
+    },
+    {
+      "source": "/c/(.*)",
+      "destination": "/c/$1"
+    },
+    {
+      "source": "/cards",
+      "destination": "/cards"
+    },
+    {
+      "source": "/cards/(.*)",
+      "destination": "/cards/$1"
+    },
+    {
+      "source": "/feed.xml",
+      "destination": "/feed.xml"
+    },
+    {
+      "source": "/feed.xml/(.*)",
+      "destination": "/feed.xml/$1"
+    },
+    {
+      "source": "/rss",
+      "destination": "/rss"
+    },
+    {
+      "source": "/rss/(.*)",
+      "destination": "/rss/$1"
+    },
+    {
+      "source": "/detail_studio.html",
+      "destination": "/detail_studio.html"
+    },
+    {
+      "source": "/detail_studio.html/(.*)",
+      "destination": "/detail_studio.html/$1"
+    },
+    {
+      "source": "/roi-calculator",
+      "destination": "/roi-calculator"
+    },
+    {
+      "source": "/roi-calculator/(.*)",
+      "destination": "/roi-calculator/$1"
+    },
+    {
+      "source": "/sitemap",
+      "destination": "/sitemap"
+    },
+    {
+      "source": "/sitemap/(.*)",
+      "destination": "/sitemap/$1"
+    },
+    {
+      "source": "/feed",
+      "destination": "/feed"
+    },
+    {
+      "source": "/feed/(.*)",
+      "destination": "/feed/$1"
+    },
+    {
+      "source": "/node_modules",
+      "destination": "/node_modules"
+    },
+    {
+      "source": "/node_modules/(.*)",
+      "destination": "/node_modules/$1"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/dashboard.html/(.*)",
+      "destination": "/dashboard.html/$1"
+    },
+    {
+      "source": "/profile-studio",
+      "destination": "/profile-studio"
+    },
+    {
+      "source": "/profile-studio/(.*)",
+      "destination": "/profile-studio/$1"
+    },
+    {
+      "source": "/hook-maker",
+      "destination": "/hook-maker"
+    },
+    {
+      "source": "/hook-maker/(.*)",
+      "destination": "/hook-maker/$1"
+    },
+    {
+      "source": "/l",
+      "destination": "/l"
+    },
+    {
+      "source": "/l/(.*)",
+      "destination": "/l/$1"
+    },
+    {
+      "source": "/planner.html",
+      "destination": "/planner.html"
+    },
+    {
+      "source": "/planner.html/(.*)",
+      "destination": "/planner.html/$1"
+    },
+    {
+      "source": "/brewoak",
+      "destination": "/brewoak"
+    },
+    {
+      "source": "/brewoak/(.*)",
+      "destination": "/brewoak/$1"
+    },
+    {
+      "source": "/waitlist_maker",
+      "destination": "/waitlist_maker"
+    },
+    {
+      "source": "/waitlist_maker/(.*)",
+      "destination": "/waitlist_maker/$1"
+    },
+    {
+      "source": "/semolake",
+      "destination": "/semolake"
+    },
+    {
+      "source": "/semolake/(.*)",
+      "destination": "/semolake/$1"
+    },
+    {
+      "source": "/memopod",
+      "destination": "/memopod"
+    },
+    {
+      "source": "/memopod/(.*)",
+      "destination": "/memopod/$1"
+    },
+    {
+      "source": "/card.html",
+      "destination": "/card.html"
+    },
+    {
+      "source": "/card.html/(.*)",
+      "destination": "/card.html/$1"
+    },
+    {
+      "source": "/rss.xml",
+      "destination": "/rss.xml"
+    },
+    {
+      "source": "/rss.xml/(.*)",
+      "destination": "/rss.xml/$1"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/index.html/(.*)",
+      "destination": "/index.html/$1"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms"
+    },
+    {
+      "source": "/terms/(.*)",
+      "destination": "/terms/$1"
+    },
+    {
+      "source": "/instagram-slides",
+      "destination": "/instagram-slides"
+    },
+    {
+      "source": "/instagram-slides/(.*)",
+      "destination": "/instagram-slides/$1"
+    },
+    {
+      "source": "/product_studio.html",
+      "destination": "/product_studio.html"
+    },
+    {
+      "source": "/product_studio.html/(.*)",
+      "destination": "/product_studio.html/$1"
+    },
+    {
+      "source": "/profile_studio",
+      "destination": "/profile_studio"
+    },
+    {
+      "source": "/profile_studio/(.*)",
+      "destination": "/profile_studio/$1"
+    },
+    {
+      "source": "/10k_studio.html",
+      "destination": "/10k_studio.html"
+    },
+    {
+      "source": "/10k_studio.html/(.*)",
+      "destination": "/10k_studio.html/$1"
+    },
+    {
+      "source": "/profile_studio.html",
+      "destination": "/profile_studio.html"
+    },
+    {
+      "source": "/profile_studio.html/(.*)",
+      "destination": "/profile_studio.html/$1"
+    },
+    {
+      "source": "/kakao",
+      "destination": "/kakao"
+    },
+    {
+      "source": "/kakao/(.*)",
+      "destination": "/kakao/$1"
+    },
+    {
+      "source": "/instagram_slides.html",
+      "destination": "/instagram_slides.html"
+    },
+    {
+      "source": "/instagram_slides.html/(.*)",
+      "destination": "/instagram_slides.html/$1"
+    },
+    {
+      "source": "/waitlist_maker.html",
+      "destination": "/waitlist_maker.html"
+    },
+    {
+      "source": "/waitlist_maker.html/(.*)",
+      "destination": "/waitlist_maker.html/$1"
+    },
+    {
+      "source": "/404.html",
+      "destination": "/404.html"
+    },
+    {
+      "source": "/404.html/(.*)",
+      "destination": "/404.html/$1"
+    },
+    {
+      "source": "/hook_maker.html",
+      "destination": "/hook_maker.html"
+    },
+    {
+      "source": "/hook_maker.html/(.*)",
+      "destination": "/hook_maker.html/$1"
+    },
+    {
+      "source": "/card",
+      "destination": "/card"
+    },
+    {
+      "source": "/card/(.*)",
+      "destination": "/card/$1"
+    },
+    {
+      "source": "/js",
+      "destination": "/js"
+    },
+    {
+      "source": "/js/(.*)",
+      "destination": "/js/$1"
+    },
+    {
+      "source": "/instagram-3grid",
+      "destination": "/instagram-3grid"
+    },
+    {
+      "source": "/instagram-3grid/(.*)",
+      "destination": "/instagram-3grid/$1"
+    },
+    {
+      "source": "/supabase",
+      "destination": "/supabase"
+    },
+    {
+      "source": "/supabase/(.*)",
+      "destination": "/supabase/$1"
+    },
+    {
+      "source": "/roi_calculator.html",
+      "destination": "/roi_calculator.html"
+    },
+    {
+      "source": "/roi_calculator.html/(.*)",
+      "destination": "/roi_calculator.html/$1"
+    },
+    {
+      "source": "/brewoak.html",
+      "destination": "/brewoak.html"
+    },
+    {
+      "source": "/brewoak.html/(.*)",
+      "destination": "/brewoak.html/$1"
+    },
+    {
+      "source": "/scorecard-maker",
+      "destination": "/scorecard-maker"
+    },
+    {
+      "source": "/scorecard-maker/(.*)",
+      "destination": "/scorecard-maker/$1"
+    },
+    {
+      "source": "/waitlist",
+      "destination": "/waitlist"
+    },
+    {
+      "source": "/waitlist/(.*)",
+      "destination": "/waitlist/$1"
+    },
+    {
+      "source": "/scorecard",
+      "destination": "/scorecard"
+    },
+    {
+      "source": "/scorecard/(.*)",
+      "destination": "/scorecard/$1"
+    },
+    {
+      "source": "/instagram_3grid_banners.html",
+      "destination": "/instagram_3grid_banners.html"
+    },
+    {
+      "source": "/instagram_3grid_banners.html/(.*)",
+      "destination": "/instagram_3grid_banners.html/$1"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/robots.txt/(.*)",
+      "destination": "/robots.txt/$1"
+    },
+    {
+      "source": "/10k-studio",
+      "destination": "/10k-studio"
+    },
+    {
+      "source": "/10k-studio/(.*)",
+      "destination": "/10k-studio/$1"
+    },
+    {
+      "source": "/memopod.html",
+      "destination": "/memopod.html"
+    },
+    {
+      "source": "/memopod.html/(.*)",
+      "destination": "/memopod.html/$1"
+    },
+    {
+      "source": "/proposal",
+      "destination": "/proposal"
+    },
+    {
+      "source": "/proposal/(.*)",
+      "destination": "/proposal/$1"
+    },
+    {
+      "source": "/assets",
+      "destination": "/assets"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/proposal.html",
+      "destination": "/proposal.html"
+    },
+    {
+      "source": "/proposal.html/(.*)",
+      "destination": "/proposal.html/$1"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard"
+    },
+    {
+      "source": "/dashboard/(.*)",
+      "destination": "/dashboard/$1"
+    },
+    {
+      "source": "/proof-maker",
+      "destination": "/proof-maker"
+    },
+    {
+      "source": "/proof-maker/(.*)",
+      "destination": "/proof-maker/$1"
+    },
+    {
+      "source": "/billing.html",
+      "destination": "/billing.html"
+    },
+    {
+      "source": "/billing.html/(.*)",
+      "destination": "/billing.html/$1"
+    },
+    {
+      "source": "/:slug",
+      "destination": "/card.html?id=$slug"
+    },
+    {
+      "source": "/:company/:slug",
+      "destination": "/card.html?id=$company/$slug"
+    }
   ],
   "headers": [
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, s-maxage=86400"
+        }
       ]
     },
     {
       "source": "/rss.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/rss+xml; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=3600" }
+        {
+          "key": "Content-Type",
+          "value": "application/rss+xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=3600"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     }
   ]

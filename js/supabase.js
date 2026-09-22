@@ -216,3 +216,30 @@ async function saveLeadToCloud(targetSlug, phone) {
     });
   return !error;
 }
+
+// 10. 내 명함 목록 불러오기 (대시보드용)
+async function getMyPods() {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const { data: pods, error } = await supabaseClient
+    .from('pods')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('updated_at', { ascending: false });
+  if (error) console.error("Error fetching pods:", error);
+  return pods;
+}
+
+// 11. 내 명함 삭제하기
+async function deleteMyPod(slug) {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const { error } = await supabaseClient
+    .from('pods')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('slug', slug);
+  if (error) console.error("Error deleting pod:", error);
+  return !error;
+}
+
