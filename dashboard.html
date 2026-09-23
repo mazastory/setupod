@@ -222,6 +222,26 @@
           <p>명함 데이터를 불러오는 중...</p>
         </div>
       </div>
+      
+      <!-- CRM Leads Section -->
+      <div class="header-box" style="margin-top: 48px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px;">
+        <h2>수집된 연락처 (CRM)</h2>
+        <p>명함을 통해 연락을 요청한 고객들의 목록입니다.</p>
+      </div>
+      <div id="leadsList" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 600px;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <th style="padding: 12px; color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;">접수일시</th>
+              <th style="padding: 12px; color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;">유입 명함 (Slug)</th>
+              <th style="padding: 12px; color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;">고객 전화번호</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <tr><td colspan="3" style="text-align:center; padding:24px; color:rgba(255,255,255,0.4);">리드 데이터를 불러오는 중...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -318,8 +338,28 @@
         `;
         grid.appendChild(cardEl);
       });
-      
       lucide.createIcons();
+      
+      // Load CRM Leads
+      const leadsBody = document.getElementById('leadsTableBody');
+      const leads = await (typeof getMyLeads === 'function' ? getMyLeads() : null);
+      
+      if (!leads || leads.length === 0) {
+        leadsBody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:24px; color:rgba(255,255,255,0.4);">아직 수집된 연락처가 없습니다.</td></tr>`;
+      } else {
+        leadsBody.innerHTML = '';
+        leads.forEach(lead => {
+          const date = new Date(lead.created_at).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' });
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+          tr.innerHTML = `
+            <td style="padding: 16px 12px; font-size: 14px; color: rgba(255,255,255,0.8);">${date}</td>
+            <td style="padding: 16px 12px; font-size: 14px; color: #a855f7; font-weight: 600;">${lead.target_slug}</td>
+            <td style="padding: 16px 12px; font-size: 15px; font-weight: 700;">${lead.phone}</td>
+          `;
+          leadsBody.appendChild(tr);
+        });
+      }
     }
     
     function copyToClipboard(text) {

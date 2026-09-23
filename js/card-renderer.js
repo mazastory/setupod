@@ -204,6 +204,10 @@ function renderActionDocks(data) {
       <div class="inside-action-row">
         ${social1Btn}
         ${social2Btn}
+        <button class="btn-action btn-glass" onclick="event.stopPropagation(); document.getElementById('leadModal').classList.add('active');" title="명함 주인에게 연락 남기기">
+          <i data-lucide="message-square" style="width: 14px; height: 14px; color: #a855f7;"></i>
+          <span>콜백 요청</span>
+        </button>
       </div>
     `;
 

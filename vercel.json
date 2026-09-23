@@ -806,11 +806,11 @@
     },
     {
       "source": "/:slug",
-      "destination": "/card.html?id=$slug"
+      "destination": "/api/render?slug=$slug"
     },
     {
       "source": "/:company/:slug",
-      "destination": "/card.html?id=$company/$slug"
+      "destination": "/api/render?slug=$company/$slug"
     }
   ],
   "headers": [

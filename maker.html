@@ -3054,15 +3054,46 @@
     }
 
     // 초기화
-    window.addEventListener('DOMContentLoaded', () => {
-      // 1. 임시 저장된 카드 데이터 복구 로직 (로그인 전 작성본 유실 방지)
-      const savedCardDataStr = localStorage.getItem('setupod_card_data');
-      if (savedCardDataStr) {
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. URL에서 edit 파라미터 확인 및 클라우드 연동
+      const urlParams = new URLSearchParams(window.location.search);
+      const editSlug = urlParams.get('edit');
+      
+      let savedData = null;
+      
+      if (editSlug && typeof loadPodData === 'function') {
         try {
-          const sd = JSON.parse(savedCardDataStr);
+          if (typeof showToast === 'function') showToast('클라우드에서 명함 데이터를 불러오는 중...');
+          const { pod } = await loadPodData(editSlug);
+          if (pod && pod.components_json) {
+            savedData = { id: pod.slug, card: pod.components_json.card };
+            if (typeof showToast === 'function') showToast('✅ 데이터를 성공적으로 불러왔습니다.');
+            
+            // makerIntroOverlay 닫기
+            const overlay = document.getElementById('makerIntroOverlay');
+            if (overlay) overlay.style.display = 'none';
+          }
+        } catch(e) {
+          console.error("Edit load error:", e);
+        }
+      }
+      
+      // 2. 임시 저장된 카드 데이터 복구 로직 (로그인 전 작성본 유실 방지 - fallback)
+      if (!savedData) {
+        const savedCardDataStr = localStorage.getItem('setupod_card_data');
+        if (savedCardDataStr) {
+          try {
+            savedData = JSON.parse(savedCardDataStr);
+          } catch(e) { console.error(e); }
+        }
+      }
+
+      if (savedData) {
+        try {
+          const sd = savedData;
           const card = sd.card;
           if (card) {
-            if(document.getElementById('inputSlug')) document.getElementById('inputSlug').value = sd.id || '';
+            if(document.getElementById('inputSlug')) document.getElementById('inputSlug').value = sd.id || editSlug || '';
             if(document.getElementById('inputName')) document.getElementById('inputName').value = card.name || '';
             if(document.getElementById('inputRole')) document.getElementById('inputRole').value = card.role || '';
             if(document.getElementById('inputCompany')) document.getElementById('inputCompany').value = card.company || '';
@@ -3228,7 +3259,7 @@ function toggleMobileMenu() {
   <!-- Maker Intro Overlay (UX Revamp Phase 1) -->
   <div id="makerIntroOverlay" style="position: fixed; inset: 0; background: #000000; z-index: 10000; display: flex; flex-direction: column; padding: 40px 20px; overflow-y: auto;">
     <div style="max-width: 600px; width: 100%; margin: 0 auto;">
-      <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; background: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">어떤 명함을 만들까요?</h1>
+      <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 8px; text-align: center; background: linear-gradient(90deg, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">어떤 명함을 만들까요?</h1>
       <p style="text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 40px; font-size: 15px;">AI로 3초 만에 만들거나, 템플릿을 선택해 직접 만들어보세요.</p>
 
       <!-- AI Scanner Option -->

@@ -207,14 +207,38 @@ async function loadPodByUserId(userId) {
 // 9. 방문자 리드(전화번호) 클라우드 DB 저장
 async function saveLeadToCloud(targetSlug, phone) {
   if (!supabaseClient) return false;
+  
+  // Get owner's user_id from pods table
+  const { data: pod } = await supabaseClient
+    .from('pods')
+    .select('user_id')
+    .eq('slug', targetSlug)
+    .single();
+    
+  const ownerId = pod ? pod.user_id : null;
+
   const { error } = await supabaseClient
     .from('leads')
     .insert({
+      user_id: ownerId,
       target_slug: targetSlug,
       phone: phone,
       metadata: { referrer: document.referrer, userAgent: navigator.userAgent }
     });
   return !error;
+}
+
+// 9-1. 내 명함에 접수된 리드(방문자 연락처) 목록 불러오기
+async function getMyLeads() {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const { data: leads, error } = await supabaseClient
+    .from('leads')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+  if (error) console.error("Error fetching leads:", error);
+  return leads;
 }
 
 // 10. 내 명함 목록 불러오기 (대시보드용)
