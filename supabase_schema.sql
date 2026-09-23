@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   avatar_url TEXT DEFAULT '',
   cover_url TEXT DEFAULT '',
   theme TEXT DEFAULT 'violet',
+  tier TEXT DEFAULT 'FREE',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );

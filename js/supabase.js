@@ -302,3 +302,26 @@ async function deleteMyPod(slug) {
   return !error;
 }
 
+// 12. PRO 업그레이드 상태 저장
+async function upgradeToPro() {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const { error } = await supabaseClient
+    .from('profiles')
+    .update({ tier: 'PRO' })
+    .eq('id', user.id);
+  if (error) console.error("Error upgrading to PRO:", error);
+  return !error;
+}
+
+// 13. PRO 상태 확인
+async function checkProStatus() {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const { data } = await supabaseClient
+    .from('profiles')
+    .select('tier')
+    .eq('id', user.id)
+    .single();
+  return data && data.tier === 'PRO';
+}

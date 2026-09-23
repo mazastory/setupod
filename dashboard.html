@@ -261,7 +261,15 @@
         authBtn.onclick = signOutUser;
         document.getElementById('loginRequired').style.display = 'none';
         document.getElementById('dashboardContent').style.display = 'block';
-        loadDashboardData();
+        await loadDashboardData();
+        
+        // PRO 상태 확인 후 뱃지 표시
+        if (typeof checkProStatus === 'function') {
+          const isPro = await checkProStatus();
+          if (isPro) {
+            document.querySelectorAll('[id^="pro-badge-"]').forEach(el => el.style.display = 'block');
+          }
+        }
       } else {
         authBtn.textContent = '로그인';
         authBtn.onclick = signInWithGoogle;
@@ -312,8 +320,11 @@
               <div class="pod-title">${name}</div>
               <div class="pod-role">${role}</div>
             </div>
-            <div style="background: rgba(168,85,247,0.2); color: #a855f7; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">
-              3D CARD
+            <div style="display:flex; gap:6px; align-items:center;">
+              <div id="pro-badge-${pod.slug}" style="background: linear-gradient(90deg,#f59e0b,#ec4899); color: #000; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display:none;">PRO</div>
+              <div style="background: rgba(168,85,247,0.2); color: #a855f7; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">
+                3D CARD
+              </div>
             </div>
           </div>
           

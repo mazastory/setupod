@@ -364,6 +364,57 @@
       color: #ffffff;
     }
 
+    .theme-pro-locked {
+      position: relative;
+      opacity: 0.6;
+      border: 1px dashed rgba(255,255,255,0.15);
+    }
+    .theme-pro-locked:hover {
+      opacity: 0.85;
+      border-color: #f59e0b;
+    }
+    .pro-badge {
+      font-size: 9px;
+      font-weight: 800;
+      color: #000;
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .theme-pro-locked.unlocked {
+      opacity: 1;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .theme-pro-locked.unlocked .pro-badge {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      color: #fff;
+    }
+    .theme-pro-locked.unlocked .pro-badge::after {
+      content: ' ✓';
+    }
+
+    /* Payment Modal */
+    #paymentModal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      z-index: 10000; display: none; align-items: center; justify-content: center;
+    }
+    #paymentModal.active { display: flex; }
+    .payment-box {
+      background: #18181b; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 36px 32px; max-width: 400px; width: 90%;
+      text-align: center; position: relative;
+    }
+    .payment-box h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .payment-box .price { font-size: 36px; font-weight: 900; background: linear-gradient(90deg, #f59e0b, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 16px 0; }
+    .payment-box .features { text-align: left; margin: 20px 0; }
+    .payment-box .features li { font-size: 14px; color: rgba(255,255,255,0.8); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); list-style: none; }
+    .payment-box .features li::before { content: '✓ '; color: #10b981; font-weight: 700; }
+    .btn-pay { width: 100%; padding: 16px; border: none; border-radius: 14px; background: linear-gradient(90deg, #f59e0b, #ec4899); color: #000; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+    .btn-pay-cancel { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 16px; cursor: pointer; }
+
     /* 파일 업로드 래퍼 */
     .file-upload-box {
       border: 1.5px dashed rgba(255, 255, 255, 0.2);
@@ -1580,6 +1631,22 @@
           <div class="theme-card theme-selector-card" data-theme="emerald" onclick="selectTheme('emerald', this)">
             <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
             <span class="theme-name">Emerald Tech</span>
+          </div>
+          <!-- PRO Themes -->
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="rosegold" onclick="handleProThemeClick('rosegold', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #f59e0b, #ec4899);"></div>
+            <span class="theme-name">Rose Gold</span>
+            <span class="pro-badge">PRO</span>
+          </div>
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="executive" onclick="handleProThemeClick('executive', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #c0c0c0, #2d2d2d);"></div>
+            <span class="theme-name">Executive Metal</span>
+            <span class="pro-badge">PRO</span>
+          </div>
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="glass" onclick="handleProThemeClick('glass', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(100,100,255,0.2));border:1px solid rgba(255,255,255,0.2);"></div>
+            <span class="theme-name">Glassmorphism</span>
+            <span class="pro-badge">PRO</span>
           </div>
         </div>
       </div>
@@ -3257,6 +3324,101 @@ function toggleMobileMenu() {
     </p>
     <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
+
+  <!-- PRO Payment Modal -->
+  <div id="paymentModal" onclick="if(event.target===this) closePaymentModal();">
+    <div class="payment-box">
+      <h2>✨ PRO 업그레이드</h2>
+      <p style="color: rgba(255,255,255,0.6); font-size: 14px;">프리미엄 테마와 기능을 잠금 해제하세요</p>
+      <div class="price">₩9,900</div>
+      <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px;">1회 결제 · 영구 소장</p>
+      <ul class="features">
+        <li>Rose Gold / Executive Metal / Glassmorphism 테마</li>
+        <li>커스텀 도메인 연결 (예정)</li>
+        <li>방문자 통계 상세 리포트 (예정)</li>
+        <li>PRO 전용 뱃지 표시</li>
+      </ul>
+      <button class="btn-pay" onclick="processPayment()">PRO 결제하기</button>
+      <br>
+      <button class="btn-pay-cancel" onclick="closePaymentModal()">나중에 할게요</button>
+    </div>
+  </div>
+
+  <script>
+    // PRO 상태 관리
+    let isProUser = false;
+    let pendingProTheme = null;
+    
+    // 페이지 로드 시 PRO 상태 체크
+    (async function checkProStatus() {
+      const proFlag = localStorage.getItem('setupod_pro');
+      if (proFlag === 'true') {
+        isProUser = true;
+        unlockAllProThemes();
+      }
+    })();
+    
+    function unlockAllProThemes() {
+      document.querySelectorAll('.theme-pro-locked').forEach(el => {
+        el.classList.add('unlocked');
+        const theme = el.getAttribute('data-theme');
+        el.setAttribute('onclick', `selectTheme('${theme}', this)`);
+      });
+    }
+    
+    function handleProThemeClick(theme, el) {
+      if (isProUser) {
+        selectTheme(theme, el);
+        return;
+      }
+      pendingProTheme = { theme, el };
+      document.getElementById('paymentModal').classList.add('active');
+    }
+    
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+      pendingProTheme = null;
+    }
+    
+    async function processPayment() {
+      const payBtn = document.querySelector('.btn-pay');
+      payBtn.textContent = '결제 처리 중...';
+      payBtn.disabled = true;
+      
+      // 토스페이먼츠 연동 자리 (테스트 모드)
+      // 실제 PG 연동 전까지는 시뮬레이션 결제로 처리
+      try {
+        // Simulate payment processing
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // 결제 성공 처리
+        isProUser = true;
+        localStorage.setItem('setupod_pro', 'true');
+        
+        // Supabase에 PRO 상태 저장
+        if (typeof upgradeToPro === 'function') {
+          await upgradeToPro();
+        }
+        
+        unlockAllProThemes();
+        closePaymentModal();
+        
+        if (pendingProTheme) {
+          selectTheme(pendingProTheme.theme, pendingProTheme.el);
+          pendingProTheme = null;
+        }
+        
+        if (typeof showToast === 'function') showToast('🎉 PRO 업그레이드 완료! 프리미엄 테마가 잠금 해제되었습니다.');
+      } catch(e) {
+        console.error('Payment error:', e);
+        if (typeof showToast === 'function') showToast('결제 중 오류가 발생했습니다. 다시 시도해주세요.');
+      } finally {
+        payBtn.textContent = 'PRO 결제하기';
+        payBtn.disabled = false;
+      }
+    }
+  </script>
+
   <!-- Maker Intro Overlay (UX Revamp Phase 1) -->
   <div id="makerIntroOverlay" style="position: fixed; inset: 0; background: #000000; z-index: 10000; display: flex; flex-direction: column; padding: 40px 20px; overflow-y: auto;">
     <div style="max-width: 600px; width: 100%; margin: 0 auto;">
