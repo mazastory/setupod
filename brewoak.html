@@ -51,10 +51,10 @@
     }
     #nodeCanvas {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -1; pointer-events: none; opacity: 0.3; transition: opacity 1.5s ease;
+      z-index: 0; pointer-events: none; opacity: 0.3; transition: opacity 1.5s ease;
     }
     #nodeCanvas.brewing { opacity: 0.8; }
-    .container { width: 100%; max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 24px; }
+    .container { position: relative; z-index: 1; width: 100%; max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 24px; }
 
     .proto-badge {
       align-self: center; font-size: 12px; font-weight: 700; color: var(--spark);
