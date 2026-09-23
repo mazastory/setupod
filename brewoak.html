@@ -438,7 +438,8 @@
 
       // 노드 애니메이션 상태 제어
       if (screen === 'screenBrewing') {
-        startBrewingAnimation();
+        const text = $('memoInput') ? $('memoInput').value : '';
+        startBrewingAnimation(text);
       } else {
         stopBrewingAnimation();
       }
@@ -694,11 +695,12 @@
   const canvas = $('nodeCanvas');
   const ctx = canvas.getContext('2d');
   
-  let nodes = [];
-  const maxNodes = 60;
+  let graphNodes = [];
+  let graphEdges = [];
   let isBrewing = false;
   let centerX = 0;
   let centerY = 0;
+  let centralNode = null;
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -709,125 +711,205 @@
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
 
-  class Node {
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
-      this.radius = Math.random() * 1.5 + 1;
-      this.isCentral = false;
-      this.pulse = Math.random() * Math.PI * 2;
+  // Memopod Data Mock
+  const mockTags = [
+    { id: 't1', label: '#마케팅', color: '#818cf8' },
+    { id: 't2', label: '#감정', color: '#818cf8' },
+    { id: 't3', label: '#비즈니스', color: '#818cf8' },
+    { id: 't4', label: '#생산성', color: '#818cf8' },
+    { id: 't5', label: '#인사이트', color: '#818cf8' }
+  ];
+  
+  const mockItems = [
+    { id: 'i1', label: '숏폼 알고리즘은...', color: '#38bdf8' },
+    { id: 'i2', label: '고객 클레임 처리...', color: '#f59e0b' },
+    { id: 'i3', label: 'AI 시대의 생존법...', color: '#6366f1' },
+    { id: 'i4', label: '비 오는 날 카페...', color: '#a855f7' },
+    { id: 'i5', label: '구독형 B2B 모델...', color: '#10b981' },
+    { id: 'i6', label: '회의에서 나온 말...', color: '#f59e0b' },
+    { id: 'i7', label: '퇴근길 밤하늘...', color: '#a855f7' }
+  ];
+
+  function initGraph() {
+    graphNodes = [];
+    graphEdges = [];
+    
+    mockTags.forEach(t => {
+      const angle = Math.random() * Math.PI * 2;
+      const r = 200 + Math.random() * 100;
+      graphNodes.push({
+        id: t.id, kind: 'tag', label: t.label, color: t.color,
+        x: centerX + Math.cos(angle) * r, y: centerY + Math.sin(angle) * r,
+        vx: 0, vy: 0, radius: 16
+      });
+    });
+
+    mockItems.forEach((item, i) => {
+      const angle = Math.random() * Math.PI * 2;
+      const r = 100 + Math.random() * 150;
+      graphNodes.push({
+        id: item.id, kind: 'item', label: item.label, color: item.color,
+        x: centerX + Math.cos(angle) * r, y: centerY + Math.sin(angle) * r,
+        vx: 0, vy: 0, radius: 10
+      });
+      // 임의 연결 (아이템 -> 태그 1개)
+      const targetTag = mockTags[Math.floor(Math.random() * mockTags.length)];
+      graphEdges.push({ source: item.id, target: targetTag.id, length: 80 });
+    });
+  }
+  initGraph();
+
+  function updatePhysics() {
+    const kRepulsion = isBrewing ? 1800 : 1200;
+    const kAttraction = isBrewing ? 0.05 : 0.02;
+    const damping = 0.85;
+
+    // 척력
+    for (let i = 0; i < graphNodes.length; i++) {
+      for (let j = i + 1; j < graphNodes.length; j++) {
+        const n1 = graphNodes[i], n2 = graphNodes[j];
+        const dx = n2.x - n1.x, dy = n2.y - n1.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) dist = 0.1;
+        const force = kRepulsion / (dist * dist);
+        const fx = (dx / dist) * force, fy = (dy / dist) * force;
+        n1.vx -= fx; n1.vy -= fy;
+        n2.vx += fx; n2.vy += fy;
+      }
     }
 
-    update() {
+    // 인력 (스프링)
+    graphEdges.forEach(edge => {
+      const src = graphNodes.find(n => n.id === edge.source);
+      const tgt = graphNodes.find(n => n.id === edge.target);
+      if (!src || !tgt) return;
+      const dx = tgt.x - src.x, dy = tgt.y - src.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const diff = dist - edge.length;
+      
+      let forceMultiplier = kAttraction;
+      if (isBrewing && (src.isCentral || tgt.isCentral)) {
+          forceMultiplier = 0.08;
+      }
+      
+      const force = diff * forceMultiplier;
+      const fx = (dx / (dist || 1)) * force, fy = (dy / (dist || 1)) * force;
+      src.vx += fx; src.vy += fy;
+      tgt.vx -= fx; tgt.vy -= fy;
+    });
+
+    // 중앙 인력 및 유동성
+    graphNodes.forEach(node => {
+      const cx = centerX;
+      const cy = centerY - 50; 
+      node.vx += (cx - node.x) * 0.002;
+      node.vy += (cy - node.y) * 0.002;
+      
       if (isBrewing) {
-        const dx = centerX - this.x;
-        const dy = centerY - this.y;
-        this.vx += dx * 0.00005;
-        this.vy += dy * 0.00005;
-        
-        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-        if (speed > 1.5) {
-          this.vx = (this.vx / speed) * 1.5;
-          this.vy = (this.vy / speed) * 1.5;
-        }
+          node.vx += (cx - node.x) * 0.001;
+          node.vy += (cy - node.y) * 0.001;
       }
 
-      this.x += this.vx;
-      this.y += this.vy;
-      this.pulse += 0.05;
+      node.vx += (Math.random() - 0.5) * 0.2;
+      node.vy += (Math.random() - 0.5) * 0.2;
 
-      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-    }
-
-    draw() {
-      ctx.beginPath();
-      let currentRadius = this.radius;
-      ctx.fillStyle = 'rgba(242, 193, 78, 0.4)';
-      
-      if (this.isCentral) {
-        currentRadius = 4 + Math.sin(this.pulse) * 1.5;
-        ctx.fillStyle = '#FFF';
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = '#F2C14E';
-      } else {
-        ctx.shadowBlur = isBrewing ? 10 : 0;
-        ctx.shadowColor = 'rgba(232, 163, 89, 0.5)';
-      }
-      
-      ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    }
+      node.vx *= damping;
+      node.vy *= damping;
+      node.x += node.vx;
+      node.y += node.vy;
+    });
   }
 
-  for (let i = 0; i < maxNodes; i++) {
-    nodes.push(new Node());
-  }
-
-  let centralNode = null;
-
-  function drawLines() {
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        let maxDist = isBrewing ? 180 : 100;
-        
-        if (dist < maxDist) {
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          
-          let opacity = 1 - (dist / maxDist);
-          if (isBrewing) {
-            const isConnectedToCenter = nodes[i].isCentral || nodes[j].isCentral;
-            ctx.strokeStyle = isConnectedToCenter 
-              ? `rgba(242, 193, 78, ${opacity * 0.8})` 
-              : `rgba(232, 163, 89, ${opacity * 0.4})`;
-            ctx.lineWidth = isConnectedToCenter ? 1.5 : 1;
-          } else {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
-            ctx.lineWidth = 1;
-          }
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  function animateNodes() {
+  function renderGraph() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawLines();
-    nodes.forEach(node => { node.update(); node.draw(); });
-    requestAnimationFrame(animateNodes);
-  }
-  animateNodes();
+    updatePhysics();
 
-  function startBrewingAnimation() {
+    // 엣지 렌더링
+    graphEdges.forEach(edge => {
+      const src = graphNodes.find(n => n.id === edge.source);
+      const tgt = graphNodes.find(n => n.id === edge.target);
+      if (!src || !tgt) return;
+
+      ctx.beginPath();
+      ctx.moveTo(src.x, src.y);
+      ctx.lineTo(tgt.x, tgt.y);
+      
+      if (src.isCentral || tgt.isCentral) {
+         ctx.strokeStyle = 'rgba(242, 193, 78, 0.8)';
+         ctx.lineWidth = 2;
+         ctx.shadowBlur = 10;
+         ctx.shadowColor = '#F2C14E';
+      } else {
+         ctx.strokeStyle = isBrewing ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.08)';
+         ctx.lineWidth = 1;
+         ctx.shadowBlur = 0;
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    });
+
+    // 노드 렌더링
+    graphNodes.forEach(node => {
+      if (node.isCentral) {
+         ctx.beginPath();
+         ctx.arc(node.x, node.y, node.radius + 6 + Math.sin(Date.now() / 150) * 2, 0, Math.PI * 2);
+         ctx.fillStyle = 'rgba(242, 193, 78, 0.3)';
+         ctx.fill();
+      }
+
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+      ctx.fillStyle = node.kind === 'tag' ? '#1e293b' : node.color;
+      ctx.fill();
+      
+      if (node.kind === 'tag') {
+        ctx.strokeStyle = node.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else if (node.isCentral) {
+        ctx.strokeStyle = '#FFF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = node.isCentral ? '#FFF' : 'rgba(255, 255, 255, 0.6)';
+      ctx.font = node.kind === 'tag' ? 'bold 11px monospace' : '11px sans-serif';
+      if (node.isCentral) ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.label, node.x, node.y + node.radius + 12);
+    });
+
+    requestAnimationFrame(renderGraph);
+  }
+  requestAnimationFrame(renderGraph);
+
+  function startBrewingAnimation(userMemoText = '나의 새로운 생각...') {
+    if (isBrewing) return;
     isBrewing = true;
     canvas.classList.add('brewing');
-    if (!centralNode) {
-      centralNode = new Node();
-      centralNode.x = centerX;
-      centralNode.y = centerY;
-      centralNode.isCentral = true;
-      centralNode.vx = 0;
-      centralNode.vy = 0;
-      nodes.push(centralNode);
-    }
+    
+    let displayLabel = (userMemoText || '').trim();
+    if (displayLabel.length > 15) displayLabel = displayLabel.substring(0, 15) + '...';
+    if (!displayLabel) displayLabel = '나의 새로운 생각...';
+
+    centralNode = {
+      id: 'central', kind: 'item', label: displayLabel, color: '#F2C14E',
+      x: centerX, y: centerY, vx: 0, vy: 0, radius: 14, isCentral: true
+    };
+    graphNodes.push(centralNode);
+
+    const shuffledTags = [...mockTags].sort(() => 0.5 - Math.random());
+    graphEdges.push({ source: 'central', target: shuffledTags[0].id, length: 120 });
+    graphEdges.push({ source: 'central', target: shuffledTags[1].id, length: 120 });
   }
 
   function stopBrewingAnimation() {
     isBrewing = false;
     canvas.classList.remove('brewing');
     if (centralNode) {
-      const index = nodes.indexOf(centralNode);
-      if (index > -1) nodes.splice(index, 1);
+      graphNodes = graphNodes.filter(n => n.id !== 'central');
+      graphEdges = graphEdges.filter(e => e.source !== 'central' && e.target !== 'central');
       centralNode = null;
     }
   }
