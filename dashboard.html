@@ -8,11 +8,12 @@
   <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@0.344.0"></script>
-  <link rel="stylesheet" href="themes/gnb.css">
+  <link rel="stylesheet" href="./themes/gnb.css">
   
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
+  <script src="./js/supabase.js"></script>
+  <script src="./js/auth-modal.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -185,20 +186,6 @@
   </style>
 </head>
 <body>
-
-  <!-- GNB -->
-  <header class="gnb">
-    <div class="gnb-inner">
-      <a href="/" class="logo">
-        <span class="logo-text">SETUP<span class="highlight">OD</span></span>
-      </a>
-      <div class="gnb-actions">
-        <a href="/maker" class="btn-create-nav" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#c084fc;background:rgba(168,85,247,0.1);padding:6px 14px;border-radius:99px;text-decoration:none;"><i data-lucide="wand-2" style="width:14px;height:14px;"></i> 명함 만들기</a>
-        <button id="authBtn" class="btn-login" style="background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 16px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;" onclick="handleAuthClick()">로그인</button>
-      </div>
-    </div>
-  </header>
-
   <div class="container">
     <div id="loginRequired">
       <i data-lucide="lock" style="width: 48px; height: 48px; color: rgba(255,255,255,0.2); margin-bottom: 20px;"></i>
@@ -453,5 +440,6 @@
     
     window.onload = initDashboard;
   </script>
+  <script src="./js/gnb.js"></script>
 </body>
 </html>
