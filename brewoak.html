@@ -450,7 +450,16 @@
       $('memoCount').textContent = memo.value.length; 
       $('btnBrew').disabled = memo.value.trim().length < 2; 
     }
-    memo.addEventListener('input', syncMemo);
+    
+    function saveDraft() {
+      localStorage.setItem('brewoak_draft_memo', memo.value);
+      localStorage.setItem('brewoak_draft_email', $('emailInput').value);
+      const checkedBarrel = document.querySelector('input[name="barrel"]:checked');
+      if (checkedBarrel) localStorage.setItem('brewoak_draft_barrel', checkedBarrel.value);
+    }
+    
+    memo.addEventListener('input', () => { syncMemo(); saveDraft(); });
+    $('emailInput').addEventListener('input', saveDraft);
     
     // 타자치는 애니메이션 효과 (Placeholder)
     let typeInterval = null;
@@ -523,6 +532,7 @@
     document.querySelectorAll('input[name="barrel"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
         if (e.target.checked) renderChips(e.target.value);
+        saveDraft();
       });
     });
     renderChips('emotion'); // 초기값
@@ -532,8 +542,10 @@
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('이메일 주소를 다시 확인해 주세요.'); $('emailInput').focus(); return; }
 
       const barrelType = document.querySelector('input[name="barrel"]:checked').value;
+      localStorage.setItem('brewoak_intent_brew', 'true');
 
       window.requireAuth(async (user) => {
+        localStorage.removeItem('brewoak_intent_brew');
         $('btnBrew').disabled = true;
         $('btnBrew').textContent = '빚어내는 중...';
         show('screenBrewing', 'brew');
@@ -544,6 +556,10 @@
           });
 
           if (error) throw error;
+          
+          localStorage.removeItem('brewoak_draft_memo');
+          localStorage.removeItem('brewoak_draft_email');
+          localStorage.removeItem('brewoak_draft_barrel');
           
           track('brewoak_brew_started', { barrelType, has_email: email ? 'yes' : 'no' });
           
@@ -630,11 +646,28 @@
 
     // ---- 처음 열 때: Supabase에서 상태 확인 ----
     setFace('empty');
+    
+    const draftMemo = localStorage.getItem('brewoak_draft_memo');
+    if (draftMemo) memo.value = draftMemo;
+    const draftEmail = localStorage.getItem('brewoak_draft_email');
+    if (draftEmail) $('emailInput').value = draftEmail;
+    const draftBarrel = localStorage.getItem('brewoak_draft_barrel');
+    if (draftBarrel) {
+      const b = document.getElementById('barrel_' + draftBarrel);
+      if (b) { b.checked = true; renderChips(draftBarrel); }
+    }
     syncMemo();
 
     // 로그인된 유저가 있다면 최근 작업을 불러옵니다.
     const user = await getCurrentUser();
     if (user && supabaseClient) {
+        const intentBrew = localStorage.getItem('brewoak_intent_brew');
+        if (intentBrew === 'true') {
+            localStorage.removeItem('brewoak_intent_brew');
+            setTimeout(() => $('btnBrew').click(), 100);
+            return;
+        }
+
         const { data, error } = await supabaseClient
             .from('brewoak_jobs')
             .select('*')
