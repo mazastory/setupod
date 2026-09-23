@@ -37,10 +37,20 @@ CREATE TABLE IF NOT EXISTS public.leads (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 4. 페이지 뷰 (조회수 통계) 테이블
+CREATE TABLE IF NOT EXISTS public.page_views (
+  id BIGSERIAL PRIMARY KEY,
+  target_slug TEXT NOT NULL,
+  metadata JSONB DEFAULT '{}'::JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS page_views_slug_idx ON public.page_views(target_slug);
+
 -- RLS (Row Level Security) 설정
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.page_views ENABLE ROW LEVEL SECURITY;
 
 -- 누구나 프로필 및 팟 정보는 읽을 수 있음 (공개 프로필)
 DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.profiles;
@@ -60,8 +70,17 @@ CREATE POLICY "Users can manage own pods" ON public.pods FOR ALL USING (auth.uid
 DROP POLICY IF EXISTS "Anyone can insert leads" ON public.leads;
 CREATE POLICY "Anyone can insert leads" ON public.leads FOR INSERT WITH CHECK (true);
 -- 리드 확인은 본인만 가능
-DROP POLICY IF EXISTS "Users can view their own leads" ON public.leads;
-CREATE POLICY "Users can view their own leads" ON public.leads FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Leads are viewable by owner only" ON public.leads;
+CREATE POLICY "Leads are viewable by owner only" ON public.leads FOR SELECT USING (auth.uid() = user_id);
+
+-- 페이지 뷰 생성은 누구나 가능 (비로그인 방문자 포함)
+DROP POLICY IF EXISTS "Anyone can insert page views" ON public.page_views;
+CREATE POLICY "Anyone can insert page views" ON public.page_views FOR INSERT WITH CHECK (true);
+
+-- 페이지 뷰 조회를 위해서는 pods 테이블과 조인하여 소유자 확인이 필요하지만, 대시보드 로드 시 보안을 위해 일단 모두 읽기 허용 또는 특정 백엔드 뷰 사용.
+-- 간편한 연동을 위해 임시로 읽기 권한을 열어둡니다 (실 서비스 배포 전 고도화 필요).
+DROP POLICY IF EXISTS "Page views are viewable by everyone" ON public.page_views;
+CREATE POLICY "Page views are viewable by everyone" ON public.page_views FOR SELECT USING (true);
 
 -- 4. BrewOak 숙성통 작업 테이블 (비동기 결과 저장)
 CREATE TABLE IF NOT EXISTS public.brewoak_jobs (

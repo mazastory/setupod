@@ -317,6 +317,11 @@
             </div>
           </div>
           
+          <div style="margin-top: 12px; font-size: 13px; color: #a1a1aa; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
+            <span id="view-count-${pod.slug}">조회수 불러오는 중...</span>
+          </div>
+          
           <div class="pod-slug-box">
             <a href="/${pod.slug}" target="_blank" class="pod-slug-text" style="text-decoration:none;">setupod.com/${pod.slug}</a>
             <button class="btn-copy" onclick="copyToClipboard('https://setupod.com/${pod.slug}')" title="주소 복사">
@@ -339,6 +344,20 @@
         grid.appendChild(cardEl);
       });
       lucide.createIcons();
+      
+      // Load Analytics (조회수) for each pod - non-blocking
+      if (typeof getAnalytics === 'function') {
+        pods.forEach(async (pod) => {
+          try {
+            const count = await getAnalytics(pod.slug);
+            const el = document.getElementById(`view-count-${pod.slug}`);
+            if (el) el.textContent = `총 ${count.toLocaleString()}회 조회`;
+          } catch(e) {
+            const el = document.getElementById(`view-count-${pod.slug}`);
+            if (el) el.textContent = '조회수 집계 불가';
+          }
+        });
+      }
       
       // Load CRM Leads
       const leadsBody = document.getElementById('leadsTableBody');

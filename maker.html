@@ -3061,10 +3061,11 @@
       
       let savedData = null;
       
-      if (editSlug && typeof loadPodData === 'function') {
+      if (editSlug && typeof loadPodFromCloud === 'function') {
         try {
           if (typeof showToast === 'function') showToast('클라우드에서 명함 데이터를 불러오는 중...');
-          const { pod } = await loadPodData(editSlug);
+          const result = await loadPodFromCloud(editSlug);
+          const pod = result ? result.pod : null;
           if (pod && pod.components_json) {
             savedData = { id: pod.slug, card: pod.components_json.card };
             if (typeof showToast === 'function') showToast('✅ 데이터를 성공적으로 불러왔습니다.');

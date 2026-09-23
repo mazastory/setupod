@@ -393,8 +393,7 @@ function setupSwipe() {
   }, { passive: true });
 }
 
-// QR Code Modal
-let qrcodeObj = null;
+// QR Code Modal (qrcodeObj is declared at top of file)
 
 function initQrCode() {
   const qrTarget = document.getElementById('qrContainer');
@@ -743,6 +742,12 @@ async function initCardEngine() {
   }
 
   setupSwipe();
+  
+  // Analytics 조회수 기록
+  if (typeof recordPageView === 'function') {
+    const targetSlug = company ? `${company}/${slug}` : slug;
+    recordPageView(targetSlug).catch(e => console.log('Analytics Error:', e));
+  }
 }
 
 window.addEventListener('DOMContentLoaded', initCardEngine);

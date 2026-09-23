@@ -241,6 +241,41 @@ async function getMyLeads() {
   return leads;
 }
 
+// 9-2. 명함 조회수(Analytics) 기록하기
+async function recordPageView(slug) {
+  if (!supabaseClient) return false;
+  // 중복 조회(새로고침) 방지를 위해 세션 스토리지 체크
+  const viewedKey = `setupod_viewed_${slug}`;
+  if (sessionStorage.getItem(viewedKey)) return true;
+  
+  const { error } = await supabaseClient
+    .from('page_views')
+    .insert({
+      target_slug: slug,
+      metadata: { referrer: document.referrer, userAgent: navigator.userAgent }
+    });
+    
+  if (!error) {
+    sessionStorage.setItem(viewedKey, 'true');
+    return true;
+  }
+  return false;
+}
+
+// 9-3. 명함별 총 조회수 가져오기
+async function getAnalytics(slug) {
+  if (!supabaseClient) return 0;
+  const { count, error } = await supabaseClient
+    .from('page_views')
+    .select('*', { count: 'exact', head: true })
+    .eq('target_slug', slug);
+  if (error) {
+    console.error("Error fetching analytics:", error);
+    return 0;
+  }
+  return count || 0;
+}
+
 // 10. 내 명함 목록 불러오기 (대시보드용)
 async function getMyPods() {
   const user = await getCurrentUser();
