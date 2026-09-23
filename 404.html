@@ -1,220 +1,167 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-67QE5VV6XR');
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - 페이지를 찾을 수 없습니다 | SETUPOD</title>
-  <link rel="canonical" href="https://www.setupod.com/404">
-  <meta name="robots" content="noindex, follow">
-  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <title>페이지를 찾을 수 없습니다 | SETUPOD</title>
+  
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  
   <style>
+    :root {
+      --bg-color: #030206;
+      --text-color: #ffffff;
+      --accent: #a855f7;
+    }
+    
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-
+    
     body {
-      background: #06060c;
-      color: #ffffff;
-      min-height: 100vh;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* 배경 글로우 */
-    .bg-glow {
-      position: absolute;
-      width: 450px;
-      height: 450px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.18) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 70%);
-      filter: blur(60px);
-      z-index: 0;
-      pointer-events: none;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .error-card {
-      position: relative;
-      z-index: 1;
-      max-width: 520px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 28px;
-      padding: 48px 32px;
+      min-height: 100vh;
       text-align: center;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      padding: 20px;
     }
-
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 28px;
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 40px;
+      background: linear-gradient(90deg, #fff, rgba(255,255,255,0.6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
     }
-
-    .logo-badge img {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-    }
-
+    
     .error-code {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 88px;
+      font-size: 80px;
       font-weight: 900;
       line-height: 1;
-      background: linear-gradient(135deg, #c084fc 0%, #38bdf8 100%);
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #a855f7, #6b21a8);
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.04em;
-      margin-bottom: 12px;
+      background-clip: text;
     }
-
-    .error-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 12px;
+    
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
     }
-
-    .error-desc {
-      font-size: 14.5px;
-      color: rgba(255, 255, 255, 0.65);
+    
+    p {
+      color: rgba(255,255,255,0.6);
+      font-size: 15px;
       line-height: 1.6;
-      margin-bottom: 36px;
-      word-break: keep-all;
+      margin-bottom: 40px;
+      max-width: 400px;
     }
-
-    .btn-group {
+    
+    .action-buttons {
       display: flex;
-      flex-direction: column;
       gap: 12px;
-    }
-
-    .btn-main {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      flex-direction: column;
       width: 100%;
-      padding: 15px 24px;
-      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-      color: #ffffff;
-      text-decoration: none;
+      max-width: 320px;
+    }
+    
+    .btn {
+      padding: 16px 24px;
+      border-radius: 12px;
       font-size: 15px;
       font-weight: 700;
-      border-radius: 14px;
-      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+      text-decoration: none;
       transition: all 0.2s ease;
-    }
-
-    .btn-main:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 32px rgba(168, 85, 247, 0.6);
-    }
-
-    .btn-sub {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      width: 100%;
-      padding: 14px 24px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: 14px;
-      transition: all 0.2s ease;
     }
-
-    .btn-sub:hover {
-      background: rgba(255, 255, 255, 0.1);
+    
+    .btn-primary {
+      background: #ffffff;
+      color: #000000;
+    }
+    
+    .btn-primary:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
       color: #ffffff;
     }
-
-    .footer-note {
-      margin-top: 32px;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.35);
-      font-family: 'Montserrat', sans-serif;
+    
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .claim-box {
+      margin-top: 60px;
+      padding: 20px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    .claim-box h3 {
+      font-size: 15px;
+      color: #e9d5ff;
+      margin-bottom: 8px;
+    }
+    
+    .claim-box p {
+      font-size: 13px;
+      color: rgba(233,213,255,0.7);
+      margin-bottom: 16px;
     }
   </style>
-  <link rel="stylesheet" href="themes/gnb.css">
 </head>
 <body>
 
-  <div class="bg-glow"></div>
-
-  <div class="error-card">
-    <div class="logo-badge">
-      <img src="assets/setupod.gif" alt="SETUPOD">
-      <span>SETUPOD · 404 NOT FOUND</span>
-    </div>
-
-    <div class="error-code">404</div>
-    <h1 class="error-title">존재하지 않는 페이지입니다</h1>
-    <p class="error-desc">
-      입력하신 주소가 올바르지 않거나, 비공개로 전환되었을 수 있습니다.<br>
-      아래 버튼을 눌러 메인 페이지로 이동하거나 나만의 3D 명함을 직접 셋업해보세요.
-    </p>
-
-    <div class="btn-group">
-      <a href="/" class="btn-main">
-        <i data-lucide="home" style="width:17px;height:17px;"></i>
-        <span>메인 홈으로 이동하기</span>
-      </a>
-      <a href="/maker" class="btn-sub">
-        <i data-lucide="sparkles" style="width:16px;height:16px;color:#c084fc;"></i>
-        <span>1초 만에 3D 명함 만들기</span>
-      </a>
-    </div>
-
-    <div class="footer-note">
-      SETUPOD © 2026. ALL-IN-ONE BUSINESS ASSET.
-    </div>
+  <div class="logo" onclick="location.href='/'">SETUPOD</div>
+  
+  <div class="error-code">404</div>
+  <h1>존재하지 않는 명함입니다</h1>
+  <p>입력하신 주소가 잘못되었거나,<br>명함 주인이 주소를 변경했을 수 있습니다.</p>
+  
+  <div class="action-buttons">
+    <a href="/" class="btn btn-secondary">메인 홈페이지로 돌아가기</a>
+  </div>
+  
+  <div class="claim-box">
+    <h3>이 주소가 마음에 드시나요?</h3>
+    <p>지금 바로 이 멋진 주소로 나만의 3D 디지털 명함을 무료로 만들어보세요.</p>
+    <a href="/maker" class="btn btn-primary">내 명함 만들기 🚀</a>
   </div>
 
   <script>
-    lucide.createIcons();
+    // 현재 URL의 slug를 추출하여 개인화된 메시지 렌더링 시도
+    window.addEventListener('DOMContentLoaded', () => {
+      const path = window.location.pathname.replace('/', '');
+      if (path && path !== '404' && path !== '404.html') {
+        const claimBox = document.querySelector('.claim-box h3');
+        claimBox.innerHTML = `<span style="color:#fff; font-weight:800;">setupod.com/${path}</span><br>이 주소가 마음에 드시나요?`;
+      }
+    });
   </script>
-  <script src="js/toast.js"></script>
-  <script src="js/gnb.js"></script>
 </body>
 </html>

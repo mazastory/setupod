@@ -276,6 +276,48 @@ async function getAnalytics(slug) {
   return count || 0;
 }
 
+// 9-4. 명함별 최근 N일 조회수 히스토리 가져오기 (차트용)
+async function getAnalyticsHistory(slug, days = 7) {
+  if (!supabaseClient) return [];
+  
+  const d = new Date();
+  d.setDate(d.getDate() - days);
+  const startDate = d.toISOString();
+  
+  const { data, error } = await supabaseClient
+    .from('page_views')
+    .select('created_at')
+    .eq('target_slug', slug)
+    .gte('created_at', startDate)
+    .order('created_at', { ascending: true });
+    
+  if (error) {
+    console.error("Error fetching analytics history:", error);
+    return [];
+  }
+  
+  // 날짜별 그룹핑 로직 (YYYY-MM-DD 형식)
+  const history = {};
+  for (let i = days - 1; i >= 0; i--) {
+    const tempDate = new Date();
+    tempDate.setDate(tempDate.getDate() - i);
+    const dateStr = tempDate.toISOString().split('T')[0];
+    history[dateStr] = 0;
+  }
+  
+  data.forEach(view => {
+    const dateStr = view.created_at.split('T')[0];
+    if (history[dateStr] !== undefined) {
+      history[dateStr]++;
+    }
+  });
+  
+  return Object.keys(history).map(date => ({
+    date,
+    views: history[date]
+  }));
+}
+
 // 10. 내 명함 목록 불러오기 (대시보드용)
 async function getMyPods() {
   const user = await getCurrentUser();

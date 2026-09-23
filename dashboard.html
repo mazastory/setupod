@@ -328,12 +328,18 @@
             </div>
           </div>
           
-          <div style="margin-top: 12px; font-size: 13px; color: #a1a1aa; display: flex; align-items: center; gap: 6px;">
-            <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
-            <span id="view-count-${pod.slug}">조회수 불러오는 중...</span>
+          <div style="margin-top: 12px; font-size: 13px; color: #a1a1aa; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
+              <span id="view-count-${pod.slug}">조회수 불러오는 중...</span>
+            </div>
           </div>
           
-          <div class="pod-slug-box">
+          <div style="margin-top: 12px; height: 60px; width: 100%;">
+            <canvas id="chart-${pod.slug}"></canvas>
+          </div>
+          
+          <div class="pod-slug-box" style="margin-top: 16px;">
             <a href="/${pod.slug}" target="_blank" class="pod-slug-text" style="text-decoration:none;">setupod.com/${pod.slug}</a>
             <button class="btn-copy" onclick="copyToClipboard('https://setupod.com/${pod.slug}')" title="주소 복사">
               <i data-lucide="copy" style="width:16px;height:16px;"></i>
@@ -363,6 +369,40 @@
             const count = await getAnalytics(pod.slug);
             const el = document.getElementById(`view-count-${pod.slug}`);
             if (el) el.textContent = `총 ${count.toLocaleString()}회 조회`;
+            
+            // Load Chart
+            if (typeof getAnalyticsHistory === 'function') {
+              const history = await getAnalyticsHistory(pod.slug, 7);
+              const ctx = document.getElementById(`chart-${pod.slug}`);
+              if (ctx && window.Chart) {
+                new Chart(ctx, {
+                  type: 'line',
+                  data: {
+                    labels: history.map(d => d.date.split('-').slice(1).join('/')), // MM/DD
+                    datasets: [{
+                      label: '방문자',
+                      data: history.map(d => d.views),
+                      borderColor: '#a855f7',
+                      backgroundColor: 'rgba(168,85,247,0.1)',
+                      borderWidth: 2,
+                      fill: true,
+                      tension: 0.4,
+                      pointRadius: 3,
+                      pointBackgroundColor: '#a855f7'
+                    }]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: true } },
+                    scales: {
+                      x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 } } },
+                      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.4)', font: { size: 10 }, stepSize: 1, precision: 0 }, beginAtZero: true }
+                    }
+                  }
+                });
+              }
+            }
           } catch(e) {
             const el = document.getElementById(`view-count-${pod.slug}`);
             if (el) el.textContent = '조회수 집계 불가';
@@ -394,7 +434,9 @@
     
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
-        alert("주소가 복사되었습니다.");
+        if (typeof showToast === 'function') showToast('명함 주소가 복사되었습니다!');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
       });
     }
     

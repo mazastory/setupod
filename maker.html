@@ -3382,42 +3382,56 @@ function toggleMobileMenu() {
     
     async function processPayment() {
       const payBtn = document.querySelector('.btn-pay');
-      payBtn.textContent = '결제 처리 중...';
+      payBtn.textContent = '결제 창 여는 중...';
       payBtn.disabled = true;
       
-      // 토스페이먼츠 연동 자리 (테스트 모드)
-      // 실제 PG 연동 전까지는 시뮬레이션 결제로 처리
       try {
-        // Simulate payment processing
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+        const tossPayments = TossPayments(clientKey);
         
-        // 결제 성공 처리
-        isProUser = true;
-        localStorage.setItem('setupod_pro', 'true');
+        // Return URL for success/fail handling
+        const currentUrl = window.location.origin + window.location.pathname;
         
-        // Supabase에 PRO 상태 저장
-        if (typeof upgradeToPro === 'function') {
-          await upgradeToPro();
-        }
-        
-        unlockAllProThemes();
-        closePaymentModal();
-        
-        if (pendingProTheme) {
-          selectTheme(pendingProTheme.theme, pendingProTheme.el);
-          pendingProTheme = null;
-        }
-        
-        if (typeof showToast === 'function') showToast('🎉 PRO 업그레이드 완료! 프리미엄 테마가 잠금 해제되었습니다.');
+        await tossPayments.requestPayment('카드', {
+          amount: 9900,
+          orderId: 'setupod_pro_' + new Date().getTime(),
+          orderName: 'SETUPOD PRO 영구 소장',
+          customerName: 'SETUPOD 유저',
+          successUrl: currentUrl + '?payment=success',
+          failUrl: currentUrl + '?payment=fail',
+        });
       } catch(e) {
         console.error('Payment error:', e);
-        if (typeof showToast === 'function') showToast('결제 중 오류가 발생했습니다. 다시 시도해주세요.');
-      } finally {
+        if (e.code !== 'USER_CANCEL') {
+          if (typeof showToast === 'function') showToast('결제 모듈을 불러오는 중 오류가 발생했습니다.');
+        }
         payBtn.textContent = 'PRO 결제하기';
         payBtn.disabled = false;
       }
     }
+
+    // URL 파라미터로 결제 성공/실패 처리
+    window.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentStatus = urlParams.get('payment');
+      
+      if (paymentStatus === 'success') {
+        if (typeof showToast === 'function') showToast('🎉 결제가 완료되었습니다! PRO 혜택이 적용됩니다.');
+        isProUser = true;
+        localStorage.setItem('setupod_pro', 'true');
+        if (typeof upgradeToPro === 'function') await upgradeToPro();
+        unlockAllProThemes();
+        
+        // URL 클린업
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (paymentStatus === 'fail') {
+        if (typeof showToast === 'function') showToast('결제가 취소되었거나 실패했습니다.');
+        // URL 클린업
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
   </script>
+  <script src="https://js.tosspayments.com/v1"></script>
 
   <!-- Maker Intro Overlay (UX Revamp Phase 1) -->
   <div id="makerIntroOverlay" style="position: fixed; inset: 0; background: #000000; z-index: 10000; display: flex; flex-direction: column; padding: 40px 20px; overflow-y: auto;">
