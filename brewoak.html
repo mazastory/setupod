@@ -180,6 +180,7 @@
     <section class="screen active" id="screenEmpty" aria-labelledby="t1">
       <h1 id="t1">메모 한 줄 넣어 두면,<br>브루가 SNS 글로 익혀 드려요</h1>
       <p class="desc">스레드 · 인스타 · 카톡 공지, 세 가지로 꺼내 드려요.</p>
+      
       <div class="card">
         <label class="field-label" for="memoInput">오늘 떠오른 메모</label>
         <textarea id="memoInput" maxlength="300" placeholder="예: 이번 주말 딸기라떼 20% 할인"></textarea>
@@ -190,14 +191,9 @@
           <button type="button" class="chip" data-sample="단골손님이 '여기 오면 마음이 편해져요'라는 후기를 남겨 주셨어요.">💬 후기 받음</button>
         </div>
       </div>
-      <button class="btn-main" id="btnPut" disabled>통에 넣기</button>
-    </section>
 
-    <!-- 2. 담는 중 -->
-    <section class="screen" id="screenFill" aria-labelledby="t2">
-      <h1 id="t2">어떤 오크통에 담을까요?</h1>
       <div class="card">
-        <div class="memo-preview" id="fillMemo"></div>
+        <label class="field-label" style="margin-bottom: 12px; display: block;">어떤 오크통에 담을까요?</label>
         <div class="days" role="radiogroup" aria-label="숙성 기간 및 종류">
           <label class="day-opt">
             <input type="radio" name="barrel" id="barrel_emotion" value="emotion" checked>
@@ -213,15 +209,14 @@
           </label>
         </div>
       </div>
+
       <div class="card">
         <label class="field-label" for="emailInput">다 익으면 알려 드릴 이메일</label>
         <input type="email" id="emailInput" autocomplete="email" placeholder="you@example.com">
         <p class="hint">숙성 완료 알림 1통만 보내요. 시제품이라 지금은 저장하지도, 보내지도 않아요.</p>
       </div>
-      <div class="row">
-        <button class="btn-sub" id="btnBack">메모 고치기</button>
-        <button class="btn-main" id="btnBrew">숙성 시작</button>
-      </div>
+
+      <button class="btn-main" id="btnBrew" disabled>통에 넣고 숙성 시작</button>
     </section>
 
     <!-- 3. 숙성 중 -->
@@ -323,49 +318,45 @@
 
     // ---- 1. 빈 통 ----
     const memo = $('memoInput');
-    function syncMemo() { $('memoCount').textContent = memo.value.length; $('btnPut').disabled = memo.value.trim().length < 2; }
+    function syncMemo() { 
+      $('memoCount').textContent = memo.value.length; 
+      $('btnBrew').disabled = memo.value.trim().length < 2; 
+    }
     memo.addEventListener('input', syncMemo);
     document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { memo.value = c.dataset.sample; syncMemo(); memo.focus(); }));
     
-    $('btnPut').addEventListener('click', () => {
-      window.requireAuth(async (user) => {
-        // (Optional) Here we could check quota from a `users` or `brewoak_jobs` count in Supabase
-        $('fillMemo').textContent = memo.value.trim();
-        track('brewoak_memo_added', { length: memo.value.trim().length });
-        show('screenFill', 'fill');
-      });
-    });
-
-    // ---- 2. 담는 중 ----
-    $('btnBack').addEventListener('click', () => show('screenEmpty', 'empty'));
-    $('btnBrew').addEventListener('click', async () => {
+    $('btnBrew').addEventListener('click', () => {
       const email = $('emailInput').value.trim();
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('이메일 주소를 다시 확인해 주세요.'); $('emailInput').focus(); return; }
-      
+
       const barrelType = document.querySelector('input[name="barrel"]:checked').value;
-      
-      $('btnBrew').disabled = true;
-      $('btnBrew').textContent = '빚어내는 중...';
 
-      try {
-        const { data, error } = await supabaseClient.functions.invoke('brew', {
-          body: { memo: memo.value.trim(), barrelType }
-        });
+      window.requireAuth(async (user) => {
+        $('btnBrew').disabled = true;
+        $('btnBrew').textContent = '빚어내는 중...';
+        show('screenBrewing', 'brew');
 
-        if (error) throw error;
-        
-        track('brewoak_brew_started', { barrelType, has_email: email ? 'yes' : 'no' });
-        
-        // 새로 생성된 job의 unlock_at을 기준으로 시작
-        startBrewing(new Date(data.unlock_at), memo.value.trim());
+        try {
+          const { data, error } = await supabaseClient.functions.invoke('brew', {
+            body: { memo: memo.value.trim(), barrelType }
+          });
 
-      } catch (err) {
-        console.error(err);
-        showToast('숙성에 실패했습니다. 잠시 후 다시 시도해 주세요.');
-      } finally {
-        $('btnBrew').disabled = false;
-        $('btnBrew').textContent = '숙성 시작';
-      }
+          if (error) throw error;
+          
+          track('brewoak_brew_started', { barrelType, has_email: email ? 'yes' : 'no' });
+          
+          // 새로 생성된 job의 unlock_at을 기준으로 시작
+          startBrewing(new Date(data.unlock_at), memo.value.trim());
+
+        } catch (err) {
+          console.error(err);
+          showToast('숙성에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+          show('screenEmpty', 'empty');
+        } finally {
+          $('btnBrew').disabled = false;
+          $('btnBrew').textContent = '통에 넣고 숙성 시작';
+        }
+      });
     });
 
     // ---- 3. 숙성 중 ----
