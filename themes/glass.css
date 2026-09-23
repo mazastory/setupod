@@ -1,0 +1,36 @@
+:root {
+  --bg-body: radial-gradient(circle at 50% 12%, #111827 0%, #030712 65%, #000000 100%);
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --card-gradient: linear-gradient(155deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 52%, rgba(255,255,255,0.01) 100%);
+  --neon-accent: #60a5fa;
+  --neon-glow: rgba(96, 165, 250, 0.4);
+  --border-accent: rgba(255, 255, 255, 0.2);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --gold-accent: #93c5fd;
+  --tagline-color: rgba(147, 197, 253, 0.5);
+  --logo-bg: rgba(255, 255, 255, 0.02);
+  --logo-border: rgba(255, 255, 255, 0.3);
+  --logo-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 28px rgba(255, 255, 255, 0.15);
+  --key-color: #e0e7ff;
+  --moat-bg: rgba(255, 255, 255, 0.05);
+  --moat-border: rgba(255, 255, 255, 0.15);
+  --moat-text: #ffffff;
+  --save-btn-bg: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+  --save-btn-shadow: 0 4px 18px rgba(255, 255, 255, 0.1);
+  --watermark-color: rgba(255, 255, 255, 0.05);
+  
+  /* Glassmorphism specifics applied globally to card components */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 26px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 38px rgba(96, 165, 250, 0.25);
+    border-color: rgba(96, 165, 250, 0.35);
+  }
+}
