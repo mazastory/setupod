@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS public.brewoak_jobs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   memo TEXT NOT NULL,
+  barrel_type VARCHAR(20) DEFAULT 'emotion',
   target_days INT NOT NULL DEFAULT 1,
   threads_out TEXT,
   insta_out TEXT,

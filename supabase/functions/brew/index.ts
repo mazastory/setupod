@@ -30,10 +30,10 @@ serve(async (req: Request) => {
       });
     }
 
-    const { memo, days } = await req.json();
+    const { memo, barrelType } = await req.json();
 
-    if (!memo || !days) {
-      return new Response(JSON.stringify({ error: 'Missing memo or days' }), {
+    if (!memo || !barrelType) {
+      return new Response(JSON.stringify({ error: 'Missing memo or barrelType' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -45,21 +45,51 @@ serve(async (req: Request) => {
         throw new Error('GEMINI_API_KEY is not set');
     }
 
-    const prompt = `
-당신은 마케팅 카피라이터입니다. 다음 메모를 바탕으로 각 플랫폼 성격에 맞는 3가지 버전의 글을 작성해 주세요.
+    let prompt = "";
+    let days = 1;
+    
+    if (barrelType === 'emotion') {
+      days = 1;
+      prompt = `
+당신은 위기 관리 전문가이자 이성적인 커뮤니케이터입니다. 다음 홧김에 쓰여진 감정적인 메모를 바탕으로, 감정을 배제하고 핵심(불만/요구사항)만 추출하여 정중하고 논리적인 3가지 포맷으로 재작성해 주세요.
 메모: "${memo}"
 
-1. 스레드(Threads)용: 트렌디하고 짧은 호흡, 친근한 말투, 스레드 감성에 맞게.
-2. 인스타그램 캡션용: 감성적이고 이모지와 해시태그를 적절히 활용.
-3. 카카오톡 채널 공지용: 정중하고 정보 전달 위주, 혜택이나 내용을 명확하게.
+1. 스레드(Threads)용: 너무 딱딱하지 않지만 정중하고 이성적인 어조.
+2. 인스타그램 캡션용: 차분한 감성과 객관적인 사실 위주의 내용.
+3. 카카오톡/이메일 전송용: 상대방을 논리적으로 압도하면서도 프로페셔널한 정중한 메시지.
 
-응답은 반드시 아래 JSON 형식으로만 해주세요 (마크다운 포맷 기호 없이 순수 JSON만 반환).
-{
-  "threads": "스레드 내용",
-  "insta": "인스타 내용",
-  "kakao": "카카오톡 내용"
-}
-    `;
+응답은 반드시 아래 JSON 형식으로만 해주세요.
+{ "threads": "스레드 내용", "insta": "인스타 내용", "kakao": "카카오톡 내용" }
+      `;
+    } else if (barrelType === 'knowledge') {
+      days = 3;
+      prompt = `
+당신은 업계 최고 수준의 비즈니스 컨설턴트이자 칼럼니스트입니다. 다음 얕고 파편적인 아이디어 메모를 심도 있는 인사이트가 담긴 3가지 포맷의 기획서/칼럼으로 확장해 주세요.
+메모: "${memo}"
+
+1. 스레드(Threads)용: 핵심 인사이트를 요약하여 호기심을 유발하는 어조.
+2. 인스타그램 캡션용: 정보 전달력을 높이는 전문적인 비즈니스 톤 앤 매너.
+3. 카카오톡 채널/이메일 폼: 엘리베이터 피치 형식의 완벽한 사업 기획서 또는 제안서 요약.
+
+응답은 반드시 아래 JSON 형식으로만 해주세요.
+{ "threads": "스레드 내용", "insta": "인스타 내용", "kakao": "카카오톡 내용" }
+      `;
+    } else if (barrelType === 'time') {
+      days = 7;
+      prompt = `
+당신은 심리 상담가이자 따뜻한 에세이스트입니다. 다음 파편적인 일상 메모를 제3자의 관점에서 해석하여 깊이 있고 따뜻한 위로를 주는 3가지 포맷의 에세이로 작성해 주세요.
+메모: "${memo}"
+
+1. 스레드(Threads)용: 깊은 여운을 남기는 감성적인 짧은 글.
+2. 인스타그램 캡션용: 따뜻한 위로와 성찰이 담긴 감성 에세이 캡션.
+3. 카카오톡/개인 기록용: 스스로를 토닥여주는 따뜻하고 통찰력 있는 긴 회고록 형식.
+
+응답은 반드시 아래 JSON 형식으로만 해주세요.
+{ "threads": "스레드 내용", "insta": "인스타 내용", "kakao": "카카오톡 내용" }
+      `;
+    } else {
+      throw new Error('Invalid barrelType');
+    }
 
     const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
@@ -84,7 +114,7 @@ serve(async (req: Request) => {
 
     // Calculate unlock_at
     const unlockAt = new Date();
-    unlockAt.setHours(unlockAt.getHours() + (days * 24)); // 1일 또는 3일 후
+    unlockAt.setHours(unlockAt.getHours() + (days * 24)); // 오크통 타입별 1, 3, 7일 숙성
 
     // Insert into DB
     const { error: dbError } = await supabaseClient
@@ -92,6 +122,7 @@ serve(async (req: Request) => {
       .insert({
         user_id: user.id,
         memo: memo,
+        barrel_type: barrelType,
         target_days: days,
         threads_out: parsed.threads,
         insta_out: parsed.insta,

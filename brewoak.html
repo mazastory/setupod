@@ -108,14 +108,14 @@
     .row { display: flex; gap: 10px; }
     .row > * { flex: 1; }
 
-    .days { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .days { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .day-opt input { position: absolute; opacity: 0; pointer-events: none; }
     .day-opt span {
-      display: flex; flex-direction: column; gap: 2px; align-items: center; padding: 14px; border-radius: 14px;
+      display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 14px;
       border: 1px solid var(--line); background: var(--panel-2); cursor: pointer; font-weight: 700;
     }
-    .day-opt small { font-weight: 500; color: var(--muted); font-size: 12px; }
-    .day-opt input:checked + span { border-color: var(--oak); box-shadow: inset 0 0 0 1px var(--oak); }
+    .day-opt small { font-weight: 500; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .day-opt input:checked + span { border-color: var(--oak); box-shadow: inset 0 0 0 1px var(--oak); background: rgba(216, 154, 90, 0.08); }
     .day-opt input:focus-visible + span { outline: 3px solid var(--spark); outline-offset: 2px; }
     .hint { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
@@ -195,12 +195,22 @@
 
     <!-- 2. 담는 중 -->
     <section class="screen" id="screenFill" aria-labelledby="t2">
-      <h1 id="t2">얼마나 익혀 드릴까요?</h1>
+      <h1 id="t2">어떤 오크통에 담을까요?</h1>
       <div class="card">
         <div class="memo-preview" id="fillMemo"></div>
-        <div class="days" role="radiogroup" aria-label="숙성 기간">
-          <label class="day-opt"><input type="radio" name="days" id="days1" value="1" checked><span>하루<small>내일 이 시간</small></span></label>
-          <label class="day-opt"><input type="radio" name="days" id="days3" value="3"><span>3일<small>더 깊게 익혀요</small></span></label>
+        <div class="days" role="radiogroup" aria-label="숙성 기간 및 종류">
+          <label class="day-opt">
+            <input type="radio" name="barrel" id="barrel_emotion" value="emotion" checked>
+            <span>😤 감정의 오크통 (하루 숙성)<small>홧김에 쓴 글을 차분하고 이성적인 논리로 정제합니다.</small></span>
+          </label>
+          <label class="day-opt">
+            <input type="radio" name="barrel" id="barrel_knowledge" value="knowledge">
+            <span>🧠 지식의 오크통 (3일 숙성)<small>파편적인 아이디어를 깊이 있는 칼럼이나 기획으로 만듭니다.</small></span>
+          </label>
+          <label class="day-opt">
+            <input type="radio" name="barrel" id="barrel_time" value="time">
+            <span>⏳ 시간의 오크통 (7일 숙성)<small>일상을 따뜻한 제3자의 시선으로 해석한 회고 에세이로 만듭니다.</small></span>
+          </label>
         </div>
       </div>
       <div class="card">
@@ -332,19 +342,19 @@
       const email = $('emailInput').value.trim();
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('이메일 주소를 다시 확인해 주세요.'); $('emailInput').focus(); return; }
       
-      const days = document.querySelector('input[name="days"]:checked').value === '3' ? 3 : 1;
+      const barrelType = document.querySelector('input[name="barrel"]:checked').value;
       
       $('btnBrew').disabled = true;
       $('btnBrew').textContent = '빚어내는 중...';
 
       try {
         const { data, error } = await supabaseClient.functions.invoke('brew', {
-          body: { memo: memo.value.trim(), days }
+          body: { memo: memo.value.trim(), barrelType }
         });
 
         if (error) throw error;
         
-        track('brewoak_brew_started', { days, has_email: email ? 'yes' : 'no' });
+        track('brewoak_brew_started', { barrelType, has_email: email ? 'yes' : 'no' });
         
         // 새로 생성된 job의 unlock_at을 기준으로 시작
         startBrewing(new Date(data.unlock_at), memo.value.trim());
