@@ -29,112 +29,175 @@
 
   <style>
     :root {
-      --bg: #120E0A;
-      --panel: #1C1611;
-      --panel-2: #241C15;
-      --line: rgba(255, 236, 214, 0.12);
+      --bg: #09090b;
+      --panel: rgba(20, 20, 23, 0.6);
+      --panel-2: rgba(30, 30, 35, 0.6);
+      --line: rgba(255, 255, 255, 0.08);
       --text: #F6EDE2;
-      --muted: rgba(246, 237, 226, 0.62);
-      --oak: #D89A5A;
-      --leaf: #79AD5E;
-      --band: #4F7F3C;
+      --muted: rgba(246, 237, 226, 0.5);
+      --oak: #E8A359;
+      --oak-glow: rgba(232, 163, 89, 0.15);
       --spark: #F2C14E;
       --display: "Jua", "Pretendard", sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
-      font-family: "Pretendard", -apple-system, "Apple SD Gothic Neo", sans-serif;
-      background: radial-gradient(120% 60% at 50% 0%, #2A1E13 0%, var(--bg) 60%);
-      background-color: var(--bg);
+      font-family: "Pretendard", -apple-system, sans-serif;
+      background: radial-gradient(circle at 50% -20%, #2A1C11 0%, var(--bg) 60%), var(--bg);
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .container { width: 100%; max-width: 520px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 20px; }
+    .container { width: 100%; max-width: 580px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-direction: column; gap: 24px; }
 
     .proto-badge {
       align-self: center; font-size: 12px; font-weight: 700; color: var(--spark);
-      border: 1px dashed rgba(242, 193, 78, 0.5); border-radius: 99px; padding: 5px 12px;
+      border: 1px dashed rgba(242, 193, 78, 0.4); border-radius: 99px; padding: 6px 14px;
+      background: rgba(242, 193, 78, 0.05); backdrop-filter: blur(8px);
     }
     .brand-row { display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--display); font-size: 18px; color: var(--muted); }
     .brand-row b { color: var(--text); font-weight: 400; }
 
     .stage { display: grid; place-items: center; padding: 8px 0 0; }
-    .stage svg { width: 200px; height: auto; }
-    .bob { animation: bob 3.2s ease-in-out infinite; transform-origin: 60px 120px; }
-    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    .stage svg { width: 220px; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+    .bob { animation: bob 4s ease-in-out infinite; transform-origin: 60px 120px; }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     .bubble { animation: rise 2.6s ease-in infinite; }
     .bubble:nth-of-type(2) { animation-delay: .9s; }
     .bubble:nth-of-type(3) { animation-delay: 1.6s; }
     @keyframes rise { 0% { transform: translateY(8px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-10px); opacity: 0; } }
-    @media (prefers-reduced-motion: reduce) { .bob, .bubble { animation: none; } }
 
-    h1 { font-family: var(--display); font-weight: 400; font-size: 27px; line-height: 1.35; text-align: center; word-break: keep-all; }
-    .desc { color: var(--muted); font-size: 15px; line-height: 1.6; text-align: center; word-break: keep-all; }
+    h1 { font-weight: 800; font-size: 28px; line-height: 1.35; text-align: center; letter-spacing: -0.02em; background: linear-gradient(180deg, #FFFFFF 0%, #E8A359 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .desc { color: var(--muted); font-size: 15px; line-height: 1.6; text-align: center; font-weight: 400; margin-top: -8px; }
 
-    .screen { display: none; flex-direction: column; gap: 16px; animation: fadeIn .35s ease; }
+    .screen { display: none; flex-direction: column; gap: 24px; animation: slideUp .5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .screen.active { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); filter: blur(4px); } to { opacity: 1; transform: none; filter: blur(0); } }
 
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-    label.field-label { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .card {
+      background: var(--panel);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    label.field-label { font-size: 16px; font-weight: 800; color: #FFF; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--oak); color: #111; font-size: 13px; font-weight: 900; box-shadow: 0 4px 12px var(--oak-glow); }
+
     textarea, input[type="email"] {
-      width: 100%; background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px;
-      color: var(--text); font: inherit; font-size: 16px; padding: 14px 16px;
+      width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px;
+      color: var(--text); font: inherit; font-size: 16px; padding: 18px 20px; transition: all 0.3s ease;
     }
-    textarea { min-height: 110px; resize: vertical; line-height: 1.55; }
-    textarea:focus, input:focus { outline: none; border-color: var(--oak); box-shadow: 0 0 0 3px rgba(216, 154, 90, 0.2); }
-    .count { font-size: 12px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
-
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    textarea { min-height: 140px; resize: vertical; line-height: 1.6; font-weight: 400; box-shadow: inset 0 2px 8px rgba(0,0,0,0.2); }
+    textarea:focus, input:focus { outline: none; border-color: var(--oak); background: rgba(0,0,0,0.5); box-shadow: 0 0 0 4px var(--oak-glow), inset 0 2px 8px rgba(0,0,0,0.3); }
+    
+    .count { font-size: 13px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; margin-top: -8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
     .chip {
-      font: inherit; font-size: 13px; color: var(--text); background: transparent; cursor: pointer;
-      border: 1px solid var(--line); border-radius: 99px; padding: 7px 12px;
+      font: inherit; font-size: 14px; color: var(--text); background: rgba(255,255,255,0.03); cursor: pointer;
+      border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px; transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
     }
-    .chip:hover, .chip:focus-visible { border-color: var(--oak); outline: none; }
+    .chip:hover, .chip:focus-visible { border-color: var(--oak); background: var(--oak-glow); transform: translateY(-1px); outline: none; }
+
+    .days { display: flex; flex-direction: column; gap: 14px; }
+    .day-opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .day-opt-content {
+      display: flex; align-items: center; gap: 18px; padding: 20px; border-radius: 20px;
+      border: 1px solid var(--line); background: rgba(255, 255, 255, 0.02); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative; overflow: hidden;
+    }
+    .day-opt-content::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232, 163, 89, 0.2) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s ease; }
+    
+    .day-opt:hover .day-opt-content { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); background: rgba(255, 255, 255, 0.05); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
+    .day-opt input:checked + .day-opt-content { 
+      border-color: var(--oak); 
+      background: rgba(232, 163, 89, 0.04);
+      box-shadow: 0 16px 40px var(--oak-glow), inset 0 0 0 1px var(--oak);
+      transform: scale(1.02); z-index: 2;
+    }
+    .day-opt input:checked + .day-opt-content::before { opacity: 1; }
+    
+    .day-icon { 
+      font-size: 28px; display: flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px; border-radius: 18px; background: rgba(0,0,0,0.3);
+      border: 1px solid var(--line); flex-shrink: 0; transition: all 0.3s ease;
+      position: relative; z-index: 1; box-shadow: inset 0 2px 4px rgba(255,255,255,0.05);
+    }
+    .day-opt input:checked + .day-opt-content .day-icon {
+      border-color: var(--oak); background: var(--oak-glow); transform: scale(1.1) rotate(-5deg);
+      box-shadow: 0 0 24px var(--oak-glow); text-shadow: 0 0 12px rgba(255,255,255,0.5);
+    }
+    
+    .day-info { display: flex; flex-direction: column; gap: 6px; flex: 1; position: relative; z-index: 1; }
+    .day-header { display: flex; align-items: center; justify-content: space-between; }
+    .day-title { font-size: 17px; font-weight: 800; color: #FFF; letter-spacing: -0.02em; }
+    .day-badge { 
+      font-size: 12px; font-weight: 800; color: var(--oak); 
+      background: var(--oak-glow); padding: 4px 10px; border-radius: 99px; letter-spacing: 0.02em;
+    }
+    .day-desc { font-size: 14px; color: var(--muted); line-height: 1.5; margin: 0; font-weight: 400; word-break: keep-all; }
+    .hint { font-size: 13px; color: var(--muted); line-height: 1.5; opacity: 0.8; }
 
     .btn-main {
-      width: 100%; padding: 16px; border: none; border-radius: 16px; cursor: pointer;
-      background: linear-gradient(135deg, #E2AA6D, #B9773C); color: #2A1A0C;
-      font: inherit; font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 10px 28px rgba(216, 154, 90, 0.25);
+      width: 100%; padding: 22px; border: none; border-radius: 20px; cursor: pointer;
+      background: linear-gradient(135deg, #FFB86C 0%, #D89A5A 100%); color: #1A120A;
+      font: inherit; font-weight: 800; font-size: 18px; letter-spacing: -0.01em;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 16px 40px rgba(216, 154, 90, 0.35); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative; overflow: hidden;
     }
-    .btn-main:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
-    .btn-main:focus-visible, .btn-sub:focus-visible { outline: 3px solid var(--spark); outline-offset: 2px; }
+    .btn-main::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-20deg); transition: 0.5s; }
+    .btn-main:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(216, 154, 90, 0.5); filter: brightness(1.1); }
+    .btn-main:hover:not(:disabled)::after { left: 150%; }
+    .btn-main:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 8px 16px rgba(216, 154, 90, 0.3); }
+    .btn-main:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none; filter: grayscale(1); }
+
     .btn-sub {
-      width: 100%; padding: 13px; border-radius: 14px; cursor: pointer; background: transparent;
-      border: 1px solid var(--line); color: var(--text); font: inherit; font-weight: 700; font-size: 14px;
+      width: 100%; padding: 18px; border-radius: 16px; cursor: pointer; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line); color: var(--text); font: inherit; font-weight: 700; font-size: 15px;
+      transition: all 0.2s;
     }
-    .row { display: flex; gap: 10px; }
+    .btn-sub:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+    .row { display: flex; gap: 12px; }
     .row > * { flex: 1; }
 
-    .days { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .day-opt input { position: absolute; opacity: 0; pointer-events: none; }
-    .day-opt span {
-      display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 14px;
-      border: 1px solid var(--line); background: var(--panel-2); cursor: pointer; font-weight: 700;
-    }
-    .day-opt small { font-weight: 500; color: var(--muted); font-size: 12px; line-height: 1.4; }
-    .day-opt input:checked + span { border-color: var(--oak); box-shadow: inset 0 0 0 1px var(--oak); background: rgba(216, 154, 90, 0.08); }
-    .day-opt input:focus-visible + span { outline: 3px solid var(--spark); outline-offset: 2px; }
-    .hint { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .memo-preview { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 20px; font-size: 15px; color: var(--text); white-space: pre-wrap; word-break: keep-all; border: 1px solid var(--line); box-shadow: inset 0 2px 8px rgba(0,0,0,0.2); }
+    .timer { font-family: var(--display); font-size: 40px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: .02em; text-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .timer-label { text-align: center; font-size: 14px; color: var(--oak); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: -4px; }
 
-    .memo-preview { background: var(--panel-2); border-radius: 12px; padding: 12px 14px; font-size: 14px; color: var(--muted); white-space: pre-wrap; word-break: keep-all; }
-    .timer { font-family: var(--display); font-size: 34px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
-    .timer-label { text-align: center; font-size: 13px; color: var(--muted); }
-
-    .out { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-    .out-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .out-head strong { font-size: 15px; }
-    .out-head .limit { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .out-body { white-space: pre-wrap; font-size: 15px; line-height: 1.65; word-break: keep-all; }
-    .btn-copy { align-self: flex-end; font: inherit; font-size: 13px; font-weight: 700; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 99px; padding: 7px 14px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
-    .sample-note { font-size: 12px; color: var(--spark); text-align: center; }
-    .quota { text-align: center; font-size: 13px; color: var(--muted); }
+    .out { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 24px 48px rgba(0,0,0,0.3); backdrop-filter: blur(32px); }
+    .out-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 8px; }
+    .out-head strong { font-size: 16px; font-weight: 800; }
+    .out-head .limit { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; }
+    .out-body { white-space: pre-wrap; font-size: 16px; line-height: 1.7; word-break: keep-all; color: rgba(255,255,255,0.9); }
+    .btn-copy { align-self: flex-end; font: inherit; font-size: 14px; font-weight: 800; color: #000; background: #FFF; border: none; border-radius: 99px; padding: 10px 20px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; transition: all 0.2s; }
+    .btn-copy:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(255,255,255,0.2); }
+    .sample-note { font-size: 13px; color: var(--spark); text-align: center; font-weight: 700; background: rgba(242, 193, 78, 0.1); padding: 12px; border-radius: 12px; }
+    .quota { text-align: center; font-size: 14px; color: var(--muted); }
     .quota b { color: var(--text); }
 
-    .branding { margin-top: 12px; text-align: center; }
-    .branding a { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 700; }
+    .branding { margin-top: 24px; text-align: center; }
+    .branding a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; transition: color 0.2s; }
+    .branding a:hover { color: var(--text); }
+
+    /* How it works */
+    .how-it-works { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; padding: 0 4px; animation: slideUp .6s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.1s; opacity: 0; }
+    .hiw-card { padding: 18px 22px; border-radius: 20px; font-size: 15px; line-height: 1.6; word-break: keep-all; position: relative; }
+    .hiw-before { background: rgba(255,255,255,0.015); border: 1px dashed rgba(255,255,255,0.15); color: var(--muted); }
+    .hiw-after { background: linear-gradient(135deg, rgba(232, 163, 89, 0.08) 0%, rgba(232, 163, 89, 0.01) 100%); border: 1px solid rgba(232, 163, 89, 0.25); color: var(--text); box-shadow: 0 12px 32px rgba(232, 163, 89, 0.06); }
+    .hiw-label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 8px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 6px; }
+    .hiw-before .hiw-label { color: rgba(255,255,255,0.4); }
+    .hiw-after .hiw-label { color: var(--oak); }
+    .hiw-arrow { text-align: center; font-size: 13px; font-weight: 800; color: var(--spark); padding: 4px 0; display: flex; align-items: center; justify-content: center; gap: 6px; letter-spacing: -0.01em; }
+    .hiw-arrow svg { width: 16px; height: 16px; opacity: 0.9; }
   </style>
   <link rel="stylesheet" href="/themes/gnb.css">
 </head>
@@ -179,41 +242,72 @@
     <!-- 1. 빈 통 -->
     <section class="screen active" id="screenEmpty" aria-labelledby="t1">
       <h1 id="t1">메모 한 줄 넣어 두면,<br>브루가 SNS 글로 익혀 드려요</h1>
-      <p class="desc">스레드 · 인스타 · 카톡 공지, 세 가지로 꺼내 드려요.</p>
-      
-      <div class="card">
-        <label class="field-label" for="memoInput">오늘 떠오른 메모</label>
-        <textarea id="memoInput" maxlength="300" placeholder="예: 이번 주말 딸기라떼 20% 할인"></textarea>
-        <div class="count"><span id="memoCount">0</span> / 300</div>
-        <div class="chips" aria-label="예시 메모">
-          <button type="button" class="chip" data-sample="봄 신메뉴 딸기라떼 나왔어요. 생딸기를 직접 갈아 넣어요.">🍓 신메뉴 나옴</button>
-          <button type="button" class="chip" data-sample="이번 주말 토·일 이틀만 전 메뉴 20% 할인해요.">🏷️ 주말 할인</button>
-          <button type="button" class="chip" data-sample="단골손님이 '여기 오면 마음이 편해져요'라는 후기를 남겨 주셨어요.">💬 후기 받음</button>
+      <p class="desc" style="margin-bottom: 12px;">스레드 · 인스타 · 카톡 공지, 세 가지로 꺼내 드려요.</p>
+
+      <!-- How it works (Before/After) -->
+      <div class="how-it-works" aria-hidden="true">
+        <div class="hiw-card hiw-before">
+          <span class="hiw-label"><i data-lucide="pen-line" style="width:14px;height:14px;"></i> 대충 쓴 날것의 생각</span>
+          <p>"아 오늘 진상 손님 때문에 멘탈 나감. 다 때려치고 싶다 진짜..."</p>
+        </div>
+        <div class="hiw-arrow"><i data-lucide="arrow-down-circle"></i> 브루가 하루 숙성하면?</div>
+        <div class="hiw-card hiw-after">
+          <span class="hiw-label"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> 전문가의 글로 재탄생</span>
+          <p>"자영업을 하다 보면 유독 감정이 흔들리는 순간이 옵니다. 하지만 그 위기를 넘길 때마다..."</p>
         </div>
       </div>
-
+      
       <div class="card">
-        <label class="field-label" style="margin-bottom: 12px; display: block;">어떤 오크통에 담을까요?</label>
+        <label class="field-label"><span class="step-num">1</span> 목적에 맞는 오크통 고르기</label>
         <div class="days" role="radiogroup" aria-label="숙성 기간 및 종류">
           <label class="day-opt">
             <input type="radio" name="barrel" id="barrel_emotion" value="emotion" checked>
-            <span>😤 감정의 오크통 (하루 숙성)<small>홧김에 쓴 글을 차분하고 이성적인 논리로 정제합니다.</small></span>
+            <div class="day-opt-content">
+              <div class="day-icon">😤</div>
+              <div class="day-info">
+                <div class="day-header"><span class="day-title">감정의 오크통</span><span class="day-badge">하루 숙성</span></div>
+                <p class="day-desc">홧김에 쓴 글을 차분하고 이성적인 논리로 정제합니다.</p>
+              </div>
+            </div>
           </label>
           <label class="day-opt">
             <input type="radio" name="barrel" id="barrel_knowledge" value="knowledge">
-            <span>🧠 지식의 오크통 (3일 숙성)<small>파편적인 아이디어를 깊이 있는 칼럼이나 기획으로 만듭니다.</small></span>
+            <div class="day-opt-content">
+              <div class="day-icon">🧠</div>
+              <div class="day-info">
+                <div class="day-header"><span class="day-title">지식의 오크통</span><span class="day-badge">3일 숙성</span></div>
+                <p class="day-desc">파편적인 아이디어를 깊이 있는 칼럼이나 기획으로 만듭니다.</p>
+              </div>
+            </div>
           </label>
           <label class="day-opt">
             <input type="radio" name="barrel" id="barrel_time" value="time">
-            <span>⏳ 시간의 오크통 (7일 숙성)<small>일상을 따뜻한 제3자의 시선으로 해석한 회고 에세이로 만듭니다.</small></span>
+            <div class="day-opt-content">
+              <div class="day-icon">⏳</div>
+              <div class="day-info">
+                <div class="day-header"><span class="day-title">시간의 오크통</span><span class="day-badge">7일 숙성</span></div>
+                <p class="day-desc">일상을 따뜻한 제3자의 시선으로 해석한 회고 에세이로 만듭니다.</p>
+              </div>
+            </div>
           </label>
         </div>
       </div>
 
       <div class="card">
-        <label class="field-label" for="emailInput">다 익으면 알려 드릴 이메일</label>
-        <input type="email" id="emailInput" autocomplete="email" placeholder="you@example.com">
+        <label class="field-label" for="memoInput"><span class="step-num">2</span> 다듬지 않은 날것의 생각 털어놓기</label>
+        <p style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">완벽한 문장이 아니어도 괜찮아요. 브루가 찰떡같이 알아듣고 멋지게 숙성시킬 테니까요!</p>
+        <div class="chips" aria-label="예시 메모" id="chipContainer" style="margin-bottom: 4px;">
+          <button type="button" class="chip" data-sample="오늘 회의에서 진짜 말도 안 되는 요구를 받았어. 다 때려치고 싶다.">🤬 분노 폭발</button>
+          <button type="button" class="chip" data-sample="고객 클레임이 들어왔는데, 솔직히 우리 잘못은 아니지만 너무 속상하다.">😭 억울함</button>
+        </div>
+        <textarea id="memoInput" maxlength="300" placeholder="예: 오늘 회의에서 의견 충돌이 있었는데 진짜 다 때려치고 싶었다..."></textarea>
+        <div class="count"><span id="memoCount">0</span> / 300</div>
+      </div>
+
+      <div class="card">
+        <label class="field-label" for="emailInput"><span class="step-num">3</span> 다 익으면 어디로 배달해 드릴까요?</label>
         <p class="hint">숙성 완료 알림 1통만 보내요. 시제품이라 지금은 저장하지도, 보내지도 않아요.</p>
+        <input type="email" id="emailInput" autocomplete="email" placeholder="you@example.com">
       </div>
 
       <button class="btn-main" id="btnBrew" disabled>통에 넣고 숙성 시작</button>
@@ -314,8 +408,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    let activeJob = null; // 현재 진행 중이거나 완료된 job
-
     // ---- 1. 빈 통 ----
     const memo = $('memoInput');
     function syncMemo() { 
@@ -323,7 +415,81 @@
       $('btnBrew').disabled = memo.value.trim().length < 2; 
     }
     memo.addEventListener('input', syncMemo);
-    document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { memo.value = c.dataset.sample; syncMemo(); memo.focus(); }));
+    
+    // 타자치는 애니메이션 효과 (Placeholder)
+    let typeInterval = null;
+    function typePlaceholder(text) {
+      if (typeInterval) clearInterval(typeInterval);
+      memo.placeholder = "";
+      let i = 0;
+      typeInterval = setInterval(() => {
+        memo.placeholder += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(typeInterval);
+      }, 70); // 타이핑 속도
+    }
+
+    // 오크통 종류별 플레이스홀더 & 칩 데이터
+    const barrelData = {
+      emotion: {
+        placeholder: "오늘 회의에서 진짜 말도 안 되는 요구를 받았다. 진짜 다 때려치고 싶다...",
+        chips: [
+          { text: "🤬 분노 폭발", sample: "오늘 회의에서 진짜 말도 안 되는 요구를 받았어. 다 때려치고 싶다." },
+          { text: "😭 억울함", sample: "고객 클레임이 들어왔는데, 솔직히 우리 잘못은 아니지만 너무 속상하다." }
+        ]
+      },
+      knowledge: {
+        placeholder: "요즘 숏폼 알고리즘은 결국 첫 3초 후킹이 전부인 것 같다.",
+        chips: [
+          { text: "💡 마케팅 인사이트", sample: "요즘 숏폼 알고리즘은 결국 첫 3초 후킹이 전부인 것 같다." },
+          { text: "📈 비즈니스 아이디어", sample: "1인 창업가들을 위한 구독형 B2B 서비스를 만들면 어떨까?" }
+        ]
+      },
+      time: {
+        placeholder: "비 오는 날 혼자 카페에 앉아 따뜻한 커피를 마시니 기분이 몽글몽글하다.",
+        chips: [
+          { text: "☕ 비 오는 날", sample: "비 오는 날 혼자 카페에 앉아 따뜻한 커피를 마시니 기분이 몽글몽글하다." },
+          { text: "🚶‍♂️ 퇴근길", sample: "유난히 지치는 퇴근길, 밤하늘이 오늘따라 참 맑네." }
+        ]
+      }
+    };
+
+    function renderChips(type) {
+      const data = barrelData[type];
+      typePlaceholder("예: " + data.placeholder);
+      
+      const chipContainer = $('chipContainer');
+      if (chipContainer) {
+        chipContainer.innerHTML = data.chips.map(c => `<button type="button" class="chip" data-sample="${c.sample}">${c.text}</button>`).join('');
+        // 칩 클릭 시 즉각 채워주고, 포커스
+        chipContainer.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { 
+          // 클릭 시 타자기 효과 중지
+          if (typeInterval) clearInterval(typeInterval);
+          memo.value = "";
+          
+          // 실제 입력 텍스트 타자기 애니메이션
+          let text = c.dataset.sample;
+          let i = 0;
+          let fillInterval = setInterval(() => {
+            memo.value += text.charAt(i);
+            syncMemo();
+            i++;
+            if (i >= text.length) {
+              clearInterval(fillInterval);
+              memo.focus();
+            }
+          }, 30); // 빠르게 채워짐
+        }));
+      }
+    }
+
+    // 초기 렌더링 및 라디오 변경 이벤트
+    document.querySelectorAll('input[name="barrel"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        if (e.target.checked) renderChips(e.target.value);
+      });
+    });
+    renderChips('emotion'); // 초기값
     
     $('btnBrew').addEventListener('click', () => {
       const email = $('emailInput').value.trim();
