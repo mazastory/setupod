@@ -708,6 +708,8 @@ async function initCardEngine() {
       if (cloud && (cloud.profile || cloud.pod)) {
         populateCardFromCloud(cloud, company);
         setupSwipe();
+        const container = document.querySelector('.container');
+        if (container) container.classList.add('loaded');
         return;
       }
     } catch (e) {
@@ -742,6 +744,12 @@ async function initCardEngine() {
   }
 
   setupSwipe();
+  
+  // Reveal the container after rendering
+  const container = document.querySelector('.container');
+  if (container) {
+    container.classList.add('loaded');
+  }
   
   // Analytics 조회수 기록
   if (typeof recordPageView === 'function') {
