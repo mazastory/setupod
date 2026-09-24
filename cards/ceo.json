@@ -15,12 +15,12 @@
     "label": "공식 웹사이트"
   },
   "socials": [
-    { "type": "kakao", "url": "#", "label": "카카오톡" },
+    { "type": "kakao", "url": "https://pf.kakao.com", "label": "카카오톡" },
     { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
   ],
   "logo": {
-    "src": "/assets/setupod.gif",
-    "fallback": "/assets/setupod.gif",
+    "src": "/assets/sample_client_toomus.png",
+    "fallback": "/assets/sample_client_toomus.png",
     "alt": "TOOMUS"
   },
   "vcard": {

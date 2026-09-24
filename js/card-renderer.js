@@ -423,7 +423,7 @@ window.switchQrType = function(type) {
     qrcodeObj.clear();
     qrcodeObj.makeCode(window.location.href);
   } else if (type === 'kakao') {
-    const kakaoSocial = currentCardData?.card?.socials?.find(s => s.type === 'kakao');
+    const kakaoSocial = cardData?.socials?.find(s => s.type === 'kakao');
     if (!kakaoSocial || !kakaoSocial.url || !kakaoSocial.url.startsWith('http')) {
       showToast("❌ 카카오톡 링크가 등록되지 않았습니다.");
       return;
