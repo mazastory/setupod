@@ -19,8 +19,8 @@
     { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
   ],
   "logo": {
-    "src": "/assets/sample_client_toomus.png",
-    "fallback": "/assets/sample_client_toomus.png",
+    "src": "/assets/sample_gif_2.gif",
+    "fallback": "/assets/sample_gif_2.gif",
     "alt": "TOOMUS"
   },
   "vcard": {
