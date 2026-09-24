@@ -200,7 +200,10 @@
           <h1>내 명함 대시보드</h1>
           <p>내가 만든 3D 명함과 멀티링크를 한곳에서 관리하세요.</p>
         </div>
-        <a href="/maker" class="btn-create"><i data-lucide="plus"></i> 새 명함 만들기</a>
+        <div style="display: flex; gap: 8px;">
+          <button id="authBtn" class="btn-create" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);" onclick="handleAuthClick()">로그아웃</button>
+          <a href="/maker" class="btn-create"><i data-lucide="plus"></i> 새 명함 만들기</a>
+        </div>
       </div>
       
       <div id="podsList" class="card-grid">
