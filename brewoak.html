@@ -601,12 +601,33 @@
     }
     
     // 시제품 데모용: 강제 완료 (실제 운영 시에는 숨기거나 어드민 전용)
-    $('btnPeek').addEventListener('click', () => {
+    $('btnPeek').addEventListener('click', async () => {
         clearInterval(tick);
         if (activeJob) {
             finish(activeJob);
         } else {
-            showToast('백그라운드에서 아직 준비 중입니다.');
+            // 방금 생성된 job을 Supabase에서 불러와 강제 완료 처리
+            const btn = $('btnPeek');
+            const originalText = btn.textContent;
+            btn.textContent = '불러오는 중...';
+            try {
+                const { data, error } = await supabaseClient
+                    .from('brewoak_jobs')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .single();
+                if (error) throw error;
+                if (data) {
+                    activeJob = data;
+                    finish(activeJob);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('결과를 불러오지 못했습니다.');
+            } finally {
+                btn.textContent = originalText;
+            }
         }
     });
 
