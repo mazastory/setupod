@@ -16,7 +16,6 @@
   },
   "socials": [
     { "type": "kakao", "url": "https://open.kakao.com/o/sFAWAlQi", "label": "카카오 1:1" },
-    { "type": "kakao", "url": "http://pf.kakao.com/_xiZxaxiX", "label": "카카오 채널" },
     { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
   ],
   "logo": {

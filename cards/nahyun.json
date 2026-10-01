@@ -28,14 +28,7 @@
     "label": "TOOMUS 웹사이트",
     "icon": "globe"
   },
-  "socials": [
-    {
-      "type": "kakao",
-      "url": "http://pf.kakao.com/_xiZxaxiX",
-      "label": "카카오 채널",
-      "color": "#fee500"
-    }
-  ],
+  "socials": [],
   "vcard": {
     "lastName": "김",
     "firstName": "나현",
