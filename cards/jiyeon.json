@@ -32,13 +32,13 @@
     {
       "type": "kakao",
       "url": "https://open.kakao.com/o/sr5k8kQi",
-      "label": "카카오톡 1:1 상담",
+      "label": "카카오 1:1",
       "color": "#ffd978"
     },
     {
       "type": "kakao",
       "url": "https://open.kakao.com/o/gKatblQi",
-      "label": "카카오톡 단체톡",
+      "label": "카카오 단체",
       "color": "#fee500"
     },
     {
