@@ -15,7 +15,7 @@
     "label": "공식 웹사이트"
   },
   "socials": [
-    { "type": "kakao", "url": "https://pf.kakao.com", "label": "카카오톡" },
+    { "type": "kakao", "url": "https://open.kakao.com/o/sFAWAlQi", "label": "카카오 1:1" },
     { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
   ],
   "logo": {
