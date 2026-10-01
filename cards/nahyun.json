@@ -19,8 +19,8 @@
     "Connected"
   ],
   "logo": {
-    "src": "assets/sample_client_toomus.png",
-    "fallback": "assets/sample_client_toomus.png",
+    "src": "/assets/toomuslogo.gif",
+    "fallback": "/assets/toomuslogo.gif",
     "alt": "TOOMUS Logo"
   },
   "primaryAction": {
@@ -45,6 +45,6 @@
     "siteName": "TOOMUS",
     "ogTitle": "김나현 | TOOMUS",
     "ogDescription": "Life, Connected | TOOMUS 공식 디지털 명함",
-    "ogImage": "assets/sample_client_toomus.png"
+    "ogImage": "/assets/toomuslogo.gif"
   }
 }
