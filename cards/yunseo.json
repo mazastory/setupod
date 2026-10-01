@@ -1,0 +1,57 @@
+{
+  "slug": "yunseo",
+  "company": "MAZA STUDIO",
+  "companySlug": "maza",
+  "layout": "metal",
+  "theme": "maza",
+  "companyWatermark": "MAZA",
+  "slogan": "플립마켓에서 달러자산 플랫폼으로",
+  "tagline": "BUILD · SCALE · EXIT",
+  "role": "대표",
+  "name": "조윤서",
+  "phone": "010-8970-9449",
+  "phoneLabel": "M",
+  "email": "ceo@mazastudio.kr",
+  "emailLabel": "E",
+  "moatTags": [
+    "디지털 자산 구축",
+    "글로벌 플립 매각",
+    "수익형 플랫폼 빌드"
+  ],
+  "logo": {
+    "src": "assets/sample_gif_2.gif",
+    "fallback": "assets/sample_client_maza.png",
+    "alt": "MAZA STUDIO Logo"
+  },
+  "primaryAction": {
+    "url": "https://about.mazastudio.kr",
+    "label": "MAZA 바로가기",
+    "icon": "sparkles"
+  },
+  "socials": [
+    {
+      "type": "kakao",
+      "url": "https://open.kakao.com/o/sySmTxKi",
+      "label": "카카오톡 상담",
+      "color": "#ffd978"
+    }
+  ],
+  "vcard": {
+    "lastName": "조",
+    "firstName": "윤서",
+    "formattedName": "조윤서 (MAZA STUDIO 대표)",
+    "org": "MAZA STUDIO",
+    "title": "대표",
+    "tel": "010-8970-9449",
+    "email": "ceo@mazastudio.kr",
+    "url": "https://setupod.com/yunseo",
+    "note": "MAZA STUDIO | 플립마켓에서 달러자산 플랫폼으로"
+  },
+  "meta": {
+    "title": "MAZA STUDIO | 조윤서 대표 디지털 명함",
+    "siteName": "MAZA STUDIO",
+    "ogTitle": "조윤서 대표 | MAZA STUDIO",
+    "ogDescription": "플립마켓에서 달러자산 플랫폼으로 | MAZA STUDIO 공식 디지털 명함",
+    "ogImage": "assets/sample_client_maza.png"
+  }
+}

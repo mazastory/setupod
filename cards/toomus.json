@@ -1,12 +1,12 @@
 {
   "id": "toomus",
   "name": "Andrew K",
-  "title": "이사",
-  "company": "MAZA STUDIO",
+  "title": "대표",
+  "company": "Toomus",
   "phone": "010-8186-0010",
-  "email": "maza@mazastudio.kr",
-  "tagline": "플립마켓에서 달러자산 플랫폼으로",
+  "email": "ceo@toomus.com",
+  "tagline": "Life, Connected",
   "avatar": "assets/sample_client_toomus.png",
   "theme": "obsidian",
-  "origin": "Toomus B (legacy)"
+  "origin": "Toomu(legacy)"
 }

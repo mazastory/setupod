@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AI 브랜드 네이밍 스튜디오 | SETUPOD</title>
+  <link rel="canonical" href="https://www.setupod.com/naming_studio">
+  <meta name="description" content="AI가 사업 분석부터 상표 검증까지 — 브랜드 이름 후보를 체계적으로 설계하는 네이밍 스튜디오">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD">
+  <meta property="og:title" content="AI 브랜드 네이밍 스튜디오 | SETUPOD">
+  <meta property="og:description" content="AI가 사업 분석부터 상표 검증까지 — 브랜드 이름 후보를 체계적으로 설계합니다.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+
+  <!-- GNB 공통 스타일 -->
+  <link rel="stylesheet" href="themes/gnb.css">
+
+  <style>
+    :root {
+      --bg: #06040e;
+      --panel: #110c22;
+      --card-bg: rgba(22, 17, 39, 0.75);
+      --border: rgba(255, 255, 255, 0.08);
+      --violet: #8b5cf6;
+      --cyan: #06b6d4;
+      --amber: #f59e0b;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --text-main: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.65);
+      --text-sub: rgba(255, 255, 255, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Studio Main Layout */
+    .studio-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 70px);
+      overflow: hidden;
+    }
+
+    @media (max-width: 860px) {
+      .studio-layout {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+      }
+    }
+
+    /* Left Controls */
+    .controls-panel {
+      width: 440px;
+      min-width: 380px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    @media (max-width: 860px) {
+      .controls-panel {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    .panel-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #c4b5fd;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 20px 0 10px;
+    }
+
+    .section-label:first-of-type {
+      margin-top: 0;
+    }
+
+    .section-hint {
+      font-size: 11.5px;
+      color: #64748b;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    }
+    
+    textarea.input-field {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* Chips (Multi-select Tags) */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .chip.active {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: rgba(139, 92, 246, 0.5);
+      color: #c4b5fd;
+    }
+
+    /* Toggles */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .toggle-switch {
+      width: 40px;
+      height: 22px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch.active {
+      background: var(--violet);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.2s;
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(18px);
+    }
+
+    /* Action Buttons */
+    .btn-action-primary {
+      width: 100%;
+      padding: 14px;
+      margin-top: 16px;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 22px rgba(139, 92, 246, 0.4);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-action-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(139, 92, 246, 0.6);
+    }
+
+    .btn-action-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-action-primary .shimmer {
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { left: 100%; }
+    }
+
+    /* Right Preview Area */
+    .preview-canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 50% 30%, #17112e 0%, #06040e 100%);
+      padding: 24px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    /* Results Header */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .results-title {
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .results-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #c4b5fd;
+      background: rgba(139,92,246,0.15);
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+
+    .btn-export {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-export:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* Name Cards Grid */
+    .names-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+      flex: 1;
+    }
+
+    @media (max-width: 700px) {
+      .names-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .name-card {
+      background: rgba(17, 12, 34, 0.85);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: cardFadeIn 0.4s ease-out both;
+    }
+
+    .name-card:nth-child(1) { animation-delay: 0s; }
+    .name-card:nth-child(2) { animation-delay: 0.06s; }
+    .name-card:nth-child(3) { animation-delay: 0.12s; }
+    .name-card:nth-child(4) { animation-delay: 0.18s; }
+    .name-card:nth-child(5) { animation-delay: 0.24s; }
+    .name-card:nth-child(6) { animation-delay: 0.3s; }
+    .name-card:nth-child(7) { animation-delay: 0.36s; }
+    .name-card:nth-child(8) { animation-delay: 0.42s; }
+    .name-card:nth-child(9) { animation-delay: 0.48s; }
+    .name-card:nth-child(10) { animation-delay: 0.54s; }
+
+    @keyframes cardFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .name-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--violet), var(--cyan));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .name-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+
+    .name-card:hover::before {
+      opacity: 1;
+    }
+
+    .name-card-rank {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(139,92,246,0.15);
+      color: #c4b5fd;
+    }
+
+    .name-card-rank.top {
+      background: linear-gradient(135deg, rgba(250,204,21,0.2), rgba(245,158,11,0.2));
+      color: #fbbf24;
+    }
+
+    .name-card-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, #fff 0%, #e2d5f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .name-card-korean {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 12px;
+    }
+
+    .name-card-story {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Score Bars */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .score-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      min-width: 60px;
+    }
+
+    .score-bar-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .score-value {
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Tags on card */
+    .name-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 12px;
+    }
+
+    .name-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .name-tag.domain-available {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .name-tag.trademark-safe {
+      background: rgba(6, 182, 212, 0.12);
+      color: #22d3ee;
+      border-color: rgba(6, 182, 212, 0.25);
+    }
+
+    .name-tag.warning {
+      background: rgba(244, 63, 94, 0.12);
+      color: #fb7185;
+      border-color: rgba(244, 63, 94, 0.25);
+    }
+
+    /* Card Action Row */
+    .name-card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .btn-card-action {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-card-action:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .btn-card-action.starred {
+      background: rgba(250, 204, 21, 0.12);
+      border-color: rgba(250, 204, 21, 0.3);
+      color: #fbbf24;
+    }
+
+    /* Logo Area */
+    .name-card-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo-canvas-wrap {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .logo-canvas-wrap:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(139, 92, 246, 0.3);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+
+    .logo-canvas-wrap canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .logo-canvas-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .logo-ai-badge {
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      font-size: 8px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .logo-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .btn-gen-logo {
+      padding: 6px 10px;
+      border: 1px solid rgba(139,92,246,0.3);
+      border-radius: 8px;
+      background: rgba(139,92,246,0.1);
+      color: #c4b5fd;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-gen-logo:hover {
+      background: rgba(139,92,246,0.2);
+      border-color: rgba(139,92,246,0.5);
+    }
+
+    .btn-gen-logo:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-gen-logo.generating {
+      animation: pipelinePulse 1s ease-in-out infinite;
+    }
+
+    /* Logo Download Overlay */
+    .logo-download-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-radius: 16px;
+    }
+
+    .logo-canvas-wrap:hover .logo-download-overlay {
+      opacity: 1;
+    }
+
+    .logo-download-overlay i {
+      color: #fff;
+    }
+
+    /* Empty State */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-height: 400px;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .empty-state-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* Pipeline Steps */
+    .pipeline-steps {
+      display: flex;
+      gap: 4px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pipeline-step {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.4);
+      transition: all 0.3s;
+    }
+
+    .pipeline-step.active {
+      background: rgba(139,92,246,0.15);
+      border-color: rgba(139,92,246,0.3);
+      color: #c4b5fd;
+      animation: pipelinePulse 1.2s ease-in-out infinite;
+    }
+
+    .pipeline-step.done {
+      background: rgba(16,185,129,0.12);
+      border-color: rgba(16,185,129,0.25);
+      color: #34d399;
+    }
+
+    @keyframes pipelinePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Loading State */
+    .loading-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-height: 400px;
+      gap: 24px;
+    }
+
+    .loading-brain {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .loading-brain-core {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: brainPulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-brain-ring {
+      width: 80px;
+      height: 80px;
+      border: 2px solid transparent;
+      border-top-color: var(--violet);
+      border-bottom-color: var(--cyan);
+      border-radius: 50%;
+      animation: brainSpin 2s linear infinite;
+    }
+
+    @keyframes brainPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      50% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.7; }
+    }
+
+    @keyframes brainSpin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #c4b5fd;
+      text-align: center;
+    }
+
+    .loading-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* B2B2B Widget Embed Mode */
+    html.is-embedded nav,
+    html.is-embedded header,
+    html.is-embedded .mobile-menu-overlay,
+    html.is-embedded footer {
+      display: none !important;
+    }
+    html.is-embedded body {
+      background: transparent !important;
+      padding-top: 0 !important;
+    }
+
+    /* Number input stepper hide */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+    /* Scrollbar */
+    .panel-scroll::-webkit-scrollbar,
+    .preview-canvas-area::-webkit-scrollbar { width: 4px; }
+    .panel-scroll::-webkit-scrollbar-thumb,
+    .preview-canvas-area::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 99px;
+    }
+  </style>
+</head>
+<body class="app-mode">
+
+  <div class="studio-layout">
+    <!-- Left Controls -->
+    <div class="controls-panel">
+      <div class="panel-scroll">
+        <h2 style="font-size:20px; font-weight:900; margin-bottom:4px; display:flex; align-items:center; gap:8px;">
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#8b5cf6,#06b6d4);">
+            <i data-lucide="sparkles" style="width:16px;height:16px;color:#fff;"></i>
+          </span>
+          AI 브랜드 네이밍
+        </h2>
+        <p style="font-size:13px; color:#94a3b8; margin-bottom:20px; line-height:1.5;">사업 정보를 입력하면 AI가 발음·기억·글로벌 확장성까지 검증된 브랜드 후보를 설계합니다.</p>
+        
+        <!-- 1. Business Info -->
+        <label class="section-label"><i data-lucide="briefcase" style="width:14px;height:14px;"></i> 사업 정보</label>
+        <input type="text" id="businessDesc" class="input-field" placeholder="예: 프리미엄 수제 초콜릿 온라인 판매 / AI 기반 채용 플랫폼">
+        <p class="section-hint">어떤 사업인지 한 문장으로 설명해주세요.</p>
+        
+        <div style="display:flex; gap:10px;">
+          <div style="flex:1;">
+            <label class="section-label" style="margin-top:8px;"><i data-lucide="target" style="width:14px;height:14px;"></i> 타겟 고객</label>
+            <input type="text" id="targetCustomer" class="input-field" placeholder="예: 20~30대 여성 / B2B 기업">
+          </div>
+          <div style="flex:1;">
+            <label class="section-label" style="margin-top:8px;"><i data-lucide="map-pin" style="width:14px;height:14px;"></i> 진출 시장</label>
+            <select id="targetMarket" class="input-field">
+              <option value="korea">🇰🇷 한국만</option>
+              <option value="korea_global" selected>🌏 한국 + 글로벌</option>
+              <option value="global">🌍 글로벌 전용</option>
+              <option value="japan">🇯🇵 한국 + 일본</option>
+              <option value="us">🇺🇸 한국 + 미국</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 2. Industry -->
+        <label class="section-label"><i data-lucide="building-2" style="width:14px;height:14px;"></i> 산업 분야</label>
+        <div class="chip-group" id="industryChips">
+          <span class="chip" data-value="tech">💻 테크/SaaS</span>
+          <span class="chip" data-value="beauty">💄 뷰티/화장품</span>
+          <span class="chip" data-value="fashion">👗 패션</span>
+          <span class="chip" data-value="food">🍽️ 식품/F&B</span>
+          <span class="chip" data-value="health">💪 헬스/웰니스</span>
+          <span class="chip" data-value="finance">💰 금융/핀테크</span>
+          <span class="chip" data-value="edu">📚 교육</span>
+          <span class="chip" data-value="realestate">🏗️ 건설/부동산</span>
+          <span class="chip" data-value="travel">✈️ 여행/호텔</span>
+          <span class="chip" data-value="pet">🐾 반려동물</span>
+          <span class="chip" data-value="ai">🤖 AI 서비스</span>
+          <span class="chip" data-value="content">🎬 콘텐츠/미디어</span>
+        </div>
+
+        <!-- 3. Naming Style -->
+        <label class="section-label"><i data-lucide="palette" style="width:14px;height:14px;"></i> 네이밍 스타일</label>
+        <div class="chip-group" id="styleChips">
+          <span class="chip active" data-value="coined">🧪 신조어 (코인드)</span>
+          <span class="chip" data-value="descriptive">📝 서술형</span>
+          <span class="chip" data-value="metaphor">🦊 은유/상징</span>
+          <span class="chip" data-value="compound">🔗 합성어</span>
+          <span class="chip" data-value="acronym">🔤 약어 (ABC)</span>
+          <span class="chip" data-value="korean">🇰🇷 순우리말</span>
+          <span class="chip" data-value="latinate">📜 라틴/그리스 어근</span>
+        </div>
+
+        <!-- 4. Brand Feel -->
+        <label class="section-label"><i data-lucide="heart" style="width:14px;height:14px;"></i> 브랜드 느낌</label>
+        <div class="chip-group" id="feelChips">
+          <span class="chip" data-value="premium">✨ 프리미엄</span>
+          <span class="chip" data-value="friendly">😊 친근함</span>
+          <span class="chip" data-value="professional">🏢 전문적</span>
+          <span class="chip" data-value="playful">🎯 재밌고 발랄</span>
+          <span class="chip" data-value="minimal">◽ 미니멀</span>
+          <span class="chip" data-value="innovative">🚀 혁신적</span>
+          <span class="chip" data-value="warm">🌿 따뜻함/자연</span>
+          <span class="chip" data-value="bold">⚡ 강렬함</span>
+        </div>
+
+        <!-- 5. Preferences -->
+        <label class="section-label"><i data-lucide="sliders" style="width:14px;height:14px;"></i> 검증 옵션</label>
+        <div class="toggle-row">
+          <span class="toggle-label">🌐 도메인 확인 체크</span>
+          <div class="toggle-switch active" id="togDomain" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">📋 상표 충돌 검토</span>
+          <div class="toggle-switch active" id="togTrademark" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">🗣️ 발음 난이도 평가</span>
+          <div class="toggle-switch active" id="togPronounce" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">⚠️ 다국어 부정 의미 체크</span>
+          <div class="toggle-switch active" id="togNegative" onclick="this.classList.toggle('active')"></div>
+        </div>
+
+        <!-- 6. Output count -->
+        <label class="section-label"><i data-lucide="hash" style="width:14px;height:14px;"></i> 후보 개수</label>
+        <select id="numCandidates" class="input-field">
+          <option value="5">5개 (빠른 탐색)</option>
+          <option value="10" selected>10개 (추천)</option>
+          <option value="15">15개 (폭넓게)</option>
+          <option value="20">20개 (전문가)</option>
+        </select>
+
+        <!-- 7. Extra -->
+        <label class="section-label"><i data-lucide="message-square" style="width:14px;height:14px;"></i> 추가 요청사항 (선택)</label>
+        <input type="text" id="extraNote" class="input-field" placeholder="예: 2글자 이름 선호 / '노'로 시작하는 이름 / 이미 가지고 있는 이름 피하기">
+
+        <!-- 8. API Key -->
+        <label class="section-label"><i data-lucide="key" style="width:14px;height:14px;"></i> Gemini API Key</label>
+        <input type="password" id="apiKey" class="input-field" placeholder="AIzaSy...">
+        <p style="font-size:11.5px; color:#64748b; margin-top:2px; margin-bottom:16px;">
+          무료 키 발급: <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#38bdf8; text-decoration:none;">Google AI Studio ↗</a>
+        </p>
+        
+        <button id="btnGenerate" class="btn-action-primary">
+          <span class="shimmer"></span>
+          <i data-lucide="zap" style="width:18px;height:18px;"></i> 
+          AI 브랜드 네이밍 시작
+        </button>
+      </div>
+    </div>
+    
+    <!-- Right Preview Area -->
+    <div class="preview-canvas-area" id="previewArea">
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState">
+        <div class="empty-state-icon">
+          <i data-lucide="lightbulb" style="width:36px;height:36px;color:#8b5cf6;"></i>
+        </div>
+        <h3>AI가 당신의 브랜드를 설계합니다</h3>
+        <p>왼쪽 패널에서 사업 정보를 입력하고<br>네이밍 버튼을 눌러주세요.</p>
+        <div class="pipeline-steps" id="pipelineSteps">
+          <span class="pipeline-step">시장 분석</span>
+          <span class="pipeline-step">포지셔닝</span>
+          <span class="pipeline-step">키워드 생성</span>
+          <span class="pipeline-step">언어 분석</span>
+          <span class="pipeline-step">후보 생성</span>
+          <span class="pipeline-step">상표 검색</span>
+          <span class="pipeline-step">도메인 확인</span>
+          <span class="pipeline-step">발음 테스트</span>
+          <span class="pipeline-step">최종 선정</span>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-container" id="loadingState">
+        <div class="loading-brain">
+          <div class="loading-brain-ring"></div>
+          <div class="loading-brain-core"></div>
+        </div>
+        <div>
+          <div class="loading-text" id="loadingText">AI가 브랜드 이름을 설계하고 있습니다...</div>
+          <div class="loading-sub" id="loadingSub">방법론 기반으로 수백 개 후보를 생성 중</div>
+        </div>
+        <div class="pipeline-steps" id="loadingPipeline">
+          <span class="pipeline-step" data-step="0">시장 분석</span>
+          <span class="pipeline-step" data-step="1">포지셔닝</span>
+          <span class="pipeline-step" data-step="2">키워드 생성</span>
+          <span class="pipeline-step" data-step="3">언어 분석</span>
+          <span class="pipeline-step" data-step="4">후보 생성</span>
+          <span class="pipeline-step" data-step="5">상표 검색</span>
+          <span class="pipeline-step" data-step="6">도메인 확인</span>
+          <span class="pipeline-step" data-step="7">발음 테스트</span>
+          <span class="pipeline-step" data-step="8">최종 선정</span>
+        </div>
+      </div>
+
+      <!-- Results State -->
+      <div id="resultsState" style="display:none; width:100%; flex:1; display:none; flex-direction:column;">
+        <div class="results-header">
+          <div class="results-title">
+            <i data-lucide="crown" style="width:20px;height:20px;color:#fbbf24;"></i>
+            <span>AI 네이밍 후보</span>
+            <span class="results-count" id="resultsCount">0개</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-export" id="btnCopyAll" title="전체 복사">
+              <i data-lucide="copy" style="width:14px;height:14px;"></i> 전체 복사
+            </button>
+            <button class="btn-export" id="btnRegenerate" title="다시 생성">
+              <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> 다시
+            </button>
+          </div>
+        </div>
+        <div class="names-grid" id="namesGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.08); z-index: 10; position: relative;">
+    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-size: 14px;">SETUPOD — All-in-One Business Asset &amp; 3D Card Platform</p>
+    <p style="font-size: 13px; margin-bottom: 8px;">
+      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    </p>
+    <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // ── Chip Toggle Logic ──
+    function setupChipGroup(containerId, multiSelect = true) {
+      const container = document.getElementById(containerId);
+      container.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          if (multiSelect) {
+            chip.classList.toggle('active');
+          } else {
+            container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+          }
+        });
+      });
+    }
+
+    setupChipGroup('industryChips', true);
+    setupChipGroup('styleChips', true);
+    setupChipGroup('feelChips', true);
+
+    function getActiveChips(containerId) {
+      const chips = document.querySelectorAll(`#${containerId} .chip.active`);
+      return Array.from(chips).map(c => c.dataset.value);
+    }
+
+    // ── Pipeline Animation ──
+    let pipelineInterval = null;
+    const PIPELINE_MESSAGES = [
+      { text: "시장 환경과 경쟁 브랜드를 분석합니다...", sub: "산업 트렌드 파악 중" },
+      { text: "브랜드 포지셔닝을 설정합니다...", sub: "차별화 전략 수립 중" },
+      { text: "핵심 키워드를 추출합니다...", sub: "어근·음절 조합 생성 중" },
+      { text: "언어적 특성을 분석합니다...", sub: "발음 패턴, 음절 구조 분석 중" },
+      { text: "수백 개의 후보 이름을 생성합니다...", sub: "AI 브레인스토밍 진행 중" },
+      { text: "상표 충돌 가능성을 검토합니다...", sub: "유사 상표 데이터 대조 중" },
+      { text: "도메인 가용성을 확인합니다...", sub: ".com / .co / .io 등 검색 중" },
+      { text: "발음 난이도를 평가합니다...", sub: "각국 발음 용이성 테스트 중" },
+      { text: "최종 후보를 선정합니다...", sub: "종합 점수 기반 랭킹 중" }
+    ];
+
+    function startPipelineAnimation() {
+      let step = 0;
+      const steps = document.querySelectorAll('#loadingPipeline .pipeline-step');
+      
+      pipelineInterval = setInterval(() => {
+        steps.forEach((s, i) => {
+          s.classList.remove('active', 'done');
+          if (i < step) s.classList.add('done');
+          if (i === step) s.classList.add('active');
+        });
+        
+        if (step < PIPELINE_MESSAGES.length) {
+          document.getElementById('loadingText').textContent = PIPELINE_MESSAGES[step].text;
+          document.getElementById('loadingSub').textContent = PIPELINE_MESSAGES[step].sub;
+        }
+        
+        step++;
+        if (step > steps.length) step = 0;
+      }, 2200);
+    }
+
+    function stopPipelineAnimation() {
+      if (pipelineInterval) {
+        clearInterval(pipelineInterval);
+        pipelineInterval = null;
+      }
+    }
+
+    // ── Build Prompt ──
+    function buildNamingPrompt() {
+      const business = document.getElementById('businessDesc').value.trim();
+      const target = document.getElementById('targetCustomer').value.trim();
+      const market = document.getElementById('targetMarket').value;
+      const industries = getActiveChips('industryChips');
+      const styles = getActiveChips('styleChips');
+      const feels = getActiveChips('feelChips');
+      const checkDomain = document.getElementById('togDomain').classList.contains('active');
+      const checkTrademark = document.getElementById('togTrademark').classList.contains('active');
+      const checkPronounce = document.getElementById('togPronounce').classList.contains('active');
+      const checkNegative = document.getElementById('togNegative').classList.contains('active');
+      const numCandidates = document.getElementById('numCandidates').value;
+      const extra = document.getElementById('extraNote').value.trim();
+
+      const MARKET_LABELS = {
+        korea: '한국 시장만',
+        korea_global: '한국 + 글로벌 시장',
+        global: '글로벌 시장 전용 (영어 중심)',
+        japan: '한국 + 일본 시장',
+        us: '한국 + 미국 시장'
+      };
+
+      const STYLE_LABELS = {
+        coined: '신조어(Coined Word) — 완전히 새로운 단어',
+        descriptive: '서술형(Descriptive) — 서비스를 직접 설명',
+        metaphor: '은유/상징(Metaphorical) — 비유적 의미',
+        compound: '합성어(Compound) — 두 단어 조합',
+        acronym: '약어(Acronym) — 이니셜 조합',
+        korean: '순우리말 — 한국 고유어 기반',
+        latinate: '라틴/그리스 어근 기반'
+      };
+
+      const FEEL_LABELS = {
+        premium: '프리미엄/고급스러운',
+        friendly: '친근하고 다가가기 쉬운',
+        professional: '전문적이고 신뢰감 있는',
+        playful: '재밌고 발랄한',
+        minimal: '미니멀하고 깔끔한',
+        innovative: '혁신적이고 미래지향적',
+        warm: '따뜻하고 자연친화적',
+        bold: '강렬하고 임팩트 있는'
+      };
+
+      let prompt = `너는 세계적인 브랜드 네이밍 전문가이자 언어학자다. 
+아래 정보를 기반으로 브랜드 이름 후보 ${numCandidates}개를 만들어라.
+
+[사업 설명]
+${business || '(미입력)'}
+
+[타겟 고객]
+${target || '(미입력)'}
+
+[진출 시장]
+${MARKET_LABELS[market]}
+
+[산업 분야]
+${industries.length > 0 ? industries.join(', ') : '(미선택)'}
+
+[네이밍 스타일 방향]
+${styles.map(s => STYLE_LABELS[s] || s).join('\n')}
+
+[브랜드 느낌/톤]
+${feels.map(f => FEEL_LABELS[f] || f).join(', ') || '(미선택)'}
+
+[네이밍 방법론 — 반드시 이 프로세스를 거쳐라]
+1단계: 사업의 핵심 가치, 차별점, 경쟁 환경을 분석한다.
+2단계: 브랜드 포지셔닝(고급/대중/전문가 등)을 결정한다.
+3단계: 관련 키워드, 어근(영어/라틴/그리스/한국어), 음절 패턴을 대량 생성한다.
+4단계: 스타일 방향에 맞춰 수백 개 후보를 만든다.
+5단계: 아래 검증 기준으로 걸러낸다.
+
+[검증 기준]`;
+
+      if (checkPronounce) {
+        prompt += `\n· 발음 용이성: 한국어·영어 화자가 처음 보고 쉽게 읽을 수 있는가? (1~100점)`;
+      }
+      prompt += `\n· 기억 용이성: 한 번 듣고 떠올릴 수 있는가? (1~100점)`;
+      if (checkNegative) {
+        prompt += `\n· 다국어 부정 의미: 영어, 일본어, 중국어, 스페인어, 프랑스어, 아랍어에서 부정적 의미가 없는가?`;
+      }
+      if (checkTrademark) {
+        prompt += `\n· 상표 충돌: 대한민국 특허청(KIPRIS)에 유사 상표가 등록되어 있을 가능성을 추정한다. (낮음/중간/높음)`;
+      }
+      if (checkDomain) {
+        prompt += `\n· 도메인: .com 도메인 가용 가능성을 추정한다. (가능/어려움/불가능)`;
+      }
+
+      if (extra) {
+        prompt += `\n\n[추가 요청사항]\n${extra}`;
+      }
+
+      prompt += `
+
+[출력 형식 — 반드시 아래 JSON 배열로만 출력해라. JSON 외 다른 텍스트 금지]
+\`\`\`json
+[
+  {
+    "rank": 1,
+    "name": "브랜드이름",
+    "korean": "한글 발음 또는 한글 이름",
+    "story": "이 이름의 어원, 뜻, 왜 이 사업에 잘 맞는지 2~3문장",
+    "scores": {
+      "pronunciation": 85,
+      "memorability": 90,
+      "uniqueness": 80,
+      "brandFit": 88
+    },
+    "domain": ".com 가용 추정 (possible/difficult/unlikely)",
+    "trademarkRisk": "low/medium/high",
+    "negativeCheck": "안전 또는 경고 내용",
+    "namingStyle": "coined/descriptive/metaphor/compound/acronym/korean/latinate",
+    "tags": ["관련 키워드1", "관련 키워드2"]
+  }
+]
+\`\`\`
+
+순위는 종합 점수 기준으로 높은 것부터 정렬한다. rank 1이 가장 추천하는 이름이다.`;
+
+      return prompt;
+    }
+
+    // ── Gemini API Call ──
+    async function callGemini(apiKey, prompt) {
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 1.0,
+            maxOutputTokens: 8192,
+            responseMimeType: "application/json"
+          }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || `HTTP ${res.status}`);
+      }
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    }
+
+    // ── Parse Response ──
+    function parseNamingResponse(raw) {
+      try {
+        // Try direct JSON parse
+        let text = raw.trim();
+        // Remove markdown code fences if present
+        text = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
+        const parsed = JSON.parse(text);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (e) {
+        // Try to extract JSON array from text
+        const match = raw.match(/\[[\s\S]*\]/);
+        if (match) {
+          try {
+            return JSON.parse(match[0]);
+          } catch (e2) {
+            throw new Error("AI 응답을 파싱할 수 없습니다. 다시 시도해주세요.");
+          }
+        }
+        throw new Error("AI 응답 형식 오류. 다시 시도해주세요.");
+      }
+    }
+
+    // ── Render Name Cards ──
+    function getScoreColor(score) {
+      if (score >= 85) return '#10b981';
+      if (score >= 70) return '#06b6d4';
+      if (score >= 55) return '#f59e0b';
+      return '#f43f5e';
+    }
+
+    function renderNameCards(names) {
+      const grid = document.getElementById('namesGrid');
+      grid.innerHTML = '';
+      
+      names.forEach((item, idx) => {
+        const scores = item.scores || {};
+        const isTop = idx < 3;
+        
+        const domainTag = item.domain === 'possible' 
+          ? '<span class="name-tag domain-available">🌐 .com 가능</span>'
+          : item.domain === 'difficult'
+          ? '<span class="name-tag warning">🌐 .com 경쟁</span>'
+          : '<span class="name-tag warning">🌐 .com 어려움</span>';
+
+        const trademarkTag = item.trademarkRisk === 'low'
+          ? '<span class="name-tag trademark-safe">📋 상표 안전</span>'
+          : item.trademarkRisk === 'medium'
+          ? '<span class="name-tag warning">📋 상표 주의</span>'
+          : '<span class="name-tag warning">📋 상표 위험</span>';
+
+        const negTag = item.negativeCheck && !item.negativeCheck.includes('경고')
+          ? '<span class="name-tag trademark-safe">🗣️ 다국어 안전</span>'
+          : item.negativeCheck
+          ? `<span class="name-tag warning">⚠️ ${item.negativeCheck}</span>`
+          : '';
+
+        const STYLE_EMOJI = {
+          coined: '🧪', descriptive: '📝', metaphor: '🦊', compound: '🔗',
+          acronym: '🔤', korean: '🇰🇷', latinate: '📜'
+        };
+        const styleEmoji = STYLE_EMOJI[item.namingStyle] || '✨';
+
+        const safeName = (item.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeStory = (item.story || '').replace(/'/g, "\\'").replace(/"/g, '&quot;').substring(0, 100);
+
+        const card = document.createElement('div');
+        card.className = 'name-card';
+        card.innerHTML = `
+          <span class="name-card-rank ${isTop ? 'top' : ''}">
+            ${isTop ? '⭐' : ''} #${item.rank || idx + 1}
+          </span>
+
+          <div class="name-card-logo-area">
+            <div class="logo-canvas-wrap" id="logoWrap-${idx}" onclick="downloadLogo(${idx}, '${safeName}')" title="클릭하여 로고 다운로드">
+              <canvas id="logoCanvas-${idx}" width="288" height="288"></canvas>
+              <div class="logo-download-overlay">
+                <i data-lucide="download" style="width:20px;height:20px;"></i>
+              </div>
+            </div>
+            <div class="logo-info">
+              <div class="name-card-brand">${item.name || 'Unknown'}</div>
+              <div class="name-card-korean">${item.korean || ''} ${styleEmoji}</div>
+              <button class="btn-gen-logo" id="btnAILogo-${idx}" onclick="generateAILogo(${idx}, '${safeName}', '${safeStory}')" title="AI 로고 생성">
+                <i data-lucide="wand-2" style="width:11px;height:11px;"></i> AI 로고
+              </button>
+            </div>
+          </div>
+
+          <div class="name-card-story">${item.story || ''}</div>
+          
+          <div class="score-row">
+            <span class="score-label">발음</span>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${scores.pronunciation || 0}%;background:${getScoreColor(scores.pronunciation || 0)};"></div></div>
+            <span class="score-value" style="color:${getScoreColor(scores.pronunciation || 0)}">${scores.pronunciation || '-'}</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">기억</span>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${scores.memorability || 0}%;background:${getScoreColor(scores.memorability || 0)};"></div></div>
+            <span class="score-value" style="color:${getScoreColor(scores.memorability || 0)}">${scores.memorability || '-'}</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">독창성</span>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${scores.uniqueness || 0}%;background:${getScoreColor(scores.uniqueness || 0)};"></div></div>
+            <span class="score-value" style="color:${getScoreColor(scores.uniqueness || 0)}">${scores.uniqueness || '-'}</span>
+          </div>
+          <div class="score-row">
+            <span class="score-label">브랜드핏</span>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:${scores.brandFit || 0}%;background:${getScoreColor(scores.brandFit || 0)};"></div></div>
+            <span class="score-value" style="color:${getScoreColor(scores.brandFit || 0)}">${scores.brandFit || '-'}</span>
+          </div>
+
+          <div class="name-card-tags">
+            ${domainTag}
+            ${trademarkTag}
+            ${negTag}
+            ${(item.tags || []).map(t => `<span class="name-tag">${t}</span>`).join('')}
+          </div>
+
+          <div class="name-card-actions">
+            <button class="btn-card-action" onclick="toggleStar(this)" title="즐겨찾기">
+              <i data-lucide="star" style="width:12px;height:12px;"></i> 저장
+            </button>
+            <button class="btn-card-action" onclick="copyName('${safeName}', this)" title="복사">
+              <i data-lucide="copy" style="width:12px;height:12px;"></i> 복사
+            </button>
+            <button class="btn-card-action" onclick="searchKIPRIS('${safeName}')" title="KIPRIS 검색">
+              <i data-lucide="search" style="width:12px;height:12px;"></i> 상표검색
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Generate monogram logos for each card
+      names.forEach((item, idx) => {
+        setTimeout(() => {
+          generateMonogramLogo(idx, item.name || 'B', idx);
+        }, idx * 80);
+      });
+
+      lucide.createIcons();
+    }
+
+    // ── Monogram Logo Generator ──
+    const LOGO_PALETTES = [
+      ['#8b5cf6', '#06b6d4'],   // violet-cyan
+      ['#f43f5e', '#f97316'],   // rose-orange
+      ['#10b981', '#3b82f6'],   // emerald-blue
+      ['#f59e0b', '#ef4444'],   // amber-red
+      ['#6366f1', '#ec4899'],   // indigo-pink
+      ['#14b8a6', '#a855f7'],   // teal-purple
+      ['#3b82f6', '#8b5cf6'],   // blue-violet
+      ['#22c55e', '#06b6d4'],   // green-cyan
+      ['#e11d48', '#7c3aed'],   // crimson-violet
+      ['#0ea5e9', '#22d3ee'],   // sky-cyan
+      ['#d946ef', '#f43f5e'],   // fuchsia-rose
+      ['#84cc16', '#10b981'],   // lime-emerald
+      ['#f97316', '#eab308'],   // orange-yellow
+      ['#2563eb', '#06b6d4'],   // blue-cyan
+      ['#a855f7', '#f472b6'],   // purple-pink
+    ];
+
+    const LOGO_DESIGNS = [
+      'circle',       // circle with initial
+      'roundedSquare', // rounded square
+      'diamond',       // diamond shape
+      'splitCircle',   // split two-tone circle
+      'pill',          // pill / capsule shape
+    ];
+
+    function generateMonogramLogo(idx, brandName, paletteIdx) {
+      const canvas = document.getElementById(`logoCanvas-${idx}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const palette = LOGO_PALETTES[paletteIdx % LOGO_PALETTES.length];
+      const design = LOGO_DESIGNS[paletteIdx % LOGO_DESIGNS.length];
+
+      // Get initials (1-2 chars)
+      const words = brandName.replace(/[^a-zA-Z가-힣0-9\s]/g, '').trim().split(/\s+/);
+      let initials;
+      if (words.length >= 2) {
+        initials = (words[0][0] + words[1][0]).toUpperCase();
+      } else {
+        initials = brandName.substring(0, Math.min(2, brandName.length)).toUpperCase();
+        // If it starts with a lowercase letter, just use the first uppercase
+        if (/[a-zA-Z]/.test(brandName[0])) {
+          initials = brandName[0].toUpperCase();
+        }
+      }
+
+      // Clear
+      ctx.clearRect(0, 0, W, H);
+
+      // Background gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+      bgGrad.addColorStop(0, palette[0]);
+      bgGrad.addColorStop(1, palette[1]);
+
+      const cx = W / 2;
+      const cy = H / 2;
+
+      switch (design) {
+        case 'circle':
+          // Full circle background
+          ctx.beginPath();
+          ctx.arc(cx, cy, W * 0.42, 0, Math.PI * 2);
+          ctx.fillStyle = bgGrad;
+          ctx.fill();
+          // Subtle inner glow
+          const glowGrad = ctx.createRadialGradient(cx, cy * 0.8, 0, cx, cy, W * 0.42);
+          glowGrad.addColorStop(0, 'rgba(255,255,255,0.15)');
+          glowGrad.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = glowGrad;
+          ctx.fill();
+          break;
+
+        case 'roundedSquare':
+          roundedRect(ctx, W * 0.12, H * 0.12, W * 0.76, H * 0.76, W * 0.15);
+          ctx.fillStyle = bgGrad;
+          ctx.fill();
+          // Top-left accent
+          ctx.save();
+          ctx.clip();
+          const accentGrad = ctx.createLinearGradient(0, 0, W * 0.5, H * 0.5);
+          accentGrad.addColorStop(0, 'rgba(255,255,255,0.18)');
+          accentGrad.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = accentGrad;
+          ctx.fillRect(0, 0, W, H);
+          ctx.restore();
+          break;
+
+        case 'diamond':
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(Math.PI / 4);
+          roundedRect(ctx, -W * 0.3, -H * 0.3, W * 0.6, H * 0.6, W * 0.06);
+          ctx.fillStyle = bgGrad;
+          ctx.fill();
+          ctx.restore();
+          break;
+
+        case 'splitCircle':
+          // Left half
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, W * 0.42, Math.PI * 0.5, Math.PI * 1.5);
+          ctx.closePath();
+          ctx.fillStyle = palette[0];
+          ctx.fill();
+          ctx.restore();
+          // Right half
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, W * 0.42, Math.PI * 1.5, Math.PI * 0.5);
+          ctx.closePath();
+          ctx.fillStyle = palette[1];
+          ctx.fill();
+          ctx.restore();
+          break;
+
+        case 'pill':
+          roundedRect(ctx, W * 0.08, H * 0.2, W * 0.84, H * 0.6, H * 0.3);
+          ctx.fillStyle = bgGrad;
+          ctx.fill();
+          break;
+      }
+
+      // Draw letter(s)
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const fontSize = initials.length > 1 ? W * 0.28 : W * 0.36;
+      ctx.font = `900 ${fontSize}px 'Montserrat', 'Pretendard', sans-serif`;
+
+      // Text shadow
+      ctx.shadowColor = 'rgba(0,0,0,0.2)';
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 2;
+      ctx.fillText(initials, cx, cy + 2);
+      ctx.shadowColor = 'transparent';
+    }
+
+    function roundedRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    // ── AI Logo Generation (Gemini Imagen) ──
+    window.generateAILogo = async function(idx, brandName, story) {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      if (!apiKey) return showToast('Gemini API Key를 입력해주세요.');
+
+      const btn = document.getElementById(`btnAILogo-${idx}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.classList.add('generating');
+      btn.innerHTML = '<i data-lucide="loader-2" style="width:11px;height:11px;animation:brainSpin 1s linear infinite;"></i> 생성 중...';
+      lucide.createIcons();
+
+      const business = document.getElementById('businessDesc').value.trim();
+      const feels = getActiveChips('feelChips');
+      const feelText = feels.length > 0 ? feels.join(', ') : 'modern, minimal';
+
+      const logoPrompt = `Design a professional brand logo icon for a company called "${brandName}". 
+Business: ${business || 'tech startup'}. 
+Brand story: ${story || ''}.
+Style: ${feelText}, clean, modern, flat design.
+
+Requirements:
+- Simple, iconic logo mark (NOT a wordmark with the full brand name)
+- Use clean geometric shapes
+- Maximum 2-3 colors
+- Works well at small sizes (app icon, favicon)
+- Professional brand quality
+- Solid colored background, NO transparency
+- NO text or letters in the logo
+- Minimalist style like Apple, Airbnb, or Slack logos`;
+
+      try {
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': apiKey },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: logoPrompt }] }],
+            generationConfig: {
+              responseModalities: ['TEXT', 'IMAGE']
+            }
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+
+        // Find image part in response
+        const parts = data.candidates?.[0]?.content?.parts || [];
+        const imgPart = parts.find(p => p.inlineData);
+
+        if (imgPart && imgPart.inlineData) {
+          const wrap = document.getElementById(`logoWrap-${idx}`);
+          const canvas = document.getElementById(`logoCanvas-${idx}`);
+          if (canvas) canvas.remove();
+
+          const img = document.createElement('img');
+          img.src = `data:${imgPart.inlineData.mimeType};base64,${imgPart.inlineData.data}`;
+          img.alt = `${brandName} AI Logo`;
+          img.id = `logoImg-${idx}`;
+
+          // Insert before the overlay
+          const overlay = wrap.querySelector('.logo-download-overlay');
+          wrap.insertBefore(img, overlay);
+
+          // Add AI badge
+          if (!wrap.querySelector('.logo-ai-badge')) {
+            const badge = document.createElement('span');
+            badge.className = 'logo-ai-badge';
+            badge.textContent = 'AI';
+            wrap.appendChild(badge);
+          }
+
+          showToast(`✨ ${brandName} AI 로고가 생성되었습니다!`);
+        } else {
+          throw new Error('이미지가 생성되지 않았습니다. 다시 시도해주세요.');
+        }
+
+      } catch (err) {
+        showToast('로고 생성 오류: ' + err.message);
+      }
+
+      btn.disabled = false;
+      btn.classList.remove('generating');
+      btn.innerHTML = '<i data-lucide="wand-2" style="width:11px;height:11px;"></i> AI 로고';
+      lucide.createIcons();
+    };
+
+    // ── Download Logo ──
+    window.downloadLogo = function(idx, brandName) {
+      const wrap = document.getElementById(`logoWrap-${idx}`);
+      if (!wrap) return;
+
+      const aiImg = wrap.querySelector('img');
+      const canvas = document.getElementById(`logoCanvas-${idx}`);
+
+      if (aiImg) {
+        // Download AI-generated image
+        const a = document.createElement('a');
+        a.href = aiImg.src;
+        a.download = `${brandName}_logo.png`;
+        a.click();
+        showToast(`${brandName} 로고가 다운로드됩니다.`);
+      } else if (canvas) {
+        // Download canvas monogram
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = `${brandName}_monogram.png`;
+        a.click();
+        showToast(`${brandName} 모노그램이 다운로드됩니다.`);
+      }
+    };
+
+    // ── Card Actions ──
+    window.toggleStar = function(btn) {
+      btn.classList.toggle('starred');
+      if (btn.classList.contains('starred')) {
+        btn.innerHTML = '<i data-lucide="star" style="width:12px;height:12px;"></i> 저장됨';
+        showToast('즐겨찾기에 추가했습니다 ⭐');
+      } else {
+        btn.innerHTML = '<i data-lucide="star" style="width:12px;height:12px;"></i> 저장';
+      }
+      lucide.createIcons();
+    };
+
+    window.copyName = function(name, btn) {
+      navigator.clipboard.writeText(name).then(() => {
+        btn.innerHTML = '<i data-lucide="check" style="width:12px;height:12px;"></i> 복사됨';
+        btn.style.color = '#34d399';
+        setTimeout(() => {
+          btn.innerHTML = '<i data-lucide="copy" style="width:12px;height:12px;"></i> 복사';
+          btn.style.color = '';
+          lucide.createIcons();
+        }, 2000);
+        lucide.createIcons();
+      });
+    };
+
+    window.searchKIPRIS = function(name) {
+      window.open(`https://www.kipris.or.kr/khome/main.jsp#word=${encodeURIComponent(name)}`, '_blank');
+    };
+
+    // ── Load API Key ──
+    document.getElementById('apiKey').value = localStorage.getItem('SETUPOD_GEMINI_KEY') || '';
+
+    // ── Main Generate ──
+    let lastResults = [];
+
+    document.getElementById('btnGenerate').addEventListener('click', async () => {
+      const business = document.getElementById('businessDesc').value.trim();
+      const apiKey = document.getElementById('apiKey').value.trim();
+
+      if (!business) return showToast("사업 설명을 입력해주세요.");
+      if (!apiKey) return showToast("Gemini API Key를 입력해주세요.");
+
+      localStorage.setItem('SETUPOD_GEMINI_KEY', apiKey);
+
+      const prompt = buildNamingPrompt();
+      
+      // Show loading
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('resultsState').style.display = 'none';
+      document.getElementById('loadingState').style.display = 'flex';
+      document.getElementById('btnGenerate').disabled = true;
+      document.getElementById('btnGenerate').innerHTML = '<i data-lucide="loader-2" style="width:18px;height:18px;animation:brainSpin 1s linear infinite;"></i> 생성 중...';
+      lucide.createIcons();
+      
+      startPipelineAnimation();
+
+      try {
+        const rawResponse = await callGemini(apiKey, prompt);
+        const names = parseNamingResponse(rawResponse);
+        lastResults = names;
+
+        stopPipelineAnimation();
+        
+        // Show results
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('resultsState').style.display = 'flex';
+        document.getElementById('resultsCount').textContent = `${names.length}개`;
+
+        renderNameCards(names);
+        showToast(`✨ ${names.length}개 브랜드 후보가 생성되었습니다!`);
+
+      } catch (err) {
+        stopPipelineAnimation();
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'flex';
+        showToast("오류: " + err.message);
+      }
+
+      document.getElementById('btnGenerate').disabled = false;
+      document.getElementById('btnGenerate').innerHTML = '<span class="shimmer"></span><i data-lucide="zap" style="width:18px;height:18px;"></i> AI 브랜드 네이밍 시작';
+      lucide.createIcons();
+    });
+
+    // ── Copy All ──
+    document.getElementById('btnCopyAll').addEventListener('click', () => {
+      if (!lastResults.length) return;
+      
+      let text = '🏷️ AI 브랜드 네이밍 결과\n';
+      text += '━'.repeat(30) + '\n\n';
+      
+      lastResults.forEach((item, idx) => {
+        const s = item.scores || {};
+        text += `#${item.rank || idx + 1}  ${item.name}  (${item.korean || ''})\n`;
+        text += `   📖 ${item.story || ''}\n`;
+        text += `   🗣️ 발음: ${s.pronunciation || '-'}  💭 기억: ${s.memorability || '-'}  ✨ 독창: ${s.uniqueness || '-'}  🎯 핏: ${s.brandFit || '-'}\n`;
+        text += `   🌐 도메인: ${item.domain || '-'}  📋 상표: ${item.trademarkRisk || '-'}\n\n`;
+      });
+
+      text += '\n— Generated by SETUPOD AI Naming Studio';
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('전체 결과가 클립보드에 복사되었습니다!');
+      });
+    });
+
+    // ── Regenerate ──
+    document.getElementById('btnRegenerate').addEventListener('click', () => {
+      document.getElementById('btnGenerate').click();
+    });
+  </script>
+
+  <script src="js/toast.js"></script>
+  <script src="js/gnb.js"></script>
+</body>
+</html>

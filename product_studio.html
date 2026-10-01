@@ -436,6 +436,247 @@
       box-shadow: 0 8px 28px rgba(139, 92, 246, 0.6);
     }
 
+    :root {
+      --bg: #f2f3f6;
+      --panel: #ffffff;
+      --card-bg: #ffffff;
+      --border: #e1e3e9;
+      --violet: #6254b8;
+      --text-main: #242630;
+      --text-muted: #555b68;
+      --text-sub: #747b88;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .studio-layout {
+      flex: 0 0 auto;
+      height: calc(100dvh - 70px);
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    .controls-panel {
+      width: clamp(340px, 31vw, 400px);
+      min-width: 340px;
+      min-height: 0;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+    }
+
+    .panel-scroll {
+      min-height: 0;
+      padding: 22px 20px;
+      scrollbar-color: #c8cbd4 transparent;
+    }
+
+    .section-label {
+      color: #51478b;
+      font-size: 12px;
+      letter-spacing: 0;
+      text-transform: none;
+      margin: 22px 0 10px;
+    }
+
+    .upload-dropzone {
+      border: 1px dashed #b9b2dc;
+      border-radius: 10px;
+      background: #f8f7fc;
+      padding: 18px 14px;
+    }
+
+    .upload-dropzone:hover {
+      border-color: var(--violet);
+      background: #f2f0fa;
+    }
+
+    .upload-icon {
+      border-radius: 10px;
+      background: #ece9f7;
+      color: var(--violet);
+    }
+
+    .sample-btn {
+      min-height: 40px;
+      border-radius: 8px;
+      background: #f7f7f9;
+      border-color: var(--border);
+      color: #40434d;
+    }
+
+    .sample-btn.active {
+      background: var(--violet);
+      border-color: var(--violet);
+      box-shadow: none;
+      color: #fff;
+    }
+
+    .bg-options-grid {
+      gap: 8px;
+    }
+
+    .bg-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .bg-card:hover {
+      border-color: #aaa2cf;
+    }
+
+    .bg-card.selected {
+      border-color: var(--violet);
+      background: #f7f5fc;
+      box-shadow: inset 0 0 0 1px var(--violet);
+    }
+
+    .bg-preview-swatch {
+      height: 48px;
+      border-radius: 6px;
+    }
+
+    .bg-card-title {
+      color: #30323b;
+    }
+
+    .nukki-toggle-box {
+      border-radius: 8px;
+      border-color: var(--border);
+      background: #f7f7f9;
+      padding: 12px 14px;
+    }
+
+    .toggle-slider {
+      background-color: #c6c8d0;
+    }
+
+    .filter-group {
+      margin-bottom: 16px;
+    }
+
+    .filter-label-row {
+      color: #444955;
+    }
+
+    .filter-slider {
+      height: 5px;
+      background: #e1e2e8;
+      cursor: pointer;
+    }
+
+    .filter-slider::-webkit-slider-thumb {
+      width: 17px;
+      height: 17px;
+      background: var(--violet);
+      box-shadow: 0 0 0 3px #eeecf7;
+    }
+
+    .preview-canvas-area {
+      min-width: 0;
+      min-height: 0;
+      padding: 28px;
+      background: #eef0f4;
+    }
+
+    .canvas-stage-wrapper {
+      width: min(100%, 520px);
+      height: auto;
+      aspect-ratio: 1;
+      max-height: min(68vh, 520px);
+      border: 1px solid #d9dce4;
+      border-radius: 12px;
+      background: #e5e7ec;
+      box-shadow: 0 16px 40px rgba(34, 38, 50, 0.12);
+    }
+
+    .watermark-brand {
+      color: rgba(44, 48, 59, 0.42);
+    }
+
+    .btn-action-primary {
+      min-height: 46px;
+      border-radius: 8px;
+      background: var(--violet);
+      box-shadow: none;
+    }
+
+    .btn-action-primary:hover {
+      transform: translateY(-1px);
+      background: #51449f;
+      box-shadow: 0 6px 16px rgba(74, 63, 139, 0.18);
+    }
+
+    .btn-view-mode {
+      border-radius: 8px;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(98, 84, 184, 0.55);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+      .studio-layout {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+      }
+
+      .controls-panel {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .preview-canvas-area {
+        min-height: 560px;
+        padding: 24px 18px;
+      }
+
+      .canvas-stage-wrapper {
+        width: min(100%, 440px);
+        max-height: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .panel-scroll {
+        padding: 18px 16px;
+      }
+
+      .preview-canvas-area {
+        min-height: 0;
+        padding: 18px 14px 28px;
+      }
+
+      .canvas-actions-bar {
+        max-width: 440px;
+      }
+
+      .sample-btn {
+        padding: 8px 6px;
+        font-size: 11px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     .btn-action-secondary {
       flex: 1;
       padding: 13px 16px;
@@ -1076,8 +1317,8 @@
         <div class="section-label"><i data-lucide="user-check" style="width:15px;height:15px;"></i> 1. 샘플 선택 & 내 사진 업로드</div>
         
         <div class="sample-models-row">
-          <button class="sample-btn active" id="btnModel1" onclick="selectModel(1)"><i data-lucide="user" style="width:14px;height:14px;"></i> 향수 (오브제)</button>
-          <button class="sample-btn" id="btnModel2" onclick="selectModel(2)"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> 스니커즈</button>
+          <button class="sample-btn active" id="btnModel1" onclick="selectModel(1)"><i data-lucide="user" style="width:14px;height:14px;"></i> 남성 인물 샘플</button>
+          <button class="sample-btn" id="btnModel2" onclick="selectModel(2)"><i data-lucide="user" style="width:14px;height:14px;"></i> 여성 인물 샘플</button>
         </div>
 
         <div class="upload-dropzone" style="margin-top:10px;" onclick="document.getElementById('fileInput').click()">
@@ -1161,18 +1402,11 @@
           <input type="range" class="filter-slider" id="sliderClarity" min="90" max="140" value="110" oninput="updateSliders()">
         </div>
 
+      </div>
+    </aside>
+
         <!-- Right Canvas Stage -->
     <main class="preview-canvas-area">
-      <!-- View Mode Switch -->
-      <div class="studio-view-bar">
-        <button class="btn-view-mode active" id="btnViewStudio" onclick="switchViewMode('studio')">
-          <i data-lucide="image" style="width:13px;height:13px;"></i> 스튜디오 뷰
-        </button>
-        <button class="btn-view-mode" id="btnViewCard" onclick="switchViewMode('card')">
-          <i data-lucide="credit-card" style="width:13px;height:13px;color:#38bdf8;"></i> 3D 명함 장착 뷰
-        </button>
-      </div>
-
       <!-- Studio Mode Canvas -->
       <div class="canvas-stage-wrapper" id="studioStageWrapper">
         <canvas id="stageCanvas" width="800" height="800"></canvas>
@@ -1235,6 +1469,9 @@
       processedCutout: null,
       activeModelId: 1
     };
+    const processedSampleCache = new Map();
+    let cutoutRequestId = 0;
+    let gradioAppPromise = null;
 
     // Preload models
     const maleModelImg = new Image();
@@ -1252,17 +1489,42 @@
       }
     };
 
-    function selectModel(id) {
+    async function selectModel(id) {
       studioState.activeModelId = id;
       document.getElementById('btnModel1').classList.toggle('active', id === 1);
       document.getElementById('btnModel2').classList.toggle('active', id === 2);
 
-      if (id === 1) {
-        studioState.currentImg = maleModelImg;
+      await processSampleModel(id);
+    }
+
+    async function processSampleModel(id) {
+      const requestId = ++cutoutRequestId;
+      const sampleImage = id === 1 ? maleModelImg : femaleModelImg;
+      studioState.currentImg = sampleImage;
+      studioState.originalUserFile = null;
+      renderCanvas();
+
+      if (!studioState.nukkiEnabled) return;
+
+      const cachedImage = processedSampleCache.get(id);
+      if (cachedImage) {
+        studioState.currentImg = cachedImage;
         renderCanvas();
-      } else if (id === 2) {
-        studioState.currentImg = femaleModelImg;
-        renderCanvas();
+        return;
+      }
+
+      try {
+        const response = await fetch(sampleImage.src);
+        if (!response.ok) throw new Error('Sample image could not be loaded');
+        const blob = await response.blob();
+        const sampleFile = new File([blob], `setupod-sample-${id}.webp`, {
+          type: blob.type || 'image/webp'
+        });
+        await applyNukkiAndRender(sampleFile, { requestId, sampleId: id });
+      } catch (err) {
+        if (requestId !== cutoutRequestId) return;
+        console.error('Sample background removal failed:', err);
+        showToast('샘플 배경 분리에 실패했습니다. 원본 이미지를 표시합니다.');
       }
     }
 
@@ -1275,50 +1537,70 @@
       studioState.activeModelId = 'user';
       studioState.originalUserFile = file;
 
-      applyNukkiAndRender();
+      applyNukkiAndRender(file, { requestId: ++cutoutRequestId });
     }
 
-    async function applyNukkiAndRender() {
-      if (!studioState.originalUserFile) return;
-      
-      const file = studioState.originalUserFile;
+    async function applyNukkiAndRender(file = studioState.originalUserFile, options = {}) {
+      if (!file) return;
+      const requestId = options.requestId || ++cutoutRequestId;
       
       if (studioState.nukkiEnabled) {
-        showToast("초정밀 AI 서버에서 배경을 분리하고 있습니다... (약 2~3초 소요)");
+        showToast("AI가 배경을 분리하고 있습니다. 첫 처리에는 잠시 기다려 주세요.");
         try {
           if (!window.gradioClient) throw new Error("Gradio client not loaded");
-          
-          const app = await window.gradioClient("grid7/nukki-studio");
-          const result = await app.predict("/predict", [
+
+          if (!gradioAppPromise) {
+            gradioAppPromise = window.gradioClient("grid7/nukki-studio").catch((err) => {
+              gradioAppPromise = null;
+              throw err;
+            });
+          }
+          const app = await gradioAppPromise;
+          const result = await app.predict("/remove_background", [
             file, 
           ]);
+
+          if (requestId !== cutoutRequestId) return;
           
           const outputUrl = result.data[0].url;
+          const response = await fetch(outputUrl);
+          if (!response.ok) throw new Error('Processed image could not be loaded');
+          const blob = await response.blob();
+          const localUrl = URL.createObjectURL(blob);
           const img = new Image();
           img.onload = () => {
+            if (requestId !== cutoutRequestId) {
+              URL.revokeObjectURL(localUrl);
+              return;
+            }
+            if (options.sampleId) processedSampleCache.set(options.sampleId, img);
             studioState.currentImg = img;
             renderCanvas();
             showToast("배경 분리 완료! 🎉");
           };
+          img.onerror = () => URL.revokeObjectURL(localUrl);
           // Need to fetch and convert to local object URL because of CORS canvas tainting
-          const response = await fetch(outputUrl);
-          const blob = await response.blob();
-          img.src = URL.createObjectURL(blob);
+          img.src = localUrl;
         } catch (err) {
+          if (requestId !== cutoutRequestId) return;
           console.error("Nukki failed:", err);
-          showToast("서버 연결에 실패했습니다. (원본 이미지를 유지합니다)");
-          loadOriginalUserImage(file);
+          const message = err?.message || '';
+          showToast(message.includes('ZeroGPU runs limit')
+            ? 'Hugging Face 무료 처리 한도를 초과했습니다. 한도 복구 후 다시 시도해 주세요.'
+            : '배경 분리에 실패했습니다. 원본 이미지를 표시합니다.');
+          loadOriginalUserImage(file, requestId);
         }
       } else {
-        loadOriginalUserImage(file);
+        loadOriginalUserImage(file, requestId);
       }
     }
 
-    function loadOriginalUserImage(file) {
+    function loadOriginalUserImage(file, requestId = cutoutRequestId) {
       const reader = new FileReader();
       reader.onload = function(event) {
         const userImg = new Image();
         userImg.onload = function() {
+          if (requestId !== cutoutRequestId) return;
           studioState.currentImg = userImg;
           renderCanvas();
         };
@@ -1327,11 +1609,14 @@
       reader.readAsDataURL(file);
     }
 
-    function toggleNukki(enabled) {
+    async function toggleNukki(enabled) {
       studioState.nukkiEnabled = enabled;
       if (studioState.activeModelId === 'user' && studioState.originalUserFile) {
-        applyNukkiAndRender();
+        await applyNukkiAndRender();
+      } else if (studioState.activeModelId === 1 || studioState.activeModelId === 2) {
+        await processSampleModel(studioState.activeModelId);
       } else {
+        cutoutRequestId += 1;
         renderCanvas();
       }
     }
@@ -1628,7 +1913,6 @@
     // init
     window.onload = function() {
       renderCanvas();
-      selectModel(1);
       selectMotion('pulse');
       checkSourceMode();
     };
