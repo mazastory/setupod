@@ -19,7 +19,7 @@
     "수익형 플랫폼 빌드"
   ],
   "logo": {
-    "src": "assets/sample_gif_2.gif",
+    "src": "assets/sample_gif_1.gif",
     "fallback": "assets/sample_client_maza.png",
     "alt": "MAZA STUDIO Logo"
   },
