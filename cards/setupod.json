@@ -6,11 +6,11 @@
   "companyWatermark": "SETUPOD",
   "slogan": "차세대 올인원 비즈니스 자산 & 3D 인터랙티브 명함",
   "tagline": "ALL-IN-ONE BUSINESS ASSET",
-  "role": "총괄 디렉터",
-  "name": "Alex Rivera",
-  "phone": "010-5555-0100",
+  "role": "대표",
+  "name": "Andrew K",
+  "phone": "010-2661-0070",
   "phoneLabel": "M",
-  "email": "official@setupod.com",
+  "email": "ceo@setupod.com",
   "emailLabel": "E",
   "moatTags": [
     "3D 인터랙티브",
@@ -42,20 +42,20 @@
     }
   ],
   "vcard": {
-    "lastName": "Rivera",
-    "firstName": "Alex",
-    "formattedName": "Alex Rivera (총괄 디렉터)",
+    "lastName": "K",
+    "firstName": "Andrew",
+    "formattedName": "Andrew K (대표)",
     "org": "SETUPOD",
-    "title": "총괄 디렉터",
-    "tel": "010-5555-0100",
-    "email": "official@setupod.com",
+    "title": "대표",
+    "tel": "010-2661-0070",
+    "email": "ceo@setupod.com",
     "url": "https://setupod.com",
     "note": "SETUPOD | 차세대 올인원 비즈니스 자산 & 3D 인터랙티브 명함"
   },
   "meta": {
-    "title": "SETUPOD | Alex Rivera 디렉터 디지털 명함",
+    "title": "SETUPOD | Andrew K 대표 디지털 명함",
     "siteName": "SETUPOD",
-    "ogTitle": "Alex Rivera 디렉터 | SETUPOD",
+    "ogTitle": "Andrew K 대표 | SETUPOD",
     "ogDescription": "ALL-IN-ONE BUSINESS ASSET | SETUPOD 공식 디지털 명함",
     "ogImage": "assets/setupod.gif"
   }
