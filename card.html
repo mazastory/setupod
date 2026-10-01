@@ -851,6 +851,12 @@
       <span>카드를 탭하거나 슬라이드하면 앞면 ↔ 뒷면이 뒤집힙니다</span>
     </div>
 
+    <!-- Install App Hint -->
+    <div class="flip-hint" onclick="openInstallModal()" style="color: #ffd978; margin-top: 12px; margin-bottom: -4px;">
+      <i data-lucide="smartphone" style="width: 14px; height: 14px;"></i>
+      <span>내 폰 홈 화면에 명함 앱 설치하기 📱</span>
+    </div>
+
     <!-- Viral Powered-By Badge -->
     <a href="/index.html" class="viral-badge-link" title="SETUPOD에서 나만의 비즈니스 팟 만들기">
       <i data-lucide="sparkles" style="width: 13px; height: 13px; color: var(--neon-accent);"></i>
@@ -922,8 +928,32 @@
       <button class="modal-close-btn" onclick="document.getElementById('leadModal').classList.remove('active')">취소</button>
     </div>
   </div>
+  <!-- Install App Modal -->
+  <div class="modal-overlay" id="installModal" onclick="if(event.target===this) closeInstallModal()">
+    <div class="modal-box">
+      <div class="modal-title">앱으로 설치하기 📱</div>
+      <div class="modal-desc" style="text-align: left; line-height: 1.6; margin-top: 10px; font-size: 13px; color: rgba(255, 255, 255, 0.85); width: 100%;">
+        홈 화면에 추가하면 진짜 앱처럼 편리하게 바로 실행할 수 있습니다!<br><br>
+        <strong style="color:#ffd978;">🍎 아이폰 (Safari)</strong><br>
+        1. 하단 메뉴에서 [공유 📤] 버튼 탭<br>
+        2. [홈 화면에 추가 ➕] 탭<br><br>
+        <strong style="color:#ffd978;">🌌 갤럭시 (Chrome/삼성인터넷)</strong><br>
+        1. 브라우저 [메뉴 ⁝ 또는 ≡] 탭<br>
+        2. [홈 화면에 추가] 탭
+      </div>
+      <button class="modal-close-btn" onclick="closeInstallModal()">확인</button>
+    </div>
+  </div>
   
   <script>
+    function openInstallModal() {
+      document.getElementById('installModal').classList.add('active');
+    }
+    
+    function closeInstallModal() {
+      document.getElementById('installModal').classList.remove('active');
+    }
+
     async function submitLead() {
       const phoneInput = document.getElementById('leadPhoneInput');
       const phone = phoneInput.value.trim();
