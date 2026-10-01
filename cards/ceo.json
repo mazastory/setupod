@@ -2,21 +2,33 @@
   "theme": "obsidian",
   "layout": "metal",
   "name": "Andrew K",
-  "role": "투머스 대표 / Product Lead",
+  "role": "투머스 /  대표",
   "company": "TOOMUS",
   "companyWatermark": "TOOMUS",
   "slogan": "무한한 가능성을 연결하는 비즈니스 플랫폼",
   "tagline": "ENDLESS POTENTIAL",
   "phone": "010-2661-0070",
   "email": "ceo@toomus.com",
-  "moatTags": ["디지털 자산화", "전략적 비즈니스 빌드", "글로벌 파트너십"],
+  "moatTags": [
+    "디지털 자산화",
+    "전략적 비즈니스 빌드",
+    "글로벌 파트너십"
+  ],
   "primaryAction": {
     "url": "https://toomus.com",
     "label": "공식 웹사이트"
   },
   "socials": [
-    { "type": "kakao", "url": "https://open.kakao.com/o/sFAWAlQi", "label": "카카오 1:1" },
-    { "type": "instagram", "url": "https://instagram.com/toomus_official", "label": "인스타그램" }
+    {
+      "type": "kakao",
+      "url": "https://open.kakao.com/o/sFAWAlQi",
+      "label": "카카오 1:1"
+    },
+    {
+      "type": "instagram",
+      "url": "https://instagram.com/toomus7",
+      "label": "인스타그램"
+    }
   ],
   "logo": {
     "src": "/assets/sample_gif_2.gif",
