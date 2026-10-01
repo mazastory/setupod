@@ -1,0 +1,50 @@
+{
+  "slug": "naeun",
+  "company": "TOOMUS",
+  "companySlug": "toomus",
+  "layout": "metal",
+  "theme": "obsidian",
+  "companyWatermark": "TOOMUS",
+  "slogan": "Life, Connected",
+  "tagline": "LIFE · CONNECTED",
+  "role": "디렉터",
+  "name": "김나은",
+  "phone": "010-4985-0712",
+  "phoneLabel": "M",
+  "email": "naeun@toomus.com",
+  "emailLabel": "E",
+  "moatTags": [
+    "Toomus",
+    "Life",
+    "Connected"
+  ],
+  "logo": {
+    "src": "assets/sample_client_toomus.png",
+    "fallback": "assets/sample_client_toomus.png",
+    "alt": "TOOMUS Logo"
+  },
+  "primaryAction": {
+    "url": "https://setupod.com",
+    "label": "TOOMUS 웹사이트",
+    "icon": "globe"
+  },
+  "socials": [],
+  "vcard": {
+    "lastName": "김",
+    "firstName": "나은",
+    "formattedName": "김나은",
+    "org": "TOOMUS",
+    "title": "디렉터",
+    "tel": "010-4985-0712",
+    "email": "naeun@toomus.com",
+    "url": "https://setupod.com/naeun",
+    "note": "TOOMUS | Life, Connected"
+  },
+  "meta": {
+    "title": "TOOMUS | 김나은 디지털 명함",
+    "siteName": "TOOMUS",
+    "ogTitle": "김나은 | TOOMUS",
+    "ogDescription": "Life, Connected | TOOMUS 공식 디지털 명함",
+    "ogImage": "assets/sample_client_toomus.png"
+  }
+}
