@@ -24,7 +24,7 @@
     "alt": "TOOMUS Logo"
   },
   "primaryAction": {
-    "url": "https://setupod.com",
+    "url": "https://toomus.com",
     "label": "TOOMUS 웹사이트",
     "icon": "globe"
   },
@@ -37,7 +37,7 @@
     "title": "디렉터",
     "tel": "010-7413-0806",
     "email": "nahyun@toomus.com",
-    "url": "https://setupod.com/nahyun",
+    "url": "https://toomus.com/nahyun",
     "note": "TOOMUS | Life, Connected"
   },
   "meta": {
