@@ -44,6 +44,9 @@
     document.body.appendChild(container);
 
     window.showToast = function(message) {
+      // 기존 토스트 제거 (스택 방지)
+      container.innerHTML = '';
+      
       const toast = document.createElement('div');
       toast.className = 'setupod-toast';
       toast.textContent = message;
