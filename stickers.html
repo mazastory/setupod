@@ -4,213 +4,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Sticker Library | SETUPOD</title>
-  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     :root {
       --bg: #09090b;
       --card: #18181b;
       --border: #27272a;
       --text: #fafafa;
-      --primary: #a855f7; /* Purple accent */
-      --primary-hover: #9333ea;
+      --primary: #facc15;
+      --primary-hover: #eab308;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
       color: var(--text);
-      font-family: 'Pretendard', -apple-system, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
     }
-    .header {
-      padding: 20px 40px;
-      border-bottom: 1px solid var(--border);
+    
+    /* Navbar */
+    nav {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      background: rgba(9, 9, 11, 0.8);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
     }
-    .brand { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .brand-badge { background: var(--primary); color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 800; }
+    .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.05em; display: flex; align-items: center; gap: 0.5rem; }
+    .badge { background: #a855f7; color: white; padding: 0.1rem 0.5rem; border-radius: 1rem; font-size: 0.75rem; font-weight: bold; }
     
-    .hero { text-align: center; padding: 80px 20px; background: linear-gradient(180deg, rgba(168, 85, 247, 0.1) 0%, transparent 100%); }
-    .hero-title { font-size: 42px; font-weight: 900; margin-bottom: 16px; letter-spacing: -1px; }
-    .hero-desc { color: #a1a1aa; font-size: 18px; max-width: 600px; margin: 0 auto 30px; }
+    /* Hero */
+    header {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    header h1 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.3; }
+    header p { color: #a1a1aa; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
     
-    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-    
-    .masonry-grid {
+    /* Grid */
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
     }
     
-    .sticker-card {
+    .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 1rem;
       overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
+      transition: transform 0.2s;
     }
-    .sticker-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--primary);
-      box-shadow: 0 12px 40px rgba(168, 85, 247, 0.15);
-    }
+    .card:hover { transform: translateY(-5px); }
     
-    .img-wrapper {
+    .img-container {
       width: 100%;
       height: 240px;
+      background: white; /* To show transparent/white stickers well */
       overflow: hidden;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
     }
-    .img-wrapper img {
+    .img-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s;
     }
-    .sticker-card:hover .img-wrapper img { transform: scale(1.05); }
     
-    .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .card-desc { color: #a1a1aa; font-size: 14px; margin-bottom: 20px; flex: 1; }
+    .content { padding: 1.5rem; }
+    .content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .content p { color: #a1a1aa; font-size: 0.9rem; margin-bottom: 1.5rem; min-height: 40px; }
     
-    .btn {
+    .kakao-btn {
+      display: block;
       width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-    .btn-kakao { background: #FEE500; color: #000; }
-    .btn-kakao:hover { background: #F4DC00; }
-    
-    /* Kakao Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(5px);
-      z-index: 1000;
-      align-items: center; justify-content: center;
-    }
-    .modal {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 400px;
-      width: 90%;
+      padding: 0.8rem;
+      background: var(--primary);
+      color: #1c1917;
       text-align: center;
-      position: relative;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      transition: background 0.2s;
     }
-    .modal-close {
-      position: absolute; top: 20px; right: 20px;
-      background: none; border: none; color: #a1a1aa; cursor: pointer;
-    }
-    .modal-icon {
-      width: 64px; height: 64px; background: rgba(254, 229, 0, 0.1); color: #FEE500;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-    }
-    .modal-title { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
-    .modal-desc { color: #a1a1aa; margin-bottom: 30px; font-size: 15px; }
+    .kakao-btn:hover { background: var(--primary-hover); }
+
   </style>
 </head>
 <body>
 
-  <header class="header">
-    <a href="index.html" class="brand">
-      SETUPOD <span class="brand-badge">Freebies</span>
-    </a>
-    <a href="index.html" style="color: #a1a1aa; text-decoration: none; font-size: 14px; font-weight: 500;">메인으로 돌아가기</a>
+  <nav>
+    <div class="logo">SETUPOD <span class="badge">Freebies</span></div>
+    <div style="color: #a1a1aa; font-size: 0.9rem; cursor: pointer;">메인으로 돌아가기</div>
+  </nav>
+
+  <header>
+    <h1>상업용 무제한 스티커,<br>평생 무료로 가져가세요.</h1>
+    <p>다이어리 꾸미기에 완벽한 고화질 디지털 스티커 에셋입니다.<br>매주 새로운 스티커 팩이 업데이트됩니다.</p>
   </header>
 
-  <div class="hero">
-    <h1 class="hero-title">상업용 무제한 스티커,<br>평생 무료로 가져가세요.</h1>
-    <p class="hero-desc">다이어리 꾸미기에 완벽한 고화질 디지털 스티커 에셋입니다.<br>매주 새로운 스티커 팩이 업데이트됩니다.</p>
-  </div>
-
-  <div class="container">
-    <div class="masonry-grid">
-      
-      <!-- Item 1 -->
-      <div class="sticker-card">
-        <div class="img-wrapper">
-          <!-- TODO: 실제 이미지 경로로 변경 (일단 임시로 더미 이미지) -->
-          <img src="planner/ai_sticker_sheet.jpg" alt="파스텔 다꾸 스티커 팩" onerror="this.src='https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=600&auto=format&fit=crop'">
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">파스텔 감성 다꾸 팩 (100종)</h3>
-          <p class="card-desc">하트, 별, 메모지, 마스킹 테이프 등 다꾸의 기본이 되는 파스텔톤 필수 에셋 세트입니다.</p>
-          <button class="btn btn-kakao" onclick="openModal()"><i data-lucide="message-circle"></i> 카톡 친구추가하고 무료 받기</button>
-        </div>
+  <div class="grid">
+    <!-- Rabbit Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../brain/63d9bbaf-0b4b-479e-9361-feda1c1f0082/secret_rabbit_stickers_1791456389028.jpg" alt="토끼 스티커">
       </div>
-
-      <!-- Item 2 -->
-      <div class="sticker-card">
-        <div class="img-wrapper">
-          <img src="planner/ai_functional_stickers.jpg" alt="기능성 캘린더 스티커 팩" onerror="this.src='https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=600&auto=format&fit=crop'">
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">기능성 캘린더/플래너 팩 (50종)</h3>
-          <p class="card-desc">만년 달력, 요일별 마스킹 테이프, 주말 계획표 등 생산성을 높여주는 기능성 스티커 세트입니다.</p>
-          <button class="btn btn-kakao" onclick="openModal()"><i data-lucide="message-circle"></i> 카톡 친구추가하고 무료 받기</button>
-        </div>
+      <div class="content">
+        <h3>시크릿 래빗 다꾸 팩 (Premium)</h3>
+        <p>당근, 수면, 독서 등 귀여운 토끼 마스코트 4종으로 구성된 프리미엄 다꾸 세트입니다.</p>
+        <a href="http://pf.kakao.com/_QJCFX" target="_blank" class="kakao-btn">💬 카톡 친구추가하고 무료 받기</a>
       </div>
+    </div>
 
-      <!-- Comming Soon -->
-      <div class="sticker-card" style="border-style: dashed; background: transparent;">
-        <div class="img-wrapper" style="background: transparent; height: 200px;">
-          <div style="color: var(--border); text-align: center;">
-            <i data-lucide="sparkles" style="width: 48px; height: 48px; margin-bottom: 12px;"></i>
-            <div style="font-weight: 700; font-size: 18px;">Next Pack Loading...</div>
-          </div>
-        </div>
+    <!-- Premium Memo Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../brain/63d9bbaf-0b4b-479e-9361-feda1c1f0082/secret_premium_stickers_1791456361493.jpg" alt="프리미엄 메모">
       </div>
+      <div class="content">
+        <h3>에스테틱 메모 & 데코 팩</h3>
+        <p>감성적인 폴라로이드, 커피컵, 파스텔 리본 등 감성 다이어리에 필수적인 세트입니다.</p>
+        <a href="http://pf.kakao.com/_QJCFX" target="_blank" class="kakao-btn">💬 카톡 친구추가하고 무료 받기</a>
+      </div>
+    </div>
 
+    <!-- Bear Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../brain/63d9bbaf-0b4b-479e-9361-feda1c1f0082/chubby_bear_stickers_1791446195306.jpg" alt="곰돌이 스티커">
+      </div>
+      <div class="content">
+        <h3>통통 감성 곰돌이 팩 (12종)</h3>
+        <p>어디에 붙여도 찰떡같이 어울리는 따뜻한 색감의 곰돌이 다꾸 스티커 팩입니다.</p>
+        <a href="http://pf.kakao.com/_QJCFX" target="_blank" class="kakao-btn">💬 카톡 친구추가하고 무료 받기</a>
+      </div>
     </div>
   </div>
 
-  <!-- Kakao Modal -->
-  <div class="modal-overlay" id="kakaoModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal()"><i data-lucide="x"></i></button>
-      <div class="modal-icon"><i data-lucide="gift" style="width: 32px; height: 32px;"></i></div>
-      <h3 class="modal-title">1초 만에 무료 다운로드</h3>
-      <p class="modal-desc">셋업팟 카카오톡 채널을 추가하시면,<br>지금 보시는 스티커 압축 파일(ZIP) 다운로드 링크가 웰컴 메시지로 즉시 발송됩니다!</p>
-      <a href="http://pf.kakao.com/_QJCFX" target="_blank" class="btn btn-kakao" style="text-decoration: none;" onclick="closeModal()">
-        <i data-lucide="message-circle"></i> 셋업팟 채널 추가하기
-      </a>
-    </div>
-  </div>
-
-  <script>
-    lucide.createIcons();
-    
-    function openModal() {
-      document.getElementById('kakaoModal').style.display = 'flex';
-    }
-    function closeModal() {
-      document.getElementById('kakaoModal').style.display = 'none';
-    }
-  </script>
 </body>
 </html>

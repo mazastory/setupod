@@ -1,8 +1,8 @@
 {
-  "_안내": "다꾸(다이어리 꾸미기) 감성 설정. 달력 + 주간 + 일간(점 모눈 + 빈 공간) 중심. 사용: python3 make_planner.py --config config_cute.json",
+  "_안내": "바인더 스타일(겹친 속지 + 위쪽 인덱스 탭 + 점 모눈). 사용: python3 make_planner.py --config config_binder.json",
   "year": 2027,
-  "output": "{year}_다꾸_다이어리.pdf",
-  "theme": "pastel",
+  "output": "{year}_바인더_다이어리_민트.pdf",
+  "theme": "binder",
   "week_start": "sun",
   "_week_start": "sun(일요일 시작) 또는 mon(월요일 시작) — 월간 달력과 주간 페이지에 적용",
   "sections": {
@@ -55,13 +55,18 @@
     "week_todos": 5,
     "daily_line_gap": 22,
     "show_holiday_labels": true,
-    "corner_radius": 12,
-    "button_radius": 8,
+    "corner_radius": 18,
+    "button_radius": 10,
     "show_english": false,
-    "week_block_lines": 1,
-    "daily_style": "dots",
+    "week_block_lines": 0,
+    "daily_style": "none",
     "daily_blank_top": 130,
-    "notes_style": "dots"
+    "notes_style": "none",
+    "month_tabs": false,
+    "month_colors": true,
+    "month_tab_labels": "en",
+    "style": "binder",
+    "habit_marker": "heart"
   },
   "holidays": {
     "_설명": "mode: auto = holidays 라이브러리로 자동 계산 / manual = 아래 manual 표만 사용",
@@ -144,24 +149,51 @@
       "daily_line": "E3DFD6"
     },
     "pastel": {
-      "bg": "FFFBF6",
-      "header": "FFE9E1",
-      "line": "FBD7CC",
+      "bg": "F3FAF7",
+      "header": "D1F0E5",
+      "line": "B9E3D3",
       "card": "FFFFFF",
-      "card_line": "F3D5CB",
+      "card_line": "B9E3D3",
       "text": "5C4A47",
       "head": "4A3835",
       "mute": "B09A94",
       "sub": "8C7873",
       "dim": "DCCBC4",
       "dim2": "D3BDB4",
-      "rule": "F1E3DC",
+      "rule": "E4EFEC",
       "sun": "EF7F72",
       "sat": "6FA0D8",
-      "cell_weekend": "FFF4EE",
-      "cell_border": "F3E1D9",
+      "cell_weekend": "E9F7F1",
+      "cell_border": "D2EBE0",
       "cell_dim": "DCCFC8",
-      "daily_line": "D9BFB3"
+      "daily_line": "BCE3D4"
+    },
+    "binder": {
+      "bg": "E0F2F1",
+      "header": "D1F2EB",
+      "line": "C1E7E3",
+      "card": "FAFEFD",
+      "card_line": "B2DFDB",
+      "page": "FAFEFD",
+      "page_edge": "B2DFDB",
+      "dot": "D0EBE5",
+      "layer1": "C1E7E3",
+      "layer2": "A7D7D1",
+      "banner": "D1F2EB",
+      "banner_text": "5A3E3B",
+      "text": "5C4A47",
+      "head": "4A3835",
+      "mute": "B09A94",
+      "sub": "8C7873",
+      "dim": "DCCBC4",
+      "dim2": "C9B3AA",
+      "rule": "E6D6CA",
+      "sun": "EF7F72",
+      "sat": "6FA0D8",
+      "cell_weekend": "FFF0E8",
+      "cell_border": "EBD8CB",
+      "cell_dim": "DDD0C8",
+      "daily_line": "E3D5C0"
     }
   },
   "page_size": "iPad",
@@ -218,5 +250,6 @@
       "이번 주 한 줄 일기",
       ""
     ]
-  }
+  },
+  "_month_colors": "month_colors 에 12개 색(hex)을 넣으면 월별 색을 직접 지정할 수 있어요. 비우면 기본 무지개 파스텔"
 }

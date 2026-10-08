@@ -1,25 +1,24 @@
 {
-  "_안내": "이 파일만 수정하면 됩니다. 수정 후 `python3 make_planner.py` 실행. 다꾸용 예시는 config_cute.json 참고. (_로 시작하는 항목은 설명용이라 무시됩니다)",
+  "_안내": "바인더 스타일(겹친 속지 + 위쪽 인덱스 탭 + 점 모눈). 사용: python3 make_planner.py --config config_binder.json",
   "year": 2027,
-  "output": "{year}년_프로젝트_플래너.pdf",
-  "theme": "dark",
+  "output": "{year}_바인더_다이어리_가로_민트.pdf",
+  "theme": "binder",
   "week_start": "sun",
   "_week_start": "sun(일요일 시작) 또는 mon(월요일 시작) — 월간 달력과 주간 페이지에 적용",
   "sections": {
-    "_설명": "false 로 끄면 해당 페이지가 빠지고 링크도 자동으로 정리됩니다",
-    "compass": true,
-    "quarters": true,
-    "projects": true,
+    "compass": false,
+    "quarters": false,
+    "projects": false,
     "annual": true,
     "monthly": true,
     "weekly": true,
     "daily": true
   },
   "texts": {
-    "cover_tagline": "CALENDAR  ·  PROJECT  ·  NOTES",
-    "cover_title": "한 해의 리듬을 설계하는 노트",
-    "cover_subtitle": "목표 시스템 + 프로젝트 관리 + 달력 + 데일리 노트",
-    "cover_name_label": "NAME",
+    "cover_tagline": "MY  LITTLE  DIARY",
+    "cover_title": "오늘도 반짝, 나의 한 해",
+    "cover_subtitle": "한 달 · 한 주 · 하루를 내 맘대로 꾸미는 공간",
+    "cover_name_label": "이름",
     "compass_hint": "올해가 끝났을 때 어떤 사람이 되어 있고 싶은가",
     "compass_theme_hint": "이 문장이 흔들릴 때마다 돌아올 기준이 됩니다",
     "areas": [
@@ -49,25 +48,30 @@
     "index_backlog_items": 4,
     "quarter_tracker_rows": 6,
     "not_to_do_items": 2,
-    "habit_rows": 8,
-    "monthly_goals": 4,
-    "month_cell_lines": 3,
+    "habit_rows": 6,
+    "monthly_goals": 5,
+    "month_cell_lines": 0,
     "week_priorities": 3,
-    "week_todos": 8,
-    "daily_line_gap": 26,
+    "week_todos": 5,
+    "daily_line_gap": 22,
     "show_holiday_labels": true,
-    "corner_radius": 5,
-    "button_radius": 3,
-    "week_block_lines": 3,
-    "daily_style": "lines",
-    "daily_blank_top": 0,
-    "notes_style": "lines",
-    "show_english": true
+    "corner_radius": 18,
+    "button_radius": 10,
+    "show_english": false,
+    "week_block_lines": 0,
+    "daily_style": "none",
+    "daily_blank_top": 130,
+    "notes_style": "none",
+    "month_tabs": false,
+    "month_colors": true,
+    "month_tab_labels": "en",
+    "style": "binder",
+    "habit_marker": "heart"
   },
   "holidays": {
     "_설명": "mode: auto = holidays 라이브러리로 자동 계산 / manual = 아래 manual 표만 사용",
     "mode": "auto",
-    "include_labor_day": false,
+    "include_labor_day": true,
     "include_constitution_day": false,
     "include_election_days": false,
     "add": {},
@@ -100,11 +104,7 @@
     "noto_dir": "/usr/share/fonts/opentype/noto/",
     "_설명": "한글 폰트(Noto CJK, KR 서브폰트)를 자동으로 TrueType 서브셋으로 변환해 fonts/ 에 캐시합니다. 문구를 바꾸면 자동 재생성됩니다.",
     "custom": {
-      "all": null,
-      "Light": null,
-      "Reg": null,
-      "Med": null,
-      "Serif": null
+      "all": "fonts_custom/PoorStory-Regular.ttf"
     }
   },
   "themes": {
@@ -149,30 +149,108 @@
       "daily_line": "E3DFD6"
     },
     "pastel": {
-      "bg": "FFFBF6",
-      "header": "FFE9E1",
-      "line": "FBD7CC",
+      "bg": "F3FAF7",
+      "header": "D1F0E5",
+      "line": "B9E3D3",
       "card": "FFFFFF",
-      "card_line": "F3D5CB",
+      "card_line": "B9E3D3",
       "text": "5C4A47",
       "head": "4A3835",
       "mute": "B09A94",
       "sub": "8C7873",
       "dim": "DCCBC4",
       "dim2": "D3BDB4",
-      "rule": "F1E3DC",
+      "rule": "E4EFEC",
       "sun": "EF7F72",
       "sat": "6FA0D8",
-      "cell_weekend": "FFF4EE",
-      "cell_border": "F3E1D9",
+      "cell_weekend": "E9F7F1",
+      "cell_border": "D2EBE0",
       "cell_dim": "DCCFC8",
-      "daily_line": "E5CFC5"
+      "daily_line": "BCE3D4"
+    },
+    "binder": {
+      "bg": "E0F2F1",
+      "header": "D1F2EB",
+      "line": "C1E7E3",
+      "card": "FAFEFD",
+      "card_line": "B2DFDB",
+      "page": "FAFEFD",
+      "page_edge": "B2DFDB",
+      "dot": "D0EBE5",
+      "layer1": "C1E7E3",
+      "layer2": "A7D7D1",
+      "banner": "D1F2EB",
+      "banner_text": "5A3E3B",
+      "text": "5C4A47",
+      "head": "4A3835",
+      "mute": "B09A94",
+      "sub": "8C7873",
+      "dim": "DCCBC4",
+      "dim2": "C9B3AA",
+      "rule": "E6D6CA",
+      "sun": "EF7F72",
+      "sat": "6FA0D8",
+      "cell_weekend": "FFF0E8",
+      "cell_border": "EBD8CB",
+      "cell_dim": "DDD0C8",
+      "daily_line": "E3D5C0"
     }
   },
-  "page_size": "A4",
-  "_page_size": "A4, A5, LETTER, IPAD, IPAD_PRO_11, IPAD_PRO_12.9 또는 [가로pt, 세로pt]",
-  "_layout_메모": "daily_style / notes_style: lines(줄) · dots(점 모눈) · grid(모눈) · none(백지). daily_blank_top: 일간 페이지 위쪽을 비워둘 높이(pt, 사진·스티커 공간). show_english:false 면 영문 태그 숨김",
-  "_fonts_custom": "TTF/OTF 경로를 넣으면 해당 폰트로 바뀝니다. all=전부, 또는 Light/Reg/Med/Serif(큰 숫자·제목) 개별 지정. 상대경로는 config 파일 기준. 가변(variable) 폰트 불가, 한글 전체 지원 폰트 권장(없는 글자는 경고 표시)",
-  "_labels": "소제목/버튼 문구를 바꾸려면 여기에 키를 추가하세요. 예: \"week_priorities\": [\"이번 주 꼭 하기!\", \"\"]  (키 목록은 make_planner.py 의 LB 사전 참고)",
-  "labels": {}
+  "page_size": "IPAD",
+  "_page_size": "A4, A5, LETTER, IPAD, IPAD_PRO_11, IPAD_PRO_12.9 또는 [가로pt, 세로pt]. GoodNotes/Notability는 IPAD 추천",
+  "labels": {
+    "nav_review": "돌아보기",
+    "nav_calendar": "달력",
+    "cover_chip_year": "한눈에 보기",
+    "year_sub": "한 해 한눈에 보기",
+    "year_hint": "날짜를 누르면 그날의 페이지로 가요",
+    "month_sub": "{year}년 {m}월",
+    "month_goals": [
+      "이달의 버킷리스트",
+      ""
+    ],
+    "month_memo": [
+      "이달의 한 줄",
+      ""
+    ],
+    "review_title": "{m}월 돌아보기",
+    "review_sub": "{year}년 {m}월 · 나의 한 달",
+    "habit": [
+      "작은 습관 체크",
+      ""
+    ],
+    "review_boxes": [
+      [
+        "칭찬해요",
+        ""
+      ],
+      [
+        "아쉬워요",
+        ""
+      ],
+      [
+        "새로 알았어요",
+        ""
+      ],
+      [
+        "다음 달엔 이렇게!",
+        ""
+      ]
+    ],
+    "week_title": "{n}주차",
+    "week_priorities": [
+      "이번 주 꼭 하기!",
+      ""
+    ],
+    "week_todo": [
+      "해야 할 일",
+      ""
+    ],
+    "week_notes": [
+      "이번 주 한 줄 일기",
+      ""
+    ]
+  },
+  "_month_colors": "month_colors 에 12개 색(hex)을 넣으면 월별 색을 직접 지정할 수 있어요. 비우면 기본 무지개 파스텔",
+  "orientation": "landscape"
 }
