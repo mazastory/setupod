@@ -220,12 +220,15 @@
     @media (max-width: 980px) {
       .studio-container {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         gap: 40px;
       }
       .preview-column {
         position: relative !important;
         top: 0 !important;
+        transform: scale(0.9);
+        transform-origin: top center;
+        margin-bottom: -60px;
       }
     }
 
