@@ -275,7 +275,12 @@ function populateCard(data) {
   // 로고 이미지
   const frontLogoImg = document.getElementById('frontLogoImg');
   const backLogoImg = document.getElementById('backLogoImg');
-  if (data.logo) {
+  if (data.logo === false || (data.logo && data.logo.src === "")) {
+    const fContainer = document.querySelector('.front-logo-container');
+    const bContainer = document.querySelector('.back-top-logo-container');
+    if (fContainer) fContainer.style.display = 'none';
+    if (bContainer) bContainer.style.display = 'none';
+  } else if (data.logo) {
     if (frontLogoImg) {
       frontLogoImg.src = data.logo.src;
       frontLogoImg.alt = data.logo.alt || data.company;

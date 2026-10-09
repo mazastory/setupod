@@ -30,11 +30,7 @@
       "label": "인스타그램"
     }
   ],
-  "logo": {
-    "src": "/assets/setupod.gif",
-    "fallback": "/assets/setupod_symbol.png",
-    "alt": "MAZA STUDIO"
-  },
+  "logo": false,
   "vcard": {
     "firstName": "Andrew",
     "lastName": "K",
