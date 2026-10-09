@@ -823,6 +823,10 @@
     {
       "source": "/secret_room.html",
       "destination": "/core/secret_room.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/bizcard/card.html?user=$1"
     }
   ],
   "headers": [
