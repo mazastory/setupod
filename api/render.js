@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     }
 
     // 2. Read HTML template (card.html)
-    const htmlPath = path.join(process.cwd(), 'card.html');
+    const htmlPath = path.join(process.cwd(), 'bizcard', 'card.html');
     let html = fs.readFileSync(htmlPath, 'utf8');
 
     // 3. Inject Meta Tags
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
   } catch (err) {
     console.error("Render API Error:", err);
     // Even if it fails, serve the raw HTML so it doesn't break
-    const htmlPath = path.join(process.cwd(), 'card.html');
+    const htmlPath = path.join(process.cwd(), 'bizcard', 'card.html');
     let html = fs.readFileSync(htmlPath, 'utf8');
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.status(200).send(html);
