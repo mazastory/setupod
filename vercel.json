@@ -814,19 +814,15 @@
     },
     {
       "source": "/secret_room",
-      "destination": "/core/secret_room.html"
+      "destination": "/secret_room/index.html"
     },
     {
       "source": "/secret_room/(.*)",
-      "destination": "/core/secret_room.html/$1"
+      "destination": "/secret_room/index.html"
     },
     {
       "source": "/secret_room.html",
-      "destination": "/core/secret_room.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/bizcard/card.html?user=$1"
+      "destination": "/secret_room/index.html"
     }
   ],
   "headers": [
