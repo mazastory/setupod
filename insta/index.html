@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaCard AI - 인스타 카드뉴스 AI 제너레이터</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas for PNG Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+    <!-- JSZip for Bulk Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+    <!-- FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@300;400;600;700;800;900&family=Nanum+Gothic:wght@400;700;800&family=Black+Han+Sans&family=Pretendard:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Jalnan2';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/Jalnan2.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            background-color: #0d0c13;
+            color: #f8fafc;
+        }
+
+        /* Aspect Ratios */
+        .card-aspect {
+            width: 100%;
+            max-width: 360px;
+            transition: aspect-ratio 0.3s ease, max-width 0.3s ease;
+        }
+        .ratio-4-5 { aspect-ratio: 4 / 5; }
+        .ratio-1-1 { aspect-ratio: 1 / 1; max-width: 410px; }
+        .ratio-9-16 { aspect-ratio: 9 / 16; max-width: 320px; }
+        
+        @media (min-width: 768px) {
+            .card-aspect { max-width: 410px; }
+            .ratio-1-1 { max-width: 460px; }
+            .ratio-9-16 { max-width: 340px; }
+        }
+
+        /* Carousel Stage & Card Transitions */
+        .carousel-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            overflow: hidden;
+            position: relative;
+            min-height: 560px;
+        }
+
+        .card-item {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: absolute;
+            user-select: none;
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.7), 0 10px 15px -5px rgba(0, 0, 0, 0.5);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-item.active {
+            z-index: 30;
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .card-item.prev {
+            z-index: 20;
+            transform: translateX(-78%) scale(0.82) rotateY(12deg);
+            opacity: 0.5;
+            filter: blur(1px);
+            cursor: pointer;
+        }
+
+        .card-item.next {
+            z-index: 20;
+            transform: translateX(78%) scale(0.82) rotateY(-12deg);
+            opacity: 0.5;
+            filter: blur(1px);
+            cursor: pointer;
+        }
+
+        .card-item.hidden-left {
+            z-index: 10;
+            transform: translateX(-150%) scale(0.6);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .card-item.hidden-right {
+            z-index: 10;
+            transform: translateX(150%) scale(0.6);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Editable Text Styling */
+        .editable-field {
+            transition: background 0.2s, outline 0.2s;
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+        .editable-field:hover {
+            outline: 2px dashed rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .editable-field:focus {
+            outline: 2px solid #3b82f6;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-100">
+
+    <!-- SETUPOD Header -->
+    <header class="border-b border-white/10 bg-[#0d0c13]/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 flex items-center justify-center rounded-xl overflow-hidden shadow-lg border border-white/10">
+                    <img src="../assets/setupod.gif" alt="Setupod Logo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="font-black text-lg tracking-wider text-white uppercase" style="font-family:'Montserrat', sans-serif;">SETUPOD CARD STUDIO</h1>
+                    <p class="text-[11px] font-bold text-amber-500">AI INSTAGRAM CAROUSEL MAKER</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <button id="grid-view-btn" class="px-3 py-1.5 rounded-lg bg-[#161520] hover:bg-white/10 text-xs text-amber-500 font-bold transition flex items-center space-x-1.5 border border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span class="hidden sm:inline">전체 모아보기</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left Control Panel -->
+        <section class="lg:col-span-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-5">
+            
+            <div class="border-b border-slate-800 pb-3">
+                <h2 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-rose-500"></i>
+                    카드뉴스 주제 및 AI 생성
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">주제를 입력하면 AI가 내용과 **슬라이드별 이미지 키워드**를 자동으로 생성합니다.</p>
+            </div>
+
+            <!-- Topic Input -->
+            <div class="space-y-2">
+                <label for="topic-input" class="block text-xs font-semibold text-slate-300">카드뉴스 주제 / 키워드</label>
+                <textarea id="topic-input" rows="3" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition resize-none" placeholder="예: 직장인을 위한 스트레스 해소법 5가지, 2026년 인공지능 트렌드 요약, 나만의 생산성 향상 루틴"></textarea>
+                
+                <!-- Quick Topic Chips -->
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                    <button class="topic-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">💡 스트레스 해소법</button>
+                    <button class="topic-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">🚀 AI 트렌드 2026</button>
+                    <button class="topic-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">☕ 카페 창업 가이드</button>
+                </div>
+            </div>
+
+            <!-- Card Count Slider (5 ~ 10) -->
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+                <div class="flex justify-between items-center text-xs">
+                    <label for="card-count" class="font-semibold text-slate-300">생성할 카드 개수</label>
+                    <span id="card-count-display" class="font-bold text-rose-400 text-sm">5장</span>
+                </div>
+                <input type="range" id="card-count" min="5" max="10" value="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                <div class="flex justify-between text-[10px] text-slate-500 px-1">
+                    <span>5장</span>
+                    <span>6장</span>
+                    <span>7장</span>
+                    <span>8장</span>
+                    <span>9장</span>
+                    <span>10장</span>
+                </div>
+            </div>
+
+            <!-- Background Mode & Styling -->
+            <div class="space-y-3 pt-3 border-t border-slate-800">
+                <label class="block text-xs font-semibold text-slate-300">배경 모드 및 스타일</label>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="bg-mode-image" class="py-2 px-3 rounded-xl border border-rose-500 bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-image"></i> AI 키워드 이미지
+                    </button>
+                    <button id="bg-mode-color" class="py-2 px-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-palette"></i> 단색 배경
+                    </button>
+                </div>
+
+                <!-- Overlay Darkness Slider (for Image Mode readability) -->
+                <div id="overlay-control" class="space-y-1.5 pt-1">
+                    <div class="flex justify-between items-center text-[11px]">
+                        <span class="text-slate-400">배경 어둡기 (가독성 조절)</span>
+                        <span id="overlay-val" class="font-mono text-rose-400">60%</span>
+                    </div>
+                    <input type="range" id="overlay-slider" min="0" max="90" value="60" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                </div>
+
+                <!-- Color Options (Visible when solid color or accent) -->
+                <div class="flex justify-between items-center pt-1">
+                    <span class="text-xs text-slate-400">테마/배경색 선택</span>
+                    <div class="flex items-center space-x-2">
+                        <input type="color" id="bg-color-picker" value="#0f172a" class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                        <span id="bg-color-hex" class="text-xs font-mono text-slate-400">#0f172a</span>
+                    </div>
+                </div>
+
+                <!-- Color Presets -->
+                <div class="grid grid-cols-7 gap-1.5" id="color-presets">
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#0f172a" style="background-color: #0f172a"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#111827" style="background-color: #111827"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#064e3b" style="background-color: #064e3b"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#4c0519" style="background-color: #4c0519"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#1e1b4b" style="background-color: #1e1b4b"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#f8fafc" style="background-color: #f8fafc"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span></button>
+                    <button class="preset-btn w-7 h-7 rounded-full border border-slate-700 hover:scale-110 transition flex items-center justify-center" data-color="#fff7ed" style="background-color: #fff7ed"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span></button>
+                </div>
+            </div>
+
+            <!-- Card Shape / Ratio -->
+            <div class="space-y-2 pt-2 border-t border-slate-800 pb-2">
+                <label class="block text-xs font-semibold text-slate-300">카드 비율 / 모양 (신규 ✨)</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button class="ratio-btn px-2 py-2 text-[11px] font-bold rounded-lg border border-rose-500 bg-rose-500/20 text-rose-400 transition" data-ratio="ratio-4-5">
+                        <i class="fa-regular fa-image mb-1 text-sm block"></i>세로(4:5)
+                    </button>
+                    <button class="ratio-btn px-2 py-2 text-[11px] font-bold rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-ratio="ratio-1-1">
+                        <i class="fa-solid fa-square mb-1 text-sm block"></i>정방(1:1)
+                    </button>
+                    <button class="ratio-btn px-2 py-2 text-[11px] font-bold rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 transition" data-ratio="ratio-9-16">
+                        <i class="fa-solid fa-mobile-screen mb-1 text-sm block"></i>릴스(9:16)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Typography Style -->
+            <div class="space-y-2 pt-2 border-t border-slate-800">
+                <label class="block text-xs font-semibold text-slate-300">글꼴 스타일</label>
+                <select id="font-style-select" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                    <option value="'Pretendard', sans-serif">초깔끔 비즈니스 (Pretendard)</option>
+                    <option value="'Jalnan2', sans-serif">어그로/썸네일 타격감 (여기어때 잘난체)</option>
+                    <option value="'Noto Sans KR', sans-serif">기본 산세리프 (Noto Sans)</option>
+                    <option value="'Gowun Dodum', sans-serif">부드러운 감성 (고운돋움)</option>
+                    <option value="'Black Han Sans', sans-serif">강렬한 헤드라인 (Black Han Sans)</option>
+                </select>
+            </div>
+
+            <!-- Generate Button -->
+            <button id="generate-btn" class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:opacity-90 text-[#111] font-bold rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.3)] transition duration-200 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-sparkles"></i>
+                <span id="generate-btn-text">AI 카드뉴스 자동 기획 및 생성</span>
+            </button>
+
+            <!-- Tip Info Box -->
+            <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80 text-[11px] text-slate-400 space-y-1.5">
+                <p class="font-semibold text-slate-300 flex items-center gap-1">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i> 이미지 키워드 배경 안내
+                </p>
+                <p>• AI가 카드 주제에 맞는 **영문 이미지 키워드**를 자동 추출합니다.</p>
+                <p>• 각 카드의 **키워드를 직접 수정**하거나 **이미지 새로고침** 버튼을 눌러 개별 배경을 변경할 수 있습니다.</p>
+                <p>• 카드의 문구를 클릭하여 직접 원문을 편집하세요.</p>
+            </div>
+
+        </section>
+
+        <!-- Right Card Preview Area -->
+        <section class="lg:col-span-8 flex flex-col items-center justify-center space-y-5">
+            
+            <!-- Top Action Header -->
+            <div class="w-full flex items-center justify-between px-2">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Preview</span>
+                    <span id="current-index-badge" class="px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-400 text-xs font-bold border border-rose-500/20">1 / 5</span>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <button id="download-single-btn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg border border-slate-700 transition flex items-center space-x-1.5 shadow-sm">
+                        <i class="fa-solid fa-download text-xs text-rose-400"></i>
+                        <span>현재 카드 PNG</span>
+                    </button>
+                    <button id="download-all-btn" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg shadow-md transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-file-zipper"></i>
+                        <span>전체 ZIP 다운로드</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card Stage Carousel View -->
+            <div class="w-full carousel-stage relative py-4" id="carousel-stage">
+                <!-- Dynamic Card Elements inserted via JS -->
+            </div>
+
+            <!-- Active Card Keyword Customizer Toolbar -->
+            <div id="active-card-keyword-bar" class="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-xl p-3 shadow-lg flex items-center justify-between gap-2 text-xs">
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                    <i class="fa-solid fa-tags text-rose-400"></i>
+                    <span class="text-slate-400 shrink-0">현재 카드 키워드:</span>
+                    <input type="text" id="active-keyword-input" class="bg-slate-950 border border-slate-800 rounded px-2 py-1 text-slate-200 text-xs flex-1 focus:outline-none focus:border-rose-500" placeholder="English image keyword...">
+                </div>
+                <button id="refresh-active-image-btn" class="px-2.5 py-1 bg-slate-800 hover:bg-rose-600 text-slate-200 hover:text-white rounded text-xs font-medium transition flex items-center gap-1 shrink-0">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>이미지 재생성</span>
+                </button>
+            </div>
+
+            <!-- Carousel Navigation Controls -->
+            <div class="flex items-center justify-center space-x-4">
+                <button id="prev-card-btn" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center shadow-md transition border border-slate-700 active:scale-95">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <!-- Navigation Dots -->
+                <div class="flex items-center space-x-2" id="carousel-dots">
+                    <!-- Dynamic Dots -->
+                </div>
+
+                <button id="next-card-btn" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center shadow-md transition border border-slate-700 active:scale-95">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Grid Overview Modal -->
+    <div id="grid-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex flex-col hidden overflow-hidden">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+            <h3 class="font-bold text-base text-white flex items-center gap-2">
+                <i class="fa-solid fa-border-all text-rose-500"></i>
+                카드뉴스 전체 모아보기
+            </h3>
+            <div class="flex items-center space-x-3">
+                <button id="modal-download-zip" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-zipper"></i>
+                    <span>전체 ZIP 다운로드</span>
+                </button>
+                <button id="close-grid-modal" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-6">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center" id="grid-modal-cards">
+                <!-- Clone of cards will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default Sample Cards
+        const defaultCards = [
+            {
+                tag: "기획 노하우",
+                title: "조회수 터지는 카드뉴스 제작법",
+                body: "사람들의 시선을 3초 만에 사로잡는 강력한 후킹과 시각적 이미지 연출 노하우를 공개합니다.",
+                icon: "fa-fire",
+                imageKeyword: "creative office idea lightbulb minimalist"
+            },
+            {
+                tag: "핵심 원칙 1",
+                title: "1. 3초 후킹 헤드라인",
+                body: "질문형 문구나 명확한 수치를 활용하여 사용자가 스크롤을 멈추고 주목하게 만드세요.",
+                icon: "fa-bolt",
+                imageKeyword: "focus attention clock urgency workspace"
+            },
+            {
+                tag: "핵심 원칙 2",
+                title: "2. 고화질 감성 이미지 연출",
+                body: "주제와 딱 들어맞는 정돈된 배경 이미지는 메시지의 전달력과 신뢰도를 200% 극대화합니다.",
+                icon: "fa-image",
+                imageKeyword: "scenery aesthetic camera photography minimal"
+            },
+            {
+                tag: "핵심 원칙 3",
+                title: "3. 한 카드엔 하나의 메시지",
+                body: "욕심내서 글을 채우지 마세요. 가독성을 위해 간결하고 핵심적인 1가지 내용만 담으세요.",
+                icon: "fa-bullseye",
+                imageKeyword: "simplicity target minimalism abstract art"
+            },
+            {
+                tag: "최종 요약",
+                title: "지금 저장하고 필요할 때 꺼내보세요!",
+                body: "도움이 되셨다면 좋아요와 공유를 눌러주세요. 더 알찬 콘텐츠로 찾아오겠습니다.",
+                icon: "fa-bookmark",
+                imageKeyword: "success celebrate motivation growth freedom"
+            }
+        ];
+
+        // State variables
+        let cards = [...defaultCards];
+        let cardImageUrls = []; // Stores loaded base64 image strings per card
+        let activeIndex = 0;
+        let isImageBgMode = true;
+        let overlayOpacity = 0.6;
+        let solidBgColor = "#0f172a";
+        let fontStyle = "'Noto Sans KR', sans-serif";
+
+        /**
+         * Fetches an image based on keyword and converts to Base64 data URI to prevent CORS issues with html2canvas export
+         */
+        async function fetchImageBase64(keyword, index) {
+            const cleanKeyword = (keyword || 'abstract background').replace(/[^a-zA-Z0-9 ]/g, '').trim();
+            const promptText = `${cleanKeyword}, high resolution, elegant background, photographic, moody lighting`;
+            
+            // Generate seed for variety
+            const randomSeed = Math.floor(Math.random() * 900000) + 100000;
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText)}?width=800&height=1000&nologo=true&seed=${randomSeed}`;
+            
+            try {
+                // Fetch image blob
+                const resp = await fetch(imageUrl);
+                if (!resp.ok) throw new Error("Image fetch response failed");
+                const blob = await resp.blob();
+                
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = () => resolve(getFallbackImage(cleanKeyword));
+                    reader.readAsDataURL(blob);
+                });
+            } catch (err) {
+                console.warn(`[Image Fetch Fallback] Using picsum image for slide ${index} keyword: ${cleanKeyword}`, err);
+                return getFallbackImage(cleanKeyword);
+            }
+        }
+
+        function getFallbackImage(keyword) {
+            const seed = encodeURIComponent(keyword || 'abstract');
+            return `https://picsum.photos/seed/${seed}/800/1000`;
+        }
+
+        /**
+         * Calls Gemini API to generate structured card news with extracted image keywords
+         */
+        async function generateCardsWithGemini(topic, cardCount) {
+            const systemPrompt = `You are an expert Instagram content creator and graphic designer.
+Your task is to generate a ${cardCount}-slide Instagram card news script based on the given topic.
+For EACH slide, you MUST extract a vivid, high-quality, 3 to 5-word English photographic search keyword ('imageKeyword') that serves as the perfect visual background for that slide.
+
+Guidelines:
+- Slide 1: Hooking Title, catchy subtitle/body.
+- Middle Slides: Clear, single key take-aways with step-by-step guidance.
+- Last Slide: Call-To-Action (Save/Share/Follow) and summary.
+- 'imageKeyword' MUST be in English, describing realistic photography imagery (e.g. 'peaceful forest sunlight morning', 'stressed businessman laptop dark office', 'futuristic glowing brain technology', 'cozy cafe warm coffee table').
+- 'icon' MUST be a valid FontAwesome class icon name without 'fa-' prefix, e.g. 'fire', 'bolt', 'lightbulb', 'gem', 'chart-line', 'bookmark', 'rocket', 'brain', 'shield'.
+`;
+
+            const userPrompt = `주제: "${topic}"\n카드 개수: ${cardCount}장\n인스타그램 피드에 최적화된 카드뉴스 내용과 슬라이드별 영어 이미지 배경 키워드를 생성해줘.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            slides: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        tag: { type: "STRING" },
+                                        title: { type: "STRING" },
+                                        body: { type: "STRING" },
+                                        icon: { type: "STRING" },
+                                        imageKeyword: { type: "STRING" }
+                                    },
+                                    required: ["tag", "title", "body", "icon", "imageKeyword"]
+                                }
+                            }
+                        },
+                        required: ["slides"]
+                    }
+                }
+            };
+
+            // API Key Management
+            let apiKey = localStorage.getItem('INSTACARD_GEMINI_KEY');
+            if (!apiKey) {
+                apiKey = window.prompt("Gemini API Key를 입력하세요:");
+                if (apiKey) {
+                    localStorage.setItem('INSTACARD_GEMINI_KEY', apiKey);
+                } else {
+                    throw new Error("API Key is required");
+                }
+            }
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+
+            // Exponential backoff fetch
+            let delay = 1000;
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+                    const data = await response.json();
+                    
+                    const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!jsonText) throw new Error("Invalid response format");
+                    
+                    const parsed = JSON.parse(jsonText);
+                    if (parsed && parsed.slides && Array.isArray(parsed.slides)) {
+                        return parsed.slides.map(slide => ({
+                            tag: slide.tag || "INSIGHT",
+                            title: slide.title || topic,
+                            body: slide.body || "",
+                            icon: slide.icon?.startsWith('fa-') ? slide.icon : `fa-${slide.icon || 'star'}`,
+                            imageKeyword: slide.imageKeyword || topic
+                        }));
+                    }
+                } catch (e) {
+                    if (attempt === 2) throw e;
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+            throw new Error("Failed after retries");
+        }
+
+        /**
+         * Renders the Carousel Stage
+         */
+        async function renderCarousel() {
+            const stage = document.getElementById('carousel-stage');
+            stage.innerHTML = '';
+
+            cards.forEach((card, index) => {
+                const cardElem = document.createElement('div');
+                // Apply the currently selected ratio
+                const activeRatio = document.querySelector('.ratio-btn.border-rose-500')?.getAttribute('data-ratio') || 'ratio-4-5';
+                cardElem.className = `card-item card-aspect ${activeRatio} rounded-2xl p-6 sm:p-7 flex flex-col justify-between border border-white/10 select-none overflow-hidden`;
+                cardElem.id = `card-elem-${index}`;
+                
+                // Position class determination
+                if (index === activeIndex) {
+                    cardElem.classList.add('active');
+                } else if (index === activeIndex - 1) {
+                    cardElem.classList.add('prev');
+                } else if (index === activeIndex + 1) {
+                    cardElem.classList.add('next');
+                } else if (index < activeIndex) {
+                    cardElem.classList.add('hidden-left');
+                } else {
+                    cardElem.classList.add('hidden-right');
+                }
+
+                // Apply styling (Image background vs Solid color)
+                const bgImg = cardImageUrls[index];
+                if (isImageBgMode && bgImg) {
+                    cardElem.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, ${overlayOpacity}), rgba(15, 23, 42, ${overlayOpacity})), url('${bgImg}')`;
+                    cardElem.style.backgroundColor = solidBgColor;
+                } else {
+                    cardElem.style.backgroundImage = 'none';
+                    cardElem.style.backgroundColor = solidBgColor;
+                }
+                
+                cardElem.style.fontFamily = fontStyle;
+
+                // Determine text contrast color based on background luminance
+                const isLightBg = !isImageBgMode && isLightColor(solidBgColor);
+                const textColor = isLightBg ? 'text-slate-900' : 'text-slate-100';
+                const subTextColor = isLightBg ? 'text-slate-600' : 'text-slate-300';
+                const badgeBg = isLightBg ? 'bg-slate-900/10 text-slate-900' : 'bg-white/10 text-white';
+                const iconBg = isLightBg ? 'bg-slate-900/10 text-slate-900' : 'bg-white/15 text-white';
+
+                // Inner HTML Structure
+                cardElem.innerHTML = `
+                    <!-- Top Header Bar -->
+                    <div class="flex items-center justify-between text-xs font-semibold border-b border-current/15 pb-3 z-10">
+                        <span class="editable-field px-2.5 py-1 rounded-full ${badgeBg} text-[11px] font-bold tracking-wider uppercase" contenteditable="true" data-field="tag" data-index="${index}">${escapeHtml(card.tag)}</span>
+                        <span class="font-mono text-xs opacity-70">${index + 1} / ${cards.length}</span>
+                    </div>
+
+                    <!-- Middle Main Content -->
+                    <div class="my-auto py-2 flex flex-col items-center text-center space-y-4 z-10">
+                        <!-- Icon -->
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${iconBg} flex items-center justify-center text-xl sm:text-2xl shadow-inner transition transform hover:scale-105">
+                            <i class="fa-solid ${card.icon || 'fa-sparkles'}"></i>
+                        </div>
+
+                        <!-- Card Title -->
+                        <h3 class="editable-field text-lg sm:text-2xl font-black tracking-tight leading-snug break-keep ${textColor} max-w-xs" contenteditable="true" data-field="title" data-index="${index}">${escapeHtml(card.title)}</h3>
+
+                        <!-- Divider line -->
+                        <div class="w-10 h-1 rounded-full my-1 opacity-40 bg-current"></div>
+
+                        <!-- Card Body -->
+                        <p class="editable-field text-xs sm:text-sm font-normal leading-relaxed break-keep max-w-xs whitespace-pre-line ${subTextColor}" contenteditable="true" data-field="body" data-index="${index}">${escapeHtml(card.body)}</p>
+                    </div>
+
+                    <!-- Bottom Footer -->
+                    <div class="pt-3 border-t border-current/15 flex items-center justify-between text-[11px] opacity-75 font-medium z-10">
+                        <div class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-layer-group text-sm"></i>
+                            <span>투머스랩</span>
+                        </div>
+                        <span>Swipe ➔</span>
+                    </div>
+                `;
+
+                // Add click listener for prev/next cards in stage
+                cardElem.addEventListener('click', (e) => {
+                    if (e.target.isContentEditable) return;
+                    if (index === activeIndex - 1) setActiveIndex(activeIndex - 1);
+                    if (index === activeIndex + 1) setActiveIndex(activeIndex + 1);
+                });
+
+                stage.appendChild(cardElem);
+            });
+
+            // Update Badge & Active Keyword Bar
+            document.getElementById('current-index-badge').textContent = `${activeIndex + 1} / ${cards.length}`;
+            const activeInput = document.getElementById('active-keyword-input');
+            if (activeInput && cards[activeIndex]) {
+                activeInput.value = cards[activeIndex].imageKeyword || '';
+            }
+
+            // Render Navigation Dots
+            renderDots();
+        }
+
+        function renderDots() {
+            const container = document.getElementById('carousel-dots');
+            container.innerHTML = '';
+            cards.forEach((_, idx) => {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all ${idx === activeIndex ? 'w-6 bg-rose-500' : 'bg-slate-700 hover:bg-slate-500'}`;
+                dot.addEventListener('click', () => setActiveIndex(idx));
+                container.appendChild(dot);
+            });
+        }
+
+        function setActiveIndex(newIdx) {
+            if (newIdx < 0 || newIdx >= cards.length) return;
+            activeIndex = newIdx;
+            renderCarousel();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function isLightColor(hex) {
+            if (!hex || hex.length < 7) return false;
+            const r = parseInt(hex.substr(1, 2), 16);
+            const g = parseInt(hex.substr(3, 2), 16);
+            const b = parseInt(hex.substr(5, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 150;
+        }
+
+        /**
+         * Load or refresh background images for all cards using keywords
+         */
+        async function loadImagesForCards(showProgress = false) {
+            const btnText = document.getElementById('generate-btn-text');
+            cardImageUrls = new Array(cards.length).fill(null);
+            
+            if (showProgress && btnText) {
+                btnText.textContent = `전체 슬라이드 이미지 고속 렌더링 중...`;
+            }
+
+            // Fetch all images in parallel for maximum speed
+            const fetchPromises = cards.map(async (card, i) => {
+                const keyword = card.imageKeyword || card.title;
+                cardImageUrls[i] = await fetchImageBase64(keyword, i);
+                // Immediately render if it's the currently viewed slide
+                if (i === activeIndex || i === 0) {
+                    renderCarousel();
+                }
+            });
+
+            await Promise.all(fetchPromises);
+            renderCarousel(); // Final render pass just to be safe
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Initialize image URLs for default cards
+            loadImagesForCards();
+
+            // Card Count Slider Listener
+            const cardCountSlider = document.getElementById('card-count');
+            const cardCountDisplay = document.getElementById('card-count-display');
+            cardCountSlider.addEventListener('input', (e) => {
+                cardCountDisplay.textContent = `${e.target.value}장`;
+            });
+
+            // Quick Topic Chip click handler
+            document.querySelectorAll('.topic-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const text = chip.textContent.replace(/^[^\s]+\s*/, '');
+                    document.getElementById('topic-input').value = text;
+                });
+            });
+
+            // Background Mode Toggle Buttons
+            const bgModeImgBtn = document.getElementById('bg-mode-image');
+            const bgModeColBtn = document.getElementById('bg-mode-color');
+            const overlayControl = document.getElementById('overlay-control');
+
+            bgModeImgBtn.addEventListener('click', () => {
+                isImageBgMode = true;
+                bgModeImgBtn.className = 'py-2 px-3 rounded-xl border border-rose-500 bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition';
+                bgModeColBtn.className = 'py-2 px-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition';
+                overlayControl.classList.remove('hidden');
+                renderCarousel();
+            });
+
+            bgModeColBtn.addEventListener('click', () => {
+                isImageBgMode = false;
+                bgModeColBtn.className = 'py-2 px-3 rounded-xl border border-rose-500 bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center justify-center gap-1.5 transition';
+                bgModeImgBtn.className = 'py-2 px-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition';
+                overlayControl.classList.add('hidden');
+                renderCarousel();
+            });
+
+            // Overlay Darkness Slider
+            const overlaySlider = document.getElementById('overlay-slider');
+            const overlayVal = document.getElementById('overlay-val');
+            overlaySlider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                overlayOpacity = val / 100;
+                overlayVal.textContent = `${val}%`;
+                renderCarousel();
+            });
+
+            // Color Picker & Hex Sync
+            const colorPicker = document.getElementById('bg-color-picker');
+            const colorHex = document.getElementById('bg-color-hex');
+            colorPicker.addEventListener('input', (e) => {
+                solidBgColor = e.target.value;
+                colorHex.textContent = solidBgColor;
+                renderCarousel();
+            });
+
+            // Color Presets
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    solidBgColor = btn.getAttribute('data-color');
+                    colorPicker.value = solidBgColor;
+                    colorHex.textContent = solidBgColor;
+                    renderCarousel();
+                });
+            });
+
+            // Font Selector
+            const fontSelect = document.getElementById('font-style-select');
+            fontSelect.addEventListener('change', (e) => {
+                fontStyle = e.target.value;
+                renderCarousel();
+            });
+
+            // Ratio Selector
+            document.querySelectorAll('.ratio-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Reset styling on all buttons
+                    document.querySelectorAll('.ratio-btn').forEach(b => {
+                        b.className = 'ratio-btn px-2 py-2 text-[11px] font-bold rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 transition';
+                    });
+                    
+                    // Activate clicked button
+                    const target = e.currentTarget;
+                    target.className = 'ratio-btn px-2 py-2 text-[11px] font-bold rounded-lg border border-rose-500 bg-rose-500/20 text-rose-400 transition';
+                    
+                    // Re-render carousel to apply the new ratio class dynamically
+                    renderCarousel();
+                });
+            });
+
+            // Navigation Buttons
+            document.getElementById('prev-card-btn').addEventListener('click', () => setActiveIndex(activeIndex - 1));
+            document.getElementById('next-card-btn').addEventListener('click', () => setActiveIndex(activeIndex + 1));
+
+            // Keyboard Navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.target.isContentEditable || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+                if (e.key === 'ArrowLeft') setActiveIndex(activeIndex - 1);
+                if (e.key === 'ArrowRight') setActiveIndex(activeIndex + 1);
+            });
+
+            // Single Active Image Keyword Refresh Button
+            document.getElementById('refresh-active-image-btn').addEventListener('click', async () => {
+                const newKeyword = document.getElementById('active-keyword-input').value.trim();
+                if (!newKeyword) return;
+                
+                cards[activeIndex].imageKeyword = newKeyword;
+                const btn = document.getElementById('refresh-active-image-btn');
+                const origHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<div class="spinner"></div>`;
+
+                cardImageUrls[activeIndex] = await fetchImageBase64(newKeyword, activeIndex);
+                btn.disabled = false;
+                btn.innerHTML = origHtml;
+                renderCarousel();
+            });
+
+            // Generate AI Card News
+            const generateBtn = document.getElementById('generate-btn');
+            generateBtn.addEventListener('click', async () => {
+                const topic = document.getElementById('topic-input').value.trim();
+                if (!topic) {
+                    alert("카드뉴스 주제를 입력해주세요!");
+                    return;
+                }
+
+                const count = parseInt(cardCountSlider.value);
+                const btnText = document.getElementById('generate-btn-text');
+
+                // Set loading UI
+                generateBtn.disabled = true;
+                btnText.textContent = "AI 문구 및 키워드 기획 중...";
+
+                try {
+                    const generatedSlides = await generateCardsWithGemini(topic, count);
+                    cards = generatedSlides;
+                    activeIndex = 0;
+
+                    // Fetch background images for cards
+                    await loadImagesForCards(true);
+
+                } catch (err) {
+                    console.error("Card News Generation Failed:", err);
+                    alert("카드뉴스 생성 실패: 잠시 후 다시 시도해 주세요.");
+                } finally {
+                    generateBtn.disabled = false;
+                    btnText.textContent = "AI 카드뉴스 및 배경 자동 생성";
+                }
+            });
+
+            // Handle contenteditable inline edits sync
+            document.getElementById('carousel-stage').addEventListener('input', (e) => {
+                const target = e.target;
+                if (!target.classList.contains('editable-field')) return;
+                
+                const field = target.getAttribute('data-field');
+                const idx = parseInt(target.getAttribute('data-index'));
+
+                if (cards[idx] && field) {
+                    cards[idx][field] = target.innerText;
+                }
+            });
+
+            // Single PNG Download
+            document.getElementById('download-single-btn').addEventListener('click', async () => {
+                const activeCardElem = document.getElementById(`card-elem-${activeIndex}`);
+                if (!activeCardElem) return;
+
+                try {
+                    const canvas = await html2canvas(activeCardElem, {
+                        scale: 3, // High quality 4:5 export
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: null
+                    });
+                    
+                    const image = canvas.toDataURL("image/png");
+                    const link = document.createElement('a');
+                    link.download = `instacard_${activeIndex + 1}.png`;
+                    link.href = image;
+                    link.click();
+                } catch (err) {
+                    console.error("PNG export error:", err);
+                    alert("이미지 저장 중 오류가 발생했습니다.");
+                }
+            });
+
+            // Bulk ZIP Download
+            const downloadZipHandler = async () => {
+                if (typeof JSZip === 'undefined' || typeof saveAs === 'undefined') {
+                    alert("다운로드 라이브러리를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.");
+                    return;
+                }
+
+                const zip = new JSZip();
+                const folder = zip.folder("instacards");
+
+                for (let i = 0; i < cards.length; i++) {
+                    const cardElem = document.getElementById(`card-elem-${i}`);
+                    if (!cardElem) continue;
+
+                    // Temporarily bring card into visible active state for clean html2canvas capture
+                    // Hide all other cards completely to prevent 3D overlap during capture
+                    const origStyles = [];
+                    document.querySelectorAll('.card-item').forEach((el, idx) => {
+                        origStyles.push({ el, display: el.style.display, transform: el.style.transform, opacity: el.style.opacity });
+                        if (idx === i) {
+                            el.style.display = 'flex';
+                            el.style.transform = 'none';
+                            el.style.opacity = '1';
+                        } else {
+                            el.style.display = 'none';
+                        }
+                    });
+                    
+                    await new Promise(r => setTimeout(r, 100)); // wait for dom to settle
+
+                    try {
+                        const canvas = await html2canvas(cardElem, {
+                            scale: 3,
+                            useCORS: true,
+                            allowTaint: true,
+                            backgroundColor: null
+                        });
+                        const dataUrl = canvas.toDataURL("image/png");
+                        const base64Data = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+                        folder.file(`card_${i + 1}.png`, base64Data, { base64: true });
+                    } catch (err) {
+                        console.error(`Error rendering card ${i + 1}`, err);
+                    } finally {
+                        // Restore styles
+                        origStyles.forEach(({ el, display, transform, opacity }) => {
+                            el.style.display = display;
+                            el.style.transform = transform;
+                            el.style.opacity = opacity;
+                        });
+                    }
+                }
+
+                zip.generateAsync({ type: "blob" }).then((content) => {
+                    saveAs(content, "투머스랩_카드뉴스.zip");
+                });
+            };
+
+            document.getElementById('download-all-btn').addEventListener('click', downloadZipHandler);
+            document.getElementById('modal-download-zip').addEventListener('click', downloadZipHandler);
+
+            // Grid Modal Controls
+            const gridModal = document.getElementById('grid-modal');
+            const gridContainer = document.getElementById('grid-modal-cards');
+
+            document.getElementById('grid-view-btn').addEventListener('click', () => {
+                gridContainer.innerHTML = '';
+                cards.forEach((card, idx) => {
+                    const clone = document.createElement('div');
+                    clone.className = 'card-aspect rounded-2xl p-5 flex flex-col justify-between border border-white/10 overflow-hidden shadow-xl w-full';
+                    
+                    const bgImg = cardImageUrls[idx];
+                    if (isImageBgMode && bgImg) {
+                        clone.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, ${overlayOpacity}), rgba(15, 23, 42, ${overlayOpacity})), url('${bgImg}')`;
+                        clone.style.backgroundSize = 'cover';
+                    } else {
+                        clone.style.backgroundColor = solidBgColor;
+                    }
+                    clone.style.fontFamily = fontStyle;
+
+                    const isLight = !isImageBgMode && isLightColor(solidBgColor);
+                    const textColor = isLight ? 'text-slate-900' : 'text-slate-100';
+
+                    clone.innerHTML = `
+                        <div class="flex items-center justify-between text-[11px] font-semibold opacity-80 border-b border-current/15 pb-2">
+                            <span class="px-2 py-0.5 rounded-full bg-current/10 font-bold">${escapeHtml(card.tag)}</span>
+                            <span>${idx + 1} / ${cards.length}</span>
+                        </div>
+                        <div class="my-auto py-2 text-center space-y-2">
+                            <h4 class="text-sm font-bold ${textColor} line-clamp-2">${escapeHtml(card.title)}</h4>
+                            <p class="text-[11px] opacity-80 line-clamp-3">${escapeHtml(card.body)}</p>
+                        </div>
+                        <div class="pt-2 border-t border-current/15 text-[10px] opacity-60 flex justify-between">
+                            <span>InstaCard AI</span>
+                            <span>#${card.imageKeyword || 'bg'}</span>
+                        </div>
+                    `;
+                    gridContainer.appendChild(clone);
+                });
+                gridModal.classList.remove('hidden');
+            });
+
+            document.getElementById('close-grid-modal').addEventListener('click', () => {
+                gridModal.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

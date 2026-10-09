@@ -1,0 +1,3454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SETUPOD Studio | 올인원 비즈니스 자산 & 3D 명함 빌더</title>
+  <link rel="canonical" href="https://www.setupod.com/maker">
+  <meta name="description" content="SETUPOD - 카카오톡, 인스타그램, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 자산 플랫폼">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD">
+  <meta property="og:title" content="SETUPOD Studio | 올인원 비즈니스 자산 & 3D 명함 만들기">
+  <meta property="og:description" content="카카오톡, 인스타, 틱톡, 3D 명함까지 한 번에 셋업하는 올인원 비즈니스 플랫폼">
+  <meta property="og:image" content="https://www.setupod.com/assets/business_card_mockup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons & QRCode -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase.js"></script>
+
+  <!-- 동적 테마 CSS (프리뷰 카드용) -->
+  <link rel="stylesheet" id="themeStylesheet" href="/bizcard/themes/violet.css">
+  <link rel="stylesheet" id="layoutStylesheet" href="">
+
+  <style>
+    :root {
+      --maker-bg: #090611;
+      --maker-panel: rgba(18, 12, 32, 0.7);
+      --maker-border: rgba(168, 85, 247, 0.25);
+      --maker-accent: #a855f7;
+      --maker-glow: rgba(168, 85, 247, 0.35);
+      --maker-input-bg: rgba(255, 255, 255, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: radial-gradient(circle at 50% 0%, #160c29 0%, #080512 60%, #030207 100%);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* 상단 네비게이션 */
+    header {
+      width: 100%;
+      height: 64px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(8, 5, 18, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .nav-logo-symbol {
+      width: 32px;
+      height: 32px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-gif {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .brand-title .part-setup {
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title .part-od {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-ko-tag {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      padding: 1.5px 5px;
+      border-radius: 5px;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+    }
+
+    .badge-studio {
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #d8b4fe;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-nav-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-nav-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-nav-primary {
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-nav-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* 메인 분할 레이아웃 */
+    .studio-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .studio-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .preview-column {
+        position: relative !important;
+        top: 0 !important;
+        transform: scale(0.9);
+        transform-origin: top center;
+        margin-bottom: -60px;
+      }
+    }
+
+    /* 좌측 입력 에디터 패널 */
+    .editor-panel {
+      background: var(--maker-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--maker-border);
+      border-radius: 24px;
+      padding: 32px 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d8b4fe;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-label span.sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 400;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      background: var(--maker-input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--maker-accent);
+      box-shadow: 0 0 14px var(--maker-glow);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* 테마 선택 칩 */
+    .theme-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .theme-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.24);
+    }
+
+    .theme-card.active {
+      border-color: #c084fc;
+      background: rgba(168, 85, 247, 0.15);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+    }
+
+    .theme-color-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .theme-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .theme-pro-locked {
+      position: relative;
+      opacity: 0.6;
+      border: 1px dashed rgba(255,255,255,0.15);
+    }
+    .theme-pro-locked:hover {
+      opacity: 0.85;
+      border-color: #f59e0b;
+    }
+    .pro-badge {
+      font-size: 9px;
+      font-weight: 800;
+      color: #000;
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .theme-pro-locked.unlocked {
+      opacity: 1;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .theme-pro-locked.unlocked .pro-badge {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      color: #fff;
+    }
+    .theme-pro-locked.unlocked .pro-badge::after {
+      content: ' ✓';
+    }
+
+    /* Payment Modal */
+    #paymentModal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      z-index: 10000; display: none; align-items: center; justify-content: center;
+    }
+    #paymentModal.active { display: flex; }
+    .payment-box {
+      background: #18181b; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 36px 32px; max-width: 400px; width: 90%;
+      text-align: center; position: relative;
+    }
+    .payment-box h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .payment-box .price { font-size: 36px; font-weight: 900; background: linear-gradient(90deg, #f59e0b, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 16px 0; }
+    .payment-box .features { text-align: left; margin: 20px 0; }
+    .payment-box .features li { font-size: 14px; color: rgba(255,255,255,0.8); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); list-style: none; }
+    .payment-box .features li::before { content: '✓ '; color: #10b981; font-weight: 700; }
+    .btn-pay { width: 100%; padding: 16px; border: none; border-radius: 14px; background: linear-gradient(90deg, #f59e0b, #ec4899); color: #000; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+    .btn-pay-cancel { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 16px; cursor: pointer; }
+
+    /* 파일 업로드 래퍼 */
+    .file-upload-box {
+      border: 1.5px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .file-upload-box:hover {
+      border-color: var(--maker-accent);
+      background: rgba(168, 85, 247, 0.06);
+    }
+
+    /* 우측 프리뷰 스티키 영역 */
+    .preview-column {
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .preview-header-bar {
+      width: 100%;
+      max-width: 375px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4ade80;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #4ade80;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .btn-preview-flip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 4px 10px;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-preview-flip:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* 카드 3D 씬 (프리뷰 내부) */
+    .card-preview-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-scene {
+      width: 100%;
+      max-width: 375px;
+      height: 645px;
+      perspective: 1400px;
+      cursor: pointer;
+    }
+
+    .card-flipper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.75s cubic-bezier(0.2, 0.85, 0.3, 1.05);
+      border-radius: 28px;
+    }
+
+    .card-scene.flipped .card-flipper {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--border-accent);
+      background: var(--card-gradient);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.85), 0 0 40px var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      padding: 34px 26px 26px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .card-face.front {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .card-face.back {
+      z-index: 1;
+      pointer-events: none;
+      transform: rotateY(180deg);
+      padding: 34px 26px 26px 26px;
+    }
+
+    .card-scene.flipped .card-face.front {
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .card-scene.flipped .card-face.back {
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    /* 거대 워터마크 - 테두리에 밀착되면서도 글자가 잘리지 않는 최적 좌표 */
+    .watermark-dynamic {
+      position: absolute;
+      right: -8px;
+      top: 45%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .watermark-dynamic span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 72px;
+      font-weight: 900;
+      color: var(--watermark-color);
+      transform: rotate(-90deg);
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .front-wrapper, .back-wrapper {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .front-logo-container, .back-top-logo-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 6px;
+    }
+
+    .front-logo-box, .back-top-logo {
+      width: 144px;
+      height: 144px;
+      background: var(--logo-bg);
+      border: 1px solid var(--logo-border);
+      border-radius: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--logo-shadow);
+      overflow: hidden;
+      padding: 10px;
+      cursor: pointer;
+      position: relative;
+      animation: logoPulse 4.5s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .front-logo-box img, .back-top-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    /* Living Hologram GIF Motion FX Presets */
+    @keyframes cardPulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 38px rgba(6, 182, 212, 0.6)); transform: scale(1.05); }
+    }
+
+    @keyframes cardFloatMotion {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes cardShimmerSweep {
+      0% { transform: translateX(-150%) skewX(-25deg); }
+      35%, 100% { transform: translateX(250%) skewX(-25deg); }
+    }
+
+    @keyframes cardGoldAura {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.45)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 26px rgba(245, 158, 11, 0.95)) drop-shadow(0 0 35px rgba(251, 191, 36, 0.55)); transform: scale(1.04); }
+    }
+
+    .fx-hologram-pulse img { animation: cardPulseGlow 3.5s ease-in-out infinite !important; }
+    .fx-3d-floating img { animation: cardFloatMotion 3.8s ease-in-out infinite !important; }
+    .fx-gold-sparkle img { animation: cardGoldAura 3.5s ease-in-out infinite !important; }
+    .fx-cyber-shimmer { position: relative; overflow: hidden !important; }
+    .fx-cyber-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.45) 50%, transparent 65%);
+      pointer-events: none;
+      animation: cardShimmerSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .brand-sub-engraving {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.28em;
+      color: var(--tagline-color);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      user-select: none;
+    }
+
+    .front-company, .back-company-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .front-slogan, .back-company-slogan {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold-accent);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .role-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    .name-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .contact-key {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--key-color);
+      width: 18px;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-value {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      letter-spacing: 0.02em;
+    }
+
+    .moat-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .moat-tag {
+      background: var(--moat-bg);
+      border: 1px solid var(--moat-border);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--moat-text);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
+    }
+
+    .inside-action-dock {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .inside-action-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-action {
+      flex: 1;
+      height: 42px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-save {
+      background: var(--save-btn-bg);
+      color: var(--save-btn-color, #ffffff);
+      box-shadow: var(--save-btn-shadow);
+    }
+
+    .btn-glass {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    /* 하단 발행 컨트롤 바 */
+    .publish-bar {
+      margin-top: 10px;
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn-publish {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-publish-main {
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+    }
+
+    .btn-publish-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-publish-secondary {
+      background: rgba(255, 255, 255, 0.07);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .btn-publish-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(70px);
+      background: #190e32;
+      border: 1px solid #a855f7;
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 모드 전환 탭 (1인 개인 vs 기업 단체) */
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 8px;
+    }
+
+    .mode-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .mode-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .mode-tab.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(99, 102, 241, 0.25));
+      color: #ffffff;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25);
+    }
+
+    .badge-free {
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #10b981;
+      color: #032014;
+      letter-spacing: 0.05em;
+    }
+
+    /* 팀원 관리 스타일 */
+    .team-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .team-actions-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-team-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-team-action:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-team-action.primary {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      border-color: transparent;
+      color: #ffffff;
+    }
+
+    .team-member-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .team-member-item:hover, .team-member-item.active-preview {
+      border-color: rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.06);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .team-member-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .team-member-slug-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      font-family: monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .team-member-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .team-member-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .team-member-contacts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .team-member-contacts {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 발행된 링크 목록 리스트 */
+    .published-urls-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .url-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      font-size: 12.5px;
+      gap: 12px;
+    }
+
+    .url-info-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .url-member-name {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .url-text {
+      font-family: monospace;
+      color: #c084fc;
+      word-break: break-all;
+    }
+
+    .url-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-icon-sm {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon-sm:hover {
+      background: var(--maker-accent);
+      border-color: var(--maker-accent);
+    }
+
+    /* 모달 오버레이 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #130c22;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 580px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #ffffff;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+
+  <style>
+/* ── 글로벌 네비게이션 ── */
+    nav {
+      width: 100%;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(6, 4, 10, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .nav-logo-symbol {
+      width: 36px;
+      height: 36px;
+      aspect-ratio: 1 / 1;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .nav-brand:hover .nav-logo-symbol {
+      transform: scale(1.06);
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.5);
+    }
+
+    .nav-logo-gif {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .nav-logo-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      display: inline-flex;
+      align-items: baseline;
+    }
+
+    .nav-logo-text .part-setup {
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-logo-text .part-od {
+      background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .logo-ko-tag {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #e9d5ff;
+      background: rgba(168, 85, 247, 0.18);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      padding: 1.5px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .nav-logo-tagline {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .btn-create-nav {
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
+      transition: all 0.2s;
+    }
+
+    .btn-create-nav:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* 모바일 전용 상단 네비게이션 컨트롤 */
+    .mobile-nav-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-mobile-planner {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #e9d5ff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-mobile-planner:hover {
+      background: rgba(168, 85, 247, 0.25);
+    }
+
+    .btn-mobile-hamburger {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-mobile-hamburger:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* 모바일 드로어 메뉴 오버레이 */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-menu-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 82%;
+      max-width: 320px;
+      height: 100%;
+      background: #0d0818;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 24px 20px;
+    }
+
+    .mobile-menu-overlay.active .mobile-menu-drawer {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .mobile-menu-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-menu-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e5e7eb;
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu-item:hover, .mobile-menu-item:active {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .mobile-menu-item.highlight {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.35);
+      color: #f3e8ff;
+    }
+
+    .menu-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .menu-badge-new {
+      font-size: 10px;
+      font-weight: 800;
+      background: #a855f7;
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    .mobile-menu-footer {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+
+  <style>
+
+    /* B2B2B Widget Embed Mode */
+    html.is-embedded nav,
+    html.is-embedded header,
+    html.is-embedded .mobile-menu-overlay,
+    html.is-embedded footer {
+      display: none !important;
+    }
+    html.is-embedded body {
+      background: transparent !important;
+      padding-top: 0 !important;
+    }
+  
+  </style>
+
+    <style>
+    .nav-dropdown { position: relative; display: inline-block; }
+    .nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      background: rgba(13, 8, 24, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 8px; min-width: 160px; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      z-index: 100; margin-top: 10px;
+    }
+    .nav-dropdown-menu::before {
+      content: ''; position: absolute; top: -10px; left: 0; width: 100%; height: 10px;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: flex; flex-direction: column; gap: 4px; }
+    .nav-dropdown-menu a {
+      color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 10px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
+    }
+    .nav-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    </style>
+  <link rel="stylesheet" href="/css/gnb.css">
+</head>
+<body class="app-mode">
+
+
+
+  <!-- 상단 헤더 -->
+  
+
+  <!-- 메인 2분할 레이아웃 -->
+  <div class="studio-container">
+
+    <!-- 좌측 에디터 패널 -->
+    <div class="editor-panel">
+
+      <!-- 모드 전환 탭 (1인 개인 vs 기업 단체) -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" id="tabSingle" onclick="switchMakerMode('single')">
+          <i data-lucide="user" style="width:16px;height:16px;"></i>
+          <span>1인 개인 명함 제작</span>
+        </button>
+        <button class="mode-tab" id="tabTeam" onclick="switchMakerMode('team')">
+          <i data-lucide="building-2" style="width:16px;height:16px;color:#c084fc;"></i>
+          <span>🏢 기업 / 팀원 단체 발행</span>
+          <span class="badge-free">무료 지원</span>
+        </button>
+      </div>
+
+      <!-- [패널 A] 1인 개인 명함 에디터 -->
+      
+      <!-- Wizard Progress (Single Mode) -->
+      <div id="wizardProgress" class="wizard-progress-container" style="display:none; margin-bottom: 20px;">
+        <div class="wizard-steps-nav">
+          <div class="wizard-step-indicator active" onclick="goToWizardStep(1)">1. 기본 정보</div>
+          <div class="wizard-step-indicator" onclick="goToWizardStep(2)">2. 연락처/링크</div>
+          <div class="wizard-step-indicator" onclick="goToWizardStep(3)">3. 디자인/연출</div>
+        </div>
+        <div class="wizard-progress-bar">
+          <div class="wizard-progress-fill" id="wizardProgressFill" style="width: 33.33%;"></div>
+        </div>
+      </div>
+
+      <div id="panelSingle" style="display:flex;flex-direction:column;gap:28px;">
+
+      <!-- 0. 예시 템플릿 로드 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="sparkles" style="width:16px;height:16px;color:#a855f7;"></i></div>
+          <h2 class="section-title">0. 미리 채워진 예시 불러오기</h2>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('setupod')">SETUPOD 예시</button>
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('nexus')">NEXUS 예시</button>
+          <button class="btn-nav btn-nav-ghost" style="height:34px; padding:0 14px; font-size:12px;" onclick="loadPreset('toomus')">TOOMUS (내꺼)</button>
+        </div>
+      </div>
+
+      <!-- 1. 디자인 레이아웃 (구조) 선택 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="layout" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">1. 프리미엄 레이아웃 선택</h2>
+        </div>
+        <div class="theme-selector">
+          <div class="theme-card layout-selector-card active" data-layout="classic" onclick="selectLayout('classic', this)">
+            <div class="theme-color-dot" style="background: #1e293b; border-radius:4px;"></div>
+            <span class="theme-name">Classic Glass</span>
+          </div>
+          <div class="theme-card layout-selector-card" data-layout="metal" onclick="selectLayout('metal', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #94a3b8, #334155); border-radius:4px;"></div>
+            <span class="theme-name">Executive Metal</span>
+          </div>
+          <div class="theme-card layout-selector-card" data-layout="visual" onclick="selectLayout('visual', this)">
+            <div class="theme-color-dot" style="background: url(../assets/cover.jpg) center/cover; border-radius:4px;"></div>
+            <span class="theme-name">Visual Hero</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 테마 선택 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="palette" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">2. 컬러 & 재질 테마 선택</h2>
+        </div>
+        <div class="theme-selector">
+          <div class="theme-card theme-selector-card active" data-theme="violet" onclick="selectTheme('violet', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
+            <span class="theme-name">Violet Luxury</span>
+          </div>
+          <div class="theme-card theme-selector-card" data-theme="obsidian" onclick="selectTheme('obsidian', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
+            <span class="theme-name">Obsidian Dark</span>
+          </div>
+          <div class="theme-card theme-selector-card" data-theme="emerald" onclick="selectTheme('emerald', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
+            <span class="theme-name">Emerald Tech</span>
+          </div>
+          <!-- PRO Themes -->
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="rosegold" onclick="handleProThemeClick('rosegold', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #f59e0b, #ec4899);"></div>
+            <span class="theme-name">Rose Gold</span>
+            <span class="pro-badge">PRO</span>
+          </div>
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="executive" onclick="handleProThemeClick('executive', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, #c0c0c0, #2d2d2d);"></div>
+            <span class="theme-name">Executive Metal</span>
+            <span class="pro-badge">PRO</span>
+          </div>
+          <div class="theme-card theme-selector-card theme-pro-locked" data-theme="glass" onclick="handleProThemeClick('glass', this)">
+            <div class="theme-color-dot" style="background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(100,100,255,0.2));border:1px solid rgba(255,255,255,0.2);"></div>
+            <span class="theme-name">Glassmorphism</span>
+            <span class="pro-badge">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 기본 인적사항 & 회사 -->
+      <div>
+        <div class="section-title-wrap" style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="section-icon-box"><i data-lucide="user" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">2. 기본 정보 및 브랜드</h2>
+          </div>
+          
+          <!-- AI Scanner Button moved here -->
+          <button class="btn-ai-import" onclick="document.getElementById('aiScannerInput').click()" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4); color: #d8b4fe; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;">
+            <i data-lucide="scan-line" style="width: 14px; height: 14px;"></i>
+            내 종이 명함 찍기 (AI)
+          </button>
+          <input type="file" id="aiScannerInput" accept="image/*" capture="environment" style="display: none;" onchange="handleAiScanUpload(event)">
+        </div>
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1; margin-bottom: 8px;">
+            <label class="form-label">커스텀 URL (선택) <span class="sub" style="color:var(--neon-accent);">*입력 시 해당 주소로 덮어씌워집니다 (예: ceo)</span></label>
+            <div style="display:flex;align-items:center;background:var(--input-bg);border:1px solid var(--input-border);border-radius:12px;padding:0 12px;overflow:hidden;transition:all 0.3s ease;">
+              <span style="color:rgba(255,255,255,0.4);font-size:13px;padding-right:6px;">setupod.com/c/</span>
+              <input type="text" id="inputSlug" class="form-input" style="flex:1;background:transparent;border:none;padding-left:0;outline:none;" placeholder="영문/숫자 (공백 비워두면 자동 생성)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">이름 (영문/한글) <span class="sub">필수</span></label>
+            <input type="text" id="inputName" class="form-input" value="김민준" placeholder="예: 김민준, Alex Rivera" oninput="liveUpdate()" onfocus="forceCardBack()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">직함 / 포지션 <span class="sub">필수</span></label>
+            <input type="text" id="inputRole" class="form-input" value="대표이사" placeholder="예: 대표이사, Founder, 팀장" oninput="liveUpdate()" onfocus="forceCardBack()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">회사 / 브랜드명 <span class="sub">필수</span></label>
+            <input type="text" id="inputCompany" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS GLOBAL" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">배경 워터마크 영문 <span class="sub">대문자 권장</span></label>
+            <input type="text" id="inputWatermark" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, NEXUS" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">슬로건 / 비전 한 줄 <span class="sub">앞·뒷면 강조</span></label>
+            <input type="text" id="inputSlogan" class="form-input" value="차세대 올인원 비즈니스 자산 & 3D 명함" placeholder="회사의 핵심 가치" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">영문 각인 태그라인 <span class="sub">상단 미니 럭셔리</span></label>
+            <input type="text" id="inputTagline" class="form-input" value="ALL-IN-ONE BUSINESS ASSET" placeholder="예: ENDLESS POTENTIAL" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 로고 이미지 설정 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="image" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">3. 로고 / 프로필 & 누끼 연출</h2>
+        </div>
+        <div class="file-upload-box" onclick="document.getElementById('logoFileInput').click()">
+          <i data-lucide="upload-cloud" style="width:24px;height:24px;color:#c084fc;"></i>
+          <span style="font-size:13px;font-weight:700;">로고 / 프로필 이미지 업로드 (투명 누끼 PNG, GIF 권장)</span>
+          <span style="font-size:11px;color:rgba(255,255,255,0.4);">클릭하여 파일을 선택하세요. 업로드 즉시 3D 카드에 반영됩니다.</span>
+          <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+        </div>
+
+
+        <div style="margin-top:8px;">
+          <a href="https://open.kakao.com/o/sySmTxKi" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(244,114,182,0.18),rgba(168,85,247,0.18));border:1px solid rgba(244,114,182,0.4);color:#fbcfe8;font-size:12.5px;font-weight:800;text-decoration:none;transition:all 0.2s;box-shadow:0 0 15px rgba(244,114,182,0.1);">
+            <i data-lucide="zap" style="width:15px;height:15px;color:#f472b6;"></i>
+            <span>🔥 3D 모션 GIF 아바타 맞춤 제작 의뢰하기 (카카오톡 1:1)</span>
+          </a>
+        </div>
+
+        <!-- GIF 샘플 갤러리 (레퍼런스) -->
+        <div style="margin-top:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:12px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:5px;">
+              <i data-lucide="image-play" style="width:14px;height:14px;color:#f472b6;"></i> GIF 모션 레퍼런스 샘플
+            </span>
+          </div>
+          <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="../assets/sample_gif_1.gif" onerror="this.src='../assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="../assets/sample_gif_2.gif" onerror="this.src='../assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="../assets/sample_gif_3.gif" onerror="this.src='../assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div style="min-width:140px;height:80px;border-radius:10px;background:#000;overflow:hidden;border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+              <img src="../assets/sample_gif_4.gif" onerror="this.src='../assets/setupod.gif'" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+          </div>
+          <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4;word-break:keep-all;">
+            * 맞춤 제작 의뢰 시, 위와 같은 고품질 모션 로고를 제작해 드립니다. 원하는 레퍼런스를 캡처하여 문의해주세요.
+          </p>
+        </div>
+
+        <!-- 홀로그램 & GIF 모션 선택 -->
+        <div style="margin-top:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:5px;">
+              <i data-lucide="zap" style="width:14px;height:14px;color:#38bdf8;"></i> 3D 홀로그램 & GIF 모션 연출
+            </span>
+            <span style="font-size:10.5px;color:#a78bfa;font-weight:700;">실시간 3D 연동</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:6px;" id="motionButtonGroup">
+            <button type="button" class="btn-motion-choice active" onclick="setCardMotion('pulse')" id="btnMotionChoicePulse" style="padding:8px;background:rgba(139,92,246,0.15);border:1px solid #8b5cf6;border-radius:8px;color:#fff;font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              🌟 홀로그램 펄스
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('shimmer')" id="btnMotionChoiceShimmer" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              ⚡️ 사이버 시머
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('float')" id="btnMotionChoiceFloat" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              🌀 3D 무중력 부유
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('gold')" id="btnMotionChoiceGold" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.7);font-size:11.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+              💎 골드 럭셔리
+            </button>
+            <button type="button" class="btn-motion-choice" onclick="setCardMotion('none')" id="btnMotionChoiceNone" style="grid-column:span 2;padding:6px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;cursor:pointer;">
+              ⚪️ 정적 모드 (효과 끄기)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 핵심 해자 태그 (3개) -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="award" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">4. 핵심 비즈니스 키워드 (해자 태그 3개)</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">태그 1</label>
+            <input type="text" id="inputTag1" class="form-input" value="3D 인터랙티브" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">태그 2</label>
+            <input type="text" id="inputTag2" class="form-input" value="vCard 주소록 저장" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">태그 3</label>
+            <input type="text" id="inputTag3" class="form-input" value="올인원 멀티링크" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 연락처 및 다이렉트 링크 -->
+      <div>
+        <div class="section-title-wrap">
+          <div class="section-icon-box"><i data-lucide="phone-call" style="width:16px;height:16px;"></i></div>
+          <h2 class="section-title">5. 다이렉트 연락처 & 액션 버튼</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">전화번호 <span class="sub">탭 시 통화 연결</span></label>
+            <input type="tel" id="inputPhone" class="form-input" value="010-5555-0100" placeholder="010-0000-0000" oninput="liveUpdate()" onfocus="forceCardBack()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">이메일 주소 <span class="sub">탭 시 메일 작성</span></label>
+            <input type="email" id="inputEmail" class="form-input" value="official@setupod.com" placeholder="name@company.com" oninput="liveUpdate()" onfocus="forceCardBack()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">공식 웹사이트 URL</label>
+            <input type="url" id="inputWebsiteUrl" class="form-input" value="https://setupod.com" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">웹사이트 버튼 텍스트</label>
+            <input type="text" id="inputWebsiteLabel" class="form-input" value="공식 웹사이트" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">카카오톡 오픈채팅 / ID 링크</label>
+            <input type="text" id="inputKakaoUrl" class="form-input" value="" placeholder="예: https://open.kakao.com/o/..." oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">카카오 버튼 표시 텍스트</label>
+            <input type="text" id="inputKakaoLabel" class="form-input" value="카카오톡 상담" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">인스타그램 URL</label>
+            <input type="text" id="inputInstaUrl" class="form-input" value="https://instagram.com" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">인스타 버튼 표시 텍스트</label>
+            <input type="text" id="inputInstaLabel" class="form-input" value="인스타그램" oninput="liveUpdate()" onfocus="forceCardFront()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 하단 액션 버튼 -->
+      <div class="publish-bar">
+        <button class="btn-publish btn-publish-secondary" onclick="exportCardData()">
+          <i data-lucide="file-code-2" style="width:18px;height:18px;"></i>
+          <span>데이터(JSON) 백업</span>
+        </button>
+        <button class="btn-publish btn-publish-main" onclick="publishSingleCard()">
+          <i data-lucide="globe" style="width:18px;height:18px;"></i>
+          <span>🚀 내 명함 URL 생성 및 배포</span>
+        </button>
+      </div>
+
+      </div> <!-- /[패널 A] 1인 개인 명함 에디터 -->
+
+      <!-- [패널 B] 기업 / 팀원 단체 일괄 발행 에디터 -->
+      <div id="panelTeam" style="display:none;flex-direction:column;gap:24px;">
+
+        <!-- 안내 배너 -->
+        <div style="background:linear-gradient(135deg, rgba(168,85,247,0.15), rgba(56,189,248,0.1));border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;">
+          <i data-lucide="shield-check" style="width:20px;height:20px;color:#a855f7;flex-shrink:0;margin-top:2px;"></i>
+          <div style="font-size:12.5px;line-height:1.6;color:rgba(255,255,255,0.85);">
+            <strong style="color:#ffffff;">동명이인 충돌 없는 기업 전용 네임스페이스 무료 지원</strong><br>
+            회사 영문 코드를 등록하면 모든 팀원이 <code style="color:#38bdf8;">setupod.com/회사명/직원ID</code> 고유 주소를 즉시 무료로 발급받습니다.
+          </div>
+        </div>
+
+        <!-- 1. 기업 공통 프리미엄 템플릿 (레이아웃) -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="layout" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">1. 기업 공통 템플릿 (레이아웃) 선택</h2>
+          </div>
+          <div class="theme-selector" style="margin-bottom:14px;">
+            <div class="theme-card team-layout-selector-card active" data-team-layout="classic" onclick="selectTeamLayout('classic', this)">
+              <div class="theme-color-dot" style="background: #1e293b; border-radius:4px;"></div>
+              <span class="theme-name">Classic Glass</span>
+            </div>
+            <div class="theme-card team-layout-selector-card" data-team-layout="metal" onclick="selectTeamLayout('metal', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #94a3b8, #334155); border-radius:4px;"></div>
+              <span class="theme-name">Executive Metal</span>
+            </div>
+            <div class="theme-card team-layout-selector-card" data-team-layout="visual" onclick="selectTeamLayout('visual', this)">
+              <div class="theme-color-dot" style="background: url(../assets/cover.jpg) center/cover; border-radius:4px;"></div>
+              <span class="theme-name">Visual Hero</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 기업 공통 컬러 & 재질 테마 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="palette" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">2. 기업 컬러 & 재질 테마 선택</h2>
+          </div>
+          <div class="theme-selector" style="margin-bottom:14px;">
+            <div class="theme-card active" data-team-theme="obsidian" onclick="selectTeamTheme('obsidian', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #475569, #0f172a);"></div>
+              <span class="theme-name">Obsidian Dark</span>
+            </div>
+            <div class="theme-card" data-team-theme="violet" onclick="selectTeamTheme('violet', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #a855f7, #6b21a8);"></div>
+              <span class="theme-name">Violet Luxury</span>
+            </div>
+            <div class="theme-card" data-team-theme="emerald" onclick="selectTeamTheme('emerald', this)">
+              <div class="theme-color-dot" style="background: linear-gradient(135deg, #10b981, #064e3b);"></div>
+              <span class="theme-name">Emerald Tech</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 회사 공통 브랜딩 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="building" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">3. 회사 기본 브랜딩 & 공식 채널</h2>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">회사 / 브랜드 공식 명칭 <span class="sub">필수</span></label>
+              <input type="text" id="teamCompany" class="form-input" value="SETUPOD" placeholder="예: SETUPOD, ACME" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">회사 영문 슬러그 <span class="sub">URL 경로 식별자</span></label>
+              <input type="text" id="teamCompanySlug" class="form-input" value="setupod" placeholder="예: setupod, acme" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group full-width">
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:10px;border:1px dashed rgba(56,189,248,0.35);">
+                <i data-lucide="link-2" style="width:14px;height:14px;color:#38bdf8;"></i>
+                <span>발행 URL 프리픽스: <strong id="teamUrlPrefix" style="color:#38bdf8;font-family:monospace;">https://setupod.com/setupod/</strong>[직원영문ID]</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">배경 워터마크 영문</label>
+              <input type="text" id="teamWatermark" class="form-input" value="SETUPOD" placeholder="예: SETUPOD" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">영문 각인 태그라인</label>
+              <input type="text" id="teamTagline" class="form-input" value="ALL-IN-ONE BUSINESS ASSET" placeholder="예: ALL-IN-ONE BUSINESS ASSET" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">회사 슬로건 / 비전</label>
+              <input type="text" id="teamSlogan" class="form-input" value="차세대 올인원 비즈니스 자산 & 3D 명함" placeholder="회사의 핵심 비전" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">공식 웹사이트 URL</label>
+              <input type="url" id="teamWebsiteUrl" class="form-input" value="https://setupod.com" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">웹사이트 버튼 텍스트</label>
+              <input type="text" id="teamWebsiteLabel" class="form-input" value="공식 웹사이트" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">카카오톡 채널 링크</label>
+              <input type="url" id="teamKakaoUrl" class="form-input" value="" placeholder="예: https://open.kakao.com/o/..." oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">카카오 버튼 텍스트</label>
+              <input type="text" id="teamKakaoLabel" class="form-input" value="카카오톡 상담" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">인스타그램 URL</label>
+              <input type="text" id="teamInstaUrl" class="form-input" value="https://instagram.com" oninput="liveUpdateTeam()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">인스타 버튼 텍스트</label>
+              <input type="text" id="teamInstaLabel" class="form-input" value="인스타그램" oninput="liveUpdateTeam()">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 임직원 명단 관리 -->
+        <div>
+          <div class="team-header-row">
+            <div class="section-title-wrap" style="margin-bottom:0;">
+              <div class="section-icon-box"><i data-lucide="users" style="width:16px;height:16px;"></i></div>
+              <h2 class="section-title">4. 임직원 명단 (<span id="teamMemberCount">3</span>명)</h2>
+            </div>
+            <div class="team-actions-row">
+              <button class="btn-team-action" onclick="openBatchModal()">
+                <i data-lucide="clipboard-paste" style="width:14px;height:14px;"></i>
+                <span>📋 엑셀/일괄 붙여넣기</span>
+              </button>
+              <button class="btn-team-action primary" onclick="addTeamMember()">
+                <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+                <span>+ 팀원 1명 추가</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="teamMembersList"></div>
+        </div>
+
+        <!-- 3. 실시간 생성된 팀원 명함 URL 목록 -->
+        <div>
+          <div class="section-title-wrap">
+            <div class="section-icon-box"><i data-lucide="globe" style="width:16px;height:16px;"></i></div>
+            <h2 class="section-title">3. 실시간 생성된 팀원 명함 링크</h2>
+          </div>
+          <div class="published-urls-card" id="teamPublishedUrlsList"></div>
+        </div>
+
+        <!-- 하단 단체 발행 액션바 -->
+        <div class="publish-bar">
+          <button class="btn-publish btn-publish-secondary" onclick="exportTeamData()">
+            <i data-lucide="download" style="width:18px;height:18px;"></i>
+            <span>전체 명단 JSON 다운로드</span>
+          </button>
+          <button class="btn-publish btn-publish-main" onclick="if(window.ProModal) ProModal.show(); else showToast('PRO 전용 기능입니다.');">
+            <i data-lucide="cloud-upload" style="width:18px;height:18px;"></i>
+            <span>클라우드 전원 일괄 발행 (PRO)</span>
+          </button>
+        </div>
+
+      </div> <!-- /[패널 B] -->
+
+    </div>
+
+    <!-- 우측 라이브 3D 프리뷰 컬럼 -->
+    <div class="preview-column">
+      <div class="preview-header-bar">
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          <span>실시간 3D 라이브 뷰</span>
+        </div>
+        <button class="btn-preview-flip" onclick="toggleCardFlip()">
+          <i data-lucide="refresh-cw" style="width:12px;height:12px;"></i>
+          <span>앞뒤 뒤집기</span>
+        </button>
+      </div>
+
+      <div class="card-preview-wrap">
+        <!-- 3D Card Scene -->
+        <div class="card-scene" id="cardScene" onclick="toggleCardFlip()" title="탭하거나 슬라이드하면 뒤집힙니다">
+          <div class="card-flipper">
+            
+            <!-- FRONT -->
+            <div class="card-face front">
+              <div class="watermark-dynamic" id="watermarkContainerFront" aria-hidden="true"></div>
+
+              <div class="front-wrapper">
+                <div class="front-logo-container">
+                  <div class="front-logo-box" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR 코드가 열립니다.">
+                    <img id="frontLogoImg" src="../assets/setupod.gif" alt="Logo">
+                  </div>
+                </div>
+
+                <div class="front-info-container">
+                  <div class="brand-sub-engraving" id="frontTagline">ALL-IN-ONE BUSINESS ASSET</div>
+                  <div class="front-company" id="frontCompany">SETUPOD</div>
+                  <div class="front-slogan" id="frontSlogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
+
+                  <div class="moat-tags" id="frontMoatTags"></div>
+
+                  <div class="inside-action-dock" id="frontActionDock"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BACK -->
+            <div class="card-face back">
+              <div class="watermark-dynamic" id="watermarkContainerBack" aria-hidden="true"></div>
+
+              <div class="back-wrapper">
+                <div class="back-top-logo-container">
+                  <div class="back-top-logo" onclick="event.stopPropagation(); openShareModal();" title="로고를 탭하면 QR 코드가 열립니다.">
+                    <img id="backLogoImg" src="../assets/setupod.gif" alt="Logo">
+                  </div>
+                </div>
+
+                <div class="back-info-container">
+                  <div class="brand-sub-engraving" id="backTagline">ALL-IN-ONE BUSINESS ASSET</div>
+                  <div class="back-company-name" id="backCompany">SETUPOD</div>
+                  <div class="back-company-slogan" id="backSlogan">차세대 올인원 비즈니스 자산 & 3D 명함</div>
+
+                  <div class="profile-row">
+                    <span class="role-title" id="roleTitle">대표이사</span>
+                    <span class="name-title" id="nameTitle">김민준</span>
+                  </div>
+
+                  <div class="contact-group">
+                    <div class="contact-row">
+                      <span class="contact-key" id="phoneKey">T</span>
+                      <span class="contact-value" id="phoneValue">010-5555-0100</span>
+                    </div>
+                    <div class="contact-row">
+                      <span class="contact-key" id="emailKey">E</span>
+                      <span class="contact-value" id="emailValue">official@setupod.com</span>
+                    </div>
+                  </div>
+
+                  <div class="moat-tags" id="backMoatTags"></div>
+
+                  <div class="inside-action-dock" id="backActionDock"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center;">
+        카드를 탭하거나 드래그하면 앞면 ↔ 뒷면이 3D로 회전합니다.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QR Code Modal (에디터 뷰) -->
+  <div class="modal-overlay" id="shareModal" onclick="handleModalBgClick(event)">
+    <div class="modal-box" style="position: relative; width: 90%; max-width: 340px; background: rgba(17, 12, 34, 0.95); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 24px; padding: 32px 24px; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.6); backdrop-filter: blur(12px);">
+      <div class="modal-title" style="font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px;">임시 QR코드 미리보기</div>
+      <div class="modal-desc" style="font-size: 13px; color: #94a3b8; margin-bottom: 24px;">'발행하기' 후 실제 스캔 가능한 코드가 생성됩니다</div>
+
+      <div class="qr-container" id="qrContainer" style="background: #fff; width: 176px; height: 176px; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 16px; padding: 8px;"></div>
+
+      <button class="modal-close-btn" onclick="closeShareModal()" style="margin-top: 24px; width: 100%; height: 46px; background: rgba(255,255,255,0.08); border: none; color: #fff; font-size: 14px; font-weight: 700; border-radius: 12px; cursor: pointer;">닫기</button>
+    </div>
+  </div>
+
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+
+  <script>
+    let currentLayout = 'classic';
+    let currentTheme = 'violet';
+    let currentLogoSrc = 'assets/setupod.gif';
+
+    let qrcodeObj = null;
+
+    function openShareModal() {
+      const modal = document.getElementById('shareModal');
+      if (modal) {
+        modal.classList.add('active');
+        if (!qrcodeObj) {
+          const qrTarget = document.getElementById('qrContainer');
+          qrTarget.innerHTML = "";
+          qrcodeObj = new QRCode(qrTarget, {
+            text: "https://setupod.com",
+            width: 160,
+            height: 160,
+            colorDark: "#100a24",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        }
+      }
+    }
+
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function handleModalBgClick(event) {
+      if (event.target.id === 'shareModal') {
+        closeShareModal();
+      }
+    }
+
+    function toggleCardFlip() {
+      document.getElementById('cardScene').classList.toggle('flipped');
+    }
+    
+    function forceCardFront() {
+      document.getElementById('cardScene').classList.remove('flipped');
+    }
+    
+    function forceCardBack() {
+      document.getElementById('cardScene').classList.add('flipped');
+    }
+
+    let currentTeamLayout = 'classic';
+
+    function applyLayoutToDom(layoutName) {
+      const stylesheet = document.getElementById('layoutStylesheet');
+      if (stylesheet) {
+        stylesheet.href = layoutName === 'classic' ? '' : `/bizcard/themes/layout-${layoutName}.css?v=${Date.now()}`;
+      }
+      const flipper = document.querySelector('.card-flipper');
+      if (flipper) {
+        flipper.classList.remove('layout-classic', 'layout-metal', 'layout-visual');
+        flipper.classList.add(`layout-${layoutName}`);
+      }
+    }
+
+    function selectLayout(layoutName, element) {
+      currentLayout = layoutName;
+      document.querySelectorAll('.layout-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+      applyLayoutToDom(layoutName);
+      showToast(`${layoutName.toUpperCase()} 레이아웃이 적용되었습니다.`);
+      liveUpdate();
+    }
+
+    function selectTeamLayout(layoutName, element) {
+      currentTeamLayout = layoutName;
+      document.querySelectorAll('.team-layout-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+      applyLayoutToDom(layoutName);
+      showToast(`기업 공통 레이아웃이 ${layoutName.toUpperCase()}로 변경되었습니다.`);
+      liveUpdateTeam();
+    }
+
+    function selectTheme(themeName, element) {
+      currentTheme = themeName;
+      document.querySelectorAll('.theme-selector-card').forEach(c => c.classList.remove('active'));
+      if (element) element.classList.add('active');
+
+      document.getElementById('themeStylesheet').href = `/bizcard/themes/${themeName}.css`;
+      showToast(`${themeName.toUpperCase()} 테마가 적용되었습니다.`);
+      liveUpdate();
+    }
+
+    function renderWatermark(text) {
+      if (!text) text = "CARD";
+      const letters = text.toUpperCase().split('').reverse();
+      const n = letters.length;
+
+      // 글자 수에 따른 지능형 동적 스케일링 (Dynamic Auto-Scaling)
+      // 4글자(MAZA)는 원본 그대로 압도적인 135px 거대 타이포그래피,
+      // 글자 수가 많아지면(SETUPOD 7자, TOOMUS 6자) 카드 높이에 맞춰 자동 최적화
+      let fontSize, spanHeight, spanWidth, rightOffset;
+
+      if (n <= 3) {
+        fontSize = 140;
+        spanHeight = 115;
+        spanWidth = 140;
+        rightOffset = -22;
+      } else if (n === 4) {
+        // MAZA 원본 스펙: 135px x 105px, right: -20px
+        fontSize = 135;
+        spanHeight = 105;
+        spanWidth = 135;
+        rightOffset = -20;
+      } else if (n === 5) {
+        fontSize = 105;
+        spanHeight = 92;
+        spanWidth = 105;
+        rightOffset = -15;
+      } else if (n === 6) {
+        // TOOMUS 6글자 스펙
+        fontSize = 88;
+        spanHeight = 80;
+        spanWidth = 88;
+        rightOffset = -12;
+      } else if (n === 7) {
+        // SETUPOD 7글자 스펙
+        fontSize = 72;
+        spanHeight = 70;
+        spanWidth = 72;
+        rightOffset = -8;
+      } else if (n === 8) {
+        fontSize = 64;
+        spanHeight = 62;
+        spanWidth = 64;
+        rightOffset = -6;
+      } else {
+        // 9글자 이상
+        spanHeight = Math.max(36, Math.floor(485 / n));
+        fontSize = Math.round(spanHeight * 1.12);
+        spanWidth = fontSize;
+        rightOffset = -4;
+      }
+
+      const html = letters.map(c => `<span style="font-size:${fontSize}px !important; width:${spanWidth}px !important; height:${spanHeight}px !important; line-height:1;">${c}</span>`).join('');
+      
+      const frontContainer = document.getElementById('watermarkContainerFront');
+      const backContainer = document.getElementById('watermarkContainerBack');
+      
+      [frontContainer, backContainer].forEach(c => {
+        if (!c) return;
+        c.innerHTML = html;
+        c.style.right = `${rightOffset}px`;
+      });
+    }
+
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (file.type === 'image/gif') {
+          currentLogoSrc = e.target.result;
+          document.getElementById('frontLogoImg').src = currentLogoSrc;
+          document.getElementById('backLogoImg').src = currentLogoSrc;
+          showToast('새 로고가 실시간 반영되었습니다! (GIF 지원)');
+          return;
+        }
+
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_SIZE = 512;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // WebP 포맷으로 압축하여 용량 대폭 감소 (Quality 0.8)
+          currentLogoSrc = canvas.toDataURL('image/webp', 0.8);
+          document.getElementById('frontLogoImg').src = currentLogoSrc;
+          document.getElementById('backLogoImg').src = currentLogoSrc;
+          showToast('새 로고가 실시간 반영되었습니다! (최적화 완료)');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function liveUpdate() {
+      const name = document.getElementById('inputName').value || '이름';
+      const role = document.getElementById('inputRole').value || '직함';
+      const company = document.getElementById('inputCompany').value || '회사명';
+      const watermark = document.getElementById('inputWatermark').value || company;
+      const slogan = document.getElementById('inputSlogan').value || '';
+      const tagline = document.getElementById('inputTagline').value || '';
+      const phone = document.getElementById('inputPhone').value || '';
+      const email = document.getElementById('inputEmail').value || '';
+
+      const tag1 = document.getElementById('inputTag1').value;
+      const tag2 = document.getElementById('inputTag2').value;
+      const tag3 = document.getElementById('inputTag3').value;
+
+      const webUrl = document.getElementById('inputWebsiteUrl').value;
+      const webLabel = document.getElementById('inputWebsiteLabel').value || '웹사이트';
+      const kakaoUrl = document.getElementById('inputKakaoUrl').value;
+      const kakaoLabel = document.getElementById('inputKakaoLabel').value || '카카오톡';
+      const instaUrl = document.getElementById('inputInstaUrl').value;
+      const instaLabel = document.getElementById('inputInstaLabel').value || '인스타';
+
+      // 텍스트 바인딩
+      document.getElementById('frontCompany').innerText = company;
+      document.getElementById('backCompany').innerText = company;
+      document.getElementById('frontSlogan').innerText = slogan;
+      document.getElementById('backSlogan').innerText = slogan;
+      document.getElementById('frontTagline').innerText = tagline;
+      document.getElementById('backTagline').innerText = tagline;
+      document.getElementById('roleTitle').innerText = role;
+      document.getElementById('nameTitle').innerText = name;
+      document.getElementById('phoneValue').innerText = phone;
+      document.getElementById('emailValue').innerText = email;
+
+      renderWatermark(watermark);
+
+      // 해자 태그 바인딩
+      const tags = [tag1, tag2, tag3].filter(Boolean);
+      const tagHtml = tags.map(t => `<span class="moat-tag">${t}</span>`).join('');
+      document.getElementById('frontMoatTags').innerHTML = tagHtml;
+      document.getElementById('backMoatTags').innerHTML = tagHtml;
+
+      // 2x2 액션 도크 바인딩
+      const dockHtml = `
+        <div class="inside-action-row">
+          <button class="btn-action btn-save" onclick="event.stopPropagation(); showToast('실제 명함에서는 주소록에 자동 저장됩니다.');">
+            <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+            <span>연락처 저장</span>
+          </button>
+          <a href="${webUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>${webLabel}</span>
+          </a>
+        </div>
+        <div class="inside-action-row">
+          <a href="${kakaoUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
+            <span>${kakaoLabel}</span>
+          </a>
+          <a href="${instaUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+            <span>${instaLabel}</span>
+          </a>
+        </div>
+      `;
+
+      document.getElementById('frontActionDock').innerHTML = dockHtml;
+      document.getElementById('backActionDock').innerHTML = dockHtml;
+
+      lucide.createIcons();
+    }
+
+    function exportCardData() {
+      const data = {
+        layout: currentLayout,
+        theme: currentTheme,
+        name: document.getElementById('inputName').value,
+        role: document.getElementById('inputRole').value,
+        company: document.getElementById('inputCompany').value,
+        companyWatermark: document.getElementById('inputWatermark').value,
+        slogan: document.getElementById('inputSlogan').value,
+        tagline: document.getElementById('inputTagline').value,
+        phone: document.getElementById('inputPhone').value,
+        email: document.getElementById('inputEmail').value,
+        moatTags: [
+          document.getElementById('inputTag1').value,
+          document.getElementById('inputTag2').value,
+          document.getElementById('inputTag3').value
+        ].filter(Boolean),
+        primaryAction: {
+          url: document.getElementById('inputWebsiteUrl').value,
+          label: document.getElementById('inputWebsiteLabel').value
+        },
+        socials: [
+          { type: 'kakao', url: document.getElementById('inputKakaoUrl').value, label: document.getElementById('inputKakaoLabel').value },
+          { type: 'instagram', url: document.getElementById('inputInstaUrl').value, label: document.getElementById('inputInstaLabel').value }
+        ]
+      };
+
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", jsonStr);
+      downloadAnchor.setAttribute("download", `${data.name}_digital_card.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'export_card_json', {
+          event_category: 'engagement',
+          card_name: data.name
+        });
+      }
+
+      showToast("명함 데이터(JSON)가 다운로드되었습니다!");
+    }
+
+    function publishSingleCard() {
+      // 1. 폼 데이터 추출
+      const name = document.getElementById('inputName').value || 'User';
+      let safeName = (document.getElementById('inputSlug')?.value || '').trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      if (!safeName) safeName = name.replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase() || 'new' + Date.now().toString().slice(-4);
+      
+      const profileData = {
+        name: name,
+        handle: document.getElementById('inputRole').value,
+        bio: document.getElementById('inputCompany').value,
+        theme: currentTheme
+      };
+
+      const componentsData = {
+        layout: currentLayout,
+        companyWatermark: document.getElementById('inputWatermark').value,
+        slogan: document.getElementById('inputSlogan').value,
+        tagline: document.getElementById('inputTagline').value,
+        phone: document.getElementById('inputPhone').value,
+        email: document.getElementById('inputEmail').value,
+        moatTags: [
+          document.getElementById('inputTag1').value,
+          document.getElementById('inputTag2').value,
+          document.getElementById('inputTag3').value
+        ].filter(Boolean),
+        primaryAction: {
+          url: document.getElementById('inputWebsiteUrl').value,
+          label: document.getElementById('inputWebsiteLabel').value
+        },
+        socials: [
+          { type: 'kakao', url: document.getElementById('inputKakaoUrl').value, label: document.getElementById('inputKakaoLabel').value },
+          { type: 'instagram', url: document.getElementById('inputInstaUrl').value, label: document.getElementById('inputInstaLabel').value }
+        ]
+      };
+
+      // 2. 로그인 여부 확인 및 클라우드 동기화
+      if (typeof window.requireAuth === 'function') {
+        window.requireAuth(async (user) => {
+          showToast("🚀 클라우드에 팟(Pod)을 발행하는 중입니다...");
+          
+          if (typeof syncPodToCloud === 'function') {
+            const res = await syncPodToCloud(safeName, profileData, componentsData);
+            
+            if (res.error) {
+              showToast(`❌ 발행 실패: ${res.error}`);
+            } else {
+              // 로컬 및 운영 환경 모두에서 작동하도록 URL 생성
+              const baseUrl = window.location.origin.includes('127.0.0.1') || window.location.origin.includes('localhost') 
+                ? `${window.location.origin}/bizcard_public.html?id=${safeName}`
+                : `https://setupod.com/c/${safeName}`;
+                
+              showToast(`🎉 클라우드 발행 완료!`);
+              
+              if (typeof gtag === 'function') {
+                gtag('event', 'card_published', {
+                  event_category: 'conversion',
+                  card_name: safeName
+                });
+              }
+              
+              navigator.clipboard.writeText(baseUrl).then(() => {
+                setTimeout(() => showToast(`✅ 생성된 링크가 클립보드에 복사되었습니다!\n${baseUrl}`), 1000);
+              });
+            }
+          } else {
+            showToast("⚠️ Supabase 연동 모듈을 찾을 수 없습니다.");
+          }
+        });
+      } else {
+        // 기존 localStorage 백업 로직 (auth-modal 실패 시 폴백)
+        localStorage.setItem('setupod_card_data', JSON.stringify({id: safeName, ...profileData, ...componentsData}));
+        showToast("⚠️ 로그인 모듈 로드 실패. 브라우저에 임시 저장되었습니다.");
+      }
+    }
+
+    function loadPreset(type) {
+      if (type === 'setupod') {
+        selectTheme('violet', document.querySelector('[data-theme="violet"]'));
+        selectLayout('classic', document.querySelector('[data-layout="classic"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('violet', document.querySelector('[data-team-theme="violet"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('classic', document.querySelector('[data-team-layout="classic"]'));
+        }
+        document.getElementById('inputName').value = "Alex Rivera";
+        document.getElementById('inputRole').value = "대표이사";
+        document.getElementById('inputCompany').value = "SETUPOD";
+        document.getElementById('inputWatermark').value = "SETUPOD";
+        document.getElementById('inputSlogan').value = "차세대 올인원 비즈니스 자산 & 3D 명함";
+        document.getElementById('inputTagline').value = "ALL-IN-ONE BUSINESS ASSET";
+        document.getElementById('inputPhone').value = "010-5555-0100";
+        document.getElementById('inputEmail').value = "official@setupod.com";
+        document.getElementById('inputTag1').value = "3D 인터랙티브";
+        document.getElementById('inputTag2').value = "vCard 주소록 저장";
+        document.getElementById('inputTag3').value = "올인원 멀티링크";
+        currentLogoSrc = 'assets/setupod.gif';
+      } else if (type === 'nexus') {
+        selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
+        selectLayout('metal', document.querySelector('[data-layout="metal"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('obsidian', document.querySelector('[data-team-theme="obsidian"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('metal', document.querySelector('[data-team-layout="metal"]'));
+        }
+        document.getElementById('inputName').value = "김민준";
+        document.getElementById('inputRole').value = "총괄 디렉터";
+        document.getElementById('inputCompany').value = "NEXUS GLOBAL";
+        document.getElementById('inputWatermark').value = "NEXUS";
+        document.getElementById('inputSlogan').value = "미래를 여는 차세대 엔터프라이즈 솔루션";
+        document.getElementById('inputTagline').value = "GLOBAL INNOVATION";
+        document.getElementById('inputPhone').value = "010-5555-0200";
+        document.getElementById('inputEmail').value = "contact@nexus-global.io";
+        document.getElementById('inputTag1').value = "클라우드 아키텍처";
+        document.getElementById('inputTag2').value = "AI 데이터 솔루션";
+        document.getElementById('inputTag3').value = "글로벌 파트너십";
+        currentLogoSrc = 'assets/setupod.gif';
+      } else if (type === 'toomus') {
+        selectTheme('obsidian', document.querySelector('[data-theme="obsidian"]'));
+        selectLayout('classic', document.querySelector('[data-layout="classic"]'));
+        if (typeof selectTeamTheme === 'function') {
+          selectTeamTheme('obsidian', document.querySelector('[data-team-theme="obsidian"]'));
+        }
+        if (typeof selectTeamLayout === 'function') {
+          selectTeamLayout('classic', document.querySelector('[data-team-layout="classic"]'));
+        }
+        document.getElementById('inputSlug').value = "ceo";
+        document.getElementById('inputName').value = "Andrew K";
+        document.getElementById('inputRole').value = "이사";
+        document.getElementById('inputCompany').value = "TOOMUS";
+        document.getElementById('inputWatermark').value = "TOOMUS";
+        document.getElementById('inputSlogan').value = "무한한 가능성을 연결하는 비즈니스 플랫폼";
+        document.getElementById('inputTagline').value = "ENDLESS POTENTIAL";
+        document.getElementById('inputPhone').value = "010-2661-0070";
+        document.getElementById('inputEmail').value = "maza@mazastudio.kr";
+        document.getElementById('inputTag1').value = "디지털 자산화";
+        document.getElementById('inputTag2').value = "전략적 비즈니스 빌드";
+        document.getElementById('inputTag3').value = "글로벌 파트너십";
+        currentLogoSrc = 'assets/sample_client_toomus.png';
+      }
+      document.getElementById('frontLogoImg').src = currentLogoSrc;
+      document.getElementById('backLogoImg').src = currentLogoSrc;
+      if (currentMode === 'single') {
+        liveUpdate();
+      } else {
+        liveUpdateTeam();
+      }
+      showToast(`${type.toUpperCase()} 예시가 로드되었습니다.`);
+    }
+
+    // ==========================================
+    // 팀 / 기업 단체 일괄 발행 시스템
+    // ==========================================
+    let currentMode = 'single';
+    let currentTeamTheme = 'obsidian';
+    let activeTeamPreviewIndex = 0;
+
+    let teamMembers = [
+      {
+        slug: 'alex',
+        name: 'Alex Rivera',
+        role: '대표이사 / CEO',
+        phone: '010-5555-0100',
+        email: 'alex@setupod.com'
+      },
+      {
+        slug: 'minjun',
+        name: '김민준',
+        role: '총괄 디렉터 / VP',
+        phone: '010-5555-0200',
+        email: 'minjun@setupod.com'
+      },
+      {
+        slug: 'seoyeon',
+        name: '이서연',
+        role: '수석 제품 디자이너',
+        phone: '010-5555-0300',
+        email: 'seoyeon@setupod.com'
+      }
+    ];
+
+    function switchMakerMode(mode) {
+      currentMode = mode;
+      const tabSingle = document.getElementById('tabSingle');
+      const tabTeam = document.getElementById('tabTeam');
+      const panelSingle = document.getElementById('panelSingle');
+      const panelTeam = document.getElementById('panelTeam');
+
+      if (mode === 'single') {
+        tabSingle.classList.add('active');
+        tabTeam.classList.remove('active');
+        panelSingle.style.display = 'flex';
+        panelTeam.style.display = 'none';
+        document.getElementById('themeStylesheet').href = `/bizcard/themes/${currentTheme}.css`;
+        applyLayoutToDom(currentLayout);
+        liveUpdate();
+      } else {
+        tabSingle.classList.remove('active');
+        tabTeam.classList.add('active');
+        panelSingle.style.display = 'none';
+        panelTeam.style.display = 'flex';
+        document.getElementById('themeStylesheet').href = `/bizcard/themes/${currentTeamTheme}.css`;
+        applyLayoutToDom(currentTeamLayout);
+        renderTeamRoster();
+        liveUpdateTeam();
+      }
+      lucide.createIcons();
+    }
+
+    function selectTeamTheme(themeName, el) {
+      currentTeamTheme = themeName;
+      document.querySelectorAll('[data-team-theme]').forEach(c => c.classList.remove('active'));
+      if (el) el.classList.add('active');
+      document.getElementById('themeStylesheet').href = `/bizcard/themes/${themeName}.css`;
+      liveUpdateTeam();
+      showToast(`팀 테마가 ${themeName.toUpperCase()}로 변경되었습니다.`);
+    }
+
+    function renderTeamRoster() {
+      const container = document.getElementById('teamMembersList');
+      const countEl = document.getElementById('teamMemberCount');
+      if (countEl) countEl.innerText = teamMembers.length;
+
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'setupod').trim().toLowerCase();
+
+      let html = '';
+      teamMembers.forEach((m, idx) => {
+        const isAct = (idx === activeTeamPreviewIndex);
+        html += `
+          <div class="team-member-item ${isAct ? 'active-preview' : ''}" id="teamMemberRow_${idx}">
+            <div class="team-member-top">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:12px;font-weight:700;color:#c084fc;">#${idx + 1}</span>
+                <span class="team-member-slug-badge">
+                  <i data-lucide="link" style="width:12px;height:12px;"></i>
+                  /${compSlug}/${m.slug || 'id'}
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;">
+                <button class="btn-team-action ${isAct ? 'primary' : ''}" style="padding:4px 8px;font-size:11px;" onclick="previewTeamMember(${idx})">
+                  <i data-lucide="eye" style="width:12px;height:12px;"></i>
+                  <span>${isAct ? '3D 보는 중' : '3D 미리보기'}</span>
+                </button>
+                <button class="btn-icon-sm" style="color:#ef4444;" onclick="deleteTeamMember(${idx})" title="팀원 삭제">
+                  <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                </button>
+              </div>
+            </div>
+            <div class="team-member-inputs">
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">영문 식별 ID (슬러그)</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.slug}" placeholder="예: alex" oninput="updateMemberField(${idx}, 'slug', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">이름</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.name}" placeholder="예: Alex Rivera" oninput="updateMemberField(${idx}, 'name', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">직함 / 포지션</label>
+                <input type="text" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.role}" placeholder="예: 대표이사, 팀장" oninput="updateMemberField(${idx}, 'role', this.value)">
+              </div>
+            </div>
+            <div class="team-member-contacts">
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">전화번호</label>
+                <input type="tel" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.phone}" placeholder="010-0000-0000" oninput="updateMemberField(${idx}, 'phone', this.value)">
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="font-size:11px;">이메일</label>
+                <input type="email" class="form-input" style="padding:8px 10px;font-size:12px;" value="${m.email}" placeholder="member@company.com" oninput="updateMemberField(${idx}, 'email', this.value)">
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      if (container) container.innerHTML = html;
+      renderPublishedUrlsList();
+      lucide.createIcons();
+    }
+
+    function updateMemberField(idx, field, val) {
+      if (!teamMembers[idx]) return;
+      teamMembers[idx][field] = val;
+      if (idx === activeTeamPreviewIndex) {
+        liveUpdateTeam();
+      }
+      renderPublishedUrlsList();
+    }
+
+    function addTeamMember() {
+      const newNum = teamMembers.length + 1;
+      teamMembers.push({
+        slug: `member${newNum}`,
+        name: `팀원 ${newNum}`,
+        role: '팀원',
+        phone: '010-5555-0000',
+        email: `member${newNum}@company.com`
+      });
+      activeTeamPreviewIndex = teamMembers.length - 1;
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast('새 팀원이 추가되었습니다!');
+    }
+
+    function deleteTeamMember(idx) {
+      if (teamMembers.length <= 1) {
+        showToast('최소 1명의 팀원은 유지되어야 합니다.');
+        return;
+      }
+      teamMembers.splice(idx, 1);
+      if (activeTeamPreviewIndex >= teamMembers.length) {
+        activeTeamPreviewIndex = teamMembers.length - 1;
+      }
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast('팀원이 삭제되었습니다.');
+    }
+
+    function previewTeamMember(idx) {
+      activeTeamPreviewIndex = idx;
+      renderTeamRoster();
+      liveUpdateTeam();
+      showToast(`${teamMembers[idx].name} 님의 명함으로 3D 뷰가 전환되었습니다.`);
+    }
+
+    function renderPublishedUrlsList() {
+      const container = document.getElementById('teamPublishedUrlsList');
+      if (!container) return;
+
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'setupod').trim().toLowerCase();
+
+      let html = '';
+      teamMembers.forEach((m) => {
+        const fullSlug = `${compSlug}/${m.slug || 'id'}`;
+        const url = `https://setupod.com/${fullSlug}`;
+        html += `
+          <div class="url-item-row">
+            <div class="url-info-left">
+              <span class="url-member-name">${m.name || '팀원'} (${m.role || '팀원'})</span>
+              <span class="url-text">${url}</span>
+            </div>
+            <div class="url-actions">
+              <button class="btn-icon-sm" onclick="copyUrlToClipboard('${url}')" title="URL 복사">
+                <i data-lucide="copy" style="width:14px;height:14px;"></i>
+              </button>
+              <a href="/${fullSlug}" target="_blank" class="btn-icon-sm" title="새 창에서 명함 열기">
+                <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    function liveUpdateTeam() {
+      if (currentMode !== 'team') return;
+      const m = teamMembers[activeTeamPreviewIndex] || teamMembers[0] || {};
+
+      const company = document.getElementById('teamCompany')?.value || 'SETUPOD';
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'setupod').trim().toLowerCase();
+      const watermark = document.getElementById('teamWatermark')?.value || company;
+      const slogan = document.getElementById('teamSlogan')?.value || '';
+      const tagline = document.getElementById('teamTagline')?.value || '';
+
+      const prefixEl = document.getElementById('teamUrlPrefix');
+      if (prefixEl) prefixEl.innerText = `https://setupod.com/${compSlug}/`;
+
+      const webUrl = document.getElementById('teamWebsiteUrl')?.value || '#';
+      const webLabel = document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트';
+      const kakaoUrl = document.getElementById('teamKakaoUrl')?.value || '#';
+      const kakaoLabel = document.getElementById('teamKakaoLabel')?.value || '카카오톡';
+      const instaUrl = document.getElementById('teamInstaUrl')?.value || '#';
+      const instaLabel = document.getElementById('teamInstaLabel')?.value || '인스타그램';
+
+      // 3D 카드 뷰 바인딩
+      document.getElementById('frontCompany').innerText = company;
+      document.getElementById('backCompany').innerText = company;
+      document.getElementById('frontSlogan').innerText = slogan;
+      document.getElementById('backSlogan').innerText = slogan;
+      document.getElementById('frontTagline').innerText = tagline;
+      document.getElementById('backTagline').innerText = tagline;
+      document.getElementById('roleTitle').innerText = m.role || '팀원';
+      document.getElementById('nameTitle').innerText = m.name || '팀원';
+      document.getElementById('phoneValue').innerText = m.phone || '';
+      document.getElementById('emailValue').innerText = m.email || '';
+
+      renderWatermark(watermark);
+
+      // 해자 태그
+      const tagHtml = `<span class="moat-tag">3D 인터랙티브</span><span class="moat-tag">vCard 자동저장</span><span class="moat-tag">기업 공식명함</span>`;
+      document.getElementById('frontMoatTags').innerHTML = tagHtml;
+      document.getElementById('backMoatTags').innerHTML = tagHtml;
+
+      // 액션 도크
+      const dockHtml = `
+        <div class="inside-action-row">
+          <button class="btn-action btn-save" onclick="event.stopPropagation(); downloadMemberVcard(${activeTeamPreviewIndex});">
+            <i data-lucide="user-plus" style="width:14px;height:14px;"></i>
+            <span>연락처 저장</span>
+          </button>
+          <a href="${webUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+            <span>${webLabel}</span>
+          </a>
+        </div>
+        <div class="inside-action-row">
+          <a href="${kakaoUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#ffd978;"><path d="M12 3C6.48 3 2 6.48 2 10.77C2 13.52 3.82 15.93 6.6 17.21L5.7 20.55C5.6 20.93 6.03 21.23 6.36 21.01L10.38 18.34C10.91 18.41 11.45 18.45 12 18.45C17.52 18.45 22 14.97 22 10.77C22 6.48 17.52 3 12 3Z"/></svg>
+            <span>${kakaoLabel}</span>
+          </a>
+          <a href="${instaUrl}" target="_blank" class="btn-action btn-glass" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;color:#f472b6;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+            <span>${instaLabel}</span>
+          </a>
+        </div>
+      `;
+
+      document.getElementById('frontActionDock').innerHTML = dockHtml;
+      document.getElementById('backActionDock').innerHTML = dockHtml;
+
+      lucide.createIcons();
+    }
+
+    function downloadMemberVcard(idx) {
+      const m = teamMembers[idx] || {};
+      const comp = document.getElementById('teamCompany')?.value || 'SETUPOD';
+      const vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        `FN:${m.name}`,
+        `ORG:${comp}`,
+        `TITLE:${m.role}`,
+        `TEL;TYPE=CELL:${m.phone}`,
+        `EMAIL;TYPE=WORK:${m.email}`,
+        'END:VCARD'
+      ].join('\r\n');
+
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${m.name}_${comp}.vcf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`${m.name} 님의 연락처(vCard)가 저장되었습니다.`);
+    }
+
+    function openBatchModal() {
+      document.getElementById('modalBatchPaste').style.display = 'flex';
+    }
+
+    function closeBatchModal() {
+      document.getElementById('modalBatchPaste').style.display = 'none';
+    }
+
+    function applyBatchPaste() {
+      const text = document.getElementById('batchPasteInput').value.trim();
+      if (!text) {
+        showToast('입력된 텍스트가 없습니다.');
+        return;
+      }
+
+      const lines = text.split('\n');
+      const newMembers = [];
+      lines.forEach((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        const parts = trimmed.includes('\t') ? trimmed.split('\t') : trimmed.split(/[,，]/);
+        const cleanParts = parts.map(p => p.trim());
+        
+        if (cleanParts.length >= 2) {
+          newMembers.push({
+            name: cleanParts[0] || `팀원 ${i+1}`,
+            role: cleanParts[1] || '팀원',
+            slug: (cleanParts[2] || `member${i+1}`).toLowerCase().replace(/[^a-z0-9_-]/g, ''),
+            phone: cleanParts[3] || '010-5555-0000',
+            email: cleanParts[4] || 'member@company.com'
+          });
+        }
+      });
+
+      if (newMembers.length > 0) {
+        teamMembers = newMembers;
+        activeTeamPreviewIndex = 0;
+        renderTeamRoster();
+        liveUpdateTeam();
+        closeBatchModal();
+        showToast(`${newMembers.length}명의 팀원이 성공적으로 등록되었습니다!`);
+      } else {
+        showToast('형식을 인식하지 못했습니다. 형식: 이름, 직함, 슬러그, 전화번호, 이메일');
+      }
+    }
+
+    function exportTeamData() {
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'setupod').trim().toLowerCase();
+      const data = {
+        company: document.getElementById('teamCompany')?.value || 'SETUPOD',
+        companySlug: compSlug,
+        theme: currentTeamTheme,
+        layout: currentTeamLayout,
+        watermark: document.getElementById('teamWatermark')?.value || 'SETUPOD',
+        tagline: document.getElementById('teamTagline')?.value || '',
+        slogan: document.getElementById('teamSlogan')?.value || '',
+        website: {
+          url: document.getElementById('teamWebsiteUrl')?.value || '',
+          label: document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트'
+        },
+        kakao: {
+          url: document.getElementById('teamKakaoUrl')?.value || '',
+          label: document.getElementById('teamKakaoLabel')?.value || '카카오톡 상담'
+        },
+        instagram: {
+          url: document.getElementById('teamInstaUrl')?.value || '',
+          label: document.getElementById('teamInstaLabel')?.value || '인스타그램'
+        },
+        members: teamMembers.map(m => ({
+          ...m,
+          url: `https://setupod.com/${compSlug}/${m.slug}`
+        }))
+      };
+
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+      const a = document.createElement('a');
+      a.href = jsonStr;
+      a.download = `${compSlug}_team_digital_cards.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'export_team_data', {
+          event_category: 'engagement',
+          company_slug: compSlug,
+          member_count: teamMembers.length
+        });
+      }
+
+      showToast("팀 전체 명함 데이터가 다운로드되었습니다!");
+    }
+
+    async function publishTeamToCloud() {
+      if (typeof syncTeamPodsToCloud !== 'function') {
+        showToast("Supabase 클라우드 모듈이 연결되지 않았습니다.");
+        return;
+      }
+
+      showToast("클라우드에 팀 명함을 발행 중입니다...");
+      const compSlug = (document.getElementById('teamCompanySlug')?.value || 'setupod').trim().toLowerCase();
+      const companyData = {
+        company: document.getElementById('teamCompany')?.value || 'SETUPOD',
+        theme: currentTeamTheme,
+        layout: currentTeamLayout,
+        watermark: document.getElementById('teamWatermark')?.value || 'SETUPOD',
+        slogan: document.getElementById('teamSlogan')?.value || '',
+        tagline: document.getElementById('teamTagline')?.value || '',
+        websiteUrl: document.getElementById('teamWebsiteUrl')?.value || 'https://setupod.com',
+        websiteLabel: document.getElementById('teamWebsiteLabel')?.value || '공식 웹사이트',
+        kakaoUrl: document.getElementById('teamKakaoUrl')?.value || '#',
+        kakaoLabel: document.getElementById('teamKakaoLabel')?.value || '카카오톡',
+        instaUrl: document.getElementById('teamInstaUrl')?.value || '#',
+        instaLabel: document.getElementById('teamInstaLabel')?.value || '인스타그램',
+        logoSrc: currentLogoSrc,
+        logoMotion: currentLogoMotion
+      };
+
+      try {
+        const res = await syncTeamPodsToCloud(compSlug, companyData, teamMembers);
+        if (res && res.error) {
+          if (res.error.includes("로그인")) {
+            showToast("클라우드 발행을 위해 먼저 구글 로그인이 필요합니다.");
+            if (typeof signInWithGoogle === 'function') {
+              setTimeout(() => {
+                if (confirm("클라우드 저장을 위해 구글 간편 로그인을 진행할까요?")) {
+                  signInWithGoogle();
+                }
+              }, 600);
+            }
+          } else {
+            showToast(`발행 오류: ${res.error}`);
+          }
+        } else {
+          if (typeof gtag === 'function') {
+            gtag('event', 'team_published_cloud', {
+              event_category: 'conversion',
+              company_slug: compSlug,
+              member_count: teamMembers.length
+            });
+            gtag('event', 'generate_lead', {
+              value: teamMembers.length * 1000,
+              currency: 'KRW'
+            });
+          }
+          showToast(`🎉 명함 발행이 완료되었습니다! 대시보드로 이동합니다.`);
+          setTimeout(() => {
+            window.location.href = 'dashboard.html';
+          }, 1500);
+        }
+      } catch (err) {
+        console.error("Publish error:", err);
+        showToast("발행 중 오류가 발생했습니다.");
+      }
+    }
+
+    function copyUrlToClipboard(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast(`링크 복사 완료: ${url}`);
+      }).catch(() => {
+        showToast(`복사 실패. 링크: ${url}`);
+      });
+    }
+
+    // 3D 홀로그램 & GIF 모션 연출 관리
+    let currentLogoMotion = 'pulse';
+
+    function setCardMotion(motion) {
+      currentLogoMotion = motion;
+      const fBox = document.querySelector('.front-logo-box');
+      const bBox = document.querySelector('.back-top-logo');
+      
+      const motionClasses = ['fx-hologram-pulse', 'fx-cyber-shimmer', 'fx-3d-floating', 'fx-gold-sparkle'];
+      [fBox, bBox].forEach(box => {
+        if (!box) return;
+        motionClasses.forEach(c => box.classList.remove(c));
+        if (motion === 'pulse') box.classList.add('fx-hologram-pulse');
+        else if (motion === 'shimmer') box.classList.add('fx-cyber-shimmer');
+        else if (motion === 'float') box.classList.add('fx-3d-floating');
+        else if (motion === 'gold') box.classList.add('fx-gold-sparkle');
+      });
+
+      // Update button styling
+      const btns = {
+        pulse: document.getElementById('btnMotionChoicePulse'),
+        shimmer: document.getElementById('btnMotionChoiceShimmer'),
+        float: document.getElementById('btnMotionChoiceFloat'),
+        gold: document.getElementById('btnMotionChoiceGold'),
+        none: document.getElementById('btnMotionChoiceNone')
+      };
+
+      Object.keys(btns).forEach(key => {
+        const btn = btns[key];
+        if (!btn) return;
+        if (key === motion) {
+          btn.style.background = 'rgba(139,92,246,0.18)';
+          btn.style.borderColor = '#8b5cf6';
+          btn.style.color = '#fff';
+        } else {
+          btn.style.background = 'rgba(255,255,255,0.04)';
+          btn.style.borderColor = 'var(--border)';
+          btn.style.color = 'rgba(255,255,255,0.6)';
+        }
+      });
+      localStorage.setItem('setupod_avatar_motion', motion);
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. URL에서 edit 파라미터 확인 및 클라우드 연동
+      const urlParams = new URLSearchParams(window.location.search);
+      const editSlug = urlParams.get('edit');
+      
+      let savedData = null;
+      
+      if (editSlug && typeof loadPodFromCloud === 'function') {
+        try {
+          if (typeof showToast === 'function') showToast('클라우드에서 명함 데이터를 불러오는 중...');
+          const result = await loadPodFromCloud(editSlug);
+          const pod = result ? result.pod : null;
+          if (pod && pod.components_json) {
+            savedData = { id: pod.slug, card: pod.components_json.card };
+            if (typeof showToast === 'function') showToast('✅ 데이터를 성공적으로 불러왔습니다.');
+            
+            // makerIntroOverlay 닫기
+            const overlay = document.getElementById('makerIntroOverlay');
+            if (overlay) overlay.style.display = 'none';
+          }
+        } catch(e) {
+          console.error("Edit load error:", e);
+        }
+      }
+      
+      // 2. 임시 저장된 카드 데이터 복구 로직 (로그인 전 작성본 유실 방지 - fallback)
+      if (!savedData) {
+        const savedCardDataStr = localStorage.getItem('setupod_card_data');
+        if (savedCardDataStr) {
+          try {
+            savedData = JSON.parse(savedCardDataStr);
+          } catch(e) { console.error(e); }
+        }
+      }
+
+      if (savedData) {
+        try {
+          const sd = savedData;
+          const card = sd.card;
+          if (card) {
+            if(document.getElementById('inputSlug')) document.getElementById('inputSlug').value = sd.id || editSlug || '';
+            if(document.getElementById('inputName')) document.getElementById('inputName').value = card.name || '';
+            if(document.getElementById('inputRole')) document.getElementById('inputRole').value = card.role || '';
+            if(document.getElementById('inputCompany')) document.getElementById('inputCompany').value = card.company || '';
+            if(document.getElementById('inputWatermark')) document.getElementById('inputWatermark').value = card.companyWatermark || '';
+            if(document.getElementById('inputSlogan')) document.getElementById('inputSlogan').value = card.slogan || '';
+            if(document.getElementById('inputTagline')) document.getElementById('inputTagline').value = card.tagline || '';
+            if(document.getElementById('inputPhone')) document.getElementById('inputPhone').value = card.phone || '';
+            if(document.getElementById('inputEmail')) document.getElementById('inputEmail').value = card.email || '';
+            
+            if(card.moatTags) {
+              if(document.getElementById('inputTag1')) document.getElementById('inputTag1').value = card.moatTags[0] || '';
+              if(document.getElementById('inputTag2')) document.getElementById('inputTag2').value = card.moatTags[1] || '';
+              if(document.getElementById('inputTag3')) document.getElementById('inputTag3').value = card.moatTags[2] || '';
+            }
+            if(card.primaryAction) {
+              if(document.getElementById('inputWebsiteUrl')) document.getElementById('inputWebsiteUrl').value = card.primaryAction.url || '';
+              if(document.getElementById('inputWebsiteLabel')) document.getElementById('inputWebsiteLabel').value = card.primaryAction.label || '';
+            }
+            if(card.socials) {
+              const kakao = card.socials.find(s => s.type === 'kakao');
+              if(kakao) {
+                if(document.getElementById('inputKakaoUrl')) document.getElementById('inputKakaoUrl').value = kakao.url || '';
+                if(document.getElementById('inputKakaoLabel')) document.getElementById('inputKakaoLabel').value = kakao.label || '';
+              }
+              const insta = card.socials.find(s => s.type === 'instagram');
+              if(insta) {
+                if(document.getElementById('inputInstaUrl')) document.getElementById('inputInstaUrl').value = insta.url || '';
+                if(document.getElementById('inputInstaLabel')) document.getElementById('inputInstaLabel').value = insta.label || '';
+              }
+            }
+            
+            // 테마와 레이아웃 복원
+            if (card.theme) {
+              const themeEl = document.querySelector(`[data-theme="${card.theme}"]`);
+              if (themeEl && typeof selectTheme === 'function') selectTheme(card.theme, themeEl);
+            }
+            if (card.layout) {
+              const layoutEl = document.querySelector(`[data-layout="${card.layout}"]`);
+              if (layoutEl && typeof selectLayout === 'function') selectLayout(card.layout, layoutEl);
+            }
+            
+            showToast("💾 로그인 전 작업하던 명함 데이터를 복구했습니다.");
+            
+            // 로그인 후 돌아온 상태라면 곧바로 클라우드 발행까지 연계
+            if (typeof getCurrentUser === 'function') {
+               getCurrentUser().then(user => {
+                 if(user) {
+                    setTimeout(() => {
+                        if (typeof submitMakerForm === 'function') submitMakerForm();
+                        // 발행 후 localStorage 비우기
+                        localStorage.removeItem('setupod_card_data');
+                    }, 500);
+                 }
+               });
+            }
+          }
+        } catch(e) {
+          console.error("Draft restore error:", e);
+        }
+      }
+
+      const savedAvatar = localStorage.getItem('setupod_custom_avatar');
+      if (savedAvatar) {
+        currentLogoSrc = savedAvatar;
+        const fImg = document.getElementById('frontLogoImg');
+        const bImg = document.getElementById('backLogoImg');
+        if (fImg) fImg.src = currentLogoSrc;
+        if (bImg) bImg.src = currentLogoSrc;
+        setTimeout(() => showToast('✨ 2026 누끼 프로필이 3D 명함에 장착되었습니다!'), 500);
+        localStorage.removeItem('setupod_custom_avatar');
+      }
+
+      const savedMotion = localStorage.getItem('setupod_avatar_motion') || 'pulse';
+      setCardMotion(savedMotion);
+
+      lucide.createIcons();
+      liveUpdate();
+    });
+  </script>
+
+  <!-- 일괄 붙여넣기 모달 -->
+  <div id="modalBatchPaste" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeBatchModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="clipboard-paste" style="width:18px;height:18px;color:#c084fc;"></i>
+          <h3>📋 팀원 명단 일괄 붙여넣기 (엑셀 / CSV)</h3>
+        </div>
+        <button class="modal-close" onclick="closeBatchModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:10px;line-height:1.6;background:rgba(255,255,255,0.04);padding:10px 12px;border-radius:8px;">
+          엑셀에서 복사하거나 아래 형식(쉼표 또는 탭)으로 한 줄에 한 명씩 입력하세요:<br>
+          <code style="color:#38bdf8;">이름, 직함, 슬러그(영문ID), 전화번호, 이메일</code>
+        </div>
+        <textarea id="batchPasteInput" class="form-textarea" rows="7" style="width:100%;font-family:monospace;font-size:12px;" placeholder="Alex Rivera, 대표이사, alex, 010-5555-0100, alex@setupod.com
+김민준, 총괄 디렉터, minjun, 010-5555-0200, minjun@setupod.com
+이서연, 수석 디자이너, seoyeon, 010-5555-0300, seoyeon@setupod.com"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-team-action" onclick="closeBatchModal()">취소</button>
+        <button class="btn-team-action primary" onclick="applyBatchPaste()">
+          <i data-lucide="check" style="width:14px;height:14px;"></i>
+          <span>명단에 일괄 적용하기</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/pro_modal.js"></script>
+
+  <script>
+function toggleMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      if (!overlay) return;
+      overlay.classList.toggle('active');
+      if (overlay.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+  </script>
+
+  <script>
+
+    // B2B2B Widget Embed Logic
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('embed') === 'true') {
+        document.documentElement.classList.add('is-embedded');
+        const observer = new ResizeObserver(() => {
+          window.parent.postMessage({ type: 'setupod_resize', height: document.documentElement.scrollHeight }, '*');
+        });
+        observer.observe(document.body);
+        window.addEventListener('load', () => {
+          window.parent.postMessage({ type: 'setupod_ready', height: document.documentElement.scrollHeight }, '*');
+        });
+      }
+    })();
+  
+  </script>
+
+  <!-- 푸터 -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; z-index: 10; position: relative;">
+    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-size: 14px;">SETUPOD — All-in-One Business Asset &amp; 3D Card Platform</p>
+    <p style="font-size: 13px; margin-bottom: 8px;">
+      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    </p>
+    <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
+  </footer>
+
+  <!-- PRO Payment Modal -->
+  <div id="paymentModal" onclick="if(event.target===this) closePaymentModal();">
+    <div class="payment-box">
+      <h2>✨ PRO 업그레이드</h2>
+      <p style="color: rgba(255,255,255,0.6); font-size: 14px;">프리미엄 테마와 기능을 잠금 해제하세요</p>
+      <div class="price">₩9,900</div>
+      <p style="font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px;">1회 결제 · 영구 소장</p>
+      <ul class="features">
+        <li>Rose Gold / Executive Metal / Glassmorphism 테마</li>
+        <li>커스텀 도메인 연결 (예정)</li>
+        <li>방문자 통계 상세 리포트 (예정)</li>
+        <li>PRO 전용 뱃지 표시</li>
+      </ul>
+      <button class="btn-pay" onclick="processPayment()">PRO 결제하기</button>
+      <br>
+      <button class="btn-pay-cancel" onclick="closePaymentModal()">나중에 할게요</button>
+    </div>
+  </div>
+
+  <script>
+    // PRO 상태 관리
+    let isProUser = false;
+    let pendingProTheme = null;
+    
+    // 페이지 로드 시 PRO 상태 체크
+    (async function checkProStatus() {
+      const proFlag = localStorage.getItem('setupod_pro');
+      if (proFlag === 'true') {
+        isProUser = true;
+        unlockAllProThemes();
+      }
+    })();
+    
+    function unlockAllProThemes() {
+      document.querySelectorAll('.theme-pro-locked').forEach(el => {
+        el.classList.add('unlocked');
+        const theme = el.getAttribute('data-theme');
+        el.setAttribute('onclick', `selectTheme('${theme}', this)`);
+      });
+    }
+    
+    function handleProThemeClick(theme, el) {
+      if (isProUser) {
+        selectTheme(theme, el);
+        return;
+      }
+      pendingProTheme = { theme, el };
+      document.getElementById('paymentModal').classList.add('active');
+    }
+    
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.remove('active');
+      pendingProTheme = null;
+    }
+    
+    async function processPayment() {
+      const payBtn = document.querySelector('.btn-pay');
+      payBtn.textContent = '결제 창 여는 중...';
+      payBtn.disabled = true;
+      
+      try {
+        const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+        const tossPayments = TossPayments(clientKey);
+        
+        // Return URL for success/fail handling
+        const currentUrl = window.location.origin + window.location.pathname;
+        
+        await tossPayments.requestPayment('카드', {
+          amount: 9900,
+          orderId: 'setupod_pro_' + new Date().getTime(),
+          orderName: 'SETUPOD PRO 영구 소장',
+          customerName: 'SETUPOD 유저',
+          successUrl: currentUrl + '?payment=success',
+          failUrl: currentUrl + '?payment=fail',
+        });
+      } catch(e) {
+        console.error('Payment error:', e);
+        if (e.code !== 'USER_CANCEL') {
+          if (typeof showToast === 'function') showToast('결제 모듈을 불러오는 중 오류가 발생했습니다.');
+        }
+        payBtn.textContent = 'PRO 결제하기';
+        payBtn.disabled = false;
+      }
+    }
+
+    // URL 파라미터로 결제 성공/실패 처리
+    window.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentStatus = urlParams.get('payment');
+      
+      if (paymentStatus === 'success') {
+        if (typeof showToast === 'function') showToast('🎉 결제가 완료되었습니다! PRO 혜택이 적용됩니다.');
+        isProUser = true;
+        localStorage.setItem('setupod_pro', 'true');
+        if (typeof upgradeToPro === 'function') await upgradeToPro();
+        unlockAllProThemes();
+        
+        // URL 클린업
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (paymentStatus === 'fail') {
+        if (typeof showToast === 'function') showToast('결제가 취소되었거나 실패했습니다.');
+        // URL 클린업
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    });
+  </script>
+  <script src="https://js.tosspayments.com/v1"></script>
+
+  <!-- Removed makerIntroOverlay to drop users directly into the workspace -->
+
+  <script src="../js/toast.js"></script>
+  <script src="../js/auth-modal.js"></script>
+  <script src="../js/gnb.js"></script>
+  <script src="../js/maker-ai.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Sticker Library | SETUPOD</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    
+    :root {
+      --bg: #09090b;
+      --card: rgba(24, 24, 27, 0.7);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #fafafa;
+      --primary: #facc15;
+      --primary-hover: #eab308;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(234, 179, 8, 0.1) 0px, transparent 50%);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.05em; display: flex; align-items: center; gap: 0.5rem; }
+    .badge { background: linear-gradient(135deg, #a855f7, #ec4899); color: white; padding: 0.2rem 0.6rem; border-radius: 1rem; font-size: 0.75rem; font-weight: bold; }
+    
+    header {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+    header h1 { font-size: 3rem; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; background: linear-gradient(to right, #fff, #a1a1aa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    header p { color: #a1a1aa; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    .card:hover { 
+      transform: translateY(-10px); 
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .img-container {
+      width: 100%;
+      height: 240px;
+      background: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .card:hover .img-container img {
+      transform: scale(1.05);
+    }
+    
+    .content { padding: 1.5rem; }
+    .content h3 { font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600; }
+    .content p { color: #a1a1aa; font-size: 0.9rem; margin-bottom: 1.5rem; min-height: 40px; }
+    
+    .download-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      color: #1c1917;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 0.75rem;
+      transition: all 0.2s;
+    }
+    .download-btn:hover { 
+      background: var(--primary-hover); 
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">SETUPOD <span class="badge">Freebies</span></div>
+    <div style="color: #a1a1aa; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center;">메인으로 돌아가기 &rarr;</div>
+  </nav>
+
+  <header>
+    <h1>상업용 무제한 스티커,<br>평생 무료로 가져가세요.</h1>
+    <p>다이어리 꾸미기에 완벽한 고화질 디지털 스티커 에셋입니다.<br>매주 새로운 스티커 팩이 업데이트됩니다.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Rabbit Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../assets/rabbit_stickers.jpg" alt="토끼 스티커">
+      </div>
+      <div class="content">
+        <h3>시크릿 래빗 다꾸 팩 (Premium)</h3>
+        <p>당근, 수면, 독서 등 귀여운 토끼 마스코트 4종으로 구성된 프리미엄 다꾸 세트입니다.</p>
+        <a href="../assets/rabbit_stickers.jpg" download class="download-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          무료 다운로드
+        </a>
+      </div>
+    </div>
+
+    <!-- Premium Memo Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../assets/premium_stickers.jpg" alt="프리미엄 메모">
+      </div>
+      <div class="content">
+        <h3>에스테틱 메모 & 데코 팩</h3>
+        <p>감성적인 폴라로이드, 커피컵, 파스텔 리본 등 감성 다이어리에 필수적인 세트입니다.</p>
+        <a href="../assets/premium_stickers.jpg" download class="download-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          무료 다운로드
+        </a>
+      </div>
+    </div>
+
+    <!-- Bear Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../assets/bear_stickers.jpg" alt="곰돌이 스티커">
+      </div>
+      <div class="content">
+        <h3>통통 감성 곰돌이 팩 (12종)</h3>
+        <p>어디에 붙여도 찰떡같이 어울리는 따뜻한 색감의 곰돌이 다꾸 스티커 팩입니다.</p>
+        <a href="../assets/bear_stickers.jpg" download class="download-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          무료 다운로드
+        </a>
+      </div>
+    </div>
+    <!-- Cat Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../assets/cat_stickers.jpg" alt="고양이 스티커">
+      </div>
+      <div class="content">
+        <h3>폭신폭신 힐링 고양이 팩 (17종)</h3>
+        <p>다이어리를 포근하게 만들어줄 사랑스러운 고양이 마스코트 다꾸 스티커 팩입니다.</p>
+        <a href="../assets/cat_stickers.jpg" download class="download-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          무료 다운로드
+        </a>
+      </div>
+    </div>
+    <!-- Character Pack -->
+    <div class="card">
+      <div class="img-container">
+        <img src="../assets/character_stickers.jpg" alt="캐릭터 스티커">
+      </div>
+      <div class="content">
+        <h3>귀염뽀짝 캐릭터 팩 (20종)</h3>
+        <p>어떤 다이어리에도 찰떡같이 어울리는 감성 가득한 미니 캐릭터 다꾸 세트입니다.</p>
+        <a href="../assets/character_stickers.jpg" download class="download-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          무료 다운로드
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

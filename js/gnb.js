@@ -2,7 +2,7 @@
   // GNB HTML 구조 정의
   const gnbHtml = `
   <nav>
-    <a href="index.html" class="nav-brand">
+    <a href="/" class="nav-brand">
       <div class="nav-logo-text-wrap">
         <div class="nav-logo-row">
           <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
@@ -17,19 +17,21 @@
       <div class="nav-dropdown">
         <span class="nav-link" style="cursor:default;">🧠 Think</span>
         <div class="nav-dropdown-menu">
-          <a href="memopod.html">MemoPod (메모/지식)</a>
-          <a href="planner.html">2026 플래너</a>
+          <a href="/planner/">2026 비즈니스 플래너</a>
+          <!-- <a href="/memopod/">MemoPod (메모/지식)</a> -->
         </div>
       </div>
       <div class="nav-dropdown">
         <span class="nav-link" style="cursor:default;">🎨 Create</span>
         <div class="nav-dropdown-menu">
-          <a href="10k_studio.html">시네마틱 10K 스튜디오</a>
-          <a href="maker.html">3D 명함 스튜디오</a>
-          <a href="link.html">멀티링크 허브</a>
-          <a href="profile_studio.html">프로필 리터처</a>
+          <a href="/bizcard/maker.html">3D 인터랙티브 명함</a>
+          <a href="/multilink/">올인원 멀티링크</a>
+          <a href="/insta/">AI 인스타 카드뉴스</a>
+          <!-- <a href="/10k_studio.html">시네마틱 10K 스튜디오</a> -->
+          <!-- <a href="/profile_studio.html">프로필 리터처</a> -->
         </div>
       </div>
+      <!--
       <div class="nav-dropdown">
         <span class="nav-link" style="cursor:default;">💼 Sell</span>
         <div class="nav-dropdown-menu">
@@ -39,7 +41,8 @@
           <a href="detail_studio.html">AI 상세페이지 설계</a>
         </div>
       </div>
-      <a href="maker.html" class="btn-create-nav">
+      -->
+      <a href="/planner/" class="btn-create-nav">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
         <span>무료로 시작하기</span>
       </a>
@@ -47,7 +50,7 @@
 
     <!-- 모바일 전용 네비 컨트롤 -->
     <div class="mobile-nav-controls">
-      <a href="maker.html" class="btn-mobile-maker">
+      <a href="/planner/" class="btn-mobile-maker">
         <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
         <span>1초 셋업</span>
       </a>
@@ -69,19 +72,43 @@
         </button>
       </div>
       <div class="mobile-menu-list">
-        <a href="index.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        <a href="/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="home" style="width:18px;height:18px;color:#a855f7;"></i>
             <span>홈으로 가기</span>
           </div>
         </a>
-        <a href="planner.html" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()">
+        <a href="/planner/" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="compass" style="width:18px;height:18px;color:#c084fc;"></i>
             <span>2026 비즈니스 플래너</span>
           </div>
           <span class="menu-badge-new">NEW</span>
         </a>
+        <a href="/bizcard/maker.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="rotate-3d" style="width:18px;height:18px;color:#a855f7;"></i>
+            <span>3D 인터랙티브 명함</span>
+          </div>
+          <span class="menu-badge-new" style="background:#a855f7;">BEST</span>
+        </a>
+
+        <a href="/multilink/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="link" style="width:18px;height:18px;color:#38bdf8;"></i>
+            <span>올인원 멀티링크</span>
+          </div>
+        </a>
+        
+        <a href="/insta/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="sparkles" style="width:18px;height:18px;color:#f59e0b;"></i>
+            <span>AI 인스타 카드뉴스 스튜디오</span>
+          </div>
+          <span class="menu-badge-new" style="background:#f59e0b;color:#111;">HOT</span>
+        </a>
+
+        <!-- 임시 주석 처리 (나중에 하나씩 오픈)
         <a href="proposal_maker.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="file-spreadsheet" style="width:18px;height:18px;color:#38bdf8;"></i>
@@ -103,13 +130,7 @@
           </div>
           <span class="menu-badge-new" style="background:#8b5cf6;">AI</span>
         </a>
-        <a href="profile_studio.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
-          <div class="menu-item-left">
-            <i data-lucide="sparkles" style="width:18px;height:18px;color:#c084fc;"></i>
-            <span>AI 프로필 리터처</span>
-          </div>
-          <span class="menu-badge-new" style="background:#8b5cf6;">AI</span>
-        </a>
+
         <a href="detail_studio.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="layout-template" style="width:18px;height:18px;color:#f472b6;"></i>
@@ -117,33 +138,31 @@
           </div>
           <span class="menu-badge-new" style="background:#ec4899;">AI</span>
         </a>
-        <a href="index.html#marketing-tools" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        -->
+
+        <a href="/#marketing-tools" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="wrench" style="width:18px;height:18px;color:#38bdf8;"></i>
             <span>마케팅 툴킷</span>
           </div>
         </a>
-        <a href="index.html#growth-systems" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        <!--
+        <a href="/#growth-systems" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="trending-up" style="width:18px;height:18px;color:#34d399;"></i>
             <span>세일즈 시스템</span>
           </div>
         </a>
-        <a href="index.html#pricing" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        -->
+        <a href="/#pricing" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="credit-card" style="width:18px;height:18px;color:#fbbf24;"></i>
             <span>가격 안내</span>
           </div>
         </a>
-        <a href="link.html" class="mobile-menu-item" target="_blank" onclick="window.closeMobileMenu()">
-          <div class="menu-item-left">
-            <i data-lucide="link" style="width:18px;height:18px;color:#a78bfa;"></i>
-            <span>인스타 멀티링크</span>
-          </div>
-        </a>
       </div>
       <div class="mobile-menu-footer">
-        <a href="maker.html" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
+        <a href="/planner/" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
           <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
           <span>내 팟(Pod) 만들기</span>
         </a>
@@ -196,7 +215,7 @@
         // 로그인 상태: 내 대시보드로 이동
         const avatarUrl = user.user_metadata?.avatar_url || 'assets/sample_avatar.png';
         btnCreateNav.innerHTML = `<img src="${avatarUrl}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"><span>내 대시보드</span>`;
-        btnCreateNav.href = "dashboard.html";
+        btnCreateNav.href = "/bizcard/dashboard.html";
         btnCreateNav.title = "대시보드로 이동";
         btnCreateNav.onclick = null;
       } else if (!user && btnCreateNav) {
@@ -206,10 +225,10 @@
           e.preventDefault();
           if (typeof window.requireAuth === 'function') {
             window.requireAuth(() => {
-              window.location.href = 'maker.html';
+              window.location.href = 'planner.html';
             });
           } else {
-            window.location.href = 'maker.html';
+            window.location.href = 'planner.html';
           }
         };
       }

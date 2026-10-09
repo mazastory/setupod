@@ -22,7 +22,7 @@
           "value": "card.setupod.com"
         }
       ],
-      "destination": "/maker"
+      "destination": "/core/maker.html"
     },
     {
       "source": "/:path+",
@@ -32,7 +32,7 @@
           "value": "card.setupod.com"
         }
       ],
-      "destination": "/card"
+      "destination": "/business_cards/card.html"
     },
     {
       "source": "/:path*",
@@ -42,31 +42,31 @@
           "value": "link.setupod.com"
         }
       ],
-      "destination": "/link"
+      "destination": "/business_cards/link.html"
     },
     {
       "source": "/planner",
-      "destination": "/planner"
+      "destination": "/planners/planner.html"
     },
     {
       "source": "/planner/(.*)",
-      "destination": "/planner/$1"
+      "destination": "/planners/planner.html/$1"
     },
     {
       "source": "/detail_studio",
-      "destination": "/detail_studio"
+      "destination": "/product_planning/detail_studio.html"
     },
     {
       "source": "/detail_studio/(.*)",
-      "destination": "/detail_studio/$1"
+      "destination": "/product_planning/detail_studio.html/$1"
     },
     {
       "source": "/proof_maker",
-      "destination": "/proof_maker"
+      "destination": "/sales_funnel/proof_maker.html"
     },
     {
       "source": "/proof_maker/(.*)",
-      "destination": "/proof_maker/$1"
+      "destination": "/sales_funnel/proof_maker.html/$1"
     },
     {
       "source": "/sitemap.xml",
@@ -78,11 +78,11 @@
     },
     {
       "source": "/link",
-      "destination": "/link"
+      "destination": "/business_cards/link.html"
     },
     {
       "source": "/link/(.*)",
-      "destination": "/link/$1"
+      "destination": "/business_cards/link.html/$1"
     },
     {
       "source": "/themes",
@@ -94,19 +94,19 @@
     },
     {
       "source": "/link.html",
-      "destination": "/link.html"
+      "destination": "/business_cards/link.html"
     },
     {
       "source": "/link.html/(.*)",
-      "destination": "/link.html/$1"
+      "destination": "/business_cards/link.html/$1"
     },
     {
       "source": "/10k_studio",
-      "destination": "/10k_studio"
+      "destination": "/product_planning/10k_studio.html"
     },
     {
       "source": "/10k_studio/(.*)",
-      "destination": "/10k_studio/$1"
+      "destination": "/product_planning/10k_studio.html/$1"
     },
     {
       "source": "/_vercel",
@@ -118,11 +118,11 @@
     },
     {
       "source": "/terms.html",
-      "destination": "/terms.html"
+      "destination": "/core/terms.html"
     },
     {
       "source": "/terms.html/(.*)",
-      "destination": "/terms.html/$1"
+      "destination": "/core/terms.html/$1"
     },
     {
       "source": "/instagram_teaser",
@@ -134,11 +134,11 @@
     },
     {
       "source": "/scorecard_maker.html",
-      "destination": "/scorecard_maker.html"
+      "destination": "/sales_funnel/scorecard_maker.html"
     },
     {
       "source": "/scorecard_maker.html/(.*)",
-      "destination": "/scorecard_maker.html/$1"
+      "destination": "/sales_funnel/scorecard_maker.html/$1"
     },
     {
       "source": "/studio",
@@ -150,19 +150,19 @@
     },
     {
       "source": "/maker",
-      "destination": "/maker"
+      "destination": "/core/maker.html"
     },
     {
       "source": "/maker/(.*)",
-      "destination": "/maker/$1"
+      "destination": "/core/maker.html/$1"
     },
     {
       "source": "/privacy.html",
-      "destination": "/privacy.html"
+      "destination": "/core/privacy.html"
     },
     {
       "source": "/privacy.html/(.*)",
-      "destination": "/privacy.html/$1"
+      "destination": "/core/privacy.html/$1"
     },
     {
       "source": "/instagram_teaser.html",
@@ -182,19 +182,19 @@
     },
     {
       "source": "/proposal_maker",
-      "destination": "/proposal_maker"
+      "destination": "/sales_funnel/proposal_maker.html"
     },
     {
       "source": "/proposal_maker/(.*)",
-      "destination": "/proposal_maker/$1"
+      "destination": "/sales_funnel/proposal_maker.html/$1"
     },
     {
       "source": "/maker.html",
-      "destination": "/maker.html"
+      "destination": "/core/maker.html"
     },
     {
       "source": "/maker.html/(.*)",
-      "destination": "/maker.html/$1"
+      "destination": "/core/maker.html/$1"
     },
     {
       "source": "/proposal-maker",
@@ -206,19 +206,19 @@
     },
     {
       "source": "/proof_maker.html",
-      "destination": "/proof_maker.html"
+      "destination": "/sales_funnel/proof_maker.html"
     },
     {
       "source": "/proof_maker.html/(.*)",
-      "destination": "/proof_maker.html/$1"
+      "destination": "/sales_funnel/proof_maker.html/$1"
     },
     {
       "source": "/scorecard_maker",
-      "destination": "/scorecard_maker"
+      "destination": "/sales_funnel/scorecard_maker.html"
     },
     {
       "source": "/scorecard_maker/(.*)",
-      "destination": "/scorecard_maker/$1"
+      "destination": "/sales_funnel/scorecard_maker.html/$1"
     },
     {
       "source": "/memo",
@@ -238,19 +238,19 @@
     },
     {
       "source": "/proposal_maker.html",
-      "destination": "/proposal_maker.html"
+      "destination": "/sales_funnel/proposal_maker.html"
     },
     {
       "source": "/proposal_maker.html/(.*)",
-      "destination": "/proposal_maker.html/$1"
+      "destination": "/sales_funnel/proposal_maker.html/$1"
     },
     {
       "source": "/scorecard.html",
-      "destination": "/scorecard.html"
+      "destination": "/sales_funnel/scorecard.html"
     },
     {
       "source": "/scorecard.html/(.*)",
-      "destination": "/scorecard.html/$1"
+      "destination": "/sales_funnel/scorecard.html/$1"
     },
     {
       "source": "/index",
@@ -262,11 +262,11 @@
     },
     {
       "source": "/waitlist.html",
-      "destination": "/waitlist.html"
+      "destination": "/pre_launch/waitlist.html"
     },
     {
       "source": "/waitlist.html/(.*)",
-      "destination": "/waitlist.html/$1"
+      "destination": "/pre_launch/waitlist.html/$1"
     },
     {
       "source": "/.vercel",
@@ -294,27 +294,27 @@
     },
     {
       "source": "/proof",
-      "destination": "/proof"
+      "destination": "/sales_funnel/proof.html"
     },
     {
       "source": "/proof/(.*)",
-      "destination": "/proof/$1"
+      "destination": "/sales_funnel/proof.html/$1"
     },
     {
       "source": "/billing",
-      "destination": "/billing"
+      "destination": "/core/billing.html"
     },
     {
       "source": "/billing/(.*)",
-      "destination": "/billing/$1"
+      "destination": "/core/billing.html/$1"
     },
     {
       "source": "/roi_calculator",
-      "destination": "/roi_calculator"
+      "destination": "/sales_funnel/roi_calculator.html"
     },
     {
       "source": "/roi_calculator/(.*)",
-      "destination": "/roi_calculator/$1"
+      "destination": "/sales_funnel/roi_calculator.html/$1"
     },
     {
       "source": "/waitlist-maker",
@@ -342,19 +342,19 @@
     },
     {
       "source": "/privacy",
-      "destination": "/privacy"
+      "destination": "/core/privacy.html"
     },
     {
       "source": "/privacy/(.*)",
-      "destination": "/privacy/$1"
+      "destination": "/core/privacy.html/$1"
     },
     {
       "source": "/hook_maker",
-      "destination": "/hook_maker"
+      "destination": "/sns_marketing/hook_maker.html"
     },
     {
       "source": "/hook_maker/(.*)",
-      "destination": "/hook_maker/$1"
+      "destination": "/sns_marketing/hook_maker.html/$1"
     },
     {
       "source": "/.git",
@@ -366,27 +366,27 @@
     },
     {
       "source": "/product_studio",
-      "destination": "/product_studio"
+      "destination": "/product_planning/product_studio.html"
     },
     {
       "source": "/product_studio/(.*)",
-      "destination": "/product_studio/$1"
+      "destination": "/product_planning/product_studio.html/$1"
     },
     {
       "source": "/instagram_slides",
-      "destination": "/instagram_slides"
+      "destination": "/sns_marketing/instagram_slides.html"
     },
     {
       "source": "/instagram_slides/(.*)",
-      "destination": "/instagram_slides/$1"
+      "destination": "/sns_marketing/instagram_slides.html/$1"
     },
     {
       "source": "/proof.html",
-      "destination": "/proof.html"
+      "destination": "/sales_funnel/proof.html"
     },
     {
       "source": "/proof.html/(.*)",
-      "destination": "/proof.html/$1"
+      "destination": "/sales_funnel/proof.html/$1"
     },
     {
       "source": "/product-studio",
@@ -430,11 +430,11 @@
     },
     {
       "source": "/detail_studio.html",
-      "destination": "/detail_studio.html"
+      "destination": "/product_planning/detail_studio.html"
     },
     {
       "source": "/detail_studio.html/(.*)",
-      "destination": "/detail_studio.html/$1"
+      "destination": "/product_planning/detail_studio.html/$1"
     },
     {
       "source": "/roi-calculator",
@@ -502,11 +502,11 @@
     },
     {
       "source": "/planner.html",
-      "destination": "/planner.html"
+      "destination": "/planners/planner.html"
     },
     {
       "source": "/planner.html/(.*)",
-      "destination": "/planner.html/$1"
+      "destination": "/planners/planner.html/$1"
     },
     {
       "source": "/brewoak",
@@ -518,11 +518,11 @@
     },
     {
       "source": "/waitlist_maker",
-      "destination": "/waitlist_maker"
+      "destination": "/pre_launch/waitlist_maker.html"
     },
     {
       "source": "/waitlist_maker/(.*)",
-      "destination": "/waitlist_maker/$1"
+      "destination": "/pre_launch/waitlist_maker.html/$1"
     },
     {
       "source": "/semolake",
@@ -534,19 +534,19 @@
     },
     {
       "source": "/memopod",
-      "destination": "/memopod"
+      "destination": "/core/memopod.html"
     },
     {
       "source": "/memopod/(.*)",
-      "destination": "/memopod/$1"
+      "destination": "/core/memopod.html/$1"
     },
     {
       "source": "/card.html",
-      "destination": "/card.html"
+      "destination": "/business_cards/card.html"
     },
     {
       "source": "/card.html/(.*)",
-      "destination": "/card.html/$1"
+      "destination": "/business_cards/card.html/$1"
     },
     {
       "source": "/rss.xml",
@@ -566,11 +566,11 @@
     },
     {
       "source": "/terms",
-      "destination": "/terms"
+      "destination": "/core/terms.html"
     },
     {
       "source": "/terms/(.*)",
-      "destination": "/terms/$1"
+      "destination": "/core/terms.html/$1"
     },
     {
       "source": "/instagram-slides",
@@ -582,35 +582,35 @@
     },
     {
       "source": "/product_studio.html",
-      "destination": "/product_studio.html"
+      "destination": "/product_planning/product_studio.html"
     },
     {
       "source": "/product_studio.html/(.*)",
-      "destination": "/product_studio.html/$1"
+      "destination": "/product_planning/product_studio.html/$1"
     },
     {
       "source": "/profile_studio",
-      "destination": "/profile_studio"
+      "destination": "/business_cards/profile_studio.html"
     },
     {
       "source": "/profile_studio/(.*)",
-      "destination": "/profile_studio/$1"
+      "destination": "/business_cards/profile_studio.html/$1"
     },
     {
       "source": "/10k_studio.html",
-      "destination": "/10k_studio.html"
+      "destination": "/product_planning/10k_studio.html"
     },
     {
       "source": "/10k_studio.html/(.*)",
-      "destination": "/10k_studio.html/$1"
+      "destination": "/product_planning/10k_studio.html/$1"
     },
     {
       "source": "/profile_studio.html",
-      "destination": "/profile_studio.html"
+      "destination": "/business_cards/profile_studio.html"
     },
     {
       "source": "/profile_studio.html/(.*)",
-      "destination": "/profile_studio.html/$1"
+      "destination": "/business_cards/profile_studio.html/$1"
     },
     {
       "source": "/kakao",
@@ -622,19 +622,19 @@
     },
     {
       "source": "/instagram_slides.html",
-      "destination": "/instagram_slides.html"
+      "destination": "/sns_marketing/instagram_slides.html"
     },
     {
       "source": "/instagram_slides.html/(.*)",
-      "destination": "/instagram_slides.html/$1"
+      "destination": "/sns_marketing/instagram_slides.html/$1"
     },
     {
       "source": "/waitlist_maker.html",
-      "destination": "/waitlist_maker.html"
+      "destination": "/pre_launch/waitlist_maker.html"
     },
     {
       "source": "/waitlist_maker.html/(.*)",
-      "destination": "/waitlist_maker.html/$1"
+      "destination": "/pre_launch/waitlist_maker.html/$1"
     },
     {
       "source": "/404.html",
@@ -646,19 +646,19 @@
     },
     {
       "source": "/hook_maker.html",
-      "destination": "/hook_maker.html"
+      "destination": "/sns_marketing/hook_maker.html"
     },
     {
       "source": "/hook_maker.html/(.*)",
-      "destination": "/hook_maker.html/$1"
+      "destination": "/sns_marketing/hook_maker.html/$1"
     },
     {
       "source": "/card",
-      "destination": "/card"
+      "destination": "/business_cards/card.html"
     },
     {
       "source": "/card/(.*)",
-      "destination": "/card/$1"
+      "destination": "/business_cards/card.html/$1"
     },
     {
       "source": "/js",
@@ -686,11 +686,11 @@
     },
     {
       "source": "/roi_calculator.html",
-      "destination": "/roi_calculator.html"
+      "destination": "/sales_funnel/roi_calculator.html"
     },
     {
       "source": "/roi_calculator.html/(.*)",
-      "destination": "/roi_calculator.html/$1"
+      "destination": "/sales_funnel/roi_calculator.html/$1"
     },
     {
       "source": "/brewoak.html",
@@ -710,19 +710,19 @@
     },
     {
       "source": "/waitlist",
-      "destination": "/waitlist"
+      "destination": "/pre_launch/waitlist.html"
     },
     {
       "source": "/waitlist/(.*)",
-      "destination": "/waitlist/$1"
+      "destination": "/pre_launch/waitlist.html/$1"
     },
     {
       "source": "/scorecard",
-      "destination": "/scorecard"
+      "destination": "/sales_funnel/scorecard.html"
     },
     {
       "source": "/scorecard/(.*)",
-      "destination": "/scorecard/$1"
+      "destination": "/sales_funnel/scorecard.html/$1"
     },
     {
       "source": "/instagram_3grid_banners.html",
@@ -750,19 +750,19 @@
     },
     {
       "source": "/memopod.html",
-      "destination": "/memopod.html"
+      "destination": "/core/memopod.html"
     },
     {
       "source": "/memopod.html/(.*)",
-      "destination": "/memopod.html/$1"
+      "destination": "/core/memopod.html/$1"
     },
     {
       "source": "/proposal",
-      "destination": "/proposal"
+      "destination": "/sales_funnel/proposal.html"
     },
     {
       "source": "/proposal/(.*)",
-      "destination": "/proposal/$1"
+      "destination": "/sales_funnel/proposal.html/$1"
     },
     {
       "source": "/assets",
@@ -774,11 +774,11 @@
     },
     {
       "source": "/proposal.html",
-      "destination": "/proposal.html"
+      "destination": "/sales_funnel/proposal.html"
     },
     {
       "source": "/proposal.html/(.*)",
-      "destination": "/proposal.html/$1"
+      "destination": "/sales_funnel/proposal.html/$1"
     },
     {
       "source": "/dashboard",
@@ -798,11 +798,11 @@
     },
     {
       "source": "/billing.html",
-      "destination": "/billing.html"
+      "destination": "/core/billing.html"
     },
     {
       "source": "/billing.html/(.*)",
-      "destination": "/billing.html/$1"
+      "destination": "/core/billing.html/$1"
     },
     {
       "source": "/:slug",
@@ -811,6 +811,18 @@
     {
       "source": "/:company/:slug",
       "destination": "/api/render?slug=$company/$slug"
+    },
+    {
+      "source": "/secret_room",
+      "destination": "/core/secret_room.html"
+    },
+    {
+      "source": "/secret_room/(.*)",
+      "destination": "/core/secret_room.html/$1"
+    },
+    {
+      "source": "/secret_room.html",
+      "destination": "/core/secret_room.html"
     }
   ],
   "headers": [

@@ -110,3 +110,31 @@ DROP POLICY IF EXISTS "Users can insert own brewoak jobs" ON public.brewoak_jobs
 CREATE POLICY "Users can insert own brewoak jobs" ON public.brewoak_jobs FOR INSERT WITH CHECK (auth.uid() = user_id);
 DROP POLICY IF EXISTS "Users can update own brewoak jobs" ON public.brewoak_jobs;
 CREATE POLICY "Users can update own brewoak jobs" ON public.brewoak_jobs FOR UPDATE USING (auth.uid() = user_id);
+
+-- 5. 10K 미니웹 저장용 (SaaS 퍼블리싱 용도)
+CREATE TABLE IF NOT EXISTS public.mini_webs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  slug TEXT UNIQUE NOT NULL,           -- 공유 링크용 (예: setupod.com/viewer.html?id={slug})
+  brand_name TEXT NOT NULL,
+  html_data TEXT NOT NULL,             -- 렌더링된 전체 HTML
+  view_count INT DEFAULT 0,            -- 조회수
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.mini_webs ENABLE ROW LEVEL SECURITY;
+
+-- 뷰어에서 누구나 읽을 수 있어야 함 (public)
+DROP POLICY IF EXISTS "Mini webs are viewable by everyone" ON public.mini_webs;
+CREATE POLICY "Mini webs are viewable by everyone" ON public.mini_webs FOR SELECT USING (true);
+
+-- 본인만 추가/수정/삭제 가능
+DROP POLICY IF EXISTS "Users can insert own mini webs" ON public.mini_webs;
+CREATE POLICY "Users can insert own mini webs" ON public.mini_webs FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can update own mini webs" ON public.mini_webs;
+CREATE POLICY "Users can update own mini webs" ON public.mini_webs FOR UPDATE USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Users can delete own mini webs" ON public.mini_webs;
+CREATE POLICY "Users can delete own mini webs" ON public.mini_webs FOR DELETE USING (auth.uid() = user_id);

@@ -41,7 +41,7 @@ function getCardSlug() {
 // 테마 스타일시트 동적 주입
 function applyTheme(themeName) {
   const existingThemeLink = document.getElementById('themeStylesheet');
-  const themeHref = `/themes/${themeName || 'violet'}.css`;
+  const themeHref = `/bizcard/themes/${themeName || 'violet'}.css`;
   
   if (existingThemeLink) {
     existingThemeLink.href = themeHref;
@@ -253,7 +253,7 @@ function populateCard(data) {
   const layout = data.layout || 'classic';
   const layoutStylesheet = document.getElementById('layoutStylesheet');
   if (layoutStylesheet) {
-    layoutStylesheet.href = layout === 'classic' ? '' : `/themes/layout-${layout}.css`;
+    layoutStylesheet.href = layout === 'classic' ? '' : `/bizcard/themes/layout-${layout}.css`;
   }
   const cardElement = document.getElementById('cardElement');
   if (cardElement) {
@@ -659,7 +659,7 @@ function populateCardFromCloud(cloud, company) {
       alt: companyName
     },
     primaryAction: {
-      url: `link.html?id=${p.slug}`,
+      url: `multilink.html?id=${p.slug}`,
       label: '멀티링크 바로가기',
       icon: 'link'
     },

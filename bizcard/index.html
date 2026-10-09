@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>명함 로딩 중... | SETUPOD</title>
+  
+  <link rel="icon" type="image/png" href="../assets/favicon-32x32.png">
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase.js"></script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
+    
+    /* 상단 콘텐츠 프레임 (하단 배너 50px 제외) */
+    #content-frame { 
+      width: 100%; 
+      height: calc(100% - 50px); 
+      border: none; 
+      background: #000;
+    }
+    
+    /* 하단 수익화/바이럴 배너 영역 */
+    .ad-banner {
+      width: 100%; 
+      height: 50px; 
+      background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      z-index: 9999;
+      color: #fff; 
+      font-size: 13.5px; 
+      font-weight: 700; 
+      text-decoration: none;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+      transition: opacity 0.2s;
+    }
+    .ad-banner:hover { opacity: 0.9; }
+    
+    .ad-badge { 
+      background: #fff; 
+      color: #10b981; 
+      padding: 3px 6px; 
+      border-radius: 4px; 
+      font-size: 11px; 
+      margin-right: 8px; 
+      font-weight: 900; 
+    }
+    
+    .loading-ui {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading" class="loading-ui">
+    <div style="font-size:24px; margin-bottom:12px;">⏳</div>
+    <div style="font-size:14px; color:#aaa;">3D 디지털 명함을 불러오는 중입니다...</div>
+  </div>
+
+  <iframe id="content-frame" style="opacity:0; transition: opacity 0.5s;"></iframe>
+
+  <!-- B2B 바이럴 / 쿠팡 파트너스 배너 -->
+  <!-- 추후 쿠팡 파트너스 다이내믹 배너 스크립트로 교체하시면 됩니다 -->
+  <a href="maker.html" target="_blank" class="ad-banner" id="bottomBanner">
+    <span class="ad-badge">무료</span>
+    나만의 3D 인터랙티브 명함 만들기 🚀
+  </a>
+
+  <script>
+    async function loadWeb() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      
+      if (!id) {
+        document.getElementById('loading').innerHTML = '<h2 style="color:white; font-size:16px;">잘못된 접근입니다. 링크를 확인해주세요.</h2>';
+        return;
+      }
+
+      try {
+        // Supabase에서 html 데이터 Fetch
+        const { data, error } = await supabaseClient
+          .from('mini_webs')
+          .select('*')
+          .eq('slug', id)
+          .single();
+
+        if (error || !data) {
+          document.getElementById('loading').innerHTML = '<h2 style="color:white; font-size:16px;">존재하지 않거나 삭제된 웹사이트입니다.</h2>';
+          return;
+        }
+
+        // 브라우저 탭 제목 변경
+        document.title = data.brand_name + " | SETUPOD";
+
+        // HTML 렌더링
+        const iframe = document.getElementById('content-frame');
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(data.html_data);
+        doc.close();
+
+        // 렌더링 완료 후 로딩 숨기고 프레임 표시
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+          iframe.style.opacity = '1';
+        }, 500);
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('loading').innerHTML = '<h2 style="color:#ef4444; font-size:16px;">페이지를 불러오는 중 오류가 발생했습니다.</h2>';
+      }
+    }
+
+    // Supabase 스크립트 로드 대기 후 실행
+    window.onload = () => {
+      if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+        loadWeb();
+      } else {
+        setTimeout(loadWeb, 500);
+      }
+    };
+  </script>
+</body>
+</html>

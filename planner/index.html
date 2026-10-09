@@ -1,0 +1,3272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-67QE5VV6XR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-67QE5VV6XR');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>2026 프로젝트 & 라이프 플래너 | SETUPOD</title>
+  <link rel="canonical" href="https://www.setupod.com/planner">
+  <meta name="description" content="1년의 리듬을 설계하는 비즈니스 OS. 연간 Life Compass, 365일 비즈니스 스트릭 잔디밭, 분기 Big Rocks, 뽀모도로 몰입 타이머 & 앰비언트 사운드, 2026 인터랙티브 캘린더.">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD PLANNER">
+  <meta property="og:title" content="2026 프로젝트 & 라이프 플래너 | SETUPOD">
+  <meta property="og:description" content="목표 시스템 + 분기 프로젝트 관리 + 뽀모도로 사운드 + 365일 잔디밭. 스마트폰/PC 실시간 동기화.">
+  <meta property="og:image" content="https://www.setupod.com/assets/setupod_symbol.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon-32x32.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-base: #06060c;
+      --bg-surface: rgba(255, 255, 255, 0.035);
+      --bg-surface-elevated: rgba(255, 255, 255, 0.06);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(168, 85, 247, 0.35);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.45);
+      --accent-theme: #a855f7;
+      --accent-theme-glow: rgba(168, 85, 247, 0.35);
+      --accent-cyan: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --card-radius: 20px;
+    }
+
+    /* 테마 변형 */
+    body.theme-obsidian {
+      --accent-theme: #94a3b8;
+      --accent-theme-glow: rgba(148, 163, 184, 0.35);
+      --border-accent: rgba(148, 163, 184, 0.3);
+    }
+    body.theme-emerald {
+      --accent-theme: #10b981;
+      --accent-theme-glow: rgba(16, 185, 129, 0.35);
+      --border-accent: rgba(16, 185, 129, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .bg-aurora {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 1400px;
+      height: 600px;
+      background: radial-gradient(circle at 50% 10%, var(--accent-theme-glow) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(80px);
+      transition: background 0.5s ease;
+    }
+
+    /* ── 헤더 ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 6, 12, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px 12px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 0 16px var(--accent-theme-glow);
+    }
+
+    .brand-name-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-theme);
+      letter-spacing: 0.05em;
+    }
+
+    /* 탭 컨트롤 네비게이션 */
+    .view-tabs {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .view-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .view-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .view-tab.active {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-accent);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 4px 15px var(--accent-theme-glow);
+    }
+
+    /* 헤더 우측 액션 */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 테마 스위처 칩 */
+    .theme-switcher-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 99px;
+      padding: 3px 6px;
+    }
+
+    .theme-btn-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-btn-dot:hover { transform: scale(1.2); }
+    .theme-btn-dot.active { border-color: #fff; box-shadow: 0 0 8px currentColor; }
+    .theme-dot-violet { background: #c084fc; color: #a855f7; }
+    .theme-dot-obsidian { background: #94a3b8; color: #64748b; }
+    .theme-dot-emerald { background: #34d399; color: #10b981; }
+
+    .save-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .save-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    .btn-action-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-action-icon:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-cta-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent-theme) 0%, #6366f1 100%);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 15px var(--accent-theme-glow);
+      transition: all 0.2s;
+    }
+
+    .btn-cta-nav:hover {
+      transform: translateY(-1px);
+    }
+
+    /* ── 메인 컨테이너 ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 24px 80px;
+      flex: 1;
+    }
+
+    /* ── 킬러 기능 1: 깃허브 잔디 스타일 스트릭 히트맵 ── */
+    .heatmap-hero-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heatmap-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .streak-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      color: #fdba74;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+
+    .heatmap-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+    }
+
+    .heatmap-stats strong {
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+    }
+
+    .heatmap-grid-scroll {
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .heatmap-grid {
+      display: grid;
+      grid-template-rows: repeat(7, 12px);
+      grid-auto-flow: column;
+      gap: 3px;
+      width: max-content;
+    }
+
+    .heatmap-cell {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.35);
+      z-index: 10;
+      border: 1px solid #fff;
+    }
+
+    .heatmap-cell.level-1 { background: rgba(168, 85, 247, 0.3); }
+    .heatmap-cell.level-2 { background: rgba(168, 85, 247, 0.6); }
+    .heatmap-cell.level-3 { background: #a855f7; box-shadow: 0 0 6px #a855f7; }
+    .heatmap-cell.level-4 { background: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+
+    /* ── 공통 카드 스타일 ── */
+    .panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      transition: border-color 0.2s ease;
+    }
+
+    .panel-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .panel-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-theme);
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .panel-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* 인풋 공통 */
+    .input-field {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent-theme);
+      box-shadow: 0 0 15px var(--accent-theme-glow);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 70px;
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       TAB 1. LIFE COMPASS
+       ========================================================= */
+    #tabCompassView {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hero-banner-compass {
+      background: linear-gradient(135deg, var(--accent-theme-glow) 0%, rgba(56, 189, 248, 0.06) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--card-radius);
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compass-year-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--accent-theme);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .compass-headline {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .theme-of-year-box {
+      max-width: 780px;
+      margin: 20px auto 0;
+    }
+
+    .theme-input {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      padding: 16px 20px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1.5px solid var(--border-accent);
+      color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 5대 핵심 영역 그리드 */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .area-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .area-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--area-gradient, linear-gradient(90deg, #a855f7, #6366f1));
+    }
+
+    .area-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .area-code {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .area-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .area-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* =========================================================
+       TAB 2. BIG ROCKS & PROJECT TRACKER
+       ========================================================= */
+    #tabProjectsView {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .quarter-control-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 10px 16px;
+    }
+
+    .quarter-tabs {
+      display: flex;
+      gap: 6px;
+    }
+
+    .quarter-pill {
+      padding: 8px 18px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .quarter-pill:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .quarter-pill.active {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-accent);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--accent-theme-glow);
+    }
+
+    .quarter-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dday-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+
+    /* 3대 핵심 목표 (Big Rocks) */
+    .big-rocks-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .big-rock-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .big-rock-card.completed {
+      border-color: rgba(52, 211, 153, 0.4);
+      background: rgba(52, 211, 153, 0.04);
+    }
+
+    .big-rock-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rock-num-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--accent-theme);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .rock-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .rock-checkbox-label input[type="checkbox"] {
+      accent-color: var(--accent-green);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    /* 프로젝트 트래커 */
+    .projects-table-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .project-row-item {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 2fr 2fr 1.2fr 2fr auto;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .project-row-item:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .progress-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .progress-bar-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent-theme), #38bdf8);
+      transition: width 0.3s ease;
+    }
+
+    .status-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn-del-project {
+      background: transparent;
+      border: none;
+      color: rgba(239, 68, 68, 0.7);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-del-project:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    /* 회고 섹션 */
+    .retro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .retro-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .retro-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       TAB 3. INTERACTIVE 2026 CALENDAR & DAILY FOCUS
+       ========================================================= */
+    #tabCalendarView {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .calendar-layout-container {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* 캘린더 메인 */
+    .calendar-main-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 24px;
+    }
+
+    .calendar-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .cal-title-box {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .cal-month-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .cal-year-sub {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-theme);
+    }
+
+    .cal-nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-cal-nav {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-cal-nav:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .cal-weekdays span:first-child { color: var(--accent-rose); }
+    .cal-weekdays span:last-child { color: var(--accent-cyan); }
+
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .cal-day-cell {
+      min-height: 80px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .cal-day-cell:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+
+    .cal-day-cell.other-month { opacity: 0.25; }
+    .cal-day-cell.today {
+      border-color: var(--accent-theme);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 16px var(--accent-theme-glow);
+    }
+
+    .cal-day-cell.selected {
+      border-color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+    }
+
+    .cal-day-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .cal-day-cell:nth-child(7n+1) .cal-day-num { color: #fca5a5; }
+    .cal-day-cell:nth-child(7n) .cal-day-num { color: #7dd3fc; }
+
+    .cal-day-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+
+    .cal-todo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-theme);
+      box-shadow: 0 0 6px var(--accent-theme);
+    }
+
+    /* ── 킬러 기능 2: 뽀모도로 몰입 타이머 & 앰비언트 사운드 패널 ── */
+    .pomodoro-box {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.4) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .pomo-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pomo-display {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+      text-shadow: 0 0 20px var(--accent-theme-glow);
+    }
+
+    .pomo-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-pomo-action {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-pomo-play {
+      background: linear-gradient(135deg, var(--accent-theme) 0%, #38bdf8 100%);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--accent-theme-glow);
+    }
+    .btn-pomo-play:hover { transform: translateY(-1px); }
+
+    .btn-pomo-reset {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+    .btn-pomo-reset:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
+
+    .ambient-sound-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .ambient-select {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 4px 8px;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* 데일리 포커스 패널 */
+    .daily-side-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      position: sticky;
+      top: 90px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .daily-date-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .daily-date-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .daily-section-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .todo-list-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .todo-item-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 8px 12px;
+      transition: border-color 0.2s;
+    }
+
+    .todo-item-row:hover { border-color: rgba(255, 255, 255, 0.2); }
+    .todo-item-row.done span, .todo-item-row.done input[type="text"] {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .todo-checkbox {
+      accent-color: var(--accent-theme);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .todo-text-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .btn-todo-del {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .btn-todo-del:hover { color: #ef4444; }
+
+    .todo-add-box {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    /* 프리셋 모달 */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #0d0d18;
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      max-width: 600px;
+      width: 100%;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    }
+
+    .preset-card-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-card-item:hover {
+      border-color: var(--accent-theme);
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* 토스트 알림 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(18, 18, 28, 0.95);
+      border: 1px solid var(--border-accent);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-theme-glow);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* 인쇄 모드 최적화 */
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      header, .bg-aurora, .view-tabs, .btn-action-icon, .btn-cta-nav, .quarter-control-bar, .pomodoro-box { display: none !important; }
+      .panel-card, .heatmap-hero-card { border: 1px solid #ddd !important; box-shadow: none !important; background: #fff !important; color: #000 !important; }
+      .input-field, textarea { border: 1px solid #ccc !important; color: #000 !important; background: #fff !important; }
+    }
+
+    /* =========================================================
+       TAB 4. 💎 비즈니스 시크릿 볼트 (Executive Secret Vault)
+       ========================================================= */
+    #tabVaultView {
+      display: none;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .vault-hero-banner {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(13, 10, 24, 0.95) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: var(--card-radius);
+      padding: 32px 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(245, 158, 11, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vault-hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .vault-badge-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 99px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      width: fit-content;
+    }
+
+    .vault-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 8px 12px;
+    }
+
+    .vault-filter-btn {
+      padding: 7px 14px;
+      border-radius: 99px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .vault-filter-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .vault-filter-btn.active {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+      font-weight: 800;
+    }
+
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .vault-grid { grid-template-columns: 1fr; }
+    }
+
+    .vault-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all 0.25s;
+    }
+
+    .vault-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .vault-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .vault-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .tag-b2b { color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.1); }
+    .tag-pricing { color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.1); }
+    .tag-copy { color: #f472b6; border-color: rgba(244, 114, 182, 0.3); background: rgba(244, 114, 182, 0.1); }
+    .tag-ai { color: #a78bfa; border-color: rgba(167, 139, 250, 0.3); background: rgba(167, 139, 250, 0.1); }
+    .tag-export { color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); }
+
+    .vault-snippet-box {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      max-height: 230px;
+      overflow-y: auto;
+      user-select: text;
+    }
+
+    .btn-copy-vault {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy-vault:hover {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: #fbbf24;
+      transform: scale(1.02);
+    }
+
+    /* 반응형 레이아웃 */
+    @media (max-width: 960px) {
+      .calendar-layout-container { grid-template-columns: 1fr; }
+      .daily-side-panel { position: static; }
+      .project-row-item { grid-template-columns: 1fr; }
+      .view-tab span { display: none; }
+      .view-tab { padding: 8px 12px; }
+    }
+  </style>
+</head>
+<body class="app-mode">
+
+  <div class="bg-aurora"></div>
+
+  <!-- 헤더 -->
+  <header>
+    <a href="/" class="brand-group">
+      <img src="../assets/setupod.gif" alt="SETUPOD" class="brand-logo-img">
+      <div class="brand-name-wrap">
+        <span class="brand-title">SETUPOD</span>
+        <span class="brand-badge">2026 PRO OS</span>
+      </div>
+    </a>
+
+    <!-- 3대 뷰 탭 스위처 -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabCompassBtn" onclick="switchView('compass')">
+        <i data-lucide="compass" style="width:16px;height:16px;"></i>
+        <span>Life Compass</span>
+      </button>
+      <button class="view-tab" id="tabProjectsBtn" onclick="switchView('projects')">
+        <i data-lucide="target" style="width:16px;height:16px;"></i>
+        <span>Big Rocks & Projects</span>
+      </button>
+      <button class="view-tab" id="tabCalendarBtn" onclick="switchView('calendar')">
+        <i data-lucide="calendar" style="width:16px;height:16px;"></i>
+        <span>2026 캘린더 & 데일리</span>
+      </button>
+      <button class="view-tab" id="tabVaultBtn" onclick="switchView('vault')" style="border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.06);">
+        <i data-lucide="gem" style="width:16px;height:16px;color:#f59e0b;"></i>
+        <span style="color:#fbbf24;font-weight:800;">💎 시크릿 볼트</span>
+      </button>
+    </div>
+
+    <!-- 우측 액션 버튼들 -->
+    <div class="header-actions">
+      <!-- 테마 스위처 바 -->
+      <div class="theme-switcher-bar" title="플래너 테마 스킨 변경">
+        <button class="theme-btn-dot theme-dot-violet active" onclick="switchThemeSkin('violet', this)" title="Violet Luxury"></button>
+        <button class="theme-btn-dot theme-dot-obsidian" onclick="switchThemeSkin('obsidian', this)" title="Obsidian Dark"></button>
+        <button class="theme-btn-dot theme-dot-emerald" onclick="switchThemeSkin('emerald', this)" title="Emerald Tech"></button>
+      </div>
+
+      <div class="save-indicator">
+        <span class="save-dot"></span>
+        <span id="saveStatusText">자동 저장됨</span>
+      </div>
+
+      <button class="btn-action-icon" onclick="exportPlannerData()" title="데이터 JSON 백업">
+        <i data-lucide="download" style="width:16px;height:16px;"></i>
+      </button>
+      <button class="btn-action-icon" onclick="document.getElementById('importFileInput').click()" title="데이터 불러오기">
+        <i data-lucide="upload" style="width:16px;height:16px;"></i>
+      </button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importPlannerData(event)">
+      <button class="btn-action-icon" onclick="if(window.ProModal) ProModal.show();" title="인쇄 및 PDF 저장 (PRO 전용)">
+        <i data-lucide="printer" style="width:16px;height:16px;"></i>
+      </button>
+      <a href="memopod.html" class="btn-action-icon" title="MemoPod AI 스마트 메모 & 지식 그래프" style="width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:700;color:#818cf8;border-color:rgba(99,102,241,0.3);text-decoration:none;">
+        <i data-lucide="network" style="width:14px;height:14px;"></i>
+        <span>MemoPod</span>
+      </a>
+      <a href="maker.html" class="btn-cta-nav">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span>3D 명함 스튜디오</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         킬러 기능 1: 365일 비즈니스 스트릭 잔디밭 (Productivity Heatmap)
+         ========================================================= -->
+    <div class="heatmap-hero-card">
+      <div class="heatmap-header">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="streak-badge">
+            <i data-lucide="flame" style="width:15px;height:15px;color:#f97316;"></i>
+            <span>연속 실행 <strong id="streakCountText" style="color:#fff;font-size:14px;">7</strong>일차 달성 중 🔥</span>
+          </div>
+          <span style="font-size:12px;color:var(--text-muted);">2026 연간 비즈니스 몰입 히트맵</span>
+        </div>
+        <div class="heatmap-stats">
+          <div>올해 완료 과제: <strong id="totalDoneStats">42개</strong></div>
+          <div>분기 몰입 지수: <strong id="commitmentStats" style="color:var(--accent-green);">89%</strong></div>
+        </div>
+      </div>
+      <div class="heatmap-grid-scroll">
+        <div class="heatmap-grid" id="yearHeatmapGrid">
+          <!-- 365일 잔디밭 셀 동적 렌더링 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         VIEW 1. LIFE COMPASS (연간 나침반)
+         ========================================================= -->
+    <div id="tabCompassView">
+      <div class="hero-banner-compass">
+        <div class="compass-year-badge">2026 · 한 해의 방향과 리듬</div>
+        <h1 class="compass-headline">올해가 끝났을 때 어떤 사람이 되어 있고 싶은가</h1>
+        <p style="font-size:14px;color:var(--text-secondary);max-width:620px;margin:0 auto;line-height:1.6;">
+          방향이 흔들릴 때마다 돌아올 기준이 되는 북극성을 설정하세요.<br>
+          한 해의 테마와 5대 삶의 영역을 균형 있게 설계합니다.
+        </p>
+        <div class="theme-of-year-box">
+          <input type="text" id="inputThemeOfYear" class="input-field theme-input" placeholder="올해의 한 문장 (THEME OF THE YEAR)을 입력하세요" oninput="triggerAutoSave()">
+        </div>
+      </div>
+
+      <div class="areas-grid">
+        <!-- 1. 커리어 & 비즈니스 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #a855f7, #6366f1);">
+          <div class="area-header">
+            <span class="area-code">AREA 01</span>
+            <div class="area-title-wrap">
+              <i data-lucide="briefcase" style="width:16px;height:16px;color:#c084fc;"></i>
+              <span class="area-title">커리어 · 일</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area1_goal" class="input-field" placeholder="예: 연 매출 1억 달성, 독립 사업체 론칭" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준 (측정 지표)</label>
+            <input type="text" id="area1_metric" class="input-field" placeholder="예: 월 순익 1,000만원 돌파, B2B 고객사 10곳" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area1_action" class="input-field" placeholder="매일 아침 1순위 업무 90분 집중, 주 3회 세일즈 제안" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 2. AI & 학습 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #38bdf8, #6366f1);">
+          <div class="area-header">
+            <span class="area-code">AREA 02</span>
+            <div class="area-title-wrap">
+              <i data-lucide="brain-circuit" style="width:16px;height:16px;color:#38bdf8;"></i>
+              <span class="area-title">AI · 역량 학습</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area2_goal" class="input-field" placeholder="예: 에이전틱 AI 워크플로우 100% 사내 도입" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area2_metric" class="input-field" placeholder="예: 자동화 파이프라인 5개 구축, 월 40시간 절감" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area2_action" class="input-field" placeholder="매주 신규 AI 도구 1개 실전 적용 및 프로토타입 작성" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 3. 수익 & 자산 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #34d399, #059669);">
+          <div class="area-header">
+            <span class="area-code">AREA 03</span>
+            <div class="area-title-wrap">
+              <i data-lucide="trending-up" style="width:16px;height:16px;color:#34d399;"></i>
+              <span class="area-title">수익 · 자산</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area3_goal" class="input-field" placeholder="예: 시드 자산 5,000만원 형성 및 복수 현금흐름" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area3_metric" class="input-field" placeholder="예: 고정 월 저축률 40% 이상, 디지털 자산 파이프라인" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area3_action" class="input-field" placeholder="월말 자산 결산 및 불필요 구독제 정리" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 4. 건강 & 체력 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #fbbf24, #d97706);">
+          <div class="area-header">
+            <span class="area-code">AREA 04</span>
+            <div class="area-title-wrap">
+              <i data-lucide="activity" style="width:16px;height:16px;color:#fbbf24;"></i>
+              <span class="area-title">건강 · 체력</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area4_goal" class="input-field" placeholder="예: 체지방률 15%, 하루 14시간 집중 가능한 에너자이저" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area4_metric" class="input-field" placeholder="예: 주 4회 유산소/웨이트, 수면 7시간 확보" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area4_action" class="input-field" placeholder="저녁 11시 취침 루틴, 주간 러닝 15km 달성" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+
+        <!-- 5. 관계 & 가족 -->
+        <div class="area-card" style="--area-gradient: linear-gradient(90deg, #fb7185, #e11d48);">
+          <div class="area-header">
+            <span class="area-code">AREA 05</span>
+            <div class="area-title-wrap">
+              <i data-lucide="heart" style="width:16px;height:16px;color:#fb7185;"></i>
+              <span class="area-title">관계 · 멘토링</span>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="crosshair" style="width:12px;height:12px;"></i> 핵심 목표</label>
+            <input type="text" id="area5_goal" class="input-field" placeholder="예: 긍정적이고 영감을 주는 상위 5인 네트워크 구축" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="check-circle" style="width:12px;height:12px;"></i> 성공 기준</label>
+            <input type="text" id="area5_metric" class="input-field" placeholder="예: 가족과 주말 온전한 휴식, 분기별 업계 리더 티타임" oninput="triggerAutoSave()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i data-lucide="zap" style="width:12px;height:12px;"></i> 핵심 실천 행동</label>
+            <textarea id="area5_action" class="input-field" placeholder="가장 가까운 사람들에게 감사의 마음 표현하기" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         VIEW 2. BIG ROCKS & PROJECT TRACKER
+         ========================================================= -->
+    <div id="tabProjectsView">
+      
+      <!-- 분기 컨트롤 바 -->
+      <div class="quarter-control-bar">
+        <div class="quarter-tabs">
+          <button class="quarter-pill active" onclick="switchQuarter('Q1', this)">Q1 (1~3월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q2', this)">Q2 (4~6월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q3', this)">Q3 (7~9월)</button>
+          <button class="quarter-pill" onclick="switchQuarter('Q4', this)">Q4 (10~12월)</button>
+        </div>
+        <div class="quarter-meta">
+          <button class="btn-cal-nav" onclick="openPresetModal()" style="display:flex;align-items:center;gap:6px;background:rgba(168,85,247,0.15);border-color:var(--border-accent);color:#c084fc;">
+            <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+            <span>💡 검증된 비즈니스 팩 불러오기</span>
+          </button>
+          <span class="dday-badge" id="quarterDdayBadge">
+            <i data-lucide="clock" style="width:13px;height:13px;"></i>
+            <span id="quarterDdayText">Q1 D-Day 계산 중...</span>
+          </span>
+          <div style="font-size:12px;color:var(--text-muted);">
+            달성률: <strong id="quarterCompletionRate" style="color:var(--accent-green);font-size:14px;">0%</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. 이번 분기 3대 핵심 목표 (BIG ROCKS) -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="gem" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title"><span id="currentQuarterLabel">Q1</span> 3대 핵심 목표 (BIG ROCKS)</h2>
+              <p class="panel-subtitle">이 3가지만 완수해도 이번 분기는 대성공입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="big-rocks-wrap">
+          <!-- Rock 1 -->
+          <div class="big-rock-card" id="rockCard_1">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 01</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_1" onchange="toggleRockComplete(1)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_1" class="input-field" placeholder="1순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_1" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 신규 고객 10명 확보" oninput="triggerAutoSave()">
+          </div>
+
+          <!-- Rock 2 -->
+          <div class="big-rock-card" id="rockCard_2">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 02</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_2" onchange="toggleRockComplete(2)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_2" class="input-field" placeholder="2순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_2" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 제품 MVP 론칭" oninput="triggerAutoSave()">
+          </div>
+
+          <!-- Rock 3 -->
+          <div class="big-rock-card" id="rockCard_3">
+            <div class="big-rock-top">
+              <span class="rock-num-badge">ROCK 03</span>
+              <label class="rock-checkbox-label">
+                <input type="checkbox" id="rockCheck_3" onchange="toggleRockComplete(3)">
+                <span>달성 완료</span>
+              </label>
+            </div>
+            <input type="text" id="rockGoal_3" class="input-field" placeholder="3순위 핵심 목표를 입력하세요" oninput="triggerAutoSave()">
+            <input type="text" id="rockMetric_3" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="측정 기준: 예) 월 매출 1,500만원" oninput="triggerAutoSave()">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 프로젝트 트래커 -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="layers" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title">분기 프로젝트 트래커 (PROJECT TRACKER)</h2>
+              <p class="panel-subtitle">프로젝트별 핵심 결과물과 진척도를 실시간으로 추적합니다.</p>
+            </div>
+          </div>
+          <button class="btn-cta-nav" style="padding:7px 14px;font-size:12.5px;" onclick="addNewProjectRow()">
+            <i data-lucide="plus" style="width:14px;height:14px;"></i>
+            <span>프로젝트 추가</span>
+          </button>
+        </div>
+
+        <div class="projects-table-wrap" id="projectRowsContainer">
+          <!-- 동적 렌더링 -->
+        </div>
+      </div>
+
+      <!-- 3. 분기 회고 -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <div class="panel-icon-box"><i data-lucide="rotate-ccw" style="width:16px;height:16px;"></i></div>
+            <div>
+              <h2 class="panel-title"><span id="retroQuarterLabel">Q1</span> 마감 및 회고 (RETROSPECTIVE)</h2>
+              <p class="panel-subtitle">경험에서 배움을 추출해야 다음 분기에 더 빠르게 성장합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="retro-grid">
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-green);">
+              <i data-lucide="thumbs-up" style="width:14px;height:14px;"></i>
+              <span>잘된 것 (KEEP / SUCCESS)</span>
+            </span>
+            <textarea id="retroKeep" class="input-field" placeholder="이번 분기에 효과적이었고 계속 유지할 성공 요인은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-rose);">
+              <i data-lucide="alert-circle" style="width:14px;height:14px;"></i>
+              <span>아쉬운 것 (PROBLEM)</span>
+            </span>
+            <textarea id="retroProblem" class="input-field" placeholder="목표 달성을 가로막았거나 개선이 필요한 병목은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+          <div class="retro-card">
+            <span class="retro-label" style="color:var(--accent-cyan);">
+              <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+              <span>배운 것 (LEARNED / TRY)</span>
+            </span>
+            <textarea id="retroTry" class="input-field" placeholder="다음 분기에 새롭게 시도하거나 배운 원칙은?" oninput="triggerAutoSave()"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =========================================================
+         VIEW 3. INTERACTIVE 2026 CALENDAR & DAILY FOCUS
+         ========================================================= -->
+    <div id="tabCalendarView">
+      <div class="calendar-layout-container">
+        
+        <!-- 왼쪽: 월간 인터랙티브 캘린더 -->
+        <div class="calendar-main-box">
+          <div class="calendar-nav-bar">
+            <div class="cal-title-box">
+              <span class="cal-month-title" id="calMonthTitle">3월</span>
+              <span class="cal-year-sub" id="calYearTitle">2026</span>
+            </div>
+            <div class="cal-nav-buttons">
+              <button class="btn-cal-nav" onclick="changeMonth(-1)">
+                <i data-lucide="chevron-left" style="width:14px;height:14px;"></i>
+              </button>
+              <button class="btn-cal-nav" onclick="jumpToToday()">오늘</button>
+              <button class="btn-cal-nav" onclick="changeMonth(1)">
+                <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="cal-weekdays">
+            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+          </div>
+
+          <div class="cal-days-grid" id="calDaysGrid">
+            <!-- 자바스크립트로 날짜 셀 생성 -->
+          </div>
+        </div>
+
+        <!-- 오른쪽: 데일리 포커스 & 뽀모도로 패널 -->
+        <div class="daily-side-panel">
+          <div class="daily-date-header">
+            <div>
+              <div style="font-size:11px;font-weight:800;color:var(--accent-theme);letter-spacing:0.1em;text-transform:uppercase;">DAILY FOCUS</div>
+              <h3 class="daily-date-title" id="selectedDateTitle">2026년 3월 15일 (일)</h3>
+            </div>
+            <button class="btn-action-icon" style="width:30px;height:30px;" onclick="addTodoToCurrentDate()" title="할 일 추가">
+              <i data-lucide="plus" style="width:14px;height:14px;"></i>
+            </button>
+          </div>
+
+          <!-- 킬러 기능 2: 뽀모도로 포커스 타이머 & 앰비언트 사운드 -->
+          <div class="pomodoro-box">
+            <div class="pomo-top-row">
+              <div class="pomo-display" id="pomoTimerDisplay">25:00</div>
+              <div class="pomo-controls">
+                <button class="btn-pomo-action btn-pomo-play" id="pomoToggleBtn" onclick="togglePomodoro()">
+                  <i data-lucide="play" style="width:13px;height:13px;" id="pomoIcon"></i>
+                  <span id="pomoBtnText">집중 시작</span>
+                </button>
+                <button class="btn-pomo-action btn-pomo-reset" onclick="resetPomodoro()">리셋</button>
+              </div>
+            </div>
+            <div class="ambient-sound-bar">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <i data-lucide="headphones" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
+                <span>몰입 사운드:</span>
+              </div>
+              <select class="ambient-select" id="ambientSoundSelect" onchange="changeAmbientSound(this.value)">
+                <option value="none">🔇 무음 (끄기)</option>
+                <option value="rain">🌧 딥 포커스 빗소리</option>
+                <option value="pink">🌊 부드러운 핑크 노이즈</option>
+                <option value="alpha">🧠 알파파 집중 비트 (40Hz)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 오늘의 절대 1순위 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="flame" style="width:13px;height:13px;color:#f97316;"></i>
+              <span>오늘의 1순위 핵심 과제 (TOP PRIORITY)</span>
+            </div>
+            <input type="text" id="dailyPriorityInput" class="input-field" placeholder="오늘 반드시 끝낼 단 1가지" oninput="saveCurrentDayData()">
+          </div>
+
+          <!-- 데일리 체크리스트 투두 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="check-square" style="width:13px;height:13px;color:var(--accent-theme);"></i>
+              <span>체크리스트 & TO-DO (<span id="dailyTodoDoneCount">0</span>/<span id="dailyTodoTotalCount">0</span>)</span>
+            </div>
+            <div class="todo-list-wrap" id="dailyTodoList">
+              <!-- 동적 투두 -->
+            </div>
+            <div class="todo-add-box">
+              <input type="text" id="newTodoInput" class="input-field" style="font-size:12.5px;padding:8px 12px;" placeholder="새 할 일 입력 후 Enter" onkeypress="if(event.key==='Enter')addTodoToCurrentDate()">
+              <button class="btn-cal-nav" onclick="addTodoToCurrentDate()">추가</button>
+            </div>
+          </div>
+
+          <!-- 타임블록 포커스 메모 -->
+          <div>
+            <div class="daily-section-title">
+              <i data-lucide="clock-3" style="width:13px;height:13px;color:var(--accent-cyan);"></i>
+              <span>타임블록 & 데일리 메모</span>
+            </div>
+            <textarea id="dailyNotesInput" class="input-field" style="min-height:85px;font-size:12.5px;" placeholder="• 오전 포커스: &#10;• 오후 세일즈: &#10;• 저녁 회고 & 아이디어:" oninput="saveCurrentDayData()"></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- =========================================================
+         VIEW 4. 💎 비즈니스 시크릿 볼트 (Executive Secret Vault)
+         ========================================================= -->
+    <div id="tabVaultView">
+      <!-- 볼트 상단 배너 -->
+      <div class="vault-hero-banner">
+        <div class="vault-badge-gold">
+          <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+          <span>EXECUTIVE ASSET PACK · VALUE ₩380,000 FREE UNLOCKED</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <h2 style="font-size:24px;font-weight:900;letter-spacing:-0.02em;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+              <span>💎 비즈니스 시크릿 볼트</span>
+              <span style="font-size:13px;font-weight:700;color:#fbbf24;background:rgba(245,158,11,0.15);padding:3px 9px;border-radius:6px;border:1px solid rgba(245,158,11,0.3);">실전 유료급 소스 해금</span>
+            </h2>
+            <p style="font-size:13.5px;color:var(--text-secondary);max-width:760px;line-height:1.6;">
+              계획만 세우다 끝나는 플래너가 아닙니다. 실제 컨설팅과 고단가 에이전시, 인디해커들이 억대 매출을 만들 때 사용하는 
+              <strong>5대 실전 비즈니스 치트키(콜드메일, 가치 프라이싱, 전환 카피, AI 메가 프롬프트, 노션 마크다운 내보내기)</strong>를 무료로 해금했습니다.
+              원하는 소스의 <strong>[1초 복사]</strong>를 눌러 즉시 클라이언트에 전송하거나 사업에 적용하세요.
+            </p>
+          </div>
+          <button class="btn-copy-vault" style="background:#fbbf24;color:#000;font-weight:800;border:none;padding:10px 18px;" onclick="exportToNotionMarkdown()">
+            <i data-lucide="file-down" style="width:16px;height:16px;"></i>
+            <span>✨ 내 플래너 전체 노션 마크다운 변환 & 복사</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 카테고리 필터 바 -->
+      <div class="vault-filter-bar">
+        <button class="vault-filter-btn active" onclick="filterVault('all', this)">전체 보기 (11)</button>
+        <button class="vault-filter-btn" onclick="filterVault('b2b', this)">📩 B2B 세일즈 & 콜드메일 (4)</button>
+        <button class="vault-filter-btn" onclick="filterVault('pricing', this)">💰 고수익 가치 프라이싱 & 견적 (2)</button>
+        <button class="vault-filter-btn" onclick="filterVault('copywriting', this)">🎯 고전환 카피라이팅 20선 (2)</button>
+        <button class="vault-filter-btn" onclick="filterVault('ai', this)">🤖 1인 기업 AI 슈퍼 프롬프트 (3)</button>
+      </div>
+
+      <!-- 볼트 그리드 -->
+      <div class="vault-grid" id="vaultGrid">
+
+        <!-- Item 1: B2B Cold Outreach -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [대표 직격] 고통점 타격 & 10배 ROI 제안 메일</div>
+              <div style="font-size:12px;color:var(--text-muted);">미팅 수락률 38%를 기록한 C레벨 직격 아웃바운드 템플릿</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_1', '대표 직격 콜드메일')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_1">제목: [기업명] 대표님, [업계 트렌드] 관련 5분만 시간 내주실 수 있을까요?
+
+안녕하세요, [기업명] [대표자/담당자]님.
+[내 회사/팀명] [내 이름]입니다.
+
+최근 [기업명]의 [최근 성과/신제품 론칭/보도자료]를 인상 깊게 보았습니다. 특히 [타겟 분야]에서 빠르게 점유율을 확장하시는 모습이 매우 인상적이었습니다.
+
+다만 현재 [기업명]의 고객 유입/랜딩페이지/마케팅 구조를 분석해보았을 때, [구체적인 페인포인트 1가지: 예- 모바일 유입 고객 이탈률]로 인해 매달 상당한 잠재 매출 누수가 발생하고 있을 가능성을 확인했습니다.
+
+저희는 최근 [유사 고객사명]과 작업하여 [작업 후 성과: 예- 모바일 전환율 210% 상승, 리드 획득 단가 42% 절감]을 달성한 바 있습니다.
+
+당장 계약을 권유드리는 것이 아닙니다. 대표님 비즈니스에 바로 적용 가능한 [3가지 핵심 개선책 분석서]를 가볍게 공유해 드리고자 합니다.
+
+이번 주 목요일 또는 금요일 오후, 10분 정도 가볍게 커피챗이나 줌(Zoom) 가능하실까요?
+부담스러우시다면 이 메일에 "네"라고 회신만 주셔도 분석 PDF를 먼저 전달드리겠습니다.
+
+감사합니다.
+[내 이름] 드림 | [연락처] | [포트폴리오 링크]</div>
+        </div>
+
+        <!-- Item 2: Follow-up -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [읽씹 방지] 부담 제로 밸류 제공형 1차 팔로업</div>
+              <div style="font-size:12px;color:var(--text-muted);">바쁜 대표들이 답장하게 만드는 공감 + 가치 제공 스크립트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_2', '읽씹 방지 팔로업')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_2">제목: Re: [기업명] 대표님, [개선안] 관련 짧게 추가 공유드립니다.
+
+안녕하세요 [대표자/담당자]님, [내 이름]입니다.
+월초라 많이 바쁘실 텐데 지난번 메일 확인하셨을지 조심스레 연락드립니다.
+
+대표님의 소중한 시간을 아껴드리기 위해, 지난번 말씀드린 [기업명]의 [개선 포인트]를 내부 팀에서 바로 검토하실 수 있도록 1장짜리 체크리스트로 정리했습니다:
+👉 [체크리스트 링크 또는 첨부]
+
+이 자료만 보시고 사내에서 직접 적용하셔도 매출 개선에 큰 도움이 되실 겁니다.
+혹시 다음 주 중 편하신 시간에 5분 정도 짧게 의견 나누실 수 있다면 언제든 편하게 말씀 부탁드립니다!
+
+감사합니다.
+[내 이름] 드림</div>
+        </div>
+
+        <!-- Item 3: Post-Meeting Closing -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [미팅 직후] 당일 의사결정 유도 1-Page 제안 요약</div>
+              <div style="font-size:12px;color:var(--text-muted);">미팅 온기가 식기 전 2시간 이내 발송하여 당일 계약을 확정짓는 서식</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_3', '미팅 후 클로징 제안서')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_3">제목: [미팅 요약] [기업명] x [내 회사명] 실행 로드맵 및 확정 견적 안내
+
+[대표자/담당자]님, 오늘 미팅 시간 내어주셔서 진심으로 감사드립니다.
+나눈 대화를 바탕으로 [기업명]의 문제 해결 로드맵을 1페이지로 정리했습니다.
+
+[1] 핵심 해결 과제
+• 과제 1: [고통점 및 기회비용]
+• 과제 2: [전환율 병목 구간 해소]
+
+[2] 4주 스프린트 실행 일정
+• 1주차: [구조 설계 및 프로토타입]
+• 2주차: [디자인 및 개발 완성]
+• 3주차: [A/B 테스트 및 실시간 론칭]
+• 4주차: [데이터 분석 및 최종 인계]
+
+[3] 기대 ROI 및 투자 비용
+• 목표 지표: [기존 대비 전환율 +150% 목표 달성]
+• 확정 견적: [금액] (착수금 50% / 최종 검수 후 50%)
+
+[4] 다음 액션 안내
+저희는 퀄리티 유지를 위해 매월 2개 팀의 프로젝트만 집중 수주하고 있습니다.
+이번 주 금요일 18시까지 확정 회신을 주시면 [특별 보너스: 예- 3D 명함 셋업 또는 1개월 무료 최적화]를 무상 지원해 드리겠습니다.
+
+감사합니다.</div>
+        </div>
+
+        <!-- Item 4: Price Objection Handling -->
+        <div class="vault-card" data-cat="b2b">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">📩 [가격 저항 극복] "비싸다" 네고 방어 & 리테이너 화법</div>
+              <div style="font-size:12px;color:var(--text-muted);">단가를 깎지 않으면서 고객의 예산 걱정을 지워주는 앵커링 스크립트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-b2b">B2B 세일즈</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_4', '가격 네고 방어 화법')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_4">"대표님, 가격에 대해 고민하시는 부분 충분히 공감합니다.
+다만 이 비용을 단순한 '비용 지출'이 아닌 '3개월 내 투자금의 몇 배를 회수하는 전략 자산'으로 봐주셨으면 합니다.
+
+만약 일시금 결제가 부담스러우시다면, 품질을 떨어뜨리지 않으면서 팀의 부담을 덜어드릴 2가지 대안이 있습니다:
+
+옵션 A [단계별 마일스톤]: 
+가장 핵심이 되는 1단계 MVP만 먼저 론칭하여 초기 성과를 검증하고, 발생한 수익으로 2단계를 진행하는 방식
+
+옵션 B [3개월 분할 리테이너]: 
+초기 착수금을 40%로 낮추고, 3개월 분할(월 유지보수 및 성과 개선 포함)로 부담 없이 진행하는 방식
+
+대표님 팀의 자금 흐름과 상황에 가장 편안한 방식은 어느 쪽이실까요?"</div>
+        </div>
+
+        <!-- Item 5: Value-based Pricing -->
+        <div class="vault-card" data-cat="pricing">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">💰 [가치 기반 프라이싱] 1인 기업/에이전시 시급 탈출 3-Tier 공식</div>
+              <div style="font-size:12px;color:var(--text-muted);">시급 3만원의 노예에서 벗어나 가치의 10~20%를 당당히 청구하는 프라이싱 뼈대</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-pricing">프라이싱 공식</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_5', '3-Tier 프라이싱 공식')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_5">[1] 프라이싱 황금 법칙: "시간(Hour)"이 아니라 "창출 가치(Value)"에 청구하라
+• 잘못된 계산법: 10시간 일함 x 시급 3만원 = 30만원 (X)
+• 올바른 계산법: 이 프로젝트로 고객이 3,000만원의 신규 매출을 창출함 ➔ 10%인 300만원 청구 (O)
+
+[2] 거절할 수 없는 3-Tier 가격 패키징 구조:
+1. Tier 1 [Basic / 80만원]:
+   • 필수 기본 기능만 제공. 비교 기준점(Decoy) 역할.
+2. Tier 2 [Pro / 240만원 - 🌟 Most Popular]:
+   • 고객이 가장 원하는 핵심 결과를 모두 포함. 우리가 가장 많이 팔고 싶은 주력 상품.
+3. Tier 3 [Executive VIP / 650만원 - ⚓ Anchor]:
+   • 1:1 무제한 컨설팅, 24시간 VIP 응대, 완벽 셋업 포함.
+   • 효과: Tier 3의 650만원을 먼저 본 고객은 Tier 2(240만원)를 압도적으로 가성비 좋은 상품으로 인식함.
+
+[3] 견적서 발송 시 마법의 멘트:
+"고객사 상황에 맞추어 선택하실 수 있도록 3가지 옵션을 준비했습니다. 80% 이상의 파트너사는 가장 성과가 빠른 [Option 2: Pro]를 선택하십니다."</div>
+        </div>
+
+        <!-- Item 6: Pricing Script -->
+        <div class="vault-card" data-cat="pricing">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">💰 [고수익 견적서] 클라이언트 심리를 장악하는 1-Page 견적 포맷</div>
+              <div style="font-size:12px;color:var(--text-muted);">단순한 금액표가 아니라 미래 가치를 보여주는 고단가 제안서 포맷</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-pricing">견적 포맷</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_6', '1-Page 견적서 포맷')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_6"># 프로젝트 실행 견적서 & 보증 플랜
+
+■ 의뢰사: [기업명] / 담당자: [이름/직책]
+■ 공급사: [내 회사명] / 총괄: [내 이름]
+■ 유효기간: 발행일로부터 7일간 유효
+
+1. 프로젝트 개요 & 핵심 달성 목표
+• 목표: [예- 신규 랜딩페이지 도입을 통한 리드 전환율 2.5배 달성]
+• 납기: 계약금 입금일로부터 [X] 영업일 이내
+
+2. 선택 가능 실행 패키지
+[옵션 A: Essential Pack] ₩[금액]
+- 기본 세팅 및 반응형 구현, 1회 무상 수정
+
+[옵션 B: Pro Growth Pack (추천)] ₩[금액]
+- 풀스택 맞춤 구축, A/B 테스트 세팅, 3D 에셋 셋업, 30일 성과 모니터링 포함
+
+[옵션 C: Total Executive Pack] ₩[금액]
+- 풀 패키지 + 광고 소재 카피라이팅 5종 + 대표 직통 우선 기술 지원 60일
+
+3. 리스크 제로 약정 (Our Guarantee)
+만약 약정된 납기일을 당사의 귀책으로 초과할 경우, 지체일수당 총 계약금의 1%를 감면해 드립니다.</div>
+        </div>
+
+        <!-- Item 7: High Converting Headlines -->
+        <div class="vault-card" data-cat="copywriting">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🎯 [스크롤 스토퍼] 방문자 이탈율을 20%로 낮추는 헤드라인 10선</div>
+              <div style="font-size:12px;color:var(--text-muted);">3초 안에 고객의 시선을 멈추게 하는 심리학 기반 카피라이팅 공식</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-copy">카피라이팅</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_7', '고전환 헤드라인 10선')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_7">1. [손실 회피형]
+"매달 [X만원]씩 새어나가는 마케팅 비용, 아직도 모르고 계셨습니까?"
+
+2. [기간 & 결과 보장형]
+"외주 업체에 1,000만원 쓰지 않고 7일 만에 완성하는 [결과물]"
+
+3. [반직관적 진실형]
+"열심히 SNS를 해도 결제가 안 일어나는 진짜 이유는 팔로워 수가 아닙니다."
+
+4. [사회적 증거형]
+"이미 상위 1% [직군/기업] 480곳이 조용히 도입한 [솔루션 이름]"
+
+5. [페인킬러형]
+"[가장 지긋지긋한 문제], 이제 단 1번의 셋업으로 영구 자동화하세요."
+
+6. [질문형 훅]
+"왜 당신의 경쟁사는 잠든 사이에도 고액 계약을 따내고 있을까요?"
+
+7. [초보자 안심형]
+"복잡한 코딩/디자인 0g, 마우스 클릭만으로 완성되는 [결과물]"
+
+8. [한정성 보장형]
+"이번 달 선착순 5개 기업 한정: 100% 만족하지 않으시면 전액 환불해 드립니다."
+
+9. [비포 & 애프터형]
+"월 매출 0원에서 3,200만원 달성까지 걸린 시간, 단 34일의 기록"
+
+10. [자격 부여형]
+"오직 [타겟 고객층]만을 위해 설계된 궁극의 [솔루션]"</div>
+        </div>
+
+        <!-- Item 8: CTA Copywriting -->
+        <div class="vault-card" data-cat="copywriting">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🎯 [전환율 3배] 지갑을 열게 만드는 CTA(행동 촉구) 버튼 카피 10선</div>
+              <div style="font-size:12px;color:var(--text-muted);">'가입하기', '신청하기' 대신 클릭율을 폭발시키는 동사 중심 카피</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-copy">카피라이팅</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_8', '고전환 CTA 버튼 카피 10선')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_8">1. 지금 1초 만에 무료로 시작하기 ➔
+2. 내 예상 추가 매출 무료 진단받기 ➔
+3. 더 이상 시간 낭비 없이 3분 만에 셋업하기
+4. 선착순 한정 혜택 받고 지금 해금하기
+5. 남들보다 먼저 검증된 템플릿 복제하기
+6. 리스크 제로: 14일 무료 체험 시작하기
+7. 대표님을 위한 1페이지 분석 리포트 열람하기
+8. 지금 바로 내 비즈니스에 즉시 적용하기
+9. 1분 만에 첫 번째 유료 고객 만들기
+10. 오늘 마감: 정가 29만원 ➔ 지금 무료 받기</div>
+        </div>
+
+        <!-- Item 9: AI Mega Prompt 1 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 비즈니스 모델 냉혹 스트레스 테스트 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">실리콘밸리 깐깐한 VC 심사역 모드로 내 사업의 치명적 약점을 찾아내는 프롬프트</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_9', 'BM 스트레스 테스트 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_9">너는 실리콘밸리 최고 엑셀러레이터 Y-Combinator의 최고 수준 시니어 파트너이자 세상에서 가장 까다로운 VC 심사역이다. 
+내가 구상 중인 비즈니스 모델을 제시할 테니, 겉치레 칭찬이나 예의상 코멘트는 일절 배제하고 '현실에서 왜 망할 수밖에 없는지'를 가장 냉혹하고 날카롭게 공격해라.
+
+[분석 기준]:
+1. 진입 장벽의 부재 (경쟁자가 3일 만에 베낄 수 있는 취약점)
+2. 고객의 지갑을 열지 못하는 '비타민'형 아이템인지 '진통제(Painkiller)'인지 여부
+3. CAC(고객 획득 비용)가 LTV(생애 가치)를 초과할 위험 요소
+4. 이 아이템이 망하지 않고 생존하기 위해 당장 버려야 할 것과 집중해야 할 단 1가지 킬러 기능
+
+내 비즈니스 아이템: [여기에 입력]
+타겟 고객 및 예상 가격: [여기에 입력]</div>
+        </div>
+
+        <!-- Item 10: AI Mega Prompt 2 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 타겟 고객 지갑 여는 결제 트리거 역추적 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">고객이 밤잠을 설치며 괴로워하는 은밀한 불안과 즉시 구매 트리거 7가지 도출</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_10', '결제 트리거 역추적 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_10">너는 세계 최고의 행동 경제학자이자 다이렉트 리스폰스 카피라이터다.
+아래 제공하는 타겟 고객이 밤잠을 설치며 고민하는 가장 깊은 불안, 열등감, 그리고 지갑을 즉시 열게 만드는 결정적 심리 트리거 7가지를 분석해라.
+
+[작성 지침]:
+- 추상적인 단어 금지. 고객이 샤워할 때나 퇴근길 지하철에서 머릿속으로 읊조리는 구체적인 독백 형태로 작성해라.
+- '돈을 아끼고 싶다'가 아니라 '남들에게 뒤처지는 것 같은 수치심' 등 1차원적 욕구 뒤에 숨겨진 2차원적 감정을 파헤쳐라.
+
+타겟 페르소나: [예: 퇴사를 준비하는 30대 중반 직장인 / 월 매출 500만원 정체기에 빠진 1인 기업 대표]
+판매하려는 솔루션: [여기에 입력]</div>
+        </div>
+
+        <!-- Item 11: AI Mega Prompt 3 -->
+        <div class="vault-card" data-cat="ai">
+          <div class="vault-card-header">
+            <div>
+              <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">🤖 [AI 메가 프롬프트] 1인 기업 업무 자동화 & SOP 설계 봇</div>
+              <div style="font-size:12px;color:var(--text-muted);">직원 없이 혼자서 10인분의 생산성을 내는 자동화 시스템 & 표준 운영 절차 설계</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="vault-tag tag-ai">AI 프롬프트</span>
+              <button class="btn-copy-vault" onclick="copyVaultText('vault_code_11', '1인 기업 SOP 설계 프롬프트')"><i data-lucide="copy" style="width:13px;height:13px;"></i> 1초 복사</button>
+            </div>
+          </div>
+          <div class="vault-snippet-box" id="vault_code_11">너는 1인 유니콘 기업을 운영하는 최고운영책임자(COO)이자 노코드/AI 시스템 아키텍트다.
+내가 매일/매주 수행하는 반복 업무 목록을 보고, 1인 사업가가 시스템의 부품이 아니라 지휘자가 될 수 있도록 3단계 자동화 SOP를 구축해라.
+
+[설계 단계]:
+1. [제거 (Eliminate)]: 당장 그만두어도 매출에 지장 없는 낭비 업무 20% 식별
+2. [자동화 (Automate)]: Zapier/Make/AI API를 활용해 사람의 손을 거치지 않게 연결할 수 있는 프로세스
+3. [위임 및 템플릿화 (Delegate)]: 1시간 만에 외주 인력이나 파트타이머에게 인계할 수 있는 체크리스트형 표준 업무 매뉴얼(SOP)
+
+나의 현재 주간 업무 루틴: [여기에 입력]</div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 킬러 기능 3: 추천 비즈니스 마일스톤 프리셋 모달 -->
+  <div class="modal-overlay" id="presetModal" style="display:none;" onclick="if(event.target===this)closePresetModal()">
+    <div class="modal-content">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i data-lucide="sparkles" style="width:18px;height:18px;color:#c084fc;"></i>
+          <h3 style="font-size:18px;font-weight:900;">검증된 비즈니스 목표 프리셋</h3>
+        </div>
+        <button class="btn-action-icon" onclick="closePresetModal()" style="width:28px;height:28px;"><i data-lucide="x" style="width:15px;height:15px;"></i></button>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.5;">
+        선택하시면 이번 분기의 3대 핵심 목표(Big Rocks)와 프로젝트 트래커가 1초 만에 최적의 비즈니스 마일스톤으로 자동 구성됩니다.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="preset-card-item" onclick="applyPreset('solopreneur')">
+          <div style="font-size:14.5px;font-weight:800;color:#c084fc;margin-bottom:4px;">🚀 1인 기업 셋업 & 첫 매출 팩</div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">
+            3D 명함/멀티링크 론칭 ➔ 잠재 고객 DB 100명 수집 ➔ 첫 디지털 상품 30건 완판
+          </div>
+        </div>
+        <div class="preset-card-item" onclick="applyPreset('agency')">
+          <div style="font-size:14.5px;font-weight:800;color:#38bdf8;margin-bottom:4px;">💼 B2B 프리랜서 & 에이전시 팩</div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">
+            기업 50곳 아웃바운드 제안 ➔ 월 고정 계약 3곳 체결 ➔ 포트폴리오 3D 쇼케이스 완성
+          </div>
+        </div>
+        <div class="preset-card-item" onclick="applyPreset('digital')">
+          <div style="font-size:14.5px;font-weight:800;color:#34d399;margin-bottom:4px;">💎 고수익 디지털 지식창업 팩</div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.5;">
+            플래너 디지털 패키지 패키징 ➔ 텀블벅/스마트스토어 펀딩 1,000만원 ➔ 자동 세일즈 구축
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toastMsg">
+    <i data-lucide="check-circle-2" style="width:18px;height:18px;color:#a855f7;"></i>
+    <span id="toastText">저장되었습니다</span>
+  </div>
+
+  <script>
+    // ==========================================
+    // 플래너 데이터 스토어 (State)
+    // ==========================================
+    const STORAGE_KEY = 'setupod_planner_2026_v1';
+
+    let plannerState = {
+      themeSkin: 'violet',
+      themeOfYear: '',
+      areas: {
+        area1: { goal: '', metric: '', action: '' },
+        area2: { goal: '', metric: '', action: '' },
+        area3: { goal: '', metric: '', action: '' },
+        area4: { goal: '', metric: '', action: '' },
+        area5: { goal: '', metric: '', action: '' }
+      },
+      currentQuarter: 'Q1',
+      quarters: {
+        Q1: {
+          rocks: [
+            { goal: 'SETUPOD 3D 인터랙티브 명함 및 세일즈 퍼널 셋업', metric: '온라인 허브 완성 및 vCard 자동저장 연동', done: true },
+            { goal: '2026 프로젝트 플래너 디지털 패키지 공식 출시', metric: '웹 앱 및 스마트폰 홈 화면 연동', done: true },
+            { goal: '첫 분기 유료 고객 30명 확보 및 현금흐름 창출', metric: '마케팅 캠페인 및 SNS 릴스 홍보', done: false }
+          ],
+          projects: [
+            { id: 1, name: 'SETUPOD 3D 명함 및 세일즈 퍼널 셋업', deliverable: '온라인 허브 완성 및 주소록 저장 연동', deadline: '2026-03-31', progress: 100, status: 'completed' },
+            { id: 2, name: '2026 프로젝트 플래너 디지털 패키지 출시', deliverable: '웹 앱 및 PDF 서식 론칭', deadline: '2026-03-15', progress: 95, status: 'in-progress' },
+            { id: 3, name: '첫 분기 유료 고객 30명 확보', deliverable: '마케팅 캠페인 및 콜드 리치', deadline: '2026-03-31', progress: 45, status: 'in-progress' }
+          ],
+          retro: { keep: '매일 아침 1순위 업무 90분 집중이 가장 생산적이었음', problem: '중간에 불필요한 SNS 소비로 인한 시간 누수', tryAction: '뽀모도로 타이머와 빗소리 사운드로 몰입 루틴 고정' }
+        },
+        Q2: { rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }], projects: [], retro: { keep: '', problem: '', tryAction: '' } },
+        Q3: { rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }], projects: [], retro: { keep: '', problem: '', tryAction: '' } },
+        Q4: { rocks: [{ goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }, { goal: '', metric: '', done: false }], projects: [], retro: { keep: '', problem: '', tryAction: '' } }
+      },
+      days: {}
+    };
+
+    let calCurrentYear = 2026;
+    let calCurrentMonth = 2; // 3월 (0-indexed: 2)
+    let selectedDateStr = '2026-03-15';
+    let autoSaveTimer = null;
+
+    // ==========================================
+    // 킬러 기능 4: 테마 스킨 스위처
+    // ==========================================
+    function switchThemeSkin(themeName, btn) {
+      plannerState.themeSkin = themeName;
+      document.body.classList.remove('theme-obsidian', 'theme-emerald');
+      if (themeName !== 'violet') {
+        document.body.classList.add(`theme-${themeName}`);
+      }
+      document.querySelectorAll('.theme-btn-dot').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      else {
+        const targetBtn = document.querySelector(`.theme-dot-${themeName}`);
+        if (targetBtn) targetBtn.classList.add('active');
+      }
+      triggerAutoSave();
+    }
+
+    // ==========================================
+    // 킬러 기능 1: 365일 비즈니스 스트릭 잔디밭
+    // ==========================================
+    function renderYearHeatmap() {
+      const grid = document.getElementById('yearHeatmapGrid');
+      grid.innerHTML = '';
+
+      const startDate = new Date(2026, 0, 1);
+      let totalDone = 0;
+      let streak = 0;
+      let activeDaysCount = 0;
+
+      // 365일 셀 생성
+      for (let i = 0; i < 365; i++) {
+        const d = new Date(2026, 0, 1 + i);
+        const y = d.getFullYear();
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        const dateStr = formatDateStr(y, m, day);
+
+        const dayData = plannerState.days[dateStr] || {};
+        const todos = dayData.todos || [];
+        const completedTodos = todos.filter(t => t.done).length;
+        if (completedTodos > 0) totalDone += completedTodos;
+
+        let level = 0;
+        if (dayData.priority || todos.length > 0) level = 1;
+        if (completedTodos >= 1) level = 2;
+        if (completedTodos >= 3) level = 3;
+        if (completedTodos >= 5) level = 4;
+
+        // 샘플 활성화 시뮬레이션 (3월 1일~15일까지 일부 채우기)
+        if (m === 3 && day <= 15 && level === 0) {
+          level = (day % 3) + 1;
+        }
+
+        if (level > 0) activeDaysCount++;
+
+        const cell = document.createElement('div');
+        cell.className = `heatmap-cell ${level > 0 ? 'level-' + level : ''}`;
+        cell.title = `${dateStr} : ${completedTodos > 0 ? completedTodos + '개 목표 완수' : (dayData.priority ? '목표 작성됨' : '기록 없음')}`;
+        cell.onclick = () => {
+          calCurrentMonth = d.getMonth();
+          calCurrentYear = d.getFullYear();
+          selectedDateStr = dateStr;
+          switchView('calendar');
+        };
+
+        grid.appendChild(cell);
+      }
+
+      document.getElementById('totalDoneStats').innerText = `${Math.max(18, totalDone)}개`;
+      document.getElementById('commitmentStats').innerText = `${Math.min(100, Math.round((activeDaysCount / 74) * 100))}%`;
+    }
+
+    // ==========================================
+    // 킬러 기능 2: 뽀모도로 타이머 & Web Audio 앰비언트 엔진
+    // ==========================================
+    let pomoMinutes = 25;
+    let pomoSeconds = 0;
+    let pomoInterval = null;
+    let isPomoRunning = false;
+
+    let audioCtx = null;
+    let currentNoiseNode = null;
+    let gainNode = null;
+
+    function togglePomodoro() {
+      if (isPomoRunning) {
+        pausePomodoro();
+      } else {
+        startPomodoro();
+      }
+    }
+
+    function startPomodoro() {
+      isPomoRunning = true;
+      document.getElementById('pomoBtnText').innerText = '일시 정지';
+      document.getElementById('pomoIcon').setAttribute('data-lucide', 'pause');
+      lucide.createIcons();
+
+      pomoInterval = setInterval(() => {
+        if (pomoSeconds === 0) {
+          if (pomoMinutes === 0) {
+            clearInterval(pomoInterval);
+            isPomoRunning = false;
+            playChimeSound();
+            showToast("🎉 25분 집중 세션 완료! 5분간 꿀같은 휴식을 취하세요.");
+            resetPomodoro();
+            return;
+          }
+          pomoMinutes--;
+          pomoSeconds = 59;
+        } else {
+          pomoSeconds--;
+        }
+        updatePomoDisplay();
+      }, 1000);
+    }
+
+    function pausePomodoro() {
+      isPomoRunning = false;
+      clearInterval(pomoInterval);
+      document.getElementById('pomoBtnText').innerText = '이어하기';
+      document.getElementById('pomoIcon').setAttribute('data-lucide', 'play');
+      lucide.createIcons();
+    }
+
+    function resetPomodoro() {
+      pausePomodoro();
+      pomoMinutes = 25;
+      pomoSeconds = 0;
+      updatePomoDisplay();
+      document.getElementById('pomoBtnText').innerText = '집중 시작';
+    }
+
+    function updatePomoDisplay() {
+      const mm = pomoMinutes < 10 ? `0${pomoMinutes}` : pomoMinutes;
+      const ss = pomoSeconds < 10 ? `0${pomoSeconds}` : pomoSeconds;
+      document.getElementById('pomoTimerDisplay').innerText = `${mm}:${ss}`;
+    }
+
+    // Web Audio 신디사이저 앰비언트 엔진 (100% 무과금, 자체 합성)
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+
+    function changeAmbientSound(type) {
+      stopAmbientSound();
+      if (type === 'none') return;
+
+      const ctx = getAudioContext();
+      if (ctx.state === 'suspended') ctx.resume();
+
+      gainNode = ctx.createGain();
+      gainNode.gain.setValueAtTime(0.06, ctx.currentTime);
+      gainNode.connect(ctx.destination);
+
+      if (type === 'rain' || type === 'pink') {
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.1;
+          b6 = white * 0.115926;
+        }
+        const noiseSource = ctx.createBufferSource();
+        noiseSource.buffer = buffer;
+        noiseSource.loop = true;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = type === 'rain' ? 'lowpass' : 'bandpass';
+        filter.frequency.setValueAtTime(type === 'rain' ? 850 : 1100, ctx.currentTime);
+
+        noiseSource.connect(filter);
+        filter.connect(gainNode);
+        noiseSource.start(0);
+        currentNoiseNode = noiseSource;
+      } else if (type === 'alpha') {
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        osc1.frequency.setValueAtTime(200, ctx.currentTime);
+        osc2.frequency.setValueAtTime(210, ctx.currentTime);
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        osc1.start();
+        osc2.start();
+        currentNoiseNode = { stop: () => { osc1.stop(); osc2.stop(); } };
+      }
+      showToast(`🎧 ${type === 'rain' ? '빗소리' : (type === 'pink' ? '핑크노이즈' : '알파파')} 사운드가 켜졌습니다.`);
+    }
+
+    function stopAmbientSound() {
+      if (currentNoiseNode) {
+        try { currentNoiseNode.stop(); } catch(e){}
+        currentNoiseNode = null;
+      }
+    }
+
+    function playChimeSound() {
+      try {
+        const ctx = getAudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.3); // A5
+        g.gain.setValueAtTime(0.2, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.2);
+      } catch(e){}
+    }
+
+    // ==========================================
+    // 킬러 기능 3: 검증된 비즈니스 목표 프리셋
+    // ==========================================
+    function openPresetModal() {
+      document.getElementById('presetModal').style.display = 'flex';
+      lucide.createIcons();
+    }
+
+    function closePresetModal() {
+      document.getElementById('presetModal').style.display = 'none';
+    }
+
+    function applyPreset(type) {
+      const q = plannerState.currentQuarter;
+      if (type === 'solopreneur') {
+        plannerState.quarters[q].rocks = [
+          { goal: '3D 명함 & 올인원 멀티링크 공식 론칭', metric: '거래처 및 SNS 프로필 링크 100% 교체', done: true },
+          { goal: '잠재 고객 100명 DB 수집 퍼널 완성', metric: '스코어카드 및 무료 리드마그넷 배포', done: false },
+          { goal: '첫 번째 디지털 상품 30건 판매 달성', metric: '순수익 150만원 돌파', done: false }
+        ];
+        plannerState.quarters[q].projects = [
+          { id: 101, name: '3D 디지털 명함 디자인 & vCard 연동', deliverable: 'setupod.com 나만의 카드 배포', deadline: '2026-03-20', progress: 100, status: 'completed' },
+          { id: 102, name: '인스타그램 릴스 & 카드뉴스 마케팅', deliverable: '주 3회 발행 루틴 정착', deadline: '2026-03-31', progress: 60, status: 'in-progress' },
+          { id: 103, name: '카카오톡 오픈채팅 고객 상담 자동화', deliverable: '1:1 문의 채널 개설', deadline: '2026-04-10', progress: 30, status: 'in-progress' }
+        ];
+      } else if (type === 'agency') {
+        plannerState.quarters[q].rocks = [
+          { goal: '타겟 기업 50곳 콜드 아웃바운드 제안', metric: '미팅 전환율 20% 달성 (10건 성사)', done: false },
+          { goal: '월 고정 계약(Retainer) 고객사 3곳 체결', metric: '고정 월 매출 800만원 확보', done: false },
+          { goal: '포트폴리오 3D 쇼케이스 및 후기 5건 구축', metric: '신뢰도 높은 레퍼런스 페이지 완성', done: true }
+        ];
+        plannerState.quarters[q].projects = [
+          { id: 201, name: 'B2B 맞춤형 인터랙티브 제안서 제작', deliverable: '3D 에셋 기반 웹 제안서 셋업', deadline: '2026-03-25', progress: 85, status: 'in-progress' },
+          { id: 202, name: '링크드인 & 업계 네트워크 콜드메일 발송', deliverable: '주간 15개사 발송', deadline: '2026-04-05', progress: 50, status: 'in-progress' }
+        ];
+      } else if (type === 'digital') {
+        plannerState.quarters[q].rocks = [
+          { goal: '500p 프리미엄 디지털 플래너 패키지 완성', metric: 'PDF 서식 + 웹 앱 동기화 완료', done: true },
+          { goal: '크라우드 펀딩 / 스마트스토어 1,000만원 달성', metric: '얼리버드 구매자 300명 유치', done: false },
+          { goal: 'VIP 커뮤니티 개설 및 자동 세일즈 파이프라인', metric: '카카오 알림톡 자동 발송 연동', done: false }
+        ];
+        plannerState.quarters[q].projects = [
+          { id: 301, name: '플래너 상세페이지 & 시연 영상 제작', deliverable: '태블릿 시연 GIF 및 목업 컷 완성', deadline: '2026-03-22', progress: 90, status: 'in-progress' },
+          { id: 302, name: '체험단 사전 리뷰 30건 수집', deliverable: '블로그 및 인스타 체험단 운영', deadline: '2026-04-01', progress: 40, status: 'in-progress' }
+        ];
+      }
+
+      closePresetModal();
+      renderQuarterView();
+      renderYearHeatmap();
+      triggerAutoSave();
+      showToast("💡 검증된 비즈니스 팩이 이번 분기에 적용되었습니다!");
+    }
+
+    // ==========================================
+    // 탭 전환 엔진
+    // ==========================================
+    function switchView(viewName) {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tabCompassView').style.display = 'none';
+      document.getElementById('tabProjectsView').style.display = 'none';
+      document.getElementById('tabCalendarView').style.display = 'none';
+      if (document.getElementById('tabVaultView')) document.getElementById('tabVaultView').style.display = 'none';
+
+      if (viewName === 'compass') {
+        document.getElementById('tabCompassBtn').classList.add('active');
+        document.getElementById('tabCompassView').style.display = 'flex';
+      } else if (viewName === 'projects') {
+        document.getElementById('tabProjectsBtn').classList.add('active');
+        document.getElementById('tabProjectsView').style.display = 'flex';
+        renderQuarterView();
+      } else if (viewName === 'calendar') {
+        document.getElementById('tabCalendarBtn').classList.add('active');
+        document.getElementById('tabCalendarView').style.display = 'flex';
+        renderCalendar();
+        loadDailyPanel(selectedDateStr);
+      } else if (viewName === 'vault') {
+        document.getElementById('tabVaultBtn').classList.add('active');
+        document.getElementById('tabVaultView').style.display = 'flex';
+      }
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 1. LIFE COMPASS 로딩 & 바인딩
+    // ==========================================
+    function loadCompassData() {
+      document.getElementById('inputThemeOfYear').value = plannerState.themeOfYear || '';
+      for (let i = 1; i <= 5; i++) {
+        const a = plannerState.areas[`area${i}`] || {};
+        if (document.getElementById(`area${i}_goal`)) document.getElementById(`area${i}_goal`).value = a.goal || '';
+        if (document.getElementById(`area${i}_metric`)) document.getElementById(`area${i}_metric`).value = a.metric || '';
+        if (document.getElementById(`area${i}_action`)) document.getElementById(`area${i}_action`).value = a.action || '';
+      }
+    }
+
+    function saveCompassData() {
+      plannerState.themeOfYear = document.getElementById('inputThemeOfYear').value;
+      for (let i = 1; i <= 5; i++) {
+        plannerState.areas[`area${i}`] = {
+          goal: document.getElementById(`area${i}_goal`)?.value || '',
+          metric: document.getElementById(`area${i}_metric`)?.value || '',
+          action: document.getElementById(`area${i}_action`)?.value || ''
+        };
+      }
+    }
+
+    // ==========================================
+    // 2. BIG ROCKS & PROJECTS
+    // ==========================================
+    function switchQuarter(qName, btn) {
+      plannerState.currentQuarter = qName;
+      document.querySelectorAll('.quarter-pill').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderQuarterView();
+      triggerAutoSave();
+    }
+
+    function renderQuarterView() {
+      const q = plannerState.currentQuarter;
+      document.getElementById('currentQuarterLabel').innerText = q;
+      document.getElementById('retroQuarterLabel').innerText = q;
+
+      const qData = plannerState.quarters[q] || { rocks: [], projects: [], retro: {} };
+
+      // D-Day 계산
+      const endDates = { Q1: '2026-03-31', Q2: '2026-06-30', Q3: '2026-09-30', Q4: '2026-12-31' };
+      const targetDate = new Date(endDates[q]);
+      const today = new Date();
+      const diffTime = targetDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const ddayText = diffDays > 0 ? `${q} 마감까지 D-${diffDays}` : (diffDays === 0 ? `${q} 마감일 오늘!` : `${q} 종료`);
+      document.getElementById('quarterDdayText').innerText = ddayText;
+
+      // Rocks 바인딩
+      for (let i = 1; i <= 3; i++) {
+        const rock = qData.rocks[i - 1] || { goal: '', metric: '', done: false };
+        const goalInput = document.getElementById(`rockGoal_${i}`);
+        const metricInput = document.getElementById(`rockMetric_${i}`);
+        const checkInput = document.getElementById(`rockCheck_${i}`);
+        const cardEl = document.getElementById(`rockCard_${i}`);
+
+        if (goalInput) goalInput.value = rock.goal || '';
+        if (metricInput) metricInput.value = rock.metric || '';
+        if (checkInput) checkInput.checked = !!rock.done;
+        if (cardEl) {
+          if (rock.done) cardEl.classList.add('completed');
+          else cardEl.classList.remove('completed');
+        }
+      }
+
+      // Projects 렌더링
+      renderProjectsList(qData.projects || []);
+
+      // Retro 바인딩
+      const retro = qData.retro || {};
+      document.getElementById('retroKeep').value = retro.keep || '';
+      document.getElementById('retroProblem').value = retro.problem || '';
+      document.getElementById('retroTry').value = retro.tryAction || '';
+
+      updateQuarterCompletionRate();
+      lucide.createIcons();
+    }
+
+    function toggleRockComplete(rockIndex) {
+      const q = plannerState.currentQuarter;
+      const isChecked = document.getElementById(`rockCheck_${rockIndex}`).checked;
+      if (!plannerState.quarters[q].rocks[rockIndex - 1]) {
+        plannerState.quarters[q].rocks[rockIndex - 1] = { goal: '', metric: '', done: false };
+      }
+      plannerState.quarters[q].rocks[rockIndex - 1].done = isChecked;
+      
+      const cardEl = document.getElementById(`rockCard_${rockIndex}`);
+      if (isChecked) cardEl.classList.add('completed');
+      else cardEl.classList.remove('completed');
+
+      updateQuarterCompletionRate();
+      renderYearHeatmap();
+      triggerAutoSave();
+    }
+
+    function saveRocksAndRetroData() {
+      const q = plannerState.currentQuarter;
+      if (!plannerState.quarters[q]) plannerState.quarters[q] = { rocks: [], projects: [], retro: {} };
+
+      for (let i = 1; i <= 3; i++) {
+        plannerState.quarters[q].rocks[i - 1] = {
+          goal: document.getElementById(`rockGoal_${i}`)?.value || '',
+          metric: document.getElementById(`rockMetric_${i}`)?.value || '',
+          done: document.getElementById(`rockCheck_${i}`)?.checked || false
+        };
+      }
+
+      plannerState.quarters[q].retro = {
+        keep: document.getElementById('retroKeep')?.value || '',
+        problem: document.getElementById('retroProblem')?.value || '',
+        tryAction: document.getElementById('retroTry')?.value || ''
+      };
+    }
+
+    function renderProjectsList(projects) {
+      const container = document.getElementById('projectRowsContainer');
+      if (!projects || projects.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:32px;color:var(--text-muted);font-size:13.5px;">
+            등록된 프로젝트가 없습니다. [+ 프로젝트 추가] 버튼이나 상단 [💡 비즈니스 팩]을 불러오세요.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = projects.map((p, idx) => `
+        <div class="project-row-item">
+          <div>
+            <div style="font-size:11px;font-weight:800;color:var(--accent-theme);margin-bottom:2px;">PROJECT ${idx + 1}</div>
+            <input type="text" class="input-field" style="font-weight:700;" value="${escapeHtml(p.name)}" placeholder="프로젝트 이름" oninput="updateProjectField(${idx}, 'name', this.value)">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:2px;">핵심 결과물</div>
+            <input type="text" class="input-field" value="${escapeHtml(p.deliverable || '')}" placeholder="예: v1 론칭, 리드 100건" oninput="updateProjectField(${idx}, 'deliverable', this.value)">
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:2px;">마감일</div>
+            <input type="date" class="input-field" style="font-size:12px;padding:10px 8px;" value="${p.deadline || ''}" onchange="updateProjectField(${idx}, 'deadline', this.value)">
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-top">
+              <span>진척도</span>
+              <span id="projProgLabel_${idx}">${p.progress || 0}%</span>
+            </div>
+            <input type="range" min="0" max="100" value="${p.progress || 0}" style="width:100%;accent-color:var(--accent-theme);cursor:pointer;" oninput="updateProjectProgress(${idx}, this.value)">
+            <div class="progress-track">
+              <div class="progress-fill" id="projProgFill_${idx}" style="width:${p.progress || 0}%;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <select class="status-select" onchange="updateProjectField(${idx}, 'status', this.value)">
+              <option value="ready" ${p.status === 'ready' ? 'selected' : ''}>대기</option>
+              <option value="in-progress" ${p.status === 'in-progress' ? 'selected' : ''}>진행중</option>
+              <option value="completed" ${p.status === 'completed' ? 'selected' : ''}>완료</option>
+            </select>
+            <button class="btn-del-project" onclick="deleteProjectRow(${idx})" title="프로젝트 삭제">
+              <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addNewProjectRow() {
+      const q = plannerState.currentQuarter;
+      if (!plannerState.quarters[q].projects) plannerState.quarters[q].projects = [];
+      plannerState.quarters[q].projects.push({
+        id: Date.now(),
+        name: '',
+        deliverable: '',
+        deadline: '2026-03-31',
+        progress: 0,
+        status: 'in-progress'
+      });
+      renderQuarterView();
+      triggerAutoSave();
+    }
+
+    function updateProjectField(idx, field, value) {
+      const q = plannerState.currentQuarter;
+      if (plannerState.quarters[q].projects[idx]) {
+        plannerState.quarters[q].projects[idx][field] = value;
+        triggerAutoSave();
+      }
+    }
+
+    function updateProjectProgress(idx, val) {
+      const q = plannerState.currentQuarter;
+      if (plannerState.quarters[q].projects[idx]) {
+        plannerState.quarters[q].projects[idx].progress = parseInt(val, 10);
+        document.getElementById(`projProgLabel_${idx}`).innerText = `${val}%`;
+        document.getElementById(`projProgFill_${idx}`).style.width = `${val}%`;
+        if (parseInt(val, 10) === 100) {
+          plannerState.quarters[q].projects[idx].status = 'completed';
+        }
+        updateQuarterCompletionRate();
+        triggerAutoSave();
+      }
+    }
+
+    function deleteProjectRow(idx) {
+      const q = plannerState.currentQuarter;
+      if (confirm("이 프로젝트를 삭제하시겠습니까?")) {
+        plannerState.quarters[q].projects.splice(idx, 1);
+        renderQuarterView();
+        triggerAutoSave();
+      }
+    }
+
+    function updateQuarterCompletionRate() {
+      const q = plannerState.currentQuarter;
+      const qData = plannerState.quarters[q];
+      if (!qData) return;
+
+      let totalItems = 0;
+      let completedItems = 0;
+
+      (qData.rocks || []).forEach(r => {
+        totalItems++;
+        if (r.done) completedItems++;
+      });
+
+      let projProgSum = 0;
+      const projects = qData.projects || [];
+      if (projects.length > 0) {
+        projects.forEach(p => { projProgSum += (p.progress || 0); });
+        const avgProj = projProgSum / projects.length;
+        const rate = Math.round((completedItems / (totalItems || 1)) * 40 + avgProj * 0.6);
+        document.getElementById('quarterCompletionRate').innerText = `${Math.min(100, rate)}%`;
+      } else {
+        const rate = Math.round((completedItems / (totalItems || 1)) * 100);
+        document.getElementById('quarterCompletionRate').innerText = `${rate}%`;
+      }
+    }
+
+    // ==========================================
+    // 3. INTERACTIVE 2026 CALENDAR & DAILY FOCUS
+    // ==========================================
+    const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+
+    function renderCalendar() {
+      document.getElementById('calYearTitle').innerText = calCurrentYear;
+      document.getElementById('calMonthTitle').innerText = monthNames[calCurrentMonth];
+
+      const firstDayOfMonth = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+      const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(calCurrentYear, calCurrentMonth, 0).getDate();
+
+      const container = document.getElementById('calDaysGrid');
+      container.innerHTML = '';
+
+      for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+        const d = daysInPrevMonth - i;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell other-month';
+        cell.innerHTML = `<span class="cal-day-num">${d}</span>`;
+        container.appendChild(cell);
+      }
+
+      const today = new Date();
+      const isCurrentRealMonth = (today.getFullYear() === calCurrentYear && today.getMonth() === calCurrentMonth);
+      const realTodayDate = today.getDate();
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = formatDateStr(calCurrentYear, calCurrentMonth + 1, d);
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell';
+        if (isCurrentRealMonth && d === realTodayDate) cell.classList.add('today');
+        if (dateStr === selectedDateStr) cell.classList.add('selected');
+
+        const dayData = plannerState.days[dateStr] || {};
+        const todos = dayData.todos || [];
+        const dotsHtml = todos.slice(0, 4).map(() => `<span class="cal-todo-dot"></span>`).join('');
+
+        cell.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="cal-day-num">${d}</span>
+            ${dayData.priority ? '<i data-lucide="flame" style="width:11px;height:11px;color:#f97316;"></i>' : ''}
+          </div>
+          <div class="cal-day-badges">${dotsHtml}</div>
+        `;
+
+        cell.onclick = () => {
+          document.querySelectorAll('.cal-day-cell').forEach(c => c.classList.remove('selected'));
+          cell.classList.add('selected');
+          selectedDateStr = dateStr;
+          loadDailyPanel(dateStr);
+        };
+
+        container.appendChild(cell);
+      }
+
+      lucide.createIcons();
+    }
+
+    function changeMonth(delta) {
+      calCurrentMonth += delta;
+      if (calCurrentMonth > 11) {
+        calCurrentMonth = 0;
+        calCurrentYear += 1;
+      } else if (calCurrentMonth < 0) {
+        calCurrentMonth = 11;
+        calCurrentYear -= 1;
+      }
+      renderCalendar();
+    }
+
+    function jumpToToday() {
+      const now = new Date();
+      calCurrentYear = now.getFullYear();
+      calCurrentMonth = now.getMonth();
+      selectedDateStr = formatDateStr(calCurrentYear, calCurrentMonth + 1, now.getDate());
+      renderCalendar();
+      loadDailyPanel(selectedDateStr);
+    }
+
+    function formatDateStr(y, m, d) {
+      const mm = m < 10 ? `0${m}` : m;
+      const dd = d < 10 ? `0${d}` : d;
+      return `${y}-${mm}-${dd}`;
+    }
+
+    function loadDailyPanel(dateStr) {
+      const parts = dateStr.split('-');
+      const dObj = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      const weekDayNames = ['일', '월', '화', '수', '목', '금', '토'];
+      const weekDayStr = weekDayNames[dObj.getDay()];
+
+      document.getElementById('selectedDateTitle').innerText = `${parts[0]}년 ${parseInt(parts[1], 10)}월 ${parseInt(parts[2], 10)}일 (${weekDayStr})`;
+
+      const dayData = plannerState.days[dateStr] || { priority: '', todos: [], notes: '' };
+      document.getElementById('dailyPriorityInput').value = dayData.priority || '';
+      document.getElementById('dailyNotesInput').value = dayData.notes || '';
+
+      renderDailyTodos(dayData.todos || []);
+    }
+
+    function renderDailyTodos(todos) {
+      const listContainer = document.getElementById('dailyTodoList');
+      const doneCount = todos.filter(t => t.done).length;
+      document.getElementById('dailyTodoDoneCount').innerText = doneCount;
+      document.getElementById('dailyTodoTotalCount').innerText = todos.length;
+
+      if (!todos || todos.length === 0) {
+        listContainer.innerHTML = `<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:12px;">오늘의 할 일을 추가해보세요.</div>`;
+        return;
+      }
+
+      listContainer.innerHTML = todos.map((t, idx) => `
+        <div class="todo-item-row ${t.done ? 'done' : ''}">
+          <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodoDone(${idx})">
+          <input type="text" class="todo-text-input" value="${escapeHtml(t.text)}" oninput="updateTodoText(${idx}, this.value)">
+          <button class="btn-todo-del" onclick="deleteTodoItem(${idx})">
+            <i data-lucide="x" style="width:13px;height:13px;"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addTodoToCurrentDate() {
+      const input = document.getElementById('newTodoInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (!plannerState.days[selectedDateStr]) {
+        plannerState.days[selectedDateStr] = { priority: '', todos: [], notes: '' };
+      }
+      if (!plannerState.days[selectedDateStr].todos) {
+        plannerState.days[selectedDateStr].todos = [];
+      }
+
+      plannerState.days[selectedDateStr].todos.push({ text: text, done: false });
+      input.value = '';
+      loadDailyPanel(selectedDateStr);
+      renderCalendar();
+      renderYearHeatmap();
+      triggerAutoSave();
+    }
+
+    function toggleTodoDone(idx) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos[idx].done = !plannerState.days[selectedDateStr].todos[idx].done;
+        loadDailyPanel(selectedDateStr);
+        renderYearHeatmap();
+        triggerAutoSave();
+      }
+    }
+
+    function updateTodoText(idx, val) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos[idx].text = val;
+        triggerAutoSave();
+      }
+    }
+
+    function deleteTodoItem(idx) {
+      if (plannerState.days[selectedDateStr]?.todos[idx]) {
+        plannerState.days[selectedDateStr].todos.splice(idx, 1);
+        loadDailyPanel(selectedDateStr);
+        renderCalendar();
+        renderYearHeatmap();
+        triggerAutoSave();
+      }
+    }
+
+    function saveCurrentDayData() {
+      if (!plannerState.days[selectedDateStr]) {
+        plannerState.days[selectedDateStr] = { priority: '', todos: [], notes: '' };
+      }
+      plannerState.days[selectedDateStr].priority = document.getElementById('dailyPriorityInput').value;
+      plannerState.days[selectedDateStr].notes = document.getElementById('dailyNotesInput').value;
+      renderCalendar();
+      renderYearHeatmap();
+      triggerAutoSave();
+    }
+
+    // ==========================================
+    // 영속성 관리 (LocalStorage & Auto-Save)
+    // ==========================================
+    function triggerAutoSave() {
+      const indicator = document.getElementById('saveStatusText');
+      if (indicator) indicator.innerText = '저장 중...';
+
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        saveCompassData();
+        saveRocksAndRetroData();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(plannerState));
+        if (indicator) indicator.innerText = '자동 저장됨';
+      }, 400);
+    }
+
+    function loadStateFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          plannerState = Object.assign(plannerState, parsed);
+        }
+      } catch (e) {
+        console.error("Failed to load planner storage:", e);
+      }
+    }
+
+    function exportPlannerData() {
+      saveCompassData();
+      saveRocksAndRetroData();
+      const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(plannerState, null, 2));
+      const a = document.createElement('a');
+      a.href = jsonStr;
+      a.download = `SETUPOD_2026_Planner_Backup_${selectedDateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast("플래너 전체 데이터(JSON)가 백업되었습니다!");
+    }
+
+    function importPlannerData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported && (imported.themeOfYear !== undefined || imported.quarters)) {
+            plannerState = imported;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(plannerState));
+            if (plannerState.themeSkin) switchThemeSkin(plannerState.themeSkin);
+            loadCompassData();
+            renderQuarterView();
+            renderCalendar();
+            renderYearHeatmap();
+            loadDailyPanel(selectedDateStr);
+            showToast("플래너 데이터를 성공적으로 불러왔습니다!");
+          } else {
+            showToast("올바른 플래너 백업 파일이 아닙니다.");
+          }
+        } catch (err) {
+          showToast("JSON 파일 읽기 오류가 발생했습니다.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      document.getElementById('toastText').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // ==========================================
+    // 💎 시크릿 볼트 (Executive Secret Vault) 로직
+    // ==========================================
+    function filterVault(category, btn) {
+      document.querySelectorAll('.vault-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.vault-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-cat') === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function copyVaultText(elementId, label) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`📋 [${label}] 클립보드에 복사되었습니다!`);
+      }).catch(err => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(`📋 [${label}] 복사 완료!`);
+      });
+    }
+
+    function exportToNotionMarkdown() {
+      const p = plannerState;
+      const theme = p.themeOfYear || '미입력';
+      
+      let md = `# 🧭 SETUPOD 2026 비즈니스 실행 플래너\n\n`;
+      md += `> 💡 **2026 올해의 핵심 테마**: ${theme}\n`;
+      md += `> 📅 **데이터 생성일**: ${new Date().toLocaleDateString('ko-KR')}\n\n`;
+      
+      md += `## 🎯 5대 핵심 영역 (Life Compass)\n\n`;
+      md += `| 영역 | 2026 연간 목표 | 핵심 성공 지표 (KPI) | 매일의 실행 행동 |\n`;
+      md += `| :--- | :--- | :--- | :--- |\n`;
+      
+      const areaNames = {
+        area1: '💼 사업 & 커리어 (Business)',
+        area2: '💰 재정 & 자산 (Wealth)',
+        area3: '⚡ 건강 & 에너지 (Vitality)',
+        area4: '🤝 관계 & 네트워크 (Network)',
+        area5: '🧠 학습 & 지혜 (Wisdom)'
+      };
+      
+      for (let i = 1; i <= 5; i++) {
+        const a = p.areas[`area${i}`] || {};
+        md += `| ${areaNames[`area${i}`]} | ${a.goal || '-'} | ${a.metric || '-'} | ${a.action || '-'} |\n`;
+      }
+      
+      md += `\n## 🏔️ 1분기 3대 핵심 과제 (Big Rocks)\n\n`;
+      const q1Rocks = p.bigRocks['Q1'] || [];
+      if (q1Rocks.length > 0) {
+        q1Rocks.forEach((r, idx) => {
+          md += `${idx + 1}. **${r.title || '과제 ' + (idx+1)}**\n`;
+          md += `   - 핵심 성과 (KR): ${r.kr || '-'}\n`;
+          md += `   - 마감 일정: ${r.deadline || '-'}\n\n`;
+        });
+      } else {
+        md += `- 등록된 1분기 핵심 과제가 없습니다.\n\n`;
+      }
+
+      md += `## 🚀 1분기 프로젝트 트래커\n\n`;
+      const q1Projects = p.projects['Q1'] || [];
+      if (q1Projects.length > 0) {
+        q1Projects.forEach(proj => {
+          const statusIcon = proj.status === 'done' ? '✅ 완료' : (proj.status === 'ongoing' ? '⚡ 진행중' : '⏳ 대기');
+          md += `- [${statusIcon}] **${proj.title || '프로젝트'}** (${proj.period || '-'} / 담당: ${proj.owner || '-'} / 진척도: ${proj.progress || 0}%)\n`;
+        });
+      } else {
+        md += `- 등록된 1분기 프로젝트가 없습니다.\n`;
+      }
+
+      md += `\n---\n*Exported seamlessly from [SETUPOD 2026 PRO OS](https://setupod.com/planner)*\n`;
+
+      navigator.clipboard.writeText(md).then(() => {
+        showToast('🎉 내 플래너 전체가 Notion / Obsidian 마크다운으로 복사되었습니다! 노션에 바로 붙여넣으세요.');
+      }).catch(() => {
+        showToast('마크다운 클립보드 복사에 실패했습니다.');
+      });
+    }
+
+    // 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromStorage();
+      if (plannerState.themeSkin) switchThemeSkin(plannerState.themeSkin);
+      loadCompassData();
+      renderQuarterView();
+      renderCalendar();
+      renderYearHeatmap();
+      loadDailyPanel(selectedDateStr);
+      lucide.createIcons();
+    });
+  </script>
+  <script src="../js/pro_modal.js"></script>
+
+  <!-- 푸터 -->
+  <footer style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 60px; z-index: 10; position: relative;">
+    <p style="font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-size: 14px;">SETUPOD — All-in-One Business Asset &amp; 3D Card Platform</p>
+    <p style="font-size: 13px; margin-bottom: 8px;">
+      <a href="/privacy" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">개인정보처리방침</a>
+      <a href="/terms" style="color: rgba(255,255,255,0.6); text-decoration: none; margin-right: 16px;">서비스 이용약관</a>
+      <a href="mailto:official@setupod.com" style="color: rgba(255,255,255,0.6); text-decoration: none;">고객센터</a>
+    </p>
+    <p style="font-size: 12px; color: rgba(255,255,255,0.4);">© 2026 SETUPOD Global Inc. All rights reserved.</p>
+  </footer>
+
+  <script src="../js/toast.js"></script>
+</body>
+</html>

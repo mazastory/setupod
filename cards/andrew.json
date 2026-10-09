@@ -1,47 +1,47 @@
 {
-  "theme": "obsidian",
+  "theme": "maza",
   "layout": "metal",
   "name": "Andrew K",
-  "role": "투머스 /  대표",
-  "company": "TOOMUS",
-  "companyWatermark": "TOOMUS",
-  "slogan": "무한한 가능성을 연결하는 비즈니스 플랫폼",
-  "tagline": "ENDLESS POTENTIAL",
+  "role": "CTO",
+  "company": "MAZA STUDIO",
+  "companyWatermark": "MAZA",
+  "slogan": "초개인화된 AI 에이전트와 비즈니스 자동화 파이프라인 설계",
+  "tagline": "AI AUTOMATION & AGENTIC WORKFLOWS",
   "phone": "010-2661-0070",
-  "email": "ceo@toomus.com",
+  "email": "maza@mazastudio.kr",
   "moatTags": [
-    "디지털 자산화",
-    "전략적 비즈니스 빌드",
-    "글로벌 파트너십"
+    "AI 파이프라인 설계",
+    "자동화 엔지니어링",
+    "풀스택 개발"
   ],
   "primaryAction": {
-    "url": "https://toomus.com",
-    "label": "공식 웹사이트"
+    "url": "https://open.kakao.com/o/sUdweERi",
+    "label": "1:1 채팅하기"
   },
   "socials": [
     {
       "type": "kakao",
-      "url": "https://open.kakao.com/o/sFAWAlQi",
+      "url": "https://open.kakao.com/o/sUdweERi",
       "label": "카카오 1:1"
     },
     {
       "type": "instagram",
-      "url": "https://instagram.com/toomus7",
+      "url": "https://instagram.com/mazabase",
       "label": "인스타그램"
     }
   ],
   "logo": {
-    "src": "/assets/toomuslogo.gif",
-    "fallback": "/assets/toomuslogo.gif",
-    "alt": "TOOMUS"
+    "src": "/assets/setupod.gif",
+    "fallback": "/assets/setupod_symbol.png",
+    "alt": "MAZA STUDIO"
   },
   "vcard": {
     "firstName": "Andrew",
     "lastName": "K",
-    "org": "TOOMUS",
-    "title": "투머스 대표 / Product Lead",
+    "org": "MAZA STUDIO",
+    "title": "CTO",
     "tel": "010-2661-0070",
-    "email": "ceo@toomus.com",
-    "url": "https://setupod.com/ceo"
+    "email": "maza@mazastudio.kr",
+    "url": "https://open.kakao.com/o/sUdweERi"
   }
 }
