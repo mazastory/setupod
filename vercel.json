@@ -32,7 +32,7 @@
           "value": "card.setupod.com"
         }
       ],
-      "destination": "/business_cards/card.html"
+      "destination": "/bizcard/card.html"
     },
     {
       "source": "/:path*",
@@ -42,7 +42,7 @@
           "value": "link.setupod.com"
         }
       ],
-      "destination": "/business_cards/link.html"
+      "destination": "/bizcard/link.html"
     },
     {
       "source": "/planner",
@@ -78,11 +78,11 @@
     },
     {
       "source": "/link",
-      "destination": "/business_cards/link.html"
+      "destination": "/bizcard/link.html"
     },
     {
       "source": "/link/(.*)",
-      "destination": "/business_cards/link.html/$1"
+      "destination": "/bizcard/link.html/$1"
     },
     {
       "source": "/themes",
@@ -94,11 +94,11 @@
     },
     {
       "source": "/link.html",
-      "destination": "/business_cards/link.html"
+      "destination": "/bizcard/link.html"
     },
     {
       "source": "/link.html/(.*)",
-      "destination": "/business_cards/link.html/$1"
+      "destination": "/bizcard/link.html/$1"
     },
     {
       "source": "/10k_studio",
@@ -542,11 +542,11 @@
     },
     {
       "source": "/card.html",
-      "destination": "/business_cards/card.html"
+      "destination": "/bizcard/card.html"
     },
     {
       "source": "/card.html/(.*)",
-      "destination": "/business_cards/card.html/$1"
+      "destination": "/bizcard/card.html/$1"
     },
     {
       "source": "/rss.xml",
@@ -590,11 +590,11 @@
     },
     {
       "source": "/profile_studio",
-      "destination": "/business_cards/profile_studio.html"
+      "destination": "/bizcard/profile_studio.html"
     },
     {
       "source": "/profile_studio/(.*)",
-      "destination": "/business_cards/profile_studio.html/$1"
+      "destination": "/bizcard/profile_studio.html/$1"
     },
     {
       "source": "/10k_studio.html",
@@ -606,11 +606,11 @@
     },
     {
       "source": "/profile_studio.html",
-      "destination": "/business_cards/profile_studio.html"
+      "destination": "/bizcard/profile_studio.html"
     },
     {
       "source": "/profile_studio.html/(.*)",
-      "destination": "/business_cards/profile_studio.html/$1"
+      "destination": "/bizcard/profile_studio.html/$1"
     },
     {
       "source": "/kakao",
@@ -654,11 +654,11 @@
     },
     {
       "source": "/card",
-      "destination": "/business_cards/card.html"
+      "destination": "/bizcard/card.html"
     },
     {
       "source": "/card/(.*)",
-      "destination": "/business_cards/card.html/$1"
+      "destination": "/bizcard/card.html/$1"
     },
     {
       "source": "/js",
