@@ -110,6 +110,119 @@
       background: var(--primary-hover); 
       transform: scale(1.02);
     }
+    
+    /* Kakao Banner Styles */
+    .banner-container {
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+      padding: 0 2rem;
+    }
+    
+    .banner-glass {
+      background: linear-gradient(135deg, rgba(254, 229, 0, 0.1) 0%, rgba(254, 229, 0, 0.02) 100%);
+      border: 1px solid rgba(254, 229, 0, 0.2);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    
+    .banner-glass::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(254, 229, 0, 0.1) 0%, transparent 60%);
+      animation: bannerRotate 15s linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes bannerRotate {
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media (min-width: 768px) {
+      .banner-glass {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        padding: 2rem 3rem;
+      }
+    }
+    
+    .banner-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    @media (min-width: 768px) {
+      .banner-content {
+        flex-direction: row;
+      }
+    }
+    
+    .banner-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 20px rgba(254, 229, 0, 0.4));
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+    
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .banner-text h2 {
+      font-size: 1.4rem;
+      color: #fee500;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    
+    .banner-text p {
+      color: #e4e4e7;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+    
+    .banner-btn {
+      background: #fee500;
+      color: #191919;
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 10px 25px rgba(254, 229, 0, 0.25);
+      white-space: nowrap;
+    }
+    
+    .banner-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(254, 229, 0, 0.4);
+      background: #ffeb3b;
+    }
   </style>
 </head>
 <body>
@@ -123,6 +236,25 @@
     <h1>상업용 무제한 스티커,<br>평생 무료로 가져가세요.</h1>
     <p>다이어리 꾸미기에 완벽한 고화질 디지털 스티커 에셋입니다.<br>매주 새로운 스티커 팩이 업데이트됩니다.</p>
   </header>
+
+  <!-- Kakao Download All Banner -->
+  <div class="banner-container">
+    <div class="banner-glass">
+      <div class="banner-content">
+        <div class="banner-icon">🎁</div>
+        <div class="banner-text">
+          <h2>하나씩 받기 귀찮으신가요?</h2>
+          <p>카카오톡 채널 추가 한 번에 <strong>전체 스티커 팩 ZIP 파일</strong>과<br>프리미엄 굿노트 다이어리까지 모두 챙겨가세요!</p>
+        </div>
+      </div>
+      <a href="https://pf.kakao.com/_xxxxxx" target="_blank" class="banner-btn" onclick="alert('채널 추가 후 날아오는 웰컴 메시지에서 [쿠폰 사용하기]를 눌러 다운로드 받으실 수 있습니다!');">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+          <path d="M12 3c-5.52 0-10 3.58-10 8 0 2.82 1.83 5.3 4.6 6.72-.25.96-.92 3.51-.96 3.65-.12.44.15.43.34.3l4.3-2.83c.55.09 1.12.14 1.72.14 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+        </svg>
+        채널 추가하고 한 번에 받기 🚀
+      </a>
+    </div>
+  </div>
 
   <div class="grid">
     <!-- Rabbit Pack -->
