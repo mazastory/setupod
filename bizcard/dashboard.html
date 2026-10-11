@@ -10,7 +10,8 @@
   <script src="https://unpkg.com/lucide@0.344.0"></script>
   <link rel="stylesheet" href="/css/gnb.css">
   
-  <!-- Supabase -->
+  <!-- Chart.js & Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase.js"></script>
   <script src="../js/auth-modal.js"></script>
@@ -441,6 +442,19 @@
       }
     }
     
+    function showToast(msg) {
+      let toast = document.getElementById('dashboardToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'dashboardToast';
+        toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:12px 24px;border-radius:99px;font-size:14px;font-weight:700;border:1px solid #a855f7;box-shadow:0 10px 30px rgba(0,0,0,0.5);z-index:9999;transition:opacity 0.2s;';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 2200);
+    }
+
     window.onload = initDashboard;
   </script>
   <script src="../js/gnb.js"></script>

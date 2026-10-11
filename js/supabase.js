@@ -209,13 +209,24 @@ async function saveLeadToCloud(targetSlug, phone) {
   if (!supabaseClient) return false;
   
   // Get owner's user_id from pods table
+  let ownerId = null;
   const { data: pod } = await supabaseClient
     .from('pods')
     .select('user_id')
     .eq('slug', targetSlug)
-    .single();
+    .maybeSingle();
     
-  const ownerId = pod ? pod.user_id : null;
+  if (pod) {
+    ownerId = pod.user_id;
+  } else if (targetSlug && targetSlug.includes('/')) {
+    const pureSlug = targetSlug.split('/').pop();
+    const { data: podPure } = await supabaseClient
+      .from('pods')
+      .select('user_id')
+      .eq('slug', pureSlug)
+      .maybeSingle();
+    if (podPure) ownerId = podPure.user_id;
+  }
 
   const { error } = await supabaseClient
     .from('leads')

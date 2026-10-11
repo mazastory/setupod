@@ -393,11 +393,11 @@
     },
     {
       "source": "/c",
-      "destination": "/c"
+      "destination": "/bizcard/card.html"
     },
     {
       "source": "/c/(.*)",
-      "destination": "/c/$1"
+      "destination": "/bizcard/card.html"
     },
     {
       "source": "/cards",
@@ -761,11 +761,11 @@
     },
     {
       "source": "/dashboard",
-      "destination": "/dashboard"
+      "destination": "/bizcard/dashboard.html"
     },
     {
       "source": "/dashboard/(.*)",
-      "destination": "/dashboard/$1"
+      "destination": "/bizcard/dashboard.html"
     },
     {
       "source": "/proof-maker",
