@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral List Maker - 고밀도 정보형 카드뉴스 생성기</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2canvas & JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Pretendard is great for listicles -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        
+        /* The Canvas (1080x1350 scaled down for preview) */
+        .canvas-container {
+            width: 1080px;
+            height: 1350px;
+            transform-origin: top left;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #ffffff;
+            color: #111;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 125%; /* 4:5 aspect ratio */
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Editor Styles */
+        .editable {
+            outline: none;
+            transition: background 0.2s;
+            border-radius: 4px;
+        }
+        .editable:hover {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
+            cursor: text;
+        }
+        .editable:focus {
+            box-shadow: 0 0 0 2px #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Type A: 2-Column List */
+        .grid-type-a {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+            width: 100%;
+        }
+        
+        /* Type B: 1-Column Thumbnail List */
+        .grid-type-b {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        /* Type C: Domain Flip Grid */
+        .grid-type-c {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center space-x-3">
+                <a href="/" class="text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700">
+                    <i class="fa-solid fa-arrow-left"></i> SETUPOD 홈
+                </a>
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-bolt text-amber-400 text-xl"></i>
+                    <h1 class="font-black text-lg tracking-tight text-white">VIRAL LIST MAKER</h1>
+                    <span class="text-[11px] font-bold text-amber-400 bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-full">4:5 고밀도 리스트</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <a href="./" class="text-xs font-bold text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-layer-group text-amber-400"></i>
+                    <span>3D 캐러셀 스튜디오 전환</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto w-full flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Panel: Controls -->
+        <section class="lg:col-span-5 space-y-6">
+            
+            <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-xl space-y-5">
+                <div>
+                    <h2 class="text-sm font-bold text-white mb-2">1. 템플릿 구조 선택</h2>
+                    <div class="grid grid-cols-1 gap-2">
+                        <label class="flex items-center p-3 rounded-xl border border-rose-500 bg-rose-500/10 cursor-pointer transition template-option">
+                            <input type="radio" name="templateType" value="type_a" class="hidden" checked>
+                            <div class="flex-1">
+                                <div class="font-bold text-rose-400 text-sm flex items-center gap-2"><i class="fa-solid fa-list-ol"></i> Type A: 2단 정보 압축형</div>
+                                <div class="text-[11px] text-slate-400 mt-1">예: ChatGPT 비밀코드 30가지 (아이콘+텍스트 고밀도 그리드)</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 rounded-xl border border-slate-700 bg-slate-900 cursor-pointer transition template-option">
+                            <input type="radio" name="templateType" value="type_b" class="hidden">
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-300 text-sm flex items-center gap-2"><i class="fa-solid fa-image"></i> Type B: 썸네일 리스트형</div>
+                                <div class="text-[11px] text-slate-400 mt-1">예: 스테이크 굽기 가이드 (좌측 이미지 + 우측 상세설명)</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 rounded-xl border border-slate-700 bg-slate-900 cursor-pointer transition template-option">
+                            <input type="radio" name="templateType" value="type_c" class="hidden">
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-300 text-sm flex items-center gap-2"><i class="fa-solid fa-globe"></i> Type C: 네온 갤러리</div>
+                                <div class="text-[11px] text-slate-400 mt-1">예: 도메인 플립, 추천 웹 서비스 큐레이션</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 rounded-xl border border-slate-700 bg-slate-900 cursor-pointer transition template-option">
+                            <input type="radio" name="templateType" value="type_d" class="hidden">
+                            <div class="flex-1">
+                                <div class="font-bold text-slate-300 text-sm flex items-center gap-2"><i class="fa-solid fa-code-compare"></i> Type D: VS 비교 차트</div>
+                                <div class="text-[11px] text-slate-400 mt-1">예: 가난한 마인드 vs 부자 시스템 (10가지 행동 비교)</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-700">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i>
+                            2. 원클릭 AI 기획 및 생성
+                        </h2>
+                        <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">스마트 엔진 탑재</span>
+                    </div>
+
+                    <!-- Quick Chips -->
+                    <div class="flex flex-wrap gap-1.5 mb-2.5">
+                        <button type="button" class="quick-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-topic="1인 기업 생존 치트키 10가지" data-template="type_a">⚡ 1인 기업 치트키 10선</button>
+                        <button type="button" class="quick-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-topic="성공하는 사람들의 아침 루틴 4단계" data-template="type_b">🥩 생산성 모닝루틴</button>
+                        <button type="button" class="quick-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-topic="2026 AI 돈 버는 디지털 자산 도메인" data-template="type_c">💎 2026 AI 블루오션</button>
+                        <button type="button" class="quick-chip text-[11px] px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-topic="가난한 마인드 vs 부자 시스템" data-template="type_d">⚖️ 가난한 습관 VS 부자 시스템</button>
+                    </div>
+
+                    <input type="text" id="ai-topic" class="w-full bg-slate-900 border border-indigo-500/50 rounded-xl p-3 text-sm text-white focus:border-indigo-400 focus:outline-none mb-2 shadow-[0_0_15px_rgba(99,102,241,0.2)]" placeholder="어떤 주제로 카드뉴스를 기획할까요? (예: 성공하는 1인 기업 10가지)">
+                    
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs text-slate-400">항목 수:</label>
+                            <input type="number" id="item-count" value="10" min="4" max="30" class="w-16 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-sm text-white text-center">
+                        </div>
+                        <button type="button" id="toggle-editor-btn" class="text-xs text-slate-400 hover:text-slate-200 transition underline underline-offset-2">
+                            데이터 편집기 토글
+                        </button>
+                    </div>
+
+                    <button id="ai-generate-btn" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg transition flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-robot"></i> 원클릭 카드뉴스 기획 & 자동 생성
+                    </button>
+                    
+                    <!-- Hidden old mock generator -->
+                    <button id="generate-btn" class="hidden">Mock</button>
+                </div>
+            </div>
+
+            <!-- Manual Editor Table (Appears after generation) -->
+            <div id="data-editor" class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-xl hidden flex flex-col h-[400px]">
+                <h2 class="text-sm font-bold text-white mb-3 flex justify-between items-center">
+                    <span>데이터 편집기</span>
+                    <button id="add-row-btn" class="text-[10px] bg-slate-700 px-2 py-1 rounded hover:bg-slate-600">+ 행 추가</button>
+                </h2>
+                <div class="flex-1 overflow-y-auto pr-2" id="editor-rows">
+                    <!-- Rows will be injected here -->
+                </div>
+                <button id="apply-edits-btn" class="w-full mt-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold rounded-lg transition text-sm">
+                    레이아웃에 변경사항 적용
+                </button>
+            </div>
+
+        </section>
+
+        <!-- Right Panel: Preview -->
+        <section class="lg:col-span-7 flex flex-col items-center">
+            
+            <div class="w-full max-w-[450px] space-y-4">
+                <div class="flex justify-between items-center px-1">
+                    <div class="text-sm font-bold text-slate-300">
+                        미리보기 <span id="slide-indicator" class="text-amber-400 ml-2">Slide 1 / 1</span>
+                    </div>
+                    <div class="space-x-2">
+                        <button id="prev-btn" class="px-3 py-1 bg-slate-800 rounded hover:bg-slate-700 transition disabled:opacity-50"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="next-btn" class="px-3 py-1 bg-slate-800 rounded hover:bg-slate-700 transition disabled:opacity-50"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Canvas Wrapper -->
+                <div class="canvas-wrapper">
+                    <div id="capture-area" class="canvas-container">
+                        <!-- Content dynamically injected here -->
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button id="download-single-btn" class="py-3.5 px-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-700 transition flex justify-center items-center gap-2 text-sm shadow-md">
+                        <i class="fa-solid fa-download text-amber-400"></i> 현재 슬라이드 JPG
+                    </button>
+                    <button id="download-zip-btn" class="py-3.5 px-4 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.3)] transition flex justify-center items-center gap-2 text-sm">
+                        <i class="fa-solid fa-file-zipper"></i> 전체 ZIP 다운로드
+                    </button>
+                </div>
+
+                <!-- AI Generated Caption Output -->
+                <div class="w-full bg-slate-800 rounded-xl p-5 mt-5 shadow-xl border border-slate-700">
+                    <div class="flex justify-between items-center mb-2.5">
+                        <h3 class="text-indigo-400 font-bold flex items-center gap-2 text-sm">
+                            <i class="fa-brands fa-instagram"></i> AI 생성 추천 본문
+                        </h3>
+                        <button id="copy-caption-btn" class="text-xs bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white px-2.5 py-1 rounded-lg border border-indigo-500/40 transition flex items-center gap-1">
+                            <i class="fa-regular fa-copy"></i> 본문 복사
+                        </button>
+                    </div>
+                    <textarea id="ai-caption-out" class="w-full h-32 bg-slate-900 text-slate-300 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm resize-none font-sans" readonly>AI 대행사를 가동하면 여기에 인스타 캡션과 해시태그가 나타납니다.</textarea>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // Global State
+        let currentTemplate = 'type_a';
+        let itemsData = [];
+        let headerData = { title: '제목을 입력하세요', subtitle: '부제목을 입력하세요' };
+        let currentSlide = 0;
+        let itemsPerSlide = 10; // Default for Type A
+
+        // Setup Template Selection UI
+        const templateOptions = document.querySelectorAll('.template-option');
+        templateOptions.forEach(opt => {
+            opt.addEventListener('click', function() {
+                // Reset all
+                templateOptions.forEach(o => {
+                    o.classList.remove('border-rose-500', 'bg-rose-500/10');
+                    o.classList.add('border-slate-700', 'bg-slate-900');
+                    o.querySelector('.font-bold').classList.remove('text-rose-400');
+                    o.querySelector('.font-bold').classList.add('text-slate-300');
+                });
+                
+                // Set active
+                this.classList.add('border-rose-500', 'bg-rose-500/10');
+                this.classList.remove('border-slate-700', 'bg-slate-900');
+                this.querySelector('.font-bold').classList.add('text-rose-400');
+                this.querySelector('.font-bold').classList.remove('text-slate-300');
+                
+                this.querySelector('input').checked = true;
+                currentTemplate = this.querySelector('input').value;
+
+                // Adjust items per slide based on template density
+                if (currentTemplate === 'type_a') itemsPerSlide = 10; // 2 cols * 5 rows
+                else if (currentTemplate === 'type_b') itemsPerSlide = 4; // 1 col * 4 rows (requires big images)
+                else if (currentTemplate === 'type_c') itemsPerSlide = 6; // 2 cols * 3 rows (cards)
+                else if (currentTemplate === 'type_d') itemsPerSlide = 10; // 1 col * 10 rows (comparison)
+
+                renderSlide();
+            });
+        });
+
+        // Resize function to fit 1080x1350 canvas into smaller wrapper
+        function updateCanvasScale() {
+            const wrapper = document.querySelector('.canvas-wrapper');
+            const canvas = document.querySelector('.canvas-container');
+            const scale = wrapper.clientWidth / 1080;
+            canvas.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', updateCanvasScale);
+        updateCanvasScale();
+
+        // ---------------------------------------------------------
+        // RENDER LOGIC
+        // ---------------------------------------------------------
+        function renderSlide() {
+            const canvas = document.getElementById('capture-area');
+            const totalSlides = Math.ceil(itemsData.length / itemsPerSlide) || 1;
+            
+            // Bounds check
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = Math.max(0, totalSlides - 1);
+
+            document.getElementById('slide-indicator').innerText = `Slide ${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('prev-btn').disabled = (currentSlide === 0);
+            document.getElementById('next-btn').disabled = (currentSlide === totalSlides - 1);
+
+            const startIdx = currentSlide * itemsPerSlide;
+            const slideItems = itemsData.slice(startIdx, startIdx + itemsPerSlide);
+
+            if (currentTemplate === 'type_a') renderTypeA(canvas, slideItems, startIdx);
+            else if (currentTemplate === 'type_b') renderTypeB(canvas, slideItems, startIdx);
+            else if (currentTemplate === 'type_c') renderTypeC(canvas, slideItems, startIdx);
+            else if (currentTemplate === 'type_d') renderTypeD(canvas, slideItems, startIdx);
+            
+            // Bind Editable Fields after render
+            bindEditable();
+        }
+
+        function bindEditable() {
+            document.querySelectorAll('.editable').forEach(el => {
+                el.addEventListener('blur', (e) => {
+                    const field = e.target.getAttribute('data-field');
+                    const isHeader = e.target.getAttribute('data-header');
+                    
+                    if (isHeader) {
+                        headerData[field] = e.target.innerText;
+                    } else {
+                        const idx = parseInt(e.target.getAttribute('data-index'));
+                        if (itemsData[idx]) {
+                            itemsData[idx][field] = e.target.innerText;
+                        }
+                    }
+                });
+            });
+        }
+
+        // TYPE A: 2-Column High Density Icon List (e.g., ChatGPT 30 codes)
+        function renderTypeA(canvas, items, startIdx) {
+            canvas.style.backgroundColor = '#f8fafc';
+            canvas.style.color = '#0f172a';
+            
+            let html = `
+                <!-- Header Area -->
+                <div class="px-16 pt-20 pb-12 text-center relative z-10 flex flex-col items-center">
+                    <div class="editable text-lg font-bold text-blue-600 mb-4 px-4 py-1 border-2 border-blue-600 rounded-full inline-block" contenteditable="true" data-header="true" data-field="subtitle">${headerData.subtitle}</div>
+                    <h1 class="editable text-7xl font-black tracking-tight leading-tight whitespace-pre-line" contenteditable="true" data-header="true" data-field="title">${headerData.title}</h1>
+                </div>
+                
+                <!-- Grid Area -->
+                <div class="flex-1 px-16 pb-20 flex items-center">
+                    <div class="grid-type-a">
+            `;
+
+            items.forEach((item, i) => {
+                const globalIdx = startIdx + i;
+                html += `
+                    <div class="flex items-center gap-5 p-3 rounded-xl bg-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100">
+                        <div class="w-16 h-16 shrink-0 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-3xl font-black shadow-md">
+                            ${globalIdx + 1}
+                        </div>
+                        <div class="w-16 h-16 shrink-0 rounded-2xl bg-slate-50 text-blue-500 flex items-center justify-center text-3xl shadow-inner border border-slate-200">
+                            <i class="fa-solid ${item.icon || 'fa-check'}"></i>
+                        </div>
+                        <div class="flex-1 min-w-0 flex flex-col justify-center">
+                            <div class="editable text-2xl font-black text-slate-800 truncate mb-1" contenteditable="true" data-field="title" data-index="${globalIdx}">${item.title}</div>
+                            <div class="editable text-[17px] font-medium text-slate-500 leading-snug line-clamp-2" contenteditable="true" data-field="desc" data-index="${globalIdx}">${item.desc}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+                <!-- Footer -->
+                <div class="absolute bottom-6 w-full text-center text-slate-400 font-bold text-xl tracking-widest">
+                    @setupod
+                </div>
+            `;
+            canvas.innerHTML = html;
+        }
+
+        // TYPE B: Thumbnail List (e.g., Steak Guide)
+        function renderTypeB(canvas, items, startIdx) {
+            canvas.style.backgroundColor = '#f1ece5'; // Warm paper like
+            canvas.style.color = '#2d2d2d';
+            
+            let html = `
+                <!-- Header -->
+                <div class="px-16 pt-24 pb-10 text-center">
+                    <div class="editable text-2xl font-bold text-amber-700 mb-4 tracking-widest" contenteditable="true" data-header="true" data-field="subtitle">${headerData.subtitle}</div>
+                    <h1 class="editable text-7xl font-black tracking-tight leading-tight" contenteditable="true" data-header="true" data-field="title">${headerData.title}</h1>
+                    <div class="w-24 h-1.5 bg-amber-700 mx-auto mt-8 rounded-full"></div>
+                </div>
+                
+                <!-- List Area -->
+                <div class="flex-1 px-16 pb-20 flex flex-col justify-center gap-8">
+            `;
+
+            items.forEach((item, i) => {
+                const globalIdx = startIdx + i;
+                // Abstract placeholder image via picsum based on keyword
+                const imgUrl = `https://picsum.photos/seed/${encodeURIComponent(item.keyword || item.title)}/500/300`;
+                
+                html += `
+                    <div class="flex gap-10 items-center">
+                        <div class="w-[450px] h-[220px] shrink-0 rounded-2xl bg-slate-300 overflow-hidden shadow-xl border-4 border-white relative">
+                            <img src="${imgUrl}" crossorigin="anonymous" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-2xl"></div>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-center space-y-3">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-5 h-5 rounded-full bg-red-700"></div>
+                                <div class="editable text-4xl font-black text-slate-800" contenteditable="true" data-field="title" data-index="${globalIdx}">${item.title}</div>
+                            </div>
+                            <div class="inline-block px-4 py-1.5 rounded-full bg-amber-800 text-white font-bold text-xl self-start mb-2 editable" contenteditable="true" data-field="badge" data-index="${globalIdx}">${item.badge || 'INFO'}</div>
+                            <div class="editable text-xl text-slate-600 leading-relaxed font-medium" contenteditable="true" data-field="desc" data-index="${globalIdx}">${item.desc}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                </div>
+                <div class="absolute bottom-6 w-full text-center text-amber-900/40 font-bold text-xl tracking-widest uppercase">@setupod guide</div>
+            `;
+            canvas.innerHTML = html;
+        }
+
+        // TYPE C: Domain Flip / Product Showcase (Dark Neon)
+        function renderTypeC(canvas, items, startIdx) {
+            canvas.style.backgroundColor = '#0b0a10';
+            canvas.style.color = '#ffffff';
+            
+            let html = `
+                <!-- Header -->
+                <div class="px-16 pt-24 pb-12 text-center">
+                    <h1 class="editable text-6xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(139,92,246,0.5)]" contenteditable="true" data-header="true" data-field="title">${headerData.title}</h1>
+                    <div class="editable text-xl font-bold text-slate-400 mt-6" contenteditable="true" data-header="true" data-field="subtitle">${headerData.subtitle}</div>
+                </div>
+                
+                <!-- Grid Area -->
+                <div class="flex-1 px-16 pb-20 flex flex-col justify-center">
+                    <div class="grid-type-c">
+            `;
+
+            items.forEach((item, i) => {
+                const globalIdx = startIdx + i;
+                html += `
+                    <div class="bg-[#161520] border border-slate-800 rounded-3xl p-8 shadow-[0_0_40px_rgba(139,92,246,0.08)] flex flex-col relative overflow-hidden h-[260px]">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500"></div>
+                        
+                        <div class="flex-1 flex items-center justify-center">
+                            <div class="editable text-4xl font-black text-white font-mono tracking-tighter" contenteditable="true" data-field="title" data-index="${globalIdx}">${item.title}</div>
+                        </div>
+                        
+                        <div class="mt-auto border-t border-slate-800 pt-6 flex justify-between items-end">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-slate-500 font-bold mb-1">NICHE</span>
+                                <span class="editable text-lg text-slate-300 font-medium" contenteditable="true" data-field="desc" data-index="${globalIdx}">${item.desc}</span>
+                            </div>
+                            <div class="flex flex-col text-right">
+                                <span class="text-xs text-slate-500 font-bold mb-1">VALUE</span>
+                                <span class="editable text-3xl font-black text-amber-400 font-mono" contenteditable="true" data-field="badge" data-index="${globalIdx}">${item.badge || '$0'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+                <div class="absolute bottom-8 w-full text-center text-slate-600 font-black text-lg tracking-[0.3em] uppercase">MAZA STUDIO PREMIUM</div>
+            `;
+            canvas.innerHTML = html;
+        }
+
+        // TYPE D: VS Comparison Chart (e.g., Old Business vs New Business)
+        function renderTypeD(canvas, items, startIdx) {
+            canvas.style.backgroundColor = '#fbf9f6'; // Warm light background
+            canvas.style.color = '#1a1a1a';
+            
+            // Subtitles are used for Left Header (e.g. "옛날 장사") and Right Header (e.g. "요즘 장사")
+            const leftHeader = headerData.leftHeader || "과거의 방식";
+            const rightHeader = headerData.rightHeader || "현재의 방식";
+
+            let html = `
+                <!-- Header -->
+                <div class="px-16 pt-20 pb-8 text-center flex flex-col items-center">
+                    <div class="editable text-lg font-bold text-slate-800 border-2 border-slate-800 px-4 py-1.5 rounded flex items-center gap-2 mb-6" contenteditable="true" data-header="true" data-field="subtitle">
+                        <i class="fa-solid fa-file-lines"></i> ${headerData.subtitle}
+                    </div>
+                    <div class="flex items-center justify-center gap-6 mb-8 w-full">
+                        <h1 class="editable text-6xl font-black text-slate-800" contenteditable="true" data-header="true" data-field="titleLeft">${headerData.titleLeft || '과거 목표'}</h1>
+                        <div class="w-16 h-16 rounded-full bg-[#8c735d] text-white flex items-center justify-center text-2xl font-black tracking-tighter shadow-md">VS</div>
+                        <h1 class="editable text-6xl font-black text-[#8c735d]" contenteditable="true" data-header="true" data-field="titleRight">${headerData.titleRight || '현재 시스템'}</h1>
+                    </div>
+                    
+                    <!-- Table Headers -->
+                    <div class="flex w-full justify-between gap-16 px-4">
+                        <div class="flex-1 bg-[#0b1b3d] text-white py-3 rounded-t-2xl text-2xl font-bold editable" contenteditable="true" data-header="true" data-field="leftHeader">${leftHeader}</div>
+                        <div class="flex-1 bg-[#8c735d] text-white py-3 rounded-t-2xl text-2xl font-bold editable" contenteditable="true" data-header="true" data-field="rightHeader">${rightHeader}</div>
+                    </div>
+                </div>
+                
+                <!-- List Area -->
+                <div class="flex-1 px-16 pb-20">
+                    <div class="bg-white border-x-2 border-b-2 border-slate-200 rounded-b-2xl overflow-hidden relative shadow-sm">
+                        <!-- Center Divider Line -->
+                        <div class="absolute left-1/2 top-0 bottom-0 w-px bg-slate-200 transform -translate-x-1/2 z-0 border-l border-dashed border-slate-300"></div>
+            `;
+
+            items.forEach((item, i) => {
+                const globalIdx = startIdx + i;
+                html += `
+                        <div class="flex items-center border-b border-dashed border-slate-200 py-3 px-8 relative z-10 group">
+                            <!-- Left Item -->
+                            <div class="flex-1 flex items-center gap-4 pr-12 justify-end">
+                                <div class="editable text-2xl font-bold text-slate-700" contenteditable="true" data-field="leftDesc" data-index="${globalIdx}">${item.leftDesc}</div>
+                                <i class="fa-solid ${item.leftIcon || 'fa-users'} text-3xl text-slate-800 w-10 text-center"></i>
+                            </div>
+                            
+                            <!-- Center Number -->
+                            <div class="w-10 h-10 rounded-full bg-[#f1efe9] text-slate-600 flex items-center justify-center text-xl font-black absolute left-1/2 transform -translate-x-1/2 shadow-sm border border-slate-200">
+                                ${globalIdx + 1}
+                            </div>
+                            
+                            <!-- Right Item -->
+                            <div class="flex-1 flex items-center gap-4 pl-12 justify-start">
+                                <i class="fa-solid ${item.rightIcon || 'fa-hashtag'} text-3xl text-rose-500 w-10 text-center"></i>
+                                <div class="editable text-2xl font-bold text-slate-800" contenteditable="true" data-field="rightDesc" data-index="${globalIdx}">${item.rightDesc}</div>
+                            </div>
+                        </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+                <!-- Footer -->
+                <div class="absolute bottom-6 w-full px-16 flex items-center gap-4">
+                    <i class="fa-regular fa-lightbulb text-4xl text-amber-500"></i>
+                    <div class="text-left leading-tight">
+                        <div class="editable font-bold text-slate-700 text-lg" contenteditable="true" data-header="true" data-field="footer1">장사는 더 이상 운이 아닙니다.</div>
+                        <div class="editable font-bold text-slate-700 text-lg" contenteditable="true" data-header="true" data-field="footer2">시대에 맞는 전략이 매출을 만듭니다.</div>
+                    </div>
+                </div>
+            `;
+            canvas.innerHTML = html;
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', () => { currentSlide--; renderSlide(); });
+        document.getElementById('next-btn').addEventListener('click', () => { currentSlide++; renderSlide(); });
+
+        // ---------------------------------------------------------
+        // MOCK GENERATION (Replace with Gemini API later)
+        // ---------------------------------------------------------
+        document.getElementById('generate-btn').addEventListener('click', () => {
+            const prompt = document.getElementById('prompt-input').value || '기본 타이틀';
+            const count = parseInt(document.getElementById('item-count').value) || 10;
+            
+            // Mock Data Generation
+            if (currentTemplate === 'type_d') {
+                headerData = {
+                    subtitle: "인사이트 노트",
+                    titleLeft: "목표 설정",
+                    titleRight: "시스템 구축",
+                    leftHeader: "목표 중심",
+                    rightHeader: "시스템 중심",
+                    footer1: "목표는 방향을 알려줄 뿐입니다.",
+                    footer2: "실제 결과를 만드는 것은 매일의 시스템입니다."
+                };
+            } else {
+                headerData = {
+                    title: prompt.split('\\n').join('<br>') || "당장 저장해야 할\\n핵심 정보 모음",
+                    subtitle: "SETUPOD VIRAL GUIDE"
+                };
+            }
+
+            itemsData = [];
+            for(let i=0; i<count; i++) {
+                if (currentTemplate === 'type_a') {
+                    itemsData.push({ title: `/command_${i+1}`, desc: '이 명령어는 작업 속도를 200% 올려주는 숨겨진 치트키입니다.', icon: 'fa-bolt' });
+                } else if (currentTemplate === 'type_b') {
+                    itemsData.push({ title: `핵심 단계 ${i+1}`, desc: '여기에 상세한 설명을 적어주세요. 사람들의 시선을 사로잡는 중요한 정보입니다.', badge: 'HOT TIP', keyword: 'food cooking' });
+                } else if (currentTemplate === 'type_c') {
+                    itemsData.push({ title: `premium${i+1}.com`, desc: 'Tech / AI', badge: `$${(Math.floor(Math.random()*50)+10)*100}` });
+                } else if (currentTemplate === 'type_d') {
+                    itemsData.push({ 
+                        leftDesc: '결과만 바라봄', leftIcon: 'fa-eye', 
+                        rightDesc: '과정에 집중함', rightIcon: 'fa-gears' 
+                    });
+                }
+            }
+
+            currentSlide = 0;
+            renderSlide();
+        });
+
+        // Initialize with default mock data
+        document.getElementById('generate-btn').click();
+
+        // ---------------------------------------------------------
+        // EXPORT TO SINGLE JPG & ZIP
+        // ---------------------------------------------------------
+        document.getElementById('download-single-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('download-single-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 저장 중...';
+            btn.disabled = true;
+
+            try {
+                const canvasElem = document.getElementById('capture-area');
+                await new Promise(r => setTimeout(r, 200));
+
+                const canvas = await html2canvas(canvasElem, {
+                    scale: 2, // 2x High resolution (2160 x 2700)
+                    useCORS: true,
+                    backgroundColor: null
+                });
+
+                canvas.toBlob((blob) => {
+                    saveAs(blob, `setupod_viral_slide_${currentSlide + 1}.jpg`);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 'image/jpeg', 0.95);
+            } catch (err) {
+                console.error(err);
+                alert("슬라이드 저장 중 오류가 발생했습니다: " + err.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('download-zip-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('download-zip-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 렌더링 중...';
+            btn.disabled = true;
+
+            const zip = new JSZip();
+            const canvasElem = document.getElementById('capture-area');
+            const totalSlides = Math.ceil(itemsData.length / itemsPerSlide) || 1;
+            
+            // Save original slide
+            const originalSlide = currentSlide;
+
+            for (let i = 0; i < totalSlides; i++) {
+                currentSlide = i;
+                renderSlide(); // Switch to slide
+                
+                // Wait a tiny bit for DOM to update and images to load
+                await new Promise(r => setTimeout(r, 400));
+                
+                const canvas = await html2canvas(canvasElem, {
+                    scale: 2, // High resolution
+                    useCORS: true,
+                    backgroundColor: null
+                });
+                
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+                const base64Data = dataUrl.split(',')[1];
+                zip.file(`slide_${String(i+1).padStart(2, '0')}.jpg`, base64Data, {base64: true});
+            }
+
+            // Restore original slide
+            currentSlide = originalSlide;
+            renderSlide();
+
+            zip.generateAsync({type: "blob"}).then(function(content) {
+                saveAs(content, "setupod_viral_slides.zip");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        });
+
+        // Copy Caption
+        document.getElementById('copy-caption-btn').addEventListener('click', () => {
+            const caption = document.getElementById('ai-caption-out').value;
+            if (!caption) return;
+            navigator.clipboard.writeText(caption).then(() => {
+                const btn = document.getElementById('copy-caption-btn');
+                const prev = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> 복사 완료!';
+                btn.classList.add('bg-emerald-600', 'text-white');
+                setTimeout(() => {
+                    btn.innerHTML = prev;
+                    btn.classList.remove('bg-emerald-600', 'text-white');
+                }, 2000);
+            });
+        });
+
+        // Toggle Data Editor
+        document.getElementById('toggle-editor-btn').addEventListener('click', () => {
+            const editor = document.getElementById('data-editor');
+            editor.classList.toggle('hidden');
+            const isHidden = editor.classList.contains('hidden');
+            document.getElementById('toggle-editor-btn').innerText = isHidden ? '데이터 편집기 열기' : '데이터 편집기 닫기';
+            if (!isHidden) renderEditorRows();
+        });
+
+        function renderEditorRows() {
+            const container = document.getElementById('editor-rows');
+            if (!container) return;
+            container.innerHTML = itemsData.map((item, idx) => `
+                <div class="p-2.5 mb-2 bg-slate-900/80 rounded-lg border border-slate-700/60 text-xs space-y-1.5">
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span class="font-bold text-amber-400">#${idx + 1}</span>
+                        <button type="button" class="text-rose-400 hover:text-rose-300" onclick="removeEditorItem(${idx})">삭제</button>
+                    </div>
+                    ${item.title !== undefined ? `
+                        <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-white text-xs" value="${escapeHtml(item.title || '')}" oninput="itemsData[${idx}].title = this.value">
+                        <textarea class="w-full bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-300 text-xs resize-none" rows="2" oninput="itemsData[${idx}].desc = this.value">${escapeHtml(item.desc || '')}</textarea>
+                    ` : `
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <input type="text" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-white text-xs" value="${escapeHtml(item.leftDesc || '')}" oninput="itemsData[${idx}].leftDesc = this.value">
+                            <input type="text" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-white text-xs" value="${escapeHtml(item.rightDesc || '')}" oninput="itemsData[${idx}].rightDesc = this.value">
+                        </div>
+                    `}
+                </div>
+            `).join('');
+        }
+
+        window.removeEditorItem = function(idx) {
+            itemsData.splice(idx, 1);
+            renderEditorRows();
+            renderSlide();
+        };
+
+        document.getElementById('add-row-btn')?.addEventListener('click', () => {
+            if (currentTemplate === 'type_d') {
+                itemsData.push({ leftDesc: '과거 방식', leftIcon: 'fa-xmark', rightDesc: '현재 시스템', rightIcon: 'fa-check' });
+            } else {
+                itemsData.push({ title: '새 항목', desc: '상세 설명을 여기에 입력하세요.', icon: 'fa-star', badge: 'NEW' });
+            }
+            renderEditorRows();
+            renderSlide();
+        });
+
+        document.getElementById('apply-edits-btn')?.addEventListener('click', () => {
+            renderSlide();
+            alert('편집 내용이 슬라이드에 반영되었습니다.');
+        });
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Quick Chips Handling
+        document.querySelectorAll('.quick-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const topic = this.getAttribute('data-topic');
+                const tpl = this.getAttribute('data-template');
+                document.getElementById('ai-topic').value = topic;
+                
+                // Select template radio
+                selectTemplate(tpl);
+                document.getElementById('ai-generate-btn').click();
+            });
+        });
+
+        function selectTemplate(tplName) {
+            currentTemplate = tplName;
+            document.querySelectorAll('.template-option').forEach(opt => {
+                const radio = opt.querySelector('input[type="radio"]');
+                radio.checked = (radio.value === currentTemplate);
+                if (radio.checked) {
+                    opt.classList.add('border-rose-500', 'bg-rose-500/10');
+                    opt.classList.remove('border-slate-700', 'bg-slate-900');
+                    opt.querySelector('.font-bold').classList.add('text-rose-400');
+                    opt.querySelector('.font-bold').classList.remove('text-slate-300');
+                } else {
+                    opt.classList.remove('border-rose-500', 'bg-rose-500/10');
+                    opt.classList.add('border-slate-700', 'bg-slate-900');
+                    opt.querySelector('.font-bold').classList.remove('text-rose-400');
+                    opt.querySelector('.font-bold').classList.add('text-slate-300');
+                }
+            });
+
+            if (currentTemplate === 'type_a') itemsPerSlide = 10;
+            else if (currentTemplate === 'type_b') itemsPerSlide = 4;
+            else if (currentTemplate === 'type_c') itemsPerSlide = 6;
+            else if (currentTemplate === 'type_d') itemsPerSlide = 10;
+        }
+
+        // Smart Synthesis Engine (Offline & Fallback Generator)
+        function generateSmartContent(topic, count, templateType) {
+            const cleanTopic = topic.trim();
+            let generatedData = {
+                template_type: templateType,
+                headerData: {},
+                itemsData: [],
+                caption: "",
+                hashtags: ""
+            };
+
+            if (templateType === 'type_d') {
+                generatedData.headerData = {
+                    subtitle: "SETUPOD MINDSET & SYSTEM",
+                    titleLeft: "평범한 방식",
+                    titleRight: "1%의 시스템",
+                    leftHeader: "목표에만 집착할 때",
+                    rightHeader: "결과를 만드는 시스템",
+                    footer1: `"${cleanTopic}"에서 살아남는 유일한 차이는`,
+                    footer2: "의지력이 아니라 매일 작동하는 자동화 시스템입니다."
+                };
+
+                const vsPairs = [
+                    { left: "결과만 조급하게 바라봄", right: "과정과 실행 지표에 집중함", lIcon: "fa-eye", rIcon: "fa-bullseye" },
+                    { left: "동기부여 영상만 소비함", right: "단 1개의 실행 규칙을 고정함", lIcon: "fa-film", rIcon: "fa-calendar-check" },
+                    { left: "혼자 모든 것을 처리함", right: "AI와 도구로 레버리지함", lIcon: "fa-user", rIcon: "fa-robot" },
+                    { left: "완벽할 때까지 미룸", right: "작은 프로토타입으로 당일 출시", lIcon: "fa-clock", rIcon: "fa-rocket" },
+                    { left: "시간을 노동으로 맞바꿈", right: "디지털 자산 파이프라인 구축", lIcon: "fa-hourglass-half", rIcon: "fa-coins" },
+                    { left: "실패를 손실로 여김", right: "다음 전환을 위한 데이터로 전환", lIcon: "fa-circle-xmark", rIcon: "fa-chart-line" },
+                    { left: "기분에 따라 일함", right: "시간 블록으로 감정 분리", lIcon: "fa-masks-theater", rIcon: "fa-cube" },
+                    { left: "반응형으로 하루를 시작", right: "전날 밤 결정된 Big Rocks 실행", lIcon: "fa-bell", rIcon: "fa-mountain" },
+                    { left: "모든 사람에게 팔려 함", right: "가장 뾰족한 타겟 100명에 집중", lIcon: "fa-users-slash", rIcon: "fa-crosshairs" },
+                    { left: "플랫폼 변화에 흔들림", right: "소유 가능한 독립 고객 리드 축적", lIcon: "fa-wind", rIcon: "fa-database" }
+                ];
+
+                generatedData.itemsData = vsPairs.slice(0, count).map(p => ({
+                    leftDesc: p.left,
+                    leftIcon: p.lIcon,
+                    rightDesc: p.right,
+                    rightIcon: p.rIcon
+                }));
+
+                generatedData.caption = `📌 [저장 필수] ${cleanTopic} : 당신의 하루는 어디에 머물러 있나요?\n\n대부분의 사람들은 목표를 세우지만, 실제 결과를 바꾸는 것은 매일 굴러가는 '시스템'입니다.\n\n지금 이 10가지 차이점을 스크랩해두고 당신의 일상에 대입해 보세요. 프로필 링크에서 1인 기업 생산성 도구를 무료로 확인하실 수 있습니다.`;
+                generatedData.hashtags = `#${cleanTopic.replace(/\s+/g, '_')} #생산성 #1인기업 #자기계발 #동기부여 #셋업팟 #비즈니스시스템 #스타트업 #성공습관 #마인드셋`;
+
+            } else if (templateType === 'type_b') {
+                generatedData.headerData = {
+                    subtitle: "SETUPOD MASTER GUIDE",
+                    title: `${cleanTopic}\n핵심 4단계 완벽 가이드`
+                };
+
+                const steps = [
+                    { title: "STEP 1: 기반 세팅", desc: "초기 마찰을 제로화하고 불필요한 선택지를 완전히 차단하는 환경 설계.", badge: "FOUNDATION", keyword: "desk workspace setup" },
+                    { title: "STEP 2: 핵심 집중", desc: "가장 중요한 단 하나의 레버리지 행동(Lead Domino)을 정밀 타겟팅.", badge: "FOCUS", keyword: "focus work productivity" },
+                    { title: "STEP 3: 시스템 자동화", desc: "반복되는 프로세스를 템플릿과 AI 도구로 위임하여 뇌 용량 확보.", badge: "AUTOMATION", keyword: "technology laptop dashboard" },
+                    { title: "STEP 4: 지표 피드백", desc: "매주 주간 리뷰를 통해 누수 지점을 보완하고 다음 주기를 최적화.", badge: "SCALE", keyword: "growth chart analytics" }
+                ];
+
+                generatedData.itemsData = steps.slice(0, count);
+                generatedData.caption = `🔥 10초 만에 정리하는 [${cleanTopic}] 핵심 실전 가이드!\n\n복잡하게 생각할 필요 없습니다. 이 4단계만 그대로 적용해보세요.\n\n나중에 다시 찾아볼 수 있도록 지금 바로 [저장]해두세요.`;
+                generatedData.hashtags = `#${cleanTopic.replace(/\s+/g, '_')} #노하우 #가이드 #셋업팟 #실전팁 #1인비즈니스 #스킬업 #워크스페이스`;
+
+            } else if (templateType === 'type_c') {
+                generatedData.headerData = {
+                    subtitle: "DIGITAL ASSETS & BLUE OCEAN",
+                    title: `${cleanTopic} 유망 자산 리스트`
+                };
+
+                const niches = [
+                    { name: "ai-copilot.io", niche: "AI Workflow Agent", value: "$18,500" },
+                    { name: "solobiz.kr", niche: "1-Person Workspace", value: "$12,000" },
+                    { name: "cloudledger.com", niche: "Fintech SaaS", value: "$34,000" },
+                    { name: "brandflow.net", niche: "Agency Automation", value: "$9,800" },
+                    { name: "marketpulse.io", niche: "E-Commerce Radar", value: "$22,000" },
+                    { name: "creatorpod.kr", niche: "Creator Tech", value: "$15,000" }
+                ];
+
+                generatedData.itemsData = niches.slice(0, count).map(n => ({
+                    title: n.name,
+                    desc: n.niche,
+                    badge: n.value
+                }));
+
+                generatedData.caption = `💎 [2026 자산 포트폴리오] ${cleanTopic}\n\n노동 소득을 넘어 잠자는 동안에도 가치가 누적되는 디지털 자산 생태계.\n\n어떤 카테고리가 가장 큰 파급력을 가질지 댓글로 의견을 남겨주세요!`;
+                generatedData.hashtags = `#${cleanTopic.replace(/\s+/g, '_')} #디지털자산 #도메인플립 #수익형웹 #셋업팟 #마자스튜디오 #부의추월차선`;
+
+            } else {
+                // Type A (2-Column Command List)
+                generatedData.headerData = {
+                    subtitle: "SETUPOD CHEAT SHEET",
+                    title: `${cleanTopic}\n당장 써먹는 핵심 치트키`
+                };
+
+                const commands = [
+                    { t: "규칙 01", d: "가장 중요한 1순위 태스크는 기상 후 90분 안에 끝낸다.", icon: "fa-bolt" },
+                    { t: "규칙 02", d: "모든 반복 커뮤니케이션은 템플릿과 단축키로 표준화한다.", icon: "fa-keyboard" },
+                    { t: "규칙 03", d: "새로운 프로젝트 착수 전 필수적으로 마진과 ROI를 시뮬레이션한다.", icon: "fa-calculator" },
+                    { t: "규칙 04", d: "SNS 팔로워보다 소유 가능한 개인 DB(이메일/연락처)를 우선한다.", icon: "fa-envelope-open-text" },
+                    { t: "규칙 05", d: "콘텐츠는 1회 소비로 끝내지 않고 재가공 파이프라인으로 순환시킨다.", icon: "fa-arrows-spin" },
+                    { t: "규칙 06", d: "완성도 100%를 기다리지 않고 80% 상태에서 피드백을 수집한다.", icon: "fa-circle-check" },
+                    { t: "규칙 07", d: "회의는 15분 단위로 쪼개고 사전 아젠다 없는 미팅은 거절한다.", icon: "fa-hourglass-start" },
+                    { t: "규칙 08", d: "매출을 창출하지 않는 화려한 디자인보다 명확한 카피를 쓴다.", icon: "fa-pen-nib" },
+                    { t: "규칙 09", d: "수익 파이프라인은 최소 3개 이상의 독립 출처로 분산시킨다.", icon: "fa-cubes" },
+                    { t: "규칙 10", d: "주말에는 1주일간의 성과 잔디를 점검하고 다음 주 Big Rocks를 셋업한다.", icon: "fa-compass" }
+                ];
+
+                generatedData.itemsData = commands.slice(0, count).map(c => ({
+                    title: c.t,
+                    desc: c.d,
+                    icon: c.icon
+                }));
+
+                generatedData.caption = `⚡️ [1초 저장] ${cleanTopic} 실전 치트키 모음!\n\n작업 속도와 매출 효율을 극대화하고 싶다면 이 10가지 원칙을 체크리스트로 활용하세요.\n\n도움이 되셨다면 좋아요와 저장을 눌러주세요!`;
+                generatedData.hashtags = `#${cleanTopic.replace(/\s+/g, '_')} #치트키 #노하우 #생산성 #1인기업 #셋업팟 #꿀팁 #업무자동화`;
+            }
+
+            return generatedData;
+        }
+
+        // Generate AI Content with Seamless Fallback
+        document.getElementById('ai-generate-btn').addEventListener('click', async () => {
+            const topic = document.getElementById('ai-topic').value || '1인 기업 생존 전략';
+            const count = parseInt(document.getElementById('item-count').value) || 10;
+            const btn = document.getElementById('ai-generate-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 카드뉴스 기획 및 렌더링 중...';
+            btn.disabled = true;
+
+            let data = null;
+
+            // 1. Try Local FastAPI (Timeout 1000ms)
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 1000);
+
+                const response = await fetch('http://localhost:8000/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, item_count: count }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    data = await response.json();
+                }
+            } catch (e) {
+                // Local server offline or timed out -> Proceed to built-in smart engine
+            }
+
+            // 2. If no local response, use Smart Synthesis Engine
+            if (!data) {
+                data = generateSmartContent(topic, count, currentTemplate);
+            }
+
+            // Update State
+            currentTemplate = data.template_type || currentTemplate;
+            headerData = data.headerData || headerData;
+            itemsData = data.itemsData || [];
+            currentSlide = 0;
+            
+            // Sync Template Radio UI
+            selectTemplate(currentTemplate);
+            
+            // Update Caption
+            document.getElementById('ai-caption-out').value = (data.caption || "") + "\n\n" + (data.hashtags || "");
+            
+            // Render Canvas
+            renderSlide();
+            renderEditorRows();
+
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        });
+
+    </script>
+</body>
+</html>

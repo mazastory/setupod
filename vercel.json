@@ -32,6 +32,14 @@
       "destination": "/bizcard/link.html"
     },
     {
+      "source": "/insta/viral",
+      "destination": "/insta/viral_list_maker.html"
+    },
+    {
+      "source": "/viral",
+      "destination": "/insta/viral_list_maker.html"
+    },
+    {
       "source": "/planner",
       "destination": "/planners/planner.html"
     },
