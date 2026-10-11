@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
       "has": [
@@ -9,11 +9,18 @@
           "value": "brewoak.com"
         }
       ],
-      "destination": "/brewoak",
-      "permanent": false
-    }
-  ],
-  "rewrites": [
+      "destination": "/brewoak/index.html"
+    },
+    {
+      "source": "/:match*",
+      "has": [
+        {
+          "type": "host",
+          "value": "brewoak.com"
+        }
+      ],
+      "destination": "/brewoak/:match*"
+    },
     {
       "source": "/",
       "has": [
