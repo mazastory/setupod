@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrewOak | Cold Brew Batch & Dilution Calculator</title>
+  <meta name="description" content="Calculate your large-batch cold brew immersion ratio, target brew water, estimated concentrate yield, and optimal milk/water dilution recipes for home baristas and cafes.">
+  <meta name="keywords" content="cold brew calculator, cold brew ratio, cold brew dilution recipe, batch cold brew, cold brew concentrate, cold brew yield calculator">
+  <link rel="canonical" href="https://brewoak.com/en/coldbrew/">
+  <link rel="alternate" hreflang="ko" href="https://brewoak.com/coldbrew/">
+  <link rel="alternate" hreflang="en" href="https://brewoak.com/en/coldbrew/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brewoak.com/en/coldbrew/">
+  <meta property="og:title" content="BrewOak | Cold Brew Batch & Dilution Calculator">
+  <meta property="og:description" content="Calculate large batch immersion ratios, concentrate yield, and golden serving dilutions in seconds.">
+  <meta property="og:image" content="https://brewoak.com/assets/og_image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BrewOak Cold Brew Batch Calculator",
+    "url": "https://brewoak.com/en/coldbrew/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Batch immersion cold brew ratio and dilution calculator for specialty coffee."
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <!-- Charred Dark Oak Mascot SVG Definitions -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="oakBody" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#14100D"/>
+        <stop offset="30%" stop-color="#241B15"/>
+        <stop offset="65%" stop-color="#31251E"/>
+        <stop offset="100%" stop-color="#14100D"/>
+      </linearGradient>
+      <symbol id="barrel" viewBox="0 0 120 130">
+        <ellipse cx="60" cy="121" rx="34" ry="5" fill="#000" opacity=".5"/>
+        <ellipse cx="21" cy="84" rx="6" ry="8.5" fill="#241B15" stroke="#E8A359" stroke-width="1.2" transform="rotate(18 21 84)"/>
+        <ellipse cx="99" cy="84" rx="6" ry="8.5" fill="#241B15" stroke="#E8A359" stroke-width="1.2" transform="rotate(-18 99 84)"/>
+        <path d="M31 42 Q19 76 31 110 Q60 122 89 110 Q101 76 89 42 Q60 32 31 42 Z" fill="url(#oakBody)" stroke="#E8A359" stroke-width="2"/>
+        <path d="M46 38 Q41 76 46 114 M60 36 V117 M74 38 Q79 76 74 114" stroke="#E8A359" stroke-width="1" fill="none" opacity=".25"/>
+        <path d="M26 101 Q60 111 94 101" stroke="#E8A359" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>
+        <path d="M24 57 Q60 69 96 57" stroke="#E8A359" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M27 55 Q60 66 93 55" stroke="#F2C14E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="94" cy="58" r="5" fill="#E8A359"/>
+        <ellipse cx="42" cy="86" rx="6.5" ry="3.6" fill="#F29C86" opacity=".55"/>
+        <ellipse cx="78" cy="86" rx="6.5" ry="3.6" fill="#F29C86" opacity=".55"/>
+      </symbol>
+      <symbol id="lid" viewBox="0 0 120 130">
+        <ellipse cx="60" cy="41" rx="29" ry="7.5" fill="#2A211B" stroke="#E8A359" stroke-width="2"/>
+        <rect x="55" y="30" width="10" height="9" rx="3" fill="#E8A359"/>
+        <path d="M65 29 Q72 17 83 21 Q78 32 65 29 Z" fill="#79AD5E" stroke="#4F7F3C" stroke-width="1.5"/>
+        <path d="M67 28 Q74 23 80 22" stroke="#4F7F3C" stroke-width="1.2" fill="none"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="container">
+    <header class="header">
+      <a href="../" class="brand-wrap">
+        <div class="brand-icon">🧊</div>
+        <div class="brand-title">Brew<span>Oak</span></div>
+      </a>
+      <div class="header-actions">
+        <a href="../" class="toggle-btn">☕ Ratio Calculator</a>
+        <a href="../degassing/" class="toggle-btn">⏳ Degassing Window</a>
+        <a href="../timer/" class="toggle-btn">⏱️ 4:6 Drip Timer</a>
+        <span class="toggle-btn active">🧊 Cold Brew Batch</span>
+        <a href="../latte/" class="toggle-btn">🥛 Latte Builder</a>
+        <a href="../../coldbrew/" class="toggle-btn lang-btn" title="한국어 버전으로 전환">🇰🇷 한국어</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="brew-stage">
+        <svg viewBox="0 0 120 130" role="img" aria-label="Brew Cold Brew">
+          <use href="#barrel"/><use href="#lid"/>
+          <path d="M44 77 Q49 81 54 77 M66 77 Q71 81 76 77" stroke="#2A211B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+          <ellipse cx="60" cy="88" rx="2.6" ry="2.2" fill="#2A211B"/>
+          <circle class="bubble" cx="38" cy="22" r="6" fill="#FFF7E8" stroke="#C9B79C" stroke-width="1.5"/>
+          <circle class="bubble" cx="50" cy="14" r="4" fill="#FFF7E8" stroke="#C9B79C" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div><span class="speech-bubble">Steep slowly for 16 hours in the fridge for deep chocolate sweetness!</span></div>
+      <h1>Cold Brew Batch & Dilution Ratio Calculator</h1>
+      <p>From dense concentrate steeping to golden serving ratios, calculate your batch formula in 1 second.</p>
+    </section>
+
+    <!-- Calculator Card -->
+    <main class="calc-card">
+      <div class="calc-grid">
+        <div class="input-block">
+          <label class="input-label" for="cbCoffee">
+            <span>Coffee Dose</span>
+            <span class="badge-tag">Batch Steeping</span>
+          </label>
+          <div class="input-row">
+            <input type="number" id="cbCoffee" value="100" min="20" max="2000" step="10" class="calc-input">
+            <span class="unit-label">g</span>
+          </div>
+          <div class="quick-steppers">
+            <button type="button" class="step-btn" data-cb-coffee="50">50g (Home)</button>
+            <button type="button" class="step-btn" data-cb-coffee="100">100g (Standard)</button>
+            <button type="button" class="step-btn" data-cb-coffee="250">250g (Cafe)</button>
+            <button type="button" class="step-btn" data-cb-coffee="500">500g (Bulk)</button>
+          </div>
+        </div>
+
+        <div class="input-block">
+          <label class="input-label" for="cbRatioSelect">
+            <span>Brew Style & Strength</span>
+            <span class="badge-tag">Concentrate vs RTD</span>
+          </label>
+          <select id="cbRatioSelect" class="calc-input" style="font-size:16px; padding:16px;">
+            <option value="5">1 : 5 (Ultra Dense Espresso-Grade Concentrate)</option>
+            <option value="8" selected>1 : 8 (Standard Golden Concentrate - Latte/Americano)</option>
+            <option value="12">1 : 12 (Ready-To-Drink Mild Cold Brew)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Banner -->
+      <div class="summary-banner" style="margin-top:24px;">
+        <div class="summary-main">
+          <h3 style="font-size:14px; color:var(--muted); margin-bottom:4px;">Required Water Volume</h3>
+          <div class="summary-value" id="cbTotalWater">800 ml</div>
+          <p style="font-size:13px; color:var(--muted); margin-top:4px;">Estimated Finished Yield: <strong id="cbYield" style="color:var(--text);">~600 ml</strong> (after ground absorption)</p>
+        </div>
+        <div class="summary-details">
+          <div class="detail-item">
+            <span>Steep Time</span>
+            <span style="color:var(--spark);">14 ~ 18 Hours</span>
+          </div>
+          <div class="detail-item">
+            <span>Grind Setting</span>
+            <span>Extra Coarse (French Press)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dilution Guide Box -->
+      <div style="margin-top:22px; background:rgba(0,0,0,0.3); border:1px solid var(--line); border-radius:var(--radius-lg); padding:20px;">
+        <h3 style="color:var(--spark); font-size:16px; margin-bottom:12px;">🥛 Golden Serving Dilution Recipes</h3>
+        <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+          <div style="background:rgba(255,255,255,0.02); padding:12px 16px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="color:var(--cream); font-size:14px;">🧊 Cold Brew Iced Americano</strong>
+              <span style="font-size:12px; color:var(--muted); display:block;">Crisp, chocolatey finish with zero astringency</span>
+            </div>
+            <span style="font-weight:800; color:var(--oak); font-size:14px;">1 Concentrate : 2 Cold Water + Ice</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.02); padding:12px 16px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="color:var(--cream); font-size:14px;">🥛 Creamy Cold Brew Latte</strong>
+              <span style="font-size:12px; color:var(--muted); display:block;">Explosive nutty sweetness when paired with milk</span>
+            </div>
+            <span style="font-weight:800; color:var(--spark); font-size:14px;">1 Concentrate : 2~3 Whole Milk + Ice</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Guide Content -->
+    <article class="guide-article">
+      <h2>The Chemistry of Cold Brew Extraction: Low Acidity & Sweetness</h2>
+      <p>
+        Unlike hot drip extraction, cold-water immersion steeping over 14 to 18 hours <strong>reduces the extraction of bitter chlorogenic acid derivatives by up to 66%</strong>. Instead, temperature-resistant lipid compounds and natural sucrose slowly dissolve over time. This creates a gentle, smooth profile that is easy on the stomach and develops wine-like mellow undertones upon refrigerated aging.
+      </p>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">1. Selecting Your Immersion Ratio: Concentrate vs RTD</h3>
+      <div style="background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--line); padding: 18px; margin: 14px 0; font-size: 14px; line-height: 1.8; color: var(--muted);">
+        <p><strong style="color:var(--spark);">☕ 1 : 5 (Ultra-Dense Concentrate)</strong><br>
+        100g coffee to 500ml water yields ~300ml of viscous espresso-strength liquid. Ideal for rich iced lattes, oat milk pairings, or drizzled over vanilla gelato for an artisanal affogato.</p>
+        <p style="margin-top:12px;"><strong style="color:var(--spark);">🧊 1 : 8 (Standard Golden Concentrate)</strong><br>
+        The gold-standard ratio favored by specialty coffee shops. Adding 800ml water to 100g coffee creates a versatile base. Diluting 1:1 or 1:2 with water, tonic, or sparkling soda makes a crisp, refreshing iced coffee.</p>
+        <p style="margin-top:12px;"><strong style="color:var(--spark);">🥤 1 : 12 (Ready-to-Drink RTD)</strong><br>
+        Pours directly from bottle to glass with zero dilution required. Elegant, tea-like mouthfeel with delicate lingering sweetness.</p>
+      </div>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">2. Three Golden Rules of Flawless Immersion</h3>
+      <ul style="color:var(--muted); font-size:14px; line-height:1.8; padding-left:20px; margin-bottom: 20px;">
+        <li><strong>Mandatory Extra-Coarse Grind:</strong> Fine particles turn into muddy sludge during prolonged steeping, clogging filters and imparting harsh bitterness. Grind to coarse sea salt consistency (~1200 μm+).</li>
+        <li><strong>Steep at 4°C Refrigeration:</strong> While room-temperature steeping is faster, cold refrigerator immersion prevents microbial proliferation and volatile lipid oxidation, yielding crisp clarity.</li>
+        <li><strong>Dual-Stage Filtration Technique:</strong> Strain first through a stainless-steel mesh to catch large grinds, then pass through a rinsed paper V60 filter to remove all micro-fines for pristine clarity.</li>
+      </ul>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">3. Frequently Asked Questions (FAQ)</h3>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. Does cold brew contain less caffeine than hot coffee?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. That is a widespread myth! While cold water dissolves caffeine slower than hot water, the extended 16-hour contact time results in high caffeine extraction. Uncut cold brew concentrate frequently contains significantly more caffeine per ounce than standard drip coffee.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. How long can cold brew concentrate be stored in the fridge?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. Filtered cleanly into a sanitized airtight glass bottle, cold brew concentrate remains fresh for up to 14 days. Peak flavor typically emerges between Day 3 and 5.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. What happens if I steep cold brew for over 24 hours?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. Exceeding 20 hours draws woody cellulose compounds and stale tannins out of the bean matrix, resulting in a dull, cardboard-like aftertaste. Always separate coffee grounds around the 16~18 hour mark.</p>
+        </div>
+      </div>
+    </article>
+
+    <footer class="footer">
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7;">
+        toomus | CEO: Minho Kim | Business Reg: 604-30-53081 | Tel: +82-10-8019-0700 | Fax: +82-504-371-7055<br>
+        Address: 19, Saemal-gil 317beon-gil, B-dong 103, Gwangju-si, Gyeonggi-do, Republic of Korea | Email: hello@brewoak.com
+      </div>
+      <p>© 2026 BrewOak by toomus. All rights reserved.</p>
+      <p style="margin-top:6px;">
+        <a href="../about.html">About</a> · 
+        <a href="../privacy.html">Privacy Policy</a> · 
+        <a href="../terms.html">Terms of Service</a> · 
+        <a href="../contact.html">Contact</a> · 
+        <a href="../">Ratio Calculator</a> · 
+        <a href="../degassing/">Degassing</a> · 
+        <a href="../timer/">Timer</a> · 
+        <a href="../latte/">Latte Builder</a> ·
+        <a href="../../coldbrew/">한국어 (KO)</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const elC = document.getElementById('cbCoffee');
+      const elR = document.getElementById('cbRatioSelect');
+      const elW = document.getElementById('cbTotalWater');
+      const elY = document.getElementById('cbYield');
+
+      function update() {
+        const c = parseFloat(elC.value) || 100;
+        const r = parseFloat(elR.value) || 8;
+        const totalW = Math.round(c * r);
+        const y = Math.max(0, Math.round(totalW - (c * 2)));
+        elW.textContent = `${totalW} ml`;
+        elY.textContent = `~${y} ml`;
+      }
+
+      elC.addEventListener('input', update);
+      elR.addEventListener('change', update);
+      document.querySelectorAll('[data-cb-coffee]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          elC.value = btn.dataset.cbCoffee;
+          update();
+        });
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>

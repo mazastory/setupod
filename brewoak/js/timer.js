@@ -49,6 +49,20 @@
     } catch (e) {}
   }
 
+  const isEn = document.documentElement.lang === 'en';
+
+  const STAGES_EN = [
+    { id: 1, name: "Stage 1 (Bloom & Acidity)", time: 0, duration: 45, ratioPct: 20, desc: "Saturate grounds completely to release CO2 and establish vibrant acidity." },
+    { id: 2, name: "Stage 2 (Sweetness Balance)", time: 45, duration: 45, ratioPct: 20, desc: "Pour in slow spirals from center outward to capture sweetness and balance." },
+    { id: 3, name: "Stage 3 (Strength Build 1)", time: 90, duration: 45, ratioPct: 20, desc: "The first pour of the 60% phase to begin building body and mouthfeel." },
+    { id: 4, name: "Stage 4 (Strength Build 2)", time: 135, duration: 45, ratioPct: 20, desc: "Develops rich texture, round viscosity, and lingering sweetness." },
+    { id: 5, name: "Stage 5 (Final Drawdown)", time: 180, duration: 30, ratioPct: 20, desc: "Final pour volume; allow brew bed to drain fully into the carafe." }
+  ];
+
+  function getStages() {
+    return isEn ? STAGES_EN : STAGES;
+  }
+
   function calculatePours() {
     coffeeWeight = parseFloat(elCoffee.value) || 20;
     totalWater = Math.round(coffeeWeight * 15);
@@ -59,7 +73,7 @@
       const el = document.getElementById(`pourTarget${i}`);
       const cumEl = document.getElementById(`pourCum${i}`);
       if (el) el.textContent = `+${singlePour} ml`;
-      if (cumEl) cumEl.textContent = `(누적 ${singlePour * i} ml)`;
+      if (cumEl) cumEl.textContent = isEn ? `(Cum. ${singlePour * i} ml)` : `(누적 ${singlePour * i} ml)`;
     }
   }
 
@@ -70,25 +84,32 @@
   }
 
   function updateActiveStage() {
-    let currentStage = STAGES[0];
-    for (let i = STAGES.length - 1; i >= 0; i--) {
-      if (currentSeconds >= STAGES[i].time) {
-        currentStage = STAGES[i];
+    const currentStages = getStages();
+    let currentStage = currentStages[0];
+    for (let i = currentStages.length - 1; i >= 0; i--) {
+      if (currentSeconds >= currentStages[i].time) {
+        currentStage = currentStages[i];
         break;
       }
     }
 
     if (currentSeconds >= 210) {
-      elStageName.textContent = "🎉 추출 완료!";
-      elStageDesc.textContent = "드리퍼를 치우고 서버를 가볍게 스월링하여 향미를 즐기세요.";
-      elStageTarget.textContent = `총 추출량 ~${totalWater - Math.round(coffeeWeight * 2)} ml`;
+      elStageName.textContent = isEn ? "🎉 Extraction Complete!" : "🎉 추출 완료!";
+      elStageDesc.textContent = isEn 
+        ? "Remove dripper, swirl your carafe gently, and savor your cup."
+        : "드리퍼를 치우고 서버를 가볍게 스월링하여 향미를 즐기세요.";
+      elStageTarget.textContent = isEn 
+        ? `Total Yield ~${totalWater - Math.round(coffeeWeight * 2)} ml`
+        : `총 추출량 ~${totalWater - Math.round(coffeeWeight * 2)} ml`;
       return;
     }
 
     elStageName.textContent = currentStage.name;
     elStageDesc.textContent = currentStage.desc;
     const singlePour = Math.round(totalWater / 5);
-    elStageTarget.textContent = `목표 누적수: ${singlePour * currentStage.id} ml`;
+    elStageTarget.textContent = isEn 
+      ? `Target Cumulative: ${singlePour * currentStage.id} ml`
+      : `목표 누적수: ${singlePour * currentStage.id} ml`;
 
     // Highlight timeline card
     document.querySelectorAll('.timer-stage-card').forEach((card, idx) => {
@@ -96,7 +117,7 @@
     });
 
     // Check beep times
-    if (STAGES.some(st => st.time === currentSeconds)) {
+    if (currentStages.some(st => st.time === currentSeconds)) {
       playBeep(880, 0.25); // Higher pitch for new stage
     } else if (currentSeconds > 0 && (currentSeconds + 3) % 45 === 0) {
       playBeep(520, 0.1); // Countdown tick
@@ -106,7 +127,7 @@
   function startTimer() {
     if (!isRunning) {
       isRunning = true;
-      elStart.innerHTML = "⏸ 일시정지";
+      elStart.innerHTML = isEn ? "⏸ Pause" : "⏸ 일시정지";
       elStart.classList.add('running');
       elStart.classList.remove('primary');
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
@@ -119,14 +140,14 @@
         if (currentSeconds >= 220) {
           clearInterval(timerInterval);
           isRunning = false;
-          elStart.innerHTML = "▶ 시작";
+          elStart.innerHTML = isEn ? "▶ Start" : "▶ 시작";
           elStart.classList.remove('running');
           elStart.classList.add('primary');
         }
       }, 1000);
     } else {
       isRunning = false;
-      elStart.innerHTML = "▶ 계속하기";
+      elStart.innerHTML = isEn ? "▶ Resume" : "▶ 계속하기";
       elStart.classList.remove('running');
       elStart.classList.add('primary');
       clearInterval(timerInterval);
@@ -138,12 +159,16 @@
     clearInterval(timerInterval);
     currentSeconds = 0;
     elDisplay.textContent = "00:00";
-    elStart.innerHTML = "▶ 시작";
+    elStart.innerHTML = isEn ? "▶ Start" : "▶ 시작";
     elStart.classList.remove('running');
     elStart.classList.add('primary');
-    elStageName.textContent = "대기 중";
-    elStageDesc.textContent = "시작 버튼을 누르면 1차 푸어(뜸들이기)가 시작됩니다.";
-    elStageTarget.textContent = `목표 누적수: ${Math.round(totalWater / 5)} ml`;
+    elStageName.textContent = isEn ? "Ready" : "대기 중";
+    elStageDesc.textContent = isEn 
+      ? "Press Start to begin Stage 1 (Bloom pour)."
+      : "시작 버튼을 누르면 1차 푸어(뜸들이기)가 시작됩니다.";
+    elStageTarget.textContent = isEn 
+      ? `Target Cumulative: ${Math.round(totalWater / 5)} ml`
+      : `목표 누적수: ${Math.round(totalWater / 5)} ml`;
     document.querySelectorAll('.timer-stage-card').forEach((card, idx) => {
       card.classList.toggle('active', idx === 0);
     });

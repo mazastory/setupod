@@ -125,7 +125,8 @@
     const diffTime = today - rDate;
     const diffDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
 
-    elDaysPassed.textContent = `${diffDays}일 차`;
+    const isEn = document.documentElement.lang === 'en';
+    elDaysPassed.textContent = isEn ? `Day ${diffDays}` : `${diffDays}일 차`;
 
     const profile = ROAST_PROFILES[currentRoast];
 
@@ -133,11 +134,11 @@
     const peakStartDate = addDays(rDate, profile.peakStart);
     const peakEndDate = addDays(rDate, profile.peakEnd);
     elPeakRange.textContent = `${formatDate(peakStartDate)} ~ ${formatDate(peakEndDate)}`;
-    elTempAdvice.textContent = profile.tempAdviceKo;
+    elTempAdvice.textContent = isEn ? profile.tempAdviceEn : profile.tempAdviceKo;
 
     // Status evaluation
     let statusClass = "status-ready";
-    let badgeText = "숙성 진행 중";
+    let badgeText = isEn ? "Resting Phase" : "숙성 진행 중";
     let headlineText = "";
     let detailText = "";
     let faceKey = "idle";
@@ -145,32 +146,48 @@
 
     if (diffDays < profile.restDays) {
       statusClass = "status-early";
-      badgeText = "⚠️ 휴지기 (Resting)";
-      headlineText = "아직 이산화탄소가 많아요! (잠시 대기)";
-      detailText = profile.statusMessagesKo.tooEarly;
+      badgeText = isEn ? "⚠️ Resting (Degassing)" : "⚠️ 휴지기 (Resting)";
+      headlineText = isEn ? "High CO2 Levels (Resting Required)" : "아직 이산화탄소가 많아요! (잠시 대기)";
+      detailText = isEn 
+        ? "Trapped carbon dioxide is vigorously venting. Brewing now causes excessive bubbling, resulting in grassy notes or hollow extraction."
+        : profile.statusMessagesKo.tooEarly;
       faceKey = "waiting";
-      speech = `로스팅 후 ${profile.restDays}일째부터 향미가 서서히 올라옵니다.`;
+      speech = isEn 
+        ? `Delicate aromatics begin developing after Day ${profile.restDays}.`
+        : `로스팅 후 ${profile.restDays}일째부터 향미가 서서히 올라옵니다.`;
     } else if (diffDays >= profile.peakStart && diffDays <= profile.peakEnd) {
       statusClass = "status-peak";
-      badgeText = "🔥 절정기 (Peak Window)";
-      headlineText = "지금이 바로 최고의 골든 타임입니다!";
-      detailText = profile.statusMessagesKo.peak;
+      badgeText = isEn ? "🔥 Golden Peak Window" : "🔥 절정기 (Peak Window)";
+      headlineText = isEn ? "Prime Peak Flavor Window!" : "지금이 바로 최고의 골든 타임입니다!";
+      detailText = isEn 
+        ? "Optimal gas-to-solubles balance reached. Delicate floral notes, sweetness, and complex aromatics bloom brilliantly right now."
+        : profile.statusMessagesKo.peak;
       faceKey = "peak";
-      speech = "향미와 단맛이 절정에 달했어요! 지금 바로 내려보세요 ☕";
+      speech = isEn 
+        ? "Aroma and sweetness are at their prime peak! Perfect time to brew ☕"
+        : "향미와 단맛이 절정에 달했어요! 지금 바로 내려보세요 ☕";
     } else if (diffDays < profile.peakStart) {
       statusClass = "status-ready";
-      badgeText = "🌿 안정화 단계 (Ready)";
-      headlineText = "원두가 안정화되었습니다. (마시기 좋은 시기)";
-      detailText = profile.statusMessagesKo.ready;
+      badgeText = isEn ? "🌿 Ready to Brew" : "🌿 안정화 단계 (Ready)";
+      headlineText = isEn ? "Beans Have Stabilized (Good to Brew)" : "원두가 안정화되었습니다. (마시기 좋은 시기)";
+      detailText = isEn 
+        ? "Gas levels have calmed down significantly. Acidity and pleasant sweetness are emerging nicely."
+        : profile.statusMessagesKo.ready;
       faceKey = "idle";
-      speech = "이제 마셔도 좋아요! 앞으로 며칠간 향이 더 풍성해집니다.";
+      speech = isEn 
+        ? "Ready to enjoy! Flavors will expand further over the next few days."
+        : "이제 마셔도 좋아요! 앞으로 며칠간 향이 더 풍성해집니다.";
     } else {
       statusClass = "status-fading";
-      badgeText = "🍂 완만기 (Fading)";
-      headlineText = "향미가 차분해진 단계입니다.";
-      detailText = profile.statusMessagesKo.fading;
+      badgeText = isEn ? "🍂 Fading Phase" : "🍂 완만기 (Fading)";
+      headlineText = isEn ? "Flavor Curve Flattening" : "향미가 차분해진 단계입니다.";
+      detailText = isEn 
+        ? "Volatile organic aromatics are diminishing. Preserve in airtight storage away from heat and sunlight."
+        : profile.statusMessagesKo.fading;
       faceKey = "idle";
-      speech = "산미가 잦아들었지만 고소한 단맛으로 즐길 수 있습니다.";
+      speech = isEn 
+        ? "Floral notes have calmed, but warm nutty chocolate body remains pleasant."
+        : "산미가 잦아들었지만 고소한 단맛으로 즐길 수 있습니다.";
     }
 
     elStatusBadge.className = `status-badge ${statusClass}`;

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrewOak | Coffee Brewing Ratio & Extraction Calculator</title>
+  <meta name="description" content="Calculate your Golden Cup coffee brew ratio and estimated extraction yield in seconds. Professional pour-over guide, bean-to-water calculator, and timer for V60, AeroPress, and French Press.">
+  <meta name="keywords" content="coffee ratio calculator, coffee brewing ratio, golden cup standard, pour over ratio, coffee yield calculator, V60 recipe, aeropress ratio, brew water ratio">
+  <link rel="canonical" href="https://brewoak.com/en/">
+  <link rel="alternate" hreflang="ko" href="https://brewoak.com/">
+  <link rel="alternate" hreflang="en" href="https://brewoak.com/en/">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brewoak.com/en/">
+  <meta property="og:title" content="BrewOak | Coffee Brewing Ratio & Extraction Calculator">
+  <meta property="og:description" content="Calculate the Golden Cup ratio and estimated yield for specialty coffee in 1 second.">
+  <meta property="og:image" content="https://brewoak.com/assets/og_image.png">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
+
+  <!-- Schema.org WebApplication JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BrewOak Coffee Ratio Calculator",
+    "url": "https://brewoak.com/en/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Artisan coffee brewing ratio and extraction yield calculator for home baristas and specialty coffee enthusiasts."
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <!-- Charred Dark Oak Mascot SVG Definitions -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="oakBody" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#14100D"/>
+        <stop offset="30%" stop-color="#241B15"/>
+        <stop offset="65%" stop-color="#31251E"/>
+        <stop offset="100%" stop-color="#14100D"/>
+      </linearGradient>
+      <symbol id="barrel" viewBox="0 0 120 130">
+        <ellipse cx="60" cy="121" rx="34" ry="5" fill="#000" opacity=".5"/>
+        <ellipse cx="21" cy="84" rx="6" ry="8.5" fill="#241B15" stroke="#E8A359" stroke-width="1.2" transform="rotate(18 21 84)"/>
+        <ellipse cx="99" cy="84" rx="6" ry="8.5" fill="#241B15" stroke="#E8A359" stroke-width="1.2" transform="rotate(-18 99 84)"/>
+        <path d="M31 42 Q19 76 31 110 Q60 122 89 110 Q101 76 89 42 Q60 32 31 42 Z" fill="url(#oakBody)" stroke="#E8A359" stroke-width="2"/>
+        <path d="M46 38 Q41 76 46 114 M60 36 V117 M74 38 Q79 76 74 114" stroke="#E8A359" stroke-width="1" fill="none" opacity=".25"/>
+        <path d="M26 101 Q60 111 94 101" stroke="#E8A359" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>
+        <path d="M24 57 Q60 69 96 57" stroke="#E8A359" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M27 55 Q60 66 93 55" stroke="#F2C14E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="94" cy="58" r="5" fill="#E8A359"/>
+        <ellipse cx="42" cy="86" rx="6.5" ry="3.6" fill="#F29C86" opacity=".55"/>
+        <ellipse cx="78" cy="86" rx="6.5" ry="3.6" fill="#F29C86" opacity=".55"/>
+      </symbol>
+      <symbol id="lid" viewBox="0 0 120 130">
+        <ellipse cx="60" cy="41" rx="29" ry="7.5" fill="#2A211B" stroke="#E8A359" stroke-width="2"/>
+        <rect x="55" y="30" width="10" height="9" rx="3" fill="#E8A359"/>
+        <path d="M65 29 Q72 17 83 21 Q78 32 65 29 Z" fill="#79AD5E" stroke="#4F7F3C" stroke-width="1.5"/>
+        <path d="M67 28 Q74 23 80 22" stroke="#4F7F3C" stroke-width="1.2" fill="none"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <a href="./" class="brand-wrap">
+        <div class="brand-icon">☕</div>
+        <div class="brand-title">Brew<span>Oak</span></div>
+      </a>
+      <div class="header-actions">
+        <span class="toggle-btn active">☕ Ratio Calculator</span>
+        <a href="./degassing/" class="toggle-btn">⏳ Degassing Window</a>
+        <a href="./timer/" class="toggle-btn">⏱️ 4:6 Drip Timer</a>
+        <a href="./coldbrew/" class="toggle-btn">🧊 Cold Brew Batch</a>
+        <a href="./latte/" class="toggle-btn">🥛 Latte Builder</a>
+        <a href="../" class="toggle-btn lang-btn" title="한국어 버전으로 전환">🇰🇷 한국어</a>
+      </div>
+    </header>
+
+    <!-- Hero & Brew Stage -->
+    <section class="hero">
+      <div class="brew-stage" id="brewStage"></div>
+      <div><span class="speech-bubble" id="speechBubble">Input coffee dose or water to discover your Golden Cup formula!</span></div>
+      <h1>Coffee Brew Ratio & Yield Calculator</h1>
+      <p>Precision bean-to-water formulas and step-by-step extraction guides for specialty coffee</p>
+    </section>
+
+    <!-- Method Tabs -->
+    <nav class="method-tabs" aria-label="Select Brewing Method">
+      <button type="button" class="method-tab active" data-method="pour_over">
+        <span class="method-icon">☕</span>
+        <span>Pour Over</span>
+      </button>
+      <button type="button" class="method-tab" data-method="iced_drip">
+        <span class="method-icon">🧊</span>
+        <span>Iced Drip</span>
+      </button>
+      <button type="button" class="method-tab" data-method="aeropress">
+        <span class="method-icon">🚀</span>
+        <span>AeroPress</span>
+      </button>
+      <button type="button" class="method-tab" data-method="french_press">
+        <span class="method-icon">🫖</span>
+        <span>French Press</span>
+      </button>
+      <button type="button" class="method-tab" data-method="cold_brew">
+        <span class="method-icon">⏳</span>
+        <span>Cold Brew</span>
+      </button>
+      <button type="button" class="method-tab" data-method="moka_pot">
+        <span class="method-icon">🔥</span>
+        <span>Moka Pot</span>
+      </button>
+    </nav>
+
+    <!-- Calculator Main Card -->
+    <main class="calc-card">
+      <div class="calc-grid">
+        <!-- Coffee Input -->
+        <div class="input-block">
+          <label class="input-label" for="coffeeInput">
+            <span>Coffee Dose</span>
+            <span class="badge-tag">Rec. 15~20g</span>
+          </label>
+          <div class="input-row">
+            <input type="number" id="coffeeInput" class="calc-input" value="20" step="0.5" min="1">
+            <span class="unit-label" id="coffeeUnitLabel">g</span>
+          </div>
+          <div class="quick-steppers">
+            <button type="button" class="step-btn" data-step-coffee="-5">-5</button>
+            <button type="button" class="step-btn" data-step-coffee="-1">-1</button>
+            <button type="button" class="step-btn" data-step-coffee="1">+1</button>
+            <button type="button" class="step-btn" data-step-coffee="5">+5</button>
+          </div>
+        </div>
+
+        <!-- Water Input -->
+        <div class="input-block">
+          <label class="input-label" for="waterInput">
+            <span>Total Water</span>
+            <span class="badge-tag">Auto Calculated</span>
+          </label>
+          <div class="input-row">
+            <input type="number" id="waterInput" class="calc-input" value="320" step="5" min="10">
+            <span class="unit-label" id="waterUnitLabel">ml</span>
+          </div>
+          <div class="quick-steppers">
+            <button type="button" class="step-btn" data-step-water="-50">-50</button>
+            <button type="button" class="step-btn" data-step-water="-20">-20</button>
+            <button type="button" class="step-btn" data-step-water="20">+20</button>
+            <button type="button" class="step-btn" data-step-water="50">+50</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ratio Slider -->
+      <div class="ratio-control-box">
+        <div class="ratio-header">
+          <span style="font-size:14px; font-weight:700; color:var(--muted);">Brew Ratio (1 : X)</span>
+          <span class="ratio-value-badge" id="ratioValue">1 : 16</span>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" id="ratioSlider" class="custom-range" min="12" max="18" step="0.5" value="16">
+        </div>
+        <div class="ratio-presets">
+          <span class="ratio-preset-tag">Rich (1:13~14)</span>
+          <span class="ratio-preset-tag" style="color:var(--spark);">Golden Cup (1:15~16)</span>
+          <span class="ratio-preset-tag">Light (1:17)</span>
+        </div>
+      </div>
+
+      <!-- Result Summary Banner -->
+      <div class="summary-banner">
+        <div class="summary-main">
+          <h3>Estimated Yield</h3>
+          <div class="summary-value" id="summaryYield">~280 ml</div>
+        </div>
+        <div class="summary-details">
+          <div class="detail-item">
+            <span>Ratio</span>
+            <span id="summaryRatio">1 : 16</span>
+          </div>
+          <div class="detail-item">
+            <span>Total Water</span>
+            <span id="summaryWater">320 ml</span>
+          </div>
+          <div class="detail-item">
+            <span>Water Temp</span>
+            <span id="summaryTemp">92-94°C (198-201°F)</span>
+          </div>
+          <div class="detail-item">
+            <span>Grind Size</span>
+            <span id="summaryGrind">Medium-Fine</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Step-by-Step Pouring Guide & Timer -->
+    <section class="step-guide-card">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>💧</span> <span>Step-by-Step Pouring Guide</span>
+        </h2>
+        <span class="badge-tag">3-Stage Method</span>
+      </div>
+
+      <div class="timeline">
+        <!-- Stage 1 -->
+        <div class="stage-row">
+          <div class="stage-num">1</div>
+          <div class="stage-info">
+            <div class="stage-name">Stage 1: The Bloom</div>
+            <div class="stage-desc">Release trapped carbon dioxide and saturate all grounds evenly. (00:00 ~ 00:45)</div>
+          </div>
+          <div class="stage-amount">
+            <div class="stage-water" id="stageBloomWater">+50 ml</div>
+            <div class="stage-time">Wait 45s</div>
+          </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="stage-row">
+          <div class="stage-num">2</div>
+          <div class="stage-info">
+            <div class="stage-name">Stage 2: First Pour (Acidity & Sweetness)</div>
+            <div class="stage-desc">Pour gently in concentric spirals outward from center. (00:45 ~ 01:30)</div>
+          </div>
+          <div class="stage-amount">
+            <div class="stage-water" id="stage1Water">+150 ml</div>
+            <div class="stage-time">Cumulative 200 ml</div>
+          </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="stage-row">
+          <div class="stage-num">3</div>
+          <div class="stage-info">
+            <div class="stage-name">Stage 3: Final Pour (Body & Balance)</div>
+            <div class="stage-desc">Complete target water volume and allow bed to drain smoothly. (01:30 ~ 02:30)</div>
+          </div>
+          <div class="stage-amount">
+            <div class="stage-water" id="stage2Water">+120 ml</div>
+            <div class="stage-time">Cumulative 320 ml</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrated Drip Timer -->
+      <div class="timer-widget">
+        <div class="timer-digits" id="timerDisplay">00:00</div>
+        <div class="timer-btns">
+          <button type="button" class="timer-btn primary" id="btnTimerStart">Start</button>
+          <button type="button" class="timer-btn" id="btnTimerReset">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross-Linking Banner to Degassing Tool -->
+    <a href="./degassing/" class="cross-tool-banner">
+      <div class="cross-tool-info">
+        <strong>⏳ Is your roasted coffee ready to brew today?</strong>
+        <p>Check the degassing curve and peak flavor window based on roast date and roast profile.</p>
+      </div>
+      <div class="cross-tool-cta">Degassing Calculator →</div>
+    </a>
+
+    <!-- Gear Cards -->
+    <section class="gear-section">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>⚖️</span> <span>Essential Equipment for Precision Brewing</span>
+        </h2>
+        <span class="badge-tag">Curated Gear</span>
+      </div>
+      <div class="gear-grid">
+        <div class="gear-card">
+          <div class="gear-tag">Precision Scale</div>
+          <div class="gear-name">0.1g Digital Smart Drip Scale</div>
+          <div class="gear-why">Tracks dose weight and extraction time in real time for absolute cup consistency.</div>
+          <div class="gear-link">Explore Gear →</div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-tag">Thermal Stability</div>
+          <div class="gear-name">Variable Temp Gooseneck Kettle</div>
+          <div class="gear-why">Precise 1°C thermal control and ergonomic spout ensure controlled spiral laminar flow.</div>
+          <div class="gear-link">Explore Gear →</div>
+        </div>
+        <div class="gear-card">
+          <div class="gear-tag">Iconic Extraction</div>
+          <div class="gear-name">Hario V60 Glass Dripper 02</div>
+          <div class="gear-why">Spiral internal ribs maximize air expansion and highlight delicate floral aromatics.</div>
+          <div class="gear-link">Explore Gear →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deep In-depth Specialty Coffee Science Editorial Article -->
+    <article class="guide-article" id="guide">
+      <h2>SCA Golden Cup Standard: The Science of Coffee Brewing Ratios</h2>
+      <p>
+        The Specialty Coffee Association (SCA) Golden Cup Standard specifies that optimum coffee extraction requires a brew ratio between <strong>1:15 and 1:18</strong> (or 55 to 65 grams of ground coffee per 1 liter of fresh water). Within this targeted extraction window, dissolved flavor compounds—volatile organic acids, caramelized sugars, and complex aromatics—reach an optimal Total Dissolved Solids (TDS) concentration between <strong>1.15% and 1.45%</strong>, preventing both harsh astringency (over-extraction) and sour hollowness (under-extraction).
+      </p>
+
+      <table class="guide-table">
+        <thead>
+          <tr>
+            <th>Brew Method</th>
+            <th>Recommended Ratio</th>
+            <th>Grind Particle Size</th>
+            <th>Water Temp</th>
+            <th>Target TDS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pour Over (V60, Kalita)</strong></td>
+            <td>1 : 15 ~ 1 : 16.5</td>
+            <td>Medium-Fine (600~800 μm)</td>
+            <td>92 ~ 94°C (198~201°F)</td>
+            <td>1.25 ~ 1.40%</td>
+          </tr>
+          <tr>
+            <td><strong>Iced Pour Over</strong></td>
+            <td>1 : 10 (+ 100g Ice)</td>
+            <td>Medium (800~900 μm)</td>
+            <td>93 ~ 95°C (200~203°F)</td>
+            <td>1.30 ~ 1.45%</td>
+          </tr>
+          <tr>
+            <td><strong>AeroPress</strong></td>
+            <td>1 : 12 ~ 1 : 14</td>
+            <td>Fine-Medium (400~600 μm)</td>
+            <td>85 ~ 88°C (185~190°F)</td>
+            <td>1.35 ~ 1.50%</td>
+          </tr>
+          <tr>
+            <td><strong>French Press</strong></td>
+            <td>1 : 15</td>
+            <td>Coarse (1000~1200 μm)</td>
+            <td>94 ~ 96°C (201~205°F)</td>
+            <td>1.20 ~ 1.35%</td>
+          </tr>
+          <tr>
+            <td><strong>Cold Brew (Immersion)</strong></td>
+            <td>1 : 8 ~ 1 : 10</td>
+            <td>Extra Coarse (1200 μm+)</td>
+            <td>Cold / Room Temp</td>
+            <td>1.40 ~ 1.65% (Conc.)</td>
+          </tr>
+          <tr>
+            <td><strong>Moka Pot</strong></td>
+            <td>1 : 7</td>
+            <td>Fine (300~500 μm)</td>
+            <td>Low Stove Heat</td>
+            <td>1.50 ~ 2.00%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">1. The Fluid Dynamics of Blooming: Degassing Trapped CO2</h3>
+      <p>
+        Freshly roasted whole-bean coffee traps large quantities of carbon dioxide within its cellular cellulose matrix. When hot water first contacts freshly ground coffee, the gas rapidly expands and escapes. Introducing a 30 to 45-second bloom with approximately 2 to 2.5 times the coffee weight in water ensures that gas voids collapse. Without a proper bloom, escaping gases form hydrophobic barrier pockets that cause <em>channeling</em>, forcing bypass water through micro-cracks and yielding an uneven, bitter-sour extraction.
+      </p>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">2. Diagnosing Extraction Defects: Over vs Under Extraction</h3>
+      <p>
+        If your cup does not taste balanced, refer to the diagnostic troubleshooting matrix below and adjust only one extraction variable at a time:
+      </p>
+      <div style="background: rgba(0,0,0,0.3); border-radius: var(--radius-md); border: 1px solid var(--line); overflow-x: auto; margin: 14px 0;">
+        <table class="guide-table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Sensory Symptom</th>
+              <th>Probable Cause</th>
+              <th>Corrective Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span style="color:#F87171; font-weight:700;">Sharp, sour, vegetal, hollow finish</span></td>
+              <td>Under-extraction (Inadequate solubles dissolved)</td>
+              <td>Finer grind setting, increase water temperature by 1~2°C, or extend total contact time.</td>
+            </tr>
+            <tr>
+              <td><span style="color:#FBBF24; font-weight:700;">Drying mouthfeel, harsh bitterness, ashy aftertaste</span></td>
+              <td>Over-extraction (Undesirable heavy tannins pulled)</td>
+              <td>Coarser grind setting, lower water temperature, or shorten contact time.</td>
+            </tr>
+            <tr>
+              <td><span style="color:#60A5FA; font-weight:700;">Muddy texture, cloudy cup as it cools</span></td>
+              <td>Excess fines clogging paper filter</td>
+              <td>Calibrate burr alignment, sift excess micro-fines, or rinse paper filter prior to brewing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">3. Water Chemistry: The Solvent Behind Every Note</h3>
+      <p>
+        Because water accounts for more than 98% of your brewed cup, its mineral composition governs what flavor compounds are drawn into solution:
+      </p>
+      <ul style="color:var(--muted); font-size:14px; line-height:1.8; padding-left:20px; margin-bottom: 20px;">
+        <li><strong>Ideal TDS (75 to 150 ppm)</strong>: Water devoid of minerals (distilled or pure reverse osmosis) lacks the ionic affinity required to bind flavor compounds, resulting in flat and dull cups. Water exceeding 250 ppm masks delicate floral notes with chalky chalkiness.</li>
+        <li><strong>Magnesium vs Calcium</strong>: Magnesium ions (Mg²⁺) strongly pull crisp fruit acids and aromatic monoterpenes, whereas Calcium ions (Ca²⁺) bond with creamy sweetness and viscous body.</li>
+        <li><strong>Brewing Temperature Dynamics</strong>: Temperatures below 90°C (194°F) highlight delicate citric acid and brightness, whereas temperatures above 94°C (201°F) accelerate dissolution of caramelized sugars, body, and roasty notes.</li>
+      </ul>
+
+      <h3 style="color:var(--spark); font-size:18px; margin:28px 0 10px;">4. Frequently Asked Questions (FAQ)</h3>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. Why did 320 ml of brew water produce only around 280 ml of coffee?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. Coffee grounds physically retain approximately 2 grams of water per gram of dry coffee. For a 20g dose, approximately 40 ml of water stays trapped in the spent coffee bed as absorption yield loss.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. Should I always rinse my paper filter before brewing?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. White oxygen-bleached filters have minimal paper taste, but unbleached brown kraft filters impart noticeable cardboard aromatics unless rinsed thoroughly with hot water prior to adding coffee grounds.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:var(--radius-md); padding:14px 18px;">
+          <strong style="color:var(--cream); display:block; margin-bottom:4px;">Q. Why does iced pour-over use a concentrated 1:10 ratio?</strong>
+          <p style="font-size:13px; color:var(--muted); margin:0;">A. The hot extract drains directly onto 100~120g of ice cubes. Melting ice rapidly cools and dilutes the coffee to the perfect 1:15~1:16 drinking strength while trapping volatile aroma vapors that would otherwise evaporate.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7;">
+        toomus | CEO: Minho Kim | Business Reg: 604-30-53081 | Tel: +82-10-8019-0700 | Fax: +82-504-371-7055<br>
+        Address: 19, Saemal-gil 317beon-gil, B-dong 103, Gwangju-si, Gyeonggi-do, Republic of Korea | Email: hello@brewoak.com
+      </div>
+      <p>© 2026 BrewOak by toomus. All rights reserved.</p>
+      <p style="margin-top:6px;">
+        <a href="./about.html">About</a> · 
+        <a href="./privacy.html">Privacy Policy</a> · 
+        <a href="./terms.html">Terms of Service</a> · 
+        <a href="./contact.html">Contact</a> · 
+        <a href="./degassing/">Degassing</a> · 
+        <a href="./timer/">Timer</a> · 
+        <a href="./coldbrew/">Cold Brew</a> · 
+        <a href="./latte/">Latte Builder</a> ·
+        <a href="../">한국어 (KO)</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/calculator.js"></script>
+</body>
+</html>
