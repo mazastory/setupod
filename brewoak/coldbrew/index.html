@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrewOak | 콜드브루 대용량 배치 & 희석 비율 계산기 (Cold Brew Batch Calculator)</title>
+  <meta name="description" content="홈카페 및 카페 점주를 위한 콜드브루 대용량 침출 비율 계산기. 원두 용량에 따른 투입수, 완성 원액, 라떼/아메리카노 황금 희석 비율을 1초 만에 산출합니다.">
+  <meta name="keywords" content="콜드브루 계산기, 더치커피 비율, 콜드브루 원액 희석, 콜드브루 레시피, cold brew calculator, cold brew ratio">
+  <link rel="canonical" href="https://brewoak.com/coldbrew/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brewoak.com/coldbrew/">
+  <meta property="og:title" content="BrewOak | 콜드브루 대용량 배치 & 희석 비율 계산기">
+  <meta property="og:description" content="원액 침출부터 라떼/아메리카노 완벽 희석까지 1초 완성 콜드브루 공식">
+  <meta property="og:image" content="https://brewoak.com/assets/og_image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BrewOak Cold Brew Batch Calculator",
+    "url": "https://brewoak.com/coldbrew/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Batch immersion cold brew ratio and dilution calculator for specialty coffee."
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <div class="container">
+    <header class="header">
+      <a href="../" class="brand-wrap">
+        <div class="brand-icon">🧊</div>
+        <div class="brand-title">Brew<span>Oak</span></div>
+      </a>
+      <div class="header-actions">
+        <a href="../" class="toggle-btn" style="text-decoration:none;">☕ 비율</a>
+        <a href="../degassing/" class="toggle-btn" style="text-decoration:none;">⏳ 디개싱</a>
+        <a href="../timer/" class="toggle-btn" style="text-decoration:none;">⏱️ 타이머</a>
+        <span class="toggle-btn active">🧊 콜드브루</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="brew-stage">
+        <svg viewBox="0 0 120 130" role="img" aria-label="브루 콜드브루">
+          <use href="#barrel"/><use href="#lid"/>
+          <path d="M44 77 Q49 81 54 77 M66 77 Q71 81 76 77" stroke="#2A211B" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+          <ellipse cx="60" cy="88" rx="2.6" ry="2.2" fill="#2A211B"/>
+          <circle class="bubble" cx="38" cy="22" r="6" fill="#FFF7E8" stroke="#C9B79C" stroke-width="1.5"/>
+          <circle class="bubble" cx="50" cy="14" r="4" fill="#FFF7E8" stroke="#C9B79C" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div><span class="speech-bubble">냉장고에서 16시간 동안 천천히 숙성되는 깊은 풍미!</span></div>
+      <h1>콜드브루 대용량 배치 & 희석 계산기</h1>
+      <p>진한 고농축 원액 침출부터 음료별 황금 희석 비율까지 한 번에 산출합니다.</p>
+    </section>
+
+    <!-- Calculator Card -->
+    <main class="calc-card">
+      <div class="calc-grid">
+        <div class="input-block">
+          <label class="input-label" for="cbCoffee">
+            <span>원두 용량 (Coffee Dose)</span>
+            <span class="badge-tag">대용량 배치</span>
+          </label>
+          <div class="input-row">
+            <input type="number" id="cbCoffee" value="100" min="20" max="2000" step="10" class="calc-input">
+            <span class="unit-label">g</span>
+          </div>
+          <div class="quick-steppers">
+            <button type="button" class="step-btn" data-cb-coffee="50">50g (홈)</button>
+            <button type="button" class="step-btn" data-cb-coffee="100">100g (보통)</button>
+            <button type="button" class="step-btn" data-cb-coffee="250">250g (카페)</button>
+            <button type="button" class="step-btn" data-cb-coffee="500">500g (대량)</button>
+          </div>
+        </div>
+
+        <div class="input-block">
+          <label class="input-label" for="cbRatioSelect">
+            <span>침출 강도 (Brew Style)</span>
+            <span class="badge-tag">원액 vs RTD</span>
+          </label>
+          <select id="cbRatioSelect" class="calc-input" style="font-size:16px; padding:16px;">
+            <option value="5">1 : 5 (초고농축 에스프레소급 원액)</option>
+            <option value="8" selected>1 : 8 (표준 진한 원액 - 라떼/아메 겸용)</option>
+            <option value="12">1 : 12 (희석 없이 바로 마시는 RTD 스타일)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Result Banner -->
+      <div class="summary-banner" style="margin-top:24px;">
+        <div class="summary-main">
+          <h3 style="font-size:14px; color:var(--muted); margin-bottom:4px;">필요한 물의 양 (투입수)</h3>
+          <div class="summary-value" id="cbTotalWater">800 ml</div>
+          <p style="font-size:13px; color:var(--muted); margin-top:4px;">예상 추출 완성 원액: <strong id="cbYield" style="color:var(--text);">~600 ml</strong> (원두 흡수량 감안)</p>
+        </div>
+        <div class="summary-details">
+          <div class="detail-item">
+            <span>권장 침출 시간</span>
+            <span style="color:var(--spark);">14 ~ 18 시간</span>
+          </div>
+          <div class="detail-item">
+            <span>추천 분쇄도</span>
+            <span>매우 굵게 (프렌치프레스급)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dilution Guide Box -->
+      <div style="margin-top:22px; background:rgba(0,0,0,0.3); border:1px solid var(--line); border-radius:var(--radius-lg); padding:20px;">
+        <h3 style="color:var(--spark); font-size:16px; margin-bottom:12px;">🥛 완성된 원액 맛있는 희석 레시피 (Serving Guide)</h3>
+        <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+          <div style="background:rgba(255,255,255,0.02); padding:12px 16px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="color:var(--cream); font-size:14px;">🧊 콜드브루 아메리카노</strong>
+              <span style="font-size:12px; color:var(--muted); display:block;">깔끔하고 달콤한 초콜릿 풍미</span>
+            </div>
+            <span style="font-weight:800; color:var(--oak); font-size:14px;">원액 1 : 물 2 + 얼음</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.02); padding:12px 16px; border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="color:var(--cream); font-size:14px;">🥛 극강의 고소함 콜드브루 라떼</strong>
+              <span style="font-size:12px; color:var(--muted); display:block;">우유와 만났을 때 폭발하는 묵직함</span>
+            </div>
+            <span style="font-weight:800; color:var(--spark); font-size:14px;">원액 1 : 우유 2~3 + 얼음</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Guide Content -->
+    <article class="guide-article">
+      <h2>콜드브루(Cold Brew) 침출의 과학: 왜 쓴맛이 적고 달콤할까?</h2>
+      <p>
+        뜨거운 물로 내리는 핸드드립과 달리, 차가운 물로 12시간 이상 천천히 우려내는 콜드브루는 <strong>열에 의해 추출되는 카페인과 거친 클로로겐산(쓴맛/떫은맛 유발 물질)의 용출이 60% 이상 억제</strong>됩니다.
+      </p>
+      <p>
+        대신 원두 자체의 지용성 향기 분자와 자연스러운 단맛 성분이 저온 환경에서 서서히 녹아 나오기 때문에 위장에 부담이 적고, 냉장 보관 시 와인처럼 향미가 차분해지는 숙성 효과를 경험할 수 있습니다.
+      </p>
+    </article>
+
+    <footer class="footer">
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7;">
+        투머스 (toomus) | 대표: 김민호 | 사업자등록번호: 604-30-53081<br>
+        소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐) | 이메일: hello@toomus.com
+      </div>
+      <p>© 2026 BrewOak by toomus. All rights reserved.</p>
+      <p style="margin-top:6px;">
+        <a href="../about.html">About</a> · 
+        <a href="../privacy.html">Privacy Policy</a> · 
+        <a href="../terms.html">Terms of Service</a> · 
+        <a href="../contact.html">Contact</a> · 
+        <a href="../">Ratio</a> · 
+        <a href="../degassing/">Degassing</a> · 
+        <a href="../timer/">Timer</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const elC = document.getElementById('cbCoffee');
+      const elR = document.getElementById('cbRatioSelect');
+      const elW = document.getElementById('cbTotalWater');
+      const elY = document.getElementById('cbYield');
+
+      function update() {
+        const c = parseFloat(elC.value) || 100;
+        const r = parseFloat(elR.value) || 8;
+        const totalW = Math.round(c * r);
+        const y = Math.max(0, Math.round(totalW - (c * 2)));
+        elW.textContent = `${totalW} ml`;
+        elY.textContent = `~${y} ml`;
+      }
+
+      elC.addEventListener('input', update);
+      elR.addEventListener('change', update);
+      document.querySelectorAll('[data-cb-coffee]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          elC.value = btn.dataset.cbCoffee;
+          update();
+        });
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>

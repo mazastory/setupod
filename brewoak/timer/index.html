@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrewOak | 푸어오버 4:6 드립 사운드 타이머 (4:6 Method Drip Timer)</title>
+  <meta name="description" content="세계 바리스타 챔피언 테츠 카스야의 4:6 핸드드립 공식에 맞춘 인터랙티브 사운드 타이머. 단계별 물 주입량과 타이밍을 비프음으로 안내합니다.">
+  <meta name="keywords" content="4:6 추출법, 핸드드립 타이머, 푸어오버 타이머, 테츠 카스야 4:6, 하리오 V60 타이머, drip timer, pour over timer">
+  <link rel="canonical" href="https://brewoak.com/timer/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brewoak.com/timer/">
+  <meta property="og:title" content="BrewOak | 푸어오버 4:6 드립 사운드 타이머">
+  <meta property="og:description" content="비프음으로 리듬을 맞춰주는 바리스타용 정밀 4:6 드립 타이머">
+  <meta property="og:image" content="https://brewoak.com/assets/og_image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BrewOak 4:6 Drip Timer",
+    "url": "https://brewoak.com/timer/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Interactive audio-assisted drip timer implementing Tetsu Kasuya's 4:6 method."
+  }
+  </script>
+
+  <style>
+    .timer-stage-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .timer-stage-card.active {
+      border-color: var(--oak);
+      background: linear-gradient(135deg, rgba(232, 163, 89, 0.2), rgba(26, 18, 14, 0.9));
+      box-shadow: 0 4px 20px var(--oak-glow);
+      transform: translateX(4px);
+    }
+    .big-timer-box {
+      background: linear-gradient(145deg, #18120E, #0E0A07);
+      border: 1.5px solid var(--line-strong);
+      border-radius: var(--radius-xl);
+      padding: 32px 20px;
+      text-align: center;
+      margin: 20px 0;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <div class="container">
+    <header class="header">
+      <a href="../" class="brand-wrap">
+        <div class="brand-icon">⏱️</div>
+        <div class="brand-title">Brew<span>Oak</span></div>
+      </a>
+      <div class="header-actions">
+        <a href="../" class="toggle-btn" style="text-decoration:none;">☕ 비율 계산기</a>
+        <a href="../degassing/" class="toggle-btn" style="text-decoration:none;">⏳ 디개싱</a>
+        <span class="toggle-btn active">⏱️ 4:6 타이머</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="brew-stage">
+        <svg viewBox="0 0 120 130" role="img" aria-label="브루 타이머">
+          <use href="#barrel"/><use href="#lid"/>
+          <ellipse cx="49" cy="76" rx="5" ry="6.5" fill="#2A211B"/><circle cx="50.8" cy="73.6" r="2" fill="#fff"/>
+          <ellipse cx="71" cy="76" rx="5" ry="6.5" fill="#2A211B"/><circle cx="72.8" cy="73.6" r="2" fill="#fff"/>
+          <path d="M52 84 Q60 93 68 84 Q60 88 52 84 Z" fill="#6B2E22" stroke="#2A211B" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><span class="speech-bubble">비프음에 맞춰 45초마다 리듬감 있게 물을 부어주세요!</span></div>
+      <h1>푸어오버 4:6 드립 사운드 타이머</h1>
+      <p>물 40%로 산미와 단맛을, 남은 60%로 농도를 조절하는 테츠 카스야 공식</p>
+    </section>
+
+    <!-- Main Timer Card -->
+    <main class="calc-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <label for="timerCoffee" style="font-weight:700; color:var(--muted); font-size:14px;">원두량 설정:</label>
+          <input type="number" id="timerCoffee" value="20" min="10" max="60" step="1" class="calc-input" style="width:100px; padding:8px 12px; font-size:18px;">
+          <span style="color:var(--oak); font-weight:700;">g</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <label style="font-size:13px; color:var(--muted); cursor:pointer; display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="toggleSound" checked> 🔔 알림 비프음
+          </label>
+        </div>
+      </div>
+
+      <!-- Big Timer Display -->
+      <div class="big-timer-box">
+        <div id="bigTimerDisplay" style="font-size: 64px; font-weight: 900; color: var(--spark); font-variant-numeric: tabular-nums; letter-spacing: 0.05em;">00:00</div>
+        
+        <div style="margin-top: 14px;">
+          <div id="activeStageName" style="font-size: 20px; font-weight: 800; color: var(--cream);">대기 중</div>
+          <div id="activeStageDesc" style="font-size: 14px; color: var(--muted); margin: 6px 0;">시작 버튼을 누르면 1차 푸어(뜸들이기)가 시작됩니다.</div>
+          <div id="activeStageTarget" style="font-size: 16px; font-weight: 800; color: var(--oak);">목표 누적수: 60 ml</div>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:12px; margin-top:24px;">
+          <button type="button" class="timer-btn primary" id="btnStartTimer" style="font-size:16px; padding:12px 32px;">시작</button>
+          <button type="button" class="timer-btn" id="btnResetTimer" style="font-size:16px; padding:12px 24px;">초기화</button>
+        </div>
+      </div>
+
+      <!-- 5-Stage Schedule List -->
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+        <div class="timer-stage-card active">
+          <div>
+            <strong style="color:var(--cream); font-size:14px;">1차 푸어 (00:00 ~ 00:45)</strong>
+            <span style="font-size:12px; color:var(--muted); display:block;">뜸들이기 & 산미 형성 (전체 물의 20%)</span>
+          </div>
+          <div style="text-align:right;">
+            <div id="pourTarget1" style="font-weight:800; color:var(--spark);">+60 ml</div>
+            <div id="pourCum1" style="font-size:11px; color:var(--muted);">(누적 60 ml)</div>
+          </div>
+        </div>
+
+        <div class="timer-stage-card">
+          <div>
+            <strong style="color:var(--cream); font-size:14px;">2차 푸어 (00:45 ~ 01:30)</strong>
+            <span style="font-size:12px; color:var(--muted); display:block;">단맛과 밸런스 잡기 (전체 물의 20%)</span>
+          </div>
+          <div style="text-align:right;">
+            <div id="pourTarget2" style="font-weight:800; color:var(--spark);">+60 ml</div>
+            <div id="pourCum2" style="font-size:11px; color:var(--muted);">(누적 120 ml)</div>
+          </div>
+        </div>
+
+        <div class="timer-stage-card">
+          <div>
+            <strong style="color:var(--cream); font-size:14px;">3차 푸어 (01:30 ~ 02:15)</strong>
+            <span style="font-size:12px; color:var(--muted); display:block;">농도(Strength) 빌드업 1단계</span>
+          </div>
+          <div style="text-align:right;">
+            <div id="pourTarget3" style="font-weight:800; color:var(--spark);">+60 ml</div>
+            <div id="pourCum3" style="font-size:11px; color:var(--muted);">(누적 180 ml)</div>
+          </div>
+        </div>
+
+        <div class="timer-stage-card">
+          <div>
+            <strong style="color:var(--cream); font-size:14px;">4차 푸어 (02:15 ~ 03:00)</strong>
+            <span style="font-size:12px; color:var(--muted); display:block;">풍부한 바디감과 텍스처 완성</span>
+          </div>
+          <div style="text-align:right;">
+            <div id="pourTarget4" style="font-weight:800; color:var(--spark);">+60 ml</div>
+            <div id="pourCum4" style="font-size:11px; color:var(--muted);">(누적 240 ml)</div>
+          </div>
+        </div>
+
+        <div class="timer-stage-card">
+          <div>
+            <strong style="color:var(--cream); font-size:14px;">5차 푸어 (03:00 ~ 03:30)</strong>
+            <span style="font-size:12px; color:var(--muted); display:block;">최종 물 주입 및 낙하 완료</span>
+          </div>
+          <div style="text-align:right;">
+            <div id="pourTarget5" style="font-weight:800; color:var(--spark);">+60 ml</div>
+            <div id="pourCum5" style="font-size:11px; color:var(--muted);">(누적 300 ml)</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Guide Content -->
+    <article class="guide-article">
+      <h2>테츠 카스야(Tetsu Kasuya) 4:6 추출법의 원리와 철학</h2>
+      <p>
+        2016년 월드 브루어스 컵(World Brewers Cup) 챔피언인 테츠 카스야가 고안한 <strong>4:6 방식(4:6 Method)</strong>은 전 세계 스페셜티 커피 애호가들에게 가장 사랑받는 핸드드립 공식입니다. "누구나 쉽게 일관된 맛을 낼 수 있다"는 철학 아래 주입하는 물의 역할을 명확히 둘로 분리했습니다.
+      </p>
+      <ul style="color:var(--muted); font-size:14px; line-height:1.8; padding-left:20px; margin-bottom: 20px;">
+        <li><strong>앞의 40% (Taste: 산미와 단맛 조절)</strong>: 1차와 2차에 붓는 물의 양으로 맛의 성격을 결정합니다. 1차에 물을 적게 부으면 단맛이 강조되고, 1차에 물을 많이 부으면 밝은 과일 산미가 살아납니다.</li>
+        <li><strong>뒤의 60% (Strength: 농도와 바디 조절)</strong>: 남은 60%의 물을 3회(가장 대중적), 혹은 2회로 쪼개어 부음으로써 커피의 진하기와 마우스필을 조절합니다. 횟수를 늘릴수록 커피가 묵직해집니다.</li>
+      </ul>
+    </article>
+
+    <footer class="footer">
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7;">
+        투머스 (toomus) | 대표: 김민호 | 사업자등록번호: 604-30-53081<br>
+        소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐) | 이메일: hello@toomus.com
+      </div>
+      <p>© 2026 BrewOak by toomus. All rights reserved.</p>
+      <p style="margin-top:6px;">
+        <a href="../about.html">About</a> · 
+        <a href="../privacy.html">Privacy Policy</a> · 
+        <a href="../terms.html">Terms of Service</a> · 
+        <a href="../contact.html">Contact</a> · 
+        <a href="../">Ratio Calculator</a> · 
+        <a href="../degassing/">Degassing</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../js/timer.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrewOak | 홈카페 라떼 & 음료 배합 시뮬레이터 (Home Cafe Recipe Simulator)</title>
+  <meta name="description" content="바닐라빈 라떼, 아인슈페너, 플랫화이트 등 에스프레소(또는 콜드브루 원액), 우유, 시럽의 황금 배합 비율을 실시간 계산하는 홈카페 시뮬레이터.">
+  <meta name="keywords" content="홈카페 레시피, 라떼 비율, 바닐라라떼 레시피, 아인슈페너 비율, 에스프레소 우유 비율, latte calculator">
+  <link rel="canonical" href="https://brewoak.com/latte/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brewoak.com/latte/">
+  <meta property="og:title" content="BrewOak | 홈카페 라떼 & 음료 배합 시뮬레이터">
+  <meta property="og:description" content="에스프레소 샷, 우유, 시럽의 카페급 황금 비율 실시간 계산기">
+  <meta property="og:image" content="https://brewoak.com/assets/og_image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Google AdSense Verification Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BrewOak Home Cafe Recipe Simulator",
+    "url": "https://brewoak.com/latte/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "description": "Visual drink ratio and ingredient builder for cafe-style specialty beverages."
+  }
+  </script>
+
+  <style>
+    .cup-visual-box {
+      width: 140px;
+      height: 220px;
+      margin: 0 auto;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top: none;
+      border-radius: 0 0 24px 24px;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
+      background: rgba(0,0,0,0.3);
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .cup-layer {
+      width: 100%;
+      transition: height 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: #FFF;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .layer-shot { background: #3B2212; }
+    .layer-milk { background: #EDE4D8; color: #333 !important; text-shadow: none !important; }
+    .layer-syrup { background: #E8A359; }
+    .layer-cream { background: #FFFDF7; color: #444 !important; text-shadow: none !important; }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+
+  <div class="container">
+    <header class="header">
+      <a href="../" class="brand-wrap">
+        <div class="brand-icon">🥛</div>
+        <div class="brand-title">Brew<span>Oak</span></div>
+      </a>
+      <div class="header-actions">
+        <a href="../" class="toggle-btn" style="text-decoration:none;">☕ 비율</a>
+        <a href="../degassing/" class="toggle-btn" style="text-decoration:none;">⏳ 디개싱</a>
+        <a href="../timer/" class="toggle-btn" style="text-decoration:none;">⏱️ 타이머</a>
+        <a href="../coldbrew/" class="toggle-btn" style="text-decoration:none;">🧊 콜드브루</a>
+        <span class="toggle-btn active">🥛 라떼 빌더</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="brew-stage">
+        <svg viewBox="0 0 120 130" role="img" aria-label="브루 라떼">
+          <use href="#barrel"/><use href="#lid"/>
+          <ellipse cx="49" cy="76" rx="5" ry="6.5" fill="#2A211B"/><circle cx="50.8" cy="73.6" r="2" fill="#fff"/>
+          <ellipse cx="71" cy="76" rx="5" ry="6.5" fill="#2A211B"/><circle cx="72.8" cy="73.6" r="2" fill="#fff"/>
+          <path d="M52 84 Q60 93 68 84 Q60 88 52 84 Z" fill="#6B2E22" stroke="#2A211B" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div><span class="speech-bubble">취향에 따라 샷과 우유, 시럽 비율을 맞춰보세요!</span></div>
+      <h1>홈카페 라떼 & 음료 배합 시뮬레이터</h1>
+      <p>스페셜티 카페의 황금 레시피 프리셋과 컵 레이어 시각화</p>
+    </section>
+
+    <!-- Preset Selector -->
+    <nav class="method-tabs" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
+      <button type="button" class="method-tab active" data-drink="cafe_latte">
+        <span class="method-icon">🥛</span>
+        <span>카페라떼</span>
+      </button>
+      <button type="button" class="method-tab" data-drink="vanilla_latte">
+        <span class="method-icon">🍯</span>
+        <span>바닐라빈 라떼</span>
+      </button>
+      <button type="button" class="method-tab" data-drink="flat_white">
+        <span class="method-icon">☕</span>
+        <span>플랫화이트</span>
+      </button>
+      <button type="button" class="method-tab" data-drink="einspanner">
+        <span class="method-icon">🍨</span>
+        <span>아인슈페너</span>
+      </button>
+    </nav>
+
+    <!-- Main Card -->
+    <main class="calc-card">
+      <div class="calc-grid" style="align-items:center;">
+        <div>
+          <!-- Cup Visualizer -->
+          <div class="cup-visual-box">
+            <div class="cup-layer layer-syrup" id="layerSyrup" style="height:0%;">시럽</div>
+            <div class="cup-layer layer-milk" id="layerMilk" style="height:65%;">우유 180ml</div>
+            <div class="cup-layer layer-shot" id="layerShot" style="height:35%;">샷 60ml</div>
+            <div class="cup-layer layer-cream" id="layerCream" style="height:0%;">크림</div>
+          </div>
+          <div style="text-align:center; margin-top:12px; font-size:14px; color:var(--spark); font-weight:800;" id="totalVolumeText">총 용량: 240 ml</div>
+        </div>
+
+        <div>
+          <h3 id="drinkTitle" style="color:var(--cream); font-size:20px; font-weight:800; margin-bottom:6px;">카페라떼 (Caffe Latte)</h3>
+          <p id="drinkDesc" style="color:var(--muted); font-size:13px; margin-bottom:16px;">에스프레소 투샷에 실키한 스팀밀크를 더해 고소함을 극대화한 클래식</p>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:var(--radius-sm); border:1px solid var(--line); display:flex; justify-content:space-between;">
+              <span style="font-size:13px; color:var(--muted);">에스프레소 샷:</span>
+              <strong id="ingShot" style="color:var(--spark);">60 ml (2 Shots)</strong>
+            </div>
+            <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:var(--radius-sm); border:1px solid var(--line); display:flex; justify-content:space-between;">
+              <span style="font-size:13px; color:var(--muted);">우유 (Milk):</span>
+              <strong id="ingMilk" style="color:var(--text);">180 ml</strong>
+            </div>
+            <div style="background:rgba(0,0,0,0.3); padding:10px 14px; border-radius:var(--radius-sm); border:1px solid var(--line); display:flex; justify-content:space-between;">
+              <span style="font-size:13px; color:var(--muted);">시럽 / 크림:</span>
+              <strong id="ingExtra" style="color:var(--oak);">-</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Guide Content -->
+    <article class="guide-article">
+      <h2>집에서 카페 라떼 맛을 재현하는 핵심 비밀 3가지</h2>
+      <ul style="color:var(--muted); font-size:14px; line-height:1.8; padding-left:20px;">
+        <li><strong>우유의 온도(60~65°C)</strong>: 우유 속 젖당(Lactose)은 60~65°C 사이에서 가장 강한 단맛을 냅니다. 70°C를 넘어가면 단백질 변성으로 비린내가 나므로 너무 뜨겁게 데우지 마세요.</li>
+        <li><strong>원두는 강배전 또는 고소한 블렌드</strong>: 산미가 너무 강한 원두는 우유와 만났을 때 요거트처럼 시큼해질 수 있습니다. 초콜릿, 견과류 톤의 중강배전 원두가 우유와 최고의 마리아주를 이룹니다.</li>
+        <li><strong>얼음은 단단한 돌얼음 사용</strong>: 가정용 냉장고의 무른 얼음은 3분 만에 녹아 라떼를 맹탕으로 만듭니다. 편의점 돌얼음을 쓰면 마지막 한 방울까지 진하게 즐길 수 있습니다.</li>
+      </ul>
+    </article>
+
+    <footer class="footer">
+      <div style="font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7;">
+        투머스 (toomus) | 대표: 김민호 | 사업자등록번호: 604-30-53081<br>
+        소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐) | 이메일: hello@toomus.com
+      </div>
+      <p>© 2026 BrewOak by toomus. All rights reserved.</p>
+      <p style="margin-top:6px;">
+        <a href="../about.html">About</a> · 
+        <a href="../privacy.html">Privacy Policy</a> · 
+        <a href="../terms.html">Terms of Service</a> · 
+        <a href="../contact.html">Contact</a> · 
+        <a href="../">Ratio</a> · 
+        <a href="../degassing/">Degassing</a> · 
+        <a href="../timer/">Timer</a> · 
+        <a href="../coldbrew/">Cold Brew</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const RECIPES = {
+        cafe_latte: { name: "카페라떼", desc: "에스프레소 투샷에 실키한 우유를 더한 정석 레시피", shot: 60, milk: 180, syrup: 0, cream: 0, extraTxt: "-" },
+        vanilla_latte: { name: "바닐라빈 라떼", desc: "고급 바닐라 시럽 25ml가 더해져 풍부한 달콤함을 자랑하는 인기 메뉴", shot: 60, milk: 160, syrup: 25, cream: 0, extraTxt: "바닐라시럽 25ml" },
+        flat_white: { name: "플랫화이트", desc: "우유 양을 줄여(1:2 비율) 에스프레소의 묵직한 질감을 선명하게 살린 음료", shot: 60, milk: 120, syrup: 0, cream: 0, extraTxt: "-" },
+        einspanner: { name: "아인슈페너 (비엔나 커피)", desc: "진한 커피 베이스 위에 쫀쫀하고 달콤한 동물성 생크림을 얹은 클래식", shot: 60, milk: 80, syrup: 10, cream: 60, extraTxt: "아인슈페너 크림 60ml" }
+      };
+
+      function setRecipe(key) {
+        const r = RECIPES[key];
+        const total = r.shot + r.milk + r.syrup + r.cream;
+        document.getElementById('drinkTitle').textContent = r.name;
+        document.getElementById('drinkDesc').textContent = r.desc;
+        document.getElementById('ingShot').textContent = `${r.shot} ml`;
+        document.getElementById('ingMilk').textContent = `${r.milk} ml`;
+        document.getElementById('ingExtra').textContent = r.extraTxt;
+        document.getElementById('totalVolumeText').textContent = `총 용량: ${total} ml`;
+
+        // Layers
+        document.getElementById('layerShot').style.height = `${(r.shot / total) * 100}%`;
+        document.getElementById('layerShot').textContent = `샷 ${r.shot}ml`;
+
+        document.getElementById('layerMilk').style.height = `${(r.milk / total) * 100}%`;
+        document.getElementById('layerMilk').textContent = `우유 ${r.milk}ml`;
+
+        const elSyrup = document.getElementById('layerSyrup');
+        elSyrup.style.height = `${(r.syrup / total) * 100}%`;
+        elSyrup.style.display = r.syrup > 0 ? 'flex' : 'none';
+        if (r.syrup > 0) elSyrup.textContent = `시럽 ${r.syrup}ml`;
+
+        const elCream = document.getElementById('layerCream');
+        elCream.style.height = `${(r.cream / total) * 100}%`;
+        elCream.style.display = r.cream > 0 ? 'flex' : 'none';
+        if (r.cream > 0) elCream.textContent = `크림 ${r.cream}ml`;
+      }
+
+      document.querySelectorAll('[data-drink]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-drink]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          setRecipe(btn.dataset.drink);
+        });
+      });
+      setRecipe('cafe_latte');
+    })();
+  </script>
+</body>
+</html>
