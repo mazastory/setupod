@@ -165,7 +165,7 @@
   };
 
   // --- State Variables ---
-  let currentLang = 'ko';
+  let currentLang = document.documentElement.lang === 'en' ? 'en' : 'ko';
   let currentUnit = 'metric'; // 'metric' (g/ml) or 'imperial' (oz/fl oz)
   let currentMethod = 'pour_over';
   let coffeeVal = 20; // internal always in grams
