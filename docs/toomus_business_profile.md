@@ -22,11 +22,11 @@
 
 ### ① brewoak.com (BrewOak)
 - **성격**: 스페셜티 커피 및 라이프스타일 버티컬 경량 웹 유틸리티
-- **대표 이메일**: `hello@toomus.com`
+- **대표 이메일**: `hello@brewoak.com` (Cloudflare Email Routing 👉 `toomus07@gmail.com`)
 - **푸터 표준 문구**:
   ```html
   투머스 (toomus) | 대표: 김민호 | 사업자등록번호: 604-30-53081 | 전화: 010-8019-0700 | 팩스: 0504-371-7055<br>
-  소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐) | 이메일: hello@toomus.com
+  소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐) | 이메일: hello@brewoak.com
   ```
 
 ### ② setupod.com (SETUPOD)
