@@ -98,28 +98,61 @@ body {
   color: var(--oak);
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .toggle-btn {
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background: rgba(35, 25, 20, 0.75);
+  border: 1px solid rgba(232, 163, 89, 0.25);
   color: var(--muted);
   font-size: 13px;
   font-weight: 700;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 99px;
   cursor: pointer;
-  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  user-select: none;
 }
 
-.toggle-btn:hover, .toggle-btn.active {
-  color: var(--oak);
+.toggle-btn:hover {
+  color: var(--cream);
   border-color: var(--oak);
-  background: var(--panel-active);
+  background: rgba(232, 163, 89, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(232, 163, 89, 0.25);
+}
+
+.toggle-btn:active {
+  transform: translateY(0);
+}
+
+.toggle-btn.active {
+  color: #1A120B;
+  background: linear-gradient(135deg, #F2C14E, #E8A359);
+  border-color: #F2C14E;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(232, 163, 89, 0.45);
 }
 
 /* Hero Section & Character Stage */
@@ -315,21 +348,28 @@ body {
 
 .step-btn {
   flex: 1;
-  background: var(--panel-light);
+  background: rgba(35, 25, 20, 0.75);
   border: 1px solid var(--line);
   color: var(--muted);
   font-size: 12px;
   font-weight: 700;
-  padding: 6px 0;
+  padding: 8px 4px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+  user-select: none;
 }
 
 .step-btn:hover {
-  background: var(--panel-active);
-  color: var(--text);
+  background: rgba(232, 163, 89, 0.15);
+  color: var(--cream);
   border-color: var(--oak);
+  transform: translateY(-1px);
+}
+
+.step-btn:active {
+  transform: translateY(0);
+  background: rgba(232, 163, 89, 0.25);
 }
 
 /* Ratio & Strength Slider */
@@ -573,26 +613,58 @@ body {
 }
 
 .timer-btn {
-  background: var(--panel-light);
+  background: rgba(35, 25, 20, 0.85);
   border: 1px solid var(--line);
-  color: var(--text);
-  font-size: 13px;
+  color: var(--cream);
+  font-size: 16px;
   font-weight: 800;
-  padding: 8px 16px;
+  padding: 12px 28px;
   border-radius: 99px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.timer-btn:hover {
+  border-color: var(--oak);
+  background: rgba(232, 163, 89, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.timer-btn:active {
+  transform: translateY(0);
 }
 
 .timer-btn.primary {
-  background: var(--oak);
+  background: linear-gradient(135deg, #F2C14E, #E8A359);
   color: #1A120B;
-  border-color: var(--oak);
+  border-color: #F2C14E;
+  box-shadow: 0 6px 20px rgba(232, 163, 89, 0.4);
 }
 
 .timer-btn.primary:hover {
-  background: var(--oak-hover);
-  box-shadow: 0 4px 14px var(--oak-glow);
+  background: linear-gradient(135deg, #FFD268, #F0B06A);
+  box-shadow: 0 8px 26px rgba(232, 163, 89, 0.55);
+  transform: translateY(-2px);
+}
+
+.timer-btn.running {
+  background: linear-gradient(135deg, #E06C54, #C0422B);
+  color: #FFFFFF;
+  border-color: #E06C54;
+  box-shadow: 0 6px 20px rgba(224, 108, 84, 0.4);
+}
+
+.timer-btn.running:hover {
+  background: linear-gradient(135deg, #EB7E68, #CE4E37);
+  box-shadow: 0 8px 26px rgba(224, 108, 84, 0.55);
+  transform: translateY(-2px);
 }
 
 /* Gear & Affiliate Recommendation Card */

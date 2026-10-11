@@ -52,7 +52,7 @@
   function calculatePours() {
     coffeeWeight = parseFloat(elCoffee.value) || 20;
     totalWater = Math.round(coffeeWeight * 15);
-    elWater.textContent = `${totalWater} ml`;
+    if (elWater) elWater.textContent = `${totalWater} ml`;
 
     const singlePour = Math.round(totalWater / 5);
     for (let i = 1; i <= 5; i++) {
@@ -106,8 +106,9 @@
   function startTimer() {
     if (!isRunning) {
       isRunning = true;
-      elStart.textContent = "일시정지";
-      elStart.classList.add('primary');
+      elStart.innerHTML = "⏸ 일시정지";
+      elStart.classList.add('running');
+      elStart.classList.remove('primary');
       if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
       playBeep(880, 0.2);
 
@@ -118,12 +119,16 @@
         if (currentSeconds >= 220) {
           clearInterval(timerInterval);
           isRunning = false;
-          elStart.textContent = "시작";
+          elStart.innerHTML = "▶ 시작";
+          elStart.classList.remove('running');
+          elStart.classList.add('primary');
         }
       }, 1000);
     } else {
       isRunning = false;
-      elStart.textContent = "계속하기";
+      elStart.innerHTML = "▶ 계속하기";
+      elStart.classList.remove('running');
+      elStart.classList.add('primary');
       clearInterval(timerInterval);
     }
   }
@@ -133,7 +138,9 @@
     clearInterval(timerInterval);
     currentSeconds = 0;
     elDisplay.textContent = "00:00";
-    elStart.textContent = "시작";
+    elStart.innerHTML = "▶ 시작";
+    elStart.classList.remove('running');
+    elStart.classList.add('primary');
     elStageName.textContent = "대기 중";
     elStageDesc.textContent = "시작 버튼을 누르면 1차 푸어(뜸들이기)가 시작됩니다.";
     elStageTarget.textContent = `목표 누적수: ${Math.round(totalWater / 5)} ml`;
@@ -144,6 +151,12 @@
 
   function init() {
     elCoffee.addEventListener('input', calculatePours);
+    document.querySelectorAll('[data-timer-coffee]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        elCoffee.value = btn.dataset.timerCoffee;
+        calculatePours();
+      });
+    });
     elStart.addEventListener('click', startTimer);
     elReset.addEventListener('click', resetTimer);
     calculatePours();

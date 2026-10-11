@@ -73,9 +73,11 @@
         <div class="brand-title">Brew<span>Oak</span></div>
       </a>
       <div class="header-actions">
-        <a href="../" class="toggle-btn" style="text-decoration:none;">☕ 비율 계산기</a>
-        <a href="../degassing/" class="toggle-btn" style="text-decoration:none;">⏳ 디개싱</a>
+        <a href="../" class="toggle-btn">☕ 비율 계산기</a>
+        <a href="../degassing/" class="toggle-btn">⏳ 디개싱 D-day</a>
         <span class="toggle-btn active">⏱️ 4:6 타이머</span>
+        <a href="../coldbrew/" class="toggle-btn">🧊 콜드브루</a>
+        <a href="../latte/" class="toggle-btn">🥛 라떼 빌더</a>
       </div>
     </header>
 
@@ -95,16 +97,26 @@
 
     <!-- Main Timer Card -->
     <main class="calc-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <label for="timerCoffee" style="font-weight:700; color:var(--muted); font-size:14px;">원두량 설정:</label>
-          <input type="number" id="timerCoffee" value="20" min="10" max="60" step="1" class="calc-input" style="width:100px; padding:8px 12px; font-size:18px;">
-          <span style="color:var(--oak); font-weight:700;">g</span>
+      <div style="margin-bottom:20px; background:rgba(0,0,0,0.3); padding:16px; border-radius:var(--radius-md); border:1px solid var(--line);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <label for="timerCoffee" style="font-weight:700; color:var(--muted); font-size:14px;">원두량 설정:</label>
+            <input type="number" id="timerCoffee" value="20" min="10" max="60" step="1" class="calc-input" style="width:90px; padding:8px 12px; font-size:18px;">
+            <span style="color:var(--oak); font-weight:700;">g</span>
+            <span style="color:var(--muted); font-size:13px; margin-left:4px;">(총 물량: <strong id="timerWater" style="color:var(--spark);">300 ml</strong>)</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="font-size:13px; color:var(--muted); cursor:pointer; display:flex; align-items:center; gap:6px;">
+              <input type="checkbox" id="toggleSound" checked> 🔔 비프음 알림
+            </label>
+          </div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <label style="font-size:13px; color:var(--muted); cursor:pointer; display:flex; align-items:center; gap:6px;">
-            <input type="checkbox" id="toggleSound" checked> 🔔 알림 비프음
-          </label>
+        <div class="quick-steppers">
+          <button type="button" class="step-btn" data-timer-coffee="15">15g</button>
+          <button type="button" class="step-btn" data-timer-coffee="18">18g</button>
+          <button type="button" class="step-btn" data-timer-coffee="20">20g (표준)</button>
+          <button type="button" class="step-btn" data-timer-coffee="25">25g</button>
+          <button type="button" class="step-btn" data-timer-coffee="30">30g (2인)</button>
         </div>
       </div>
 
@@ -119,8 +131,8 @@
         </div>
 
         <div style="display:flex; justify-content:center; gap:12px; margin-top:24px;">
-          <button type="button" class="timer-btn primary" id="btnStartTimer" style="font-size:16px; padding:12px 32px;">시작</button>
-          <button type="button" class="timer-btn" id="btnResetTimer" style="font-size:16px; padding:12px 24px;">초기화</button>
+          <button type="button" class="timer-btn primary" id="btnStartTimer">▶ 시작</button>
+          <button type="button" class="timer-btn" id="btnResetTimer">↺ 초기화</button>
         </div>
       </div>
 
@@ -207,7 +219,9 @@
         <a href="../terms.html">Terms of Service</a> · 
         <a href="../contact.html">Contact</a> · 
         <a href="../">Ratio Calculator</a> · 
-        <a href="../degassing/">Degassing</a>
+        <a href="../degassing/">Degassing</a> · 
+        <a href="../coldbrew/">Cold Brew</a> · 
+        <a href="../latte/">Latte Builder</a>
       </p>
     </footer>
   </div>
