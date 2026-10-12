@@ -138,6 +138,46 @@ const PRODUCTS = [
     badge: "💎 최고 수익성",
     category: "gamification",
     features: ["암호/퀴즈 게이트웨이", "시크릿 쿠폰 원클릭 발급", "VIP 체류시간 대폭 증가", "바이럴 공유 트리거"]
+  },
+  {
+    id: "adsense",
+    tier: "premium",
+    name: "블로그 애드센스 일매출 & 자산가치 계산기",
+    tagline: "일일 방문자 수와 타겟 국가별 예상 월수익 및 Flippa 매각 가치 산출",
+    desc: "마자의 수많은 블로거, 워드프레스 운영자를 위한 필수 유틸리티. 예상 CTR과 국가별 eCPM을 실시간 계산하여 웹사이트의 잠재 가치를 시뮬레이션합니다.",
+    price: 39000,
+    commission_rate: 0.25,
+    maza_commission: 9750,
+    setupod_payout: 29250,
+    free_gift: {
+      title: "2026 고단가 애드센스 키워드 100선 & CPC 3배 상승 치트시트",
+      url: "https://setupod.com/leads/setupod_starter_kit.html"
+    },
+    preview_url: "https://setupod.com/adsense/index.html",
+    embed_url: "https://setupod.com/embed/adsense",
+    badge: "📈 블로거 필수템",
+    category: "blog",
+    features: ["국가별 eCPM 프리셋", "Flippa 30x 자산가치 산출", "일일/월간 원화 환산 차트", "고단가 키워드 리드 수집"]
+  },
+  {
+    id: "fx",
+    tier: "premium",
+    name: "해외직구 1초 관부가세 & 카드 수수료 계산기",
+    tagline: "실시간 환율 + 카드 수수료(1.2%) + 미국/일본/유럽 통관 과세 1초 계산",
+    desc: "해외 구매대행 셀러 및 직구 블로그 필수템. 상품 가격 입력 시 면세 범위($150~$200) 체크 및 복합 관부가세를 실시간 산출합니다.",
+    price: 35000,
+    commission_rate: 0.25,
+    maza_commission: 8750,
+    setupod_payout: 26250,
+    free_gift: {
+      title: "2026 무관세 해외직구 관부가세 절세 가이드북",
+      url: "https://setupod.com/leads/mazaus_fx_guide.html"
+    },
+    preview_url: "https://setupod.com/fx/index.html",
+    embed_url: "https://setupod.com/embed/fx",
+    badge: "✈️ 해외직구 특화",
+    category: "global",
+    features: ["USD/JPY/EUR 실시간 환산", "목록통관 면세 여부 자동 판별", "간이관세+부가세 18% 시뮬레이션", "최종 원가 계산기"]
   }
 ];
 

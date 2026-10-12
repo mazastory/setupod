@@ -104,6 +104,22 @@
       leadType: 'nomad_guide',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#38bdf8'
+    },
+    'adsense': {
+      title: '2026 고단가 애드센스 키워드 100선 & CPC 3배 상승 치트시트',
+      desc: '블로그 일일 수익과 Flippa 매각 가치를 끌어올리는 고단가 키워드 목록을 무료 제공합니다.',
+      badge: '💰 애드센스 특별 리포트',
+      leadType: 'adsense_guide',
+      downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
+      themeColor: '#f59e0b'
+    },
+    'fx': {
+      title: '2026 무관세 해외직구 관부가세 절세 가이드북',
+      desc: '국가별 면세 기준과 해외 카드 수수료를 0%로 아끼는 직구 절세 노하우를 무료 드립니다.',
+      badge: '✈️ 해외직구 절세 가이드',
+      leadType: 'fx_guide',
+      downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
+      themeColor: '#38bdf8'
     }
   };
 
@@ -119,7 +135,7 @@
       var host = options.domain || window.location.hostname.replace(/^www\./, '');
       var params = new URLSearchParams(window.location.search);
       
-      // 경로 기반 팟 감지 (/planner, /bizcard, /margin, /runway, /nomad 등)
+      // 경로 기반 팟 감지
       var path = window.location.pathname.toLowerCase();
       var pathPod = '';
       if (path.indexOf('/planner') !== -1) pathPod = 'planner';
@@ -129,6 +145,8 @@
       else if (path.indexOf('/brewoak') !== -1) pathPod = 'brewoak';
       else if (path.indexOf('/runway') !== -1) pathPod = 'runway';
       else if (path.indexOf('/nomad') !== -1) pathPod = 'nomad';
+      else if (path.indexOf('/adsense') !== -1) pathPod = 'adsense';
+      else if (path.indexOf('/fx') !== -1) pathPod = 'fx';
 
       var podId = options.podId || params.get('podId') || params.get('pod_id') || pathPod || '';
 

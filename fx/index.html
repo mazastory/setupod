@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>해외직구 1초 관부가세 & 카드 수수료 계산기 | SETUPOD</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="/js/maza-telemetry.js"></script>
+  <script src="/js/lead-magnet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: #090d16;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+    }
+    .calc-card {
+      width: 100%;
+      max-width: 640px;
+      background: #111827;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      padding: 36px 30px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 30px rgba(56,189,248,0.12);
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(56,189,248,0.15);
+      border: 1px solid rgba(56,189,248,0.4);
+      border-radius: 9999px;
+      color: #38bdf8;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; color: #fff; }
+    p.sub { font-size: 13.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 24px; }
+    .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+    @media (max-width: 500px) { .input-grid { grid-template-columns: 1fr; } }
+    .input-box { display: flex; flex-direction: column; gap: 6px; }
+    .input-box label { font-size: 12.5px; font-weight: 700; color: #cbd5e1; }
+    .input-box input, .input-box select {
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-box input:focus, .input-box select:focus { border-color: #38bdf8; }
+    .res-box {
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.25);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 10px;
+    }
+    .res-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .res-row:last-child { margin-bottom: 0; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); }
+    .res-label { font-size: 13px; color: #94a3b8; font-weight: 600; }
+    .res-val { font-size: 16px; font-weight: 800; color: #fff; }
+    .res-val.total { color: #38bdf8; font-size: 22px; font-weight: 900; }
+    .tax-badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); margin-left: 6px; }
+    .btn-lead {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 14.5px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 22px;
+      box-shadow: 0 6px 20px rgba(2,132,199,0.3);
+      transition: all 0.2s;
+    }
+    .btn-lead:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+  <div class="calc-card">
+    <div class="badge">✈️ GLOBAL FX & TARIFF CALCULATOR</div>
+    <h1>해외직구 관부가세 & 카드 수수료 계산기</h1>
+    <p class="sub">상품 가격(달러/엔/유로)을 넣으면 실시간 환율과 카드 수수료, 관세·부가세 면세 여부를 1초 만에 확인합니다.</p>
+
+    <div class="input-grid">
+      <div class="input-box">
+        <label>통화 선택</label>
+        <select id="inpCurrency" onchange="calculate()">
+          <option value="USD" selected>미국 USD ($)</option>
+          <option value="JPY">일본 JPY (¥)</option>
+          <option value="EUR">유럽 EUR (€)</option>
+        </select>
+      </div>
+      <div class="input-box">
+        <label>현지 상품 가격</label>
+        <input type="number" id="inpPrice" value="180" min="1" step="1" oninput="calculate()">
+      </div>
+      <div class="input-box">
+        <label>국제 배송비 ($ 기준 환산)</label>
+        <input type="number" id="inpShipping" value="15" min="0" step="1" oninput="calculate()">
+      </div>
+      <div class="input-box">
+        <label>해외 카드 결제 수수료율 (%)</label>
+        <input type="number" id="inpFeeRatio" value="1.2" min="0" max="5" step="0.1" oninput="calculate()">
+      </div>
+    </div>
+
+    <div class="res-box">
+      <div class="res-row">
+        <span class="res-label">원화 환산 상품가 (수수료 포함)</span>
+        <span class="res-val" id="outWonPrice">251,800원</span>
+      </div>
+      <div class="res-row">
+        <span class="res-label">통관 과세 여부 <span class="tax-badge" id="outTaxStatus">미국 $200 이하 면세</span></span>
+        <span class="res-val" id="outTaxEligibility">면세 (관세 0원)</span>
+      </div>
+      <div class="res-row">
+        <span class="res-label">예상 관세 + 부가세 (18%)</span>
+        <span class="res-val" id="outTaxAmount">0원</span>
+      </div>
+      <div class="res-row">
+        <span class="res-label">최종 수령 총 비용</span>
+        <span class="res-val total" id="outTotalPrice">272,500원</span>
+      </div>
+    </div>
+
+    <button class="btn-lead" onclick="if(window.LeadMagnet){LeadMagnet.open();}">
+      🎁 2026 무관세 해외직구 관부가세 절세 가이드북 무료 받기
+    </button>
+  </div>
+
+  <script>
+    const RATES = { USD: 1380, JPY: 9.1, EUR: 1510 };
+
+    function calculate() {
+      const cur = document.getElementById('inpCurrency').value;
+      const price = parseFloat(document.getElementById('inpPrice').value) || 0;
+      const shipUsd = parseFloat(document.getElementById('inpShipping').value) || 0;
+      const fee = (parseFloat(document.getElementById('inpFeeRatio').value) || 1.2) / 100;
+
+      const rate = RATES[cur] || 1380;
+      const priceKrw = (price * rate) * (1 + fee);
+      const shipKrw = shipUsd * RATES.USD;
+
+      // 미국은 $200 이하, 타 국가는 $150 이하 목록통관 면세
+      let usdVal = price;
+      if (cur === 'JPY') usdVal = (price * 9.1) / 1380;
+      if (cur === 'EUR') usdVal = (price * 1510) / 1380;
+
+      const threshold = (cur === 'USD') ? 200 : 150;
+      const isTaxable = usdVal > threshold;
+
+      let taxAmount = 0;
+      if (isTaxable) {
+        // 간이관세 대략 8% + 부가세 10% = 약 18.8%
+        taxAmount = (priceKrw + shipKrw) * 0.188;
+      }
+
+      const total = priceKrw + shipKrw + taxAmount;
+
+      document.getElementById('outWonPrice').innerText = Math.round(priceKrw).toLocaleString() + '원';
+      document.getElementById('outTaxStatus').innerText = cur + ' $' + threshold + ' 초과 시 과세';
+      document.getElementById('outTaxEligibility').innerText = isTaxable ? '과세 대상 (초과)' : '면세 대상 (0원)';
+      document.getElementById('outTaxEligibility').style.color = isTaxable ? '#f87171' : '#34d399';
+      document.getElementById('outTaxAmount').innerText = Math.round(taxAmount).toLocaleString() + '원';
+      document.getElementById('outTotalPrice').innerText = Math.round(total).toLocaleString() + '원';
+    }
+    calculate();
+  </script>
+</body>
+</html>

@@ -76,6 +76,22 @@
       "destination": "/nomad/index.html"
     },
     {
+      "source": "/adsense",
+      "destination": "/adsense/index.html"
+    },
+    {
+      "source": "/adsense/(.*)",
+      "destination": "/adsense/index.html"
+    },
+    {
+      "source": "/fx",
+      "destination": "/fx/index.html"
+    },
+    {
+      "source": "/fx/(.*)",
+      "destination": "/fx/index.html"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },
