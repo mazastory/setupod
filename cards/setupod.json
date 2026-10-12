@@ -18,8 +18,8 @@
     "올인원 멀티링크"
   ],
   "logo": {
-    "src": "assets/setupod.gif",
-    "fallback": "assets/setupod.gif",
+    "src": "/assets/setupod.gif",
+    "fallback": "/assets/setupod_symbol.png",
     "alt": "SETUPOD Logo"
   },
   "primaryAction": {

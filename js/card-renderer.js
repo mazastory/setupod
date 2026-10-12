@@ -272,7 +272,15 @@ function populateCard(data) {
   // 워터마크
   renderWatermark(data.companyWatermark || data.company);
 
-  // 로고 이미지
+  // 로고 이미지 (절대 경로 정규화 & 무한 onerror 루프 완전 차단)
+  function resolveAssetUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:') || url.startsWith('blob:') || url.startsWith('/')) {
+      return url;
+    }
+    return '/' + url;
+  }
+
   const frontLogoImg = document.getElementById('frontLogoImg');
   const backLogoImg = document.getElementById('backLogoImg');
   if (data.logo === false || (data.logo && data.logo.src === "")) {
@@ -281,19 +289,24 @@ function populateCard(data) {
     if (fContainer) fContainer.style.display = 'none';
     if (bContainer) bContainer.style.display = 'none';
   } else if (data.logo) {
+    const primarySrc = resolveAssetUrl(data.logo.src || '/assets/setupod.gif');
+    const fallbackSrc = resolveAssetUrl(data.logo.fallback || '/assets/setupod_symbol.png');
+
     if (frontLogoImg) {
-      frontLogoImg.src = data.logo.src;
+      frontLogoImg.onerror = function() {
+        this.onerror = null; // 무한 재귀 깜빡임 완전 방지
+        this.src = fallbackSrc;
+      };
+      frontLogoImg.src = primarySrc;
       frontLogoImg.alt = data.logo.alt || data.company;
-      if (data.logo.fallback) {
-        frontLogoImg.onerror = () => { frontLogoImg.src = data.logo.fallback; };
-      }
     }
     if (backLogoImg) {
-      backLogoImg.src = data.logo.src;
+      backLogoImg.onerror = function() {
+        this.onerror = null; // 무한 재귀 깜빡임 완전 방지
+        this.src = fallbackSrc;
+      };
+      backLogoImg.src = primarySrc;
       backLogoImg.alt = data.logo.alt || data.company;
-      if (data.logo.fallback) {
-        backLogoImg.onerror = () => { backLogoImg.src = data.logo.fallback; };
-      }
     }
   }
 

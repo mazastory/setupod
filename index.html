@@ -665,11 +665,11 @@
     }
 
     .stream-track.glide-left {
-      animation: streamGlideLeft 55s linear infinite;
+      animation: streamGlideLeft 85s linear infinite;
     }
 
     .stream-track.glide-right {
-      animation: streamGlideRight 55s linear infinite;
+      animation: streamGlideRight 90s linear infinite;
     }
 
     .stream-track:hover {
@@ -691,31 +691,31 @@
       100% { transform: translateX(0); }
     }
 
-    /* ── Product Card (콤팩트 & 3D 네온 프리미엄) ── */
+    /* ── Product Card (기본: 차분한 흑백 모노크롬 럭셔리 -> 호버: 영롱한 컬러풀 점등) ── */
     .product-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.025);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
       position: relative;
     }
 
     .product-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(168, 85, 247, 0.45);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.22);
-      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-5px);
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65), 0 0 24px rgba(168, 85, 247, 0.25);
+      background: rgba(255, 255, 255, 0.045);
     }
 
-    /* Thumbnail Area (콤팩트 140px & 3D 아이콘 무대) */
+    /* Thumbnail Area (기본: 흑백 모노크롬 & 저부하 -> 호버: 환한 풀컬러 블룸) */
     .card-thumb {
       position: relative;
       width: 100%;
       height: 140px;
-      background: #0b0814;
+      background: #08060f;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -723,6 +723,14 @@
       justify-content: center;
       gap: 8px;
       padding-top: 14px;
+      filter: grayscale(1) brightness(0.92);
+      opacity: 0.88;
+      transition: filter 0.35s ease, opacity 0.35s ease;
+    }
+
+    .product-card:hover .card-thumb {
+      filter: grayscale(0) brightness(1);
+      opacity: 1;
     }
 
     .card-thumb-bg {
@@ -730,7 +738,7 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: 0.88;
+      opacity: 0.75;
       transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
@@ -751,23 +759,23 @@
       width: 66px;
       height: 66px;
       border-radius: 18px;
-      background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 55%, rgba(12, 10, 22, 0.82) 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 55%, rgba(12, 10, 22, 0.85) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 36px;
       filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 32px rgba(168, 85, 247, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.55);
-      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
       user-select: none;
     }
 
     .product-card:hover .card-center-icon {
       transform: scale(1.08) translateY(-3px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 45px rgba(168, 85, 247, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.7);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 35px rgba(168, 85, 247, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.7);
     }
 
     .thumb-sub-pill {
@@ -778,12 +786,12 @@
       gap: 5px;
       padding: 3px 9px;
       border-radius: 99px;
-      background: rgba(10, 8, 18, 0.82);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
+      background: rgba(10, 8, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(6px);
       font-size: 10.5px;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.75);
       letter-spacing: -0.01em;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
       transition: all 0.25s ease;
@@ -801,6 +809,12 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
+      background: #9ca3af;
+      box-shadow: none;
+      transition: all 0.25s ease;
+    }
+
+    .product-card:hover .thumb-sub-pill .m-status-dot {
       background: #34d399;
       box-shadow: 0 0 6px #34d399;
     }
@@ -812,6 +826,14 @@
       display: flex;
       gap: 4px;
       z-index: 3;
+      filter: grayscale(1);
+      opacity: 0.75;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    .product-card:hover .card-badge-top {
+      filter: grayscale(0);
+      opacity: 1;
     }
 
     .badge-pill {

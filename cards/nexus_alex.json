@@ -19,8 +19,8 @@
     "기업 공식명함"
   ],
   "logo": {
-    "src": "assets/setupod.gif",
-    "fallback": "assets/setupod.gif",
+    "src": "/assets/setupod.gif",
+    "fallback": "/assets/setupod_symbol.png",
     "alt": "NEXUS GLOBAL Logo"
   },
   "primaryAction": {
