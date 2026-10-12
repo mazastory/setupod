@@ -32,6 +32,10 @@
       "destination": "/bizcard/link.html"
     },
     {
+      "source": "/embed/:podId*",
+      "destination": "/embed/index.html"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },

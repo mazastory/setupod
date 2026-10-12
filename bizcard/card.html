@@ -1011,5 +1011,11 @@
   <!-- Dynamic Card Renderer Engine Script -->
   <script src="../js/card-renderer.js"></script>
   <script src="../js/toast.js"></script>
+  <script src="../js/maza-telemetry.js"></script>
+  <script>
+    if (window.MazaTelemetry) {
+      window.MazaTelemetry.init({ podId: 'bizcard3d' });
+    }
+  </script>
 </body>
 </html>

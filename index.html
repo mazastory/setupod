@@ -3090,6 +3090,28 @@
         </div>
       </div>
 
+      <!-- MAZA 디지털 자산 장학 프로그램 제휴 연동 배너 -->
+      <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.15)); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 14px; padding: 12px 14px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 10px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; color: #fbbf24; flex-shrink: 0;">
+            <i data-lucide="award" style="width: 18px; height: 18px;"></i>
+          </div>
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
+              <span>MAZA 스튜디오 장학 연동</span>
+              <span style="font-size: 10px; font-weight: 900; background: rgba(245, 158, 11, 0.25); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 9999px;">100% 무료 장학 팟</span>
+            </div>
+            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.65); margin-top: 2px;">
+              마자 회원은 보유 도메인에 셋업팟을 즉시 무상 장착하고 트래픽 관제를 받을 수 있습니다.
+            </div>
+          </div>
+        </div>
+        <a href="https://mazastudio.kr" target="_blank" rel="noopener noreferrer" style="flex-shrink: 0; padding: 7px 12px; background: #6366f1; border-radius: 10px; color: #ffffff; text-decoration: none; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s;">
+          <span>마자 연결</span>
+          <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+        </a>
+      </div>
+
       <form id="orderForm" onsubmit="submitOrder(event)">
         <div class="form-group">
           <label for="orderProduct">분양 희망 웹 비즈니스</label>
@@ -3351,6 +3373,15 @@
         safeCreateIcons();
       }
     });
+  </script>
+  <script src="/js/maza-telemetry.js"></script>
+  <script>
+    if (window.MazaTelemetry) {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('domain')) {
+        window.MazaTelemetry.init({ podId: 'market' });
+      }
+    }
   </script>
 </body>
 </html>
