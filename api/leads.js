@@ -74,6 +74,8 @@ module.exports = async (req, res) => {
         email: normalizedEmail,
         phone: resolvedPhone,
         kakao_id: resolvedKakao,
+        pod_id: pod_id || 'planner',
+        gift_name: gift_title || null,
         name: name || null,
         source: resolvedSource,
         metadata: {
