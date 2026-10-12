@@ -89,12 +89,12 @@
       }
     }
 
-    let visibleLimit = 8;
-    const PAGE_SIZE = 8;
+    let visibleLimit = 10;
+    const PAGE_SIZE = 10;
 
     function filterProducts(resetLimit = true) {
       if (resetLimit) {
-        visibleLimit = 8;
+        visibleLimit = 10;
       }
       const searchInput = document.getElementById('searchInput');
       const searchKeyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
@@ -331,11 +331,11 @@
 
     .kmong-hero-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(26px, 3.2vw, 42px);
+      font-size: clamp(28px, 3.4vw, 44px);
       font-weight: 900;
       letter-spacing: -0.03em;
-      line-height: 1.3;
-      margin-bottom: 14px;
+      line-height: 1.25;
+      margin-bottom: 16px;
       color: #fff;
     }
 
@@ -350,7 +350,7 @@
       font-size: 14.5px;
       color: rgba(255, 255, 255, 0.65);
       line-height: 1.65;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
       max-width: 580px;
     }
 
@@ -447,9 +447,9 @@
       transform: translateY(-1px);
     }
 
-    /* Right Column: Spotlight Feature Card (Kmong Top Banner) */
+    /* Right Column: Spotlight Feature Card Slider (Kmong Style Auto-Sliding Card) */
     .kmong-spotlight-card {
-      background: linear-gradient(145deg, rgba(26, 17, 45, 0.8) 0%, rgba(13, 10, 24, 0.95) 100%);
+      background: linear-gradient(145deg, rgba(26, 17, 45, 0.85) 0%, rgba(13, 10, 24, 0.98) 100%);
       border: 1px solid rgba(168, 85, 247, 0.35);
       border-radius: 20px;
       padding: 24px;
@@ -458,20 +458,59 @@
       justify-content: space-between;
       position: relative;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      min-height: 290px;
     }
 
-    .spotlight-card-inner {
+    .spotlight-slides-viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+    }
+
+    .spotlight-slide {
+      position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
-      height: 100%;
       justify-content: space-between;
-      gap: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(18px);
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spotlight-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      position: relative;
     }
 
     .spotlight-top-badge {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .spotlight-tags-wrap {
+      display: flex;
+      align-items: center;
       gap: 8px;
+    }
+
+    .spotlight-slide-pagination {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .spotlight-tag {
@@ -496,8 +535,9 @@
 
     .spotlight-content {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 16px;
+      margin-bottom: 14px;
     }
 
     .spotlight-icon-box {
@@ -516,6 +556,7 @@
 
     .spotlight-info {
       text-align: left;
+      flex: 1;
     }
 
     .spotlight-category {
@@ -531,25 +572,26 @@
       font-weight: 800;
       color: #fff;
       line-height: 1.35;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .spotlight-desc {
       font-size: 12.5px;
       color: rgba(255, 255, 255, 0.6);
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .spotlight-metrics-row {
       display: flex;
       align-items: center;
-      gap: 14px;
+      justify-content: space-between;
       font-size: 12px;
       color: rgba(255, 255, 255, 0.65);
       padding: 10px 14px;
       background: rgba(255, 255, 255, 0.03);
       border-radius: 10px;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 14px;
     }
 
     .spotlight-stat {
@@ -606,6 +648,30 @@
     .spotlight-btn-cta:hover {
       transform: translateY(-1px);
       box-shadow: 0 6px 18px rgba(168, 85, 247, 0.5);
+    }
+
+    /* Slider Dot Indicators */
+    .spotlight-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .spotlight-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .spotlight-dot.active {
+      width: 22px;
+      background: #a855f7;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
     }
 
     /* ── Kmong-Style Category Navigation Row ── */
@@ -863,74 +929,82 @@
       display: inline-block;
     }
 
-    /* ── Marketplace Grid & Showcase Layout (여유로운 1줄 4개 & 시원한 간격) ── */
+    /* ── Marketplace Grid & Showcase Layout (2/3 콤팩트 축소 & 1줄 5개 완벽 진열) ── */
     .market-section {
-      max-width: 1360px;
+      max-width: 1420px;
       margin: 0 auto;
-      padding: 0 24px 80px;
+      padding: 0 20px 60px;
     }
 
     .section-header-row {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .section-header-title {
-      font-size: 21px;
+      font-size: 19px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       letter-spacing: -0.02em;
     }
 
     .section-header-count {
-      font-size: 13px;
+      font-size: 12px;
       color: rgba(255, 255, 255, 0.5);
       font-weight: 700;
     }
 
-    /* 4 Columns Grid (시원하고 숨 쉴 틈 있는 24px 여백) */
+    /* 5 Columns Grid (1줄에 5개 쏙 들어가는 2/3 콤팩트 규격) */
     .static-best-grid,
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1280px) {
+      .static-best-grid,
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 960px) {
       .static-best-grid,
       .products-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 12px;
       }
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 680px) {
       .static-best-grid,
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 10px;
       }
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 440px) {
       .static-best-grid,
       .products-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 10px;
       }
     }
 
-    /* ── Product Card (깔끔하고 세련된 미니멀 레이아웃) ── */
+    /* ── Product Card (2/3 미니멀 슬림 규격: 1/3 다이어트) ── */
     .product-card {
       background: #110d1c;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -939,24 +1013,24 @@
     }
 
     .product-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: #a855f7;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6), 0 0 24px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(168, 85, 247, 0.25);
     }
 
-    /* Thumbnail Area (순수 네이티브 CSS & 무결점 속도) */
+    /* Thumbnail Area (콤팩트 105px 높이로 축소) */
     .card-thumb {
       position: relative;
       width: 100%;
-      height: 140px;
+      height: 105px;
       background: #090710;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding-top: 14px;
+      gap: 5px;
+      padding-top: 8px;
     }
 
     .card-thumb-bg {
@@ -982,22 +1056,22 @@
     .card-center-icon {
       position: relative;
       z-index: 2;
-      width: 66px;
-      height: 66px;
-      border-radius: 18px;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
       background: rgba(255, 255, 255, 0.08);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      font-size: 25px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
       transition: transform 0.25s ease;
       user-select: none;
     }
 
     .product-card:hover .card-center-icon {
-      transform: scale(1.08) translateY(-2px);
+      transform: scale(1.08) translateY(-1px);
     }
 
     .thumb-sub-pill {
@@ -1005,12 +1079,12 @@
       z-index: 2;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 9px;
+      gap: 4px;
+      padding: 2px 7px;
       border-radius: 99px;
       background: rgba(14, 10, 24, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.85);
       letter-spacing: -0.01em;
@@ -1023,74 +1097,54 @@
     }
 
     .thumb-sub-pill .m-status-dot {
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
       background: #34d399;
-      box-shadow: 0 0 6px #34d399;
+      box-shadow: 0 0 5px #34d399;
     }
 
     .card-badge-top {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 8px;
+      left: 8px;
       display: flex;
-      gap: 4px;
+      gap: 3px;
       z-index: 3;
     }
 
     .badge-pill {
-      font-size: 9.5px;
+      font-size: 8.5px;
       font-weight: 800;
-      padding: 3px 7px;
-      border-radius: 5px;
+      padding: 2px 5px;
+      border-radius: 4px;
       letter-spacing: 0.01em;
     }
 
-    .badge-pill.primary {
-      background: #a855f7;
-      color: #fff;
-    }
-
-    .badge-pill.hot {
-      background: #ef4444;
-      color: #fff;
-    }
-
-    .badge-pill.green {
-      background: #10b981;
-      color: #fff;
-    }
-
-    .badge-pill.blue {
-      background: #3b82f6;
-      color: #fff;
-    }
-
-    /* Card Content (시원하고 직관적인 크몽 스타일 레이아웃) */
+    /* Card Content (2/3 콤팩트 축소 & 슬림 레이아웃) */
     .card-body {
-      padding: 18px 18px 20px;
+      padding: 12px 12px 14px;
       display: flex;
       flex-direction: column;
       flex: 1;
     }
 
     .card-category-label {
-      font-size: 11.5px;
+      font-size: 10px;
       font-weight: 700;
       color: #c084fc;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       text-transform: uppercase;
       letter-spacing: 0.02em;
     }
 
     .card-title {
-      font-size: 15.5px;
+      font-size: 13.5px;
       font-weight: 800;
-      line-height: 1.4;
+      line-height: 1.35;
       color: #ffffff;
-      margin-bottom: 12px;
-      min-height: 44px;
+      margin-bottom: 8px;
+      min-height: 36px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       line-clamp: 2;
@@ -1098,7 +1152,7 @@
       overflow: hidden;
     }
 
-    /* 카드 설명을 제거하여 난잡함과 답답함을 100% 해소 */
+    /* 카드 설명 숨김으로 깔끔함 유지 */
     .card-desc {
       display: none !important;
     }
@@ -1106,11 +1160,11 @@
     .card-metrics {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 11.5px;
+      gap: 6px;
+      font-size: 10.5px;
       color: rgba(255, 255, 255, 0.55);
-      margin-bottom: 14px;
-      padding-bottom: 12px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
@@ -1119,36 +1173,36 @@
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     /* Price Section */
     .card-price-row {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      margin-bottom: 14px;
+      gap: 1px;
+      margin-bottom: 10px;
     }
 
     .price-main {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 900;
       color: #34d399;
       display: flex;
       align-items: baseline;
-      gap: 6px;
+      gap: 5px;
       line-height: 1.2;
     }
 
     .price-main .sub-text {
-      font-size: 11.5px;
+      font-size: 10.5px;
       color: rgba(255, 255, 255, 0.4);
       font-weight: 600;
       text-decoration: line-through;
     }
 
     .price-extra {
-      font-size: 11px;
+      font-size: 9.5px;
       color: rgba(255, 255, 255, 0.5);
       font-weight: 700;
       white-space: nowrap;
@@ -1161,7 +1215,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 40px auto 10px;
+      margin: 36px auto 10px;
       width: 100%;
     }
 
@@ -1170,12 +1224,12 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 14px 36px;
+      padding: 12px 32px;
       border-radius: 99px;
       background: rgba(168, 85, 247, 0.12);
       border: 1.5px solid rgba(168, 85, 247, 0.45);
       color: #c084fc;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1190,23 +1244,23 @@
       box-shadow: 0 8px 28px rgba(168, 85, 247, 0.3);
     }
 
-    /* Card Action Buttons */
+    /* Card Action Buttons (2/3 슬림 버튼) */
     .card-actions {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-demo {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 9px 8px;
-      border-radius: 8px;
+      gap: 3px;
+      padding: 7px 6px;
+      border-radius: 7px;
       background: rgba(255, 255, 255, 0.08);
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-decoration: none;
       transition: background 0.2s;
@@ -1221,22 +1275,22 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 9px 8px;
-      border-radius: 8px;
+      gap: 3px;
+      padding: 7px 6px;
+      border-radius: 7px;
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       color: #fff;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       cursor: pointer;
       border: none;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
     }
 
     .btn-order:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.5);
     }
 
     /* ── Floating Partner Widget (Kmong Style) ── */
@@ -1598,36 +1652,160 @@
         </div>
       </div>
 
-      <!-- Right Column: Spotlight Feature Card (Kmong Top Banner) -->
+      <!-- Right Column: Spotlight Feature Card (Kmong Auto-Rotating Slider) -->
       <div class="kmong-spotlight-card">
-        <div class="spotlight-card-inner">
-          <div class="spotlight-top-badge">
-            <span class="spotlight-tag hot">👑 실시간 분양 1위</span>
-            <span class="spotlight-tag free">0원 스타터 지원</span>
-          </div>
+        <div class="spotlight-slides-viewport" id="spotlightViewport">
+          <!-- Slide 1: 2026 플래너 팟 -->
+          <div class="spotlight-slide active" data-slide="0">
+            <div class="spotlight-top-badge">
+              <div class="spotlight-tags-wrap">
+                <span class="spotlight-tag hot">👑 실시간 1위</span>
+                <span class="spotlight-tag free">0원 스타터 지원</span>
+              </div>
+              <div class="spotlight-slide-pagination">
+                <span class="curr-slide">1</span> / 4
+              </div>
+            </div>
 
-          <div class="spotlight-content">
-            <div class="spotlight-icon-box">📅</div>
-            <div class="spotlight-info">
-              <span class="spotlight-category">플래너 · 문구 OS</span>
-              <h3 class="spotlight-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
-              <p class="spotlight-desc">무료 속지 나눔으로 방문자 DB를 자동 수집하고 고단가 제휴 광고를 송출합니다.</p>
+            <div class="spotlight-content">
+              <div class="spotlight-icon-box">📅</div>
+              <div class="spotlight-info">
+                <span class="spotlight-category">플래너 · 문구 OS</span>
+                <h3 class="spotlight-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
+                <p class="spotlight-desc">무료 속지 나눔으로 방문자 DB를 자동 수집하고 고단가 제휴 광고를 송출합니다.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-metrics-row">
+              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (128명 분양)</div>
+              <div class="spotlight-stat">⚡ 1초 무설치 즉시 연동</div>
+            </div>
+
+            <div class="spotlight-actions-row">
+              <a href="planner/" target="_blank" class="spotlight-btn-preview">
+                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
+              </a>
+              <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
+                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+              </button>
             </div>
           </div>
 
-          <div class="spotlight-metrics-row">
-            <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (128명 분양)</div>
-            <div class="spotlight-stat">⚡ 1초 무설치 즉시 연동</div>
+          <!-- Slide 2: 글로벌 페이팔 실입금 계산기 팟 -->
+          <div class="spotlight-slide" data-slide="1">
+            <div class="spotlight-top-badge">
+              <div class="spotlight-tags-wrap">
+                <span class="spotlight-tag hot" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-color:rgba(59,130,246,0.35);">🌐 고수익 CPC</span>
+                <span class="spotlight-tag free">0원 스타터 지원</span>
+              </div>
+              <div class="spotlight-slide-pagination">
+                <span class="curr-slide">2</span> / 4
+              </div>
+            </div>
+
+            <div class="spotlight-content">
+              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);">🌐</div>
+              <div class="spotlight-info">
+                <span class="spotlight-category">글로벌 · 외환 금융</span>
+                <h3 class="spotlight-title">글로벌 페이팔 실입금 & 환전 수수료 팟</h3>
+                <p class="spotlight-desc">해외 프리랜서 및 이커머스 셀러 실입금액 자동 계산 & 실시간 환율 연동 유틸리티.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-metrics-row">
+              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (94명 분양)</div>
+              <div class="spotlight-stat">⚡ 실시간 환율 API 탑재</div>
+            </div>
+
+            <div class="spotlight-actions-row">
+              <a href="https://autosite.kr" target="_blank" rel="noopener" class="spotlight-btn-preview">
+                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
+              </a>
+              <button class="spotlight-btn-cta" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')">
+                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+              </button>
+            </div>
           </div>
 
-          <div class="spotlight-actions-row">
-            <a href="planner/" target="_blank" class="spotlight-btn-preview">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
-            </a>
-            <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
-            </button>
+          <!-- Slide 3: 3D 디지털 명함 팟 -->
+          <div class="spotlight-slide" data-slide="2">
+            <div class="spotlight-top-badge">
+              <div class="spotlight-tags-wrap">
+                <span class="spotlight-tag hot" style="background:rgba(234,179,8,0.2);color:#facc15;border-color:rgba(234,179,8,0.35);">💼 B2B CRM</span>
+                <span class="spotlight-tag free">0원 스타터 지원</span>
+              </div>
+              <div class="spotlight-slide-pagination">
+                <span class="curr-slide">3</span> / 4
+              </div>
+            </div>
+
+            <div class="spotlight-content">
+              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);">💼</div>
+              <div class="spotlight-info">
+                <span class="spotlight-category">비즈니스 · 3D 인터랙티브</span>
+                <h3 class="spotlight-title">차세대 3D 인터랙티브 디지털 명함 팟</h3>
+                <p class="spotlight-desc">종이 명함을 대체하는 3D WebGL 입체 명함. 고객 리드 자동 수집 및 vCard 저장.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-metrics-row">
+              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 4.9 (210명 분양)</div>
+              <div class="spotlight-stat">⚡ 3D Three.js 엔진</div>
+            </div>
+
+            <div class="spotlight-actions-row">
+              <a href="bizcard/card.html?id=demo" target="_blank" class="spotlight-btn-preview">
+                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
+              </a>
+              <button class="spotlight-btn-cta" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')">
+                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+              </button>
+            </div>
           </div>
+
+          <!-- Slide 4: 인스타 카드뉴스 팟 -->
+          <div class="spotlight-slide" data-slide="3">
+            <div class="spotlight-top-badge">
+              <div class="spotlight-tags-wrap">
+                <span class="spotlight-tag hot" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.35);">📱 바이럴 1위</span>
+                <span class="spotlight-tag free">0원 스타터 지원</span>
+              </div>
+              <div class="spotlight-slide-pagination">
+                <span class="curr-slide">4</span> / 4
+              </div>
+            </div>
+
+            <div class="spotlight-content">
+              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #701a75, #4a044e);">📱</div>
+              <div class="spotlight-info">
+                <span class="spotlight-category">SNS · 마케팅 스튜디오</span>
+                <h3 class="spotlight-title">인스타 카드뉴스 & 바이럴 훅 메이커 팟</h3>
+                <p class="spotlight-desc">인스타그램 캐러셀 콘텐츠와 숏폼 썸네일을 1분 만에 디자인. 트래픽을 자동 확보.</p>
+              </div>
+            </div>
+
+            <div class="spotlight-metrics-row">
+              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 4.8 (112명 분양)</div>
+              <div class="spotlight-stat">⚡ 캔버스 자동 렌더링</div>
+            </div>
+
+            <div class="spotlight-actions-row">
+              <a href="insta/" target="_blank" class="spotlight-btn-preview">
+                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
+              </a>
+              <button class="spotlight-btn-cta" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')">
+                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="spotlight-dots" id="spotlightDots">
+          <div class="spotlight-dot active" onclick="setSpotlightSlide(0)"></div>
+          <div class="spotlight-dot" onclick="setSpotlightSlide(1)"></div>
+          <div class="spotlight-dot" onclick="setSpotlightSlide(2)"></div>
+          <div class="spotlight-dot" onclick="setSpotlightSlide(3)"></div>
         </div>
       </div>
     </div>
@@ -2901,9 +3079,55 @@
       safeCreateIcons();
     }
 
-    // 초기 페이지 로드 시 8개 제한 및 아이콘 렌더링
+    // ── 우측 시그니처 Spotlight 슬라이더 컨트롤러 (5초마다 자동 회전) ──
+    let currentSpotlightIdx = 0;
+    const totalSpotlightSlides = 4;
+    let spotlightInterval = null;
+
+    function setSpotlightSlide(idx) {
+      currentSpotlightIdx = idx;
+      const slides = document.querySelectorAll('.spotlight-slide');
+      const dots = document.querySelectorAll('.spotlight-dot');
+
+      slides.forEach((slide, i) => {
+        if (i === idx) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === idx) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+      safeCreateIcons();
+    }
+
+    function startSpotlightAutoSlide() {
+      if (spotlightInterval) clearInterval(spotlightInterval);
+      spotlightInterval = setInterval(() => {
+        currentSpotlightIdx = (currentSpotlightIdx + 1) % totalSpotlightSlides;
+        setSpotlightSlide(currentSpotlightIdx);
+      }, 5000);
+    }
+
+    // 초기 페이지 로드 시 10개(2줄 5개씩) 노출 및 아이콘 & 슬라이더 초기화
     document.addEventListener('DOMContentLoaded', () => {
       filterProducts();
+      startSpotlightAutoSlide();
+      const viewport = document.getElementById('spotlightViewport');
+      if (viewport) {
+        viewport.addEventListener('mouseenter', () => {
+          if (spotlightInterval) clearInterval(spotlightInterval);
+        });
+        viewport.addEventListener('mouseleave', () => {
+          startSpotlightAutoSlide();
+        });
+      }
       if (typeof safeCreateIcons === 'function') {
         safeCreateIcons();
       }
