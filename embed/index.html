@@ -39,106 +39,41 @@
       background: #090d16;
     }
 
-    /* 하단 MAZA 장학 지원 배너 & 셋업팟 업셀링 바 */
-    .embed-scholarship-bar {
+    /* 하단 미니멀 Powered by SETUPOD 워터마크 */
+    .embed-powered-by {
       position: absolute;
       bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 16px;
       z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      width: calc(100% - 24px);
-      max-width: 680px;
-      padding: 8px 16px;
-      background: rgba(10, 15, 30, 0.9);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(99, 102, 241, 0.35);
-      border-radius: 9999px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 18px rgba(99, 102, 241, 0.15);
-      font-size: 12px;
-      color: #e2e8f0;
-      transition: all 0.25s ease;
-    }
-    .embed-scholarship-bar:hover {
-      border-color: rgba(99, 102, 241, 0.65);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(99, 102, 241, 0.25);
-    }
-    .embed-badge-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .embed-pulse-dot {
-      width: 7px;
-      height: 7px;
-      min-width: 7px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 8px #10b981;
-      animation: pulseGreen 2s infinite ease-in-out;
-    }
-    @keyframes pulseGreen {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.45; transform: scale(1.25); }
-    }
-    .embed-badge-title {
-      font-weight: 700;
-      color: #f1f5f9;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .embed-upsell-link {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 6px 14px;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-      color: #ffffff;
-      font-size: 11.5px;
-      font-weight: 800;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(10, 15, 30, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
       text-decoration: none;
-      white-space: nowrap;
-      flex-shrink: 0;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
       transition: all 0.2s ease;
+      letter-spacing: -0.01em;
     }
-    .embed-upsell-link:hover {
+    .embed-powered-by:hover {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: rgba(99, 102, 241, 0.5);
+      color: #f8fafc;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
-      filter: brightness(1.12);
-      color: #ffffff;
     }
-    .embed-upsell-link .short-text { display: none; }
-    @media (max-width: 680px) {
-      .embed-scholarship-bar {
-        bottom: 8px;
-        padding: 6px 10px;
-        gap: 6px;
-        border-radius: 12px;
-      }
-      .embed-badge-title {
-        font-size: 10.5px;
-      }
-      .embed-upsell-link {
-        padding: 5px 10px;
-        font-size: 10.5px;
-      }
-      .embed-upsell-link .full-text { display: none; }
-      .embed-upsell-link .short-text { display: inline; }
+    .embed-powered-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #6366f1;
+      box-shadow: 0 0 6px #6366f1;
     }
 
     /* 로더 */
@@ -182,17 +117,11 @@
 
     <iframe id="podFrame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
 
-    <!-- 마자 장학 인증 뱃지 & 셋업팟 맞춤 팟 추가 구매 업셀링 배너 -->
-    <div class="embed-scholarship-bar" id="partnerBadge">
-      <div class="embed-badge-wrap">
-        <span class="embed-pulse-dot"></span>
-        <span class="embed-badge-title">🎓 MAZA 디지털 자산 장학 프로그램 인증 (1년 인프라 지원)</span>
-      </div>
-      <a href="https://setupod.com?utm_source=maza_scholarship_embed&utm_medium=embed_bottom_bar&utm_campaign=upsell" target="_blank" rel="noopener noreferrer" class="embed-upsell-link">
-        <span class="full-text">🚀 셋업팟 공식 스토어에서 나만의 맞춤 팟 추가하기 →</span>
-        <span class="short-text">🚀 맞춤 팟 추가하기 →</span>
-      </a>
-    </div>
+    <!-- 미니멀 공식 워터마크 -->
+    <a href="https://setupod.com?utm_source=maza_embed_watermark" target="_blank" rel="noopener noreferrer" class="embed-powered-by" id="partnerBadge">
+      <span class="embed-powered-dot"></span>
+      <span>Powered by SETUPOD</span>
+    </a>
   </div>
 
   <script>
