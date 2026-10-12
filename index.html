@@ -462,16 +462,19 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Thumbnail Area */
+    /* Thumbnail Area (압도적인 3D 아이콘 & 글로우 스테이지) */
     .card-thumb {
       position: relative;
       width: 100%;
-      height: 180px;
-      background: #14111d;
+      height: 215px;
+      background: #0b0814;
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 12px;
+      padding-top: 24px;
     }
 
     .card-thumb-bg {
@@ -479,40 +482,80 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: 0.85;
+      opacity: 0.88;
       transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
     .product-card:hover .card-thumb-bg {
-      transform: scale(1.05);
+      transform: scale(1.08);
       opacity: 1;
     }
 
     .card-thumb-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(7, 5, 13, 0.2) 0%, rgba(7, 5, 13, 0.85) 100%);
+      background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(7, 5, 13, 0.75) 100%);
     }
 
     .card-center-icon {
       position: relative;
       z-index: 2;
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: rgba(20, 16, 32, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
+      width: 96px;
+      height: 96px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 55%, rgba(12, 10, 22, 0.82) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
+      font-size: 52px;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7), 0 0 45px rgba(168, 85, 247, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.35);
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      user-select: none;
     }
 
     .product-card:hover .card-center-icon {
-      transform: scale(1.1);
+      transform: scale(1.12) translateY(-4px);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8), 0 0 65px rgba(168, 85, 247, 0.8), inset 0 2px 0 rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .thumb-sub-pill {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 13px;
+      border-radius: 99px;
+      background: rgba(10, 8, 18, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s ease;
+    }
+
+    .product-card:hover .thumb-sub-pill {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: rgba(168, 85, 247, 0.6);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.35);
+    }
+
+    .thumb-sub-pill .m-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 6px #34d399;
     }
 
     .card-badge-top {
@@ -1293,7 +1336,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #4c1d95, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">📅</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📅</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 2026 비즈니스 OS</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">⚡ 즉시 가동</span>
             <span class="badge-pill primary">🏆 애드센스 승인 최적화</span>
@@ -1334,7 +1378,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #0369a1, #082f49);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🌐</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(14,165,233,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🌐</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 환율 & 인보이스</span>
           <div class="card-badge-top">
             <span class="badge-pill green">🇺🇸 글로벌 트래픽</span>
             <span class="badge-pill primary">💰 금융 고단가 CPC</span>
@@ -1375,7 +1420,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">💼</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(236,72,153,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💼</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3D Three.js 엔진 탑재</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">👑 셋업팟 시그니처</span>
             <span class="badge-pill primary">💼 CRM 리드 자동수집</span>
@@ -1416,7 +1462,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #92400e, #451a03);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">📝</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📝</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> AI 자동 분류 & 로컬DB</span>
           <div class="card-badge-top">
             <span class="badge-pill green">⚡ 신규 오픈</span>
             <span class="badge-pill primary">💡 아이디어 자동분류</span>
@@ -1457,7 +1504,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #4c0519);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">📱</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📱</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 캔버스 1초 캐러셀 렌더</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">📱 SNS 마케터</span>
             <span class="badge-pill primary">⚡ 카드뉴스 대량생성</span>
@@ -1498,7 +1546,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #361e04);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">💬</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(234,179,8,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💬</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 정규격 배너 템플릿</span>
           <div class="card-badge-top">
             <span class="badge-pill green">💬 메신저 특화</span>
             <span class="badge-pill primary">⚡ 1분 배너 생성</span>
@@ -1539,7 +1588,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #3730a3, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🔗</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(99,102,241,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🔗</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 모바일 프로필 바이오 허브</span>
           <div class="card-badge-top">
             <span class="badge-pill blue">🔗 인스타 프로필</span>
             <span class="badge-pill primary">📈 원클릭 연결</span>
@@ -1580,7 +1630,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #065f46, #022c22);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🛒</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🛒</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 스마트스토어 마진 & 세무</span>
           <div class="card-badge-top">
             <span class="badge-pill green">🛒 셀러 필수 도구</span>
             <span class="badge-pill primary">📊 고단가 비즈니스 트래픽</span>
@@ -1621,7 +1672,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #78350f, #451a03);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">☕</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(217,119,6,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">☕</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 골든컵 브루잉 & 디개싱</span>
           <div class="card-badge-top">
             <span class="badge-pill green">☕ F&B 버티컬</span>
             <span class="badge-pill primary">📈 체류시간 극대화</span>
@@ -1662,7 +1714,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #b45309, #78350f);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🏠</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏠</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 최신 세법 1초 역산기</span>
           <div class="card-badge-top">
             <span class="badge-pill green">🏠 고단가 부동산</span>
             <span class="badge-pill primary">💰 양도세 1초 계산</span>
@@ -1703,7 +1756,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e40af, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">📦</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(59,130,246,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📦</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 2026 로켓 vs 윙 마진 시뮬</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">🚀 셀러 폭발적 유입</span>
             <span class="badge-pill green">📊 입출고료 자동반영</span>
@@ -1744,7 +1798,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #6d28d9, #4c1d95);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🪙</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🪙</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 웹소켓 실시간 김프 피드</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">⚡ 실시간 시세</span>
             <span class="badge-pill blue">🪙 크립토 트래픽</span>
@@ -1785,7 +1840,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #be123c, #881337);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🐶</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🐶</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 수의학 RER 권장 칼로리</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">🐾 펫 버티컬</span>
             <span class="badge-pill green">🐶 쿠팡파트너스 최적화</span>
@@ -1826,7 +1882,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #047857, #064e3b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🏋️</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏋️</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3대 운동 1RM & 탄단지 매크로</span>
           <div class="card-badge-top">
             <span class="badge-pill green">💪 피트니스 필수</span>
             <span class="badge-pill primary">⚡ 즉시 3대 운동 측정</span>
@@ -1867,7 +1924,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #991b1b, #450a0a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🎬</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(239,68,68,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🎬</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 카테고리별 CPM 수익 산출</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">🎬 크리에이터 필수</span>
             <span class="badge-pill primary">💰 카테고리별 CPM</span>
@@ -1908,7 +1966,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #701a75);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">💍</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(236,72,153,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💍</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 감성 청첩장 & 온라인 RSVP</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">💍 고감성 인터랙티브</span>
             <span class="badge-pill primary">💌 카카오 지도 연동</span>
@@ -1949,7 +2008,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #713f12);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">🥐</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🥐</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 제과제빵 배합비 역산</span>
           <div class="card-badge-top">
             <span class="badge-pill green">🥐 제과제빵 전문</span>
             <span class="badge-pill primary">⚖️ 배합비 역산</span>
@@ -1990,7 +2050,8 @@
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #0f766e, #134e4a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon">⚖️</div>
+          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(20,184,166,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">⚖️</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 캡테이블 & 스톡옵션 시뮬</span>
           <div class="card-badge-top">
             <span class="badge-pill green">⚖️ 창업자 필수</span>
             <span class="badge-pill primary">📊 캡테이블 시뮬레이션</span>
