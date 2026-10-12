@@ -204,8 +204,8 @@ async function loadPodByUserId(userId) {
   return { profile, pod };
 }
 
-// 9. 방문자 리드(전화번호) 클라우드 DB 저장
-async function saveLeadToCloud(targetSlug, phone) {
+// 9. 방문자 리드(전화번호) 클라우드 DB 저장 (정밀 출처 분석 및 UTM 추적)
+async function saveLeadToCloud(targetSlug, phone, memo = '') {
   if (!supabaseClient) return false;
   
   // Get owner's user_id from pods table
@@ -228,13 +228,37 @@ async function saveLeadToCloud(targetSlug, phone) {
     if (podPure) ownerId = podPure.user_id;
   }
 
+  // 출처(Referrer) 및 채널 스마트 파싱
+  const ref = document.referrer || '';
+  let channel = 'Direct / 카카오톡';
+  if (ref.includes('instagram.com')) channel = '인스타그램';
+  else if (ref.includes('naver.com')) channel = '네이버';
+  else if (ref.includes('google.com')) channel = '구글 검색';
+  else if (ref.includes('youtube.com')) channel = '유튜브';
+  else if (ref.includes('threads.net')) channel = '스레드(Threads)';
+  else if (ref.includes('facebook.com')) channel = '페이스북';
+  else if (ref) channel = new URL(ref).hostname;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source') || '';
+  const utmMedium = urlParams.get('utm_medium') || '';
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const { error } = await supabaseClient
     .from('leads')
     .insert({
       user_id: ownerId,
       target_slug: targetSlug,
       phone: phone,
-      metadata: { referrer: document.referrer, userAgent: navigator.userAgent }
+      metadata: { 
+        referrer: ref,
+        channel: utmSource ? `${channel} (${utmSource})` : channel,
+        utm_medium: utmMedium,
+        device: isMobile ? 'Mobile' : 'Desktop',
+        memo: memo || '',
+        pageUrl: window.location.href,
+        userAgent: navigator.userAgent
+      }
     });
   return !error;
 }
@@ -252,18 +276,38 @@ async function getMyLeads() {
   return leads;
 }
 
-// 9-2. 명함 조회수(Analytics) 기록하기
+// 9-2. 명함 조회수(Analytics) 기록하기 (정밀 채널 및 세션 스토리지 중복 방지)
 async function recordPageView(slug) {
   if (!supabaseClient) return false;
   // 중복 조회(새로고침) 방지를 위해 세션 스토리지 체크
   const viewedKey = `setupod_viewed_${slug}`;
   if (sessionStorage.getItem(viewedKey)) return true;
   
+  const ref = document.referrer || '';
+  let channel = 'Direct / 카카오톡';
+  if (ref.includes('instagram.com')) channel = '인스타그램';
+  else if (ref.includes('naver.com')) channel = '네이버';
+  else if (ref.includes('google.com')) channel = '구글 검색';
+  else if (ref.includes('youtube.com')) channel = '유튜브';
+  else if (ref.includes('threads.net')) channel = '스레드(Threads)';
+  else if (ref) {
+    try { channel = new URL(ref).hostname; } catch(e) { channel = 'External'; }
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source') || '';
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   const { error } = await supabaseClient
     .from('page_views')
     .insert({
       target_slug: slug,
-      metadata: { referrer: document.referrer, userAgent: navigator.userAgent }
+      metadata: { 
+        referrer: ref,
+        channel: utmSource ? `${channel} (${utmSource})` : channel,
+        device: isMobile ? 'Mobile' : 'Desktop',
+        userAgent: navigator.userAgent
+      }
     });
     
   if (!error) {

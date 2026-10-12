@@ -915,16 +915,24 @@
   
   <!-- Lead Contact Modal -->
   <div class="modal-overlay" id="leadModal" onclick="if(event.target===this) document.getElementById('leadModal').classList.remove('active');">
-    <div class="modal-box" style="max-width: 320px;">
-      <div class="modal-title">연락처 남기기</div>
-      <div class="modal-desc" style="margin-bottom: 20px;">명함 주인에게 연락처를 남겨주시면 연락드리겠습니다.</div>
+    <div class="modal-box" style="max-width: 330px;">
+      <div class="modal-title" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+        <i data-lucide="phone-call" style="width:20px; height:20px; color:#c084fc;"></i>
+        <span>상담 및 연락처 남기기</span>
+      </div>
+      <div class="modal-desc" style="margin-bottom: 20px;">명함 주인에게 연락처와 문의 내용을 남겨주시면 확인 후 빠르게 회신드립니다.</div>
       
+      <div style="text-align: left; margin-bottom: 12px;">
+        <label style="display: block; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-weight:600;">연락받으실 전화번호 *</label>
+        <input type="tel" id="leadPhoneInput" placeholder="010-1234-5678" style="width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px; color: white; font-size: 14px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#a855f7';" onblur="this.style.borderColor='rgba(255,255,255,0.15)';">
+      </div>
+
       <div style="text-align: left; margin-bottom: 16px;">
-        <label style="display: block; font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 8px;">연락받으실 전화번호</label>
-        <input type="tel" id="leadPhoneInput" placeholder="010-1234-5678" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; color: white; font-size: 14px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#a855f7';" onblur="this.style.borderColor='rgba(255,255,255,0.1)';">
+        <label style="display: block; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-weight:600;">간단한 문의/용건 (선택)</label>
+        <input type="text" id="leadMemoInput" placeholder="예: 협업 문의, 견적 문의 등" style="width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px; color: white; font-size: 13.5px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#a855f7';" onblur="this.style.borderColor='rgba(255,255,255,0.15)';">
       </div>
       
-      <button class="btn-primary" style="width: 100%; padding: 14px; border-radius: 12px; background: linear-gradient(90deg, #c084fc, #a855f7); color: white; font-weight: 700; font-size: 15px; border: none; cursor: pointer; margin-bottom: 12px;" onclick="submitLead()">연락처 남기기</button>
+      <button class="btn-primary" style="width: 100%; padding: 14px; border-radius: 12px; background: linear-gradient(90deg, #c084fc, #a855f7); color: white; font-weight: 800; font-size: 15px; border: none; cursor: pointer; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);" onclick="submitLead()">1초 만에 연락처 전달하기</button>
       <button class="modal-close-btn" onclick="document.getElementById('leadModal').classList.remove('active')">취소</button>
     </div>
   </div>
@@ -956,20 +964,24 @@
 
     async function submitLead() {
       const phoneInput = document.getElementById('leadPhoneInput');
-      const phone = phoneInput.value.trim();
+      const memoInput = document.getElementById('leadMemoInput');
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const memo = memoInput ? memoInput.value.trim() : '';
+      
       if (!phone || phone.length < 9) {
         showToast('올바른 연락처를 입력해주세요.');
         return;
       }
       
       // card-renderer.js에서 slug 추출
-      const slug = typeof getCardSlug === 'function' ? getCardSlug() : new URLSearchParams(window.location.search).get('id');
+      const slug = typeof getCardSlug === 'function' ? getCardSlug() : (new URLSearchParams(window.location.search).get('id') || 'setupod');
       
-      const success = await saveLeadToCloud(slug, phone);
+      const success = await saveLeadToCloud(slug, phone, memo);
       if (success) {
         document.getElementById('leadModal').classList.remove('active');
         showToast('연락처가 성공적으로 전달되었습니다!');
         phoneInput.value = '';
+        if (memoInput) memoInput.value = '';
       } else {
         showToast('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
       }
