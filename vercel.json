@@ -33,11 +33,11 @@
     },
     {
       "source": "/embed",
-      "destination": "/embed/index.html"
+      "destination": "/embed"
     },
     {
       "source": "/embed/(.*)",
-      "destination": "/embed/index.html"
+      "destination": "/embed"
     },
     {
       "source": "/insta/viral",

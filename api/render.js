@@ -10,7 +10,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 module.exports = async (req, res) => {
   let { slug } = req.query;
   
-  if (slug && (slug.startsWith('embed/') || slug === 'embed')) {
+  const reqUrl = req.url || '';
+  if ((slug && (slug.startsWith('embed') || slug.includes('embed'))) || reqUrl.includes('embed')) {
     const embedHtmlPath = path.join(process.cwd(), 'embed', 'index.html');
     if (fs.existsSync(embedHtmlPath)) {
       const html = fs.readFileSync(embedHtmlPath, 'utf8');
