@@ -186,31 +186,39 @@
       transform: scale(1.02);
     }
 
-    /* ── Category Chips ── */
+    /* ── Category Chips (완벽한 한 줄 & 모바일 터치 스크롤) ── */
     .chips-bar {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      max-width: 1000px;
+      gap: 7px;
+      max-width: 1040px;
       margin: 0 auto 40px;
-      padding: 0 16px;
+      padding: 4px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .chips-bar::-webkit-scrollbar {
+      display: none;
     }
 
     .category-chip {
-      padding: 9px 18px;
+      padding: 8px 13px;
       border-radius: 99px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: rgba(255, 255, 255, 0.7);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
       user-select: none;
     }
 
@@ -225,6 +233,12 @@
       color: #fff;
       border-color: #a855f7;
       box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    @media (max-width: 900px) {
+      .chips-bar {
+        justify-content: flex-start;
+      }
     }
 
     /* ── Infinite Marquee Showcase (여유롭고 품격 있는 속도: 95초) ── */
