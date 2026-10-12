@@ -1090,21 +1090,28 @@
       font-weight: 700;
     }
 
-    /* 카테고리별 섹션 블록 (카테고리 1과 2 사이에 넉넉한 간격 제공) */
+    /* 카테고리별 섹션 블록 (카테고리간 확실한 구분과 넉넉한 줄간격 제공) */
     .category-group-block {
-      margin-bottom: 42px;
-      padding-bottom: 10px;
+      margin-bottom: 64px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .category-group-block:last-child {
+      border-bottom: none;
+      margin-bottom: 24px;
     }
 
     .category-group-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
-      padding: 8px 14px;
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 10px;
-      border-left: 3px solid #a855f7;
+      margin-bottom: 20px;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-left: 4px solid #a855f7;
     }
 
     .category-group-header[data-theme="planner"] { border-left-color: #a855f7; }
@@ -1378,8 +1385,8 @@
       gap: 6px;
       font-size: 11px;
       color: rgba(255, 255, 255, 0.6);
-      margin-bottom: 11px;
-      padding-bottom: 9px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
 
@@ -1391,38 +1398,9 @@
       gap: 3px;
     }
 
-    /* Price Section */
+    /* Price Section (사용자 요청: 0원, 정가, 스타터 무상 지원 등 반복 문구 완전 제거로 깔끔한 디렉토리 룩 완성) */
     .card-price-row {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 12px;
-    }
-
-    .price-main {
-      font-size: 16px;
-      font-weight: 900;
-      color: #34d399;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      line-height: 1.2;
-    }
-
-    .price-main .sub-text {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.35);
-      font-weight: 600;
-      text-decoration: line-through;
-    }
-
-    .price-extra {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.55);
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: none !important;
     }
 
     /* Load More Button (더보기 버튼 스타일) */
@@ -1459,11 +1437,12 @@
       box-shadow: 0 8px 28px rgba(168, 85, 247, 0.3);
     }
 
-    /* Card Action Buttons (2/3 슬림 버튼) */
+    /* Card Action Buttons (2/3 슬림 버튼, 하단 정렬) */
     .card-actions {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
       gap: 5px;
+      margin-top: auto;
     }
 
     .btn-demo {
