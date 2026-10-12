@@ -19,7 +19,7 @@ function getCardIdentifier() {
 
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   if (pathParts.length >= 2 && !pathParts[0].includes('.html')) {
-    if (pathParts[0] === 'card' || pathParts[0] === 'c') {
+    if (pathParts[0] === 'card' || pathParts[0] === 'c' || pathParts[0] === 'a') {
       if (pathParts.length >= 3) {
         return { company: pathParts[1].toLowerCase(), slug: pathParts[2].toLowerCase() };
       }
@@ -28,7 +28,7 @@ function getCardIdentifier() {
     return { company: pathParts[0].toLowerCase(), slug: pathParts[1].toLowerCase() };
   }
   if (pathParts.length === 1 && !pathParts[0].includes('.html')) {
-    if (pathParts[0] === 'card' || pathParts[0] === 'c') return { company: null, slug: 'setupod' };
+    if (pathParts[0] === 'card' || pathParts[0] === 'c' || pathParts[0] === 'a') return { company: null, slug: 'setupod' };
     return { company: null, slug: pathParts[0].toLowerCase() };
   }
   return { company: null, slug: 'setupod' };
@@ -364,6 +364,20 @@ function populateCard(data) {
 
   // 소셜 모달 바인딩
   renderSocialModal(data);
+
+  // 수익화 슬롯 (쿠팡 파트너스 / 추천 링크) 바인딩
+  const affContainer = document.getElementById('affiliateBannerContainer');
+  const affLink = document.getElementById('affiliateBannerLink');
+  const affLabel = document.getElementById('affiliateBannerLabel');
+  if (affContainer && affLink && data.affiliateAction && data.affiliateAction.url) {
+    affLink.href = data.affiliateAction.url;
+    if (affLabel && data.affiliateAction.label) {
+      affLabel.innerText = data.affiliateAction.label;
+    }
+    affContainer.style.display = 'block';
+  } else if (affContainer) {
+    affContainer.style.display = 'none';
+  }
 
   // Lucide Icons 다시 렌더링
   if (window.lucide) {

@@ -392,6 +392,14 @@
       "destination": "/product-studio/$1"
     },
     {
+      "source": "/a",
+      "destination": "/bizcard/card.html"
+    },
+    {
+      "source": "/a/(.*)",
+      "destination": "/bizcard/card.html"
+    },
+    {
       "source": "/c",
       "destination": "/bizcard/card.html"
     },

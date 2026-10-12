@@ -41,6 +41,10 @@
       "color": "#f472b6"
     }
   ],
+  "affiliateAction": {
+    "url": "https://setupod.com",
+    "label": "대표 애용 워크스페이스 & 비즈니스 팟 ⚡"
+  },
   "vcard": {
     "lastName": "K",
     "firstName": "Andrew",
