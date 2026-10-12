@@ -7,9 +7,15 @@ assets/model_ceo_female.jpg
 assets/model_ceo_male.jpg
 2026년 프로젝트 플래너.pdf
 
-# 개발용 스크립트·스키마
+# 개발용 스크립트·스키마 및 로컬 대용량 폴더
 create_hook_maker.py
 fix_all.js
 test_all.js
 test_detail.js
 supabase_schema.sql
+node_modules/
+venv*/
+샘플/
+archive/
+assets/raw_stickers/
+
