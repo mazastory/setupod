@@ -10,6 +10,15 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 module.exports = async (req, res) => {
   let { slug } = req.query;
   
+  if (slug && (slug.startsWith('embed/') || slug === 'embed')) {
+    const embedHtmlPath = path.join(process.cwd(), 'embed', 'index.html');
+    if (fs.existsSync(embedHtmlPath)) {
+      const html = fs.readFileSync(embedHtmlPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.status(200).send(html);
+    }
+  }
+
   if (!slug) {
     slug = 'setupod'; // Default fallback
   }
