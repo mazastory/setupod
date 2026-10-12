@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스마트스토어·쿠팡 로켓 마진 1초 계산 시뮬레이터 & 세무 체크리스트 | autosite.kr</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', sans-serif; background: #0b1329; color: #f8fafc; line-height: 1.7; padding: 40px 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: #16203c; border-radius: 24px; padding: 40px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .badge { display: inline-block; padding: 6px 14px; background: rgba(16,185,129,0.2); border: 1px solid rgba(16,185,129,0.4); border-radius: 9999px; color: #34d399; font-size: 13px; font-weight: 800; margin-bottom: 20px; }
+    h1 { font-size: 28px; font-weight: 900; line-height: 1.4; margin-bottom: 16px; color: #ffffff; }
+    .meta { font-size: 13px; color: #94a3b8; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 24px; margin-bottom: 30px; }
+    h2 { font-size: 20px; font-weight: 800; color: #10b981; margin: 32px 0 16px; }
+    p { font-size: 15px; color: #cbd5e1; margin-bottom: 16px; }
+    .callout { background: rgba(16,185,129,0.1); border-left: 4px solid #10b981; padding: 18px 20px; border-radius: 12px; margin: 20px 0; }
+    .checklist { list-style: none; margin: 20px 0; }
+    .checklist li { padding: 10px 14px; background: rgba(255,255,255,0.03); margin-bottom: 8px; border-radius: 8px; font-size: 14.5px; display: flex; align-items: center; gap: 10px; }
+    .btn-print { display: inline-flex; align-items: center; gap: 8px; background: #10b981; color: #000; padding: 12px 24px; border-radius: 12px; font-weight: 900; font-size: 14px; text-decoration: none; cursor: pointer; border: none; margin-top: 24px; }
+    .btn-print:hover { background: #34d399; }
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .container { background: #fff; border: none; box-shadow: none; padding: 20px; color: #000; }
+      h1, h2 { color: #000; }
+      p, li { color: #222; }
+      .btn-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">📊 AUTOSITE E-COMMERCE ASSET</div>
+    <h1>스마트스토어·쿠팡 로켓 마진 1초 계산 시뮬레이터 & 세무 체크리스트</h1>
+    <div class="meta">발행처: autosite.kr 이커머스 전략팀 · 버전: 2026.Q4 · 카테고리: 쿠팡 윙/로켓, 네이버 스마트스토어</div>
+
+    <div class="callout">
+      <strong>핵심 경고:</strong> 쿠팡 로켓그로스는 판매수수료 외에 입고/보관/입출고 배송비(건당 약 2,000원~3,500원)가 별도 차감됩니다. 겉보기 마진율 30% 제품도 로켓그로스 진입 시 역마진이 발생할 수 있습니다.
+    </div>
+
+    <h2>1. 실마진 계산 필수 공식</h2>
+    <p><strong>진짜 순마진 = 판매가 - (원가 + 카테고리 수수료 + 풀필먼트/배송비 + 포장재비 + 광고비/ROAS + 부가세 10% 환급차액)</strong></p>
+
+    <h2>2. 출점 전 세무 & 정산 체크리스트</h2>
+    <ul class="checklist">
+      <li>✅ 통신판매업 신고 및 구매안전서비스 이용확인증 발급 완료 여부</li>
+      <li>✅ 매출 누락 없는 세금계산서 자동 역발행 연동 확인</li>
+      <li>✅ 로켓그로스 장기 보관 수수료(재고 90일 경과 시) 사전 시뮬레이션</li>
+      <li>✅ 정산 주기(쿠팡 주정산/월정산 vs 네이버 구매확정 익일정산) 현금흐름 점검</li>
+    </ul>
+
+    <button class="btn-print" onclick="window.print()">🖨️ PDF 다운로드 / 템플릿 인쇄하기</button>
+  </div>
+</body>
+</html>

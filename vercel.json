@@ -40,6 +40,14 @@
       "destination": "/embed"
     },
     {
+      "source": "/dashboard",
+      "destination": "/dashboard/index.html"
+    },
+    {
+      "source": "/dashboard/(.*)",
+      "destination": "/dashboard/index.html"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },

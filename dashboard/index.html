@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SETUPOD & MAZA 글로벌 비즈니스 관제 대시보드</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236366f1'/><path d='M30 50L45 65L70 35' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', sans-serif; background: #080c14; color: #f8fafc; min-height: 100vh; padding: 32px 20px; }
+    .dash-container { max-width: 1320px; margin: 0 auto; }
+    
+    /* Top Header */
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .brand-title { display: flex; align-items: center; gap: 12px; }
+    .brand-title h1 { font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+    .brand-badge { font-size: 11px; font-weight: 800; background: rgba(99,102,241,0.2); color: #818cf8; border: 1px solid rgba(99,102,241,0.4); padding: 3px 8px; border-radius: 9999px; }
+
+    /* Summary Stats Grid */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 36px; }
+    .stat-card { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; }
+    .stat-card::after { content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: radial-gradient(circle, var(--glow-color, rgba(99,102,241,0.15)) 0%, transparent 70%); border-radius: 50%; pointer-events: none; }
+    .stat-label { font-size: 13px; font-weight: 700; color: #94a3b8; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .stat-value { font-size: 32px; font-weight: 900; color: #ffffff; letter-spacing: -0.03em; }
+    .stat-sub { font-size: 12px; color: #10b981; margin-top: 6px; font-weight: 600; }
+
+    /* Main Table Section */
+    .section-card { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 28px; margin-bottom: 32px; }
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .section-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    
+    .btn-export { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; background: #6366f1; hover:background: #4f46e5; color: #fff; font-size: 12.5px; font-weight: 800; border-radius: 12px; border: none; cursor: pointer; transition: all 0.2s; }
+    .btn-export:hover { background: #4f46e5; transform: translateY(-1px); }
+
+    /* Table */
+    .leads-table-wrap { overflow-x: auto; }
+    .leads-table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left; }
+    .leads-table th { padding: 14px 16px; color: #94a3b8; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
+    .leads-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
+    .domain-tag { font-family: monospace; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #38bdf8; }
+    .val-tag { color: #fbbf24; font-weight: 800; }
+  </style>
+</head>
+<body>
+
+  <div class="dash-container">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="brand-title">
+        <i data-lucide="shield-check" style="width: 28px; height: 28px; color: #6366f1;"></i>
+        <div>
+          <h1>SETUPOD ↔ MAZA 글로벌 비즈니스 관제 센터</h1>
+          <div style="font-size: 12px; color: #64748b; margin-top: 2px;">실시간 자산 텔레메트리 & 잠재고객 리드 DB 허브</div>
+        </div>
+      </div>
+      <span class="brand-badge">LIVE SYNC ACTIVE</span>
+    </header>
+
+    <!-- Stats Grid -->
+    <div class="stat-grid">
+      <div class="stat-card" style="--glow-color: rgba(99,102,241,0.2);">
+        <div class="stat-label">
+          <span>누적 수집된 글로벌 리드</span>
+          <i data-lucide="users" style="width: 18px; height: 18px; color: #818cf8;"></i>
+        </div>
+        <div class="stat-value" id="totalLeadsCount">-</div>
+        <div class="stat-sub">↑ 실시간 2-Way 자동 적재 중</div>
+      </div>
+
+      <div class="stat-card" style="--glow-color: rgba(245,158,11,0.2);">
+        <div class="stat-label">
+          <span>플립 추정 리드 자산가치</span>
+          <i data-lucide="dollar-sign" style="width: 18px; height: 18px; color: #fbbf24;"></i>
+        </div>
+        <div class="stat-value" id="estimatedLeadVal">$0</div>
+        <div class="stat-sub" style="color: #fbbf24;">Flippa 벤치마크 ($1.8/lead 기준)</div>
+      </div>
+
+      <div class="stat-card" style="--glow-color: rgba(16,185,129,0.2);">
+        <div class="stat-label">
+          <span>연동 도메인 활성도</span>
+          <i data-lucide="globe" style="width: 18px; height: 18px; color: #34d399;"></i>
+        </div>
+        <div class="stat-value">4개 사이트</div>
+        <div class="stat-sub">mazaus, autosite, brewoak, setupod</div>
+      </div>
+
+      <div class="stat-card" style="--glow-color: rgba(168,85,247,0.2);">
+        <div class="stat-label">
+          <span>평균 리드 전환율</span>
+          <i data-lucide="activity" style="width: 18px; height: 18px; color: #c084fc;"></i>
+        </div>
+        <div class="stat-value">4.8%</div>
+        <div class="stat-sub">업계 평균(1.5%) 대비 3.2배 상회</div>
+      </div>
+    </div>
+
+    <!-- Leads Table Section -->
+    <section class="section-card">
+      <div class="section-head">
+        <div class="section-title">
+          <i data-lucide="database" style="width: 20px; height: 20px; color: #6366f1;"></i>
+          <span>수집된 잠재 고객 이메일 목록</span>
+        </div>
+        <button class="btn-export" onclick="exportLeadsCSV()">
+          <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+          <span>글로벌 플립 실사용 CSV 다운로드</span>
+        </button>
+      </div>
+
+      <div class="leads-table-wrap">
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>수집 일시</th>
+              <th>도메인 (출처)</th>
+              <th>이메일 주소</th>
+              <th>보조 연락처/이름</th>
+              <th>수령한 선물 (리드마그넷)</th>
+              <th>인증 상태</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
+                리드 데이터를 로드하고 있습니다...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let globalLeads = [];
+
+    async function loadLeads() {
+      try {
+        const res = await fetch('/api/leads');
+        const json = await res.json();
+        const leads = json.leads || [];
+        globalLeads = leads;
+
+        // 집계 갱신
+        const total = leads.length;
+        document.getElementById('totalLeadsCount').innerText = total + '명';
+        const val = (total * 1.8).toFixed(1);
+        document.getElementById('estimatedLeadVal').innerText = '$' + val;
+
+        // 테이블 렌더링
+        const tbody = document.getElementById('leadsTableBody');
+        if (leads.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align:center; padding: 40px; color: #64748b;">
+                아직 수집된 리드가 없습니다. 사이트 방문자에게 선물이 곧 제안됩니다.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = leads.map(item => `
+          <tr>
+            <td style="color:#94a3b8; font-size:12.5px;">${new Date(item.created_at).toLocaleString()}</td>
+            <td><span class="domain-tag">${item.domain || 'setupod.com'}</span></td>
+            <td style="font-weight:700; color:#fff;">${item.email}</td>
+            <td style="color:#94a3b8;">${item.contact || '-'}</td>
+            <td><span style="font-size:12px; color:#c084fc;">${item.lead_type || 'starter_kit'}</span></td>
+            <td><span style="color:#22c55e; font-size:12px; font-weight:800;">● 정상 수집</span></td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function exportLeadsCSV() {
+      if (!globalLeads.length) {
+        alert('내보낼 리드 데이터가 없습니다.');
+        return;
+      }
+      let csvContent = "data:text/csv;charset=utf-8,Date,Domain,Email,Contact,LeadType\n";
+      globalLeads.forEach(r => {
+        csvContent += `"${r.created_at}","${r.domain}","${r.email}","${r.contact || ''}","${r.lead_type}"\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `setupod_leads_export_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadLeads();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

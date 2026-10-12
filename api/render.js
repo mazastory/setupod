@@ -20,6 +20,15 @@ module.exports = async (req, res) => {
     }
   }
 
+  if ((slug && (slug.startsWith('dashboard') || slug.includes('dashboard'))) || reqUrl.includes('dashboard')) {
+    const dashHtmlPath = path.join(process.cwd(), 'dashboard', 'index.html');
+    if (fs.existsSync(dashHtmlPath)) {
+      const html = fs.readFileSync(dashHtmlPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.status(200).send(html);
+    }
+  }
+
   if (!slug) {
     slug = 'setupod'; // Default fallback
   }
