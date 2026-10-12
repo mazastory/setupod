@@ -52,6 +52,30 @@
       "destination": "/leads/$1"
     },
     {
+      "source": "/runway",
+      "destination": "/runway/index.html"
+    },
+    {
+      "source": "/runway/(.*)",
+      "destination": "/runway/index.html"
+    },
+    {
+      "source": "/margin",
+      "destination": "/margin/index.html"
+    },
+    {
+      "source": "/margin/(.*)",
+      "destination": "/margin/index.html"
+    },
+    {
+      "source": "/nomad",
+      "destination": "/nomad/index.html"
+    },
+    {
+      "source": "/nomad/(.*)",
+      "destination": "/nomad/index.html"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },

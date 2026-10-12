@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>디지털 노마드 글로벌 도시 생활비 & 환전 시뮬레이터 | SETUPOD</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2338bdf8'/><path d='M30 50L45 65L70 35' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/js/maza-telemetry.js"></script>
+  <script src="/js/lead-magnet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Pretendard', sans-serif; background: #070d18; color: #f8fafc; min-height: 100vh; padding: 32px 16px; display: flex; flex-direction: column; align-items: center; }
+    .pod-container { width: 100%; max-width: 900px; }
+    .pod-header { text-align: center; margin-bottom: 28px; }
+    .pod-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.4); border-radius: 9999px; font-size: 12px; font-weight: 800; color: #38bdf8; margin-bottom: 12px; }
+    .pod-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; color: #fff; margin-bottom: 8px; }
+    .pod-desc { font-size: 14px; color: #94a3b8; }
+    
+    .calc-card { background: #0f182a; border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 36px 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 24px; }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; } .calc-card { padding: 24px 20px; } }
+
+    .city-select { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; color: #fff; font-size: 15px; font-weight: 700; outline: none; margin-bottom: 20px; }
+    .city-select option { background: #0f182a; color: #fff; }
+
+    .lifestyle-pill-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+    .lifestyle-btn { padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #94a3b8; font-size: 12.5px; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.2s; }
+    .lifestyle-btn.active { border-color: #38bdf8; background: rgba(56,189,248,0.2); color: #fff; }
+
+    /* Result Box */
+    .total-cost-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; text-align: center; }
+    .cost-won { font-size: 40px; font-weight: 900; color: #38bdf8; letter-spacing: -0.02em; margin: 8px 0 4px; }
+    .cost-usd { font-size: 16px; font-weight: 700; color: #94a3b8; }
+
+    .item-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13.5px; }
+    .item-row span:last-child { font-weight: 800; color: #fff; }
+    .btn-magnet { width: 100%; padding: 15px; background: #38bdf8; border: none; border-radius: 14px; font-size: 14px; font-weight: 900; color: #000; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; transition: all 0.2s; }
+    .btn-magnet:hover { background: #7dd3fc; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+  <div class="pod-container">
+    <div class="pod-header">
+      <div class="pod-badge">
+        <i data-lucide="plane" style="width: 14px; height: 14px; color: #38bdf8;"></i>
+        <span>글로벌 노마드 예산 시뮬레이터</span>
+      </div>
+      <h1 class="pod-title">디지털 노마드 글로벌 도시 생활비 & 시뮬레이터</h1>
+      <p class="pod-desc">숙소, 코워킹 스페이스, 식비 등 전 세계 주요 거점 도시별 월간 예상 지출을 1초 만에 확인하세요.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="grid-2col">
+        <!-- Controls -->
+        <div>
+          <label style="font-size:13px; font-weight:700; color:#94a3b8; margin-bottom:8px; display:block;">목적지 도시 선택</label>
+          <select id="selCity" class="city-select">
+            <option value="bali">🇮🇩 인도네시아 발리 (짱구/우붓)</option>
+            <option value="chiangmai">🇹🇭 태국 치앙마이 (님만해민)</option>
+            <option value="bangkok">🇹🇭 태국 방콕 (스쿰빗)</option>
+            <option value="tokyo">🇯🇵 일본 도쿄 (시부야/신주쿠)</option>
+            <option value="lisbon">🇵🇹 포르투갈 리스본</option>
+            <option value="danang">🇻🇳 베트남 다낭</option>
+          </select>
+
+          <label style="font-size:13px; font-weight:700; color:#94a3b8; margin-bottom:8px; display:block;">라이프스타일 등급</label>
+          <div class="lifestyle-pill-group">
+            <div class="lifestyle-btn" onclick="setGrade('budget', this)">절약형 (Budget)</div>
+            <div class="lifestyle-btn active" onclick="setGrade('comfort', this)">표준형 (Comfort)</div>
+            <div class="lifestyle-btn" onclick="setGrade('luxury', this)">프리미엄 (Luxury)</div>
+          </div>
+
+          <div style="font-size:13px; color:#94a3b8; line-height:1.6; background:rgba(255,255,255,0.02); padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.06);">
+            💡 <strong>환율 기준:</strong> USD 1 = ₩1,380 기준 실시간 환산<br>
+            코워킹 스페이스 전용석 + 1베드룸 아파트 기준 실측치
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div>
+          <div class="total-cost-box">
+            <div style="font-size:12.5px; font-weight:800; color:#94a3b8;">예상 월간 총 생활비</div>
+            <div class="cost-won" id="totalWon">₩1,850,000</div>
+            <div class="cost-usd" id="totalUsd">약 $1,340 / 월</div>
+          </div>
+
+          <div style="margin-top: 18px;">
+            <div class="item-row">
+              <span style="color:#94a3b8;">🏠 숙소 (1베드룸 / 콘도)</span>
+              <span id="costRent">₩950,000</span>
+            </div>
+            <div class="item-row">
+              <span style="color:#94a3b8;">💻 코워킹 스페이스 (핫데스크)</span>
+              <span id="costCoworking">₩220,000</span>
+            </div>
+            <div class="item-row">
+              <span style="color:#94a3b8;">🍜 식비 & 카페 생활비</span>
+              <span id="costFood">₩520,000</span>
+            </div>
+            <div class="item-row">
+              <span style="color:#94a3b8;">🚕 교통 & 로컬 심카드</span>
+              <span id="costMisc">₩160,000</span>
+            </div>
+          </div>
+
+          <button class="btn-magnet" onclick="if(window.LeadMagnet) window.LeadMagnet.open();">
+            <i data-lucide="book-open" style="width: 16px; height: 16px;"></i>
+            <span>노마드 비자 & 세금 최적화 가이드 받기</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var CITY_DATA = {
+      bali: { rent: 950000, cowork: 220000, food: 520000, misc: 160000 },
+      chiangmai: { rent: 550000, cowork: 150000, food: 380000, misc: 120000 },
+      bangkok: { rent: 850000, cowork: 200000, food: 480000, misc: 180000 },
+      tokyo: { rent: 1450000, cowork: 320000, food: 780000, misc: 250000 },
+      lisbon: { rent: 1650000, cowork: 280000, food: 680000, misc: 220000 },
+      danang: { rent: 480000, cowork: 140000, food: 320000, misc: 110000 }
+    };
+
+    var currentGrade = 'comfort';
+
+    function setGrade(grade, el) {
+      currentGrade = grade;
+      document.querySelectorAll('.lifestyle-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      updateCost();
+    }
+
+    function updateCost() {
+      var cityKey = document.getElementById('selCity').value;
+      var base = CITY_DATA[cityKey] || CITY_DATA['bali'];
+
+      var mult = currentGrade === 'budget' ? 0.7 : (currentGrade === 'luxury' ? 1.6 : 1.0);
+
+      var rent = Math.round(base.rent * mult);
+      var cowork = Math.round(base.cowork * mult);
+      var food = Math.round(base.food * mult);
+      var misc = Math.round(base.misc * mult);
+
+      var total = rent + cowork + food + misc;
+      var usd = Math.round(total / 1380);
+
+      document.getElementById('totalWon').innerText = '₩' + total.toLocaleString();
+      document.getElementById('totalUsd').innerText = '약 $' + usd.toLocaleString() + ' / 월';
+
+      document.getElementById('costRent').innerText = '₩' + rent.toLocaleString();
+      document.getElementById('costCoworking').innerText = '₩' + cowork.toLocaleString();
+      document.getElementById('costFood').innerText = '₩' + food.toLocaleString();
+      document.getElementById('costMisc').innerText = '₩' + misc.toLocaleString();
+    }
+
+    document.getElementById('selCity').addEventListener('change', updateCost);
+    updateCost();
+
+    if (window.lucide) lucide.createIcons();
+
+    if (window.MazaTelemetry) {
+      window.MazaTelemetry.init({ podId: 'nomad' });
+    }
+  </script>
+</body>
+</html>

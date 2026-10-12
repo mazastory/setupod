@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>스타트업 런웨이 & 번레이트 계산기 | SETUPOD</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236366f1'/><path d='M30 50L45 65L70 35' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/js/maza-telemetry.js"></script>
+  <script src="/js/lead-magnet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Pretendard', sans-serif; background: #07090e; color: #f8fafc; min-height: 100vh; padding: 32px 16px; display: flex; flex-direction: column; align-items: center; }
+    .pod-container { width: 100%; max-width: 860px; }
+    .pod-header { text-align: center; margin-bottom: 28px; }
+    .pod-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.4); border-radius: 9999px; font-size: 12px; font-weight: 800; color: #818cf8; margin-bottom: 12px; }
+    .pod-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; color: #fff; margin-bottom: 8px; }
+    .pod-desc { font-size: 14px; color: #94a3b8; }
+    
+    .calc-card { background: #111726; border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 36px 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 24px; }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; } .calc-card { padding: 24px 20px; } }
+
+    .control-group { margin-bottom: 22px; }
+    .control-label { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 10px; }
+    .control-val { color: #818cf8; font-weight: 900; }
+    .range-slider { width: 100%; height: 6px; border-radius: 4px; background: #1e293b; outline: none; -webkit-appearance: none; }
+    .range-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #6366f1; cursor: pointer; box-shadow: 0 0 12px rgba(99,102,241,0.6); }
+
+    /* Result Gauge */
+    .gauge-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .gauge-months { font-size: 54px; font-weight: 900; color: #10b981; letter-spacing: -0.03em; line-height: 1.1; margin: 12px 0 6px; }
+    .gauge-status { font-size: 13px; font-weight: 800; padding: 4px 12px; border-radius: 99px; }
+    .status-safe { background: rgba(16,185,129,0.2); color: #34d399; }
+    .status-warn { background: rgba(245,158,11,0.2); color: #fbbf24; }
+    .status-danger { background: rgba(239,68,68,0.2); color: #f87171; }
+
+    .net-burn-row { display: flex; justify-content: space-between; width: 100%; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 18px; font-size: 13px; color: #94a3b8; }
+    .btn-magnet { width: 100%; padding: 15px; background: linear-gradient(135deg, #6366f1, #a855f7); border: none; border-radius: 14px; font-size: 14.5px; font-weight: 900; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; transition: all 0.2s; }
+    .btn-magnet:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+  <div class="pod-container">
+    <div class="pod-header">
+      <div class="pod-badge">
+        <i data-lucide="flame" style="width: 14px; height: 14px; color: #ef4444;"></i>
+        <span>실시간 비즈니스 시뮬레이터</span>
+      </div>
+      <h1 class="pod-title">스타트업 런웨이 & 번레이트 계산기</h1>
+      <p class="pod-desc">월 지출과 매출 변동에 따른 데스밸리 잔여 생존 개월 수를 1초 만에 측정하세요.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="grid-2col">
+        <!-- Sliders -->
+        <div>
+          <div class="control-group">
+            <div class="control-label">
+              <span>보유 현금 잔고</span>
+              <span class="control-val" id="valCash">1억 5,000만원</span>
+            </div>
+            <input type="range" class="range-slider" id="sliderCash" min="1000" max="100000" step="500" value="15000">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>월 고정 지출 (인건비+서버+임대)</span>
+              <span class="control-val" id="valExpense">1,800만원</span>
+            </div>
+            <input type="range" class="range-slider" id="sliderExpense" min="100" max="10000" step="50" value="1800">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>월 고정 매출 (MRR)</span>
+              <span class="control-val" id="valRevenue">600만원</span>
+            </div>
+            <input type="range" class="range-slider" id="sliderRevenue" min="0" max="10000" step="50" value="600">
+          </div>
+        </div>
+
+        <!-- Result Gauge -->
+        <div class="gauge-box">
+          <div style="font-size: 13px; font-weight: 700; color: #94a3b8;">남은 생존 기간 (Runway)</div>
+          <div class="gauge-months" id="runwayMonths">12.5개월</div>
+          <div class="gauge-status status-safe" id="runwayBadge">안정권 (생존 가동 중)</div>
+
+          <div class="net-burn-row">
+            <span>월간 순연소액 (Net Burn)</span>
+            <span style="font-weight: 800; color: #f87171;" id="netBurnVal">-1,200만원 / 월</span>
+          </div>
+          <div class="net-burn-row" style="border-top:none; padding-top:0;">
+            <span>예상 자금 소진 시점</span>
+            <span style="font-weight: 800; color: #fff;" id="exhaustDate">2027년 11월</span>
+          </div>
+
+          <button class="btn-magnet" onclick="if(window.LeadMagnet) window.LeadMagnet.open();">
+            <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+            <span>런웨이 2배 연장 전략 가이드 (무료)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function formatWon(num) {
+      if (num >= 10000) {
+        var eok = Math.floor(num / 10000);
+        var man = num % 10000;
+        return man > 0 ? eok + '억 ' + man.toLocaleString() + '만원' : eok + '억원';
+      }
+      return num.toLocaleString() + '만원';
+    }
+
+    function calculateRunway() {
+      var cash = parseInt(document.getElementById('sliderCash').value);
+      var expense = parseInt(document.getElementById('sliderExpense').value);
+      var revenue = parseInt(document.getElementById('sliderRevenue').value);
+
+      document.getElementById('valCash').innerText = formatWon(cash);
+      document.getElementById('valExpense').innerText = formatWon(expense);
+      document.getElementById('valRevenue').innerText = formatWon(revenue);
+
+      var netBurn = expense - revenue;
+      var netBurnEl = document.getElementById('netBurnVal');
+      var monthsEl = document.getElementById('runwayMonths');
+      var badgeEl = document.getElementById('runwayBadge');
+      var dateEl = document.getElementById('exhaustDate');
+
+      if (netBurn <= 0) {
+        netBurnEl.innerText = '+' + formatWon(Math.abs(netBurn)) + ' / 월 (흑자)';
+        netBurnEl.style.color = '#34d399';
+        monthsEl.innerText = '∞ 무한대';
+        monthsEl.style.color = '#34d399';
+        badgeEl.className = 'gauge-status status-safe';
+        badgeEl.innerText = '손익분기 달성 (Default Alive)';
+        dateEl.innerText = '자금 고갈 위험 없음';
+      } else {
+        netBurnEl.innerText = '-' + formatWon(netBurn) + ' / 월';
+        netBurnEl.style.color = '#f87171';
+        var months = (cash / netBurn).toFixed(1);
+        monthsEl.innerText = months + '개월';
+
+        var targetDate = new Date();
+        targetDate.setMonth(targetDate.getMonth() + Math.round(cash / netBurn));
+        dateEl.innerText = targetDate.getFullYear() + '년 ' + (targetDate.getMonth() + 1) + '월';
+
+        if (months >= 12) {
+          monthsEl.style.color = '#10b981';
+          badgeEl.className = 'gauge-status status-safe';
+          badgeEl.innerText = '안정권 (1년 이상 여유)';
+        } else if (months >= 6) {
+          monthsEl.style.color = '#fbbf24';
+          badgeEl.className = 'gauge-status status-warn';
+          badgeEl.innerText = '경고 (투자유치 준비 필요)';
+        } else {
+          monthsEl.style.color = '#ef4444';
+          badgeEl.className = 'gauge-status status-danger';
+          badgeEl.innerText = '데스밸리 위험 (비용 감축 시급)';
+        }
+      }
+    }
+
+    document.querySelectorAll('.range-slider').forEach(function(slider) {
+      slider.addEventListener('input', calculateRunway);
+    });
+
+    calculateRunway();
+    if (window.lucide) lucide.createIcons();
+
+    if (window.MazaTelemetry) {
+      window.MazaTelemetry.init({ podId: 'runway' });
+    }
+  </script>
+</body>
+</html>
