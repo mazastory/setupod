@@ -180,15 +180,17 @@ const PRODUCTS = [
   }
 ];
 
-const { generate100Products, VERTICALS, ENGINES } = require('./matrix_data.js');
+const { generate100Products, generate35PremiumProducts, VERTICALS, ENGINES } = require('./matrix_data.js');
 
 const MATRIX_100_PRODUCTS = generate100Products();
+const PREMIUM_36_PRODUCTS = generate35PremiumProducts();
 
-// 핵심 9종 제품과 100개 매트릭스 제품의 완벽한 통합
+// 1. 핵심 기본 9종 제품 + 2. 프리미엄 36종 제품 + 3. 100개 무상 매트릭스 제품의 완벽한 통합
 // id 중복 방지 및 우선순위 보장
 const ALL_PRODUCTS = [];
 const seenIds = new Set();
 
+// 1. 기본 제품군 (기존 핵심 9종)
 for (const p of PRODUCTS) {
   if (!seenIds.has(p.id)) {
     seenIds.add(p.id);
@@ -196,6 +198,15 @@ for (const p of PRODUCTS) {
   }
 }
 
+// 2. 고부가가치 프리미엄 팟 (36종)
+for (const p of PREMIUM_36_PRODUCTS) {
+  if (!seenIds.has(p.id)) {
+    seenIds.add(p.id);
+    ALL_PRODUCTS.push(p);
+  }
+}
+
+// 3. 100대 무상 장학 매트릭스 팟 (100종)
 for (const p of MATRIX_100_PRODUCTS) {
   if (!seenIds.has(p.id)) {
     seenIds.add(p.id);
@@ -234,7 +245,7 @@ module.exports = async (req, res) => {
 
   return res.status(200).json({
     success: true,
-    version: "2026.2.0-100MATRIX",
+    version: "2026.3.0-BUNDLE-3PODS",
     partner: "MAZA Studio 🤝 SETUPOD",
     updated_at: new Date().toISOString(),
     total_count: filtered.length,
@@ -247,7 +258,8 @@ module.exports = async (req, res) => {
     revenue_share_policy: {
       maza_fee_percentage: 25,
       setupod_payout_percentage: 75,
-      scholarship_free_support: "1년 인프라 + 호스팅 + 스타터 팟 1개 전액 무상 지원",
+      scholarship_free_support: "100개 무상 팟 풀에서 도메인당 자유 선택(Pick 2~3) 무상 지원",
+      bundle_strategy: "도메인 1개당 [무료 2개 + 프리미엄 1개 = 총 3개 팟] 서브패스 자산화 번들 지원",
       anti_cannibalization: "100개 세부 업종별 독립 팟 분산으로 유저 간 키워드 중복 경쟁 100% 방지"
     },
     categories: VERTICALS.map(v => ({ id: v.cat, name: v.catName })),
