@@ -58,12 +58,12 @@
 
     function selectCategory(cat, el) {
       activeCategory = cat;
-      document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.kmong-nav-btn, .category-chip').forEach(c => c.classList.remove('active'));
       if (el) {
         el.classList.add('active');
       } else {
-        const targetChip = document.querySelector(`.category-chip[data-cat="${cat}"]`);
-        if (targetChip) targetChip.classList.add('active');
+        const targetBtn = document.querySelector(`.kmong-nav-btn[data-cat="${cat}"], .category-chip[data-cat="${cat}"]`);
+        if (targetBtn) targetBtn.classList.add('active');
       }
       
       const searchInput = document.getElementById('searchInput');
@@ -71,6 +71,22 @@
         searchInput.value = '';
       }
       filterProducts();
+    }
+
+    function searchByTag(keyword) {
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.value = keyword;
+      }
+      activeCategory = 'all';
+      document.querySelectorAll('.kmong-nav-btn, .category-chip').forEach(c => c.classList.remove('active'));
+      const allBtn = document.querySelector('.kmong-nav-btn[data-cat="all"], .category-chip[data-cat="all"]');
+      if (allBtn) allBtn.classList.add('active');
+      filterProducts();
+      const catalogSection = document.getElementById('catalogSection');
+      if (catalogSection) {
+        catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function filterProducts() {
@@ -242,79 +258,89 @@
       font-weight: 800;
     }
 
-    /* ── Hero Section ── */
-    .market-hero {
-      max-width: 1080px;
+    /* ── Kmong-Style 2-Column Hero & Search Hub ── */
+    .kmong-hero-section {
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 60px 24px 30px;
-      text-align: center;
+      padding: 44px 20px 20px;
+    }
+
+    .kmong-hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 34px;
+    }
+
+    /* Left Column: Search & Catchphrase */
+    .kmong-search-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
     }
 
     .hero-badge-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 18px;
+      padding: 5px 14px;
       border-radius: 99px;
       background: rgba(168, 85, 247, 0.12);
       border: 1px solid rgba(168, 85, 247, 0.35);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       color: #c084fc;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
+      width: fit-content;
     }
 
-    .market-hero h1 {
+    .kmong-hero-title {
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(30px, 4.8vw, 52px);
+      font-size: clamp(26px, 3.2vw, 42px);
       font-weight: 900;
       letter-spacing: -0.03em;
-      line-height: 1.25;
-      margin-bottom: 18px;
+      line-height: 1.3;
+      margin-bottom: 14px;
+      color: #fff;
     }
 
-    .market-hero h1 .accent {
+    .kmong-hero-title .accent {
       background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #ec4899 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero-desc {
-      font-size: 16px;
+    .kmong-hero-sub {
+      font-size: 14.5px;
       color: rgba(255, 255, 255, 0.65);
-      line-height: 1.7;
-      margin-bottom: 34px;
-      max-width: 660px;
-      margin-left: auto;
-      margin-right: auto;
+      line-height: 1.65;
+      margin-bottom: 22px;
+      max-width: 580px;
     }
 
-    /* ── Search Bar (Kmong Style) ── */
-    .market-search-box {
-      max-width: 640px;
-      margin: 0 auto 34px;
-      position: relative;
-    }
-
-    .search-input-wrap {
+    /* Kmong Search Input Wrap */
+    .kmong-input-wrap {
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(168, 85, 247, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid rgba(168, 85, 247, 0.45);
       border-radius: 16px;
       padding: 6px 8px 6px 20px;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
     }
 
-    .search-input-wrap:focus-within {
+    .kmong-input-wrap:focus-within {
       border-color: #a855f7;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 12px 40px rgba(168, 85, 247, 0.35);
+      background: rgba(255, 255, 255, 0.09);
+      box-shadow: 0 10px 32px rgba(168, 85, 247, 0.3);
     }
 
-    .search-input-wrap input {
+    .kmong-input-wrap input {
       flex: 1;
       background: transparent;
       border: none;
@@ -325,82 +351,317 @@
       font-family: inherit;
     }
 
-    .search-input-wrap input::placeholder {
+    .kmong-input-wrap input::placeholder {
       color: rgba(255, 255, 255, 0.4);
     }
 
-    .search-btn {
+    .kmong-search-submit {
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       border: none;
       color: #fff;
-      padding: 12px 24px;
+      padding: 10px 18px;
       border-radius: 12px;
-      font-weight: 800;
-      font-size: 14px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .kmong-search-submit:hover {
+      transform: scale(1.04);
+    }
+
+    /* Popular Tags List (Kmong Click-to-Search Pills) */
+    .kmong-popular-tags {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .popular-tags-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.45);
+      white-space: nowrap;
+    }
+
+    .popular-tags-list {
+      display: flex;
+      align-items: center;
       gap: 6px;
-      transition: transform 0.2s;
+      flex-wrap: wrap;
     }
 
-    .search-btn:hover {
-      transform: scale(1.02);
+    .popular-tag-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.75);
+      padding: 5px 11px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
-    /* ── Category Chips (완벽한 한 줄 & 모바일 터치 스크롤) ── */
-    .chips-bar {
+    .popular-tag-pill:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* Right Column: Spotlight Feature Card (Kmong Top Banner) */
+    .kmong-spotlight-card {
+      background: linear-gradient(145deg, rgba(26, 17, 45, 0.8) 0%, rgba(13, 10, 24, 0.95) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .spotlight-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .spotlight-top-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spotlight-tag {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .spotlight-tag.hot {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .spotlight-tag.free {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .spotlight-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .spotlight-icon-box {
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle at 50% 50%, #4c1d95, #1e1b4b);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      max-width: 1040px;
-      margin: 0 auto 40px;
-      padding: 4px 16px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      font-size: 28px;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.4);
     }
 
-    .chips-bar::-webkit-scrollbar {
-      display: none;
+    .spotlight-info {
+      text-align: left;
     }
 
-    .category-chip {
-      padding: 8px 13px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 12.5px;
+    .spotlight-category {
+      font-size: 11.5px;
       font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      color: #a855f7;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .spotlight-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .spotlight-desc {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.5;
+    }
+
+    .spotlight-metrics-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.65);
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .spotlight-stat {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
+      font-weight: 700;
+    }
+
+    .spotlight-actions-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .spotlight-btn-preview {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .spotlight-btn-preview:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .spotlight-btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+    }
+
+    .spotlight-btn-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.5);
+    }
+
+    /* ── Kmong-Style Category Navigation Row ── */
+    .kmong-category-nav {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 10px;
+      margin: 10px auto 30px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 18px;
+    }
+
+    .kmong-nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 6px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.18s ease;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .kmong-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .kmong-nav-btn.active {
+      background: rgba(168, 85, 247, 0.14);
+      border-color: rgba(168, 85, 247, 0.5);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
+    }
+
+    .kmong-nav-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      line-height: 1;
+      margin-bottom: 6px;
+      color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .kmong-nav-tag.highlight {
+      background: rgba(168, 85, 247, 0.25);
+      color: #c084fc;
+    }
+
+    .kmong-nav-tag.best {
+      background: rgba(234, 179, 8, 0.2);
+      color: #facc15;
+    }
+
+    .kmong-nav-tag.hot {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .kmong-nav-tag.free {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+    }
+
+    .kmong-nav-icon {
+      font-size: 22px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .kmong-nav-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       white-space: nowrap;
-      flex-shrink: 0;
-      user-select: none;
     }
 
-    .category-chip:hover {
-      background: rgba(255, 255, 255, 0.09);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .category-chip.active {
-      background: #a855f7;
-      color: #fff;
-      border-color: #a855f7;
-      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
-    }
-
-    @media (max-width: 900px) {
-      .chips-bar {
-        justify-content: flex-start;
-      }
+    /* Fallback chip styles for backwards compatibility */
+    .chips-bar {
+      display: none;
     }
 
     /* ── Infinite Marquee Showcase (여유롭고 품격 있는 속도: 95초) ── */
@@ -1208,9 +1469,25 @@
 
     .footer-links { margin-bottom: 20px; }
 
-    @media (max-width: 768px) {
-      .market-hero { padding: 40px 18px 24px; }
-      .market-hero h1 { font-size: 28px; }
+    @media (max-width: 960px) {
+      .kmong-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .kmong-category-nav {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kmong-hero-section { padding: 24px 14px 14px; }
+      .kmong-category-nav {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        padding: 10px 6px;
+      }
+      .kmong-nav-label { font-size: 11px; }
       .products-grid { grid-template-columns: 1fr; }
       .floating-partner-widget { right: 16px; bottom: 16px; max-width: calc(100% - 32px); }
     }
@@ -1224,57 +1501,132 @@
     <a href="javascript:void(0)" onclick="openOrderModal('전체')">스타터 신청하기 →</a>
   </div>
 
-  <!-- Hero -->
-  <section class="market-hero">
-    <div class="hero-badge-pill">
-      <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-      <span>턴키 웹 비즈니스 1초 분양 마켓플레이스</span>
+  <!-- Kmong-Style 2-Column Hero & Search Hub -->
+  <section class="kmong-hero-section">
+    <div class="kmong-hero-grid">
+      <!-- Left Column: Search & Popular Keywords -->
+      <div class="kmong-search-col">
+        <div class="hero-badge-pill">
+          <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+          <span>1초 턴키 웹 비즈니스 분양 마켓플레이스</span>
+        </div>
+
+        <h1 class="kmong-hero-title">
+          성공이 필요한 순간,<br>
+          <span class="accent">내 도메인에 딱 맞는 비즈니스 팟</span>을 찾아보세요
+        </h1>
+
+        <p class="kmong-hero-sub">
+          코드 한 줄 몰라도 내 도메인에 1초 만에 꽂히는 검증된 웹 유틸리티 비즈니스.<br>
+          스타터 0원 무상 지원으로 고단가 애드센스 & DB 파이프라인을 즉시 가동하세요.
+        </p>
+
+        <!-- Search Input Wrap -->
+        <div class="kmong-input-wrap">
+          <input type="text" id="searchInput" placeholder="어떤 웹 비즈니스를 분양받고 싶으세요? (예: 플래너, 페이팔, 명함, 셀러...)" onkeyup="filterProducts()">
+          <button class="kmong-search-submit" onclick="filterProducts()" aria-label="검색">
+            <i data-lucide="search" style="width:18px;height:18px;"></i>
+          </button>
+        </div>
+
+        <!-- Popular Tags (Kmong Style Click-to-Search Pills) -->
+        <div class="kmong-popular-tags">
+          <span class="popular-tags-label">인기 검색</span>
+          <div class="popular-tags-list">
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('플래너')">📅 2026 플래너</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('명함')">💼 3D 명함</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('페이팔')">🌐 페이팔 환율</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('마진')">🛒 셀러 마진</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('카드뉴스')">📱 인스타 카드뉴스</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('김프')">🌕 김프 코인</button>
+            <button type="button" class="popular-tag-pill" onclick="searchByTag('양도세')">🏠 아파트 양도세</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Spotlight Feature Card (Kmong Top Banner) -->
+      <div class="kmong-spotlight-card">
+        <div class="spotlight-card-inner">
+          <div class="spotlight-top-badge">
+            <span class="spotlight-tag hot">👑 실시간 분양 1위</span>
+            <span class="spotlight-tag free">0원 스타터 지원</span>
+          </div>
+
+          <div class="spotlight-content">
+            <div class="spotlight-icon-box">📅</div>
+            <div class="spotlight-info">
+              <span class="spotlight-category">플래너 · 문구 OS</span>
+              <h3 class="spotlight-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
+              <p class="spotlight-desc">무료 속지 나눔으로 방문자 DB를 자동 수집하고 고단가 제휴 광고를 송출합니다.</p>
+            </div>
+          </div>
+
+          <div class="spotlight-metrics-row">
+            <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (128명 분양)</div>
+            <div class="spotlight-stat">⚡ 1초 무설치 즉시 연동</div>
+          </div>
+
+          <div class="spotlight-actions-row">
+            <a href="planner/" target="_blank" class="spotlight-btn-preview">
+              <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
+            </a>
+            <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
+              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <h1>내 도메인에 꽂는 1초 웹 비즈니스<br><span class="accent">SETUPOD 분양 마켓</span></h1>
+    <!-- Kmong-Style Category Navigation Row with Micro Badges -->
+    <div class="kmong-category-nav">
+      <button class="kmong-nav-btn active" data-cat="all" onclick="selectCategory('all', this)">
+        <span class="kmong-nav-tag highlight">전체</span>
+        <div class="kmong-nav-icon">🔥</div>
+        <span class="kmong-nav-label">전체보기</span>
+      </button>
 
-    <p class="hero-desc">
-      코드 한 줄 몰라도 내 도메인에 즉시 연결되는 검증된 고품격 턴키 웹 비즈니스.<br>
-      스타터 무상 지원(0원)으로 내 도메인에 애드센스와 고단가 유틸리티 수익 파이프라인을 완성하세요.
-    </p>
+      <button class="kmong-nav-btn" data-cat="planner" onclick="selectCategory('planner', this)">
+        <span class="kmong-nav-tag best">BEST</span>
+        <div class="kmong-nav-icon">📅</div>
+        <span class="kmong-nav-label">플래너·문구</span>
+      </button>
 
-    <!-- Search Input (Kmong Style) -->
-    <div class="market-search-box">
-      <div class="search-input-wrap">
-        <i data-lucide="search" style="width:20px;height:20px;color:#a855f7;margin-right:8px;"></i>
-        <input type="text" id="searchInput" placeholder="어떤 웹 비즈니스를 분양받고 싶으세요? (예: 플래너, 페이팔, 명함, 메모팟...)" onkeyup="filterProducts()">
-        <button class="search-btn" onclick="filterProducts()">
-          검색
-        </button>
-      </div>
-    </div>
+      <button class="kmong-nav-btn" data-cat="global" onclick="selectCategory('global', this)">
+        <span class="kmong-nav-tag hot">HOT</span>
+        <div class="kmong-nav-icon">🌐</div>
+        <span class="kmong-nav-label">글로벌·환율</span>
+      </button>
 
-    <!-- Category Chips -->
-    <div class="chips-bar">
-      <div class="category-chip active" data-cat="all" onclick="selectCategory('all', this)">
-        <span>🔥 전체보기</span>
-      </div>
-      <div class="category-chip" data-cat="planner" onclick="selectCategory('planner', this)">
-        <span>📅 플래너·문구</span>
-      </div>
-      <div class="category-chip" data-cat="global" onclick="selectCategory('global', this)">
-        <span>🌐 글로벌·환율</span>
-      </div>
-      <div class="category-chip" data-cat="bizcard" onclick="selectCategory('bizcard', this)">
-        <span>💼 3D명함·CRM</span>
-      </div>
-      <div class="category-chip" data-cat="ecommerce" onclick="selectCategory('ecommerce', this)">
-        <span>🛒 이커머스·셀러</span>
-      </div>
-      <div class="category-chip" data-cat="fnb" onclick="selectCategory('fnb', this)">
-        <span>☕ F&B·카페</span>
-      </div>
-      <div class="category-chip" data-cat="sns" onclick="selectCategory('sns', this)">
-        <span>📱 SNS·마케팅</span>
-      </div>
-      <div class="category-chip" data-cat="life" onclick="selectCategory('life', this)">
-        <span>🏠 부동산·라이프</span>
-      </div>
+      <button class="kmong-nav-btn" data-cat="bizcard" onclick="selectCategory('bizcard', this)">
+        <span class="kmong-nav-tag best">입점몰</span>
+        <div class="kmong-nav-icon">💼</div>
+        <span class="kmong-nav-label">3D명함·CRM</span>
+      </button>
+
+      <button class="kmong-nav-btn" data-cat="ecommerce" onclick="selectCategory('ecommerce', this)">
+        <span class="kmong-nav-tag">실속</span>
+        <div class="kmong-nav-icon">🛒</div>
+        <span class="kmong-nav-label">이커머스·셀러</span>
+      </button>
+
+      <button class="kmong-nav-btn" data-cat="fnb" onclick="selectCategory('fnb', this)">
+        <span class="kmong-nav-tag">인기</span>
+        <div class="kmong-nav-icon">☕</div>
+        <span class="kmong-nav-label">F&B·외식</span>
+      </button>
+
+      <button class="kmong-nav-btn" data-cat="sns" onclick="selectCategory('sns', this)">
+        <span class="kmong-nav-tag hot">바이럴</span>
+        <div class="kmong-nav-icon">📱</div>
+        <span class="kmong-nav-label">SNS·마케팅</span>
+      </button>
+
+      <button class="kmong-nav-btn" data-cat="life" onclick="selectCategory('life', this)">
+        <span class="kmong-nav-tag free">0원지원</span>
+        <div class="kmong-nav-icon">🏠</div>
+        <span class="kmong-nav-label">부동산·라이프</span>
+      </button>
     </div>
   </section>
 
