@@ -298,12 +298,19 @@
       padding: 44px 20px 20px;
     }
 
+    /* ── Kmong-Style 2-Column Hero & Search Hub (아기자기하고 컴팩트한 규격) ── */
+    .kmong-hero-section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 30px 20px 10px;
+    }
+
     .kmong-hero-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.85fr;
-      gap: 28px;
-      align-items: stretch;
-      margin-bottom: 34px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 28px;
     }
 
     /* Left Column: Search & Catchphrase */
@@ -317,26 +324,27 @@
     .hero-badge-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 14px;
+      gap: 5px;
+      padding: 4px 12px;
       border-radius: 99px;
       background: rgba(168, 85, 247, 0.12);
       border: 1px solid rgba(168, 85, 247, 0.35);
-      font-size: 12.5px;
+      font-size: 11.5px;
       font-weight: 700;
       color: #c084fc;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       width: fit-content;
     }
 
     .kmong-hero-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(28px, 3.4vw, 44px);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1.25;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 29px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.3;
       margin-bottom: 16px;
       color: #fff;
+      word-break: keep-all;
     }
 
     .kmong-hero-title .accent {
@@ -346,31 +354,24 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .kmong-hero-sub {
-      font-size: 14.5px;
-      color: rgba(255, 255, 255, 0.65);
-      line-height: 1.65;
-      margin-bottom: 24px;
-      max-width: 580px;
-    }
-
-    /* Kmong Search Input Wrap */
+    /* Kmong Search Input Wrap (동글동글하고 귀여운 크기) */
     .kmong-input-wrap {
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.06);
-      border: 2px solid rgba(168, 85, 247, 0.45);
-      border-radius: 16px;
-      padding: 6px 8px 6px 20px;
-      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 99px;
+      padding: 4px 6px 4px 18px;
+      margin-bottom: 14px;
       transition: all 0.2s ease;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      max-width: 520px;
     }
 
     .kmong-input-wrap:focus-within {
       border-color: #a855f7;
-      background: rgba(255, 255, 255, 0.09);
-      box-shadow: 0 10px 32px rgba(168, 85, 247, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
     }
 
     .kmong-input-wrap input {
@@ -379,61 +380,51 @@
       border: none;
       outline: none;
       color: #fff;
-      font-size: 15px;
+      font-size: 13.5px;
       font-weight: 600;
       font-family: inherit;
     }
 
     .kmong-input-wrap input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.38);
     }
 
     .kmong-search-submit {
-      background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+      background: #a855f7;
       border: none;
       color: #fff;
-      padding: 10px 18px;
-      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, background 0.15s;
+      flex-shrink: 0;
     }
 
     .kmong-search-submit:hover {
-      transform: scale(1.04);
+      transform: scale(1.06);
+      background: #9333ea;
     }
 
-    /* Popular Tags List (Kmong Click-to-Search Pills) */
+    /* Popular Tags List (크몽 스타일 둥근 알약 태그) */
     .kmong-popular-tags {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .popular-tags-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.45);
-      white-space: nowrap;
-    }
-
-    .popular-tags-list {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
+      max-width: 520px;
     }
 
     .popular-tag-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.75);
-      padding: 5px 11px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 4px 10px;
       border-radius: 99px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -447,26 +438,61 @@
       transform: translateY(-1px);
     }
 
-    /* Right Column: Spotlight Feature Card Slider (Kmong Style Auto-Sliding Card) */
-    .kmong-spotlight-card {
-      background: linear-gradient(145deg, rgba(26, 17, 45, 0.85) 0%, rgba(13, 10, 24, 0.98) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      border-radius: 20px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    /* ── Right Column: Kmong Layered Stack Card (뒤에 색상 다른 테두리 카드가 명확하게 보이는 시그니처 3D 구조) ── */
+    .kmong-stacked-wrapper {
       position: relative;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      padding-right: 22px;
+      padding-bottom: 18px;
+    }
+
+    /* 2번째 뒤 레이어 (연보라/라벤더 카드 테두리) - 크몽처럼 우측과 하단에 뚜렷이 돌출 */
+    .stack-layer-2 {
+      position: absolute;
+      top: 14px;
+      right: 0px;
+      bottom: 0px;
+      left: 18px;
+      background: #e9d5ff;
+      border-radius: 22px;
+      opacity: 0.95;
+      z-index: 1;
+      box-shadow: 0 10px 25px rgba(233, 213, 255, 0.25);
+    }
+
+    /* 1번째 뒤 레이어 (민트/연두 카드 테두리) - 크몽처럼 보라색 안쪽 우측에 살짝 겹쳐서 돌출 */
+    .stack-layer-1 {
+      position: absolute;
+      top: 7px;
+      right: 11px;
+      bottom: 7px;
+      left: 9px;
+      background: #a7f3d0;
+      border-radius: 22px;
+      opacity: 0.95;
+      z-index: 2;
+      box-shadow: 0 8px 20px rgba(167, 243, 208, 0.2);
+    }
+
+    /* 메인 앞면 슬라이딩 카드 (크몽 특유의 다크 바이올렛 라운드 카드) */
+    .kmong-spotlight-card {
+      position: relative;
+      z-index: 3;
+      background: #120924;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      padding: 22px 22px 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
       overflow: hidden;
-      min-height: 290px;
+      min-height: 235px;
     }
 
     .spotlight-slides-viewport {
       position: relative;
       width: 100%;
-      height: 100%;
-      min-height: 240px;
+      min-height: 195px;
     }
 
     .spotlight-slide {
@@ -478,7 +504,7 @@
       opacity: 0;
       pointer-events: none;
       transform: translateX(18px);
-      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .spotlight-slide.active {
@@ -492,33 +518,34 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .spotlight-tags-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .spotlight-slide-pagination {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: rgba(255, 255, 255, 0.08);
+      gap: 3px;
+      background: rgba(255, 255, 255, 0.1);
       padding: 3px 8px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.02em;
     }
 
     .spotlight-tag {
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
     }
 
     .spotlight-tag.hot {
@@ -533,25 +560,42 @@
       border: 1px solid rgba(34, 197, 94, 0.35);
     }
 
+    /* 크몽 스타일 중앙 추천 버튼/뱃지 */
+    .kmong-rec-pill-center {
+      align-self: center;
+      margin: 4px auto 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 22px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
     .spotlight-content {
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
     .spotlight-icon-box {
-      width: 58px;
-      height: 58px;
+      width: 44px;
+      height: 44px;
       background: radial-gradient(circle at 50% 50%, #4c1d95, #1e1b4b);
       border: 1px solid rgba(168, 85, 247, 0.5);
-      border-radius: 16px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 22px;
       flex-shrink: 0;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .spotlight-info {
@@ -560,38 +604,43 @@
     }
 
     .spotlight-category {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
-      color: #a855f7;
-      margin-bottom: 4px;
+      color: #c084fc;
+      margin-bottom: 2px;
       display: block;
     }
 
     .spotlight-title {
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 800;
       color: #fff;
       line-height: 1.35;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .spotlight-desc {
-      font-size: 12.5px;
+      font-size: 11.5px;
       color: rgba(255, 255, 255, 0.6);
-      line-height: 1.45;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .spotlight-metrics-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.65);
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 14px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 12px;
     }
 
     .spotlight-stat {
@@ -604,20 +653,20 @@
     .spotlight-actions-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
 
     .spotlight-btn-preview {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 11px 14px;
-      border-radius: 10px;
+      gap: 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #fff;
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 700;
       text-decoration: none;
       transition: all 0.15s ease;
@@ -632,36 +681,36 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 11px 14px;
-      border-radius: 10px;
+      gap: 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
       background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
       border: none;
       color: #fff;
-      font-size: 13px;
+      font-size: 11.5px;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.15s ease;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
     }
 
     .spotlight-btn-cta:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.5);
+      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.5);
     }
 
-    /* Slider Dot Indicators */
+    /* Slider Dot Indicators (작고 앙증맞은 도트) */
     .spotlight-dots {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      margin-top: 14px;
+      gap: 5px;
+      margin-top: 10px;
     }
 
     .spotlight-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 99px;
       background: rgba(255, 255, 255, 0.2);
       cursor: pointer;
@@ -669,21 +718,21 @@
     }
 
     .spotlight-dot.active {
-      width: 22px;
+      width: 16px;
       background: #a855f7;
-      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
     }
 
-    /* ── Kmong-Style Category Navigation Row ── */
+    /* ── Kmong-Style Category Navigation Row (크몽처럼 컴팩트하고 깔끔한 아이콘 바) ── */
     .kmong-category-nav {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
-      gap: 10px;
-      margin: 10px auto 30px;
-      padding: 14px 16px;
+      gap: 8px;
+      margin: 0 auto 28px;
+      padding: 10px 12px;
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 18px;
+      border-radius: 14px;
     }
 
     .kmong-nav-btn {
@@ -691,13 +740,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px 6px;
-      border-radius: 12px;
+      padding: 6px 4px;
+      border-radius: 10px;
       background: transparent;
       border: 1px solid transparent;
       cursor: pointer;
       position: relative;
-      transition: all 0.18s ease;
+      transition: all 0.15s ease;
       color: rgba(255, 255, 255, 0.7);
     }
 
@@ -711,16 +760,16 @@
       background: rgba(168, 85, 247, 0.14);
       border-color: rgba(168, 85, 247, 0.5);
       color: #fff;
-      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 3px 10px rgba(168, 85, 247, 0.2);
     }
 
     .kmong-nav-tag {
-      font-size: 9.5px;
+      font-size: 8.5px;
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       color: rgba(255, 255, 255, 0.5);
       background: rgba(255, 255, 255, 0.06);
     }
@@ -746,13 +795,13 @@
     }
 
     .kmong-nav-icon {
-      font-size: 22px;
+      font-size: 19px;
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .kmong-nav-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: -0.02em;
       white-space: nowrap;
@@ -1621,191 +1670,188 @@
 
         <h1 class="kmong-hero-title">
           성공이 필요한 순간,<br>
-          <span class="accent">내 도메인에 딱 맞는 비즈니스 팟</span>을 찾아보세요
+          <span class="accent">딱 맞는 비즈니스 팟</span>을 찾아보세요
         </h1>
-
-        <p class="kmong-hero-sub">
-          코드 한 줄 몰라도 내 도메인에 1초 만에 꽂히는 검증된 웹 유틸리티 비즈니스.<br>
-          스타터 0원 무상 지원으로 고단가 애드센스 & DB 파이프라인을 즉시 가동하세요.
-        </p>
 
         <!-- Search Input Wrap -->
         <div class="kmong-input-wrap">
-          <input type="text" id="searchInput" placeholder="어떤 웹 비즈니스를 분양받고 싶으세요? (예: 플래너, 페이팔, 명함, 셀러...)" onkeyup="filterProducts()">
+          <input type="text" id="searchInput" placeholder="어떤 웹 비즈니스가 필요하세요?" onkeyup="filterProducts()">
           <button class="kmong-search-submit" onclick="filterProducts()" aria-label="검색">
-            <i data-lucide="search" style="width:18px;height:18px;"></i>
+            <i data-lucide="search" style="width:16px;height:16px;"></i>
           </button>
         </div>
 
         <!-- Popular Tags (Kmong Style Click-to-Search Pills) -->
         <div class="kmong-popular-tags">
-          <span class="popular-tags-label">인기 검색</span>
-          <div class="popular-tags-list">
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('플래너')">📅 2026 플래너</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('명함')">💼 3D 명함</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('페이팔')">🌐 페이팔 환율</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('마진')">🛒 셀러 마진</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('카드뉴스')">📱 인스타 카드뉴스</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('김프')">🌕 김프 코인</button>
-            <button type="button" class="popular-tag-pill" onclick="searchByTag('양도세')">🏠 아파트 양도세</button>
-          </div>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('플래너')">플래너</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('명함')">3D명함</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('페이팔')">환율</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('마진')">셀러마진</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('카드뉴스')">카드뉴스</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('김프')">코인김프</button>
+          <button type="button" class="popular-tag-pill" onclick="searchByTag('양도세')">양도세</button>
         </div>
       </div>
 
-      <!-- Right Column: Spotlight Feature Card (Kmong Auto-Rotating Slider) -->
-      <div class="kmong-spotlight-card">
-        <div class="spotlight-slides-viewport" id="spotlightViewport">
-          <!-- Slide 1: 2026 플래너 팟 -->
-          <div class="spotlight-slide active" data-slide="0">
-            <div class="spotlight-top-badge">
-              <div class="spotlight-tags-wrap">
-                <span class="spotlight-tag hot">👑 실시간 1위</span>
-                <span class="spotlight-tag free">0원 스타터 지원</span>
+      <!-- Right Column: Kmong Layered Stack Card (뒤에 색상 다른 테두리 카드가 살짝 보이는 구조) -->
+      <div class="kmong-stacked-wrapper">
+        <div class="stack-layer-2" id="stackLayer2"></div>
+        <div class="stack-layer-1" id="stackLayer1"></div>
+
+        <div class="kmong-spotlight-card">
+          <div class="spotlight-slides-viewport" id="spotlightViewport">
+            <!-- Slide 1: 2026 플래너 팟 -->
+            <div class="spotlight-slide active" data-slide="0">
+              <div class="spotlight-top-badge">
+                <div class="spotlight-tags-wrap">
+                  <span class="spotlight-tag hot">👑 실시간 1위</span>
+                  <span class="spotlight-tag free">0원 스타터</span>
+                </div>
+                <div class="spotlight-slide-pagination">
+                  <span class="curr-slide">1</span> / 4
+                </div>
               </div>
-              <div class="spotlight-slide-pagination">
-                <span class="curr-slide">1</span> / 4
+
+              <div class="spotlight-content">
+                <div class="spotlight-icon-box">📅</div>
+                <div class="spotlight-info">
+                  <span class="spotlight-category">플래너 · 문구 OS</span>
+                  <h3 class="spotlight-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
+                  <p class="spotlight-desc">방문자 DB 자동 수집 및 고단가 제휴 광고 송출</p>
+                </div>
+              </div>
+
+              <div class="spotlight-metrics-row">
+                <div class="spotlight-stat"><i data-lucide="star" style="width:12px;height:12px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (128명 분양)</div>
+                <div class="spotlight-stat">⚡ 1초 무설치 연동</div>
+              </div>
+
+              <div class="spotlight-actions-row">
+                <a href="planner/" target="_blank" class="spotlight-btn-preview">
+                  <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
+                </a>
+                <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 0원 분양 받기
+                </button>
               </div>
             </div>
 
-            <div class="spotlight-content">
-              <div class="spotlight-icon-box">📅</div>
-              <div class="spotlight-info">
-                <span class="spotlight-category">플래너 · 문구 OS</span>
-                <h3 class="spotlight-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
-                <p class="spotlight-desc">무료 속지 나눔으로 방문자 DB를 자동 수집하고 고단가 제휴 광고를 송출합니다.</p>
+            <!-- Slide 2: 글로벌 페이팔 실입금 계산기 팟 -->
+            <div class="spotlight-slide" data-slide="1">
+              <div class="spotlight-top-badge">
+                <div class="spotlight-tags-wrap">
+                  <span class="spotlight-tag hot" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-color:rgba(59,130,246,0.35);">🌐 고수익 CPC</span>
+                  <span class="spotlight-tag free">0원 스타터</span>
+                </div>
+                <div class="spotlight-slide-pagination">
+                  <span class="curr-slide">2</span> / 4
+                </div>
+              </div>
+
+              <div class="spotlight-content">
+                <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);">🌐</div>
+                <div class="spotlight-info">
+                  <span class="spotlight-category">글로벌 · 외환 금융</span>
+                  <h3 class="spotlight-title">글로벌 페이팔 실입금 & 환전 수수료 팟</h3>
+                  <p class="spotlight-desc">실시간 환율 자동 계산 및 글로벌 정산 유틸리티</p>
+                </div>
+              </div>
+
+              <div class="spotlight-metrics-row">
+                <div class="spotlight-stat"><i data-lucide="star" style="width:12px;height:12px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (94명 분양)</div>
+                <div class="spotlight-stat">⚡ 실시간 환율 API</div>
+              </div>
+
+              <div class="spotlight-actions-row">
+                <a href="https://autosite.kr" target="_blank" rel="noopener" class="spotlight-btn-preview">
+                  <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
+                </a>
+                <button class="spotlight-btn-cta" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')">
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 0원 분양 받기
+                </button>
               </div>
             </div>
 
-            <div class="spotlight-metrics-row">
-              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (128명 분양)</div>
-              <div class="spotlight-stat">⚡ 1초 무설치 즉시 연동</div>
+            <!-- Slide 3: 3D 디지털 명함 팟 -->
+            <div class="spotlight-slide" data-slide="2">
+              <div class="spotlight-top-badge">
+                <div class="spotlight-tags-wrap">
+                  <span class="spotlight-tag hot" style="background:rgba(234,179,8,0.2);color:#facc15;border-color:rgba(234,179,8,0.35);">💼 B2B CRM</span>
+                  <span class="spotlight-tag free">0원 스타터</span>
+                </div>
+                <div class="spotlight-slide-pagination">
+                  <span class="curr-slide">3</span> / 4
+                </div>
+              </div>
+
+              <div class="spotlight-content">
+                <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);">💼</div>
+                <div class="spotlight-info">
+                  <span class="spotlight-category">비즈니스 · 3D 인터랙티브</span>
+                  <h3 class="spotlight-title">차세대 3D 인터랙티브 디지털 명함 팟</h3>
+                  <p class="spotlight-desc">3D WebGL 입체 명함 및 vCard 연락처 저장</p>
+                </div>
+              </div>
+
+              <div class="spotlight-metrics-row">
+                <div class="spotlight-stat"><i data-lucide="star" style="width:12px;height:12px;fill:#fbbf24;color:#fbbf24;"></i> 4.9 (210명 분양)</div>
+                <div class="spotlight-stat">⚡ 3D Three.js 엔진</div>
+              </div>
+
+              <div class="spotlight-actions-row">
+                <a href="bizcard/card.html?id=demo" target="_blank" class="spotlight-btn-preview">
+                  <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
+                </a>
+                <button class="spotlight-btn-cta" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')">
+                  <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+                </button>
+              </div>
             </div>
 
-            <div class="spotlight-actions-row">
-              <a href="planner/" target="_blank" class="spotlight-btn-preview">
-                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
-              </a>
-              <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
-                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
-              </button>
+            <!-- Slide 4: 인스타 카드뉴스 팟 -->
+            <div class="spotlight-slide" data-slide="3">
+              <div class="spotlight-top-badge">
+                <div class="spotlight-tags-wrap">
+                  <span class="spotlight-tag hot" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.35);">📱 바이럴 1위</span>
+                  <span class="spotlight-tag free">0원 스타터</span>
+                </div>
+                <div class="spotlight-slide-pagination">
+                  <span class="curr-slide">4</span> / 4
+                </div>
+              </div>
+
+              <div class="spotlight-content">
+                <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #701a75, #4a044e);">📱</div>
+                <div class="spotlight-info">
+                  <span class="spotlight-category">SNS · 마케팅 스튜디오</span>
+                  <h3 class="spotlight-title">인스타 카드뉴스 & 바이럴 훅 메이커 팟</h3>
+                  <p class="spotlight-desc">캐러셀 카드뉴스와 숏폼 썸네일을 1분 만에 제작</p>
+                </div>
+              </div>
+
+              <div class="spotlight-metrics-row">
+                <div class="spotlight-stat"><i data-lucide="star" style="width:12px;height:12px;fill:#fbbf24;color:#fbbf24;"></i> 4.8 (112명 분양)</div>
+                <div class="spotlight-stat">⚡ 캔버스 자동 렌더링</div>
+              </div>
+
+              <div class="spotlight-actions-row">
+                <a href="insta/" target="_blank" class="spotlight-btn-preview">
+                  <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
+                </a>
+                <button class="spotlight-btn-cta" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')">
+                  <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Slide 2: 글로벌 페이팔 실입금 계산기 팟 -->
-          <div class="spotlight-slide" data-slide="1">
-            <div class="spotlight-top-badge">
-              <div class="spotlight-tags-wrap">
-                <span class="spotlight-tag hot" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-color:rgba(59,130,246,0.35);">🌐 고수익 CPC</span>
-                <span class="spotlight-tag free">0원 스타터 지원</span>
-              </div>
-              <div class="spotlight-slide-pagination">
-                <span class="curr-slide">2</span> / 4
-              </div>
-            </div>
-
-            <div class="spotlight-content">
-              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);">🌐</div>
-              <div class="spotlight-info">
-                <span class="spotlight-category">글로벌 · 외환 금융</span>
-                <h3 class="spotlight-title">글로벌 페이팔 실입금 & 환전 수수료 팟</h3>
-                <p class="spotlight-desc">해외 프리랜서 및 이커머스 셀러 실입금액 자동 계산 & 실시간 환율 연동 유틸리티.</p>
-              </div>
-            </div>
-
-            <div class="spotlight-metrics-row">
-              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0 (94명 분양)</div>
-              <div class="spotlight-stat">⚡ 실시간 환율 API 탑재</div>
-            </div>
-
-            <div class="spotlight-actions-row">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="spotlight-btn-preview">
-                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
-              </a>
-              <button class="spotlight-btn-cta" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')">
-                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
-              </button>
-            </div>
+          <!-- Slider Dots -->
+          <div class="spotlight-dots" id="spotlightDots">
+            <div class="spotlight-dot active" onclick="setSpotlightSlide(0)"></div>
+            <div class="spotlight-dot" onclick="setSpotlightSlide(1)"></div>
+            <div class="spotlight-dot" onclick="setSpotlightSlide(2)"></div>
+            <div class="spotlight-dot" onclick="setSpotlightSlide(3)"></div>
           </div>
-
-          <!-- Slide 3: 3D 디지털 명함 팟 -->
-          <div class="spotlight-slide" data-slide="2">
-            <div class="spotlight-top-badge">
-              <div class="spotlight-tags-wrap">
-                <span class="spotlight-tag hot" style="background:rgba(234,179,8,0.2);color:#facc15;border-color:rgba(234,179,8,0.35);">💼 B2B CRM</span>
-                <span class="spotlight-tag free">0원 스타터 지원</span>
-              </div>
-              <div class="spotlight-slide-pagination">
-                <span class="curr-slide">3</span> / 4
-              </div>
-            </div>
-
-            <div class="spotlight-content">
-              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);">💼</div>
-              <div class="spotlight-info">
-                <span class="spotlight-category">비즈니스 · 3D 인터랙티브</span>
-                <h3 class="spotlight-title">차세대 3D 인터랙티브 디지털 명함 팟</h3>
-                <p class="spotlight-desc">종이 명함을 대체하는 3D WebGL 입체 명함. 고객 리드 자동 수집 및 vCard 저장.</p>
-              </div>
-            </div>
-
-            <div class="spotlight-metrics-row">
-              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 4.9 (210명 분양)</div>
-              <div class="spotlight-stat">⚡ 3D Three.js 엔진</div>
-            </div>
-
-            <div class="spotlight-actions-row">
-              <a href="bizcard/card.html?id=demo" target="_blank" class="spotlight-btn-preview">
-                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
-              </a>
-              <button class="spotlight-btn-cta" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')">
-                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
-              </button>
-            </div>
-          </div>
-
-          <!-- Slide 4: 인스타 카드뉴스 팟 -->
-          <div class="spotlight-slide" data-slide="3">
-            <div class="spotlight-top-badge">
-              <div class="spotlight-tags-wrap">
-                <span class="spotlight-tag hot" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.35);">📱 바이럴 1위</span>
-                <span class="spotlight-tag free">0원 스타터 지원</span>
-              </div>
-              <div class="spotlight-slide-pagination">
-                <span class="curr-slide">4</span> / 4
-              </div>
-            </div>
-
-            <div class="spotlight-content">
-              <div class="spotlight-icon-box" style="background: radial-gradient(circle at 50% 50%, #701a75, #4a044e);">📱</div>
-              <div class="spotlight-info">
-                <span class="spotlight-category">SNS · 마케팅 스튜디오</span>
-                <h3 class="spotlight-title">인스타 카드뉴스 & 바이럴 훅 메이커 팟</h3>
-                <p class="spotlight-desc">인스타그램 캐러셀 콘텐츠와 숏폼 썸네일을 1분 만에 디자인. 트래픽을 자동 확보.</p>
-              </div>
-            </div>
-
-            <div class="spotlight-metrics-row">
-              <div class="spotlight-stat"><i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 4.8 (112명 분양)</div>
-              <div class="spotlight-stat">⚡ 캔버스 자동 렌더링</div>
-            </div>
-
-            <div class="spotlight-actions-row">
-              <a href="insta/" target="_blank" class="spotlight-btn-preview">
-                <i data-lucide="eye" style="width:14px;height:14px;"></i> 라이브 체험
-              </a>
-              <button class="spotlight-btn-cta" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')">
-                <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slider Dots -->
-        <div class="spotlight-dots" id="spotlightDots">
-          <div class="spotlight-dot active" onclick="setSpotlightSlide(0)"></div>
-          <div class="spotlight-dot" onclick="setSpotlightSlide(1)"></div>
-          <div class="spotlight-dot" onclick="setSpotlightSlide(2)"></div>
-          <div class="spotlight-dot" onclick="setSpotlightSlide(3)"></div>
         </div>
       </div>
     </div>
