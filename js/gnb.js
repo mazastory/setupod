@@ -42,17 +42,20 @@
         </div>
       </div>
       -->
-      <a href="/planner/" class="btn-create-nav">
+      <a href="javascript:void(0)" onclick="window.openAuthModal ? window.openAuthModal() : (window.requireAuth && window.requireAuth())" class="nav-link gnb-login-link" id="gnbLoginBtn" style="font-size:13.5px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;padding:6px 12px;border-radius:8px;transition:all 0.2s;">
+        로그인
+      </a>
+      <a href="/bizcard/dashboard.html" class="btn-create-nav" id="gnbCtaBtn">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>무료로 시작하기</span>
+        <span>내 팟 관리</span>
       </a>
     </div>
 
     <!-- 모바일 전용 네비 컨트롤 -->
     <div class="mobile-nav-controls">
-      <a href="/planner/" class="btn-mobile-maker">
-        <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
-        <span>1초 셋업</span>
+      <a href="javascript:void(0)" onclick="window.openAuthModal ? window.openAuthModal() : (window.requireAuth && window.requireAuth())" class="btn-mobile-maker">
+        <i data-lucide="user" style="width:13px;height:13px;"></i>
+        <span>로그인</span>
       </a>
       <button class="btn-mobile-hamburger" onclick="window.toggleMobileMenu()" aria-label="메뉴 열기">
         <i data-lucide="menu" style="width:20px;height:20px;"></i>
@@ -209,28 +212,40 @@
   setTimeout(async () => {
     if (typeof window.getCurrentUser === 'function') {
       const user = await window.getCurrentUser();
-      const btnCreateNav = document.querySelector('.btn-create-nav');
+      const btnCreateNav = document.getElementById('gnbCtaBtn') || document.querySelector('.btn-create-nav');
+      const loginBtn = document.getElementById('gnbLoginBtn');
+      const mobileMakerBtn = document.querySelector('.btn-mobile-maker');
       
-      if (user && btnCreateNav) {
-        // 로그인 상태: 내 대시보드로 이동
+      if (user) {
+        // 로그인 상태
         const avatarUrl = user.user_metadata?.avatar_url || 'assets/sample_avatar.png';
-        btnCreateNav.innerHTML = `<img src="${avatarUrl}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;"><span>내 대시보드</span>`;
-        btnCreateNav.href = "/bizcard/dashboard.html";
-        btnCreateNav.title = "대시보드로 이동";
-        btnCreateNav.onclick = null;
-      } else if (!user && btnCreateNav) {
-        // 비로그인 상태: 무료로 시작하기 버튼 클릭 시 로그인 모달 호출
-        btnCreateNav.href = "#";
-        btnCreateNav.onclick = (e) => {
-          e.preventDefault();
-          if (typeof window.requireAuth === 'function') {
-            window.requireAuth(() => {
-              window.location.href = 'planner.html';
-            });
-          } else {
-            window.location.href = 'planner.html';
-          }
-        };
+        const name = user.user_metadata?.name || user.email?.split('@')[0] || '내 팟';
+        
+        if (loginBtn) {
+          loginBtn.innerHTML = `<span style="color:#c084fc;">👤 ${name}님</span>`;
+          loginBtn.href = "/bizcard/dashboard.html";
+          loginBtn.onclick = null;
+        }
+        if (btnCreateNav) {
+          btnCreateNav.innerHTML = `<img src="${avatarUrl}" style="width:18px;height:18px;border-radius:50%;object-fit:cover;"><span>내 대시보드</span>`;
+          btnCreateNav.href = "/bizcard/dashboard.html";
+          btnCreateNav.title = "대시보드로 이동";
+          btnCreateNav.onclick = null;
+        }
+        if (mobileMakerBtn) {
+          mobileMakerBtn.innerHTML = `<span>대시보드</span>`;
+          mobileMakerBtn.href = "/bizcard/dashboard.html";
+          mobileMakerBtn.onclick = null;
+        }
+      } else {
+        if (btnCreateNav) {
+          btnCreateNav.onclick = (e) => {
+            if (window.openAuthModal) {
+              e.preventDefault();
+              window.openAuthModal();
+            }
+          };
+        }
       }
     }
   }, 300);

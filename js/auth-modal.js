@@ -244,4 +244,10 @@
     }
   };
 
+  // 전역 함수: 로그인 모달 직접 열기
+  window.openAuthModal = function() {
+    const overlay = document.getElementById('authModalOverlay');
+    if (overlay) overlay.classList.add('active');
+  };
+
 })();

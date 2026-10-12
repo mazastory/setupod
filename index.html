@@ -42,6 +42,7 @@
   <!-- Supabase JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/auth-modal.js"></script>
 
   <!-- GNB 공통 스타일 -->
   <link rel="stylesheet" href="css/gnb.css">
@@ -2056,7 +2057,7 @@
     </button>
   </div>
 
-  <!-- Distribution Order Modal -->
+  <!-- Distribution Order Modal (서브패스 vs 독립도메인 선택 & 도메인 구매 유도 & 로그인 연동) -->
   <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
       <button class="modal-close" onclick="closeOrderModalDirect()">
@@ -2065,14 +2066,14 @@
 
       <div class="modal-header">
         <h3 id="modalProductTitle">턴키 웹 비즈니스 분양 신청</h3>
-        <p>보유하신 도메인에 1초 만에 연결해 드립니다. 첫 1개는 스타터 그랜트로 무상 제공됩니다.</p>
+        <p>1초 만에 가동되는 턴키 웹 비즈니스. 첫 1개는 스타터 그랜트로 100% 무상 제공됩니다.</p>
       </div>
 
       <div class="pricing-notice-box">
         <div class="price-tag-big">0원</div>
         <div class="notice-sub">
           <strong>스타터 그랜트 (Starter Free Grant)</strong><br>
-          첫 1개 도메인 완전 무상 지원 · 다중 도메인 확장 지원
+          첫 1개 주소 완전 무상 지원 · 영구 소장
         </div>
       </div>
 
@@ -2101,10 +2102,41 @@
           </select>
         </div>
 
+        <!-- 주소 형태 선택 탭 -->
         <div class="form-group">
-          <label for="orderDomain">연결할 내 도메인 주소</label>
-          <input type="text" id="orderDomain" placeholder="예: mydomain.com 또는 app.mybrand.kr" required>
-          <div class="hint">* 도메인이 아직 없다면 '준비중'으로 입력하셔도 됩니다.</div>
+          <label>연결 방식 선택</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+            <button type="button" id="tabSubpath" onclick="switchUrlMode('subpath')" style="padding:10px 8px; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; background:rgba(168,85,247,0.25); border:1.5px solid #a855f7; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px;">
+              <span>🚀 서브패스 (0원 즉시 발급)</span>
+            </button>
+            <button type="button" id="tabDomain" onclick="switchUrlMode('domain')" style="padding:10px 8px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center; gap:6px;">
+              <span>👑 독립 도메인 연결</span>
+            </button>
+          </div>
+
+          <!-- 서브패스 입력 패널 -->
+          <div id="panelSubpath">
+            <div style="display:flex; align-items:center; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; overflow:hidden;">
+              <span style="padding:12px 14px; background:rgba(168,85,247,0.15); color:#c084fc; font-weight:800; font-size:13px; border-right:1px solid rgba(255,255,255,0.1); white-space:nowrap;">setupod.com/@</span>
+              <input type="text" id="orderSubpath" placeholder="내아이디 (영문/숫자)" style="border:none; background:transparent; padding:12px; flex:1; color:#fff; font-size:14px; outline:none; font-family:inherit;">
+            </div>
+            <div class="hint" style="color:rgba(52,211,153,0.9); margin-top:6px;">
+              ✓ 도메인 구입 없이 1초 만에 오픈되며, 셋업팟의 강력한 구글 SEO 지수를 100% 흡수합니다.
+            </div>
+          </div>
+
+          <!-- 독립 도메인 입력 패널 -->
+          <div id="panelDomain" style="display:none;">
+            <input type="text" id="orderCustomDomain" placeholder="예: mybrand.com 또는 app.store.kr" style="width:100%; padding:12px 14px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff; font-size:14px; outline:none; font-family:inherit;">
+            <!-- 도메인 구매 유도 배너 -->
+            <div style="margin-top:10px; padding:12px 14px; border-radius:10px; background:rgba(56,189,248,0.08); border:1px dashed rgba(56,189,248,0.3); display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div>
+                <strong style="font-size:12px; color:#38bdf8;">💡 아직 나만의 도메인이 없으신가요?</strong>
+                <div style="font-size:11px; color:rgba(255,255,255,0.6); margin-top:2px;">서브패스로 먼저 시작하시거나, 파트너 도메인 마켓에서 최적의 도메인을 확보하세요.</div>
+              </div>
+              <a href="https://mazaus.com" target="_blank" style="padding:6px 12px; border-radius:8px; background:rgba(56,189,248,0.2); color:#38bdf8; font-size:11px; font-weight:800; text-decoration:none; white-space:nowrap;">도메인 찾기 →</a>
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -2115,24 +2147,31 @@
         <div class="form-group">
           <label for="orderPhone">연락처 (휴대폰 번호 또는 이메일)</label>
           <input type="text" id="orderPhone" placeholder="010-0000-0000 또는 email@domain.com" required>
-          <div class="hint">* 세팅 안내 및 CNAME 연동 매뉴얼이 발송됩니다.</div>
+          <div class="hint">* 세팅 안내 및 접속 링크 매뉴얼이 발송됩니다.</div>
         </div>
 
         <button type="submit" class="modal-submit-btn" id="modalSubmitBtn">
           <i data-lucide="check-circle" style="width:18px;height:18px;"></i>
           <span>지금 스타터 무상 지원 승인 신청하기</span>
         </button>
+
+        <div style="font-size:12px; color:rgba(255,255,255,0.5); text-align:center; margin-top:14px;">
+          신청 내역을 보존하고 관리하시겠어요? 
+          <a href="javascript:void(0)" onclick="closeOrderModalDirect(); window.openAuthModal ? window.openAuthModal() : (window.requireAuth && window.requireAuth())" style="color:#c084fc; font-weight:700; text-decoration:underline;">
+            1초 간편 로그인
+          </a>
+        </div>
       </form>
 
       <div id="orderSuccessMessage" style="display:none; text-align:center; padding: 20px 0;">
         <div style="width:56px;height:56px;background:rgba(52,211,153,0.15);border:1px solid #34d399;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#34d399;">
           <i data-lucide="check" style="width:28px;height:28px;"></i>
         </div>
-        <h4 style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;">스타터 분양 신청이 접수되었습니다!</h4>
-        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:20px;">
-          담당자가 도메인 세팅 및 CNAME 호스팅 정보를 확인한 후 기재해주신 연락처로 즉시 연동 매뉴얼을 전송해 드립니다.
+        <h4 style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;">스타터 분양 신청이 완료되었습니다!</h4>
+        <p id="successNoticeText" style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:20px;">
+          신청하신 턴키 웹 비즈니스가 즉시 생성되었습니다. 기재해주신 연락처로 관리 링크가 전송되었습니다.
         </p>
-        <div style="background:rgba(255,255,255,0.05);padding:12px;border-radius:8px;font-family:monospace;font-size:12px;color:#c084fc;margin-bottom:20px;">
+        <div id="successRecordBox" style="background:rgba(255,255,255,0.05);padding:12px;border-radius:8px;font-family:monospace;font-size:12px;color:#c084fc;margin-bottom:20px;">
           DNS CNAME 레코드: cname.setupod.com
         </div>
         <button onclick="closeOrderModalDirect()" style="padding:10px 24px;border-radius:8px;background:rgba(255,255,255,0.1);border:none;color:#fff;font-weight:700;cursor:pointer;">
@@ -2200,6 +2239,37 @@
       document.getElementById('productCountLabel').textContent = `총 ${visibleCount}개 웹 비즈니스 활성화됨`;
     }
 
+    // ── URL Mode Switcher (서브패스 vs 독립도메인) ──
+    let activeUrlMode = 'subpath';
+
+    function switchUrlMode(mode) {
+      activeUrlMode = mode;
+      const tabSub = document.getElementById('tabSubpath');
+      const tabDom = document.getElementById('tabDomain');
+      const panelSub = document.getElementById('panelSubpath');
+      const panelDom = document.getElementById('panelDomain');
+
+      if (mode === 'subpath') {
+        tabSub.style.background = 'rgba(168,85,247,0.25)';
+        tabSub.style.borderColor = '#a855f7';
+        tabSub.style.color = '#fff';
+        tabDom.style.background = 'rgba(255,255,255,0.04)';
+        tabDom.style.borderColor = 'rgba(255,255,255,0.1)';
+        tabDom.style.color = 'rgba(255,255,255,0.6)';
+        panelSub.style.display = 'block';
+        panelDom.style.display = 'none';
+      } else {
+        tabDom.style.background = 'rgba(168,85,247,0.25)';
+        tabDom.style.borderColor = '#a855f7';
+        tabDom.style.color = '#fff';
+        tabSub.style.background = 'rgba(255,255,255,0.04)';
+        tabSub.style.borderColor = 'rgba(255,255,255,0.1)';
+        tabSub.style.color = 'rgba(255,255,255,0.6)';
+        panelSub.style.display = 'none';
+        panelDom.style.display = 'block';
+      }
+    }
+
     // ── Order Modal Logic ──
     function openOrderModal(productName) {
       const modal = document.getElementById('orderModal');
@@ -2209,6 +2279,7 @@
       }
       document.getElementById('orderForm').style.display = 'block';
       document.getElementById('orderSuccessMessage').style.display = 'none';
+      switchUrlMode('subpath');
       modal.classList.add('active');
       lucide.createIcons();
     }
@@ -2231,19 +2302,32 @@
       submitBtn.innerHTML = '<span>신청 처리 중...</span>';
 
       const product = document.getElementById('orderProduct').value;
-      const domain = document.getElementById('orderDomain').value.trim();
+      const subpathVal = document.getElementById('orderSubpath').value.trim();
+      const domainVal = document.getElementById('orderCustomDomain').value.trim();
       const name = document.getElementById('orderName').value.trim();
       const phone = document.getElementById('orderPhone').value.trim();
 
+      const finalAddress = activeUrlMode === 'subpath' 
+        ? (subpathVal ? `setupod.com/@${subpathVal}` : 'setupod.com/@starter')
+        : (domainVal || 'mydomain.com');
+
       try {
+        let userId = null;
+        if (typeof getCurrentUser === 'function') {
+          const user = await getCurrentUser();
+          if (user) userId = user.id;
+        }
+
         if (typeof supabaseClient !== 'undefined' && supabaseClient) {
           await supabaseClient.from('leads').insert({
+            user_id: userId,
             phone: phone,
-            target_slug: domain || 'setupod-market',
+            target_slug: finalAddress,
             metadata: {
               name: name,
               product: product,
-              domain: domain,
+              address_mode: activeUrlMode,
+              target_address: finalAddress,
               type: 'starter_grant_application',
               referrer: document.referrer || '',
               applied_at: new Date().toISOString()
@@ -2252,6 +2336,17 @@
         }
       } catch (err) {
         console.warn('Lead logged locally:', err);
+      }
+
+      // 결과 화면 문구 맞춤 안내
+      const noticeText = document.getElementById('successNoticeText');
+      const recordBox = document.getElementById('successRecordBox');
+      if (activeUrlMode === 'subpath') {
+        noticeText.innerHTML = `<strong>${finalAddress}</strong> 서브패스가 1초 만에 배정되었습니다!<br>기재해주신 연락처로 관리자 접속 링크가 전송되었습니다.`;
+        recordBox.innerHTML = `발급 주소: <strong>https://${finalAddress}</strong>`;
+      } else {
+        noticeText.innerHTML = `<strong>${finalAddress}</strong> 독립 도메인 연동이 신청되었습니다.<br>아래 DNS 설정을 완료하시면 즉시 연결됩니다.`;
+        recordBox.innerHTML = `DNS CNAME 레코드: <strong>cname.setupod.com</strong>`;
       }
 
       document.getElementById('orderForm').style.display = 'none';
@@ -2264,3 +2359,4 @@
   <script src="js/gnb.js"></script>
 </body>
 </html>
+
