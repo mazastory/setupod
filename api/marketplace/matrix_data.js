@@ -186,8 +186,6 @@ function generate100Products() {
   for (const vert of VERTICALS) {
     for (const niche of vert.niches) {
       const eng = ENGINES.find(e => e.id === niche.engine);
-      const isFree = index <= 10; // 첫 10개는 무료 장학형, 90개는 마켓 프리미엄형
-      const price = isFree ? 0 : (29000 + ((index % 4) * 10000)); // 2.9만, 3.9만, 4.9만, 5.9만
 
       allProducts.push({
         matrix_index: index,
@@ -195,21 +193,22 @@ function generate100Products() {
         category: vert.cat,
         category_name: vert.catName,
         engine_type: niche.engine,
-        tier: isFree ? 'scholarship_free' : 'premium',
+        tier: 'scholarship_free',
         name: niche.name,
         tagline: `${vert.catName} 특화 1초 인터랙티브 솔루션`,
-        desc: `${niche.name} 도구입니다. 웹사이트 방문자 체류시간을 극대화하고 리드를 수집합니다.`,
-        price: price,
+        desc: `${niche.name} 도구입니다. 웹사이트 방문자 체류시간을 극대화하고 리드를 수집합니다. 100인 도메인 장학 100% 무상 배정 팟.`,
+        price: 0,
+        original_value: 100000,
         commission_rate: 0.25,
-        maza_commission: Math.round(price * 0.25),
-        setupod_payout: Math.round(price * 0.75),
+        maza_commission: 0,
+        setupod_payout: 0,
         free_gift: {
           title: niche.gift,
           url: `https://setupod.com/leads/setupod_starter_kit.html?niche=${encodeURIComponent(niche.id)}`
         },
         preview_url: `https://setupod.com${eng.base}?niche=${encodeURIComponent(niche.id)}`,
         embed_url: `https://setupod.com/embed/${eng.base.replace('/', '')}?niche=${encodeURIComponent(niche.id)}`,
-        badge: isFree ? '🎓 MAZA 장학 무료' : '💎 프리미엄 팟',
+        badge: '🎓 100% 무상 장학 팟',
         icon: eng.icon
       });
       index++;
