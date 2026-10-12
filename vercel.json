@@ -48,6 +48,10 @@
       "destination": "/dashboard/index.html"
     },
     {
+      "source": "/leads/(.*)",
+      "destination": "/leads/$1"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },

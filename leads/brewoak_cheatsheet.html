@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스페셜티 커피 골든 브루잉 비율 & 디개싱 캘린더 | brewoak.com</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Pretendard', sans-serif; background: #1c1917; color: #f5f5f4; line-height: 1.7; padding: 40px 20px; }
+    .container { max-width: 800px; margin: 0 auto; background: #292524; border-radius: 24px; padding: 40px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    .badge { display: inline-block; padding: 6px 14px; background: rgba(217,119,6,0.2); border: 1px solid rgba(217,119,6,0.4); border-radius: 9999px; color: #fbbf24; font-size: 13px; font-weight: 800; margin-bottom: 20px; }
+    h1 { font-size: 28px; font-weight: 900; line-height: 1.4; margin-bottom: 16px; color: #ffffff; }
+    .meta { font-size: 13px; color: #a8a29e; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 24px; margin-bottom: 30px; }
+    h2 { font-size: 20px; font-weight: 800; color: #f59e0b; margin: 32px 0 16px; }
+    p { font-size: 15px; color: #d6d3d1; margin-bottom: 16px; }
+    .table-box { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+    .table-box th, .table-box td { border: 1px solid rgba(255,255,255,0.1); padding: 12px 14px; text-align: left; }
+    .table-box th { background: rgba(255,255,255,0.05); color: #fafaf9; }
+    .btn-print { display: inline-flex; align-items: center; gap: 8px; background: #d97706; color: #fff; padding: 12px 24px; border-radius: 12px; font-weight: 900; font-size: 14px; text-decoration: none; cursor: pointer; border: none; margin-top: 24px; }
+    .btn-print:hover { background: #b45309; }
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .container { background: #fff; border: none; box-shadow: none; padding: 20px; color: #000; }
+      h1, h2 { color: #000; }
+      p, td { color: #222; }
+      .btn-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">☕ BREWOAK COFFEE LAB</div>
+    <h1>스페셜티 커피 골든 브루잉 비율 & 디개싱 캘린더</h1>
+    <div class="meta">발행처: brewoak.com 브루잉 마스터랩 · 로스팅 포인트별 추출 비율 가이드</div>
+
+    <h2>1. 배전도별 디개싱(Degassing) 권장 일수</h2>
+    <table class="table-box">
+      <thead>
+        <tr>
+          <th>로스팅 단계</th>
+          <th>추천 브루잉 방식</th>
+          <th>권장 디개싱 기간</th>
+          <th>피크 테이스팅 구간</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>라이트 로스트 (약배전)</td>
+          <td>드립 (V60, 칼리타)</td>
+          <td>로스팅 후 7일~14일</td>
+          <td>14일 ~ 28일차</td>
+        </tr>
+        <tr>
+          <td>미디엄 로스트 (중배전)</td>
+          <td>드립, 에어로프레스</td>
+          <td>로스팅 후 5일~7일</td>
+          <td>7일 ~ 21일차</td>
+        </tr>
+        <tr>
+          <td>다크 로스트 (강배전)</td>
+          <td>에스프레소, 모카포트</td>
+          <td>로스팅 후 3일~5일</td>
+          <td>5일 ~ 14일차</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. 골든 비율 (Golden Ratio) 가이드</h2>
+    <p>표준 드립 추출: 원두 1g 당 물 15g~16g (1:15 ~ 1:16 비율, 물 온도 92°C~94°C)</p>
+
+    <button class="btn-print" onclick="window.print()">🖨️ PDF 다운로드 / 레시피 인쇄하기</button>
+  </div>
+</body>
+</html>

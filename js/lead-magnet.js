@@ -11,7 +11,7 @@
       desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
       badge: '💰 mazaus.com 특별 리포트',
       leadType: 'fx_guide',
-      downloadUrl: 'https://setupod.com/assets/leads/mazaus_fx_guide.html',
+      downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
       themeColor: '#38bdf8'
     },
     'autosite.kr': {
@@ -19,7 +19,7 @@
       desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
       badge: '📊 autosite.kr 이커머스 자산',
       leadType: 'margin_calc',
-      downloadUrl: 'https://setupod.com/assets/leads/autosite_margin_calc.html',
+      downloadUrl: 'https://setupod.com/leads/autosite_margin_calc.html',
       themeColor: '#34d399'
     },
     'brewoak.com': {
@@ -27,7 +27,7 @@
       desc: '로스팅 포인트별 최적의 디개싱 일수와 추출 황금 비율 치트시트를 무료로 보내드립니다.',
       badge: '☕ brewoak.com 커피 랩',
       leadType: 'brewing_cheatsheet',
-      downloadUrl: 'https://setupod.com/assets/leads/brewoak_cheatsheet.html',
+      downloadUrl: 'https://setupod.com/leads/brewoak_cheatsheet.html',
       themeColor: '#fbbf24'
     },
     'default': {
@@ -35,7 +35,7 @@
       desc: '1초 만에 가동되는 인터랙티브 웹 팟과 고체류율 트래픽 확보 비법을 담은 스타터 키트를 무료 제공합니다.',
       badge: '🚀 SETUPOD 비즈니스 스타터',
       leadType: 'starter_kit',
-      downloadUrl: 'https://setupod.com/assets/leads/setupod_starter_kit.html',
+      downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#a855f7'
     }
   };
