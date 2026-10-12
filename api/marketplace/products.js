@@ -177,9 +177,31 @@ const PRODUCTS = [
     embed_url: "https://setupod.com/embed/fx",
     badge: "✈️ 해외직구 특화",
     category: "global",
-    features: ["USD/JPY/EUR 실시간 환산", "목록통관 면세 여부 자동 판별", "간이관세+부가세 18% 시뮬레이션", "최종 원가 계산기"]
   }
 ];
+
+const { generate100Products, VERTICALS, ENGINES } = require('./matrix_data.js');
+
+const MATRIX_100_PRODUCTS = generate100Products();
+
+// 핵심 9종 제품과 100개 매트릭스 제품의 완벽한 통합
+// id 중복 방지 및 우선순위 보장
+const ALL_PRODUCTS = [];
+const seenIds = new Set();
+
+for (const p of PRODUCTS) {
+  if (!seenIds.has(p.id)) {
+    seenIds.add(p.id);
+    ALL_PRODUCTS.push(p);
+  }
+}
+
+for (const p of MATRIX_100_PRODUCTS) {
+  if (!seenIds.has(p.id)) {
+    seenIds.add(p.id);
+    ALL_PRODUCTS.push(p);
+  }
+}
 
 module.exports = async (req, res) => {
   // CORS 허용 (마자 스튜디오 도메인에서 자유롭게 패치 가능)
@@ -191,27 +213,44 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const { tier, id } = req.query || {};
+  const { tier, id, category, limit } = req.query || {};
 
-  let filtered = PRODUCTS;
+  let filtered = ALL_PRODUCTS;
   if (tier) {
     filtered = filtered.filter(p => p.tier === tier);
   }
   if (id) {
     filtered = filtered.filter(p => p.id === id);
   }
+  if (category) {
+    filtered = filtered.filter(p => p.category === category);
+  }
+  if (limit) {
+    const num = parseInt(limit, 10);
+    if (!isNaN(num) && num > 0) {
+      filtered = filtered.slice(0, num);
+    }
+  }
 
   return res.status(200).json({
     success: true,
-    version: "2026.1.0",
+    version: "2026.2.0-100MATRIX",
     partner: "MAZA Studio 🤝 SETUPOD",
     updated_at: new Date().toISOString(),
     total_count: filtered.length,
+    matrix_stats: {
+      categories_count: VERTICALS.length,
+      engines_count: ENGINES.length,
+      free_pods_count: ALL_PRODUCTS.filter(p => p.tier === 'scholarship_free').length,
+      premium_pods_count: ALL_PRODUCTS.filter(p => p.tier === 'premium').length
+    },
     revenue_share_policy: {
       maza_fee_percentage: 25,
       setupod_payout_percentage: 75,
-      scholarship_free_support: "1년 인프라 + 호스팅 + 스타터 팟 1개 전액 무상 지원"
+      scholarship_free_support: "1년 인프라 + 호스팅 + 스타터 팟 1개 전액 무상 지원",
+      anti_cannibalization: "100개 세부 업종별 독립 팟 분산으로 유저 간 키워드 중복 경쟁 100% 방지"
     },
+    categories: VERTICALS.map(v => ({ id: v.cat, name: v.catName })),
     products: filtered
   });
 };
