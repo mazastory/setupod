@@ -223,18 +223,18 @@
         
         if (loginBtn) {
           loginBtn.innerHTML = `<span style="color:#c084fc;">👤 ${name}님</span>`;
-          loginBtn.href = "/bizcard/dashboard.html";
+          loginBtn.href = "/dashboard";
           loginBtn.onclick = null;
         }
         if (btnCreateNav) {
           btnCreateNav.innerHTML = `<img src="${avatarUrl}" style="width:18px;height:18px;border-radius:50%;object-fit:cover;"><span>내 대시보드</span>`;
-          btnCreateNav.href = "/bizcard/dashboard.html";
+          btnCreateNav.href = "/dashboard";
           btnCreateNav.title = "대시보드로 이동";
           btnCreateNav.onclick = null;
         }
         if (mobileMakerBtn) {
           mobileMakerBtn.innerHTML = `<span>대시보드</span>`;
-          mobileMakerBtn.href = "/bizcard/dashboard.html";
+          mobileMakerBtn.href = "/dashboard";
           mobileMakerBtn.onclick = null;
         }
       } else {
