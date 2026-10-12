@@ -1091,10 +1091,25 @@
     }
 
     /* 카테고리별 섹션 블록 (카테고리간 확실한 구분과 넉넉한 줄간격 제공) */
+    #catalogSection {
+      padding-top: 48px;
+      margin-top: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    #catalogSection .section-header-row {
+      margin-bottom: 36px;
+      padding-bottom: 16px;
+    }
+
     .category-group-block {
-      margin-bottom: 64px;
-      padding-bottom: 36px;
+      margin-bottom: 72px;
+      padding-bottom: 40px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .category-group-block:first-of-type {
+      margin-top: 10px;
     }
 
     .category-group-block:last-child {
@@ -1106,8 +1121,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
-      padding: 12px 18px;
+      margin-bottom: 24px;
+      padding: 13px 20px;
       background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.07);
