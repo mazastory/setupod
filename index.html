@@ -92,18 +92,29 @@
     let visibleLimit = 10;
     const PAGE_SIZE = 10;
 
+    const categoryMetaList = [
+      { id: 'planner', title: '📅 플래너 & 문구 OS 라인업', sub: '디지털 플래너, 만년형 캘린더, 스마트 메모' },
+      { id: 'global', title: '🌐 글로벌 환율 & 외환 계산기 라인업', sub: '페이팔 실수령액, 환전 수수료, 김치프리미엄' },
+      { id: 'bizcard', title: '💼 3D 명함 & CRM 비즈니스 허브', sub: 'WebGL 3D 명함, 멀티링크, 지분 시뮬레이터' },
+      { id: 'ecommerce', title: '🛒 이커머스 & 셀러 정산 라인업', sub: '쿠팡 로켓그로스, 스마트스토어 마진, 3.3% 세무' },
+      { id: 'sns', title: '📱 SNS & 마케팅 스튜디오 라인업', sub: '인스타 카드뉴스, 카카오 배너, 유튜브 애드센스' },
+      { id: 'life', title: '🏠 부동산 & 라이프 솔루션 라인업', sub: '아파트 양도세, 반려견 사료, 1RM 헬스, 웨딩' },
+      { id: 'fnb', title: '☕ F&B & 카페·외식 유틸리티', sub: '스페셜티 브루잉, 베이커스 퍼센트' }
+    ];
+
     function filterProducts(resetLimit = true) {
       if (resetLimit) {
         visibleLimit = 10;
       }
       const searchInput = document.getElementById('searchInput');
       const searchKeyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
-      const cards = document.querySelectorAll('#productsGrid .product-card');
+      const allCards = Array.from(document.querySelectorAll('#productsGrid .product-card'));
       const bestFiveSection = document.getElementById('bestFiveSection');
       const catalogTitle = document.getElementById('catalogSectionTitle');
       const countLabel = document.getElementById('productCountLabel');
       const loadMoreContainer = document.getElementById('loadMoreContainer');
       const loadMoreCount = document.getElementById('loadMoreCount');
+      const productsGrid = document.getElementById('productsGrid');
 
       const isSpecificFilter = (activeCategory !== 'all' || searchKeyword !== '');
 
@@ -119,8 +130,9 @@
         }
       }
 
+      // 모든 카드를 임시 컨테이너에 모아두고 일치 여부 확인
       let matchedCards = [];
-      cards.forEach(card => {
+      allCards.forEach(card => {
         const cardCat = card.getAttribute('data-cat') || '';
         const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
         const titleEl = card.querySelector('.card-title');
@@ -133,35 +145,84 @@
 
         if (matchesCat && matchesSearch) {
           matchedCards.push(card);
-        } else {
-          card.style.display = 'none';
         }
       });
 
       const totalMatched = matchedCards.length;
-      matchedCards.forEach((card, idx) => {
-        if (idx < visibleLimit) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
       if (countLabel) {
         countLabel.textContent = `총 ${totalMatched}개 웹 비즈니스 활성화됨`;
       }
 
-      if (loadMoreContainer) {
-        if (visibleLimit < totalMatched) {
-          loadMoreContainer.style.display = 'flex';
-          const remaining = totalMatched - visibleLimit;
-          if (loadMoreCount) {
-            loadMoreCount.textContent = `(남은 ${remaining}개 더보기)`;
+      // 기존 동적 블록 제거
+      const existingBlocks = document.querySelectorAll('.category-group-block');
+      existingBlocks.forEach(b => b.remove());
+
+      if (!isSpecificFilter) {
+        // [전체보기 모드]: 마자스튜디오처럼 카테고리별로 넉넉한 간격을 두고 그룹핑 배치
+        productsGrid.style.display = 'none';
+        
+        categoryMetaList.forEach(catMeta => {
+          const catCards = allCards.filter(c => c.getAttribute('data-cat') === catMeta.id);
+          if (catCards.length === 0) return;
+
+          const block = document.createElement('div');
+          block.className = 'category-group-block';
+
+          const header = document.createElement('div');
+          header.className = 'category-group-header';
+          header.setAttribute('data-theme', catMeta.id);
+          header.innerHTML = `
+            <div class="category-group-title">
+              <span>${catMeta.title}</span>
+              <span style="font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.45); margin-left: 6px;">${catMeta.sub}</span>
+            </div>
+            <div class="category-group-count">${catCards.length}개 비즈니스 팟</div>
+          `;
+
+          const grid = document.createElement('div');
+          grid.className = 'category-group-grid';
+          catCards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.style.display = 'flex';
+            grid.appendChild(clone);
+          });
+
+          block.appendChild(header);
+          block.appendChild(grid);
+
+          const catalogSection = document.getElementById('catalogSection');
+          if (catalogSection && loadMoreContainer) {
+            catalogSection.insertBefore(block, loadMoreContainer);
           }
-        } else {
-          loadMoreContainer.style.display = 'none';
+        });
+
+        if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+      } else {
+        // [특정 카테고리 필터 or 검색 모드]: 단일 그리드로 깔끔하게 표시
+        productsGrid.style.display = 'grid';
+        allCards.forEach(card => card.style.display = 'none');
+
+        matchedCards.forEach((card, idx) => {
+          if (idx < visibleLimit) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (loadMoreContainer) {
+          if (visibleLimit < totalMatched) {
+            loadMoreContainer.style.display = 'flex';
+            const remaining = totalMatched - visibleLimit;
+            if (loadMoreCount) {
+              loadMoreCount.textContent = `(남은 ${remaining}개 더보기)`;
+            }
+          } else {
+            loadMoreContainer.style.display = 'none';
+          }
         }
       }
+      safeCreateIcons();
     }
 
     function showMoreProducts() {
@@ -438,7 +499,7 @@
       transform: translateY(-1px);
     }
 
-    /* ── Right Column: Kmong Layered Stack Card (뒤에 색상 다른 테두리 카드가 명확하게 보이는 시그니처 3D 구조) ── */
+    /* ── Right Column: Kmong Layered Stack Card (카드별로 전면/후면 색상이 확 바뀌는 다이내믹 덱) ── */
     .kmong-stacked-wrapper {
       position: relative;
       width: 100%;
@@ -448,46 +509,66 @@
       padding-bottom: 18px;
     }
 
-    /* 2번째 뒤 레이어 (연보라/라벤더 카드 테두리) - 크몽처럼 우측과 하단에 뚜렷이 돌출 */
+    /* 2번째 뒤 레이어 (우측 최하단 돌출) */
     .stack-layer-2 {
       position: absolute;
       top: 14px;
       right: 0px;
       bottom: 0px;
       left: 18px;
-      background: #e9d5ff;
+      background: #c084fc;
       border-radius: 22px;
       opacity: 0.95;
       z-index: 1;
-      box-shadow: 0 10px 25px rgba(233, 213, 255, 0.25);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
-    /* 1번째 뒤 레이어 (민트/연두 카드 테두리) - 크몽처럼 보라색 안쪽 우측에 살짝 겹쳐서 돌출 */
+    /* 1번째 뒤 레이어 (우측 중간 돌출) */
     .stack-layer-1 {
       position: absolute;
       top: 7px;
       right: 11px;
       bottom: 7px;
       left: 9px;
-      background: #a7f3d0;
+      background: #34d399;
       border-radius: 22px;
       opacity: 0.95;
       z-index: 2;
-      box-shadow: 0 8px 20px rgba(167, 243, 208, 0.2);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    /* 메인 앞면 슬라이딩 카드 (크몽 특유의 다크 바이올렛 라운드 카드) */
+    /* 메인 앞면 슬라이딩 카드 */
     .kmong-spotlight-card {
       position: relative;
       z-index: 3;
-      background: #120924;
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      background: #140d2a;
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
       border-radius: 22px;
       padding: 22px 22px 18px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
       overflow: hidden;
       min-height: 235px;
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
+
+    /* 슬라이드 테마별 전면/후면 색상 프리셋 */
+    .deck-theme-0 .kmong-spotlight-card { background: #150d2e; border-color: rgba(192, 132, 252, 0.3); }
+    .deck-theme-0 .stack-layer-1 { background: #34d399; } /* 민트 */
+    .deck-theme-0 .stack-layer-2 { background: #c084fc; } /* 연보라 */
+
+    .deck-theme-1 .kmong-spotlight-card { background: #0b1a38; border-color: rgba(96, 165, 250, 0.35); }
+    .deck-theme-1 .stack-layer-1 { background: #38bdf8; } /* 스카이블루 */
+    .deck-theme-1 .stack-layer-2 { background: #34d399; } /* 에메랄드 */
+
+    .deck-theme-2 .kmong-spotlight-card { background: #261609; border-color: rgba(251, 146, 60, 0.35); }
+    .deck-theme-2 .stack-layer-1 { background: #fbbf24; } /* 웜앰버 */
+    .deck-theme-2 .stack-layer-2 { background: #f87171; } /* 코랄 */
+
+    .deck-theme-3 .kmong-spotlight-card { background: #2b0c24; border-color: rgba(244, 114, 182, 0.35); }
+    .deck-theme-3 .stack-layer-1 { background: #f472b6; } /* 로즈핑크 */
+    .deck-theme-3 .stack-layer-2 { background: #a78bfa; } /* 바이올렛 */
 
     .spotlight-slides-viewport {
       position: relative;
@@ -978,7 +1059,7 @@
       display: inline-block;
     }
 
-    /* ── Marketplace Grid & Showcase Layout (2/3 콤팩트 축소 & 1줄 5개 완벽 진열) ── */
+    /* ── Marketplace Grid & Showcase Layout (마자스튜디오처럼 카테고리별 분리 진열대) ── */
     .market-section {
       max-width: 1420px;
       margin: 0 auto;
@@ -989,7 +1070,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
       padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -1009,8 +1090,50 @@
       font-weight: 700;
     }
 
+    /* 카테고리별 섹션 블록 (카테고리 1과 2 사이에 넉넉한 간격 제공) */
+    .category-group-block {
+      margin-bottom: 42px;
+      padding-bottom: 10px;
+    }
+
+    .category-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      border-left: 3px solid #a855f7;
+    }
+
+    .category-group-header[data-theme="planner"] { border-left-color: #a855f7; }
+    .category-group-header[data-theme="global"] { border-left-color: #38bdf8; }
+    .category-group-header[data-theme="bizcard"] { border-left-color: #fbbf24; }
+    .category-group-header[data-theme="ecommerce"] { border-left-color: #34d399; }
+    .category-group-header[data-theme="fnb"] { border-left-color: #f59e0b; }
+    .category-group-header[data-theme="sns"] { border-left-color: #f472b6; }
+    .category-group-header[data-theme="life"] { border-left-color: #2dd4bf; }
+
+    .category-group-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .category-group-count {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
     /* 5 Columns Grid (1줄에 5개 쏙 들어가는 2/3 콤팩트 규격) */
     .static-best-grid,
+    .category-group-grid,
     .products-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -1049,7 +1172,7 @@
       }
     }
 
-    /* ── Product Card (2/3 미니멀 슬림 규격: 1/3 다이어트) ── */
+    /* ── Product Card (2/3 미니멀 슬림 규격 & 마자스튜디오 감성 카테고리별 테마) ── */
     .product-card {
       background: #110d1c;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1063,9 +1186,44 @@
 
     .product-card:hover {
       transform: translateY(-3px);
-      border-color: #a855f7;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
     }
+
+    /* 카테고리별 차별화된 테두리 & 버튼 테마 (전부 보라색이던 지저분함 해소) */
+    .product-card[data-cat="planner"] { border-color: rgba(168, 85, 247, 0.18); }
+    .product-card[data-cat="planner"]:hover { border-color: #a855f7; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(168, 85, 247, 0.25); }
+    .product-card[data-cat="planner"] .card-category-label { color: #c084fc; }
+    .product-card[data-cat="planner"] .btn-order { background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%); box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35); }
+
+    .product-card[data-cat="global"] { border-color: rgba(56, 189, 248, 0.18); }
+    .product-card[data-cat="global"]:hover { border-color: #38bdf8; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(56, 189, 248, 0.25); }
+    .product-card[data-cat="global"] .card-category-label { color: #38bdf8; }
+    .product-card[data-cat="global"] .btn-order { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35); }
+
+    .product-card[data-cat="bizcard"] { border-color: rgba(251, 191, 36, 0.18); }
+    .product-card[data-cat="bizcard"]:hover { border-color: #fbbf24; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(251, 191, 36, 0.25); }
+    .product-card[data-cat="bizcard"] .card-category-label { color: #fbbf24; }
+    .product-card[data-cat="bizcard"] .btn-order { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35); }
+
+    .product-card[data-cat="ecommerce"] { border-color: rgba(52, 211, 153, 0.18); }
+    .product-card[data-cat="ecommerce"]:hover { border-color: #34d399; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(52, 211, 153, 0.25); }
+    .product-card[data-cat="ecommerce"] .card-category-label { color: #34d399; }
+    .product-card[data-cat="ecommerce"] .btn-order { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35); }
+
+    .product-card[data-cat="fnb"] { border-color: rgba(245, 158, 11, 0.18); }
+    .product-card[data-cat="fnb"]:hover { border-color: #f59e0b; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(245, 158, 11, 0.25); }
+    .product-card[data-cat="fnb"] .card-category-label { color: #f59e0b; }
+    .product-card[data-cat="fnb"] .btn-order { background: linear-gradient(135deg, #b45309 0%, #78350f 100%); box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35); }
+
+    .product-card[data-cat="sns"] { border-color: rgba(244, 114, 182, 0.18); }
+    .product-card[data-cat="sns"]:hover { border-color: #f472b6; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(244, 114, 182, 0.25); }
+    .product-card[data-cat="sns"] .card-category-label { color: #f472b6; }
+    .product-card[data-cat="sns"] .btn-order { background: linear-gradient(135deg, #db2777 0%, #be185d 100%); box-shadow: 0 4px 12px rgba(219, 39, 119, 0.35); }
+
+    .product-card[data-cat="life"] { border-color: rgba(45, 212, 191, 0.18); }
+    .product-card[data-cat="life"]:hover { border-color: #2dd4bf; box-shadow: 0 10px 24px rgba(0,0,0,0.6), 0 0 16px rgba(45, 212, 191, 0.25); }
+    .product-card[data-cat="life"] .card-category-label { color: #2dd4bf; }
+    .product-card[data-cat="life"] .btn-order { background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35); }
 
     /* Thumbnail Area (콤팩트 105px 높이로 축소) */
     .card-thumb {
@@ -1693,8 +1851,8 @@
         </div>
       </div>
 
-      <!-- Right Column: Kmong Layered Stack Card (뒤에 색상 다른 테두리 카드가 살짝 보이는 구조) -->
-      <div class="kmong-stacked-wrapper">
+      <!-- Right Column: Kmong Layered Stack Card (카드별로 색상이 바뀌는 다이내믹 덱 구조) -->
+      <div class="kmong-stacked-wrapper deck-theme-0">
         <div class="stack-layer-2" id="stackLayer2"></div>
         <div class="stack-layer-1" id="stackLayer1"></div>
 
@@ -1920,7 +2078,7 @@
 
     <div class="static-best-grid">
       <!-- Best 1: 2026 플래너 팟 -->
-      <div class="product-card">
+      <div class="product-card" data-cat="planner">
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #4c1d95, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
@@ -1952,7 +2110,7 @@
       </div>
 
       <!-- Best 2: 글로벌 페이팔 실입금 계산기 팟 -->
-      <div class="product-card">
+      <div class="product-card" data-cat="global">
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #0369a1, #082f49);"></div>
           <div class="card-thumb-overlay"></div>
@@ -1984,7 +2142,7 @@
       </div>
 
       <!-- Best 3: 3D 디지털 명함 & CRM 팟 -->
-      <div class="product-card">
+      <div class="product-card" data-cat="bizcard">
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);"></div>
           <div class="card-thumb-overlay"></div>
@@ -2016,7 +2174,7 @@
       </div>
 
       <!-- Best 4: AI 스마트 메모팟 -->
-      <div class="product-card">
+      <div class="product-card" data-cat="planner">
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #92400e, #451a03);"></div>
           <div class="card-thumb-overlay"></div>
@@ -2048,7 +2206,7 @@
       </div>
 
       <!-- Best 5: 인스타 카드뉴스 팟 -->
-      <div class="product-card">
+      <div class="product-card" data-cat="sns">
         <div class="card-thumb">
           <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #4c0519);"></div>
           <div class="card-thumb-overlay"></div>
@@ -3134,6 +3292,12 @@
       currentSpotlightIdx = idx;
       const slides = document.querySelectorAll('.spotlight-slide');
       const dots = document.querySelectorAll('.spotlight-dot');
+      const stackedWrapper = document.querySelector('.kmong-stacked-wrapper');
+
+      if (stackedWrapper) {
+        stackedWrapper.classList.remove('deck-theme-0', 'deck-theme-1', 'deck-theme-2', 'deck-theme-3');
+        stackedWrapper.classList.add(`deck-theme-${idx}`);
+      }
 
       slides.forEach((slide, i) => {
         if (i === idx) {
