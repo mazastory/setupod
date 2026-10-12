@@ -16,9 +16,9 @@
         </button>
         
         <div class="auth-modal-header">
-          <img src="assets/setupod_symbol.png" alt="SETUPOD" class="auth-modal-logo">
+          <img src="/assets/setupod_symbol.png" alt="SETUPOD" class="auth-modal-logo" onerror="this.src='/assets/favicon-32x32.png'">
           <h2 class="auth-modal-title">로그인 및 시작하기</h2>
-          <p class="auth-modal-subtitle">작업하신 명함을 영구적으로 보존하고 고유 링크를 생성하기 위해 3초만에 가입하세요.</p>
+          <p class="auth-modal-subtitle">작업하신 비즈니스 팟을 영구적으로 보존하고 고유 링크를 생성하기 위해 3초만에 가입하세요.</p>
         </div>
 
         <div class="auth-modal-body">
@@ -34,7 +34,7 @@
         </div>
         
         <div class="auth-modal-footer">
-          <p>가입 시 SETUPOD의 <a href="terms.html">이용약관</a> 및 <a href="privacy.html">개인정보처리방침</a>에 동의하게 됩니다.</p>
+          <p>가입 시 SETUPOD의 <a href="/terms">이용약관</a> 및 <a href="/privacy">개인정보처리방침</a>에 동의하게 됩니다.</p>
         </div>
       </div>
     </div>

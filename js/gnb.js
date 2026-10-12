@@ -218,7 +218,7 @@
       
       if (user) {
         // 로그인 상태
-        const avatarUrl = user.user_metadata?.avatar_url || 'assets/sample_avatar.png';
+        const avatarUrl = user.user_metadata?.avatar_url || '/assets/sample_avatar.png';
         const name = user.user_metadata?.name || user.email?.split('@')[0] || '내 팟';
         
         if (loginBtn) {
