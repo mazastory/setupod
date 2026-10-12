@@ -78,7 +78,6 @@
       const searchKeyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
       const cards = document.querySelectorAll('#productsGrid .product-card');
       const bestFiveSection = document.getElementById('bestFiveSection');
-      const streamSection = document.getElementById('streamSection');
       const catalogTitle = document.getElementById('catalogSectionTitle');
       const countLabel = document.getElementById('productCountLabel');
 
@@ -86,9 +85,6 @@
 
       if (bestFiveSection) {
         bestFiveSection.style.display = isSpecificFilter ? 'none' : 'block';
-      }
-      if (streamSection) {
-        streamSection.style.display = isSpecificFilter ? 'none' : 'block';
       }
 
       if (catalogTitle) {
@@ -640,82 +636,30 @@
       }
     }
 
-    /* ── Dynamic Moving Stream Tracks (동적 라인: 살아 움직이는 팟 스트림) ── */
-    .stream-section-wrap {
-      margin: 48px 0;
-    }
-
-    .stream-track-wrap {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
-      padding: 10px 0;
-      margin-bottom: 16px;
-    }
-
-    .stream-track {
-      display: flex;
-      gap: 16px;
-      width: max-content;
-      will-change: transform;
-      transform: translateZ(0);
-      contain: layout style;
-    }
-
-    .stream-track.glide-left {
-      animation: streamGlideLeft 85s linear infinite;
-    }
-
-    .stream-track.glide-right {
-      animation: streamGlideRight 90s linear infinite;
-    }
-
-    .stream-track:hover {
-      animation-play-state: paused;
-    }
-
-    .stream-track .product-card {
-      width: 256px;
-      flex-shrink: 0;
-    }
-
-    @keyframes streamGlideLeft {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    @keyframes streamGlideRight {
-      0% { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
-
-    /* ── Product Card (기본: 차분한 흑백 모노크롬 럭셔리 -> 호버: 영롱한 컬러풀 점등) ── */
+    /* ── Product Card (초고속 0ms 렌더링 & 콤팩트 5열) ── */
     .product-card {
-      background: rgba(255, 255, 255, 0.025);
+      background: #110d1c;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       position: relative;
     }
 
     .product-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(168, 85, 247, 0.55);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65), 0 0 24px rgba(168, 85, 247, 0.25);
-      background: rgba(255, 255, 255, 0.045);
+      transform: translateY(-4px);
+      border-color: #a855f7;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.25);
     }
 
-    /* Thumbnail Area (기본: 흑백 모노크롬 & 저부하 -> 호버: 환한 풀컬러 블룸) */
+    /* Thumbnail Area (순수 네이티브 CSS & 무결점 속도) */
     .card-thumb {
       position: relative;
       width: 100%;
       height: 140px;
-      background: #08060f;
+      background: #090710;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -723,14 +667,6 @@
       justify-content: center;
       gap: 8px;
       padding-top: 14px;
-      filter: grayscale(1) brightness(0.92);
-      opacity: 0.88;
-      transition: filter 0.35s ease, opacity 0.35s ease;
-    }
-
-    .product-card:hover .card-thumb {
-      filter: grayscale(0) brightness(1);
-      opacity: 1;
     }
 
     .card-thumb-bg {
@@ -738,12 +674,12 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: 0.75;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      opacity: 0.85;
+      transition: transform 0.3s ease;
     }
 
     .product-card:hover .card-thumb-bg {
-      transform: scale(1.08);
+      transform: scale(1.06);
       opacity: 1;
     }
 
@@ -759,23 +695,19 @@
       width: 66px;
       height: 66px;
       border-radius: 18px;
-      background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 55%, rgba(12, 10, 22, 0.85) 100%);
+      background: rgba(255, 255, 255, 0.08);
       border: 1.5px solid rgba(255, 255, 255, 0.22);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 36px;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.35);
-      transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      transition: transform 0.25s ease;
       user-select: none;
     }
 
     .product-card:hover .card-center-icon {
-      transform: scale(1.08) translateY(-3px);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 35px rgba(168, 85, 247, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.7);
+      transform: scale(1.08) translateY(-2px);
     }
 
     .thumb-sub-pill {
@@ -786,35 +718,24 @@
       gap: 5px;
       padding: 3px 9px;
       border-radius: 99px;
-      background: rgba(10, 8, 18, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(6px);
+      background: rgba(14, 10, 24, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       font-size: 10.5px;
       font-weight: 800;
-      color: rgba(255, 255, 255, 0.75);
+      color: rgba(255, 255, 255, 0.85);
       letter-spacing: -0.01em;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
     }
 
     .product-card:hover .thumb-sub-pill {
-      background: rgba(168, 85, 247, 0.25);
-      border-color: rgba(168, 85, 247, 0.6);
+      border-color: #a855f7;
       color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(168, 85, 247, 0.35);
     }
 
     .thumb-sub-pill .m-status-dot {
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background: #9ca3af;
-      box-shadow: none;
-      transition: all 0.25s ease;
-    }
-
-    .product-card:hover .thumb-sub-pill .m-status-dot {
       background: #34d399;
       box-shadow: 0 0 6px #34d399;
     }
@@ -826,14 +747,6 @@
       display: flex;
       gap: 4px;
       z-index: 3;
-      filter: grayscale(1);
-      opacity: 0.75;
-      transition: filter 0.3s ease, opacity 0.3s ease;
-    }
-
-    .product-card:hover .card-badge-top {
-      filter: grayscale(0);
-      opacity: 1;
     }
 
     .badge-pill {
@@ -1532,480 +1445,6 @@
           <div class="card-actions">
             <a href="insta/" target="_blank" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
             <button class="btn-order" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 2. [동적 라인] 실시간 가동 중인 턴키 팟 스트림 (살아 움직이는 2열 무빙 궤도) ── -->
-  <section class="stream-section-wrap" id="streamSection">
-    <div style="max-width: 1400px; margin: 0 auto 16px; padding: 0 20px;">
-      <div class="section-header-row" style="margin-bottom: 8px; border-bottom: none;">
-        <div class="section-header-title">
-          <i data-lucide="activity" style="width:20px;height:20px;color:#38bdf8;"></i>
-          <span>실시간 라이브 가동 중인 팟 스트림</span>
-        </div>
-        <div class="section-header-count">⚡ 마우스 호버 시 일시정지 · 클릭 시 즉시 체험/분양</div>
-      </div>
-    </div>
-
-    <!-- Track 1: Glide Left (카카오, 멀티링크, 커머스, 커피, 아파트, 쿠팡) -->
-    <div class="stream-track-wrap">
-      <div class="stream-track glide-left">
-        <!-- Item 6: Kakao Studio -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #361e04);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(234,179,8,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💬</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 정규격 배너 템플릿</span>
-            <div class="card-badge-top"><span class="badge-pill green">💬 메신저 특화</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">📱 마케팅 · 카카오</div>
-            <h3 class="card-title">카카오톡 배너 & 프로필 스튜디오</h3>
-            <p class="card-desc">카카오 채널과 단톡방 공지 배너를 1초 생성. 커뮤니티 관리자 유입 보장.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="kakao/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('카카오톡 배너 & 채널 프로필 스튜디오')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 7: MultiLink -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #3730a3, #1e1b4b);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(99,102,241,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🔗</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 모바일 프로필 허브</span>
-            <div class="card-badge-top"><span class="badge-pill blue">🔗 인스타 프로필</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">💼 비즈니스 · 멀티링크</div>
-            <h3 class="card-title">올인원 멀티링크 바이오 허브 팟</h3>
-            <p class="card-desc">프로필 링크 하나로 쇼핑몰, 유튜브, 포트폴리오를 한 화면에 통합.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="multilink/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('올인원 멀티링크 바이오 허브 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 8: Ecommerce -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #065f46, #022c22);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🛒</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 스마트스토어 마진 & 세무</span>
-            <div class="card-badge-top"><span class="badge-pill green">🛒 셀러 필수</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🛒 이커머스 · 세무</div>
-            <h3 class="card-title">이커머스 마진 & 3.3% 프리랜서 세금 팟</h3>
-            <p class="card-desc">네이버 수수료 마진과 3.3% 원천징수 실수령액을 1초 만에 계산.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('이커머스 마진 & 3.3% 프리랜서 세금 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 9: Coffee -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #78350f, #451a03);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(217,119,6,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">☕</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 골든컵 브루잉 & 디개싱</span>
-            <div class="card-badge-top"><span class="badge-pill green">☕ F&B 버티컬</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">☕ F&B · 커피 유틸리티</div>
-            <h3 class="card-title">스페셜티 커피 브루잉 비율 & 디개싱 팟</h3>
-            <p class="card-desc">골든컵 브루잉 비율 계산기와 로스팅별 디개싱 차트. 홈바리스타 유입 특화.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://brewoak.com" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('스페셜티 커피 브루잉 비율 & 디개싱 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 10: Apt Tax -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #b45309, #78350f);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏠</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 최신 세법 1초 역산기</span>
-            <div class="card-badge-top"><span class="badge-pill green">🏠 고단가 부동산</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 부동산 · 세무 계산기</div>
-            <h3 class="card-title">전국 아파트 실거래가 & 양도세 팟</h3>
-            <p class="card-desc">1주택 비과세 요건 및 다주택자 중과세율 반영 양도세·취득세 1초 계산.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩59,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('전국 아파트 실거래가 & 양도세/취득세 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 11: Coupang -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e40af, #1e1b4b);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(59,130,246,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📦</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 2026 로켓 vs 윙 마진 시뮬</span>
-            <div class="card-badge-top"><span class="badge-pill hot">🚀 셀러 폭발적 유입</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🛒 이커머스 · 셀러 수수료</div>
-            <h3 class="card-title">쿠팡 로켓그로스 vs 윙 마진 비교 팟</h3>
-            <p class="card-desc">로켓그로스 입출고비·배송비·보관료를 윙 판매와 1:1 비교 시뮬레이션.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('쿠팡 로켓그로스 vs 윙 마진 비교 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- DUPLICATE FOR INFINITE LOOP (Items 6 to 11) -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #361e04);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(234,179,8,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💬</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 정규격 배너 템플릿</span>
-            <div class="card-badge-top"><span class="badge-pill green">💬 메신저 특화</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">📱 마케팅 · 카카오</div>
-            <h3 class="card-title">카카오톡 배너 & 프로필 스튜디오</h3>
-            <p class="card-desc">카카오 채널과 단톡방 공지 배너를 1초 생성. 커뮤니티 관리자 유입 보장.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="kakao/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('카카오톡 배너 & 채널 프로필 스튜디오')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #3730a3, #1e1b4b);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(99,102,241,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🔗</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 모바일 프로필 허브</span>
-            <div class="card-badge-top"><span class="badge-pill blue">🔗 인스타 프로필</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">💼 비즈니스 · 멀티링크</div>
-            <h3 class="card-title">올인원 멀티링크 바이오 허브 팟</h3>
-            <p class="card-desc">프로필 링크 하나로 쇼핑몰, 유튜브, 포트폴리오를 한 화면에 통합.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="multilink/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('올인원 멀티링크 바이오 허브 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #065f46, #022c22);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🛒</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 스마트스토어 마진 & 세무</span>
-            <div class="card-badge-top"><span class="badge-pill green">🛒 셀러 필수</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🛒 이커머스 · 세무</div>
-            <h3 class="card-title">이커머스 마진 & 3.3% 프리랜서 세금 팟</h3>
-            <p class="card-desc">네이버 수수료 마진과 3.3% 원천징수 실수령액을 1초 만에 계산.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('이커머스 마진 & 3.3% 프리랜서 세금 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #78350f, #451a03);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(217,119,6,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">☕</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 골든컵 브루잉 & 디개싱</span>
-            <div class="card-badge-top"><span class="badge-pill green">☕ F&B 버티컬</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">☕ F&B · 커피 유틸리티</div>
-            <h3 class="card-title">스페셜티 커피 브루잉 비율 & 디개싱 팟</h3>
-            <p class="card-desc">골든컵 브루잉 비율 계산기와 로스팅별 디개싱 차트. 홈바리스타 유입 특화.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://brewoak.com" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('스페셜티 커피 브루잉 비율 & 디개싱 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Track 2: Glide Right (암호화폐, 반려견, 1RM, 유튜브, 웨딩, 베이커스, 스타트업) -->
-    <div class="stream-track-wrap">
-      <div class="stream-track glide-right">
-        <!-- Item 12: Crypto Kimp -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #6d28d9, #4c1d95);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🪙</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 김프 피드</span>
-            <div class="card-badge-top"><span class="badge-pill hot">⚡ 실시간 시세</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🌐 크립토 · 핀테크</div>
-            <h3 class="card-title">암호화폐 김치프리미엄 & 차익 팟</h3>
-            <p class="card-desc">업비트 vs 바이낸스 시세 차이 및 수수료 차익 1초 계산. 고빈도 트래픽 유입.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://mazaus.com" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('암호화폐 김치프리미엄 & 차익 계산 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 13: Pet -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #be123c, #881337);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🐶</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 수의학 RER 권장 칼로리</span>
-            <div class="card-badge-top"><span class="badge-pill hot">🐾 펫 버티컬</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 라이프 · 펫케어</div>
-            <h3 class="card-title">반려견 품종별 사료 권장 칼로리 팟</h3>
-            <p class="card-desc">체중, 활동량별 일일 RER 권장 칼로리 산출. 사료 제휴 링크 전환율 극대화.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="planner/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('반려견 품종별 사료 권장 칼로리 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 14: Fitness -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #047857, #064e3b);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏋️</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3대 1RM & 영양 매크로</span>
-            <div class="card-badge-top"><span class="badge-pill green">💪 피트니스</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 라이프 · 헬스</div>
-            <h3 class="card-title">1RM 근력 & 벌크업 영양 매크로 팟</h3>
-            <p class="card-desc">3대 운동 1RM 추정과 목표 체중별 탄단지 영양 매크로 자동 분배.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('1RM 근력 & 벌크업 영양 매크로 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 15: Youtube -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #991b1b, #450a0a);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(239,68,68,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🎬</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 카테고리별 CPM 수익</span>
-            <div class="card-badge-top"><span class="badge-pill hot">🎬 크리에이터</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">📱 SNS · 크리에이터</div>
-            <h3 class="card-title">유튜브 조회수 애드센스 예상수익 팟</h3>
-            <p class="card-desc">채널 카테고리별 차등 CPM과 조회수별 예상 월수익을 실시간 계산.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="insta/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('유튜브 조회수 기반 애드센스 예상수익 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 16: Wedding -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #701a75);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(236,72,153,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💍</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 감성 청첩장 & RSVP</span>
-            <div class="card-badge-top"><span class="badge-pill hot">💍 고감성 인터랙티브</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 라이프 · 모바일 웨딩</div>
-            <h3 class="card-title">모바일 웨딩 청첩장 & 온라인 방명록 팟</h3>
-            <p class="card-desc">감성 인터랙티브 모바일 청첩장. 지도 안내, 방명록, 참석(RSVP) 자동 취합.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩59,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="bizcard/card.html?id=demo" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('모바일 웨딩 청첩장 & 온라인 방명록 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 17: Bakery -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #713f12);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🥐</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 제과제빵 배합비 역산</span>
-            <div class="card-badge-top"><span class="badge-pill green">🥐 제과제빵 전문</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">☕ F&B · 베이커리</div>
-            <h3 class="card-title">베이커리 베이커스 퍼센트(Bakers %) 팟</h3>
-            <p class="card-desc">밀가루 총량을 100%로 잡는 전문 베이커리 배합비 역산기.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://brewoak.com" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('베이커리 베이커스 퍼센트(Bakers %) 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- DUPLICATE FOR INFINITE LOOP (Items 12 to 17) -->
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #6d28d9, #4c1d95);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🪙</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 김프 피드</span>
-            <div class="card-badge-top"><span class="badge-pill hot">⚡ 실시간 시세</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🌐 크립토 · 핀테크</div>
-            <h3 class="card-title">암호화폐 김치프리미엄 & 차익 팟</h3>
-            <p class="card-desc">업비트 vs 바이낸스 시세 차이 및 수수료 차익 1초 계산. 고빈도 트래픽 유입.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://mazaus.com" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('암호화폐 김치프리미엄 & 차익 계산 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #be123c, #881337);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🐶</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 수의학 RER 권장 칼로리</span>
-            <div class="card-badge-top"><span class="badge-pill hot">🐾 펫 버티컬</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 라이프 · 펫케어</div>
-            <h3 class="card-title">반려견 품종별 사료 권장 칼로리 팟</h3>
-            <p class="card-desc">체중, 활동량별 일일 RER 권장 칼로리 산출. 사료 제휴 링크 전환율 극대화.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="planner/" target="_blank" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('반려견 품종별 사료 권장 칼로리 팟')">스타터 신청</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="card-thumb">
-            <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #047857, #064e3b);"></div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-center-icon" style="box-shadow: 0 12px 28px rgba(0,0,0,0.65), 0 0 32px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏋️</div>
-            <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3대 1RM & 영양 매크로</span>
-            <div class="card-badge-top"><span class="badge-pill green">💪 피트니스</span></div>
-          </div>
-          <div class="card-body">
-            <div class="card-category-label">🏠 라이프 · 헬스</div>
-            <h3 class="card-title">1RM 근력 & 벌크업 영양 매크로 팟</h3>
-            <p class="card-desc">3대 운동 1RM 추정과 목표 체중별 탄단지 영양 매크로 자동 분배.</p>
-            <div class="card-price-row">
-              <div class="price-main">0원 <span class="sub-text">₩39,000</span></div>
-              <div class="price-extra">스타터 무상</div>
-            </div>
-            <div class="card-actions">
-              <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">체험</a>
-              <button class="btn-order" onclick="openOrderModal('1RM 근력 & 벌크업 영양 매크로 팟')">스타터 신청</button>
-            </div>
           </div>
         </div>
       </div>
