@@ -122,7 +122,8 @@
       filter: brightness(1.12);
       color: #ffffff;
     }
-    @media (max-width: 540px) {
+    .embed-upsell-link .short-text { display: none; }
+    @media (max-width: 680px) {
       .embed-scholarship-bar {
         bottom: 8px;
         padding: 6px 10px;
@@ -133,9 +134,11 @@
         font-size: 10.5px;
       }
       .embed-upsell-link {
-        padding: 5px 8px;
-        font-size: 10px;
+        padding: 5px 10px;
+        font-size: 10.5px;
       }
+      .embed-upsell-link .full-text { display: none; }
+      .embed-upsell-link .short-text { display: inline; }
     }
 
     /* 로더 */
@@ -179,14 +182,15 @@
 
     <iframe id="podFrame" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
 
-    <!-- 마자 장학 인증 뱃지 & 셋업팟 추가 팟 구매 업셀링 배너 -->
+    <!-- 마자 장학 인증 뱃지 & 셋업팟 맞춤 팟 추가 구매 업셀링 배너 -->
     <div class="embed-scholarship-bar" id="partnerBadge">
       <div class="embed-badge-wrap">
         <span class="embed-pulse-dot"></span>
         <span class="embed-badge-title">🎓 MAZA 디지털 자산 장학 프로그램 인증 (1년 인프라 지원)</span>
       </div>
       <a href="https://setupod.com?utm_source=maza_scholarship_embed&utm_medium=embed_bottom_bar&utm_campaign=upsell" target="_blank" rel="noopener noreferrer" class="embed-upsell-link">
-        <span>셋업팟 추가 팟 구매하기 →</span>
+        <span class="full-text">🚀 셋업팟 공식 스토어에서 나만의 맞춤 팟 추가하기 →</span>
+        <span class="short-text">🚀 맞춤 팟 추가하기 →</span>
       </a>
     </div>
   </div>

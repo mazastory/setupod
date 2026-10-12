@@ -50,7 +50,7 @@
       themeColor: '#a855f7'
     },
     'bizcard': {
-      title: '2026 해외 셀러 & 프리랜서 송금·환전 80% 절감 가이드',
+      title: '2026 해외 셀러 & 프리랜서 송금·환전 수수료 80% 절감 가이드',
       desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
       badge: '💼 3D 명함 팟 특별 리포트',
       leadType: 'fx_guide',
@@ -58,7 +58,7 @@
       themeColor: '#38bdf8'
     },
     'bizcard3d': {
-      title: '2026 해외 셀러 & 프리랜서 송금·환전 80% 절감 가이드',
+      title: '2026 해외 셀러 & 프리랜서 송금·환전 수수료 80% 절감 가이드',
       desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
       badge: '💼 3D 명함 팟 특별 리포트',
       leadType: 'fx_guide',
@@ -66,7 +66,7 @@
       themeColor: '#38bdf8'
     },
     'calculator': {
-      title: '스마트스토어·쿠팡 마진 1초 계산 시뮬레이터',
+      title: '스마트스토어·쿠팡 로켓 마진 1초 계산 노션/엑셀 템플릿',
       desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
       badge: '📊 계산기 팟 이커머스 자산',
       leadType: 'margin_calc',
@@ -74,12 +74,20 @@
       themeColor: '#34d399'
     },
     'margin': {
-      title: '스마트스토어·쿠팡 마진 1초 계산 시뮬레이터',
+      title: '스마트스토어·쿠팡 로켓 마진 1초 계산 노션/엑셀 템플릿',
       desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
       badge: '📊 계산기 팟 이커머스 자산',
       leadType: 'margin_calc',
       downloadUrl: 'https://setupod.com/leads/autosite_margin_calc.html',
       themeColor: '#34d399'
+    },
+    'brewoak': {
+      title: '원두별 골든 브루잉 레시피 치트시트 & 디개싱 캘린더',
+      desc: '로스팅 포인트별 최적의 디개싱 일수와 추출 황금 비율 치트시트를 무료로 보내드립니다.',
+      badge: '☕ brewoak 브루잉 랩',
+      leadType: 'brewing_cheatsheet',
+      downloadUrl: 'https://setupod.com/leads/brewoak_cheatsheet.html',
+      themeColor: '#fbbf24'
     },
     'runway': {
       title: '2026 스타트업 런웨이 2배 연장 전략 가이드',
@@ -115,11 +123,12 @@
       var path = window.location.pathname.toLowerCase();
       var pathPod = '';
       if (path.indexOf('/planner') !== -1) pathPod = 'planner';
-      else if (path.indexOf('/bizcard') !== -1) pathPod = 'bizcard';
+      else if (path.indexOf('/bizcard') !== -1) pathPod = 'bizcard3d';
       else if (path.indexOf('/margin') !== -1) pathPod = 'margin';
+      else if (path.indexOf('/calculator') !== -1) pathPod = 'calculator';
+      else if (path.indexOf('/brewoak') !== -1) pathPod = 'brewoak';
       else if (path.indexOf('/runway') !== -1) pathPod = 'runway';
       else if (path.indexOf('/nomad') !== -1) pathPod = 'nomad';
-      else if (path.indexOf('/calculator') !== -1) pathPod = 'calculator';
 
       var podId = options.podId || params.get('podId') || params.get('pod_id') || pathPod || '';
 
@@ -162,8 +171,8 @@
           width: 100%; max-width: 480px;
           background: #101626;
           border: 1px solid rgba(255,255,255,0.14);
-          border-radius: 28px; padding: 34px 28px;
-          box-shadow: 0 25px 60px -12px rgba(0,0,0,0.8), 0 0 35px rgba(99,102,241,0.15);
+          border-radius: 28px; padding: 32px 26px;
+          box-shadow: 0 25px 60px -12px rgba(0,0,0,0.85), 0 0 35px rgba(99,102,241,0.15);
           position: relative; color: #f9fafb;
           transform: translateY(24px) scale(0.97); 
           transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -182,7 +191,7 @@
           font-size: 12px; font-weight: 800; margin-bottom: 14px;
         }
         .lm-title { font-size: 21px; font-weight: 900; line-height: 1.35; margin-bottom: 10px; color: #fff; letter-spacing: -0.02em; }
-        .lm-desc { font-size: 13.5px; color: #94a3b8; line-height: 1.6; margin-bottom: 22px; }
+        .lm-desc { font-size: 13.5px; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; }
         .lm-form { display: flex; flex-direction: column; gap: 12px; }
         .lm-field-group { display: flex; flex-direction: column; gap: 5px; }
         .lm-label { font-size: 12px; font-weight: 700; color: #cbd5e1; }
@@ -209,15 +218,43 @@
         .lm-submit:hover { filter: brightness(1.12); transform: translateY(-1.5px); }
         .lm-success { display: none; text-align: center; }
         .lm-btn-download {
-          display: inline-block; width: 100%; padding: 15px;
+          display: inline-block; width: 100%; padding: 14px;
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           color: #ffffff; font-weight: 900;
           border-radius: 14px; text-decoration: none; font-size: 15px;
-          margin-top: 18px; box-sizing: border-box;
+          margin-top: 14px; box-sizing: border-box;
           box-shadow: 0 6px 20px rgba(16,185,129,0.3);
           transition: all 0.2s;
         }
         .lm-btn-download:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        
+        /* 셋업팟 추가 유료 팟 업셀링 영역 */
+        .lm-upsell-box {
+          margin-top: 20px; padding: 16px 14px;
+          background: rgba(99,102,241,0.08);
+          border: 1px solid rgba(99,102,241,0.25);
+          border-radius: 16px; text-align: center;
+        }
+        .lm-upsell-title {
+          font-size: 12.5px; font-weight: 800; color: #c084fc; margin-bottom: 5px;
+        }
+        .lm-upsell-desc {
+          font-size: 11.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 12px;
+        }
+        .lm-btn-upsell {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 100%; padding: 12px 14px;
+          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+          color: #ffffff; font-weight: 800; font-size: 12.5px;
+          border-radius: 12px; text-decoration: none;
+          box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+          transition: all 0.2s; box-sizing: border-box;
+        }
+        .lm-btn-upsell:hover {
+          filter: brightness(1.12); transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(139,92,246,0.6);
+          color: #ffffff;
+        }
       `;
       document.head.appendChild(style);
     },
@@ -264,15 +301,26 @@
           </div>
 
           <div id="lmSuccessContainer" class="lm-success">
-            <div style="font-size:42px; margin-bottom:12px;">🎉</div>
-            <h3 class="lm-title" style="color:#10b981;">신청이 완료되었습니다!</h3>
-            <p class="lm-desc" style="margin-bottom:18px;">
+            <div style="font-size:42px; margin-bottom:10px;">🎉</div>
+            <h3 class="lm-title" style="color:#10b981; font-size:20px;">신청이 완료되었습니다!</h3>
+            <p class="lm-desc" style="margin-bottom:14px;">
               <strong>${c.title}</strong> 자산이 준비되었습니다.<br/>
-              아래 다운로드 버튼을 눌러 지금 바로 확인하세요.
+              아래 버튼을 눌러 지금 바로 확인하세요.
             </p>
             <a href="${c.downloadUrl}" target="_blank" class="lm-btn-download">
               📥 가이드 & 템플릿 즉시 열기 (무료 열람)
             </a>
+
+            <!-- 셋업팟 맞춤 팟 추가 유료 결제 아웃링크 배너 -->
+            <div class="lm-upsell-box">
+              <div class="lm-upsell-title">🎓 MAZA 1년 장학 팟 외 추가 비즈니스 팟이 필요하신가요?</div>
+              <div class="lm-upsell-desc">
+                3D 명함, 마진 계산기, 멀티링크, 플래너 등 나만의 맞춤형 비즈니스 팟을 셋업팟 공식 스토어에서 직접 주문·장착하세요.
+              </div>
+              <a href="https://setupod.com?utm_source=maza_lead_modal&utm_medium=success_upsell&utm_campaign=custom_pod" target="_blank" rel="noopener noreferrer" class="lm-btn-upsell">
+                🚀 셋업팟 공식 스토어에서 나만의 맞춤 팟 추가하기 →
+              </a>
+            </div>
           </div>
         </div>
       `;
@@ -308,6 +356,7 @@
 
     submit: function(e) {
       e.preventDefault();
+      var self = this;
       var emailEl = document.getElementById('lmEmail');
       var phoneEl = document.getElementById('lmPhone');
       var kakaoEl = document.getElementById('lmKakao');
@@ -333,35 +382,49 @@
         created_at: new Date().toISOString()
       };
 
-      // 1. MAZA Studio 백엔드로 비동기 전송
+      // 1. MAZA Studio 백엔드로 전송
       var mazaUrl = window.MAZA_LEAD_URL || 'https://mazastudio.kr/api/telemetry/lead';
-      try {
-        fetch(mazaUrl, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(function() {});
-      } catch(err) {}
+      var sendMaza = fetch(mazaUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(function(err) {
+        console.warn('[MAZA Lead Telemetry Notice]:', err && err.message);
+        return { ok: false, error: err };
+      });
 
-      // 2. SETUPOD 중앙 DB로도 백업 전송 (2-Way 절대 보존)
+      // 2. SETUPOD 중앙 DB로 전송 (2-Way 절대 보존)
       var setupodApiUrl = (window.location.hostname.indexOf('setupod.com') !== -1 || window.location.hostname === 'localhost')
         ? '/api/leads'
         : 'https://setupod.com/api/leads';
 
-      try {
-        fetch(setupodApiUrl, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(function() {});
-      } catch(err) {}
+      var sendSetupod = fetch(setupodApiUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(function(err) {
+        console.warn('[SETUPOD Lead DB Notice]:', err && err.message);
+        return { ok: false, error: err };
+      });
 
-      // 저장 완료 처리 및 즉시 다운로드 화면 전환
+      // 3. 독립 분기 처리: 마자 API나 CORS 실패에 구애받지 않고 셋업팟 DB 저장을 완수하고 화면 전환
+      if (typeof Promise !== 'undefined' && Promise.allSettled) {
+        Promise.allSettled([sendMaza, sendSetupod]).finally(function() {
+          self.renderSuccess();
+        });
+      } else {
+        self.renderSuccess();
+      }
+    },
+
+    renderSuccess: function() {
       localStorage.setItem('lm_submitted_' + this.domain, 'true');
-      document.getElementById('lmFormContainer').style.display = 'none';
-      document.getElementById('lmSuccessContainer').style.display = 'block';
+      var formContainer = document.getElementById('lmFormContainer');
+      var successContainer = document.getElementById('lmSuccessContainer');
+      if (formContainer) formContainer.style.display = 'none';
+      if (successContainer) successContainer.style.display = 'block';
     }
   };
 
