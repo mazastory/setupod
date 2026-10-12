@@ -35,14 +35,8 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@0.344.0"></script>
-  <!-- Supabase JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth-modal.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
   <!-- GNB 공통 스타일 -->
   <link rel="stylesheet" href="css/gnb.css">
@@ -493,6 +487,9 @@
       display: flex;
       gap: 16px;
       width: max-content;
+      will-change: transform;
+      transform: translateZ(0);
+      contain: layout style;
     }
 
     .stream-track.glide-left {
@@ -699,6 +696,7 @@
       min-height: 38px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -711,6 +709,7 @@
       min-height: 33px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       flex: 1;
@@ -735,21 +734,22 @@
       gap: 4px;
     }
 
-    /* Price Section */
+    /* Price Section (방어적 래핑 & 정돈) */
     .card-price-row {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 2px;
       margin-bottom: 12px;
     }
 
     .price-main {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 900;
       color: #34d399;
       display: flex;
       align-items: baseline;
       gap: 5px;
+      line-height: 1.2;
     }
 
     .price-main .sub-text {
@@ -760,15 +760,18 @@
     }
 
     .price-extra {
-      font-size: 11px;
+      font-size: 10.5px;
       color: rgba(255, 255, 255, 0.5);
       font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Card Action Buttons */
     .card-actions {
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 6px;
     }
 
@@ -2772,6 +2775,12 @@
     <p>© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
 
+  <!-- Core Libraries (Non-blocking Fast Render) -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-modal.js"></script>
+
   <script>
     lucide.createIcons();
 
@@ -2787,14 +2796,15 @@
 
     function filterProducts() {
       const searchKeyword = document.getElementById('searchInput').value.trim().toLowerCase();
-      const cards = document.querySelectorAll('.product-card');
+      // 하단 전체 카탈로그 그리드만 필터링 (상단 BEST 5 및 실시간 스트림은 상시 노출)
+      const cards = document.querySelectorAll('#productsGrid .product-card');
       let visibleCount = 0;
 
       cards.forEach(card => {
         const cardCat = card.getAttribute('data-cat');
         const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+        const title = card.querySelector('.card-title') ? card.querySelector('.card-title').textContent.toLowerCase() : '';
+        const desc = card.querySelector('.card-desc') ? card.querySelector('.card-desc').textContent.toLowerCase() : '';
 
         const matchesCat = (activeCategory === 'all' || cardCat === activeCategory);
         const matchesSearch = !searchKeyword || title.includes(searchKeyword) || desc.includes(searchKeyword) || keywords.includes(searchKeyword);
@@ -2807,7 +2817,10 @@
         }
       });
 
-      document.getElementById('productCountLabel').textContent = `총 ${visibleCount}개 웹 비즈니스 활성화됨`;
+      const countLabel = document.getElementById('productCountLabel');
+      if (countLabel) {
+        countLabel.textContent = `총 ${visibleCount}개 웹 비즈니스 활성화됨`;
+      }
     }
 
     // ── URL Mode Switcher (서브패스 vs 독립도메인) ──
