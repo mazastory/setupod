@@ -121,6 +121,10 @@
       if (bestFiveSection) {
         bestFiveSection.style.display = isSpecificFilter ? 'none' : 'block';
       }
+      const bestFiveDivider = document.getElementById('bestFiveDivider');
+      if (bestFiveDivider) {
+        bestFiveDivider.style.display = isSpecificFilter ? 'none' : 'block';
+      }
 
       if (catalogTitle) {
         if (searchKeyword) {
@@ -1092,9 +1096,7 @@
 
     /* 카테고리별 섹션 블록 (카테고리간 확실한 구분과 넉넉한 줄간격 제공) */
     #catalogSection {
-      padding-top: 48px;
-      margin-top: 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
     }
 
     #catalogSection .section-header-row {
@@ -2241,8 +2243,13 @@
     </div>
   </section>
 
+  <!-- Dedicated Spacing & Sleek Divider Break between BEST 5 and Full Catalog Lineup -->
+  <div id="bestFiveDivider" style="max-width: 1420px; margin: 0 auto; padding: 75px 20px 65px 20px;">
+    <div style="height: 1px; width: 100%; background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.45), rgba(255, 255, 255, 0.12), transparent);"></div>
+  </div>
+
   <!-- Marketplace Grid -->
-  <section class="market-section" id="catalogSection" style="margin-top: 60px !important; padding-top: 50px !important; border-top: 1px solid rgba(255, 255, 255, 0.1) !important;">
+  <section class="market-section" id="catalogSection" style="padding-top: 10px !important;">
     <div class="section-header-row" style="margin-bottom: 38px !important; padding-bottom: 18px !important;">
       <div class="section-header-title" style="font-size: 21px !important;">
         <i data-lucide="sparkles" style="width:24px;height:24px;color:#a855f7;"></i>
