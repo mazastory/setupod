@@ -32,7 +32,11 @@
       "destination": "/bizcard/link.html"
     },
     {
-      "source": "/embed/:podId*",
+      "source": "/embed",
+      "destination": "/embed/index.html"
+    },
+    {
+      "source": "/embed/(.*)",
       "destination": "/embed/index.html"
     },
     {
