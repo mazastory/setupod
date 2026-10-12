@@ -41,6 +41,178 @@
   <!-- GNB 공통 스타일 -->
   <link rel="stylesheet" href="css/gnb.css">
 
+  <!-- ── Instant UI Controller (0ms Non-blocking First Paint & Interactive) ── -->
+  <script>
+    const categoryNameMap = {
+      all: '분양 가능한 턴키 웹 비즈니스 라인업',
+      planner: '📅 플래너 & 문구 OS 라인업',
+      global: '🌐 글로벌 환율 & 외환 계산기 라인업',
+      bizcard: '💼 3D 명함 & CRM 허브 라인업',
+      ecommerce: '🛒 이커머스 & 셀러 정산 라인업',
+      fnb: '☕ F&B & 카페·외식 라인업',
+      sns: '📱 SNS & 마케팅 스튜디오 라인업',
+      life: '🏠 부동산 & 라이프 솔루션 라인업'
+    };
+
+    let activeCategory = 'all';
+
+    function selectCategory(cat, el) {
+      activeCategory = cat;
+      document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+      if (el) {
+        el.classList.add('active');
+      } else {
+        const targetChip = document.querySelector(`.category-chip[data-cat="${cat}"]`);
+        if (targetChip) targetChip.classList.add('active');
+      }
+      
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput && searchInput.value) {
+        searchInput.value = '';
+      }
+      filterProducts();
+    }
+
+    function filterProducts() {
+      const searchInput = document.getElementById('searchInput');
+      const searchKeyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
+      const cards = document.querySelectorAll('#productsGrid .product-card');
+      const bestFiveSection = document.getElementById('bestFiveSection');
+      const streamSection = document.getElementById('streamSection');
+      const catalogTitle = document.getElementById('catalogSectionTitle');
+      const countLabel = document.getElementById('productCountLabel');
+
+      const isSpecificFilter = (activeCategory !== 'all' || searchKeyword !== '');
+
+      if (bestFiveSection) {
+        bestFiveSection.style.display = isSpecificFilter ? 'none' : 'block';
+      }
+      if (streamSection) {
+        streamSection.style.display = isSpecificFilter ? 'none' : 'block';
+      }
+
+      if (catalogTitle) {
+        if (searchKeyword) {
+          catalogTitle.textContent = `검색 결과: "${searchKeyword}"`;
+        } else {
+          catalogTitle.textContent = categoryNameMap[activeCategory] || '분양 가능한 턴키 웹 비즈니스 라인업';
+        }
+      }
+
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat') || '';
+        const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+        const titleEl = card.querySelector('.card-title');
+        const descEl = card.querySelector('.card-desc');
+        const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+        const desc = descEl ? descEl.textContent.toLowerCase() : '';
+
+        const matchesCat = (activeCategory === 'all' || cardCat === activeCategory);
+        const matchesSearch = !searchKeyword || title.includes(searchKeyword) || desc.includes(searchKeyword) || keywords.includes(searchKeyword);
+
+        if (matchesCat && matchesSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (countLabel) {
+        countLabel.textContent = `총 ${visibleCount}개 웹 비즈니스 활성화됨`;
+      }
+    }
+
+    let activeUrlMode = 'subpath';
+
+    function switchUrlMode(mode) {
+      activeUrlMode = mode;
+      const tabSub = document.getElementById('tabSubpath');
+      const tabDom = document.getElementById('tabDomain');
+      const panelSub = document.getElementById('panelSubpath');
+      const panelDom = document.getElementById('panelDomain');
+
+      if (mode === 'subpath') {
+        if (tabSub) {
+          tabSub.style.background = 'rgba(168,85,247,0.25)';
+          tabSub.style.borderColor = '#a855f7';
+          tabSub.style.color = '#fff';
+        }
+        if (tabDom) {
+          tabDom.style.background = 'rgba(255,255,255,0.04)';
+          tabDom.style.borderColor = 'rgba(255,255,255,0.1)';
+          tabDom.style.color = 'rgba(255,255,255,0.6)';
+        }
+        if (panelSub) panelSub.style.display = 'block';
+        if (panelDom) panelDom.style.display = 'none';
+      } else {
+        if (tabDom) {
+          tabDom.style.background = 'rgba(168,85,247,0.25)';
+          tabDom.style.borderColor = '#a855f7';
+          tabDom.style.color = '#fff';
+        }
+        if (tabSub) {
+          tabSub.style.background = 'rgba(255,255,255,0.04)';
+          tabSub.style.borderColor = 'rgba(255,255,255,0.1)';
+          tabSub.style.color = 'rgba(255,255,255,0.6)';
+        }
+        if (panelSub) panelSub.style.display = 'none';
+        if (panelDom) panelDom.style.display = 'block';
+      }
+    }
+
+    function openOrderModal(productName) {
+      const modal = document.getElementById('orderModal');
+      const select = document.getElementById('orderProduct');
+      if (select && productName && productName !== '전체' && productName !== '전문가 분양 파트너') {
+        select.value = productName;
+      }
+      const form = document.getElementById('orderForm');
+      const successMsg = document.getElementById('orderSuccessMessage');
+      if (form) form.style.display = 'block';
+      if (successMsg) successMsg.style.display = 'none';
+      switchUrlMode('subpath');
+      if (modal) modal.classList.add('active');
+      safeCreateIcons();
+    }
+
+    function closeOrderModal(event) {
+      if (event.target === document.getElementById('orderModal')) {
+        document.getElementById('orderModal').classList.remove('active');
+      }
+    }
+
+    function closeOrderModalDirect() {
+      const modal = document.getElementById('orderModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function safeCreateIcons() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        try { lucide.createIcons(); } catch(e) {}
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      safeCreateIcons();
+    });
+    window.addEventListener('load', () => {
+      safeCreateIcons();
+    });
+
+    let lucideTries = 0;
+    const lucideInterval = setInterval(() => {
+      lucideTries++;
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        safeCreateIcons();
+        clearInterval(lucideInterval);
+      } else if (lucideTries > 40) {
+        clearInterval(lucideInterval);
+      }
+    }, 150);
+  </script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -1172,7 +1344,7 @@
   </section>
 
   <!-- ── 1. [정적 라인] 이번 주 실시간 분양 BEST 5 (1줄 5개 정적 진열대) ── -->
-  <section class="market-section" style="padding-top: 10px; padding-bottom: 20px;">
+  <section class="market-section" id="bestFiveSection" style="padding-top: 10px; padding-bottom: 20px;">
     <div class="section-header-row">
       <div class="section-header-title">
         <i data-lucide="flame" style="width:20px;height:20px;color:#ef4444;"></i>
@@ -1345,7 +1517,7 @@
   </section>
 
   <!-- ── 2. [동적 라인] 실시간 가동 중인 턴키 팟 스트림 (살아 움직이는 2열 무빙 궤도) ── -->
-  <section class="stream-section-wrap">
+  <section class="stream-section-wrap" id="streamSection">
     <div style="max-width: 1400px; margin: 0 auto 16px; padding: 0 20px;">
       <div class="section-header-row" style="margin-bottom: 8px; border-bottom: none;">
         <div class="section-header-title">
@@ -1819,11 +1991,11 @@
   </section>
 
   <!-- Marketplace Grid -->
-  <section class="market-section">
+  <section class="market-section" id="catalogSection">
     <div class="section-header-row">
       <div class="section-header-title">
         <i data-lucide="sparkles" style="width:22px;height:22px;color:#a855f7;"></i>
-        <span>분양 가능한 턴키 웹 비즈니스 라인업</span>
+        <span id="catalogSectionTitle">분양 가능한 턴키 웹 비즈니스 라인업</span>
       </div>
       <div class="section-header-count" id="productCountLabel">총 18개 웹 비즈니스 활성화됨</div>
     </div>
@@ -2775,121 +2947,28 @@
     <p>© 2026 SETUPOD Global Inc. All rights reserved.</p>
   </footer>
 
-  <!-- Core Libraries (Non-blocking Fast Render) -->
-  <script src="https://unpkg.com/lucide@0.344.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth-modal.js"></script>
+  <!-- Core Libraries (Deferred: Never Blocks Rendering or User Clicks) -->
+  <script defer src="https://unpkg.com/lucide@0.344.0"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/auth-modal.js"></script>
+  <script defer src="js/gnb.js"></script>
 
   <script>
-    lucide.createIcons();
-
-    // ── Search & Filter Logic ──
-    let activeCategory = 'all';
-
-    function selectCategory(cat, el) {
-      activeCategory = cat;
-      document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-      el.classList.add('active');
-      filterProducts();
-    }
-
-    function filterProducts() {
-      const searchKeyword = document.getElementById('searchInput').value.trim().toLowerCase();
-      // 하단 전체 카탈로그 그리드만 필터링 (상단 BEST 5 및 실시간 스트림은 상시 노출)
-      const cards = document.querySelectorAll('#productsGrid .product-card');
-      let visibleCount = 0;
-
-      cards.forEach(card => {
-        const cardCat = card.getAttribute('data-cat');
-        const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-        const title = card.querySelector('.card-title') ? card.querySelector('.card-title').textContent.toLowerCase() : '';
-        const desc = card.querySelector('.card-desc') ? card.querySelector('.card-desc').textContent.toLowerCase() : '';
-
-        const matchesCat = (activeCategory === 'all' || cardCat === activeCategory);
-        const matchesSearch = !searchKeyword || title.includes(searchKeyword) || desc.includes(searchKeyword) || keywords.includes(searchKeyword);
-
-        if (matchesCat && matchesSearch) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      const countLabel = document.getElementById('productCountLabel');
-      if (countLabel) {
-        countLabel.textContent = `총 ${visibleCount}개 웹 비즈니스 활성화됨`;
-      }
-    }
-
-    // ── URL Mode Switcher (서브패스 vs 독립도메인) ──
-    let activeUrlMode = 'subpath';
-
-    function switchUrlMode(mode) {
-      activeUrlMode = mode;
-      const tabSub = document.getElementById('tabSubpath');
-      const tabDom = document.getElementById('tabDomain');
-      const panelSub = document.getElementById('panelSubpath');
-      const panelDom = document.getElementById('panelDomain');
-
-      if (mode === 'subpath') {
-        tabSub.style.background = 'rgba(168,85,247,0.25)';
-        tabSub.style.borderColor = '#a855f7';
-        tabSub.style.color = '#fff';
-        tabDom.style.background = 'rgba(255,255,255,0.04)';
-        tabDom.style.borderColor = 'rgba(255,255,255,0.1)';
-        tabDom.style.color = 'rgba(255,255,255,0.6)';
-        panelSub.style.display = 'block';
-        panelDom.style.display = 'none';
-      } else {
-        tabDom.style.background = 'rgba(168,85,247,0.25)';
-        tabDom.style.borderColor = '#a855f7';
-        tabDom.style.color = '#fff';
-        tabSub.style.background = 'rgba(255,255,255,0.04)';
-        tabSub.style.borderColor = 'rgba(255,255,255,0.1)';
-        tabSub.style.color = 'rgba(255,255,255,0.6)';
-        panelSub.style.display = 'none';
-        panelDom.style.display = 'block';
-      }
-    }
-
-    // ── Order Modal Logic ──
-    function openOrderModal(productName) {
-      const modal = document.getElementById('orderModal');
-      const select = document.getElementById('orderProduct');
-      if (productName && productName !== '전체' && productName !== '전문가 분양 파트너') {
-        select.value = productName;
-      }
-      document.getElementById('orderForm').style.display = 'block';
-      document.getElementById('orderSuccessMessage').style.display = 'none';
-      switchUrlMode('subpath');
-      modal.classList.add('active');
-      lucide.createIcons();
-    }
-
-    function closeOrderModal(event) {
-      if (event.target === document.getElementById('orderModal')) {
-        document.getElementById('orderModal').classList.remove('active');
-      }
-    }
-
-    function closeOrderModalDirect() {
-      document.getElementById('orderModal').classList.remove('active');
-    }
-
     // ── Supabase Lead Submission ──
     async function submitOrder(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('modalSubmitBtn');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>신청 처리 중...</span>';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>신청 처리 중...</span>';
+      }
 
-      const product = document.getElementById('orderProduct').value;
-      const subpathVal = document.getElementById('orderSubpath').value.trim();
-      const domainVal = document.getElementById('orderCustomDomain').value.trim();
-      const name = document.getElementById('orderName').value.trim();
-      const phone = document.getElementById('orderPhone').value.trim();
+      const product = document.getElementById('orderProduct') ? document.getElementById('orderProduct').value : '';
+      const subpathVal = document.getElementById('orderSubpath') ? document.getElementById('orderSubpath').value.trim() : '';
+      const domainVal = document.getElementById('orderCustomDomain') ? document.getElementById('orderCustomDomain').value.trim() : '';
+      const name = document.getElementById('orderName') ? document.getElementById('orderName').value.trim() : '';
+      const phone = document.getElementById('orderPhone') ? document.getElementById('orderPhone').value.trim() : '';
 
       const finalAddress = activeUrlMode === 'subpath' 
         ? (subpathVal ? `setupod.com/@${subpathVal}` : 'setupod.com/@starter')
@@ -2925,22 +3004,27 @@
       // 결과 화면 문구 맞춤 안내
       const noticeText = document.getElementById('successNoticeText');
       const recordBox = document.getElementById('successRecordBox');
-      if (activeUrlMode === 'subpath') {
-        noticeText.innerHTML = `<strong>${finalAddress}</strong> 서브패스가 1초 만에 배정되었습니다!<br>기재해주신 연락처로 관리자 접속 링크가 전송되었습니다.`;
-        recordBox.innerHTML = `발급 주소: <strong>https://${finalAddress}</strong>`;
-      } else {
-        noticeText.innerHTML = `<strong>${finalAddress}</strong> 독립 도메인 연동이 신청되었습니다.<br>아래 DNS 설정을 완료하시면 즉시 연결됩니다.`;
-        recordBox.innerHTML = `DNS CNAME 레코드: <strong>cname.setupod.com</strong>`;
+      if (noticeText && recordBox) {
+        if (activeUrlMode === 'subpath') {
+          noticeText.innerHTML = `<strong>${finalAddress}</strong> 서브패스가 1초 만에 배정되었습니다!<br>기재해주신 연락처로 관리자 접속 링크가 전송되었습니다.`;
+          recordBox.innerHTML = `발급 주소: <strong>https://${finalAddress}</strong>`;
+        } else {
+          noticeText.innerHTML = `<strong>${finalAddress}</strong> 독립 도메인 연동이 신청되었습니다.<br>아래 DNS 설정을 완료하시면 즉시 연결됩니다.`;
+          recordBox.innerHTML = `DNS CNAME 레코드: <strong>cname.setupod.com</strong>`;
+        }
       }
 
-      document.getElementById('orderForm').style.display = 'none';
-      document.getElementById('orderSuccessMessage').style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i data-lucide="check-circle" style="width:18px;height:18px;"></i><span>지금 스타터 무상 지원 승인 신청하기</span>';
-      lucide.createIcons();
+      const form = document.getElementById('orderForm');
+      const successMsg = document.getElementById('orderSuccessMessage');
+      if (form) form.style.display = 'none';
+      if (successMsg) successMsg.style.display = 'block';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="check-circle" style="width:18px;height:18px;"></i><span>지금 스타터 무상 지원 승인 신청하기</span>';
+      }
+      safeCreateIcons();
     }
   </script>
-  <script src="js/gnb.js"></script>
 </body>
 </html>
 
