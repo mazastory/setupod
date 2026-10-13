@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       const { error } = await supabase.from('partner_sites').upsert([record], { onConflict: 'domain' });
       if (error) {
         console.error('[Partner Sites] upsert failed:', error.message);
-        return res.status(503).json({ success: false, db_persisted: false, error: 'Could not save the registration' });
+        return res.status(503).json({ success: false, db_persisted: false, error: 'Could not save the registration', detail: { code: error.code || null, message: String(error.message || '').slice(0, 200) } }); // 인증을 통과한 호출자(마자 서버)에게만 간다
       }
       return res.status(200).json({
         success: true,
