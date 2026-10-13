@@ -24,10 +24,21 @@ module.exports = async (req, res) => {
       const podId = b.pod_id === undefined || b.pod_id === null ? 'planner' : b.pod_id;
       if (!validPod(podId)) return res.status(400).json({ success: false, error: 'invalid pod_id' });
 
+      // [2026-10-14] 도메인에 세트(팟)를 여러 개 붙일 수 있다(최대 3). 첫 번째가 대표 팟(assigned_pod_id)이다.
+      let podIds = [podId];
+      if (b.pod_ids !== undefined) {
+        const list = Array.isArray(b.pod_ids) ? b.pod_ids : [];
+        const clean = [...new Set(list)];
+        if (clean.length < 1 || clean.length > 3 || !clean.every(validPod)) {
+          return res.status(400).json({ success: false, error: 'invalid pod_ids' });
+        }
+        podIds = clean;
+      }
+
       const timestamp = new Date().toISOString();
       const record = {
         domain,
-        assigned_pod_id: podId,
+        assigned_pod_id: podIds[0],
         site_name: short(b.site_name, 200) || domain,
         owner_email: normalizeEmail(b.user_email),
         owner_phone: null,
@@ -35,6 +46,7 @@ module.exports = async (req, res) => {
         plan_type: 'maza_scholarship_1yr',
         metadata: {
           scholarship_granted: b.scholarship_granted !== false,
+          pod_ids: podIds,
           source: short(b.source, 64) || 'maza_studio_scholarship',
           maza_user_id: short(b.user_id, 64),
         },
@@ -51,8 +63,9 @@ module.exports = async (req, res) => {
         success: true,
         db_persisted: true,
         domain,
-        pod_id: podId,
-        embed_url: `https://setupod.com/embed/${podId}?domain=${encodeURIComponent(domain)}`,
+        pod_id: podIds[0],
+        pod_ids: podIds,
+        embed_url: `https://setupod.com/embed/${podIds[0]}?domain=${encodeURIComponent(domain)}`,
       });
     } catch (err) {
       console.error('[Domain Register Fatal]:', err && err.message);
