@@ -7,32 +7,32 @@
 
   var LEAD_CONFIGS = {
     'mazaus.com': {
-      title: '해외 송금·환전 수수료 80% 절감 가이드',
-      desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
+      title: '해외 송금·환전 비용 점검 체크리스트',
+      desc: '환전 단계의 비용을 직접 비교해 볼 수 있는 점검표를 무료로 보내드립니다.',
       badge: '💰 mazaus.com 특별 리포트',
       leadType: 'fx_guide',
       downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
       themeColor: '#38bdf8'
     },
     'autosite.kr': {
-      title: '스마트스토어·쿠팡 마진 1초 계산 시뮬레이터',
-      desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
+      title: '스마트스토어·쿠팡 마진 점검 & 정산 체크리스트',
+      desc: '숨은 비용을 빠뜨리지 않도록 마진 계산 항목과 정산 점검표를 무료로 보내드립니다.',
       badge: '📊 autosite.kr 이커머스 자산',
       leadType: 'margin_calc',
       downloadUrl: 'https://setupod.com/leads/autosite_margin_calc.html',
       themeColor: '#34d399'
     },
     'brewoak.com': {
-      title: '스페셜티 커피 골든 브루잉 & 디개싱 캘린더',
-      desc: '로스팅 포인트별 최적의 디개싱 일수와 추출 황금 비율 치트시트를 무료로 보내드립니다.',
+      title: '커피 브루잉 비율 & 디개싱 캘린더',
+      desc: '로스팅 단계별 디개싱 기간과 추출 비율의 출발점을 정리한 치트시트를 무료로 보내드립니다.',
       badge: '☕ brewoak.com 커피 랩',
       leadType: 'brewing_cheatsheet',
       downloadUrl: 'https://setupod.com/leads/brewoak_cheatsheet.html',
       themeColor: '#fbbf24'
     },
     'default': {
-      title: '2026 비즈니스 턴키 OS 올인원 스타터 키트',
-      desc: '1초 만에 가동되는 인터랙티브 웹 팟과 고체류율 트래픽 확보 비법을 담은 스타터 키트를 무료 제공합니다.',
+      title: '셋업팟 스타터 키트',
+      desc: '셋업팟으로 시작할 때 알아 두면 좋은 구성과 순서를 정리한 스타터 키트를 무료로 보내드립니다.',
       badge: '🚀 SETUPOD 비즈니스 스타터',
       leadType: 'starter_kit',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
@@ -42,81 +42,81 @@
 
   var POD_LEAD_MAP = {
     'planner': {
-      title: '2026 비즈니스 턴키 OS 올인원 스타터 키트',
-      desc: '1초 만에 가동되는 턴키 비즈니스 도구와 트래픽 확보 매뉴얼을 담은 공식 스타터 키트를 무료로 드립니다.',
+      title: '셋업팟 스타터 키트',
+      desc: '셋업팟으로 시작할 때 알아 두면 좋은 구성과 순서를 정리한 스타터 키트를 무료로 보내드립니다.',
       badge: '🚀 플래너 팟 공식 스타터',
       leadType: 'starter_kit',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#a855f7'
     },
     'bizcard': {
-      title: '2026 해외 셀러 & 프리랜서 송금·환전 수수료 80% 절감 가이드',
-      desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
+      title: '해외 송금·환전 비용 점검 체크리스트',
+      desc: '환전 단계의 비용을 직접 비교해 볼 수 있는 점검표를 무료로 보내드립니다.',
       badge: '💼 3D 명함 팟 특별 리포트',
       leadType: 'fx_guide',
       downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
       themeColor: '#38bdf8'
     },
     'bizcard3d': {
-      title: '2026 해외 셀러 & 프리랜서 송금·환전 수수료 80% 절감 가이드',
-      desc: '페이팔/와이즈 숨겨진 환전 수수료를 0.5% 미만으로 낮추는 2026 시크릿 가이드북을 무료로 드립니다.',
+      title: '해외 송금·환전 비용 점검 체크리스트',
+      desc: '환전 단계의 비용을 직접 비교해 볼 수 있는 점검표를 무료로 보내드립니다.',
       badge: '💼 3D 명함 팟 특별 리포트',
       leadType: 'fx_guide',
       downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
       themeColor: '#38bdf8'
     },
     'calculator': {
-      title: '스마트스토어·쿠팡 로켓 마진 1초 계산 노션/엑셀 템플릿',
-      desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
+      title: '스마트스토어·쿠팡 마진 점검 & 정산 체크리스트',
+      desc: '숨은 비용을 빠뜨리지 않도록 마진 계산 항목과 정산 점검표를 무료로 보내드립니다.',
       badge: '📊 계산기 팟 이커머스 자산',
       leadType: 'margin_calc',
       downloadUrl: 'https://setupod.com/leads/autosite_margin_calc.html',
       themeColor: '#34d399'
     },
     'margin': {
-      title: '스마트스토어·쿠팡 로켓 마진 1초 계산 노션/엑셀 템플릿',
-      desc: '로켓그로스 역마진을 사전에 차단하는 마진율 엑셀/노션 템플릿 & 세무 체크리스트를 즉시 다운로드하세요.',
+      title: '스마트스토어·쿠팡 마진 점검 & 정산 체크리스트',
+      desc: '숨은 비용을 빠뜨리지 않도록 마진 계산 항목과 정산 점검표를 무료로 보내드립니다.',
       badge: '📊 계산기 팟 이커머스 자산',
       leadType: 'margin_calc',
       downloadUrl: 'https://setupod.com/leads/autosite_margin_calc.html',
       themeColor: '#34d399'
     },
     'brewoak': {
-      title: '원두별 골든 브루잉 레시피 치트시트 & 디개싱 캘린더',
-      desc: '로스팅 포인트별 최적의 디개싱 일수와 추출 황금 비율 치트시트를 무료로 보내드립니다.',
+      title: '커피 브루잉 비율 & 디개싱 캘린더',
+      desc: '로스팅 단계별 디개싱 기간과 추출 비율의 출발점을 정리한 치트시트를 무료로 보내드립니다.',
       badge: '☕ brewoak 브루잉 랩',
       leadType: 'brewing_cheatsheet',
       downloadUrl: 'https://setupod.com/leads/brewoak_cheatsheet.html',
       themeColor: '#fbbf24'
     },
     'runway': {
-      title: '2026 스타트업 런웨이 2배 연장 전략 가이드',
-      desc: '데스밸리를 극복하고 번레이트를 절반으로 낮추는 실전 런웨이 연장 가이드북을 무료로 드립니다.',
-      badge: '📈 스타트업 런웨이 자산',
-      leadType: 'runway_guide',
+      title: '셋업팟 스타터 키트',
+      desc: '셋업팟으로 시작할 때 알아 두면 좋은 구성과 순서를 정리한 스타터 키트를 무료로 보내드립니다.',
+      badge: '🚀 SETUPOD 스타터',
+      leadType: 'starter_kit',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#6366f1'
     },
     'nomad': {
-      title: '전 세계 디지털 노마드 비자 & 세금 최적화 국가 가이드',
-      desc: '주요 거점 도시별 합법적 세금 면제 및 노마드 비자 발급 가이드북을 무료 제공합니다.',
-      badge: '✈️ 디지털 노마드 특별 가이드',
-      leadType: 'nomad_guide',
+      title: '셋업팟 스타터 키트',
+      desc: '셋업팟으로 시작할 때 알아 두면 좋은 구성과 순서를 정리한 스타터 키트를 무료로 보내드립니다.',
+      badge: '🚀 SETUPOD 스타터',
+      leadType: 'starter_kit',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#38bdf8'
     },
     'adsense': {
-      title: '2026 고단가 애드센스 키워드 100선 & CPC 3배 상승 치트시트',
-      desc: '블로그 일일 수익과 Flippa 매각 가치를 끌어올리는 고단가 키워드 목록을 무료 제공합니다.',
-      badge: '💰 애드센스 특별 리포트',
-      leadType: 'adsense_guide',
+      title: '셋업팟 스타터 키트',
+      desc: '셋업팟으로 시작할 때 알아 두면 좋은 구성과 순서를 정리한 스타터 키트를 무료로 보내드립니다.',
+      badge: '🚀 SETUPOD 스타터',
+      leadType: 'starter_kit',
       downloadUrl: 'https://setupod.com/leads/setupod_starter_kit.html',
       themeColor: '#f59e0b'
     },
     'fx': {
-      title: '2026 무관세 해외직구 관부가세 절세 가이드북',
-      desc: '국가별 면세 기준과 해외 카드 수수료를 0%로 아끼는 직구 절세 노하우를 무료 드립니다.',
-      badge: '✈️ 해외직구 절세 가이드',
+      title: '해외 송금·환전 비용 점검 체크리스트',
+      desc: '환전 단계의 비용을 직접 비교해 볼 수 있는 점검표를 무료로 보내드립니다.',
+      badge: '💱 환전 점검표',
       leadType: 'fx_guide',
       downloadUrl: 'https://setupod.com/leads/mazaus_fx_guide.html',
       themeColor: '#38bdf8'
@@ -132,6 +132,15 @@
 
     init: function(options) {
       options = options || {};
+
+      // [2026-10-13] 유저 도메인에 넣어 준 임베드 팟 안에서는 이 팝업을 띄우지 않는다.
+      // 그 방문자는 유저 사이트의 방문자이고, 연락처의 주인도 그 유저다 — 우리 선물 팝업이
+      // 25초 뒤 열려 연락처를 가져가면 안 된다. (setupod.com 의 /embed 쉘은 팟을 iframe 으로 부른다)
+      var qs = new URLSearchParams(window.location.search);
+      var inFrame = false;
+      try { inFrame = window.self !== window.top; } catch (e) { inFrame = true; }
+      if (qs.get('embed') === '1' || inFrame) return;
+
       var host = options.domain || window.location.hostname.replace(/^www\./, '');
       var params = new URLSearchParams(window.location.search);
       
@@ -299,22 +308,25 @@
                 <label class="lm-label">이메일 주소 <span>*</span></label>
                 <input type="email" id="lmEmail" class="lm-input" placeholder="자료를 수령하실 이메일 주소 입력" required />
               </div>
-              <div class="lm-row">
-                <div class="lm-field-group">
-                  <label class="lm-label" style="color:#94a3b8;">휴대폰 번호 <small>(선택 / 알림용)</small></label>
-                  <input type="tel" id="lmPhone" class="lm-input" placeholder="010-0000-0000" />
-                </div>
-                <div class="lm-field-group">
-                  <label class="lm-label" style="color:#94a3b8;">카카오톡 ID <small>(선택 / 빠른 문의)</small></label>
-                  <input type="text" id="lmKakao" class="lm-input" placeholder="카카오톡 ID" />
-                </div>
-              </div>
+              <label style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#cbd5e1;line-height:1.5;margin:10px 0 6px;text-align:left;">
+                <input type="checkbox" id="lmConsent" required style="margin-top:3px;" />
+                <span><strong>[필수]</strong> 개인정보 수집·이용에 동의합니다.<br/>
+                  <span style="color:#94a3b8;">수집자: 투머스(SETUPOD) · 항목: 이메일 주소 · 목적: 선택한 자료 발송과 관련 안내 ·
+                  보유: 목적 달성 시까지, 삭제를 요청하시면 지체 없이 파기 ·
+                  동의하지 않으셔도 사이트는 이용하실 수 있으나 자료는 받으실 수 없습니다.
+                  <a href="https://setupod.com/privacy" target="_blank" rel="noopener noreferrer" style="color:#a5b4fc;">자세히</a></span></span>
+              </label>
+              <label style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#cbd5e1;line-height:1.5;margin:6px 0 12px;text-align:left;">
+                <input type="checkbox" id="lmProvideMaza" style="margin-top:3px;" />
+                <span><strong>[선택]</strong> 마자 스튜디오(캔두코리아)에도 이메일을 제공해 도메인·디지털 자산 관련 안내를 받겠습니다.<br/>
+                  <span style="color:#94a3b8;">체크하지 않으셔도 자료는 받으실 수 있습니다.</span></span>
+              </label>
               <button type="submit" id="lmBtnSubmit" class="lm-submit" style="background:${c.themeColor};">
                 🎁 1초 만에 무료 선물 받기
               </button>
             </form>
             <div style="font-size:11px; color:#64748b; text-align:center; margin-top:12px;">
-              * 스팸 발송 없이 즉시 열람 및 다운로드 링크가 열립니다.
+              * 신청하신 자료는 바로 열람하실 수 있습니다.
             </div>
           </div>
 
@@ -376,47 +388,36 @@
       e.preventDefault();
       var self = this;
       var emailEl = document.getElementById('lmEmail');
-      var phoneEl = document.getElementById('lmPhone');
-      var kakaoEl = document.getElementById('lmKakao');
+      var consentEl = document.getElementById('lmConsent');
+      var provideEl = document.getElementById('lmProvideMaza');
 
       var email = emailEl ? emailEl.value.trim() : '';
-      var phone = phoneEl ? phoneEl.value.trim() : '';
-      var kakao = kakaoEl ? kakaoEl.value.trim() : '';
       if (!email) return;
+      // 필수 동의가 없으면 어디에도 보내지 않는다(브라우저 required 를 우회한 경우까지 막는다)
+      if (!consentEl || !consentEl.checked) return;
+      var provideToMaza = !!(provideEl && provideEl.checked);
 
       var btn = document.getElementById('lmBtnSubmit');
-      if (btn) btn.innerText = '선물 생성 중...';
+      if (btn) btn.innerText = '신청 처리 중...';
 
       var payload = {
         domain: this.domain,
         email: email,
-        phone: phone || null,
-        kakao_id: kakao || null,
-        contact: [phone, kakao ? ('카카오: ' + kakao) : ''].filter(Boolean).join(' / ') || null,
+        contact: { email: email },
         pod_id: this.podId || 'general',
         lead_type: this.config.leadType,
-        gift_title: this.config.title,
+        gift_name: this.config.title,
         source: 'lead_magnet_widget',
+        consent: true,
+        consent_version: 'setupod-lead-2026-10-13',
+        provide_to_maza: provideToMaza,
         created_at: new Date().toISOString()
       };
 
-      // 1. MAZA Studio 백엔드로 전송
-      var mazaUrl = window.MAZA_LEAD_URL || 'https://mazastudio.kr/api/telemetry/lead';
-      var sendMaza = fetch(mazaUrl, {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(function(err) {
-        console.warn('[MAZA Lead Telemetry Notice]:', err && err.message);
-        return { ok: false, error: err };
-      });
-
-      // 2. SETUPOD 중앙 DB로 전송 (2-Way 절대 보존)
+      // 1. 셋업팟(투머스) — 수집자. 항상 보낸다.
       var setupodApiUrl = (window.location.hostname.indexOf('setupod.com') !== -1 || window.location.hostname === 'localhost')
         ? '/api/leads'
         : 'https://setupod.com/api/leads';
-
       var sendSetupod = fetch(setupodApiUrl, {
         method: 'POST',
         mode: 'cors',
@@ -426,6 +427,21 @@
         console.warn('[SETUPOD Lead DB Notice]:', err && err.message);
         return { ok: false, error: err };
       });
+
+      // 2. 마자(캔두코리아) — 방문자가 [선택] 에 동의했을 때만.
+      var sendMaza = Promise.resolve({ ok: true, skipped: true });
+      if (provideToMaza) {
+        var mazaUrl = window.MAZA_LEAD_URL || 'https://mazastudio.kr/api/telemetry/lead';
+        sendMaza = fetch(mazaUrl, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(function(err) {
+          console.warn('[MAZA Lead Telemetry Notice]:', err && err.message);
+          return { ok: false, error: err };
+        });
+      }
 
       // 3. 독립 분기 처리: 마자 API나 CORS 실패에 구애받지 않고 셋업팟 DB 저장을 완수하고 화면 전환
       if (typeof Promise !== 'undefined' && Promise.allSettled) {
