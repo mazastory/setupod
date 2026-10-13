@@ -58,6 +58,14 @@
       <span class="brand-badge">LIVE SYNC ACTIVE</span>
     </header>
 
+    <!-- 관리자 키 입력 (브라우저 비밀번호 관리자가 저장·자동 입력할 수 있게 form 으로 둔다) -->
+    <form id="authBox" style="display:none; margin: 0 0 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; background: #111827;" onsubmit="submitKey(event)">
+      <div style="font-size:13px; color:#cbd5e1; margin-bottom:10px;" id="authMsg">관리자 키를 입력하세요.</div>
+      <input type="text" name="username" value="setupod-admin" autocomplete="username" style="display:none" />
+      <input type="password" id="adminKey" name="password" autocomplete="current-password" placeholder="관리자 키" style="width:100%; max-width:420px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:#0b1220; color:#fff;" />
+      <button type="submit" style="margin-left:8px; padding:10px 16px; border-radius:10px; border:0; background:#6366f1; color:#fff; font-weight:700; cursor:pointer;">열기</button>
+    </form>
+
     <!-- Stats Grid -->
     <div class="stat-grid">
       <div class="stat-card" style="--glow-color: rgba(99,102,241,0.2);">
@@ -75,25 +83,25 @@
           <i data-lucide="dollar-sign" style="width: 18px; height: 18px; color: #fbbf24;"></i>
         </div>
         <div class="stat-value" id="estimatedLeadVal">$0</div>
-        <div class="stat-sub" style="color: #fbbf24;">Flippa 벤치마크 ($1.8/lead 기준)</div>
+        <div class="stat-sub" style="color: #fbbf24;">리드 1명당 값은 잰 적이 없어 산정하지 않습니다</div>
       </div>
 
       <div class="stat-card" style="--glow-color: rgba(16,185,129,0.2);">
         <div class="stat-label">
-          <span>연동 도메인 활성도</span>
+          <span>리드가 들어온 도메인</span>
           <i data-lucide="globe" style="width: 18px; height: 18px; color: #34d399;"></i>
         </div>
-        <div class="stat-value">4개 사이트</div>
-        <div class="stat-sub">mazaus, autosite, brewoak, setupod</div>
+        <div class="stat-value" id="domainCount">-</div>
+        <div class="stat-sub" id="domainList"> </div>
       </div>
 
       <div class="stat-card" style="--glow-color: rgba(168,85,247,0.2);">
         <div class="stat-label">
-          <span>평균 리드 전환율</span>
+          <span>리드 전환율 (미산정)</span>
           <i data-lucide="activity" style="width: 18px; height: 18px; color: #c084fc;"></i>
         </div>
-        <div class="stat-value">4.8%</div>
-        <div class="stat-sub">업계 평균(1.5%) 대비 3.2배 상회</div>
+        <div class="stat-value">—</div>
+        <div class="stat-sub">방문 수를 아직 재지 않아 계산하지 않습니다</div>
       </div>
     </div>
 
@@ -106,7 +114,7 @@
         </div>
         <button class="btn-export" onclick="exportLeadsCSV()">
           <i data-lucide="download" style="width: 14px; height: 14px;"></i>
-          <span>글로벌 플립 실사용 CSV 다운로드</span>
+          <span>CSV 다운로드</span>
         </button>
       </div>
 
@@ -137,23 +145,42 @@
   <script>
     let globalLeads = [];
 
+    // 이메일·도메인은 방문자가 보낸 값이다 — HTML 에 그대로 넣으면 관리자 화면에서 스크립트가 돈다.
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"'`]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
+
+    function showAuth(msg) {
+      document.getElementById('authBox').style.display = 'block';
+      if (msg) document.getElementById('authMsg').textContent = msg;
+      const k = document.getElementById('adminKey'); if (k) k.focus();
+    }
+
+    function submitKey(e) {
+      e.preventDefault();
+      const v = (document.getElementById('adminKey').value || '').trim();
+      if (!v) return;
+      sessionStorage.setItem('leads_admin_token', v);
+      document.getElementById('authBox').style.display = 'none';
+      loadLeads();
+    }
+
     async function loadLeads() {
       try {
         // [2026-10-14] 리드 목록은 관리자 키가 있어야 열린다(이전에는 누구나 읽을 수 있었다).
-        let token = sessionStorage.getItem('leads_admin_token') || '';
-        if (!token) { token = (window.prompt('관리자 키를 입력하세요') || '').trim(); }
-        const res = await fetch('/api/leads', { headers: token ? { Authorization: 'Bearer ' + token } : {} });
-        if (res.status === 401) { sessionStorage.removeItem('leads_admin_token'); }
-        else if (token) { sessionStorage.setItem('leads_admin_token', token); }
+        const token = sessionStorage.getItem('leads_admin_token') || '';
+        if (!token) { showAuth('관리자 키를 입력하세요.'); return; }
+        const res = await fetch('/api/leads', { headers: { Authorization: 'Bearer ' + token } });
+        if (res.status === 401) { sessionStorage.removeItem('leads_admin_token'); showAuth('키가 맞지 않습니다. 다시 입력하세요.'); return; }
         const json = await res.json();
         const leads = json.leads || [];
         globalLeads = leads;
 
-        // 집계 갱신
+        // 집계 갱신 — 잰 값만 보여 준다
         const total = leads.length;
         document.getElementById('totalLeadsCount').innerText = total + '명';
-        // 리드 1명당 금액은 우리가 잰 적이 없어 산정하지 않는다.
         document.getElementById('estimatedLeadVal').innerText = '—';
+        const domains = [...new Set(leads.map(l => l.domain || 'setupod.com'))];
+        document.getElementById('domainCount').innerText = domains.length + '개 도메인';
+        document.getElementById('domainList').textContent = domains.join(', ');
 
         // 테이블 렌더링
         const tbody = document.getElementById('leadsTableBody');
@@ -161,7 +188,7 @@
           tbody.innerHTML = `
             <tr>
               <td colspan="6" style="text-align:center; padding: 40px; color: #64748b;">
-                아직 수집된 리드가 없습니다. 사이트 방문자에게 선물이 곧 제안됩니다.
+                아직 수집된 리드가 없습니다.
               </td>
             </tr>
           `;
@@ -170,12 +197,12 @@
 
         tbody.innerHTML = leads.map(item => `
           <tr>
-            <td style="color:#94a3b8; font-size:12.5px;">${new Date(item.created_at).toLocaleString()}</td>
-            <td><span class="domain-tag">${item.domain || 'setupod.com'}</span></td>
-            <td style="font-weight:700; color:#fff;">${item.email}</td>
-            <td style="color:#94a3b8;">${item.contact || '-'}</td>
-            <td><span style="font-size:12px; color:#c084fc;">${item.lead_type || 'starter_kit'}</span></td>
-            <td><span style="color:#22c55e; font-size:12px; font-weight:800;">● 정상 수집</span></td>
+            <td style="color:#94a3b8; font-size:12.5px;">${esc(new Date(item.created_at).toLocaleString())}</td>
+            <td><span class="domain-tag">${esc(item.domain || 'setupod.com')}</span></td>
+            <td style="font-weight:700; color:#fff;">${esc(item.email)}</td>
+            <td style="color:#94a3b8;">-</td>
+            <td><span style="font-size:12px; color:#c084fc;">${esc((item.metadata && item.metadata.lead_type) || item.gift_name || '-')}</span></td>
+            <td><span style="color:#94a3b8; font-size:12px;">${item.metadata && item.metadata.provide_to_maza ? '마자 제공 동의' : '셋업팟만'}</span></td>
           </tr>
         `).join('');
 
@@ -189,9 +216,11 @@
         alert('내보낼 리드 데이터가 없습니다.');
         return;
       }
-      let csvContent = "data:text/csv;charset=utf-8,Date,Domain,Email,Contact,LeadType\n";
+      // 셀을 따옴표로 감싸고, =,+,-,@ 로 시작하면 수식으로 열리지 않게 ' 를 붙인다
+      const cell = (v) => { let t = String(v == null ? '' : v).replace(/"/g, '""'); if (/^[=+\-@]/.test(t)) t = "'" + t; return '"' + t + '"'; };
+      let csvContent = "data:text/csv;charset=utf-8,Date,Domain,Email,LeadType,ProvideToMaza\n";
       globalLeads.forEach(r => {
-        csvContent += `"${r.created_at}","${r.domain}","${r.email}","${r.contact || ''}","${r.lead_type}"\n`;
+        csvContent += [r.created_at, r.domain, r.email, (r.metadata && r.metadata.lead_type) || r.gift_name || '', (r.metadata && r.metadata.provide_to_maza) ? 'yes' : 'no'].map(cell).join(',') + "\n";
       });
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");

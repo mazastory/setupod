@@ -24,7 +24,8 @@ const LEADS_ADMIN_TOKEN = process.env.LEADS_ADMIN_TOKEN || '';
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY);
 
 const ALLOWED_ORIGINS = new Set(['https://setupod.com', 'https://www.setupod.com']);
-const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,}$/;
+// 로컬 파트는 영숫자·._%+- 만(HTML·따옴표·수식 문자 금지) — 관리자 화면·CSV 로 흘러갈 값이다
+const EMAIL_RE = /^[A-Za-z0-9][A-Za-z0-9._%+-]{0,63}@[A-Za-z0-9.-]{1,255}\.[A-Za-z]{2,}$/;
 
 // 서버리스라 인스턴스마다 따로지만, 한 인스턴스에 몰리는 단순 반복은 막는다.
 const hits = new Map();
