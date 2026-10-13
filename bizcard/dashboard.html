@@ -437,7 +437,8 @@
       let combinedLeads = [];
       
       try {
-        const res = await fetch('/api/leads');
+        const tk = sessionStorage.getItem('leads_admin_token') || '';
+        const res = await fetch('/api/leads', { headers: tk ? { Authorization: 'Bearer ' + tk } : {} });
         const json = await res.json();
         if (json && json.leads) {
           combinedLeads = json.leads;
