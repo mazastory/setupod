@@ -92,6 +92,14 @@
       "destination": "/fx/index.html"
     },
     {
+      "source": "/brewoak",
+      "destination": "/brewoak/index.html"
+    },
+    {
+      "source": "/brewoak/(.*)",
+      "destination": "/brewoak/index.html"
+    },
+    {
       "source": "/insta/viral",
       "destination": "/insta/viral_list_maker.html"
     },

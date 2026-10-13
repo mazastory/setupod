@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>스페셜티 커피 골든 브루잉 비율 & 베이커스 % 계산기 | SETUPOD</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23f59e0b'/><path d='M30 50L45 65L70 35' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/js/maza-telemetry.js"></script>
+  <script src="/js/lead-magnet.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Pretendard', sans-serif; background: #0c0a09; color: #f8fafc; min-height: 100vh; padding: 32px 16px; display: flex; flex-direction: column; align-items: center; }
+    .pod-container { width: 100%; max-width: 900px; }
+    .pod-header { text-align: center; margin-bottom: 28px; }
+    .pod-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); border-radius: 9999px; font-size: 12px; font-weight: 800; color: #fbbf24; margin-bottom: 12px; }
+    .pod-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; color: #fff; margin-bottom: 8px; }
+    .pod-desc { font-size: 14px; color: #a8a29e; }
+    
+    .calc-card { background: #1c1917; border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 36px 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 24px; }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 768px) { .grid-2col { grid-template-columns: 1fr; } .calc-card { padding: 24px 20px; } }
+
+    .input-group { margin-bottom: 18px; }
+    .input-label { font-size: 13px; font-weight: 700; color: #d6d3d1; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .input-field { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-size: 15px; font-weight: 700; outline: none; }
+    .input-field:focus { border-color: #f59e0b; }
+
+    .ratio-pills { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .ratio-pill { padding: 6px 12px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #d6d3d1; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+    .ratio-pill.active { background: rgba(245,158,11,0.25); border-color: #f59e0b; color: #fbbf24; }
+
+    /* Comparison Box */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px; }
+    .compare-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 20px 16px; text-align: center; }
+    .compare-card.highlight { border-color: #f59e0b; background: rgba(245,158,11,0.08); }
+    .compare-name { font-size: 13px; font-weight: 800; color: #a8a29e; margin-bottom: 6px; }
+    .compare-value { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .compare-sub { font-size: 13px; font-weight: 700; color: #fbbf24; }
+
+    .timer-box { margin-top: 20px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 14px; padding: 16px; text-align: center; }
+    .timer-text { font-size: 28px; font-weight: 900; color: #fef3c7; font-family: monospace; }
+    .timer-controls { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+    .btn-timer { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; border: none; }
+    .btn-timer.start { background: #f59e0b; color: #000; }
+    .btn-timer.reset { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .btn-magnet { width: 100%; padding: 15px; background: #f59e0b; border: none; border-radius: 14px; font-size: 14px; font-weight: 900; color: #000; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; transition: all 0.2s; }
+    .btn-magnet:hover { background: #fbbf24; transform: translateY(-1px); }
+
+    .embed-powered-by {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      margin-top: 18px;
+      transition: color 0.15s;
+    }
+    .embed-powered-by:hover { color: #f59e0b; }
+  </style>
+</head>
+<body>
+
+  <div class="pod-container">
+    <div class="pod-header">
+      <div class="pod-badge">
+        <i data-lucide="coffee" style="width: 14px; height: 14px; color: #fbbf24;"></i>
+        <span id="badgeText">스페셜티 브루잉 & 레시피 엔진</span>
+      </div>
+      <h1 class="pod-title" id="pageTitle">골든 브루잉 비율 & 수분율 1초 계산기</h1>
+      <p class="pod-desc" id="pageDesc">원두 투입량에 따른 최적 추출수량과 뜸들이기 타이머를 즉시 계산합니다.</p>
+    </div>
+
+    <div class="calc-card">
+      <div class="grid-2col">
+        <!-- Inputs -->
+        <div>
+          <div class="input-group">
+            <label class="input-label"><span>원두 / 밀가루 기본 중량 (g)</span></label>
+            <input type="number" id="baseWeight" class="input-field" value="20" step="1" oninput="calculate()">
+          </div>
+
+          <div class="input-group">
+            <label class="input-label"><span>추출 / 배합 비율 (1:N)</span> <span id="ratioDisplay" style="color:#fbbf24;">1:15.0</span></label>
+            <input type="number" id="ratioInput" class="input-field" value="15.0" step="0.5" oninput="calculate()">
+            <div class="ratio-pills">
+              <button class="ratio-pill" onclick="setRatio(14.0)">1:14 (진하게)</button>
+              <button class="ratio-pill active" onclick="setRatio(15.0)">1:15 (골든컵)</button>
+              <button class="ratio-pill" onclick="setRatio(16.0)">1:16 (연하게)</button>
+              <button class="ratio-pill" onclick="setRatio(16.6)">1:16.6 (SCA표준)</button>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label"><span>뜸들이기 물 비율 (배수)</span></label>
+            <input type="number" id="bloomMult" class="input-field" value="2.5" step="0.5" oninput="calculate()">
+          </div>
+        </div>
+
+        <!-- Results & Timer -->
+        <div>
+          <div class="compare-grid">
+            <div class="compare-card highlight">
+              <div class="compare-name">총 주수량 (Total Water)</div>
+              <div class="compare-value" id="totalWaterDisplay">300 g</div>
+              <div class="compare-sub" id="waterSub">추출 예상 원액: 약 270g</div>
+            </div>
+            <div class="compare-card">
+              <div class="compare-name">1차 뜸들이기 (Bloom)</div>
+              <div class="compare-value" id="bloomWaterDisplay">50 g</div>
+              <div class="compare-sub">30~45초 대기</div>
+            </div>
+          </div>
+
+          <div class="timer-box">
+            <div style="font-size:12px; font-weight:700; color:#a8a29e; margin-bottom:4px;">브루잉 인터랙티브 타이머</div>
+            <div class="timer-text" id="timerDisplay">00:00</div>
+            <div class="timer-controls">
+              <button class="btn-timer start" id="btnTimerStart" onclick="toggleTimer()">시작</button>
+              <button class="btn-timer reset" onclick="resetTimer()">초기화</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lead Magnet CTA -->
+      <button class="btn-magnet" onclick="openLeadModal()">
+        <i data-lucide="gift" style="width: 18px; height: 18px;"></i>
+        <span id="giftCtaText">🎁 스페셜티 커피 황금 브루잉 레시피 치트시트 받기</span>
+      </button>
+
+      <div style="text-align: center;">
+        <a href="https://setupod.com" target="_blank" class="embed-powered-by">
+          Powered by SETUPOD
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let isRunning = false;
+
+    function setRatio(val) {
+      document.getElementById('ratioInput').value = val;
+      document.querySelectorAll('.ratio-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(val.toString()));
+      });
+      calculate();
+    }
+
+    function calculate() {
+      const base = parseFloat(document.getElementById('baseWeight').value) || 0;
+      const ratio = parseFloat(document.getElementById('ratioInput').value) || 15;
+      const bloom = parseFloat(document.getElementById('bloomMult').value) || 2.5;
+
+      document.getElementById('ratioDisplay').textContent = `1:${ratio.toFixed(1)}`;
+
+      const totalWater = Math.round(base * ratio);
+      const bloomWater = Math.round(base * bloom);
+      const expectedCoffee = Math.round(totalWater - (base * 1.5));
+
+      document.getElementById('totalWaterDisplay').textContent = `${totalWater} g`;
+      document.getElementById('bloomWaterDisplay').textContent = `${bloomWater} g`;
+      document.getElementById('waterSub').textContent = `추출 예상 원액: 약 ${Math.max(0, expectedCoffee)}g`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('btnTimerStart');
+      if (isRunning) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        btn.textContent = '재개';
+      } else {
+        isRunning = true;
+        btn.textContent = '일시정지';
+        timerInterval = setInterval(() => {
+          timerSeconds++;
+          const mins = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+          const secs = (timerSeconds % 60).toString().padStart(2, '0');
+          document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      timerSeconds = 0;
+      document.getElementById('timerDisplay').textContent = '00:00';
+      document.getElementById('btnTimerStart').textContent = '시작';
+    }
+
+    function openLeadModal() {
+      if (window.SetupodLeadMagnet) {
+        window.SetupodLeadMagnet.open({
+          podId: 'brewoak',
+          giftTitle: '스페셜티 커피 황금 브루잉 레시피 치트시트 & 디개싱 캘린더'
+        });
+      } else {
+        alert('신청이 접수되었습니다!');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      calculate();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      if (window.MazaTelemetry) {
+        window.MazaTelemetry.init({ podId: 'brewoak' });
+      }
+    });
+  </script>
+</body>
+</html>
