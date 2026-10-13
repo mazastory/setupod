@@ -13,7 +13,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SETUPOD 마켓 | 내 도메인에 꽂는 턴키 웹 비즈니스 분양소</title>
-  <meta name="description" content="SETUPOD 마켓 - 보유한 도메인에 즉시 연결하는 검증된 턴키 웹 비즈니스 솔루션. 스타터 무상 지원 프로그램과 애드센스 승인 최적화 유틸리티를 경험하세요.">
+  <meta name="description" content="SETUPOD 마켓 - 보유한 도메인에 즉시 연결하는 검증된 턴키 웹 비즈니스 솔루션. MAZA 1기 장학 바우처 지원 프로그램과 3-Tier 비즈니스 라인업을 경험하세요.">
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1631240913539164" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="SETUPOD MARKET">
   <meta property="og:title" content="SETUPOD 마켓 | 내 도메인에 꽂는 턴키 웹 비즈니스 분양소">
-  <meta property="og:description" content="보유한 도메인에 즉시 연결하는 검증된 턴키 웹 비즈니스 솔루션. 스타터 무상 지원(0원)!">
+  <meta property="og:description" content="보유한 도메인에 즉시 연결하는 턴키 웹 비즈니스 솔루션. MAZA 1기 장학 바우처 전액 지원 및 3-Tier 비즈니스 라인업!">
   <meta property="og:image" content="https://www.setupod.com/assets/business_card_mockup.png">
 
   <!-- Favicon -->
@@ -141,24 +141,47 @@
     }
 
     function createProductCardHtml(p) {
-      const isFree = p.tier === 'scholarship_free' || p.price === 0;
-      const priceDisplay = isFree 
-        ? '0원 <span class="sub-text">₩100,000</span>' 
-        : `₩${Number(p.price).toLocaleString()}`;
-      const priceExtra = isFree 
-        ? '🎓 1년 인프라 무상 지원' 
-        : '💎 셋업팟 공식 프리미엄';
-      const badgeClass = isFree ? 'green' : 'hot';
-      const badgeText = p.badge || (isFree ? '🎓 100% 무상 장학 팟' : '💎 프리미엄 팟');
+      const isClass1 = p.tier_class === 'class1' || p.tier === 'scholarship_free';
+      const isClass3 = p.tier_class === 'class3' || p.price === 99000;
+      const isClass2 = !isClass1 && !isClass3;
+
+      let tierTagHtml = '';
+      let priceExtra = '';
+      let badgeClass = 'green';
+      let badgeText = p.badge;
+      let btnOrderText = '바우처 신청';
+
+      if (isClass1) {
+        tierTagHtml = '<span class="price-tier-tag class1">Class 1 스타터</span>';
+        priceExtra = '<span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span>';
+        badgeClass = 'green';
+        badgeText = p.badge || '🎓 MAZA 장학 바우처';
+        btnOrderText = '바우처 신청';
+      } else if (isClass3) {
+        tierTagHtml = '<span class="price-tier-tag class3">Class 3 VIP</span>';
+        priceExtra = '<span>💎 VIP 자산화 · Flippa 특화</span>';
+        badgeClass = 'hot';
+        badgeText = p.badge || '💎 VIP 자산화급';
+        btnOrderText = 'VIP 분양 신청';
+      } else {
+        tierTagHtml = '<span class="price-tier-tag class2">Class 2 프로</span>';
+        priceExtra = '<span>🚀 MAZA 비즈니스 바우처 지원</span>';
+        badgeClass = 'blue';
+        badgeText = p.badge || '🚀 비즈니스 프로';
+        btnOrderText = '분양 신청';
+      }
+
+      const priceVal = `₩${Number(p.price || (isClass1 ? 39000 : (isClass3 ? 99000 : 59000))).toLocaleString()}`;
+
       const catKey = p.category || 'all';
       const catName = p.category_name || (categoryNameMap[catKey] ? categoryNameMap[catKey].replace(/[^\w\s가-힣]/g, '').trim() : '비즈니스 솔루션');
 
-      const bgGrad = isFree 
+      const bgGrad = isClass1 
         ? 'radial-gradient(circle at 50% 50%, #1e1b4b, #0f172a)' 
-        : 'radial-gradient(circle at 50% 50%, #701a75, #1e1b4b)';
+        : (isClass3 ? 'radial-gradient(circle at 50% 50%, #831843, #1e1b4b)' : 'radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a)');
 
       return `
-        <div class="product-card" data-cat="${escapeAttr(catKey)}" data-tier="${escapeAttr(p.tier)}" data-id="${escapeAttr(p.id)}">
+        <div class="product-card" data-cat="${escapeAttr(catKey)}" data-tier="${escapeAttr(p.tier)}" data-tier-class="${escapeAttr(p.tier_class || (isClass1 ? 'class1' : (isClass3 ? 'class3' : 'class2')))}" data-id="${escapeAttr(p.id)}">
           <div class="card-thumb">
             <div class="card-thumb-bg" style="background: ${bgGrad};"></div>
             <div class="card-thumb-overlay"></div>
@@ -166,13 +189,12 @@
             <span class="thumb-sub-pill"><span class="m-status-dot"></span> ${escapeHtml(p.tagline || p.name)}</span>
             <div class="card-badge-top">
               <span class="badge-pill ${badgeClass}">${escapeHtml(badgeText)}</span>
-              <span class="badge-pill primary">${isFree ? '⚡ 1초 연동' : '💰 고수익/자산화'}</span>
+              <span class="badge-pill primary">${isClass1 ? '⚡ 1초 연동' : (isClass3 ? '💎 자산화/매각' : '💰 고수익/전환율')}</span>
             </div>
           </div>
           <div class="card-body">
             <div class="card-category-label">${escapeHtml(catName)}</div>
             <h3 class="card-title">${escapeHtml(p.name)}</h3>
-            <p class="card-desc">${escapeHtml(p.desc || p.tagline || '')}</p>
             <div class="card-metrics">
               <div class="card-rating">
                 <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
@@ -181,7 +203,10 @@
               <span>· 턴키 임베드</span>
             </div>
             <div class="card-price-row">
-              <div class="price-main">${priceDisplay}</div>
+              <div class="price-main">
+                <span class="price-val">${priceVal}</span>
+                ${tierTagHtml}
+              </div>
               <div class="price-extra">${priceExtra}</div>
             </div>
             <div class="card-actions">
@@ -189,7 +214,7 @@
                 <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
               </a>
               <button type="button" class="btn-order" onclick="openOrderModal('${escapeAttr(p.name)}')">
-                <i data-lucide="rocket" style="width:13px;height:13px;"></i> ${isFree ? '스타터 신청' : '분양 신청'}
+                <i data-lucide="rocket" style="width:13px;height:13px;"></i> ${btnOrderText}
               </button>
             </div>
           </div>
@@ -219,14 +244,22 @@
       if (bestFiveSection) bestFiveSection.style.display = isSpecificFilter ? 'none' : 'block';
       if (bestFiveDivider) bestFiveDivider.style.display = isSpecificFilter ? 'none' : 'block';
 
+      // Update Tab Counts
+      const countAll = document.getElementById('countAll');
+      const countFree = document.getElementById('countFree');
+      const countPremium = document.getElementById('countPremium');
+      if (countAll) countAll.textContent = products.length;
+      if (countFree) countFree.textContent = products.filter(p => p.tier === 'scholarship_free' || p.tier_class === 'class1').length;
+      if (countPremium) countPremium.textContent = products.filter(p => p.tier === 'premium').length;
+
       // Update Section Title
       if (catalogTitle) {
         if (searchKeyword) {
           catalogTitle.textContent = `검색 결과: "${searchKeyword}"`;
         } else if (activeTier === 'scholarship_free') {
-          catalogTitle.textContent = `🎓 100인 무상 장학 팟 (100% 무상 0원 분양)`;
+          catalogTitle.textContent = `🎓 Class 1 스타터 장학관 (정가 ₩39,000 | MAZA 바우처 전액 지원)`;
         } else if (activeTier === 'premium') {
-          catalogTitle.textContent = `💎 셋업팟 공식 마켓 프리미엄 팟 (고단가 자산화)`;
+          catalogTitle.textContent = `💎 Class 2·3 VIP 자산화 & 비즈니스관 (정가 ₩59,000 ~ ₩99,000)`;
         } else {
           catalogTitle.textContent = categoryNameMap[activeCategory] || '분양 가능한 턴키 웹 비즈니스 라인업';
         }
@@ -239,8 +272,11 @@
       // Filter logic
       const matched = products.filter(p => {
         // Tier filter
-        if (activeTier === 'scholarship_free' && p.tier !== 'scholarship_free') return false;
+        if (activeTier === 'scholarship_free' && p.tier !== 'scholarship_free' && p.tier_class !== 'class1') return false;
         if (activeTier === 'premium' && p.tier !== 'premium') return false;
+        if (activeTier === 'class1' && p.tier_class !== 'class1') return false;
+        if (activeTier === 'class2' && p.tier_class !== 'class2') return false;
+        if (activeTier === 'class3' && p.tier_class !== 'class3') return false;
 
         // Category filter
         if (activeCategory !== 'all') {
@@ -303,24 +339,31 @@
       const currentVal = select.value;
       select.innerHTML = '';
 
-      const freeGroup = document.createElement('optgroup');
-      freeGroup.label = '🎓 100인 무상 장학 팟 (0원 전액 지원)';
-      const premGroup = document.createElement('optgroup');
-      premGroup.label = '💎 마켓 프리미엄 팟 (고단가 자산화)';
+      const class1Group = document.createElement('optgroup');
+      class1Group.label = '🎓 Class 1 스타터 장학관 (정가 ₩39,000 · MAZA 바우처 전액 지원)';
+      const class2Group = document.createElement('optgroup');
+      class2Group.label = '🚀 Class 2 비즈니스 프로관 (정가 ₩59,000 · 마자 공식 제휴)';
+      const class3Group = document.createElement('optgroup');
+      class3Group.label = '💎 Class 3 VIP 자산화관 (정가 ₩99,000 · Flippa 특화)';
 
       products.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p.name;
-        opt.textContent = `${p.tier === 'scholarship_free' ? '[무상 0원]' : `[₩${Number(p.price).toLocaleString()}]`} ${p.name}`;
-        if (p.tier === 'scholarship_free') {
-          freeGroup.appendChild(opt);
+        if (p.tier_class === 'class3' || p.price === 99000) {
+          opt.textContent = `[Class 3 VIP ₩99,000] ${p.name}`;
+          class3Group.appendChild(opt);
+        } else if (p.tier_class === 'class2' || p.price === 59000) {
+          opt.textContent = `[Class 2 프로 ₩59,000] ${p.name}`;
+          class2Group.appendChild(opt);
         } else {
-          premGroup.appendChild(opt);
+          opt.textContent = `[Class 1 장학 ₩39,000] ${p.name}`;
+          class1Group.appendChild(opt);
         }
       });
 
-      select.appendChild(freeGroup);
-      select.appendChild(premGroup);
+      select.appendChild(class1Group);
+      select.appendChild(class2Group);
+      select.appendChild(class3Group);
 
       if (currentVal) {
         select.value = currentVal;
@@ -1528,6 +1571,27 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     }
 
+    .badge-pill.green, .badge-pill.class1 {
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+    }
+    .badge-pill.blue, .badge-pill.class2 {
+      background: rgba(59, 130, 246, 0.25);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #93c5fd;
+    }
+    .badge-pill.hot, .badge-pill.class3 {
+      background: rgba(236, 72, 153, 0.25);
+      border: 1px solid rgba(236, 72, 153, 0.45);
+      color: #f472b6;
+    }
+    .badge-pill.primary {
+      background: rgba(168, 85, 247, 0.25);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: #d8b4fe;
+    }
+
     /* Card Content (크몽 스타일의 정갈하고 임팩트 있는 타이포그래피) */
     .card-body {
       padding: 14px 13px 15px;
@@ -1584,9 +1648,71 @@
       gap: 3px;
     }
 
-    /* Price Section (사용자 요청: 0원, 정가, 스타터 무상 지원 등 반복 문구 완전 제거로 깔끔한 디렉토리 룩 완성) */
+    /* Price Section (3-Tier Official List Pricing & MAZA Scholarship Voucher) */
     .card-price-row {
-      display: none !important;
+      display: flex !important;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+    }
+
+    .price-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .price-val {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .price-tier-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .price-tier-tag.class1 {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .price-tier-tag.class2 {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .price-tier-tag.class3 {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.35);
+    }
+
+    .price-extra {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .price-extra .voucher-callout {
+      color: #34d399;
+      font-weight: 700;
     }
 
     /* Load More Button (더보기 버튼 스타일) */
@@ -1985,8 +2111,8 @@
 
   <!-- Top Banner (Prestige Starter Grant) -->
   <div class="top-announcement">
-    <span>💎 [2026 SETUPOD 스타터 그랜트] 1인 창업가를 위한 첫 번째 턴키 웹 비즈니스 무상 지원 프로그램</span>
-    <a href="javascript:void(0)" onclick="openOrderModal('전체')">스타터 신청하기 →</a>
+    <span>💎 [2026 MAZA 인프라 장학 프로그램] 선발 회원 대상 Class 1 팟 바우처 전액 지원 & 3-Tier 라인업</span>
+    <a href="javascript:void(0)" onclick="openOrderModal('전체')">장학 바우처 신청 →</a>
   </div>
 
   <!-- Kmong-Style 2-Column Hero & Search Hub -->
@@ -2036,7 +2162,7 @@
               <div class="spotlight-top-badge">
                 <div class="spotlight-tags-wrap">
                   <span class="spotlight-tag hot">👑 실시간 1위</span>
-                  <span class="spotlight-tag free">0원 스타터</span>
+                  <span class="spotlight-tag free">🎓 Class 1 스타터 (₩39,000)</span>
                 </div>
                 <div class="spotlight-slide-pagination">
                   <span class="curr-slide">1</span> / 4
@@ -2062,7 +2188,7 @@
                   <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
                 </a>
                 <button class="spotlight-btn-cta" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
-                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 0원 분양 받기
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
                 </button>
               </div>
             </div>
@@ -2072,7 +2198,7 @@
               <div class="spotlight-top-badge">
                 <div class="spotlight-tags-wrap">
                   <span class="spotlight-tag hot" style="background:rgba(59,130,246,0.2);color:#60a5fa;border-color:rgba(59,130,246,0.35);">🌐 고수익 CPC</span>
-                  <span class="spotlight-tag free">0원 스타터</span>
+                  <span class="spotlight-tag free" style="background:rgba(59,130,246,0.15);color:#93c5fd;border-color:rgba(59,130,246,0.3);">🚀 Class 2 프로 (₩59,000)</span>
                 </div>
                 <div class="spotlight-slide-pagination">
                   <span class="curr-slide">2</span> / 4
@@ -2098,7 +2224,7 @@
                   <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
                 </a>
                 <button class="spotlight-btn-cta" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')">
-                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 0원 분양 받기
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청
                 </button>
               </div>
             </div>
@@ -2108,7 +2234,7 @@
               <div class="spotlight-top-badge">
                 <div class="spotlight-tags-wrap">
                   <span class="spotlight-tag hot" style="background:rgba(234,179,8,0.2);color:#facc15;border-color:rgba(234,179,8,0.35);">💼 B2B CRM</span>
-                  <span class="spotlight-tag free">0원 스타터</span>
+                  <span class="spotlight-tag free">🎓 Class 1 스타터 (₩39,000)</span>
                 </div>
                 <div class="spotlight-slide-pagination">
                   <span class="curr-slide">3</span> / 4
@@ -2134,7 +2260,7 @@
                   <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
                 </a>
                 <button class="spotlight-btn-cta" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')">
-                  <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
                 </button>
               </div>
             </div>
@@ -2144,7 +2270,7 @@
               <div class="spotlight-top-badge">
                 <div class="spotlight-tags-wrap">
                   <span class="spotlight-tag hot" style="background:rgba(236,72,153,0.2);color:#f472b6;border-color:rgba(236,72,153,0.35);">📱 바이럴 1위</span>
-                  <span class="spotlight-tag free">0원 스타터</span>
+                  <span class="spotlight-tag free">🎓 Class 1 스타터 (₩39,000)</span>
                 </div>
                 <div class="spotlight-slide-pagination">
                   <span class="curr-slide">4</span> / 4
@@ -2170,7 +2296,7 @@
                   <i data-lucide="eye" style="width:13px;height:13px;"></i> 라이브 체험
                 </a>
                 <button class="spotlight-btn-cta" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')">
-                  <i data-lucide="rocket" style="width:14px;height:14px;"></i> 0원 분양 받기
+                  <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
                 </button>
               </div>
             </div>
@@ -2186,17 +2312,18 @@
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Tier Filter Tabs (대분류 탭) -->
+  <!-- Tier Filter Tabs (대분류 탭) -->
     <div class="tier-nav-tabs">
       <button class="tier-tab-btn active" data-tier="all" onclick="selectTier('all', this)">
         <span>🔥 전체 라인업</span> <span class="tab-count" id="countAll">145</span>
       </button>
       <button class="tier-tab-btn" data-tier="scholarship_free" onclick="selectTier('scholarship_free', this)">
-        <span>🎓 100인 무상 장학 팟 (0원)</span> <span class="tab-count" id="countFree">103</span>
+        <span>🎓 Class 1 스타터 장학관 (₩39,000)</span> <span class="tab-count" id="countFree">103</span>
       </button>
       <button class="tier-tab-btn" data-tier="premium" onclick="selectTier('premium', this)">
-        <span>💎 마켓 프리미엄 팟</span> <span class="tab-count" id="countPremium">42</span>
+        <span>💎 Class 2·3 VIP 자산화관 (₩59,000~)</span> <span class="tab-count" id="countPremium">42</span>
       </button>
     </div>
 
@@ -2293,12 +2420,15 @@
             <span>· 무설치 즉시 동작</span>
           </div>
           <div class="card-price-row">
-            <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-            <div class="price-extra">스타터 무상 지원</div>
+            <div class="price-main">
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
+            </div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
             <a href="planner/" target="_blank" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
-            <button class="btn-order" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
+            <button class="btn-order" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청</button>
           </div>
         </div>
       </div>
@@ -2312,7 +2442,7 @@
           <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 환율 & 인보이스</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">👑 TOP 2</span>
-            <span class="badge-pill green">🇺🇸 글로벌 트래픽</span>
+            <span class="badge-pill blue">🚀 비즈니스 프로</span>
           </div>
         </div>
         <div class="card-body">
@@ -2325,12 +2455,15 @@
             <span>· 실시간 환율 API</span>
           </div>
           <div class="card-price-row">
-            <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-            <div class="price-extra">스타터 무상 지원</div>
+            <div class="price-main">
+              <span class="price-val">₩59,000</span>
+              <span class="price-tier-tag class2">Class 2 프로</span>
+            </div>
+            <div class="price-extra"><span>🚀 MAZA 비즈니스 바우처 지원</span></div>
           </div>
           <div class="card-actions">
             <a href="https://mazaus.com" target="_blank" rel="noopener" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
-            <button class="btn-order" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
+            <button class="btn-order" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청</button>
           </div>
         </div>
       </div>
@@ -2344,7 +2477,7 @@
           <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3D Three.js 엔진 탑재</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">👑 TOP 3</span>
-            <span class="badge-pill primary">💼 CRM 리드 수집</span>
+            <span class="badge-pill green">🎓 MAZA 장학 바우처</span>
           </div>
         </div>
         <div class="card-body">
@@ -2357,12 +2490,15 @@
             <span>· 3D Three.js 엔진</span>
           </div>
           <div class="card-price-row">
-            <div class="price-main">0원 <span class="sub-text">₩59,000</span></div>
-            <div class="price-extra">스타터 무상 지원</div>
+            <div class="price-main">
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
+            </div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
             <a href="bizcard/card.html?id=demo" target="_blank" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
-            <button class="btn-order" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
+            <button class="btn-order" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청</button>
           </div>
         </div>
       </div>
@@ -2376,7 +2512,7 @@
           <span class="thumb-sub-pill"><span class="m-status-dot"></span> AI 자동 분류 & 로컬DB</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">👑 TOP 4</span>
-            <span class="badge-pill green">⚡ 신규 오픈</span>
+            <span class="badge-pill green">🎓 MAZA 장학 바우처</span>
           </div>
         </div>
         <div class="card-body">
@@ -2389,12 +2525,15 @@
             <span>· 로컬 스토리지 보존</span>
           </div>
           <div class="card-price-row">
-            <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-            <div class="price-extra">스타터 무상 지원</div>
+            <div class="price-main">
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
+            </div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
             <a href="memopod/" target="_blank" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
-            <button class="btn-order" onclick="openOrderModal('AI 스마트 메모팟 (Memo Pod)')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
+            <button class="btn-order" onclick="openOrderModal('AI 스마트 메모팟 (Memo Pod)')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청</button>
           </div>
         </div>
       </div>
@@ -2408,7 +2547,7 @@
           <span class="thumb-sub-pill"><span class="m-status-dot"></span> 캔버스 1초 캐러셀 렌더</span>
           <div class="card-badge-top">
             <span class="badge-pill hot">👑 TOP 5</span>
-            <span class="badge-pill primary">📱 SNS 마케터</span>
+            <span class="badge-pill blue">🚀 비즈니스 프로</span>
           </div>
         </div>
         <div class="card-body">
@@ -2421,12 +2560,15 @@
             <span>· 캔버스 자동 렌더링</span>
           </div>
           <div class="card-price-row">
-            <div class="price-main">0원 <span class="sub-text">₩49,000</span></div>
-            <div class="price-extra">스타터 무상 지원</div>
+            <div class="price-main">
+              <span class="price-val">₩59,000</span>
+              <span class="price-tier-tag class2">Class 2 프로</span>
+            </div>
+            <div class="price-extra"><span>🚀 MAZA 비즈니스 바우처 지원</span></div>
           </div>
           <div class="card-actions">
             <a href="insta/" target="_blank" class="btn-demo"><i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기</a>
-            <button class="btn-order" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 스타터 신청</button>
+            <button class="btn-order" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')"><i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청</button>
           </div>
         </div>
       </div>
@@ -2450,757 +2592,641 @@
 
     <div class="products-grid" id="productsGrid">
 
-      <!-- Product 1: 2026 플래너 팟 -->
-      <div class="product-card" data-cat="planner" data-keywords="플래너 달력 스티커 다이어리 캘린더 문구">
+      <!-- Fallback Product: 2026 비즈니스 플래너 OS 팟 -->
+      <div class="product-card" data-cat="productivity" data-tier="scholarship_free" data-tier-class="class1" data-id="planner">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #4c1d95, #1e1b4b);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e1b4b, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📅</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 2026 비즈니스 OS</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 매일 할 일 체크, D-Day, 루틴 메모 (고체류율 보장)</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">⚡ 즉시 가동</span>
-            <span class="badge-pill primary">🏆 애드센스 승인 최적화</span>
+            <span class="badge-pill green">🎓 MAZA 장학 바우처 지원</span>
+            <span class="badge-pill primary">⚡ 1초 연동</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">📅 플래너 · 문구 OS</div>
-          <h3 class="card-title">2026 비즈니스 플래너 & 만년형 달력 팟</h3>
-          <p class="card-desc">
-            무료 디지털 스티커/속지 나눔으로 방문자 DB(전화번호/이메일)를 자동 수집하고, 애드센스 승인 후 고단가 다이어리/문구 제휴 광고를 송출합니다.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">2026 비즈니스 플래너 OS 팟</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 128명 분양 완료</span>
-            <span>· 무설치 즉시 동작</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
-            <a href="planner/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/planner" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('2026 비즈니스 플래너 & 만년형 달력 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('2026 비즈니스 플래너 OS 팟')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 2: 글로벌 페이팔 실입금 계산기 팟 -->
-      <div class="product-card" data-cat="global" data-keywords="페이팔 환율 계산기 스트라이프 달러 해외송금 인보이스">
+      <!-- Fallback Product: 3D 인터랙티브 디지털 명함 팟 -->
+      <div class="product-card" data-cat="branding" data-tier="scholarship_free" data-tier-class="class1" data-id="bizcard">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #0369a1, #082f49);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e1b4b, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(14,165,233,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🌐</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 환율 & 인보이스</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3D 회전 카드, 원클릭 SNS 연결, 스마트폰 연락처 다이렉트 저장</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">🇺🇸 글로벌 트래픽</span>
-            <span class="badge-pill primary">💰 금융 고단가 CPC</span>
+            <span class="badge-pill green">🎓 MAZA 장학 바우처 지원</span>
+            <span class="badge-pill primary">⚡ 1초 연동</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🌐 글로벌 · 금융 계산기</div>
-          <h3 class="card-title">글로벌 페이팔 실입금 & 환전 수수료 팟</h3>
-          <p class="card-desc">
-            해외 프리랜서 및 이커머스 셀러를 위한 실시간 환율 & 페이팔 수수료 역산기. 무료 수출 인보이스 서식을 제공하여 전문직 리드를 확보합니다.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">3D 인터랙티브 디지털 명함 팟</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 94명 분양 완료</span>
-            <span>· 실시간 환율 API</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://mazaus.com" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/bizcard/card.html?id=demo" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('글로벌 페이팔 실입금 & 환전 수수료 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('3D 인터랙티브 디지털 명함 팟')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 3: 3D 디지털 명함 & CRM 팟 -->
-      <div class="product-card" data-cat="bizcard" data-keywords="명함 3D 디지털명함 vCard CRM 연락처 명함관리">
+      <!-- Fallback Product: 스마트스토어·쿠팡 마진 1초 계산기 팟 -->
+      <div class="product-card" data-cat="ecommerce" data-tier="scholarship_free" data-tier-class="class1" data-id="margin">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #500724);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e1b4b, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(236,72,153,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💼</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3D Three.js 엔진 탑재</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 판매가/원가/플랫폼 수수료 1초 마진율 계산 &amp; 역마진 방지</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">👑 셋업팟 시그니처</span>
-            <span class="badge-pill primary">💼 CRM 리드 자동수집</span>
+            <span class="badge-pill green">🎓 MAZA 장학 바우처 지원</span>
+            <span class="badge-pill primary">⚡ 1초 연동</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">💼 비즈니스 · 3D 명함</div>
-          <h3 class="card-title">차세대 3D 인터랙티브 디지털 명함 팟</h3>
-          <p class="card-desc">
-            종이 명함을 대체하는 입체 3D 명함. 링크 하나로 모든 소셜/포트폴리오를 노출하고, 원클릭 연락처 저장(vCard) 및 실시간 미팅 신청을 접수합니다.
-          </p>
+          <div class="card-category-label">이커머스  커머스</div>
+          <h3 class="card-title">스마트스토어·쿠팡 마진 1초 계산기 팟</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 210명 분양 완료</span>
-            <span>· 3D Three.js 렌더링</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩59,000</span>
+              <span class="price-val">₩39,000</span>
+              <span class="price-tier-tag class1">Class 1 스타터</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span class="voucher-callout">🎓 MAZA 장학 바우처 100% 지원 (선발자 0원)</span></div>
           </div>
           <div class="card-actions">
-            <a href="bizcard/card.html?id=demo" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/margin" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('차세대 3D 인터랙티브 디지털 명함 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('스마트스토어·쿠팡 마진 1초 계산기 팟')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 바우처 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 4: AI 스마트 메모팟 (Memo Pod) -->
-      <div class="product-card" data-cat="planner" data-keywords="메모 아이디어 노트 저장소 인공지능 메모팟">
+      <!-- Fallback Product: 스타트업 번레이트 &amp; 런웨이 시뮬레이터 -->
+      <div class="product-card" data-cat="startup" data-tier="premium" data-tier-class="class3" data-id="runway">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #92400e, #451a03);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📝</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> AI 자동 분류 & 로컬DB</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 월 고정비, 투자 잔액, 생존 개월 수를 정밀 그래프로 산출</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">⚡ 신규 오픈</span>
-            <span class="badge-pill primary">💡 아이디어 자동분류</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">📅 생산성 · 아이디어 OS</div>
-          <h3 class="card-title">AI 스마트 메모팟 (Memo Pod)</h3>
-          <p class="card-desc">
-            복잡한 머릿속을 1초 만에 털어놓으면 AI가 태그와 카테고리를 알아서 분류하는 미니멀 스마트 아이디어 저장소 솔루션.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">스타트업 번레이트 &amp; 런웨이 시뮬레이터</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 72명 분양 완료</span>
-            <span>· 로컬 스토리지 보존</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="memopod/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/runway" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('AI 스마트 메모팟 (Memo Pod)')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('스타트업 번레이트 & 런웨이 시뮬레이터')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 5: 인스타 카드뉴스 생성기 팟 -->
-      <div class="product-card" data-cat="sns" data-keywords="인스타 카드뉴스 SNS 마케팅 배너 디자인 썸네일">
+      <!-- Fallback Product: VIP 히든 룸 &amp; 시크릿 쿠폰 팟 -->
+      <div class="product-card" data-cat="gamification" data-tier="premium" data-tier-class="class3" data-id="secret_room">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #4c0519);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📱</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 캔버스 1초 캐러셀 렌더</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 특정 퀴즈/패스워드를 푼 VIP에게만 열리는 프리미엄 보너스 룸</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">📱 SNS 마케터</span>
-            <span class="badge-pill primary">⚡ 카드뉴스 대량생성</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">📱 SNS · 마케팅 스튜디오</div>
-          <h3 class="card-title">인스타 카드뉴스 & 바이럴 훅 메이커 팟</h3>
-          <p class="card-desc">
-            인스타그램 캐러셀 콘텐츠와 유튜브 쇼츠용 썸네일을 1분 만에 디자인. 마케터들의 북마크 트래픽과 디자인 템플릿 판매 전환을 유도합니다.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">VIP 히든 룸 &amp; 시크릿 쿠폰 팟</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.8
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 112명 분양 완료</span>
-            <span>· 캔버스 자동 렌더링</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="insta/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/secret_room/index.html" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('인스타 카드뉴스 & 바이럴 훅 메이커 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('VIP 히든 룸 & 시크릿 쿠폰 팟')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 6: 카카오톡 배너 & 프로필 스튜디오 -->
-      <div class="product-card" data-cat="sns" data-keywords="카카오톡 배너 프로필 단톡방 채널 오픈채팅">
+      <!-- Fallback Product: 블로그 애드센스 일매출 &amp; 자산가치 계산기 -->
+      <div class="product-card" data-cat="blog" data-tier="premium" data-tier-class="class3" data-id="adsense">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #361e04);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(234,179,8,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💬</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 정규격 배너 템플릿</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 일일 방문자 수와 타겟 국가별 예상 월수익 및 Flippa 매각 가치 산출</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">💬 메신저 특화</span>
-            <span class="badge-pill primary">⚡ 1분 배너 생성</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">📱 마케팅 · 카카오 스튜디오</div>
-          <h3 class="card-title">카카오톡 배너 & 채널 프로필 스튜디오</h3>
-          <p class="card-desc">
-            카카오톡 채널과 오픈채팅 단톡방에 띄울 깔끔한 프로필과 공지 배너를 1초 생성. 커뮤니티 관리자와 소상공인의 높은 유입률 보장.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">블로그 애드센스 일매출 &amp; 자산가치 계산기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 88명 분양 완료</span>
-            <span>· 정규격 템플릿</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩39,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="kakao/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense/index.html" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('카카오톡 배너 & 채널 프로필 스튜디오')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('블로그 애드센스 일매출 & 자산가치 계산기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 7: 올인원 멀티링크 바이오 허브 -->
-      <div class="product-card" data-cat="bizcard" data-keywords="멀티링크 링크트리 프로필링크 바이오 인스타그램">
+      <!-- Fallback Product: 글로벌 도시 생활비 &amp; 환율 시뮬레이터 -->
+      <div class="product-card" data-cat="global" data-tier="premium" data-tier-class="class2" data-id="nomad">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #3730a3, #1e1b4b);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(99,102,241,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🔗</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 모바일 프로필 바이오 허브</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 전 세계 거점 도시별 월세/식비/실시간 환율 물가 비교 (mazaus 등 필수)</span>
           <div class="card-badge-top">
-            <span class="badge-pill blue">🔗 인스타 프로필</span>
-            <span class="badge-pill primary">📈 원클릭 연결</span>
+            <span class="badge-pill blue">🚀 비즈니스 프로급</span>
+            <span class="badge-pill primary">💰 고수익/전환율</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">💼 비즈니스 · 멀티링크</div>
-          <h3 class="card-title">올인원 멀티링크 바이오 허브 팟</h3>
-          <p class="card-desc">
-            인스타그램 프로필 단 하나로 쇼핑몰, 유튜브, 오픈채팅, 포트폴리오를 한 화면에 모아주는 고품격 인터랙티브 멀티링크 솔루션.
-          </p>
+          <div class="card-category-label">글로벌  핀테크</div>
+          <h3 class="card-title">글로벌 도시 생활비 &amp; 환율 시뮬레이터</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 165명 분양 완료</span>
-            <span>· 모바일 최적화 레이아웃</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩59,000</span>
+              <span class="price-tier-tag class2">Class 2 프로</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>🚀 MAZA 비즈니스 바우처 지원</span></div>
           </div>
           <div class="card-actions">
-            <a href="multilink/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/nomad" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('올인원 멀티링크 바이오 허브 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('글로벌 도시 생활비 & 환율 시뮬레이터')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 8: 이커머스 마진율 & 3.3% 종합소득세 팟 -->
-      <div class="product-card" data-cat="ecommerce" data-keywords="마진 계산기 소득세 세금 프리랜서 쇼핑몰 셀러 스마트스토어">
+      <!-- Fallback Product: VIP 인터랙티브 멀티링크 &amp; 결제 연동 팟 -->
+      <div class="product-card" data-cat="marketing" data-tier="premium" data-tier-class="class2" data-id="multilink">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #065f46, #022c22);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🛒</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 스마트스토어 마진 & 세무</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 인스타/카카오용 링크트리 + 계좌번호 복사 + 입금 알림톡 연동</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">🛒 셀러 필수 도구</span>
-            <span class="badge-pill primary">📊 고단가 비즈니스 트래픽</span>
+            <span class="badge-pill blue">🚀 비즈니스 프로급</span>
+            <span class="badge-pill primary">💰 고수익/전환율</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🛒 이커머스 · 세무 계산기</div>
-          <h3 class="card-title">이커머스 마진 & 3.3% 프리랜서 세금 팟</h3>
-          <p class="card-desc">
-            네이버 스마트스토어·쿠팡 수수료 마진과 프리랜서 3.3% 원천징수 실수령액을 1초 계산. 세무사/비즈니스 제휴 광고 최적화 솔루션.
-          </p>
+          <div class="card-category-label">비즈니스 솔루션</div>
+          <h3 class="card-title">VIP 인터랙티브 멀티링크 &amp; 결제 연동 팟</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 87명 분양 완료</span>
-            <span>· 셀러 커뮤니티 바이럴</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩59,000</span>
+              <span class="price-tier-tag class2">Class 2 프로</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>🚀 MAZA 비즈니스 바우처 지원</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/multilink/index.html" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('이커머스 마진 & 3.3% 프리랜서 세금 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('VIP 인터랙티브 멀티링크 & 결제 연동 팟')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 9: 스페셜티 커피 브루잉 & 디개싱 랩 팟 -->
-      <div class="product-card" data-cat="fnb" data-keywords="커피 카페 브루잉 바리스타 원두 추출 디개싱 드립">
+      <!-- Fallback Product: 해외직구 1초 관부가세 &amp; 카드 수수료 계산기 -->
+      <div class="product-card" data-cat="global" data-tier="premium" data-tier-class="class2" data-id="fx">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #78350f, #451a03);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e3a8a, #0f172a);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(217,119,6,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">☕</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 골든컵 브루잉 & 디개싱</span>
+          <div class="card-center-icon">🚀</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 실시간 환율 + 카드 수수료(1.2%) + 미국/일본/유럽 통관 과세 1초 계산</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">☕ F&B 버티컬</span>
-            <span class="badge-pill primary">📈 체류시간 극대화</span>
+            <span class="badge-pill blue">🚀 비즈니스 프로급</span>
+            <span class="badge-pill primary">💰 고수익/전환율</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">☕ F&B · 커피 유틸리티</div>
-          <h3 class="card-title">스페셜티 커피 브루잉 비율 & 디개싱 팟</h3>
-          <p class="card-desc">
-            골든컵 브루잉 비율 계산기와 로스팅 날짜별 디개싱 차트. 홈바리스타와 카페 애호가들의 검색 유입과 원두/머신 제휴 마케팅에 최적화.
-          </p>
+          <div class="card-category-label">글로벌  핀테크</div>
+          <h3 class="card-title">해외직구 1초 관부가세 &amp; 카드 수수료 계산기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 65명 분양 완료</span>
-            <span>· 고유 E-E-A-T 확보</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩39,000</span>
+              <span class="price-val">₩59,000</span>
+              <span class="price-tier-tag class2">Class 2 프로</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>🚀 MAZA 비즈니스 바우처 지원</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://brewoak.com" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/fx/index.html" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('스페셜티 커피 브루잉 비율 & 디개싱 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('해외직구 1초 관부가세 & 카드 수수료 계산기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 10: 전국 아파트 실거래가 & 양도세 팟 -->
-      <div class="product-card" data-cat="life" data-keywords="부동산 아파트 양도소득세 취득세 재산세 실거래가 주택">
+      <!-- Fallback Product: 꼬마빌딩 임대수익률(Cap Rate) &amp; 자산 매각가치 계산기 -->
+      <div class="product-card" data-cat="real_estate" data-tier="premium" data-tier-class="class3" data-id="building_roi_calc">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #b45309, #78350f);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏠</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 최신 세법 1초 역산기</span>
+          <div class="card-center-icon">🏢</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 부동산 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">🏠 고단가 부동산</span>
-            <span class="badge-pill primary">💰 양도세 1초 계산</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🏠 부동산 · 세무 계산기</div>
-          <h3 class="card-title">전국 아파트 실거래가 & 양도세/취득세 팟</h3>
-          <p class="card-desc">
-            1가구 1주택 비과세 요건 및 다주택자 중과세율을 반영한 양도세·취득세 1초 계산. 공인중개사 및 분양 제휴 광고로 고단가 수익 창출.
-          </p>
+          <div class="card-category-label">부동산</div>
+          <h3 class="card-title">꼬마빌딩 임대수익률(Cap Rate) &amp; 자산 매각가치 계산기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 78명 분양 완료</span>
-            <span>· 최신 세법 산식</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩59,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=building_roi_calc" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('전국 아파트 실거래가 & 양도세/취득세 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('꼬마빌딩 임대수익률(Cap Rate) & 자산 매각가치 계산기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 11: 쿠팡 로켓그로스 vs 윙 마진 비교 팟 -->
-      <div class="product-card" data-cat="ecommerce" data-keywords="쿠팡 로켓그로스 윙 판매자 마진 수수료 물류비 보관료">
+      <!-- Fallback Product: 금융 경제 블로그 트래픽 자산가치 산출기 -->
+      <div class="product-card" data-cat="finance_wealth" data-tier="premium" data-tier-class="class3" data-id="fin_traffic_valuation">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #1e40af, #1e1b4b);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(59,130,246,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">📦</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 2026 로켓 vs 윙 마진 시뮬</span>
+          <div class="card-center-icon">💰</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 재테크 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">🚀 셀러 폭발적 유입</span>
-            <span class="badge-pill green">📊 입출고료 자동반영</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🛒 이커머스 · 셀러 수수료</div>
-          <h3 class="card-title">쿠팡 로켓그로스 vs 윙 마진 비교 팟</h3>
-          <p class="card-desc">
-            쿠팡 로켓그로스 입출고비·배송비·보관료를 윙 판매와 1:1 비교 시뮬레이션. 온라인 셀러 오픈채팅방과 카페에서 자발적 바이럴 발생.
-          </p>
+          <div class="card-category-label">재테크</div>
+          <h3 class="card-title">금융 경제 블로그 트래픽 자산가치 산출기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 118명 분양 완료</span>
-            <span>· 2026 쿠팡 요율표</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="margin/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=fin_traffic_valuation" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('쿠팡 로켓그로스 vs 윙 마진 비교 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('금융 경제 블로그 트래픽 자산가치 산출기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 12: 암호화폐 김치프리미엄 팟 -->
-      <div class="product-card" data-cat="global" data-keywords="코인 비트코인 김프 김치프리미엄 바이낸스 업비트 환전">
+      <!-- Fallback Product: 미국 배당주 재투자(DRIP) 복리 수익률 계산기 -->
+      <div class="product-card" data-cat="finance_wealth" data-tier="premium" data-tier-class="class3" data-id="stock_compound_margin">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #6d28d9, #4c1d95);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(168,85,247,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🪙</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 웹소켓 실시간 김프 피드</span>
+          <div class="card-center-icon">📈</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 재테크 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">⚡ 실시간 시세</span>
-            <span class="badge-pill blue">🪙 크립토 트래픽</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🌐 크립토 · 실시간 핀테크</div>
-          <h3 class="card-title">암호화폐 김치프리미엄 & 차익 계산 팟</h3>
-          <p class="card-desc">
-            업비트 vs 바이낸스 실시간 시세 차이(김프) 및 송금 수수료 차익 1초 계산. 고빈도 트래픽 유입 및 코인 거래소 레퍼럴 연동에 특화.
-          </p>
+          <div class="card-category-label">재테크</div>
+          <h3 class="card-title">미국 배당주 재투자(DRIP) 복리 수익률 계산기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 140명 분양 완료</span>
-            <span>· 웹소켓 실시간 피드</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://mazaus.com" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/margin?niche=stock_compound_margin" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('암호화폐 김치프리미엄 & 차익 계산 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('미국 배당주 재투자(DRIP) 복리 수익률 계산기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 13: 반려견 사료 권장 칼로리 팟 -->
-      <div class="product-card" data-cat="life" data-keywords="강아지 반려견 사료 칼로리 펫 펫푸드 체중">
+      <!-- Fallback Product: 프랜차이즈 가맹점 예상 권리금 자산가치 계산기 -->
+      <div class="product-card" data-cat="food_beverage" data-tier="premium" data-tier-class="class3" data-id="franchise_roi">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #be123c, #881337);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(244,63,94,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🐶</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 수의학 RER 권장 칼로리</span>
+          <div class="card-center-icon">☕</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 외식업 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">🐾 펫 버티컬</span>
-            <span class="badge-pill green">🐶 쿠팡파트너스 최적화</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🏠 라이프 · 펫 헬스케어</div>
-          <h3 class="card-title">반려견 품종별 사료 권장 칼로리 팟</h3>
-          <p class="card-desc">
-            반려견 체중, 활동량, 중성화 여부에 따른 일일 RER/DER 권장 칼로리 및 사료 급여량 산출. 사료 및 영양제 제휴 링크 전환율 극대화.
-          </p>
+          <div class="card-category-label">외식업</div>
+          <h3 class="card-title">프랜차이즈 가맹점 예상 권리금 자산가치 계산기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 52명 분양 완료</span>
-            <span>· 수의학 RER 산식</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩39,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="planner/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=franchise_roi" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('반려견 품종별 사료 권장 칼로리 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('프랜차이즈 가맹점 예상 권리금 자산가치 계산기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 14: 1RM 근력 & 벌크업 영양 매크로 팟 -->
-      <div class="product-card" data-cat="life" data-keywords="헬스 피트니스 1RM 단백질 칼로리 다이어트 벌크업 운동">
+      <!-- Fallback Product: 반려동물 블로그 제휴 마케팅 트래픽 가치 산출기 -->
+      <div class="product-card" data-cat="pet_lifestyle" data-tier="premium" data-tier-class="class3" data-id="pet_traffic_val">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #047857, #064e3b);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(16,185,129,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🏋️</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 3대 운동 1RM & 탄단지 매크로</span>
+          <div class="card-center-icon">🐶</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 반려동물 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill green">💪 피트니스 필수</span>
-            <span class="badge-pill primary">⚡ 즉시 3대 운동 측정</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🏠 라이프 · 헬스 & 피트니스</div>
-          <h3 class="card-title">1RM 근력 & 벌크업 영양 매크로 팟</h3>
-          <p class="card-desc">
-            벤치프레스/스쿼트/데드리프트 1RM 추정과 목표 체중별 탄단지 영양 매크로 자동 분배. 헬스 보충제 및 닭가슴살 제휴 마케팅에 완벽 대응.
-          </p>
+          <div class="card-category-label">반려동물</div>
+          <h3 class="card-title">반려동물 블로그 제휴 마케팅 트래픽 가치 산출기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 67명 분양 완료</span>
-            <span>· Brzycki 산식 적용</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩39,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="https://autosite.kr" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=pet_traffic_val" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('1RM 근력 & 벌크업 영양 매크로 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('반려동물 블로그 제휴 마케팅 트래픽 가치 산출기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 15: 유튜브 조회수 기반 애드센스 예상수익 팟 -->
-      <div class="product-card" data-cat="sns" data-keywords="유튜브 조회수 CPM 수익 크리에이터 영상 쇼츠">
+      <!-- Fallback Product: 여행 블로그 트래픽 &amp; 아고다 제휴 수익 산출기 -->
+      <div class="product-card" data-cat="travel_global" data-tier="premium" data-tier-class="class3" data-id="travel_blog_val">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #991b1b, #450a0a);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(239,68,68,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🎬</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 카테고리별 CPM 수익 산출</span>
+          <div class="card-center-icon">✈️</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 여행 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">🎬 크리에이터 필수</span>
-            <span class="badge-pill primary">💰 카테고리별 CPM</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">📱 SNS · 크리에이터 도구</div>
-          <h3 class="card-title">유튜브 조회수 기반 애드센스 예상수익 팟</h3>
-          <p class="card-desc">
-            금융, IT, 일상 등 채널 카테고리별 차등 CPM과 조회수별 예상 월수익을 실시간 계산. 영상 제작 장비 및 마이크 제휴 링크 판매에 최적.
-          </p>
+          <div class="card-category-label">여행</div>
+          <h3 class="card-title">여행 블로그 트래픽 &amp; 아고다 제휴 수익 산출기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 4.9
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 85명 분양 완료</span>
-            <span>· 쇼츠/롱폼 분리 산출</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩49,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="insta/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=travel_blog_val" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('유튜브 조회수 기반 애드센스 예상수익 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('여행 블로그 트래픽 & 아고다 제휴 수익 산출기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Product 16: 모바일 웨딩 청첩장 & 온라인 방명록 팟 -->
-      <div class="product-card" data-cat="life" data-keywords="청첩장 웨딩 모바일청첩장 결혼식 방명록 축의금">
+      <!-- Fallback Product: 지식 블로그 애드센스 &amp; 코칭 제안 가치 산출기 -->
+      <div class="product-card" data-cat="creator_education" data-tier="premium" data-tier-class="class3" data-id="edu_traffic_val">
         <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #9d174d, #701a75);"></div>
+          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #831843, #1e1b4b);"></div>
           <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(236,72,153,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">💍</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 감성 청첩장 & 온라인 RSVP</span>
+          <div class="card-center-icon">🎓</div>
+          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 지식창업 최고가치 VIP 자산화 솔루션</span>
           <div class="card-badge-top">
-            <span class="badge-pill hot">💍 고감성 인터랙티브</span>
-            <span class="badge-pill primary">💌 카카오 지도 연동</span>
+            <span class="badge-pill hot">💎 VIP 자산화급</span>
+            <span class="badge-pill primary">💎 자산화/매각</span>
           </div>
         </div>
         <div class="card-body">
-          <div class="card-category-label">🏠 라이프 · 모바일 웨딩</div>
-          <h3 class="card-title">모바일 웨딩 청첩장 & 온라인 방명록 팟</h3>
-          <p class="card-desc">
-            감성적인 인터랙티브 모바일 청첩장. 예식장 지도 안내, 계좌번호 복사, 축하 방명록, 참석 여부(RSVP) 자동 취합 기능을 단독 제공합니다.
-          </p>
+          <div class="card-category-label">지식창업</div>
+          <h3 class="card-title">지식 블로그 애드센스 &amp; 코칭 제안 가치 산출기</h3>
           <div class="card-metrics">
             <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
+              <i data-lucide="star" style="width:13px;height:13px;fill:#fbbf24;color:#fbbf24;"></i> 5.0
             </div>
-            <span>· 91명 분양 완료</span>
-            <span>· 카카오톡 공유 최적화</span>
+            <span>· 실시간 분양중</span>
+            <span>· 턴키 임베드</span>
           </div>
           <div class="card-price-row">
             <div class="price-main">
-              0원 <span class="sub-text">₩59,000</span>
+              <span class="price-val">₩99,000</span>
+              <span class="price-tier-tag class3">Class 3 VIP</span>
             </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
+            <div class="price-extra"><span>💎 VIP 자산화 · Flippa 특화</span></div>
           </div>
           <div class="card-actions">
-            <a href="bizcard/card.html?id=demo" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
+            <a href="https://setupod.com/adsense?niche=edu_traffic_val" target="_blank" rel="noopener noreferrer" class="btn-demo">
+              <i data-lucide="eye" style="width:13px;height:13px;"></i> 체험하기
             </a>
-            <button class="btn-order" onclick="openOrderModal('모바일 웨딩 청첩장 & 온라인 방명록 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 17: 베이커리 베이커스 퍼센트(Bakers %) 팟 -->
-      <div class="product-card" data-cat="fnb" data-keywords="베이커리 제과제빵 빵 밀가루 반죽 비율 발효">
-        <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #854d0e, #713f12);"></div>
-          <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(245,158,11,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">🥐</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 제과제빵 배합비 역산</span>
-          <div class="card-badge-top">
-            <span class="badge-pill green">🥐 제과제빵 전문</span>
-            <span class="badge-pill primary">⚖️ 배합비 역산</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-category-label">☕ F&B · 제과제빵 유틸리티</div>
-          <h3 class="card-title">베이커리 베이커스 퍼센트(Bakers %) 팟</h3>
-          <p class="card-desc">
-            밀가루 총량을 100%로 기준 잡는 전문 베이커리 배합비 역산기. 홈베이커와 파티시에를 위한 오븐 및 베이킹 툴 제휴 마케팅에 적합.
-          </p>
-          <div class="card-metrics">
-            <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
-            </div>
-            <span>· 34명 분양 완료</span>
-            <span>· 배합표 저장 기능</span>
-          </div>
-          <div class="card-price-row">
-            <div class="price-main">
-              0원 <span class="sub-text">₩39,000</span>
-            </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
-          </div>
-          <div class="card-actions">
-            <a href="https://brewoak.com" target="_blank" rel="noopener" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
-            </a>
-            <button class="btn-order" onclick="openOrderModal('베이커리 베이커스 퍼센트(Bakers %) 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product 18: 스타트업 지분 분할 & 스톡옵션 팟 -->
-      <div class="product-card" data-cat="bizcard" data-keywords="스타트업 지분 스톡옵션 투자 VC 법인 캡테이블 희석">
-        <div class="card-thumb">
-          <div class="card-thumb-bg" style="background: radial-gradient(circle at 50% 50%, #0f766e, #134e4a);"></div>
-          <div class="card-thumb-overlay"></div>
-          <div class="card-center-icon" style="box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 50px rgba(20,184,166,0.55), inset 0 2px 0 rgba(255,255,255,0.6);">⚖️</div>
-          <span class="thumb-sub-pill"><span class="m-status-dot"></span> 캡테이블 & 스톡옵션 시뮬</span>
-          <div class="card-badge-top">
-            <span class="badge-pill green">⚖️ 창업자 필수</span>
-            <span class="badge-pill primary">📊 캡테이블 시뮬레이션</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="card-category-label">💼 비즈니스 · 스타트업 투자</div>
-          <h3 class="card-title">스타트업 지분 분할 & 스톡옵션 팟</h3>
-          <p class="card-desc">
-            공동 창업자 기여도별 지분 배분과 시리즈 라운드별 투자 유치 시 지분 희석율(Cap Table) 시뮬레이터. 법무법인 및 엑셀러레이터 리드 수집.
-          </p>
-          <div class="card-metrics">
-            <div class="card-rating">
-              <i data-lucide="star" style="width:14px;height:14px;fill:#fbbf24;"></i> 5.0
-            </div>
-            <span>· 49명 분양 완료</span>
-            <span>· SAFE/RCPS 계산</span>
-          </div>
-          <div class="card-price-row">
-            <div class="price-main">
-              0원 <span class="sub-text">₩59,000</span>
-            </div>
-            <div class="price-extra">스타터 무상 지원 (Starter Grant)</div>
-          </div>
-          <div class="card-actions">
-            <a href="runway/" target="_blank" class="btn-demo">
-              <i data-lucide="eye" style="width:14px;height:14px;"></i> 체험하기
-            </a>
-            <button class="btn-order" onclick="openOrderModal('스타트업 지분 분할 & 스톡옵션 팟')">
-              <i data-lucide="rocket" style="width:14px;height:14px;"></i> 스타터 신청
+            <button type="button" class="btn-order" onclick="openOrderModal('지식 블로그 애드센스 & 코칭 제안 가치 산출기')">
+              <i data-lucide="rocket" style="width:13px;height:13px;"></i> VIP 분양 신청
             </button>
           </div>
         </div>
@@ -3233,7 +3259,7 @@
 
       <div class="compliance-card">
         <h4><i data-lucide="credit-card" style="width:14px;height:14px;"></i> 가격 정책 및 결제 수단</h4>
-        <p>1인 창업가를 위한 <strong>스타터 그랜트 플랜(첫 1개 도메인)은 100% 무상 제공</strong>되며, 다중 도메인 확장 및 기업형 커스텀 연동 시 투명한 마이크로 라이선스가 적용됩니다. (신용카드, 간편결제 연동 준비 중)</p>
+        <p>1인 창업가를 위한 <strong>Class 1 스타터 팟(103종)은 MAZA 1기 장학 바우처(선발자 본인부담 0원)</strong>로 전액 지원되며, Class 2/3 비즈니스 프로 및 VIP 자산화 팟은 투명한 마이크로 라이선스가 적용됩니다. (신용카드, 간편결제 연동 지원)</p>
       </div>
 
       <div class="compliance-card">
@@ -3250,12 +3276,12 @@
         <i data-lucide="crown" style="width:18px;height:18px;"></i>
       </div>
       <div class="partner-widget-text">
-        <h4>분양 파트너 등록</h4>
-        <p>스타터 도메인 1초 무상 지원</p>
+        <h4>장학 바우처 & 분양 등록</h4>
+        <p>MAZA 1기 장학 바우처 전액 지원</p>
       </div>
     </div>
     <button class="partner-widget-btn" onclick="openOrderModal('전문가 분양 파트너')">
-      <span>스타터 무상 지원 신청하기</span>
+      <span>장학 바우처 & 분양 신청하기</span>
       <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
     </button>
   </div>
@@ -3269,14 +3295,14 @@
 
       <div class="modal-header">
         <h3 id="modalProductTitle">턴키 웹 비즈니스 분양 신청</h3>
-        <p>1초 만에 가동되는 턴키 웹 비즈니스. 첫 1개는 스타터 그랜트로 100% 무상 제공됩니다.</p>
+        <p>3-Tier 정가 체계 및 MAZA 1기 장학 바우처 선발자 전액 지원 혜택이 적용됩니다.</p>
       </div>
 
       <div class="pricing-notice-box">
-        <div class="price-tag-big">0원</div>
+        <div class="price-tag-big" style="font-size:22px;">정가 ₩39,000 ~ ₩99,000</div>
         <div class="notice-sub">
-          <strong>스타터 그랜트 (Starter Free Grant)</strong><br>
-          첫 1개 주소 완전 무상 지원 · 영구 소장
+          <strong>MAZA 1기 인프라 장학 프로그램 연동</strong><br>
+          선발자 대상 Class 1 스타터 팟 바우처 전액 지원 (본인부담 0원)
         </div>
       </div>
 
@@ -3289,10 +3315,10 @@
           <div>
             <div style="font-size: 12px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 6px;">
               <span>MAZA 스튜디오 장학 연동</span>
-              <span style="font-size: 10px; font-weight: 900; background: rgba(245, 158, 11, 0.25); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 9999px;">100% 무료 장학 팟</span>
+              <span style="font-size: 10px; font-weight: 900; background: rgba(245, 158, 11, 0.25); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 6px; border-radius: 9999px;">장학 바우처 지원관</span>
             </div>
             <div style="font-size: 11px; color: rgba(255, 255, 255, 0.65); margin-top: 2px;">
-              마자 회원은 보유 도메인에 셋업팟을 즉시 무상 장착하고 트래픽 관제를 받을 수 있습니다.
+              마자 회원은 선발 시 Class 1 스타터 팟(정가 ₩39,000) 바우처 전액 지원 및 트래픽 관제를 받을 수 있습니다.
             </div>
           </div>
         </div>
@@ -3311,19 +3337,6 @@
             <option value="차세대 3D 인터랙티브 디지털 명함 팟">차세대 3D 인터랙티브 디지털 명함 팟</option>
             <option value="AI 스마트 메모팟 (Memo Pod)">AI 스마트 메모팟 (Memo Pod)</option>
             <option value="인스타 카드뉴스 & 바이럴 훅 메이커 팟">인스타 카드뉴스 & 바이럴 훅 메이커 팟</option>
-            <option value="카카오톡 배너 & 채널 프로필 스튜디오">카카오톡 배너 & 채널 프로필 스튜디오</option>
-            <option value="올인원 멀티링크 바이오 허브 팟">올인원 멀티링크 바이오 허브 팟</option>
-            <option value="이커머스 마진 & 3.3% 프리랜서 세금 팟">이커머스 마진 & 3.3% 프리랜서 세금 팟</option>
-            <option value="스페셜티 커피 브루잉 비율 & 디개싱 팟">스페셜티 커피 브루잉 비율 & 디개싱 팟</option>
-            <option value="전국 아파트 실거래가 & 양도세/취득세 팟">전국 아파트 실거래가 & 양도세/취득세 팟</option>
-            <option value="쿠팡 로켓그로스 vs 윙 마진 비교 팟">쿠팡 로켓그로스 vs 윙 마진 비교 팟</option>
-            <option value="암호화폐 김치프리미엄 & 차익 계산 팟">암호화폐 김치프리미엄 & 차익 계산 팟</option>
-            <option value="반려견 품종별 사료 권장 칼로리 팟">반려견 품종별 사료 권장 칼로리 팟</option>
-            <option value="1RM 근력 & 벌크업 영양 매크로 팟">1RM 근력 & 벌크업 영양 매크로 팟</option>
-            <option value="유튜브 조회수 기반 애드센스 예상수익 팟">유튜브 조회수 기반 애드센스 예상수익 팟</option>
-            <option value="모바일 웨딩 청첩장 & 온라인 방명록 팟">모바일 웨딩 청첩장 & 온라인 방명록 팟</option>
-            <option value="베이커리 베이커스 퍼센트(Bakers %) 팟">베이커리 베이커스 퍼센트(Bakers %) 팟</option>
-            <option value="스타트업 지분 분할 & 스톡옵션 팟">스타트업 지분 분할 & 스톡옵션 팟</option>
           </select>
         </div>
 
@@ -3332,7 +3345,7 @@
           <label>연결 방식 선택</label>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
             <button type="button" id="tabSubpath" onclick="switchUrlMode('subpath')" style="padding:10px 8px; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; background:rgba(168,85,247,0.25); border:1.5px solid #a855f7; color:#fff; display:flex; align-items:center; justify-content:center; gap:6px;">
-              <span>🚀 서브패스 (0원 즉시 발급)</span>
+              <span>🚀 서브패스 (장학 바우처 즉시 발급)</span>
             </button>
             <button type="button" id="tabDomain" onclick="switchUrlMode('domain')" style="padding:10px 8px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center; gap:6px;">
               <span>👑 독립 도메인 연결</span>
@@ -3377,7 +3390,7 @@
 
         <button type="submit" class="modal-submit-btn" id="modalSubmitBtn">
           <i data-lucide="check-circle" style="width:18px;height:18px;"></i>
-          <span>지금 스타터 무상 지원 승인 신청하기</span>
+          <span>장학 바우처 & 분양 신청서 제출</span>
         </button>
 
         <div style="font-size:12px; color:rgba(255,255,255,0.5); text-align:center; margin-top:14px;">
@@ -3392,7 +3405,7 @@
         <div style="width:56px;height:56px;background:rgba(52,211,153,0.15);border:1px solid #34d399;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#34d399;">
           <i data-lucide="check" style="width:28px;height:28px;"></i>
         </div>
-        <h4 style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;">스타터 분양 신청이 완료되었습니다!</h4>
+        <h4 style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;">장학 바우처 및 분양 신청이 완료되었습니다!</h4>
         <p id="successNoticeText" style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:20px;">
           신청하신 턴키 웹 비즈니스가 즉시 생성되었습니다. 기재해주신 연락처로 관리 링크가 전송되었습니다.
         </p>
@@ -3499,7 +3512,7 @@
       if (successMsg) successMsg.style.display = 'block';
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="check-circle" style="width:18px;height:18px;"></i><span>지금 스타터 무상 지원 승인 신청하기</span>';
+        submitBtn.innerHTML = '<i data-lucide="check-circle" style="width:18px;height:18px;"></i><span>장학 바우처 & 분양 신청서 제출</span>';
       }
       safeCreateIcons();
     }

@@ -1,7 +1,8 @@
 /**
- * SETUPOD 100 Matrix Pod Generator Data & 35 Premium Specialty Catalog
- * 10대 핵심 엔진 × 10대 버티컬 산업군 = 100개 독점 100% 무상 장학 팟
- * + 35개 알짜배기 고부가가치 마켓 프리미엄 팟 (25% 마자 중개 수수료)
+ * SETUPOD 3-Tier Product Catalog & Generator Data
+ * Class 1 (스타터급, 103종): 정가 ₩39,000 | MAZA 1기 장학 바우처 100% 지원 (선발자 본인부담 0원)
+ * Class 2 (비즈니스 프로급, 25종): 정가 ₩59,000 | MAZA 비즈니스 바우처 지원 (마자 공식 제휴관)
+ * Class 3 (VIP 자산화급, 17종): 정가 ₩99,000 | VIP 자산화 및 Flippa/마자플립 고가 매각 특화
  */
 
 const ENGINES = [
@@ -18,7 +19,7 @@ const ENGINES = [
 ];
 
 // =========================================================================
-// 1. 100대 무상 장학 팟 (10대 카테고리 × 10대 니치 = 100개 완전 분산)
+// 1. Class 1: 100대 스타터 장학 매트릭스 팟 (정가 ₩39,000 | MAZA 바우처 전액 지원)
 // =========================================================================
 const VERTICALS = [
   {
@@ -184,52 +185,48 @@ const VERTICALS = [
 ];
 
 // =========================================================================
-// 2. 35대 고부가가치 마켓 프리미엄 팟 (실전 수임, 자산평가, VIP 시크릿룸)
+// 2. Class 2 & Class 3: 36대 고부가가치 비즈니스 프로 & VIP 자산화 팟
 // =========================================================================
 const PREMIUM_35_NICHES = [
-  // 1. 고단가 자산평가 & 금융 자산
-  { id: 'building_roi_calc', cat: 'real_estate', catName: '부동산', engine: 'adsense', name: '꼬마빌딩 임대수익률(Cap Rate) & 자산 매각가치 계산기', price: 49000, gift: '수익형 부동산 밸류에이션 리포트', icon: '🏢' },
-  { id: 'acquisition_tax', cat: 'real_estate', catName: '부동산', engine: 'tax', name: '주택 취득세·양도소득세 1초 자동 시뮬레이터', price: 39000, gift: '다주택자 절세 합법 가이드', icon: '📑' },
-  { id: 'fin_traffic_valuation', cat: 'finance_wealth', catName: '재테크', engine: 'adsense', name: '금융 경제 블로그 트래픽 자산가치 산출기', price: 49000, gift: '금융 키워드 CPC $10+ 키워드북', icon: '💰' },
-  { id: 'stock_compound_margin', cat: 'finance_wealth', catName: '재테크', engine: 'margin', name: '미국 배당주 재투자(DRIP) 복리 수익률 계산기', price: 39000, gift: '월배당 포트폴리오 노션 템플릿', icon: '📈' },
-  { id: 'crypto_tax_calc', cat: 'finance_wealth', catName: '재테크', engine: 'tax', name: '가상자산 해외 코인 양도소득세 1초 계산기', price: 39000, gift: '코인 과세 대비 절세 체크리스트', icon: '🪙' },
-  { id: 'store_traffic_val', cat: 'ecommerce', catName: '이커머스', engine: 'adsense', name: '스마트스토어 유입 트래픽 가치 산출기', price: 39000, gift: '네이버 쇼핑 검색노출 SEO 비법서', icon: '🛍️' },
-  { id: 'inventory_runway', cat: 'ecommerce', catName: '이커머스', engine: 'compound', name: '이커머스 재고 소진 & 발주 D-Day 예측기', price: 39000, gift: '재고관리 턴키 엑셀 시트', icon: '📦' },
+  // ── Class 3 (VIP 자산화급, 정가 ₩99,000 / Flippa 매각 특화) ──
+  { id: 'building_roi_calc', cat: 'real_estate', catName: '부동산', engine: 'adsense', name: '꼬마빌딩 임대수익률(Cap Rate) & 자산 매각가치 계산기', price: 99000, tier_class: 'class3', gift: '수익형 부동산 밸류에이션 리포트', icon: '🏢' },
+  { id: 'fin_traffic_valuation', cat: 'finance_wealth', catName: '재테크', engine: 'adsense', name: '금융 경제 블로그 트래픽 자산가치 산출기', price: 99000, tier_class: 'class3', gift: '금융 키워드 CPC $10+ 키워드북', icon: '💰' },
+  { id: 'stock_compound_margin', cat: 'finance_wealth', catName: '재테크', engine: 'margin', name: '미국 배당주 재투자(DRIP) 복리 수익률 계산기', price: 99000, tier_class: 'class3', gift: '월배당 포트폴리오 노션 템플릿', icon: '📈' },
+  { id: 'franchise_roi', cat: 'food_beverage', catName: '외식업', engine: 'adsense', name: '프랜차이즈 가맹점 예상 권리금 자산가치 계산기', price: 99000, tier_class: 'class3', gift: '상가 권리금 계약서 특약 체크리스트', icon: '☕' },
+  { id: 'pet_traffic_val', cat: 'pet_lifestyle', catName: '반려동물', engine: 'adsense', name: '반려동물 블로그 제휴 마케팅 트래픽 가치 산출기', price: 99000, tier_class: 'class3', gift: '쿠팡 파트너스 펫용품 고수익 키워드', icon: '🐶' },
+  { id: 'travel_blog_val', cat: 'travel_global', catName: '여행', engine: 'adsense', name: '여행 블로그 트래픽 & 아고다 제휴 수익 산출기', price: 99000, tier_class: 'class3', gift: '호텔 제휴마케팅 수익화 치트시트', icon: '✈️' },
+  { id: 'edu_traffic_val', cat: 'creator_education', catName: '지식창업', engine: 'adsense', name: '지식 블로그 애드센스 & 코칭 제안 가치 산출기', price: 99000, tier_class: 'class3', gift: '지식 블로그 브랜딩 로드맵', icon: '🎓' },
+  { id: 'course_launch_margin', cat: 'creator_education', catName: '지식창업', engine: 'margin', name: '전자책/강의 런칭 순수익 & 플랫폼 수수료 계산기', price: 99000, tier_class: 'class3', gift: '전자책 1권으로 1000만원 버는 법', icon: '📚' },
+  { id: 'car_traffic_val', cat: 'automotive_mobility', catName: '자동차', engine: 'adsense', name: '자동차 시승기 블로그 트래픽 가치 산출기', price: 99000, tier_class: 'class3', gift: '자동차 블로그 고단가 CPC 키워드', icon: '🚗' },
+  { id: 'used_car_margin', cat: 'automotive_mobility', catName: '자동차', engine: 'margin', name: '중고차 딜러 실매입가 & 상사 매도 마진 계산기', price: 99000, tier_class: 'class3', gift: '중고차 침수차 구별 5대 체크포인트', icon: '🚘' },
+  { id: 'wedding_traffic_val', cat: 'wedding_event', catName: '웨딩', engine: 'adsense', name: '결혼 준비 블로그 제휴 마케팅 가치 산출기', price: 99000, tier_class: 'class3', gift: '웨딩 카페 바이럴 마케팅 매뉴얼', icon: '💍' },
+  { id: 'secret_listing', cat: 'real_estate', catName: '부동산', engine: 'secret', name: 'VIP 전용 급매물 정보 열람 시크릿 룸', price: 99000, tier_class: 'class3', gift: '경매 급매물 선별 노하우 리포트', icon: '🔐' },
+  { id: 'secret_stock_report', cat: 'finance_wealth', catName: '재테크', engine: 'secret', name: 'VIP 구독자 전용 히든 종목 분석 리포트 룸', price: 99000, tier_class: 'class3', gift: '기관 수급 분석 치트시트', icon: '📊' },
+  { id: 'secret_vip_webinar', cat: 'creator_education', catName: '지식창업', engine: 'secret', name: 'VIP 수강생 전용 비밀 라이브 웨비나 룸', price: 99000, tier_class: 'class3', gift: '비공개 Q&A 녹화본 리스트', icon: '🎥' },
 
-  // 2. 전문직 수임 & B2B 사업자 도구
-  { id: 'franchise_roi', cat: 'food_beverage', catName: '외식업', engine: 'adsense', name: '프랜차이즈 가맹점 예상 권리금 자산가치 계산기', price: 49000, gift: '상가 권리금 계약서 특약 체크리스트', icon: '☕' },
-  { id: 'restaurant_vat', cat: 'food_beverage', catName: '외식업', engine: 'tax', name: '식당 의제매입세액 공제 & 부가세 절세 계산기', price: 39000, gift: '외식업 세무 조사 방어 절세 가이드', icon: '🧾' },
-  { id: 'gym_brand_traffic', cat: 'fitness_health', catName: '피트니스', engine: 'adsense', name: '피트니스 블로그 건강 정보 트래픽 가치 산출기', price: 39000, gift: '건강 블로그 애드센스 고수익 키워드', icon: '🏋️' },
-  { id: 'bodyfat_target_dday', cat: 'fitness_health', catName: '피트니스', engine: 'compound', name: '바디프로필 목표 체지방률 D-Day 플래너', price: 29000, gift: '바프 100일 감량 타임라인', icon: '🎯' },
-  { id: 'pt_lesson_margin', cat: 'fitness_health', catName: '피트니스', engine: 'margin', name: '피트니스 센터 PT 강사 셰어 & 마진 계산기', price: 39000, gift: 'PT 스튜디오 운영 관리 시트', icon: '💪' },
-  { id: 'pet_traffic_val', cat: 'pet_lifestyle', catName: '반려동물', engine: 'adsense', name: '반려동물 블로그 제휴 마케팅 트래픽 가치 산출기', price: 39000, gift: '쿠팡 파트너스 펫용품 고수익 키워드', icon: '🐶' },
-  { id: 'pet_insurance_deduct', cat: 'pet_lifestyle', catName: '반려동물', engine: 'tax', name: '펫보험 자기부담금 vs 병원비 실수령 계산기', price: 39000, gift: '펫보험 3사 보장 비교표', icon: '🏥' },
-  { id: 'travel_blog_val', cat: 'travel_global', catName: '여행', engine: 'adsense', name: '여행 블로그 트래픽 & 아고다 제휴 수익 산출기', price: 39000, gift: '호텔 제휴마케팅 수익화 치트시트', icon: '✈️' },
-  { id: 'tour_package_margin', cat: 'travel_global', catName: '여행', engine: 'margin', name: '맞춤형 프라이빗 투어 마진 & 견적 계산기', price: 39000, gift: '현지 여행사 B2B 원가표', icon: '🗺️' },
-  { id: 'edu_traffic_val', cat: 'creator_education', catName: '지식창업', engine: 'adsense', name: '지식 블로그 애드센스 & 코칭 제안 가치 산출기', price: 39000, gift: '지식 블로그 브랜딩 로드맵', icon: '🎓' },
-  { id: 'course_launch_margin', cat: 'creator_education', catName: '지식창업', engine: 'margin', name: '전자책/강의 런칭 순수익 & 플랫폼 수수료 계산기', price: 49000, gift: '전자책 1권으로 1000만원 버는 법', icon: '📚' },
-  { id: 'freelance_withholding_tax', cat: 'creator_education', catName: '지식창업', engine: 'tax', name: '3.3% 원천징수 프리랜서 종합소득세 환급 계산기', price: 39000, gift: '프리랜서 3.3% 100% 환급 매뉴얼', icon: '💻' },
-  { id: 'car_traffic_val', cat: 'automotive_mobility', catName: '자동차', engine: 'adsense', name: '자동차 시승기 블로그 트래픽 가치 산출기', price: 39000, gift: '자동차 블로그 고단가 CPC 키워드', icon: '🚗' },
-  { id: 'used_car_margin', cat: 'automotive_mobility', catName: '자동차', engine: 'margin', name: '중고차 딜러 실매입가 & 상사 매도 마진 계산기', price: 49000, gift: '중고차 침수차 구별 5대 체크포인트', icon: '🚘' },
-  { id: 'lease_vs_rent_dday', cat: 'automotive_mobility', catName: '자동차', engine: 'compound', name: '장기렌트 vs 운용리스 총비용 비교 시뮬레이터', price: 39000, gift: '장기렌트 계약 전 특약 체크리스트', icon: '📋' },
-  { id: 'wedding_traffic_val', cat: 'wedding_event', catName: '웨딩', engine: 'adsense', name: '결혼 준비 블로그 제휴 마케팅 가치 산출기', price: 39000, gift: '웨딩 카페 바이럴 마케팅 매뉴얼', icon: '💍' },
-  { id: 'wedding_gift_tax', cat: 'wedding_event', catName: '웨딩', engine: 'tax', name: '신혼부부 혼수·증여세 1억 비과세 절세 계산기', price: 39000, gift: '혼수 증여세 합법 비과세 가이드', icon: '👰' },
-
-  // 3. VIP 프라이빗 시크릿 룸 & 도어락 엔진
-  { id: 'secret_listing', cat: 'real_estate', catName: '부동산', engine: 'secret', name: 'VIP 전용 급매물 정보 열람 시크릿 룸', price: 39000, gift: '경매 급매물 선별 노하우 리포트', icon: '🔐' },
-  { id: 'secret_coupon', cat: 'ecommerce', catName: '이커머스', engine: 'secret', name: '단골 고객 전용 시크릿 할인코드 & 히든 룸 팟', price: 29000, gift: '재구매율 80% 고객 락인 매뉴얼', icon: '🏷️' },
-  { id: 'secret_recipe_room', cat: 'food_beverage', catName: '외식업', engine: 'secret', name: '단골 전용 시크릿 시즌 한정 메뉴 룸', price: 29000, gift: '시그니처 음료 베이스 레시피 5선', icon: '🍹' },
-  { id: 'secret_vip_workout', cat: 'fitness_health', catName: '피트니스', engine: 'secret', name: 'VIP 회원 전용 홈트 루틴 비디오 히든 룸', price: 29000, gift: '통증 완화 스트레칭 10선 영상 리스트', icon: '🧘' },
-  { id: 'secret_stock_report', cat: 'finance_wealth', catName: '재테크', engine: 'secret', name: 'VIP 구독자 전용 히든 종목 분석 리포트 룸', price: 49000, gift: '기관 수급 분석 치트시트', icon: '📊' },
-  { id: 'secret_snack_recipe', cat: 'pet_lifestyle', catName: '반려동물', engine: 'secret', name: '단골 반려인 전용 자연식 시크릿 레시피 룸', price: 29000, gift: '알러지 프리 자연식 레시피 3선', icon: '🍖' },
-  { id: 'secret_travel_spot', cat: 'travel_global', catName: '여행', engine: 'secret', name: '현지인만 아는 시크릿 숨은 맛집 히든 룸', price: 29000, gift: '로컬 노포 맛집 비밀 지도 PDF', icon: '🧭' },
-  { id: 'secret_vip_webinar', cat: 'creator_education', catName: '지식창업', engine: 'secret', name: 'VIP 수강생 전용 비밀 라이브 웨비나 룸', price: 39000, gift: '비공개 Q&A 녹화본 리스트', icon: '🎥' },
-  { id: 'secret_discount_car', cat: 'automotive_mobility', catName: '자동차', engine: 'secret', name: '이달의 비공식 프로모션 할인 재고 시크릿 룸', price: 29000, gift: '수입차 비공식 할인 공략법', icon: '🏎️' },
-  { id: 'secret_wedding_coupon', cat: 'wedding_event', catName: '웨딩', engine: 'secret', name: '제휴 혼수 가전 VIP 추가 할인 시크릿 룸', price: 29000, gift: '백화점 가전 졸업 견적표', icon: '🎁' },
-
-  // 4. 프리미엄 3D 신뢰 명함 팟
-  { id: 'realtor_bizcard', cat: 'real_estate', catName: '부동산', engine: 'card3d', name: '공인중개사 & 분양상담사 3D 신뢰 명함 팟', price: 29000, gift: '우수 중개사 매물 브리핑 양식', icon: '🏡' },
-  { id: 'planner_fp_bizcard', cat: 'finance_wealth', catName: '재테크', engine: 'card3d', name: '재무설계사 & 세무사 3D 신뢰 자산 명함 팟', price: 29000, gift: '재무 진단 초기 인터뷰 양식', icon: '💼' }
+  // ── Class 2 (비즈니스 프로급, 정가 ₩59,000 / 마자 제휴 바우처 지원) ──
+  { id: 'acquisition_tax', cat: 'real_estate', catName: '부동산', engine: 'tax', name: '주택 취득세·양도소득세 1초 자동 시뮬레이터', price: 59000, tier_class: 'class2', gift: '다주택자 절세 합법 가이드', icon: '📑' },
+  { id: 'crypto_tax_calc', cat: 'finance_wealth', catName: '재테크', engine: 'tax', name: '가상자산 해외 코인 양도소득세 1초 계산기', price: 59000, tier_class: 'class2', gift: '코인 과세 대비 절세 체크리스트', icon: '🪙' },
+  { id: 'store_traffic_val', cat: 'ecommerce', catName: '이커머스', engine: 'adsense', name: '스마트스토어 유입 트래픽 가치 산출기', price: 59000, tier_class: 'class2', gift: '네이버 쇼핑 검색노출 SEO 비법서', icon: '🛍️' },
+  { id: 'inventory_runway', cat: 'ecommerce', catName: '이커머스', engine: 'compound', name: '이커머스 재고 소진 & 발주 D-Day 예측기', price: 59000, tier_class: 'class2', gift: '재고관리 턴키 엑셀 시트', icon: '📦' },
+  { id: 'restaurant_vat', cat: 'food_beverage', catName: '외식업', engine: 'tax', name: '식당 의제매입세액 공제 & 부가세 절세 계산기', price: 59000, tier_class: 'class2', gift: '외식업 세무 조사 방어 절세 가이드', icon: '🧾' },
+  { id: 'gym_brand_traffic', cat: 'fitness_health', catName: '피트니스', engine: 'adsense', name: '피트니스 블로그 건강 정보 트래픽 가치 산출기', price: 59000, tier_class: 'class2', gift: '건강 블로그 애드센스 고수익 키워드', icon: '🏋️' },
+  { id: 'bodyfat_target_dday', cat: 'fitness_health', catName: '피트니스', engine: 'compound', name: '바디프로필 목표 체지방률 D-Day 플래너', price: 59000, tier_class: 'class2', gift: '바프 100일 감량 타임라인', icon: '🎯' },
+  { id: 'pt_lesson_margin', cat: 'fitness_health', catName: '피트니스', engine: 'margin', name: '피트니스 센터 PT 강사 셰어 & 마진 계산기', price: 59000, tier_class: 'class2', gift: 'PT 스튜디오 운영 관리 시트', icon: '💪' },
+  { id: 'pet_insurance_deduct', cat: 'pet_lifestyle', catName: '반려동물', engine: 'tax', name: '펫보험 자기부담금 vs 병원비 실수령 계산기', price: 59000, tier_class: 'class2', gift: '펫보험 3사 보장 비교표', icon: '🏥' },
+  { id: 'tour_package_margin', cat: 'travel_global', catName: '여행', engine: 'margin', name: '맞춤형 프라이빗 투어 마진 & 견적 계산기', price: 59000, tier_class: 'class2', gift: '현지 여행사 B2B 원가표', icon: '🗺️' },
+  { id: 'freelance_withholding_tax', cat: 'creator_education', catName: '지식창업', engine: 'tax', name: '3.3% 원천징수 프리랜서 종합소득세 환급 계산기', price: 59000, tier_class: 'class2', gift: '프리랜서 3.3% 100% 환급 매뉴얼', icon: '💻' },
+  { id: 'lease_vs_rent_dday', cat: 'automotive_mobility', catName: '자동차', engine: 'compound', name: '장기렌트 vs 운용리스 총비용 비교 시뮬레이터', price: 59000, tier_class: 'class2', gift: '장기렌트 계약 전 특약 체크리스트', icon: '📋' },
+  { id: 'wedding_gift_tax', cat: 'wedding_event', catName: '웨딩', engine: 'tax', name: '신혼부부 혼수·증여세 1억 비과세 절세 계산기', price: 59000, tier_class: 'class2', gift: '혼수 증여세 합법 비과세 가이드', icon: '👰' },
+  { id: 'secret_coupon', cat: 'ecommerce', catName: '이커머스', engine: 'secret', name: '단골 고객 전용 시크릿 할인코드 & 히든 룸 팟', price: 59000, tier_class: 'class2', gift: '재구매율 80% 고객 락인 매뉴얼', icon: '🏷️' },
+  { id: 'secret_recipe_room', cat: 'food_beverage', catName: '외식업', engine: 'secret', name: '단골 전용 시크릿 시즌 한정 메뉴 룸', price: 59000, tier_class: 'class2', gift: '시그니처 음료 베이스 레시피 5선', icon: '🍹' },
+  { id: 'secret_vip_workout', cat: 'fitness_health', catName: '피트니스', engine: 'secret', name: 'VIP 회원 전용 홈트 루틴 비디오 히든 룸', price: 59000, tier_class: 'class2', gift: '통증 완화 스트레칭 10선 영상 리스트', icon: '🧘' },
+  { id: 'secret_snack_recipe', cat: 'pet_lifestyle', catName: '반려동물', engine: 'secret', name: '단골 반려인 전용 자연식 시크릿 레시피 룸', price: 59000, tier_class: 'class2', gift: '알러지 프리 자연식 레시피 3선', icon: '🍖' },
+  { id: 'secret_travel_spot', cat: 'travel_global', catName: '여행', engine: 'secret', name: '현지인만 아는 시크릿 숨은 맛집 히든 룸', price: 59000, tier_class: 'class2', gift: '로컬 노포 맛집 비밀 지도 PDF', icon: '🧭' },
+  { id: 'secret_discount_car', cat: 'automotive_mobility', catName: '자동차', engine: 'secret', name: '이달의 비공식 프로모션 할인 재고 시크릿 룸', price: 59000, tier_class: 'class2', gift: '수입차 비공식 할인 공략법', icon: '🏎️' },
+  { id: 'secret_wedding_coupon', cat: 'wedding_event', catName: '웨딩', engine: 'secret', name: '제휴 혼수 가전 VIP 추가 할인 시크릿 룸', price: 59000, tier_class: 'class2', gift: '백화점 가전 졸업 견적표', icon: '🎁' },
+  { id: 'realtor_bizcard', cat: 'real_estate', catName: '부동산', engine: 'card3d', name: '공인중개사 & 분양상담사 3D 신뢰 명함 팟', price: 59000, tier_class: 'class2', gift: '우수 중개사 매물 브리핑 양식', icon: '🏡' },
+  { id: 'planner_fp_bizcard', cat: 'finance_wealth', catName: '재테크', engine: 'card3d', name: '재무설계사 & 세무사 3D 신뢰 자산 명함 팟', price: 59000, tier_class: 'class2', gift: '재무 진단 초기 인터뷰 양식', icon: '💼' }
 ];
 
 function generate100Products() {
@@ -247,21 +244,25 @@ function generate100Products() {
         category_name: vert.catName,
         engine_type: niche.engine,
         tier: 'scholarship_free',
+        tier_class: 'class1',
+        class_label: 'Class 1 (스타터급)',
         name: niche.name,
         tagline: `${vert.catName} 특화 1초 인터랙티브 솔루션`,
-        desc: `${niche.name} 도구입니다. 웹사이트 방문자 체류시간을 극대화하고 리드를 수집합니다. 100인 도메인 장학 100% 무상 배정 팟.`,
-        price: 0,
-        original_value: 100000,
+        desc: `${niche.name} 도구입니다. 웹사이트 방문자 체류시간을 극대화하고 고품질 리드를 수집합니다. 정가 ₩39,000 상당, MAZA 1기 장학 바우처 선발자 대상 전액 지원 팟.`,
+        price: 39000,
+        original_value: 39000,
         commission_rate: 0.25,
-        maza_commission: 0,
-        setupod_payout: 0,
+        maza_commission: 9750,
+        setupod_payout: 29250,
+        voucher_eligible: true,
+        voucher_benefit: 'MAZA 1기 장학 바우처 전액 지원 (본인부담 0원)',
         free_gift: {
           title: niche.gift,
           url: `https://setupod.com/leads/setupod_starter_kit.html?niche=${encodeURIComponent(niche.id)}`
         },
         preview_url: `https://setupod.com${eng.base}?niche=${encodeURIComponent(niche.id)}`,
         embed_url: `https://setupod.com/embed/${eng.base.replace('/', '')}?niche=${encodeURIComponent(niche.id)}`,
-        badge: '🎓 100% 무상 장학 팟',
+        badge: '🎓 MAZA 장학 바우처 지원',
         icon: eng.icon
       });
       index++;
@@ -277,6 +278,9 @@ function generate35PremiumProducts() {
   for (const item of PREMIUM_35_NICHES) {
     const eng = ENGINES.find(e => e.id === item.engine) || ENGINES[0];
     const price = item.price;
+    const isVip = item.tier_class === 'class3' || price === 99000;
+    const tierClass = isVip ? 'class3' : 'class2';
+    const classLabel = isVip ? 'Class 3 (VIP 자산화급)' : 'Class 2 (비즈니스 프로급)';
     const mazaFee = Math.round(price * 0.25);
     const setupodPay = Math.round(price * 0.75);
 
@@ -286,20 +290,26 @@ function generate35PremiumProducts() {
       category_name: item.catName,
       engine_type: item.engine,
       tier: 'premium',
+      tier_class: tierClass,
+      class_label: classLabel,
       name: item.name,
-      tagline: `${item.catName} 고수익·고가치 프리미엄 솔루션`,
-      desc: `${item.name}. 고단가 리드 수집 및 웹사이트 매각 가치를 극대화하는 실전 비즈니스 팟.`,
+      tagline: isVip ? `${item.catName} 최고가치 VIP 자산화 솔루션` : `${item.catName} 실전 수익 비즈니스 프로 솔루션`,
+      desc: isVip 
+        ? `${item.name}. 고단가 자산 평가 및 Flippa/마자플립 고가 매각 특화 VIP 자산화 팟.` 
+        : `${item.name}. 실전 비즈니스 마진 극대화 및 고품질 리드 수집 특화 비즈니스 프로 팟.`,
       price: price,
       commission_rate: 0.25,
       maza_commission: mazaFee,
       setupod_payout: setupodPay,
+      voucher_eligible: true,
+      voucher_benefit: isVip ? '💎 VIP 자산화 특화 팟 (마자플립 25% 캐시 지원)' : '🚀 MAZA 비즈니스 바우처 지원 (마자 공식 제휴 파트너관)',
       free_gift: {
         title: item.gift,
         url: `https://setupod.com/leads/setupod_starter_kit.html?niche=${encodeURIComponent(item.id)}`
       },
       preview_url: `https://setupod.com${eng.base}?niche=${encodeURIComponent(item.id)}`,
       embed_url: `https://setupod.com/embed/${eng.base.replace('/', '')}?niche=${encodeURIComponent(item.id)}`,
-      badge: '💎 마켓 프리미엄 팟',
+      badge: isVip ? '💎 VIP 자산화급' : '🚀 비즈니스 프로급',
       icon: item.icon || eng.icon
     });
   }
