@@ -311,8 +311,8 @@
               <label style="display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#cbd5e1;line-height:1.5;margin:10px 0 6px;text-align:left;">
                 <input type="checkbox" id="lmConsent" required style="margin-top:3px;" />
                 <span><strong>[필수]</strong> 개인정보 수집·이용에 동의합니다.<br/>
-                  <span style="color:#94a3b8;">수집자: 투머스(SETUPOD) · 항목: 이메일 주소 · 목적: 선택한 자료 발송과 관련 안내 ·
-                  보유: 목적 달성 시까지, 삭제를 요청하시면 지체 없이 파기 ·
+                  <span style="color:#94a3b8;">수집자: 투머스(SETUPOD) · 항목: 이메일 주소 · 목적: 신청하신 자료의 제공 ·
+                  보유: 삭제를 요청하시기 전까지 보관하며, 요청하시면 영업일 7일 이내에 삭제 ·
                   동의하지 않으셔도 사이트는 이용하실 수 있으나 자료는 받으실 수 없습니다.
                   <a href="https://setupod.com/privacy" target="_blank" rel="noopener noreferrer" style="color:#a5b4fc;">자세히</a></span></span>
               </label>
