@@ -85,6 +85,7 @@ module.exports = async (req, res) => {
           consent: true,
           consent_version: short(b.consent_version, 64) || 'unknown',
           provide_to_maza: b.provide_to_maza === true,
+          marketing_opt_in: b.marketing_opt_in === true,
           collected_at: timestamp,
         },
         created_at: timestamp,
