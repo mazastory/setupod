@@ -339,6 +339,11 @@
       gap: 12px;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     }
+    .deskterior-hud-card.minimized {
+      transform: translateX(-120%);
+      opacity: 0;
+      pointer-events: none;
+    }
     .hud-tab-bar {
       display: flex;
       background: rgba(0, 0, 0, 0.5);
@@ -1763,13 +1768,13 @@
         <i data-lucide="book-open" style="width:14px;height:14px;"></i>
         <span>내용 크게 읽기 📖</span>
       </button>
-      <button class="btn-action-warp" id="btnWarpToAction" onclick="executeBookWarp()">
-        <span id="warpActionLabel">146호 인쇄소 즉시 이동</span>
-        <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+      <button class="btn-read-dossier" style="background:rgba(56,189,248,0.18);border-color:#38bdf8;color:#38bdf8;" onclick="previewActiveBookInBrowser()" title="인앱 브라우저로 실전 웹 서비스 즉시 테스트">
+        <i data-lucide="scan" style="width:14px;height:14px;"></i>
+        <span>인앱 라이브 체험 🔍</span>
       </button>
-      <button class="btn-coupang-gear" id="btnBookCoupangGear" onclick="openBookCoupangSearch()">
-        <i data-lucide="shopping-bag" style="width:13px;height:13px;"></i>
-        <span>필수 장비 쿠팡 🚀</span>
+      <button class="btn-action-warp" id="btnWarpToAction" onclick="executeBookWarp()">
+        <span id="warpActionLabel">웹 서비스 바로 실행</span>
+        <i data-lucide="external-link" style="width:14px;height:14px;"></i>
       </button>
       <button class="btn-close-book" onclick="closeActiveBook(true)">
         <i data-lucide="x" style="width:14px;height:14px;"></i>
@@ -1981,6 +1986,10 @@
       <div class="reader-footer-actions">
         <button class="btn-close-reader" onclick="closeBookReaderModal()">
           <span>3D 쇼룸으로 돌아가기</span>
+        </button>
+        <button class="btn-close-reader" style="border-color:#38bdf8;color:#38bdf8;" onclick="previewActiveBookInBrowser()" title="인앱 브라우저로 서비스 즉시 체험">
+          <i data-lucide="scan" style="width:14px;height:14px;"></i>
+          <span>인앱 라이브 미리보기 🔍</span>
         </button>
         <button class="btn-warp-reader" id="readerWarpBtn" onclick="executeBookWarp()">
           <span id="readerWarpLabel">146호 전자책 인쇄소 즉시 실행 ↗</span>
@@ -4912,7 +4921,7 @@
     const tooltipBadge = document.getElementById('tooltipBadge');
     const tooltipText = document.getElementById('tooltipText');
     const inspectHud = document.getElementById('bookInspectHud');
-    const missionHud = document.getElementById('missionHud');
+    const deskteriorHud = document.getElementById('deskteriorHud');
 
     // Camera Presets
     let targetCamPos = new THREE.Vector3(0, 9.8, 17.5);
@@ -4979,15 +4988,20 @@
       activeBook = bookGroup;
       inspectMode = true;
 
-      // Hide mission HUD, show book inspect HUD
-      missionHud.classList.add('minimized');
-      inspectHud.classList.add('active');
+      // Smoothly hide deskterior HUD, show book inspect HUD
+      if (deskteriorHud) deskteriorHud.classList.add('minimized');
+      if (inspectHud) inspectHud.classList.add('active');
 
       const data = bookGroup.userData.bookData;
-      document.getElementById('inspectAssetTag').innerText = `ASSET #${data.assetNum}`;
-      document.getElementById('inspectTitle').innerText = data.title;
-      document.getElementById('inspectSub').innerText = data.subtitle;
-      document.getElementById('warpActionLabel').innerText = data.actionLabel;
+      const tagElem = document.getElementById('inspectAssetTag');
+      const titleElem = document.getElementById('inspectTitle');
+      const subElem = document.getElementById('inspectSub');
+      const warpLabel = document.getElementById('warpActionLabel');
+
+      if (tagElem) tagElem.innerText = `ASSET #${data.assetNum}`;
+      if (titleElem) titleElem.innerText = data.title;
+      if (subElem) subElem.innerText = data.subtitle;
+      if (warpLabel) warpLabel.innerText = data.actionLabel || `${data.title} 실행 ↗`;
 
       // Move camera to comfortable reading distance (not jammed into camera)
       targetCamPos.set(0, 7.5, 10.6);
@@ -4995,6 +5009,7 @@
 
       // Open the front cover! (Swing open -162 degrees)
       bookGroup.userData.targetCoverAngle = -Math.PI * 0.92;
+      lucide.createIcons();
     }
 
     function closeActiveBook(restoreHud = true) {
@@ -5008,12 +5023,24 @@
       inspectMode = false;
 
       inspectHud.classList.remove('active');
-      if (restoreHud) {
-        missionHud.classList.remove('minimized');
+      if (restoreHud && deskteriorHud) {
+        deskteriorHud.classList.remove('minimized');
       }
 
       // Return camera smoothly to overview!
       setCamView('overview');
+    }
+
+    function previewActiveBookInBrowser() {
+      let bookData = null;
+      if (activeBook && activeBook.userData && activeBook.userData.bookData) {
+        bookData = activeBook.userData.bookData;
+      } else {
+        bookData = BOOK_COLLECTIONS[currentCollectionIdx].books[0];
+      }
+      if (!bookData || !bookData.url || bookData.url === '#') return;
+      closeBookReaderModal();
+      openInAppBrowser(bookData.url, bookData.title, `ASSET #${bookData.assetNum}`);
     }
 
     // ── 2D Book Reader & Dossier Modal ──
@@ -5326,7 +5353,7 @@
             let bObj = bookHits[0].object;
             while (bObj && !bObj.userData.isBook) bObj = bObj.parent;
             if (bObj === activeBook) {
-              closeActiveBook(true);
+              openBookReaderModal();
               return;
             } else if (bObj && bObj.userData.isBook) {
               openBookIn3D(bObj);
@@ -5590,8 +5617,25 @@
           }
         }
       } else {
-        canvas.classList.remove('pointer');
-        tooltip.classList.remove('show');
+        // When inspecting a book: hover over the open book to indicate clickability!
+        raycaster.setFromCamera(mousePos, camera);
+        const bookHits = raycaster.intersectObjects(interactiveBooks, true);
+        if (bookHits.length > 0 && activeBook) {
+          let bObj = bookHits[0].object;
+          while (bObj && !bObj.userData.isBook) bObj = bObj.parent;
+          if (bObj === activeBook) {
+            canvas.classList.add('pointer');
+            tooltipBadge.innerText = `ASSET #${activeBook.userData.bookData.assetNum}`;
+            tooltipText.innerText = `${activeBook.userData.bookData.title} (클릭하여 내용 및 인앱 체험 📖)`;
+            tooltip.classList.add('show');
+          } else {
+            canvas.classList.remove('pointer');
+            tooltip.classList.remove('show');
+          }
+        } else {
+          canvas.classList.remove('pointer');
+          tooltip.classList.remove('show');
+        }
       }
 
       // ── Animate Books (Pull out, rotate, & open cover) ──
