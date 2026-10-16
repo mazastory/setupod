@@ -773,6 +773,91 @@
         width: 100vw;
       }
     }
+  
+    /* 🚀 MemoPod 2.0 Desktop App Showcase & Download Banner */
+    .desktop-download-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+      padding: 14px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 90;
+    }
+    .banner-badge-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #a5b4fc;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      width: fit-content;
+      letter-spacing: 0.5px;
+    }
+    .banner-content-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .banner-heading {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+    .banner-subtext {
+      font-size: 12px;
+      color: #94a3b8;
+      margin: 4px 0 0 0;
+    }
+    .banner-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-download-mac {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-download-mac:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.6);
+    }
+    .btn-download-win {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #f8fafc;
+      padding: 8px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-download-win:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+
   </style>
   </head>
 <body class="app-mode">
@@ -822,6 +907,36 @@
       </a>
     </div>
   </header>
+
+  <!-- 🚀 MemoPod 2.0 Desktop App Showcase & Download Banner -->
+  <div class="desktop-download-banner">
+    <div class="banner-badge-glow">🎉 NEW: MEMOPOD 2.0 PRO 데스크톱 앱 공식 배포</div>
+    <div class="banner-content-wrap">
+      <div class="banner-text-col">
+        <h2 class="banner-heading">내 컴퓨터의 모든 메모를 1초 만에 AI 지식 뇌로</h2>
+        <p class="banner-subtext">
+          🍏 <strong>Mac</strong>: 애플 메모(Apple Notes) 실시간 3초 자동 연동 | 🪟 <strong>Windows</strong>: 스티커 메모 & 삼성노트 통합 | 100% 로컬 보안
+        </p>
+      </div>
+      <div class="banner-btn-group">
+        <a href="/assets/MemoPod_2.0_Installer.dmg" class="btn-download-mac" download title="macOS 전용 설치 파일 다운로드 (0.22 MB)">
+          <span style="font-size: 18px;">🍏</span>
+          <div style="text-align: left;">
+            <div style="font-size: 10px; opacity: 0.85; line-height: 1;">macOS 전용</div>
+            <div style="font-size: 13px; font-weight: 800;">Mac 다운로드 (.dmg)</div>
+          </div>
+        </a>
+        <a href="/assets/MemoPod_2.0_Windows_Portable.zip" class="btn-download-win" download title="Windows 전용 무설치 패키지 다운로드 (0.04 MB)">
+          <span style="font-size: 18px;">🪟</span>
+          <div style="text-align: left;">
+            <div style="font-size: 10px; opacity: 0.85; line-height: 1;">Windows 전용</div>
+            <div style="font-size: 13px; font-weight: 800;">Win 다운로드 (.zip)</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
 
   <main>
     <!-- 상단 캡처 인풋 바 -->
