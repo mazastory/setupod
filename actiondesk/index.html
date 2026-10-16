@@ -407,12 +407,34 @@
       border-color: rgba(245, 158, 11, 0.4);
       transform: translateX(2px);
     }
+    .gear-item-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+      background: #0f172a;
+    }
     .gear-item-info {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       flex: 1;
       min-width: 0;
+    }
+    .gear-item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .gear-item-sub {
+      font-size: 10px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .gear-item-icon {
       font-size: 16px;
@@ -550,6 +572,43 @@
     .btn-gear-close:hover {
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
+    }
+    .gear-image-box {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0b0f19;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+    .gear-product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gear-image-box:hover .gear-product-image {
+      transform: scale(1.04);
+    }
+    .gear-image-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 99px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .gear-info-block {
       display: flex;
@@ -943,6 +1002,14 @@
         </button>
       </div>
 
+      <div class="gear-image-box">
+        <img id="gearImage" src="../assets/gear/monitor.jpg" alt="장비 실물 사진" class="gear-product-image">
+        <div class="gear-image-badge">
+          <i data-lucide="zap" style="width:13px;height:13px;fill:#38bdf8;"></i>
+          <span>로켓배송 / 내일 아침 도착 보장</span>
+        </div>
+      </div>
+
       <div class="gear-info-block">
         <h2 class="gear-title" id="gearTitle">장비명</h2>
         <p class="gear-sub" id="gearSub">장비 부제</p>
@@ -1097,19 +1164,23 @@
         sub: "21:9 파노라마 시야각 | 144Hz 고주사율 | HDR400",
         price: "약 389,000원",
         icon: "🖥️",
+        image: "../assets/gear/monitor.jpg",
+        link: "https://link.coupang.com/a/hT5cS7sIlU",
         keyword: "34인치 WQHD 커브드 모니터 144Hz",
         specs: ["34인치 (86.4cm)", "WQHD 3440 x 1440", "144Hz 주사율", "1500R 곡률 곡면"],
         desc: "코드 창 3개를 나란히 띄워도 여유로운 21:9 울트라와이드 화면. 곡면 패널로 장시간 작업에도 눈의 피로를 최소화합니다."
       },
       screenbar: {
         category: "LIGHTING · 눈부심 방지",
-        name: "스마트 비대칭 무선 컨트롤러 스크린바 조명",
+        name: "비대칭 스크린바 모니터 조명 (무선 다이얼)",
         sub: "화면 반사 0% 비대칭 광학 | 무선 다이얼 리모컨",
         price: "약 49,000원",
         icon: "💡",
+        image: "../assets/gear/screenbar.jpg",
+        link: "https://link.coupang.com/a/hT5iNNGNfE",
         keyword: "비대칭 스크린바 모니터 조명 무선",
         specs: ["비대칭 눈부심 방지", "무선 다이얼 제어", "색온도 2700K~6500K", "USB 전원 구동"],
-        desc: "모니터 상단에 거치하여 모니터 화면에는 빛이 반사되지 않고, 책상 위 키보드와 작업 영역만 부드럽게 밝혀줍니다."
+        desc: "모니터 상단에 거치하여 화면 빛반사 없이, 책상 위 키보드와 작업 영역만 부드럽고 균일하게 밝혀줍니다."
       },
       desk: {
         category: "ERGONOMICS · 스탠딩 워크",
@@ -1117,19 +1188,23 @@
         sub: "정숙한 듀얼모터 구동 | 메모리 4포지션 프리셋",
         price: "약 349,000원",
         icon: "🪵",
+        image: "../assets/gear/desk.jpg",
+        link: "https://link.coupang.com/a/hT5o7EbQOW",
         keyword: "1600 전동 모션데스크 듀얼모터 월넛",
         specs: ["1600 x 800mm 월넛 상판", "듀얼 모터 (저소음)", "높이 70~120cm 조절", "충돌 방지 센서"],
         desc: "집중력이 떨어질 때 원터치로 스탠딩 모드로 전환. 듀얼 모터로 흔들림 없이 부드럽게 승강합니다."
       },
       keyboard: {
         category: "PERIPHERAL · 타이핑 감성",
-        name: "무선 블루투스 기계식 키보드 & 저소음 스위치",
+        name: "무선 블루투스 저소음 기계식 키보드",
         sub: "정갈한 폼떡 타건음 | Mac/Win 멀티페어링",
         price: "약 139,000원",
         icon: "⌨️",
-        keyword: "무선 기계식 키보드 저소음 텐키리스",
-        specs: ["텐키리스 87키 컴팩트", "저소음 갈축/황축", "블루투스 5.0 + 2.4G", "RGB 백라이트"],
-        desc: "야간 작업에도 방해 없는 정갈한 타건감. 묵직한 알루미늄 프레임과 PBT 이중사출 키캡으로 손끝의 피로를 덜어줍니다."
+        image: "../assets/gear/keyboard.jpg",
+        link: "https://link.coupang.com/a/hT5tHBtO6C",
+        keyword: "무선 기계식 키보드 저소음 텐키리스 독거미 한성",
+        specs: ["텐키리스 컴팩트", "저소음 특주축 스위치", "블루투스 5.0 + 2.4G", "RGB 백라이트"],
+        desc: "야간 작업에도 방해 없는 정갈하고 묵직한 타건감. PBT 이중사출 키캡으로 장시간 타이핑 피로를 덜어줍니다."
       },
       mouse: {
         category: "PERIPHERAL · 마스터 플래그십",
@@ -1137,6 +1212,8 @@
         sub: "8,000 DPI 다크필드 센서 | 전자기 초고속 스크롤 휠",
         price: "약 139,000원",
         icon: "🖱️",
+        image: "../assets/gear/mouse.jpg",
+        link: "https://link.coupang.com/a/hT5xxiEWrY",
         keyword: "로지텍 MX Master 3S 무소음",
         specs: ["무소음 클릭 스위치", "초고속 MagSpeed 휠", "인체공학 엄지 썸휠", "유리창 위에서도 작동"],
         desc: "손목 부담을 덜어주는 인체공학 설계와 초당 1,000줄을 내리는 초고속 휠로 생산성을 극대화합니다."
@@ -1147,8 +1224,10 @@
         sub: "두툼한 3mm 방수 울 펠트 | 논슬립 미끄럼 방지",
         price: "약 19,800원",
         icon: "🧵",
+        image: "../assets/gear/mat.jpg",
+        link: "https://link.coupang.com/a/hT5z0Z3umq",
         keyword: "펠트 데스크패드 장패드 차콜",
-        specs: ["900 x 400 x 3mm", "방수 코팅 울 펠트", "천연 고무 미끄럼 방지", "감성 데스크테리어"],
+        specs: ["900 x 400 x 3mm", "방수 코팅 울 펠트", "천연 고무 논슬립 바닥", "감성 데스크테리어"],
         desc: "차가운 책상 표면을 포근하게 감싸고, 키보드 타건음을 부드럽게 흡수하며 마우스 슬라이딩을 매끄럽게 돕습니다."
       },
       shelf: {
@@ -1157,6 +1236,8 @@
         sub: "묵직한 황동 북엔드 | 100% 북미산 호두나무 원목",
         price: "약 45,000원",
         icon: "📚",
+        image: "../assets/gear/desk.jpg",
+        link: "https://link.coupang.com/a/hT5o7EbQOW",
         keyword: "원목 북엔드 데스크 책꽂이 호두나무",
         specs: ["호두나무(월넛) 원목", "황동(Brass) 북엔드", "3단 수납 선반", "친환경 오일 마감"],
         desc: "자주 꺼내보는 비즈니스 도서와 바인더를 데스크 우측에 단정하게 정리하여 작업 공간의 품격을 높입니다."
@@ -1169,14 +1250,19 @@
       container.innerHTML = Object.entries(DESK_GEAR_LIST).map(([key, gear]) => `
         <div class="gear-item-card" onclick="openGearModal('${key}')">
           <div class="gear-item-info">
-            <span class="gear-item-icon">${gear.icon}</span>
-            <span class="gear-item-name">${gear.name}</span>
+            <img src="${gear.image}" alt="${gear.name}" class="gear-item-thumb">
+            <div class="gear-item-meta">
+              <span class="gear-item-name">${gear.name}</span>
+              <span class="gear-item-sub">${gear.specs[0]}</span>
+            </div>
           </div>
-          <span class="gear-item-price">${gear.price}</span>
-          <button class="btn-gear-inspect" onclick="event.stopPropagation(); openGearModal('${key}')">
-            <span>견적</span>
-            <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
-          </button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="gear-item-price">${gear.price}</span>
+            <button class="btn-gear-inspect" onclick="event.stopPropagation(); openGearModal('${key}')">
+              <span>상세</span>
+              <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+            </button>
+          </div>
         </div>
       `).join('');
       lucide.createIcons();
@@ -1195,19 +1281,24 @@
       const price = document.getElementById('gearPrice');
       const specsBox = document.getElementById('gearSpecs');
       const cBtn = document.getElementById('gearCoupangBtn');
+      const gImg = document.getElementById('gearImage');
 
       if (badge) badge.innerText = gear.category;
       if (title) title.innerText = gear.name;
       if (sub) sub.innerText = gear.sub;
       if (desc) desc.innerText = gear.desc;
       if (price) price.innerText = gear.price;
+      if (gImg) {
+        gImg.src = gear.image;
+        gImg.alt = gear.name;
+      }
 
       if (specsBox) {
         specsBox.innerHTML = gear.specs.map(s => `<span class="gear-spec-chip">✓ ${s}</span>`).join('');
       }
 
       if (cBtn) {
-        cBtn.href = COUPANG_CONFIG.getSearchUrl(gear.keyword);
+        cBtn.href = gear.link || COUPANG_CONFIG.getSearchUrl(gear.keyword);
       }
 
       const modal = document.getElementById('gearModal');
@@ -1223,7 +1314,8 @@
     }
 
     function openFullSetupModal() {
-      window.open(COUPANG_CONFIG.getSearchUrl("데스크셋업 모션데스크 스크린바 모니터 세트"), "_blank");
+      // Open the primary flagship link (34" Curved Ultrawide Monitor) or first item
+      window.open(DESK_GEAR_LIST.monitor.link, "_blank");
     }
 
     // ── 3D Bookshelf & Monitor Multi-Collection Library (3 Packs x 5 Assets = 15 Curated Assets) ──
