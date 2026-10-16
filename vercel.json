@@ -1,6 +1,11 @@
 {
   "cleanUrls": true,
-  "rewrites": [
+  "redirects": [
+    {
+      "source": "/bizcard/:match*",
+      "destination": "https://toomcard.com",
+      "permanent": true
+    },
     {
       "source": "/",
       "has": [
@@ -9,7 +14,8 @@
           "value": "card.setupod.com"
         }
       ],
-      "destination": "/core/maker.html"
+      "destination": "https://toomcard.com",
+      "permanent": true
     },
     {
       "source": "/:path+",
@@ -19,8 +25,11 @@
           "value": "card.setupod.com"
         }
       ],
-      "destination": "/bizcard/card.html"
-    },
+      "destination": "https://toomcard.com/card?id=:path+",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
     {
       "source": "/:path*",
       "has": [

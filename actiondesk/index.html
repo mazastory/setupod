@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>오토파일럿 데스크 | 셋업팟 147호 자산</title>
-  <meta name="description" content="생각만 숙성시키다 하루가 끝나는 1인 창업가를 위한 3D 가상 집무실. 오늘 당장 실행할 3대 액션을 강제 완료시키는 비즈니스 사령탑.">
+  <title>오토파일럿 데스크 | 셋업팟 147호 자산 (3D 서가 & 가상 집무실)</title>
+  <meta name="description" content="생각만 숙성시키다 하루가 끝나는 1인 창업가를 위한 3D 가상 집무실. 책꽂이에서 3D 책을 꺼내 펼쳐보고, 오늘 당장 실행할 3대 액션을 완료하세요.">
 
   <!-- Pretendard, Montserrat, JetBrains Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   
   <!-- Three.js r128 & Lucide Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -18,16 +18,17 @@
 
   <style>
     :root {
-      --bg-dark: #06080e;
-      --bg-panel: rgba(11, 15, 25, 0.82);
-      --bg-card: rgba(18, 24, 40, 0.75);
+      --bg-dark: #07090e;
+      --bg-panel: rgba(12, 17, 28, 0.88);
+      --bg-card: rgba(18, 26, 44, 0.78);
       --border-panel: rgba(255, 255, 255, 0.12);
-      --border-light: rgba(255, 255, 255, 0.18);
+      --border-light: rgba(255, 255, 255, 0.2);
       --primary: #f59e0b;
-      --primary-glow: rgba(245, 158, 11, 0.4);
+      --primary-glow: rgba(245, 158, 11, 0.45);
       --accent-cyan: #38bdf8;
       --accent-purple: #a855f7;
       --accent-emerald: #10b981;
+      --accent-crimson: #ef4444;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -52,18 +53,18 @@
       user-select: none;
     }
 
-    /* ── Top Header ── */
+    /* ── Top Header Bar ── */
     .desk-header {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 60px;
+      height: 64px;
       padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(8, 11, 20, 0.7);
+      background: rgba(8, 12, 22, 0.75);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-panel);
@@ -79,18 +80,18 @@
     }
     .asset-badge {
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #fff;
       padding: 3px 9px;
       border-radius: 99px;
       letter-spacing: 0.05em;
-      box-shadow: 0 0 12px var(--primary-glow);
+      box-shadow: 0 0 14px var(--primary-glow);
     }
     .brand-title {
       font-family: var(--font-display);
-      font-size: 16.5px;
+      font-size: 16px;
       font-weight: 900;
       letter-spacing: -0.02em;
     }
@@ -104,8 +105,8 @@
       align-items: center;
       gap: 8px;
       background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      padding: 5px 14px;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      padding: 6px 14px;
       border-radius: 99px;
       font-size: 12px;
       font-weight: 700;
@@ -139,9 +140,10 @@
     .btn-toy:hover {
       background: rgba(255, 255, 255, 0.12);
       color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
     }
     .btn-toy.active {
-      background: rgba(245, 158, 11, 0.18);
+      background: rgba(245, 158, 11, 0.2);
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -160,26 +162,166 @@
     #webgl-stage:active {
       cursor: grabbing;
     }
+    #webgl-stage.pointer {
+      cursor: pointer;
+    }
+
+    /* ── Interactive 3D Book Hover Tooltip ── */
+    .book-hover-tooltip {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      pointer-events: none;
+      z-index: 60;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      background: rgba(12, 18, 30, 0.92);
+      border: 1px solid var(--primary);
+      backdrop-filter: blur(12px);
+      padding: 8px 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--primary-glow);
+    }
+    .book-hover-tooltip.show {
+      opacity: 1;
+      transform: translate(-50%, calc(-100% - 14px));
+    }
+    .tooltip-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      background: var(--primary);
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .tooltip-text {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ── Floating Book Inspection Action HUD (When a Book is Opened) ── */
+    .book-inspect-hud {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 70;
+      background: rgba(11, 16, 28, 0.92);
+      border: 1px solid var(--border-light);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 20px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px var(--primary-glow);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .book-inspect-hud.active {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .inspect-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .inspect-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .inspect-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .inspect-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .inspect-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 16px;
+    }
+    .btn-action-warp {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border: none;
+      color: #000;
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-action-warp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px var(--primary);
+    }
+    .btn-close-book {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-panel);
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-close-book:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+    }
 
     /* ── Floating Mission HUD (Action 3 Dispatcher) ── */
     .mission-hud-card {
       position: absolute;
       left: 28px;
       bottom: 28px;
-      width: 420px;
+      width: 410px;
       max-width: calc(100vw - 56px);
-      background: rgba(11, 15, 25, 0.88);
+      background: rgba(11, 16, 28, 0.9);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid var(--border-light);
       border-radius: 20px;
-      padding: 22px;
+      padding: 20px;
       z-index: 40;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.1);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 158, 11, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      gap: 14px;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+    }
+    .mission-hud-card.minimized {
+      transform: translateY(calc(100% + 20px));
+      opacity: 0;
+      pointer-events: none;
     }
 
     .hud-title-row {
@@ -193,8 +335,8 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--primary);
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.35);
       padding: 3px 8px;
       border-radius: 6px;
     }
@@ -206,13 +348,13 @@
     }
 
     .hud-headline {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 800;
       line-height: 1.4;
       color: #fff;
     }
     .hud-subline {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--text-muted);
       line-height: 1.4;
     }
@@ -221,21 +363,21 @@
     .action-stack {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .action-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-panel);
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       transition: all 0.2s;
     }
     .action-card:hover {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       border-color: rgba(255, 255, 255, 0.25);
     }
     .action-card.done {
@@ -250,7 +392,7 @@
       flex: 1;
     }
     .action-title {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       color: #fff;
       display: flex;
@@ -262,12 +404,12 @@
       color: #94a3b8;
     }
     .action-sub {
-      font-size: 10.5px;
+      font-size: 10px;
       color: var(--text-muted);
     }
 
     .btn-warp {
-      padding: 6px 12px;
+      padding: 6px 10px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-panel);
       border-radius: 8px;
@@ -288,8 +430,8 @@
     }
 
     .btn-check-toggle {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border-radius: 6px;
       border: 2px solid #64748b;
       background: none;
@@ -310,49 +452,72 @@
       color: #fff;
     }
 
-    /* ── Interactive 3D Hotspot Overlays ── */
-    .desk-hotspot {
+    /* Camera Preset Controls (Right Bottom) */
+    .floating-camera-tools {
       position: absolute;
-      transform: translate(-50%, -50%);
-      pointer-events: auto;
+      bottom: 24px;
+      right: 28px;
+      background: rgba(11, 16, 28, 0.85);
+      border: 1px solid var(--border-panel);
+      backdrop-filter: blur(16px);
+      padding: 6px 10px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 40;
+    }
+    .cam-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      z-index: 30;
-      transition: transform 0.2s;
+      gap: 4px;
+      transition: all 0.2s;
     }
-    .hotspot-ring {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: rgba(245, 158, 11, 0.25);
-      border: 2px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .cam-btn:hover, .cam-btn.active {
       color: #fff;
-      box-shadow: 0 0 16px var(--primary-glow);
-      animation: pulsePing 2s infinite ease-out;
+      background: rgba(255, 255, 255, 0.12);
     }
-    @keyframes pulsePing {
-      0% { transform: scale(0.95); box-shadow: 0 0 8px var(--primary-glow); }
-      50% { transform: scale(1.12); box-shadow: 0 0 22px var(--primary); }
-      100% { transform: scale(0.95); box-shadow: 0 0 8px var(--primary-glow); }
-    }
-    .hotspot-label {
-      background: rgba(11, 15, 25, 0.85);
-      border: 1px solid var(--border-panel);
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #fff;
-      white-space: nowrap;
-      backdrop-filter: blur(10px);
+    .cam-btn.active {
+      color: var(--primary);
     }
 
-    /* ── Success Celebration Modal ── */
+    /* Bookshelf Guide Badge */
+    .shelf-guide-pill {
+      position: absolute;
+      top: 84px;
+      right: 28px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 8px 16px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fde68a;
+      backdrop-filter: blur(12px);
+      z-index: 40;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .shelf-guide-pill i {
+      color: var(--primary);
+      animation: bounceH 1.8s infinite;
+    }
+    @keyframes bounceH {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Success Celebration Modal */
     .success-modal-overlay {
       position: fixed;
       inset: 0;
@@ -379,7 +544,7 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      animation: popIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes popIn {
       from { transform: scale(0.85); opacity: 0; }
@@ -396,38 +561,15 @@
       border: 1px solid var(--primary);
     }
 
-    /* Controls Bar bottom center */
-    .floating-camera-tools {
-      position: absolute;
-      bottom: 24px;
-      right: 28px;
-      background: rgba(11, 15, 25, 0.8);
-      border: 1px solid var(--border-panel);
-      backdrop-filter: blur(16px);
-      padding: 6px 12px;
-      border-radius: 99px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      z-index: 40;
-    }
-    .cam-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 6px 10px;
-      border-radius: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s;
-    }
-    .cam-btn:hover, .cam-btn.active {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
+    @media (max-width: 768px) {
+      .desk-header { padding: 0 16px; }
+      .anti-aging-timer { display: none; }
+      .mission-hud-card { width: calc(100vw - 32px); left: 16px; bottom: 80px; }
+      .floating-camera-tools { right: 16px; bottom: 16px; }
+      .shelf-guide-pill { display: none; }
+      .book-inspect-hud { width: calc(100vw - 32px); flex-direction: column; gap: 12px; padding: 16px; }
+      .inspect-btn-group { margin-left: 0; width: 100%; justify-content: stretch; }
+      .inspect-btn-group button { flex: 1; justify-content: center; }
     }
   </style>
 </head>
@@ -435,7 +577,7 @@
 
   <!-- Top Navigation Header -->
   <header class="desk-header">
-    <a href="../" class="brand-link">
+    <a href="../halloffame/" class="brand-link">
       <span class="asset-badge">ASSET #147</span>
       <div class="brand-title">
         SETUP<span>OD</span> CO-FOUNDER DESK
@@ -446,7 +588,7 @@
     <div class="anti-aging-timer" title="오늘 생각만 하지 말고 런칭을 완료하세요!">
       <i data-lucide="flame" style="width:14px;height:14px;color:#ef4444;"></i>
       <span>숙성 방지 자정 셧다운:</span>
-      <span class="timer-digits" id="shutdownTimer">01:33:45</span>
+      <span class="timer-digits" id="shutdownTimer">00:00:00</span>
     </div>
 
     <!-- Desk Environment Toys -->
@@ -455,9 +597,9 @@
         <i data-lucide="lamp-desk" style="width:14px;height:14px;"></i>
         <span>스크린바</span>
       </button>
-      <button class="btn-toy" id="btnSpeaker" onclick="toggleSpeakerAudio()">
+      <button class="btn-toy active" id="btnSound" onclick="toggleSoundFx()">
         <i data-lucide="volume-2" style="width:14px;height:14px;"></i>
-        <span>Lo-Fi 비트</span>
+        <span>효과음</span>
       </button>
       <button class="btn-toy" id="btnDeskHeight" onclick="toggleDeskHeight()">
         <i data-lucide="arrow-up-down" style="width:14px;height:14px;"></i>
@@ -466,21 +608,41 @@
     </div>
   </header>
 
+  <!-- Bookshelf Interactive Guide Pill -->
+  <div class="shelf-guide-pill" onclick="setCamView('shelf')">
+    <i data-lucide="book-marked" style="width:15px;height:15px;"></i>
+    <span>책꽂이의 3D 책을 클릭하면 실물처럼 펼쳐집니다!</span>
+  </div>
+
   <!-- 3D WebGL Canvas Stage -->
   <canvas id="webgl-stage"></canvas>
 
-  <!-- 3D Hotspots overlay -->
-  <div class="desk-hotspot" id="hotspot-ipad" onclick="window.open('../mockup/', '_blank')">
-    <div class="hotspot-ring"><i data-lucide="tablet" style="width:12px;height:12px;"></i></div>
-    <div class="hotspot-label">145호 3D 목업 스튜디오 ↗</div>
+  <!-- 3D Hover Tooltip for Books -->
+  <div class="book-hover-tooltip" id="bookTooltip">
+    <span class="tooltip-badge" id="tooltipBadge">#146</span>
+    <span class="tooltip-text" id="tooltipText">도서명</span>
   </div>
-  <div class="desk-hotspot" id="hotspot-book" onclick="window.open('../leadmagnet/', '_blank')">
-    <div class="hotspot-ring"><i data-lucide="book-open" style="width:12px;height:12px;"></i></div>
-    <div class="hotspot-label">146호 AI 전자책 인쇄소 ↗</div>
-  </div>
-  <div class="desk-hotspot" id="hotspot-monitor" onclick="window.open('../adsense/', '_blank')">
-    <div class="hotspot-ring"><i data-lucide="monitor" style="width:12px;height:12px;"></i></div>
-    <div class="hotspot-label">셋업팟 비즈니스 계산기 허브 ↗</div>
+
+  <!-- Book Inspection Action Bar (Active when a book is pulled & opened) -->
+  <div class="book-inspect-hud" id="bookInspectHud">
+    <div class="inspect-info">
+      <div class="inspect-tag" id="inspectTag">
+        <i data-lucide="book-open" style="width:13px;height:13px;"></i>
+        <span id="inspectAssetTag">ASSET #146</span>
+      </div>
+      <div class="inspect-title" id="inspectTitle">도서 제목</div>
+      <div class="inspect-sub" id="inspectSub">당일 즉시 배포 가이드</div>
+    </div>
+    <div class="inspect-btn-group">
+      <button class="btn-action-warp" id="btnWarpToAction" onclick="executeBookWarp()">
+        <span id="warpActionLabel">146호 인쇄소 즉시 이동</span>
+        <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+      </button>
+      <button class="btn-close-book" onclick="closeActiveBook()">
+        <i data-lucide="x" style="width:14px;height:14px;"></i>
+        <span>책 덮고 서가에 넣기 [ESC]</span>
+      </button>
+    </div>
   </div>
 
   <!-- Floating Mission HUD: Today's Action 3 -->
@@ -492,77 +654,78 @@
 
     <div>
       <div class="hud-headline">"아이디어 숙성 금지! 오늘 끝낼 필수 3대 액션"</div>
-      <div class="hud-subline">생각만 1년 하지 말고, 오늘 밤 크몽/인스타에 바로 1개 상품을 런칭하세요.</div>
+      <div class="hud-subline">생각만 1년 하지 말고, 우측 서가의 책을 펼치거나 즉시 워프하세요.</div>
     </div>
 
     <div class="action-stack">
-      
       <!-- Action 1: Product Output -->
       <div class="action-card" id="cardAction1">
         <button class="btn-check-toggle" onclick="toggleAction(1)">
-          <i data-lucide="check" style="width:14px;height:14px;"></i>
+          <i data-lucide="check" style="width:13px;height:13px;"></i>
         </button>
         <div class="action-info">
           <div class="action-title">
             <span>1. 완제품 전자책 PDF 1권 인쇄</span>
-            <span style="font-size:9px;color:var(--accent-cyan);background:rgba(56,189,248,0.15);padding:1px 5px;border-radius:4px;">146호</span>
+            <span style="font-size:9px;color:var(--accent-crimson);background:rgba(239,68,68,0.15);padding:1px 5px;border-radius:4px;">146호</span>
           </div>
-          <div class="action-sub">AI 인쇄소에서 8페이지 A4 완성본 PDF 출력</div>
+          <div class="action-sub">서가 1권 클릭 또는 인쇄소에서 A4 완성본 출력</div>
         </div>
-        <button class="btn-warp" onclick="window.open('../leadmagnet/', '_blank')">
-          <span>워프</span>
-          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        <button class="btn-warp" onclick="inspectBookByAsset(146)">
+          <span>3D 서가 열기</span>
+          <i data-lucide="book" style="width:11px;height:11px;"></i>
         </button>
       </div>
 
       <!-- Action 2: Visual 3D Thumbnail -->
       <div class="action-card" id="cardAction2">
         <button class="btn-check-toggle" onclick="toggleAction(2)">
-          <i data-lucide="check" style="width:14px;height:14px;"></i>
+          <i data-lucide="check" style="width:13px;height:13px;"></i>
         </button>
         <div class="action-info">
           <div class="action-title">
             <span>2. 3D 양장본 판매용 썸네일 캡처</span>
-            <span style="font-size:9px;color:var(--accent-purple);background:rgba(168,85,247,0.15);padding:1px 5px;border-radius:4px;">145호</span>
+            <span style="font-size:9px;color:var(--accent-cyan);background:rgba(56,189,248,0.15);padding:1px 5px;border-radius:4px;">145호</span>
           </div>
-          <div class="action-sub">3D 스튜디오에서 크몽 등록용 얼짱 각도 PNG 캡처</div>
+          <div class="action-sub">서가 2권 클릭 또는 3D 스튜디오에서 4K PNG 캡처</div>
         </div>
-        <button class="btn-warp" onclick="window.open('../mockup/', '_blank')">
-          <span>워프</span>
-          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        <button class="btn-warp" onclick="inspectBookByAsset(145)">
+          <span>3D 서가 열기</span>
+          <i data-lucide="book" style="width:11px;height:11px;"></i>
         </button>
       </div>
 
       <!-- Action 3: Profit Simulation -->
       <div class="action-card" id="cardAction3">
         <button class="btn-check-toggle" onclick="toggleAction(3)">
-          <i data-lucide="check" style="width:14px;height:14px;"></i>
+          <i data-lucide="check" style="width:13px;height:13px;"></i>
         </button>
         <div class="action-info">
           <div class="action-title">
-            <span>3. 판매 마진 & 손익분기점 확정</span>
-            <span style="font-size:9px;color:var(--accent-emerald);background:rgba(16,185,129,0.15);padding:1px 5px;border-radius:4px;">144대 도구</span>
+            <span>3. 판매 마진 & 순수익 확정</span>
+            <span style="font-size:9px;color:var(--accent-emerald);background:rgba(16,185,129,0.15);padding:1px 5px;border-radius:4px;">144호</span>
           </div>
-          <div class="action-sub">플랫폼 수수료를 뺀 실제 통장 순마진 시뮬레이션</div>
+          <div class="action-sub">서가 3권 클릭 또는 수수료 공제 순수익 시뮬레이션</div>
         </div>
-        <button class="btn-warp" onclick="window.open('../margin/', '_blank')">
-          <span>워프</span>
-          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        <button class="btn-warp" onclick="inspectBookByAsset(144)">
+          <span>3D 서가 열기</span>
+          <i data-lucide="book" style="width:11px;height:11px;"></i>
         </button>
       </div>
-
     </div>
   </div>
 
   <!-- Camera View Angles -->
   <div class="floating-camera-tools">
-    <button class="cam-btn active" onclick="setCamView('overview', this)">
+    <button class="cam-btn active" id="camBtnOverview" onclick="setCamView('overview')">
       <i data-lucide="layout" style="width:13px;height:13px;"></i><span>전체 조망</span>
     </button>
-    <button class="cam-btn" onclick="setCamView('desk', this)">
+    <button class="cam-btn" id="camBtnShelf" onclick="setCamView('shelf')">
+      <i data-lucide="book-marked" style="width:13px;height:13px;"></i><span>📚 서가 집중</span>
+    </button>
+    <button class="cam-btn" id="camBtnDesk" onclick="setCamView('desk')">
       <i data-lucide="zoom-in" style="width:13px;height:13px;"></i><span>데스크 집중</span>
     </button>
-    <button class="cam-btn" onclick="setCamView('screen', this)">
+    <button class="cam-btn" id="camBtnScreen" onclick="setCamView('screen')">
       <i data-lucide="monitor" style="width:13px;height:13px;"></i><span>모니터 사령부</span>
     </button>
   </div>
@@ -582,9 +745,99 @@
     </div>
   </div>
 
-  <!-- Three.js 3D Virtual Co-Founder Room -->
+  <!-- ========================================================
+       Three.js 3D Virtual Workspace & Interactive Bookshelf
+       ======================================================== -->
   <script>
     lucide.createIcons();
+
+    // ── Procedural Web Audio Synthesizer (Zero External MP3s) ──
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playSlide() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(120, now + 0.14);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.14);
+        } catch(e) {}
+      }
+      playOpen() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const bufferSize = Math.floor(this.ctx.sampleRate * 0.16);
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.35));
+          }
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(800, now);
+          filter.frequency.exponentialRampToValueAtTime(2600, now + 0.16);
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+          noise.start(now);
+        } catch(e) {}
+      }
+      playClose() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(45, now + 0.18);
+          gain.gain.setValueAtTime(0.24, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.18);
+        } catch(e) {}
+      }
+    }
+    const audio = new SoundEngine();
+
+    function toggleSoundFx() {
+      audio.enabled = !audio.enabled;
+      document.getElementById('btnSound').classList.toggle('active', audio.enabled);
+    }
 
     // ── Anti-Aging Shutdown Timer ──
     function updateCountdown() {
@@ -593,9 +846,9 @@
       midnight.setHours(24, 0, 0, 0);
       const diff = midnight - now;
 
-      const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
-      const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
-      const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+      const hours = String(Math.max(0, Math.floor(diff / (1000 * 60 * 60)))).padStart(2, '0');
+      const minutes = String(Math.max(0, Math.floor((diff / (1000 * 60)) % 60))).padStart(2, '0');
+      const seconds = String(Math.max(0, Math.floor((diff / 1000) % 60))).padStart(2, '0');
 
       document.getElementById('shutdownTimer').innerText = `${hours}:${minutes}:${seconds}`;
     }
@@ -604,16 +857,10 @@
 
     // ── Action State Tracker ──
     const actionStates = { 1: false, 2: false, 3: false };
-
     function toggleAction(id) {
       actionStates[id] = !actionStates[id];
       const card = document.getElementById('cardAction' + id);
-      
-      if (actionStates[id]) {
-        card.classList.add('done');
-      } else {
-        card.classList.remove('done');
-      }
+      card.classList.toggle('done', actionStates[id]);
 
       const completed = Object.values(actionStates).filter(Boolean).length;
       document.getElementById('progressStatus').innerText = `진행도: ${completed} / 3 완료`;
@@ -622,12 +869,438 @@
         document.getElementById('successModal').classList.add('show');
       }
     }
-
     function closeSuccessModal() {
       document.getElementById('successModal').classList.remove('show');
     }
 
-    // ── Three.js 3D Virtual Workspace Scene ──
+    // ── Book Archive Catalog Data ──
+    const BOOK_CATALOG = [
+      {
+        assetNum: 146,
+        spineTitle: "146호 AI 전자책 인쇄소",
+        title: "1초 AI 전자책 인쇄소",
+        subtitle: "아이디어 숙성 방지! 8페이지 A4 완성본 즉시 출력",
+        colorMain: "#991b1b",
+        colorDark: "#450a0a",
+        colorDeep: "#1c0404",
+        accentColor: "#fbbf24",
+        url: "../leadmagnet/",
+        actionLabel: "146호 전자책 인쇄소로 워프 ↗",
+        metrics: [
+          { label: "제작 소요 시간", val: "1초 (실시간)" },
+          { label: "권장 판매가", val: "19,000원 ~ 49,000원" },
+          { label: "초기 필요 자본", val: "0원 (AI 자동 인쇄)" }
+        ],
+        summary: "생각만 1년 하지 않고, 오늘 밤 즉시 판매 가능한 8페이지 A4 완성본 PDF를 1초 만에 인쇄하여 크몽/인스타에 배포하는 무기입니다.",
+        chapters: [
+          { num: "CH 01", title: "아이디어 숙성 방지 원칙 (당일 배포 법칙)" },
+          { num: "CH 02", title: "3초 만에 시선 끄는 황금 후킹 설계" },
+          { num: "CH 03", title: "실물 3D 패키징으로 클릭률 300% 극대화" },
+          { num: "CH 04", title: "노코드 결제 링크 생성 및 첫 매출 회수" }
+        ],
+        quote: "1년 동안 완벽을 다듬은 기획서보다, 오늘 밤 당장 시장에 던진 1페이지 PDF가 100배 더 가치있습니다."
+      },
+      {
+        assetNum: 145,
+        spineTitle: "145호 3D 목업 스튜디오",
+        title: "3D 실물 양장본 스튜디오",
+        subtitle: "클릭률 300% 폭발! 브라우저 4K 하드커버 렌더러",
+        colorMain: "#1e3a8a",
+        colorDark: "#0f172a",
+        colorDeep: "#030712",
+        accentColor: "#38bdf8",
+        url: "../mockup/",
+        actionLabel: "145호 3D 목업 스튜디오로 워프 ↗",
+        metrics: [
+          { label: "렌더링 시간", val: "브라우저 즉시 렌더" },
+          { label: "해상도 지원", val: "4K 울트라 HD PNG" },
+          { label: "필요 툴", val: "포토샵 불필요 (100% 웹)" }
+        ],
+        summary: "고객은 평면 PDF에 돈을 지불하지 않습니다. 손으로 만져질 듯한 묵직한 3D 양장본 실물 목업으로 상세페이지 전환율을 3배 끌어올립니다.",
+        chapters: [
+          { num: "CH 01", title: "썸네일 클릭률을 가르는 시각적 무게감" },
+          { num: "CH 02", title: "황금 45도 얼짱 각도와 스튜디오 조명" },
+          { num: "CH 03", title: "금박 음각 엠보싱 텍스처 배합법" },
+          { num: "CH 04", title: "크몽/스마트스토어 썸네일 규격 최적화" }
+        ],
+        quote: "실물이 없는 디지털 상품일수록, 눈앞에 잡힐 것 같은 3D 입체감이 지갑을 열게 만듭니다."
+      },
+      {
+        assetNum: 144,
+        spineTitle: "144호 1인창업 순마진 비책",
+        title: "노코드 1인 창업 순마진 공식",
+        subtitle: "플랫폼 수수료를 떼고 통장에 남는 진짜 순수익",
+        colorMain: "#065f46",
+        colorDark: "#022c22",
+        colorDeep: "#011611",
+        accentColor: "#34d399",
+        url: "../adsense/",
+        actionLabel: "비즈니스 마진 계산기로 워프 ↗",
+        metrics: [
+          { label: "수수료 차감률", val: "크몽 20% / 스마트스토어 5.5%" },
+          { label: "목표 마진율", val: "최소 85% 이상 유지" },
+          { label: "손익분기점", val: "첫 3권 판매로 서버비 회수" }
+        ],
+        summary: "매출에 취하지 마세요. 통장에 실제로 남는 세후 순마진과 손익분기점을 명확히 계산하여 돈을 버는 구조를 설계합니다.",
+        chapters: [
+          { num: "CH 01", title: "매출의 함정: 허상 지표와 진짜 순마진" },
+          { num: "CH 02", title: "플랫폼별 숨은 수수료 및 부가세 계산식" },
+          { num: "CH 03", title: "광고비 지출 없이 마진율 90% 뽑는 유기적 유입" },
+          { num: "CH 04", title: "1인 창업가의 월 500만원 자동화 파이프라인" }
+        ],
+        quote: "매출 1억에 적자 나는 회사보다, 매출 500만원에 순마진 450만원 챙기는 1인 기업이 승자입니다."
+      },
+      {
+        assetNum: 147,
+        spineTitle: "147호 오토파일럿 데스크",
+        title: "오토파일럿 데스크 사령부",
+        subtitle: "오늘 하루 만에 1개 비즈니스 강제 출시 시스템",
+        colorMain: "#312e81",
+        colorDark: "#1e1b4b",
+        colorDeep: "#090520",
+        accentColor: "#f59e0b",
+        url: "#",
+        actionLabel: "오늘의 3대 액션 시작하기",
+        metrics: [
+          { label: "작전 기한", val: "오늘 자정까지 (숙성 방지)" },
+          { label: "필수 액션 수", val: "정확히 3개 (강제 완료)" },
+          { label: "성공 보상", val: "당일 라이브 비즈니스 1개" }
+        ],
+        summary: "컴퓨터 앞에 앉아 유튜브와 잡무로 하루를 날리던 방식을 끝냅니다. 오직 3가지 실행 액션에만 집중하여 당일 매출 자산을 확보합니다.",
+        chapters: [
+          { num: "CH 01", title: "생각 숙성 증후군의 원인과 치료법" },
+          { num: "CH 02", title: "오토파일럿 데스크 3대 액션 배치 원리" },
+          { num: "CH 03", title: "3D 가상 집무실의 몰입형 시각 피드백" },
+          { num: "CH 04", title: "자정 셧다운 타이머를 활용한 파킨슨의 법칙" }
+        ],
+        quote: "계획은 종이 위에서 완성되지 않습니다. 버튼을 누르고 시장의 피드백을 맞이할 때 시작됩니다."
+      },
+      {
+        assetNum: 148,
+        spineTitle: "자산 148호 릴스 바이럴 무기",
+        title: "무자본 릴스 바이럴 공식",
+        subtitle: "얼굴 없이 AI 숏폼으로 매일 100명 모으는 치트키",
+        colorMain: "#701a75",
+        colorDark: "#4a044e",
+        colorDeep: "#200122",
+        accentColor: "#f472b6",
+        url: "../halloffame/",
+        actionLabel: "명예의 전당에서 로드맵 확인 ↗",
+        metrics: [
+          { label: "제작 시간", val: "영상당 3분" },
+          { label: "유입 전환율", val: "프로필 링크 클릭 8.2%" },
+          { label: "현재 상태", val: "곧 출시 예정 (자산 148호)" }
+        ],
+        summary: "얼굴을 공개하지 않고도 셋업팟의 실전 자산을 소재로 매일 수만 조회수를 터뜨리고 잠재 고객을 자동으로 모으는 차기 프로젝트입니다.",
+        chapters: [
+          { num: "CH 01", title: "알고리즘이 강제 추천하는 3초 뇌 정지 후킹" },
+          { num: "CH 02", title: "클립 컷편집과 텍스트 타이포그래피 리듬" },
+          { num: "CH 03", title: "댓글로 무료 PDF 배포하여 이메일 수집하기" },
+          { num: "CH 04", title: "1일 1릴스 완전 자동화 템플릿" }
+        ],
+        quote: "소재가 없어서 못 하는 것이 아닙니다. 내가 만든 도구를 매일 자랑하는 것이 가장 강력한 콘텐츠입니다."
+      }
+    ];
+
+    // ── Helper: Canvas Text Wrapping ──
+    function wrapText(ctx, text, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let currentLine = words[0];
+
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = ctx.measureText(currentLine + ' ' + word).width;
+        if (width < maxWidth) {
+          currentLine += ' ' + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      }
+      lines.push(currentLine);
+      return lines;
+    }
+
+    // ── Dynamic Canvas Texture Generators ──
+    function createCoverTexture(book) {
+      const c = document.createElement('canvas');
+      c.width = 1024;
+      c.height = 1440;
+      const ctx = c.getContext('2d');
+
+      const grad = ctx.createLinearGradient(0, 0, 1024, 1440);
+      grad.addColorStop(0, book.colorDark);
+      grad.addColorStop(0.5, book.colorMain);
+      grad.addColorStop(1, book.colorDeep);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1024, 1440);
+
+      // Gold / Accent Border
+      ctx.strokeStyle = book.accentColor;
+      ctx.lineWidth = 14;
+      ctx.strokeRect(40, 40, 944, 1360);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(58, 58, 908, 1324);
+
+      // Header series
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = '700 28px Pretendard, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('SETUPOD CO-FOUNDER ARCHIVE', 512, 160);
+
+      // Asset Badge
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '800 38px "JetBrains Mono", monospace';
+      ctx.fillText(`ASSET #${book.assetNum}`, 512, 220);
+
+      // Title
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 68px Pretendard, sans-serif';
+      const lines = wrapText(ctx, book.title, 820);
+      let y = 480;
+      lines.forEach(l => {
+        ctx.fillText(l, 512, y);
+        y += 86;
+      });
+
+      // Subtitle
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.82)';
+      ctx.font = '500 32px Pretendard, sans-serif';
+      const sublines = wrapText(ctx, book.subtitle, 800);
+      y += 24;
+      sublines.forEach(l => {
+        ctx.fillText(l, 512, y);
+        y += 48;
+      });
+
+      // Center Geometric Badge / Emblem
+      ctx.strokeStyle = book.accentColor;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(512, 940, 70, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '800 24px "JetBrains Mono", monospace';
+      ctx.fillText('VERIFIED', 512, 935);
+      ctx.font = '700 18px "JetBrains Mono", monospace';
+      ctx.fillText('EDITION', 512, 960);
+
+      // Bottom footer
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '700 24px Pretendard, sans-serif';
+      ctx.fillText('⚡ 생각 숙성 방지 당일 배포 지침서', 512, 1260);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 8;
+      return tex;
+    }
+
+    function createSpineTexture(book) {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 1440;
+      const ctx = c.getContext('2d');
+
+      const grad = ctx.createLinearGradient(0, 0, 256, 1440);
+      grad.addColorStop(0, book.colorDark);
+      grad.addColorStop(0.5, book.colorMain);
+      grad.addColorStop(1, book.colorDeep);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 256, 1440);
+
+      // Accent gold stripes on edges
+      ctx.fillStyle = book.accentColor;
+      ctx.fillRect(10, 0, 6, 1440);
+      ctx.fillRect(240, 0, 6, 1440);
+
+      // Spine Header & Footer bands
+      ctx.fillRect(10, 80, 236, 6);
+      ctx.fillRect(10, 1360, 236, 6);
+
+      // Vertical text rotated 90 degrees
+      ctx.save();
+      ctx.translate(128, 720);
+      ctx.rotate(Math.PI / 2);
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '800 46px "JetBrains Mono", monospace';
+      ctx.fillText(`#${book.assetNum}`, -420, 16);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 52px Pretendard, sans-serif';
+      ctx.fillText(book.spineTitle, 60, 16);
+
+      ctx.restore();
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 8;
+      return tex;
+    }
+
+    function createInsideLeftTexture(book) {
+      const c = document.createElement('canvas');
+      c.width = 1024;
+      c.height = 1440;
+      const ctx = c.getContext('2d');
+
+      // Warm ivory luxury paper background
+      ctx.fillStyle = '#fbf9f4';
+      ctx.fillRect(0, 0, 1024, 1440);
+
+      // Book hinge spine shadow gradient on the right edge
+      const shadow = ctx.createLinearGradient(880, 0, 1024, 0);
+      shadow.addColorStop(0, 'rgba(0,0,0,0)');
+      shadow.addColorStop(1, 'rgba(0,0,0,0.18)');
+      ctx.fillStyle = shadow;
+      ctx.fillRect(880, 0, 144, 1440);
+
+      // Content Header
+      ctx.fillStyle = '#64748b';
+      ctx.font = '700 24px "JetBrains Mono", monospace';
+      ctx.fillText('SETUPOD EXECUTIVE BRIEFING', 100, 140);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 52px Pretendard, sans-serif';
+      ctx.fillText('비즈니스 핵심 요약', 100, 220);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(100, 260, 800, 2);
+
+      // 3 Key Metrics Cards
+      let cardY = 310;
+      book.metrics.forEach(m => {
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fillRect(100, cardY, 800, 110);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '600 24px Pretendard, sans-serif';
+        ctx.fillText(m.label, 140, cardY + 50);
+        ctx.fillStyle = book.colorMain;
+        ctx.font = '800 36px "JetBrains Mono", monospace';
+        ctx.fillText(m.val, 140, cardY + 92);
+        cardY += 135;
+      });
+
+      // Strategy briefing text
+      ctx.fillStyle = '#334155';
+      ctx.font = '500 28px Pretendard, sans-serif';
+      const descLines = wrapText(ctx, book.summary, 780);
+      let descY = 760;
+      descLines.forEach(l => {
+        ctx.fillText(l, 100, descY);
+        descY += 46;
+      });
+
+      // Verification Badge Box
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(100, 1150, 800, 140);
+      ctx.fillStyle = '#475569';
+      ctx.font = '700 24px Pretendard, sans-serif';
+      ctx.fillText('✓ 셋업팟 실전 검증 완료 | 당일 즉시 런칭 가능 자산', 140, 1230);
+
+      // Page Number
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 22px "JetBrains Mono", monospace';
+      ctx.fillText('PAGE 01', 100, 1370);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 8;
+      return tex;
+    }
+
+    function createInsideRightTexture(book) {
+      const c = document.createElement('canvas');
+      c.width = 1024;
+      c.height = 1440;
+      const ctx = c.getContext('2d');
+
+      // Warm ivory paper
+      ctx.fillStyle = '#fdfcf9';
+      ctx.fillRect(0, 0, 1024, 1440);
+
+      // Book hinge spine shadow gradient on the left edge
+      const shadow = ctx.createLinearGradient(0, 0, 144, 0);
+      shadow.addColorStop(0, 'rgba(0,0,0,0.18)');
+      shadow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = shadow;
+      ctx.fillRect(0, 0, 144, 1440);
+
+      // Header
+      ctx.fillStyle = '#64748b';
+      ctx.font = '700 24px "JetBrains Mono", monospace';
+      ctx.fillText('TABLE OF CONTENTS', 140, 140);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 52px Pretendard, sans-serif';
+      ctx.fillText('실전 4단계 목차', 140, 220);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(140, 260, 780, 2);
+
+      // Chapters
+      let chY = 340;
+      book.chapters.forEach(ch => {
+        ctx.fillStyle = book.accentColor;
+        ctx.font = '800 28px "JetBrains Mono", monospace';
+        ctx.fillText(ch.num, 140, chY);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '700 30px Pretendard, sans-serif';
+        ctx.fillText(ch.title, 260, chY);
+
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(140, chY + 28);
+        ctx.lineTo(900, chY + 28);
+        ctx.stroke();
+
+        chY += 105;
+      });
+
+      // Core Quote Box
+      ctx.fillStyle = '#fffbeb';
+      ctx.fillRect(140, 800, 780, 240);
+      ctx.strokeStyle = '#fde68a';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(140, 800, 780, 240);
+
+      ctx.fillStyle = '#92400e';
+      ctx.font = '800 26px Pretendard, sans-serif';
+      ctx.fillText('💡 창업가 철칙', 180, 855);
+
+      ctx.fillStyle = '#78350f';
+      ctx.font = '600 27px Pretendard, sans-serif';
+      const quoteLines = wrapText(ctx, `"${book.quote}"`, 700);
+      let qY = 910;
+      quoteLines.forEach(l => {
+        ctx.fillText(l, 180, qY);
+        qY += 46;
+      });
+
+      // Action Dispatch Banner
+      ctx.fillStyle = book.colorMain;
+      ctx.fillRect(140, 1100, 780, 120);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 30px Pretendard, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('👉 하단 [솔루션 실행] 버튼을 눌러 바로 시작하세요', 530, 1172);
+      ctx.textAlign = 'left';
+
+      // Page Number
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 22px "JetBrains Mono", monospace';
+      ctx.fillText('PAGE 02', 840, 1370);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 8;
+      return tex;
+    }
+
+    // ── Three.js Scene Setup ──
     const canvas = document.getElementById('webgl-stage');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -637,102 +1310,466 @@
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x060911);
-    scene.fog = new THREE.FogExp2(0x060911, 0.025);
+    scene.fog = new THREE.FogExp2(0x060911, 0.022);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 10, 18);
 
-    // Materials
-    const matWalnut = new THREE.MeshStandardMaterial({ color: 0x3d2414, roughness: 0.6, metalness: 0.1 });
-    const matBlackMetal = new THREE.MeshStandardMaterial({ color: 0x11141c, roughness: 0.4, metalness: 0.8 });
-    const matMatteScreen = new THREE.MeshBasicMaterial({ color: 0x091428 });
-    const matPencil = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 });
-    const matGoldSpine = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3, metalness: 0.6 });
+    // World Group
+    const worldGroup = new THREE.Group();
+    scene.add(worldGroup);
 
-    // Room Grid Floor
+    // ── Studio Architecture (Floor & Walls) ──
+    // Ground Parquet Floor
     const floorGeo = new THREE.PlaneGeometry(60, 60);
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0x0a0e1a, roughness: 0.8 });
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x0c111c,
+      roughness: 0.65,
+      metalness: 0.2
+    });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
-    scene.add(floor);
+    worldGroup.add(floor);
 
-    // Grid helper
-    const grid = new THREE.GridHelper(40, 40, 0x1e293b, 0x0f172a);
+    // Room Back Wall
+    const backWallGeo = new THREE.PlaneGeometry(50, 24);
+    const wallMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0f1d,
+      roughness: 0.85
+    });
+    const backWall = new THREE.Mesh(backWallGeo, wallMat);
+    backWall.position.set(0, 12, -9);
+    backWall.receiveShadow = true;
+    worldGroup.add(backWall);
+
+    // Left Acoustic Wall Slats
+    const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(40, 24), wallMat);
+    leftWall.rotation.y = Math.PI / 2;
+    leftWall.position.set(-18, 12, 5);
+    leftWall.receiveShadow = true;
+    worldGroup.add(leftWall);
+
+    // Subtle Architectural Floor Grid
+    const grid = new THREE.GridHelper(36, 36, 0x1e293b, 0x0f172a);
     grid.position.y = 0.01;
-    scene.add(grid);
+    worldGroup.add(grid);
 
-    // World Group
+    // ── Realistic Motion Desk Frame ──
     const deskGroup = new THREE.Group();
-    scene.add(deskGroup);
+    deskGroup.position.set(0, 0, 0);
+    worldGroup.add(deskGroup);
 
-    // 1. Motion Desk Tabletop (Walnut)
-    const deskTop = new THREE.Mesh(new THREE.BoxGeometry(14, 0.3, 7), matWalnut);
-    deskTop.position.set(0, 4.4, 0);
+    // Materials
+    const matWalnut = new THREE.MeshStandardMaterial({ color: 0x3d2414, roughness: 0.45, metalness: 0.1 });
+    const matMatteBlack = new THREE.MeshStandardMaterial({ color: 0x111622, roughness: 0.35, metalness: 0.75 });
+    const matScreen = new THREE.MeshBasicMaterial({ color: 0x091428 });
+    const matFeltPad = new THREE.MeshStandardMaterial({ color: 0x1a2130, roughness: 0.8 });
+    const matBrass = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3, metalness: 0.85 });
+
+    // Heavy Grounded Base Feet (좌우 바닥 받침대 - 다리 두 개로 허공에 떠 있는 기형 구조 완전 제거)
+    const legLeftBase = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.24, 5.6), matMatteBlack);
+    legLeftBase.position.set(-5.4, 0.12, 0);
+    legLeftBase.castShadow = true;
+    legLeftBase.receiveShadow = true;
+    deskGroup.add(legLeftBase);
+
+    const legRightBase = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.24, 5.6), matMatteBlack);
+    legRightBase.position.set(5.4, 0.12, 0);
+    legRightBase.castShadow = true;
+    legRightBase.receiveShadow = true;
+    deskGroup.add(legRightBase);
+
+    // Telescopic Lift Columns
+    const legLeftCol = new THREE.Mesh(new THREE.BoxGeometry(0.7, 4.3, 0.7), matMatteBlack);
+    legLeftCol.position.set(-5.4, 2.27, 0);
+    legLeftCol.castShadow = true;
+    deskGroup.add(legLeftCol);
+
+    const legRightCol = new THREE.Mesh(new THREE.BoxGeometry(0.7, 4.3, 0.7), matMatteBlack);
+    legRightCol.position.set(5.4, 2.27, 0);
+    legRightCol.castShadow = true;
+    deskGroup.add(legRightCol);
+
+    // Under-desk Crossbeam
+    const crossbeam = new THREE.Mesh(new THREE.BoxGeometry(10.2, 0.35, 0.35), matMatteBlack);
+    crossbeam.position.set(0, 4.15, 0);
+    deskGroup.add(crossbeam);
+
+    // Solid Walnut Desk Top (1600 x 800)
+    const deskTop = new THREE.Mesh(new THREE.BoxGeometry(14, 0.28, 6.8), matWalnut);
+    deskTop.position.set(0, 4.42, 0);
     deskTop.castShadow = true;
     deskTop.receiveShadow = true;
     deskGroup.add(deskTop);
 
-    // Desk Legs (Black Metal)
-    const legGeo = new THREE.BoxGeometry(0.5, 4.4, 1.2);
-    const legL = new THREE.Mesh(legGeo, matBlackMetal);
-    legL.position.set(-6, 2.2, 0);
-    const legR = legL.clone();
-    legR.position.set(6, 2.2, 0);
-    deskGroup.add(legL, legR);
+    // Felt Desk Mat
+    const deskMat = new THREE.Mesh(new THREE.BoxGeometry(8.2, 0.03, 3.8), matFeltPad);
+    deskMat.position.set(-1.0, 4.57, 0.8);
+    deskMat.receiveShadow = true;
+    deskGroup.add(deskMat);
 
-    // Desk Mat
-    const matPad = new THREE.Mesh(new THREE.BoxGeometry(8, 0.04, 3.8), new THREE.MeshStandardMaterial({ color: 0x1e2330 }));
-    matPad.position.set(0, 4.56, 0.8);
-    matPad.receiveShadow = true;
-    deskGroup.add(matPad);
+    // Mechanical Keyboard
+    const keyboard = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 1.1), matMatteBlack);
+    keyboard.position.set(-1.0, 4.62, 1.5);
+    keyboard.castShadow = true;
+    deskGroup.add(keyboard);
 
-    // 2. Ultrawide Curved Monitor
-    const monStand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.2), matBlackMetal);
-    monStand.position.set(0, 5.5, -2);
-    const monScreen = new THREE.Mesh(new THREE.BoxGeometry(9.5, 3.8, 0.3), matMatteScreen);
-    monScreen.position.set(0, 6.8, -1.8);
-    deskGroup.add(monStand, monScreen);
+    // Mouse
+    const mouse = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.85), matMatteBlack);
+    mouse.position.set(1.4, 4.61, 1.5);
+    deskGroup.add(mouse);
 
-    // 3. Asset #145: 3D iPad Pro on Desk Stand
-    const ipadMesh = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 3.4), new THREE.MeshStandardMaterial({ color: 0x020617, roughness: 0.2 }));
-    ipadMesh.position.set(-3.2, 4.62, 0.6);
-    ipadMesh.rotation.y = 0.25;
-    deskGroup.add(ipadMesh);
+    // Curved Ultrawide Monitor & Stand
+    const monStand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.0), matMatteBlack);
+    monStand.position.set(-1.0, 5.4, -1.8);
+    monStand.castShadow = true;
+    deskGroup.add(monStand);
 
-    // 4. Asset #146: 3D Hardcover Book on Desk
-    const bookMesh = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.35, 3.2), matGoldSpine);
-    bookMesh.position.set(3.2, 4.74, 0.8);
-    bookMesh.rotation.y = -0.3;
-    deskGroup.add(bookMesh);
+    const monBezel = new THREE.Mesh(new THREE.BoxGeometry(8.2, 3.6, 0.2), matMatteBlack);
+    monBezel.position.set(-1.0, 6.4, -1.2);
+    monBezel.castShadow = true;
+    deskGroup.add(monBezel);
 
-    // 5. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    const monScreen = new THREE.Mesh(new THREE.PlaneGeometry(8.0, 3.4), matScreen);
+    monScreen.position.set(-1.0, 6.4, -1.09);
+    deskGroup.add(monScreen);
+
+    // Screenbar Lamp
+    const screenbar = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 4.6, 16), matMatteBlack);
+    screenbar.rotation.z = Math.PI / 2;
+    screenbar.position.set(-1.0, 8.25, -1.05);
+    screenbar.castShadow = true;
+    deskGroup.add(screenbar);
+
+    // ========================================================
+    // ── 3D Bookshelf (원목 서가) & 5 Interactive Books ──
+    // ========================================================
+    const shelfGroup = new THREE.Group();
+    shelfGroup.position.set(4.6, 4.56, -0.2); // Positioned on right side of desk
+    deskGroup.add(shelfGroup);
+
+    // Bookshelf Structure (Walnut Bottom & Brass Bookends)
+    const shelfBottom = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.14, 2.2), matWalnut);
+    shelfBottom.position.set(0, 0.07, 0);
+    shelfBottom.castShadow = true;
+    shelfGroup.add(shelfBottom);
+
+    const shelfBack = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.8, 0.08), matWalnut);
+    shelfBack.position.set(0, 1.4, -1.05);
+    shelfBack.castShadow = true;
+    shelfGroup.add(shelfBack);
+
+    // Left and Right Brass Bookends
+    const bookendL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.4, 2.0), matBrass);
+    bookendL.position.set(-1.8, 1.25, 0);
+    bookendL.castShadow = true;
+    shelfGroup.add(bookendL);
+
+    const bookendR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.4, 2.0), matBrass);
+    bookendR.position.set(1.8, 1.25, 0);
+    bookendR.castShadow = true;
+    shelfGroup.add(bookendR);
+
+    // Small Brass Engraved Plate
+    const brassPlate = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.06, 0.02), matBrass);
+    brassPlate.position.set(0, 0.07, 1.11);
+    shelfGroup.add(brassPlate);
+
+    // ── Create 5 Interactive 3D Hardcover Books ──
+    const interactiveBooks = [];
+    const bookWidth = 1.8;
+    const bookHeight = 2.6;
+    const bookDepth = 0.38;
+    const coverThick = 0.04;
+
+    BOOK_CATALOG.forEach((bookData, idx) => {
+      const bookGroup = new THREE.Group();
+
+      // Shelf slot position: lined up side by side in the shelf
+      const slotX = -1.4 + idx * 0.7;
+      const shelfPos = new THREE.Vector3(slotX, 1.44, 0);
+      const shelfRot = new THREE.Euler(0, -Math.PI / 2, 0); // Spine facing room (+Z)
+
+      bookGroup.position.copy(shelfPos);
+      bookGroup.rotation.copy(shelfRot);
+
+      // Book Dimensions & Structure
+      // 1. Back Cover
+      const coverTex = createCoverTexture(bookData);
+      const spineTex = createSpineTexture(bookData);
+      const insideLeftTex = createInsideLeftTexture(bookData);
+      const insideRightTex = createInsideRightTexture(bookData);
+
+      const matBackCover = new THREE.MeshStandardMaterial({
+        map: coverTex,
+        roughness: 0.35,
+        metalness: 0.1
+      });
+      const backMesh = new THREE.Mesh(new THREE.BoxGeometry(bookWidth, bookHeight, coverThick), matBackCover);
+      backMesh.position.set(0, 0, -bookDepth / 2 + coverThick / 2);
+      backMesh.castShadow = true;
+      bookGroup.add(backMesh);
+
+      // 2. Spine (Left edge)
+      const matSpine = new THREE.MeshStandardMaterial({
+        map: spineTex,
+        roughness: 0.35,
+        metalness: 0.2
+      });
+      const spineMesh = new THREE.Mesh(new THREE.BoxGeometry(coverThick, bookHeight, bookDepth), matSpine);
+      spineMesh.position.set(-bookWidth / 2 + coverThick / 2, 0, 0);
+      spineMesh.castShadow = true;
+      bookGroup.add(spineMesh);
+
+      // 3. Page Block (Thick Ivory Pages)
+      const matPagesBody = new THREE.MeshStandardMaterial({ color: 0xfbf9f2, roughness: 0.7 });
+      const matInsideRightPage = new THREE.MeshStandardMaterial({ map: insideRightTex, roughness: 0.5 });
+      
+      const pageBlockMaterials = [
+        matPagesBody,        // Right edge (pages block)
+        matPagesBody,        // Left edge (spine contact)
+        matPagesBody,        // Top edge
+        matPagesBody,        // Bottom edge
+        matInsideRightPage,  // Front face (+Z: Right page when open!)
+        matPagesBody         // Back face (-Z)
+      ];
+      const pageBlock = new THREE.Mesh(
+        new THREE.BoxGeometry(bookWidth - coverThick * 1.4, bookHeight - 0.08, bookDepth - coverThick * 1.5),
+        pageBlockMaterials
+      );
+      pageBlock.position.set(coverThick / 2, 0, 0);
+      bookGroup.add(pageBlock);
+
+      // 4. Front Cover Pivot Group (Hinged at left edge x = -bookWidth/2, z = bookDepth/2)
+      const coverPivot = new THREE.Group();
+      coverPivot.position.set(-bookWidth / 2, 0, bookDepth / 2);
+
+      const matFrontCover = new THREE.MeshStandardMaterial({
+        map: coverTex,
+        roughness: 0.35,
+        metalness: 0.1
+      });
+      const matInsideLeftPage = new THREE.MeshStandardMaterial({
+        map: insideLeftTex,
+        roughness: 0.5
+      });
+
+      const frontMeshMaterials = [
+        matSpine,           // Right
+        matSpine,           // Left
+        matSpine,           // Top
+        matSpine,           // Bottom
+        matFrontCover,      // Outside Front face (+Z)
+        matInsideLeftPage   // Inside face (-Z: Left page when open!)
+      ];
+      const frontMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(bookWidth, bookHeight, coverThick),
+        frontMeshMaterials
+      );
+      frontMesh.position.set(bookWidth / 2, 0, -coverThick / 2);
+      frontMesh.castShadow = true;
+      coverPivot.add(frontMesh);
+
+      bookGroup.add(coverPivot);
+
+      // Invisible Raycast Hit Box for Easy Clicking
+      const hitBox = new THREE.Mesh(
+        new THREE.BoxGeometry(bookWidth * 1.1, bookHeight * 1.1, bookDepth * 1.3),
+        new THREE.MeshBasicMaterial({ visible: false })
+      );
+      bookGroup.add(hitBox);
+
+      // Metadata
+      bookGroup.userData = {
+        isBook: true,
+        index: idx,
+        bookData: bookData,
+        shelfPos: shelfPos.clone(),
+        shelfRot: shelfRot.clone(),
+        coverPivot: coverPivot,
+        hoverZOffset: 0,
+        currentCoverAngle: 0,
+        targetCoverAngle: 0
+      };
+
+      shelfGroup.add(bookGroup);
+      interactiveBooks.push(bookGroup);
+    });
+
+    // ── Lighting ──
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.5);
-    dirLight.position.set(10, 20, 15);
+    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.6);
+    dirLight.position.set(12, 22, 16);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.bias = -0.0001;
     scene.add(dirLight);
 
-    // Screenbar Lamp (Amber/Cyan)
-    const screenbarLight = new THREE.PointLight(0xf59e0b, 2.5, 8);
-    screenbarLight.position.set(0, 8.8, -1.2);
+    // Warm Screenbar Lamp Spotlight
+    const screenbarLight = new THREE.PointLight(0xf59e0b, 2.8, 9);
+    screenbarLight.position.set(-1.0, 8.2, -0.6);
     scene.add(screenbarLight);
 
-    // Neon Backlight
-    const backlight = new THREE.PointLight(0x06b6d4, 2.0, 10);
-    backlight.position.set(0, 5.2, -3.2);
+    // Neon Backlight behind monitor
+    const backlight = new THREE.PointLight(0x06b6d4, 2.0, 9);
+    backlight.position.set(-1.0, 5.6, -2.4);
     scene.add(backlight);
 
-    // ── Camera Views & Smooth Orbit ──
+    // Warm Shelf Spotlight (서가를 은은하고 고급스럽게 밝히는 스포트라이트)
+    const shelfSpot = new THREE.PointLight(0xfef3c7, 2.2, 7);
+    shelfSpot.position.set(4.6, 7.2, 0.8);
+    scene.add(shelfSpot);
+
+    // ── Interaction & Book Inspection Engine ──
+    let activeBook = null;       // Currently extracted/open book
+    let hoveredBook = null;      // Currently hovered book
+    let inspectMode = false;     // True when a book is being viewed
+    let raycaster = new THREE.Raycaster();
+    const mousePos = new THREE.Vector2();
+
+    const tooltip = document.getElementById('bookTooltip');
+    const tooltipBadge = document.getElementById('tooltipBadge');
+    const tooltipText = document.getElementById('tooltipText');
+    const inspectHud = document.getElementById('bookInspectHud');
+    const missionHud = document.getElementById('missionHud');
+
+    // Camera Presets
+    let targetCamPos = new THREE.Vector3(0, 10, 18);
+    let targetLookAt = new THREE.Vector3(0, 4.8, 0);
+
+    function setCamView(view) {
+      document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(
+        view === 'overview' ? 'camBtnOverview' :
+        view === 'shelf' ? 'camBtnShelf' :
+        view === 'desk' ? 'camBtnDesk' : 'camBtnScreen'
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (view === 'overview') {
+        targetCamPos.set(0, 10, 18);
+        targetLookAt.set(0, 4.8, 0);
+      } else if (view === 'shelf') {
+        // Zoom right in front of the Bookshelf!
+        targetCamPos.set(4.6, 6.2, 4.8);
+        targetLookAt.set(4.6, 5.8, -0.2);
+      } else if (view === 'desk') {
+        targetCamPos.set(0, 7.5, 9.5);
+        targetLookAt.set(0, 5.0, 0.5);
+      } else if (view === 'screen') {
+        targetCamPos.set(-1.0, 6.6, 4.8);
+        targetLookAt.set(-1.0, 6.4, -1.1);
+      }
+    }
+
+    // ── Open Book In 3D (The Hero Interaction) ──
+    function openBookIn3D(bookGroup) {
+      if (activeBook === bookGroup) return;
+
+      // Close previously open book if any
+      if (activeBook) {
+        closeActiveBook(false);
+      }
+
+      audio.playOpen();
+      activeBook = bookGroup;
+      inspectMode = true;
+
+      // Hide mission HUD, show book inspect HUD
+      missionHud.classList.add('minimized');
+      inspectHud.classList.add('active');
+
+      const data = bookGroup.userData.bookData;
+      document.getElementById('inspectAssetTag').innerText = `ASSET #${data.assetNum}`;
+      document.getElementById('inspectTitle').innerText = data.title;
+      document.getElementById('inspectSub').innerText = data.subtitle;
+      document.getElementById('warpActionLabel').innerText = data.actionLabel;
+
+      // Move camera to ideal reading angle
+      targetCamPos.set(0, 6.0, 10.5);
+      targetLookAt.set(0, 5.4, 0);
+
+      // Open the front cover! (Swing open -162 degrees)
+      bookGroup.userData.targetCoverAngle = -Math.PI * 0.92;
+    }
+
+    function closeActiveBook(restoreHud = true) {
+      if (!activeBook) return;
+
+      audio.playClose();
+      // Snap front cover shut
+      activeBook.userData.targetCoverAngle = 0;
+
+      activeBook = null;
+      inspectMode = false;
+
+      inspectHud.classList.remove('active');
+      if (restoreHud) {
+        missionHud.classList.remove('minimized');
+      }
+
+      // Return camera to overview or shelf
+      setCamView('shelf');
+    }
+
+    function inspectBookByAsset(assetNum) {
+      const target = interactiveBooks.find(b => b.userData.bookData.assetNum === assetNum);
+      if (target) {
+        openBookIn3D(target);
+      }
+    }
+
+    function executeBookWarp() {
+      if (!activeBook) return;
+      const data = activeBook.userData.bookData;
+      if (data.url && data.url !== '#') {
+        window.open(data.url, '_blank');
+      } else {
+        closeActiveBook();
+      }
+    }
+
+    // Keyboard ESC to Close Book
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeActiveBook();
+        closeSuccessModal();
+      }
+    });
+
+    // ── Mouse & Touch Raycasting ──
     let isDragging = false;
     let prevMouseX = 0;
     let prevMouseY = 0;
     let targetRotY = 0;
-    let targetRotX = 0.15;
+    let targetRotX = 0.12;
+
+    window.addEventListener('mousemove', (e) => {
+      mousePos.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mousePos.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      // Update Tooltip Position
+      if (hoveredBook && !inspectMode) {
+        tooltip.style.left = `${e.clientX}px`;
+        tooltip.style.top = `${e.clientY}px`;
+      }
+
+      // Orbit Drag
+      if (isDragging) {
+        const dx = e.clientX - prevMouseX;
+        const dy = e.clientY - prevMouseY;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+
+        targetRotY += dx * 0.005;
+        targetRotX += dy * 0.005;
+        targetRotX = Math.max(-0.25, Math.min(0.6, targetRotX));
+      }
+    });
 
     canvas.addEventListener('mousedown', (e) => {
       isDragging = true;
@@ -740,19 +1777,26 @@
       prevMouseY = e.clientY;
     });
 
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - prevMouseX;
-      const dy = e.clientY - prevMouseY;
-      prevMouseX = e.clientX;
-      prevMouseY = e.clientY;
+    window.addEventListener('mouseup', (e) => {
+      const wasDrag = Math.abs(e.clientX - prevMouseX) > 6 || Math.abs(e.clientY - prevMouseY) > 6;
+      isDragging = false;
 
-      targetRotY += dx * 0.005;
-      targetRotX += dy * 0.005;
-      targetRotX = Math.max(-0.2, Math.min(0.6, targetRotX));
+      // Click Trigger (if not dragging)
+      if (!wasDrag) {
+        raycaster.setFromCamera(mousePos, camera);
+        const intersects = raycaster.intersectObjects(interactiveBooks, true);
+
+        if (intersects.length > 0) {
+          let obj = intersects[0].object;
+          while (obj && !obj.userData.isBook) {
+            obj = obj.parent;
+          }
+          if (obj && obj.userData.isBook) {
+            openBookIn3D(obj);
+          }
+        }
+      }
     });
-
-    window.addEventListener('mouseup', () => { isDragging = false; });
 
     // Touch Support
     canvas.addEventListener('touchstart', (e) => {
@@ -772,43 +1816,18 @@
 
       targetRotY += dx * 0.006;
       targetRotX += dy * 0.006;
-      targetRotX = Math.max(-0.2, Math.min(0.6, targetRotX));
+      targetRotX = Math.max(-0.25, Math.min(0.6, targetRotX));
     }, { passive: true });
 
     window.addEventListener('touchend', () => { isDragging = false; });
 
-    // Camera Presets
-    let targetCamPos = new THREE.Vector3(0, 10, 18);
-    let targetLookAt = new THREE.Vector3(0, 4.8, 0);
-
-    function setCamView(view, btn) {
-      document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (view === 'overview') {
-        targetCamPos.set(0, 10, 18);
-        targetLookAt.set(0, 4.8, 0);
-      } else if (view === 'desk') {
-        targetCamPos.set(0, 7.5, 9);
-        targetLookAt.set(0, 5.0, 0.5);
-      } else if (view === 'screen') {
-        targetCamPos.set(0, 6.8, 5.5);
-        targetLookAt.set(0, 6.8, -1.8);
-      }
-    }
-
-    // ── Toys Control ──
+    // ── Toys Control (Screenbar & Desk Height) ──
     let isScreenbarOn = true;
     function toggleScreenbar() {
       isScreenbarOn = !isScreenbarOn;
-      screenbarLight.intensity = isScreenbarOn ? 2.5 : 0;
+      screenbarLight.intensity = isScreenbarOn ? 2.8 : 0;
+      shelfSpot.intensity = isScreenbarOn ? 2.2 : 0.4;
       document.getElementById('btnLamp').classList.toggle('active', isScreenbarOn);
-    }
-
-    let isAudioPlaying = false;
-    function toggleSpeakerAudio() {
-      isAudioPlaying = !isAudioPlaying;
-      document.getElementById('btnSpeaker').classList.toggle('active', isAudioPlaying);
     }
 
     let isStanding = false;
@@ -817,54 +1836,94 @@
       const txt = document.getElementById('deskHeightText');
       txt.innerText = isStanding ? "착석 (74cm)" : "스탠딩 (105cm)";
       deskGroup.position.y = isStanding ? 1.5 : 0;
+      audio.playSlide();
     }
 
-    // ── Hotspots Screen Projection ──
-    const hotspotIpad = document.getElementById('hotspot-ipad');
-    const hotspotBook = document.getElementById('hotspot-book');
-    const hotspotMonitor = document.getElementById('hotspot-monitor');
+    // ── Render & Animation Loop ──
+    const clock = new THREE.Clock();
 
-    function updateHotspots() {
-      const posIpad = new THREE.Vector3(-3.2, 4.8, 0.6).applyMatrix4(deskGroup.matrixWorld);
-      const posBook = new THREE.Vector3(3.2, 5.0, 0.8).applyMatrix4(deskGroup.matrixWorld);
-      const posMon = new THREE.Vector3(0, 7.2, -1.8).applyMatrix4(deskGroup.matrixWorld);
-
-      projectToScreen(posIpad, hotspotIpad);
-      projectToScreen(posBook, hotspotBook);
-      projectToScreen(posMon, hotspotMonitor);
-    }
-
-    function projectToScreen(vec, element) {
-      const temp = vec.clone().project(camera);
-      const x = (temp.x * 0.5 + 0.5) * window.innerWidth;
-      const y = (-(temp.y * 0.5) + 0.5) * window.innerHeight;
-
-      if (temp.z < 1) {
-        element.style.display = 'flex';
-        element.style.left = `${x}px`;
-        element.style.top = `${y}px`;
-      } else {
-        element.style.display = 'none';
-      }
-    }
-
-    // ── Animation Loop ──
     function animate() {
       requestAnimationFrame(animate);
+      const delta = clock.getDelta();
 
-      // Smooth camera lerp
-      camera.position.lerp(targetCamPos, 0.05);
+      // Smooth Camera Lerp
+      camera.position.lerp(targetCamPos, 0.06);
       camera.lookAt(targetLookAt);
 
-      // Smooth rotation
-      deskGroup.rotation.y += (targetRotY - deskGroup.rotation.y) * 0.08;
-      deskGroup.rotation.x += (targetRotX - deskGroup.rotation.x) * 0.08;
+      // Smooth Orbit Drag
+      worldGroup.rotation.y += (targetRotY - worldGroup.rotation.y) * 0.08;
+      worldGroup.rotation.x += (targetRotX - worldGroup.rotation.x) * 0.08;
+
+      // Raycast Hover over Books (when not inspecting an active book)
+      if (!inspectMode) {
+        raycaster.setFromCamera(mousePos, camera);
+        const intersects = raycaster.intersectObjects(interactiveBooks, true);
+
+        if (intersects.length > 0) {
+          let obj = intersects[0].object;
+          while (obj && !obj.userData.isBook) {
+            obj = obj.parent;
+          }
+          if (obj && obj !== hoveredBook) {
+            if (hoveredBook) hoveredBook.userData.hoverZOffset = 0;
+            hoveredBook = obj;
+            hoveredBook.userData.hoverZOffset = 0.65; // Slide book forward!
+            audio.playSlide();
+
+            canvas.classList.add('pointer');
+            tooltipBadge.innerText = `#${obj.userData.bookData.assetNum}`;
+            tooltipText.innerText = `${obj.userData.bookData.title} (클릭하여 펼치기 📖)`;
+            tooltip.classList.add('show');
+          }
+        } else {
+          if (hoveredBook) {
+            hoveredBook.userData.hoverZOffset = 0;
+            hoveredBook = null;
+            canvas.classList.remove('pointer');
+            tooltip.classList.remove('show');
+          }
+        }
+      } else {
+        canvas.classList.remove('pointer');
+        tooltip.classList.remove('show');
+      }
+
+      // ── Animate Books (Pull out, rotate, & open cover) ──
+      interactiveBooks.forEach(b => {
+        const u = b.userData;
+
+        if (b === activeBook) {
+          // EXTRACTED ACTIVE BOOK: Float in front of camera
+          const targetWorldPos = new THREE.Vector3(0, 5.2, 3.2); // Center stage
+          const localTarget = targetWorldPos.clone().sub(deskGroup.position).sub(shelfGroup.position);
+
+          b.position.lerp(localTarget, 0.09);
+
+          // Rotate to face camera flat: Euler(0.12, 0, 0)
+          b.rotation.x += (0.12 - b.rotation.x) * 0.09;
+          b.rotation.y += (0 - b.rotation.y) * 0.09;
+          b.rotation.z += (0 - b.rotation.z) * 0.09;
+        } else {
+          // IDLE BOOK IN SHELF: Sit in shelf slot + hover slide offset along Z
+          const targetSlotPos = u.shelfPos.clone();
+          targetSlotPos.z += u.hoverZOffset;
+
+          b.position.lerp(targetSlotPos, 0.1);
+          b.rotation.x += (u.shelfRot.x - b.rotation.x) * 0.1;
+          b.rotation.y += (u.shelfRot.y - b.rotation.y) * 0.1;
+          b.rotation.z += (u.shelfRot.z - b.rotation.z) * 0.1;
+        }
+
+        // Smooth Front Cover Swing (Hinge Pivot Animation)
+        u.currentCoverAngle += (u.targetCoverAngle - u.currentCoverAngle) * 0.12;
+        u.coverPivot.rotation.y = u.currentCoverAngle;
+      });
 
       renderer.render(scene, camera);
-      updateHotspots();
     }
     animate();
 
+    // Resize Handler
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();

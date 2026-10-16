@@ -1419,9 +1419,9 @@
         </a>
       </div>
       <div class="mobile-menu-footer">
-        <a href="/bizcard/maker.html" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
+        <a href="/multilink/" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
           <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
-          <span>내 팟(Pod) 만들기</span>
+          <span>내 멀티링크 만들기</span>
         </a>
       </div>
     </div>
@@ -1488,20 +1488,6 @@
         </button>
       </div>
     </div>
-
-    <!-- 🌟 SETUPOD 시그니처: 3D 디지털 명함 연동 브릿지 배너 -->
-    <a href="#" onclick="window.open('bizcard_public.html?id=' + (JSON.parse(localStorage.getItem('setupod_card_data'))?.id || 'setupod'), '_blank'); return false;" class="card-bridge-banner">
-      <div class="bridge-left">
-        <div class="bridge-icon">
-          <i data-lucide="rotate-3d" style="width:20px;height:20px;"></i>
-        </div>
-        <div>
-          <div class="bridge-title">공식 3D 인터랙티브 디지털 명함</div>
-          <div class="bridge-desc">스마트폰에서 직접 회전하는 3D 실물 카드 & 연락처 저장</div>
-        </div>
-      </div>
-      <i data-lucide="chevron-right" style="width:16px;height:16px;color:rgba(255,255,255,0.4);"></i>
-    </a>
 
     <!-- 링크 목록 관리자 (링크믹스 구조: 썸네일 + 제목 + 4대 액션바) -->
     <div class="links-manager" id="linksContainer">
@@ -1898,7 +1884,7 @@
         title: "공식 3D 인터랙티브 디지털 명함",
         desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
         badge: "시그니처 툴",
-        url: "bizcard_public.html?id=" + myCardId
+        url: "https://toomcard.com/card?id=" + myCardId
       },
       {
         id: 102,
@@ -2102,7 +2088,7 @@
               <div class="tool-title">${item.title}</div>
               <div class="tool-desc">${item.desc}</div>
             </div>
-            <button class="btn-tool-launch" onclick="launchInAppTool('3D 명함', 'bizcard_public.html?id=' + myCardId)">
+            <button class="btn-tool-launch" onclick="window.open('https://toomcard.com/card?id=' + myCardId, '_blank')">
               <i data-lucide="rotate-3d" style="width:16px;height:16px;"></i>
               <span>3D 명함 열기 & 연락처 저장하기</span>
             </button>
@@ -2348,7 +2334,7 @@
           type: "card_3d",
           title: "공식 3D 인터랙티브 디지털 명함",
           desc: "스마트폰에서 직접 360° 회전하는 3D 실물 카드 & 연락처 즉시 저장",
-          url: "bizcard_public.html?id=" + myCardId
+          url: "https://toomcard.com/card?id=" + myCardId
         });
         showToast("3D 명함이 추가되었습니다!");
       } else if (type === 'lead_form') {
