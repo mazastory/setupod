@@ -1099,41 +1099,87 @@
 
     function createSpineTexture(book) {
       const c = document.createElement('canvas');
-      c.width = 256;
+      c.width = 300;
       c.height = 1440;
       const ctx = c.getContext('2d');
 
-      const grad = ctx.createLinearGradient(0, 0, 256, 1440);
-      grad.addColorStop(0, book.colorDark);
-      grad.addColorStop(0.5, book.colorMain);
+      const grad = ctx.createLinearGradient(0, 0, 300, 0);
+      grad.addColorStop(0, book.colorDeep);
+      grad.addColorStop(0.2, book.colorMain);
+      grad.addColorStop(0.8, book.colorMain);
       grad.addColorStop(1, book.colorDeep);
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 256, 1440);
+      ctx.fillRect(0, 0, 300, 1440);
 
-      // Accent gold stripes on edges
+      // 3D cylindrical shadow highlight
+      const highlight = ctx.createLinearGradient(0, 0, 300, 0);
+      highlight.addColorStop(0, 'rgba(0, 0, 0, 0.5)');
+      highlight.addColorStop(0.2, 'rgba(255, 255, 255, 0.12)');
+      highlight.addColorStop(0.8, 'rgba(255, 255, 255, 0.05)');
+      highlight.addColorStop(1, 'rgba(0, 0, 0, 0.6)');
+      ctx.fillStyle = highlight;
+      ctx.fillRect(0, 0, 300, 1440);
+
+      // 5 Raised Binding Ribs (양장본 가로 바인딩 립) with 3D shadows and gold rules
+      const ribYs = [140, 360, 960, 1180, 1360];
+      ribYs.forEach(ry => {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.fillRect(16, ry - 5, 268, 3);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.fillRect(16, ry + 4, 268, 4);
+        ctx.fillStyle = book.accentColor;
+        ctx.fillRect(16, ry - 2, 268, 6);
+      });
+
+      // Top Asset Badge Box (Y = 40 to 110)
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.fillRect(36, 42, 228, 70);
+      ctx.strokeStyle = book.accentColor;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(36, 42, 228, 70);
+
       ctx.fillStyle = book.accentColor;
-      ctx.fillRect(10, 0, 6, 1440);
-      ctx.fillRect(240, 0, 6, 1440);
-
-      // Spine Header & Footer bands
-      ctx.fillRect(10, 80, 236, 6);
-      ctx.fillRect(10, 1360, 236, 6);
-
-      // Vertical text rotated 90 degrees
-      ctx.save();
-      ctx.translate(128, 720);
-      ctx.rotate(Math.PI / 2);
+      ctx.font = '900 36px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
+      ctx.fillText(`#${book.assetNum}`, 150, 90);
 
-      ctx.fillStyle = book.accentColor;
-      ctx.font = '800 46px "JetBrains Mono", monospace';
-      ctx.fillText(`#${book.assetNum}`, -420, 16);
-
+      // Spine Title (Vertical Korean Typesetting)
+      // Strip '#146호 ' prefix if present since #146 is already in the badge!
+      const titleClean = book.spineTitle.replace(/^#?\d+호?\s*/, '');
       ctx.fillStyle = '#ffffff';
-      ctx.font = '800 52px Pretendard, sans-serif';
-      ctx.fillText(book.spineTitle, 60, 16);
+      ctx.font = '900 48px Pretendard, sans-serif';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
 
-      ctx.restore();
+      let charY = 220;
+      for (let i = 0; i < titleClean.length; i++) {
+        const ch = titleClean[i];
+        if (ch === ' ') {
+          charY += 28;
+          continue;
+        }
+        ctx.fillText(ch, 150, charY);
+        charY += 58;
+      }
+      ctx.shadowColor = 'transparent';
+
+      // Category / Subtitle between Y = 1000 ~ 1130
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '800 24px Pretendard, sans-serif';
+      ctx.fillText('SETUPOD', 150, 1045);
+      ctx.font = '700 20px Pretendard, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.fillText('실전 자산', 150, 1080);
+
+      // Bottom Publisher Brand (Y = 1220 ~ 1320)
+      ctx.fillStyle = book.accentColor;
+      ctx.font = '800 22px "JetBrains Mono", monospace';
+      ctx.fillText('ARCHIVE', 150, 1270);
+      ctx.font = '700 16px "JetBrains Mono", monospace';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.fillText('EDITION', 150, 1298);
 
       const tex = new THREE.CanvasTexture(c);
       tex.anisotropy = 8;
@@ -1480,16 +1526,16 @@
     const interactiveBooks = [];
     const bookWidth = 1.8;
     const bookHeight = 2.6;
-    const bookDepth = 0.38;
+    const bookDepth = 0.52;
     const coverThick = 0.04;
 
     BOOK_CATALOG.forEach((bookData, idx) => {
       const bookGroup = new THREE.Group();
 
-      // Shelf slot position: lined up side by side in the shelf
-      const slotX = -1.4 + idx * 0.7;
+      // Shelf slot position: lined up side by side in the shelf with spines facing out (+Z)!
+      const slotX = -1.2 + idx * 0.6;
       const shelfPos = new THREE.Vector3(slotX, 1.44, 0);
-      const shelfRot = new THREE.Euler(0, -Math.PI / 2, 0); // Spine facing room (+Z)
+      const shelfRot = new THREE.Euler(0, Math.PI / 2, 0); // Spine facing room (+Z)!
 
       bookGroup.position.copy(shelfPos);
       bookGroup.rotation.copy(shelfRot);
@@ -1511,13 +1557,13 @@
       backMesh.castShadow = true;
       bookGroup.add(backMesh);
 
-      // 2. Spine (Left edge)
+      // 2. Spine (Left edge - faces room when rotated +PI/2)
       const matSpine = new THREE.MeshStandardMaterial({
         map: spineTex,
         roughness: 0.35,
-        metalness: 0.2
+        metalness: 0.15
       });
-      const spineMesh = new THREE.Mesh(new THREE.BoxGeometry(coverThick, bookHeight, bookDepth), matSpine);
+      const spineMesh = new THREE.Mesh(new THREE.BoxGeometry(coverThick * 1.5, bookHeight, bookDepth), matSpine);
       spineMesh.position.set(-bookWidth / 2 + coverThick / 2, 0, 0);
       spineMesh.castShadow = true;
       bookGroup.add(spineMesh);
@@ -1527,7 +1573,7 @@
       const matInsideRightPage = new THREE.MeshStandardMaterial({ map: insideRightTex, roughness: 0.5 });
       
       const pageBlockMaterials = [
-        matPagesBody,        // Right edge (pages block)
+        matPagesBody,        // Right edge (open paper block)
         matPagesBody,        // Left edge (spine contact)
         matPagesBody,        // Top edge
         matPagesBody,        // Bottom edge
@@ -1554,12 +1600,16 @@
         map: insideLeftTex,
         roughness: 0.5
       });
+      const matCoverEdge = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(bookData.colorDark),
+        roughness: 0.4
+      });
 
       const frontMeshMaterials = [
-        matSpine,           // Right
-        matSpine,           // Left
-        matSpine,           // Top
-        matSpine,           // Bottom
+        matCoverEdge,       // Right (+X)
+        matCoverEdge,       // Left (-X)
+        matCoverEdge,       // Top (+Y)
+        matCoverEdge,       // Bottom (-Y)
         matFrontCover,      // Outside Front face (+Z)
         matInsideLeftPage   // Inside face (-Z: Left page when open!)
       ];
@@ -1689,9 +1739,9 @@
       document.getElementById('inspectSub').innerText = data.subtitle;
       document.getElementById('warpActionLabel').innerText = data.actionLabel;
 
-      // Move camera to ideal reading angle
-      targetCamPos.set(0, 6.0, 10.5);
-      targetLookAt.set(0, 5.4, 0);
+      // Move camera to ideal reading angle facing the floating open book (completely above desk)
+      targetCamPos.set(0, 7.1, 9.8);
+      targetLookAt.set(0, 6.8, 5.0);
 
       // Open the front cover! (Swing open -162 degrees)
       bookGroup.userData.targetCoverAngle = -Math.PI * 0.92;
@@ -1893,14 +1943,14 @@
         const u = b.userData;
 
         if (b === activeBook) {
-          // EXTRACTED ACTIVE BOOK: Float in front of camera
-          const targetWorldPos = new THREE.Vector3(0, 5.2, 3.2); // Center stage
+          // EXTRACTED ACTIVE BOOK: Float comfortably above the desk in front of camera (no clipping!)
+          const targetWorldPos = new THREE.Vector3(0, 6.8, 5.0); // Center stage well above table (y=4.42)
           const localTarget = targetWorldPos.clone().sub(deskGroup.position).sub(shelfGroup.position);
 
           b.position.lerp(localTarget, 0.09);
 
-          // Rotate to face camera flat: Euler(0.12, 0, 0)
-          b.rotation.x += (0.12 - b.rotation.x) * 0.09;
+          // Rotate to face camera flat: Euler(0.06, 0, 0)
+          b.rotation.x += (0.06 - b.rotation.x) * 0.09;
           b.rotation.y += (0 - b.rotation.y) * 0.09;
           b.rotation.z += (0 - b.rotation.z) * 0.09;
         } else {
