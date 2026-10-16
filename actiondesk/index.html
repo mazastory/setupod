@@ -1406,10 +1406,505 @@
     deskGroup.position.set(0, 0, 0);
     worldGroup.add(deskGroup);
 
+    // ── War Room Ultrawide Monitor Live Display Engine ──
+    class WarRoomDisplay {
+      constructor() {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = 2048;
+        this.canvas.height = 860;
+        this.ctx = this.canvas.getContext('2d');
+        this.texture = new THREE.CanvasTexture(this.canvas);
+        this.texture.anisotropy = 8;
+        this.modeIndex = 0;
+        this.modes = ['DASHBOARD', 'MATRIX', 'GLOBAL'];
+        this.lastRenderTime = 0;
+        this.waveOffset = 0;
+
+        // Matrix rain drops
+        this.matrixCols = Math.floor(2048 / 26);
+        this.matrixDrops = new Array(this.matrixCols).fill(1).map(() => Math.floor(Math.random() * -35));
+        this.matrixChars = "0123456789ABCDEFSETUPOD146145144147출시아이디어숙성방지";
+
+        // Terminal logs
+        this.logs = [
+          "[01:50:02] KERNEL::Setupod Co-Founder OS v2.4 booted",
+          "[01:50:15] ASSET_146::Lead magnet PDF engine ready",
+          "[01:50:22] ASSET_145::3D hardcover studio renderer online",
+          "[01:50:35] ASSET_144::Net margin simulator synced (89.4%)",
+          "[01:51:00] WATCHDOG::Midnight shutdown watchdog running",
+          "[01:52:12] DISPATCH::Action 1 (Book Print) ready to fire",
+          "[01:53:40] DISPATCH::Action 2 (3D Capture) ready to fire",
+          "[01:54:10] CRON::Zero-wait inventory checked",
+          "[01:55:01] PHILOSOPHY::'One live page beats one year of drafts'",
+          "[01:55:30] STATUS::Command center awaiting founder input_"
+        ];
+      }
+
+      toggleMode() {
+        this.modeIndex = (this.modeIndex + 1) % this.modes.length;
+      }
+
+      get currentMode() {
+        return this.modes[this.modeIndex];
+      }
+
+      update(time) {
+        if (time - this.lastRenderTime < 0.04) return; // ~25 FPS
+        this.lastRenderTime = time;
+        this.waveOffset += 0.07;
+
+        const ctx = this.ctx;
+        const w = 2048;
+        const h = 860;
+
+        if (this.currentMode === 'DASHBOARD') {
+          this.drawDashboard(ctx, w, h, time);
+        } else if (this.currentMode === 'MATRIX') {
+          this.drawMatrix(ctx, w, h, time);
+        } else {
+          this.drawGlobalRadar(ctx, w, h, time);
+        }
+
+        this.texture.needsUpdate = true;
+      }
+
+      drawDashboard(ctx, w, h, time) {
+        ctx.fillStyle = '#070a14';
+        ctx.fillRect(0, 0, w, h);
+
+        // Cyber Grid Lines
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.035)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 44) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += 44) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        // Top Header Bar
+        ctx.fillStyle = 'rgba(10, 15, 28, 0.94)';
+        ctx.fillRect(0, 0, w, 76);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(0, 0, w, 76);
+
+        // Blinking Green Radar Dot
+        const pulseAlpha = 0.4 + 0.6 * Math.abs(Math.sin(time * 3.5));
+        ctx.fillStyle = `rgba(16, 185, 129, ${pulseAlpha})`;
+        ctx.beginPath(); ctx.arc(42, 38, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath(); ctx.arc(42, 38, 4.5, 0, Math.PI * 2); ctx.fill();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 24px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('SETUPOD WAR ROOM', 66, 46);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.font = '700 16px "JetBrains Mono", monospace';
+        ctx.fillText('// 1인 창업가 오토파일럿 사령부 (모드 1/3 - 클릭시 전환)', 360, 46);
+
+        // Center Countdown
+        const now = new Date();
+        const midnight = new Date(); midnight.setHours(24, 0, 0, 0);
+        const diff = Math.max(0, midnight - now);
+        const hh = String(Math.floor(diff / 3600000)).padStart(2, '0');
+        const mm = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        const ss = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '800 22px "JetBrains Mono", monospace';
+        ctx.fillText(`⚡ 숙성 방지 셧다운: [ ${hh}:${mm}:${ss} ]`, w / 2, 46);
+
+        // Right Clock
+        ctx.textAlign = 'right';
+        const timeStr = now.toLocaleTimeString('ko-KR', { hour12: false });
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '800 22px "JetBrains Mono", monospace';
+        ctx.fillText(`${timeStr} KST`, w - 40, 46);
+
+        // 3 Columns
+        this.drawAssetPipeline(ctx, 40, 100, 580, 720, time);
+        this.drawCenterRadar(ctx, 650, 100, 740, 720, time);
+        this.drawRightTerminal(ctx, 1420, 100, 580, 720, time);
+      }
+
+      drawAssetPipeline(ctx, px, py, pw, ph, time) {
+        ctx.fillStyle = 'rgba(12, 18, 34, 0.85)';
+        ctx.fillRect(px, py, pw, ph);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(px, py, pw, ph);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('DIGITAL ASSET PIPELINE', px + 24, py + 38);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.font = '600 13px "JetBrains Mono", monospace';
+        ctx.fillText('STATUS: 4 ONLINE', px + 380, py + 38);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect(px + 24, py + 54, pw - 48, 1);
+
+        const assets = [
+          { num: '146', title: 'AI 1초 전자책 인쇄소', sub: '8-Page A4 완성본 PDF 고속 엔진', stat: 'READY', col: '#ef4444' },
+          { num: '145', title: '3D 양장본 목업 스튜디오', sub: '4K 실물 하드커버 렌더러 (클릭률 300%)', stat: 'ONLINE', col: '#38bdf8' },
+          { num: '144', title: '1인 창업 순마진 계산기', sub: '수수료 공제 순마진율 89.4% 시뮬레이터', stat: 'SYNCED', col: '#10b981' },
+          { num: '148', title: '무자본 릴스 바이럴 무기', sub: '얼굴 없는 AI 숏폼 양산 파이프라인', stat: 'QUEUED', col: '#a855f7' }
+        ];
+
+        let rowY = py + 78;
+        assets.forEach(a => {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.035)';
+          ctx.fillRect(px + 20, rowY, pw - 40, 94);
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(px + 20, rowY, pw - 40, 94);
+
+          ctx.fillStyle = a.col;
+          ctx.font = '800 13px "JetBrains Mono", monospace';
+          ctx.fillText(`#${a.num}`, px + 36, rowY + 36);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '800 19px Pretendard, sans-serif';
+          ctx.fillText(a.title, px + 88, rowY + 38);
+
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '500 13px Pretendard, sans-serif';
+          ctx.fillText(a.sub, px + 36, rowY + 70);
+
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+          ctx.fillRect(px + pw - 130, rowY + 20, 90, 26);
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(px + pw - 130, rowY + 20, 90, 26);
+          ctx.fillStyle = '#34d399';
+          ctx.font = '800 11px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(a.stat, px + pw - 85, rowY + 37);
+          ctx.textAlign = 'left';
+
+          rowY += 112;
+        });
+
+        // Bottom Equalizer
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.font = '700 12px "JetBrains Mono", monospace';
+        ctx.fillText('SYSTEM PULSE FREQUENCY', px + 24, py + ph - 85);
+
+        const eqX = px + 24;
+        const eqY = py + ph - 25;
+        const barW = 18;
+        const gap = 6;
+        for (let i = 0; i < 22; i++) {
+          const hVal = 15 + Math.abs(Math.sin(time * 3 + i * 0.45) * 45);
+          const grad = ctx.createLinearGradient(0, eqY - hVal, 0, eqY);
+          grad.addColorStop(0, '#38bdf8');
+          grad.addColorStop(1, 'rgba(56, 189, 248, 0.2)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(eqX + i * (barW + gap), eqY - hVal, barW, hVal);
+        }
+      }
+
+      drawCenterRadar(ctx, px, py, pw, ph, time) {
+        ctx.fillStyle = 'rgba(12, 18, 34, 0.9)';
+        ctx.fillRect(px, py, pw, ph);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(px, py, pw, ph);
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('FOUNDER REVENUE & LAUNCH VELOCITY', px + 24, py + 38);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect(px + 24, py + 54, pw - 48, 1);
+
+        const kpiW = (pw - 48 - 24) / 3;
+        const kpiY = py + 74;
+
+        // KPI 1: Target Revenue
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.08)';
+        ctx.fillRect(px + 24, kpiY, kpiW, 115);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
+        ctx.strokeRect(px + 24, kpiY, kpiW, 115);
+        ctx.fillStyle = '#fde68a';
+        ctx.font = '700 13px Pretendard, sans-serif';
+        ctx.fillText('오늘 목표 순수익', px + 40, kpiY + 34);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 28px "JetBrains Mono", monospace';
+        ctx.fillText('₩300,000', px + 40, kpiY + 76);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.fillRect(px + 40, kpiY + 92, kpiW - 32, 6);
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillRect(px + 40, kpiY + 92, (kpiW - 32) * 0.68, 6);
+
+        // KPI 2: Net Margin
+        const kpi2X = px + 24 + kpiW + 12;
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+        ctx.fillRect(kpi2X, kpiY, kpiW, 115);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+        ctx.strokeRect(kpi2X, kpiY, kpiW, 115);
+        ctx.fillStyle = '#a7f3d0';
+        ctx.font = '700 13px Pretendard, sans-serif';
+        ctx.fillText('통장 실마진율', kpi2X + 16, kpiY + 34);
+        ctx.fillStyle = '#10b981';
+        ctx.font = '900 28px "JetBrains Mono", monospace';
+        ctx.fillText('89.4%', kpi2X + 16, kpiY + 76);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '600 11.5px Pretendard, sans-serif';
+        ctx.fillText('플랫폼 수수료 공제 완료', kpi2X + 16, kpiY + 98);
+
+        // KPI 3: Live Output
+        const kpi3X = kpi2X + kpiW + 12;
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+        ctx.fillRect(kpi3X, kpiY, kpiW, 115);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+        ctx.strokeRect(kpi3X, kpiY, kpiW, 115);
+        ctx.fillStyle = '#bae6fd';
+        ctx.font = '700 13px Pretendard, sans-serif';
+        ctx.fillText('당일 출시 상품', kpi3X + 16, kpiY + 34);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '900 28px "JetBrains Mono", monospace';
+        ctx.fillText('1 / 1 권', kpi3X + 16, kpiY + 76);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '600 11.5px Pretendard, sans-serif';
+        ctx.fillText('아이디어 숙성 방지 성공', kpi3X + 16, kpiY + 98);
+
+        // Wave Chart
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(px + 24, py + 215, pw - 48, 330);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.strokeRect(px + 24, py + 215, pw - 48, 330);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '700 13px "JetBrains Mono", monospace';
+        ctx.fillText('HOURLY TRAFFIC & CONVERSION VELOCITY (실시간 유입/전환 파동)', px + 40, py + 245);
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        for (let gy = py + 270; gy <= py + 510; gy += 45) {
+          ctx.beginPath(); ctx.moveTo(px + 40, gy); ctx.lineTo(px + pw - 40, gy); ctx.stroke();
+        }
+
+        // Wave 1 - Cyan
+        ctx.beginPath();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        const waveStart = px + 40;
+        const waveWidth = pw - 80;
+        for (let i = 0; i <= waveWidth; i += 8) {
+          const wx = waveStart + i;
+          const wy = py + 390 + Math.sin(i * 0.02 + this.waveOffset) * 60 + Math.cos(i * 0.035 - this.waveOffset * 0.5) * 30;
+          if (i === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+        }
+        ctx.stroke();
+
+        // Wave 2 - Gold
+        ctx.beginPath();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2.5;
+        for (let i = 0; i <= waveWidth; i += 8) {
+          const wx = waveStart + i;
+          const wy = py + 415 + Math.cos(i * 0.025 + this.waveOffset * 0.8) * 45 + Math.sin(i * 0.015 - this.waveOffset) * 20;
+          if (i === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+        }
+        ctx.stroke();
+
+        // Live Peak Marker
+        const peakX = px + 40 + (waveWidth * 0.65);
+        const peakY = py + 390 + Math.sin((waveWidth * 0.65) * 0.02 + this.waveOffset) * 60 + Math.cos((waveWidth * 0.65) * 0.035 - this.waveOffset * 0.5) * 30;
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath(); ctx.arc(peakX, peakY, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 12px "JetBrains Mono", monospace';
+        ctx.fillText('LIVE PEAK: 1,420 v/hr', peakX - 60, peakY - 14);
+
+        // Bottom Quote Box
+        ctx.fillStyle = '#172033';
+        ctx.fillRect(px + 24, py + 575, pw - 48, 115);
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(px + 24, py + 575, pw - 48, 115);
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '800 16px Pretendard, sans-serif';
+        ctx.fillText('💡 솔로 창업가 철칙 (Anti-Aging Motto)', px + 44, py + 612);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 18px Pretendard, sans-serif';
+        ctx.fillText('"1년 동안 완벽을 다듬은 기획서보다, 오늘 밤 시장에 던진 1페이지가 100배 더 가치있다."', px + 44, py + 652);
+      }
+
+      drawRightTerminal(ctx, px, py, pw, ph, time) {
+        ctx.fillStyle = 'rgba(5, 9, 18, 0.95)';
+        ctx.fillRect(px, py, pw, ph);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(px, py, pw, ph);
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('AUTOPILOT LOG TERMINAL', px + 24, py + 38);
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect(px + 24, py + 54, pw - 48, 1);
+
+        ctx.fillStyle = '#34d399';
+        ctx.font = '700 15px "JetBrains Mono", monospace';
+        ctx.fillText('root@setupod-core:~# run --anti-aging --live', px + 24, py + 86);
+
+        ctx.font = '500 14px "JetBrains Mono", monospace';
+        let logY = py + 124;
+        this.logs.forEach(l => {
+          if (l.includes('ALERT') || l.includes('PHILOSOPHY')) {
+            ctx.fillStyle = '#fbbf24';
+          } else if (l.includes('STATUS')) {
+            ctx.fillStyle = '#38bdf8';
+          } else {
+            ctx.fillStyle = '#94a3b8';
+          }
+          ctx.fillText(l, px + 24, logY);
+          logY += 34;
+        });
+
+        if (Math.sin(time * 5) > 0) {
+          ctx.fillStyle = '#38bdf8';
+          ctx.fillRect(px + 450, logY - 34, 10, 18);
+        }
+
+        // Callout Banner
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.fillRect(px + 24, py + ph - 110, pw - 48, 86);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.strokeRect(px + 24, py + ph - 110, pw - 48, 86);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 15px Pretendard, sans-serif';
+        ctx.fillText('🖥️ 모니터 인터랙션 가이드', px + 40, py + ph - 74);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 13px Pretendard, sans-serif';
+        ctx.fillText('화면을 클릭하면 [사령탑 ➔ 매트릭스 ➔ 글로벌 맵]으로 전환됩니다.', px + 40, py + ph - 44);
+      }
+
+      drawMatrix(ctx, w, h, time) {
+        ctx.fillStyle = 'rgba(5, 8, 14, 0.28)';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = '800 24px "JetBrains Mono", monospace';
+        ctx.fillText('MATRIX CYBER STREAM // SOLO FOUNDER COMPILER (모드 2/3 - 클릭시 전환)', 40, 50);
+
+        ctx.font = '700 20px "JetBrains Mono", monospace';
+        for (let i = 0; i < this.matrixDrops.length; i++) {
+          const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+          const x = i * 26;
+          const y = this.matrixDrops[i] * 26;
+
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText(char, x, y);
+          ctx.fillStyle = '#10b981';
+          ctx.fillText(char, x, y - 26);
+
+          if (y > h && Math.random() > 0.975) {
+            this.matrixDrops[i] = 0;
+          }
+          this.matrixDrops[i]++;
+        }
+
+        // Center Box
+        ctx.fillStyle = 'rgba(10, 15, 28, 0.94)';
+        ctx.fillRect(w / 2 - 450, 120, 900, 620);
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(w / 2 - 450, 120, 900, 620);
+
+        ctx.fillStyle = '#34d399';
+        ctx.font = '800 22px "JetBrains Mono", monospace';
+        ctx.fillText('AUTOPILOT REAL-TIME COMPILER', w / 2 - 410, 170);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 16px "JetBrains Mono", monospace';
+        const lines = [
+          ">> INITIATING SOLO FOUNDER PIPELINE...",
+          ">> [OK] Checking Node.js runtime & Three.js WebGL context",
+          ">> [OK] Compiling 8-page lead magnet A4 templates (Asset #146)",
+          ">> [OK] Generating 4K 3D hardcover thumbnail mockups (Asset #145)",
+          ">> [OK] Deducting platform fee: 89.4% net margin confirmed",
+          ">> [OK] Preventing idea aging: 1 product launched successfully",
+          ">> SYSTEM_STATUS: ALL 147 ASSETS FULLY OPERATIONAL",
+          ">> CLICK SCREEN TO CYCLE NEXT RADAR MODE >>"
+        ];
+        lines.forEach((l, idx) => {
+          ctx.fillText(l, w / 2 - 410, 230 + idx * 45);
+        });
+      }
+
+      drawGlobalRadar(ctx, w, h, time) {
+        ctx.fillStyle = '#060912';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 24px "JetBrains Mono", monospace';
+        ctx.fillText('GLOBAL ASSET NETWORK RADAR // ASSET #147 (모드 3/3 - 클릭시 전환)', 40, 50);
+
+        const cx = w / 2;
+        const cy = h / 2 + 20;
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        ctx.lineWidth = 1.5;
+        [100, 200, 300, 420].forEach(r => {
+          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+        });
+
+        const sweepAngle = time * 1.8;
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(sweepAngle);
+        const grad = ctx.createLinearGradient(0, 0, 420, 0);
+        grad.addColorStop(0, 'rgba(56, 189, 248, 0.6)');
+        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, 420, -0.2, 0.2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        const nodes = [
+          { name: 'SEOUL HQ', x: cx + 180, y: cy - 60, col: '#10b981' },
+          { name: 'TOKYO NODE', x: cx + 240, y: cy - 40, col: '#38bdf8' },
+          { name: 'SILICON VALLEY', x: cx - 220, y: cy - 80, col: '#f59e0b' },
+          { name: 'LONDON HUB', x: cx - 80, y: cy - 140, col: '#a855f7' },
+          { name: 'SINGAPORE', x: cx + 140, y: cy + 90, col: '#ec4899' }
+        ];
+        nodes.forEach(n => {
+          ctx.fillStyle = n.col;
+          ctx.beginPath(); ctx.arc(n.x, n.y, 7, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '800 14px "JetBrains Mono", monospace';
+          ctx.fillText(n.name, n.x + 14, n.y + 5);
+        });
+
+        ctx.fillStyle = '#fde68a';
+        ctx.font = '800 18px Pretendard, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('글로벌 147개 디지털 자산이 전 세계 구매자들에게 24시간 자동 판매되는 중입니다.', cx, h - 50);
+        ctx.textAlign = 'left';
+      }
+    }
+
+    const warRoom = new WarRoomDisplay();
+
     // Materials
     const matWalnut = new THREE.MeshStandardMaterial({ color: 0x3d2414, roughness: 0.45, metalness: 0.1 });
     const matMatteBlack = new THREE.MeshStandardMaterial({ color: 0x111622, roughness: 0.35, metalness: 0.75 });
-    const matScreen = new THREE.MeshBasicMaterial({ color: 0x091428 });
+    const matScreen = new THREE.MeshBasicMaterial({ map: warRoom.texture });
     const matFeltPad = new THREE.MeshStandardMaterial({ color: 0x1a2130, roughness: 0.8 });
     const matBrass = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3, metalness: 0.85 });
 
@@ -1834,6 +2329,16 @@
       // Click Trigger (if not dragging)
       if (!wasDrag) {
         raycaster.setFromCamera(mousePos, camera);
+
+        // Check if Monitor Screen is Clicked: Cycle War Room Display Mode!
+        const monHit = raycaster.intersectObject(monScreen, false);
+        if (monHit.length > 0) {
+          warRoom.toggleMode();
+          audio.playOpen();
+          setCamView('screen');
+          return;
+        }
+
         const intersects = raycaster.intersectObjects(interactiveBooks, true);
 
         if (intersects.length > 0) {
@@ -1904,10 +2409,14 @@
       worldGroup.rotation.y += (targetRotY - worldGroup.rotation.y) * 0.08;
       worldGroup.rotation.x += (targetRotX - worldGroup.rotation.x) * 0.08;
 
-      // Raycast Hover over Books (when not inspecting an active book)
+      // Update Live War Room Monitor Screen
+      warRoom.update(clock.getElapsedTime());
+
+      // Raycast Hover over Books & Monitor (when not inspecting an active book)
       if (!inspectMode) {
         raycaster.setFromCamera(mousePos, camera);
         const intersects = raycaster.intersectObjects(interactiveBooks, true);
+        const monHover = raycaster.intersectObject(monScreen, false);
 
         if (intersects.length > 0) {
           let obj = intersects[0].object;
@@ -1925,13 +2434,22 @@
             tooltipText.innerText = `${obj.userData.bookData.title} (클릭하여 펼치기 📖)`;
             tooltip.classList.add('show');
           }
+        } else if (monHover.length > 0) {
+          if (hoveredBook) {
+            hoveredBook.userData.hoverZOffset = 0;
+            hoveredBook = null;
+          }
+          canvas.classList.add('pointer');
+          tooltipBadge.innerText = `HUD`;
+          tooltipText.innerText = `🖥️ 사령부 화면 클릭: 모드 전환 [${warRoom.currentMode}]`;
+          tooltip.classList.add('show');
         } else {
           if (hoveredBook) {
             hoveredBook.userData.hoverZOffset = 0;
             hoveredBook = null;
-            canvas.classList.remove('pointer');
-            tooltip.classList.remove('show');
           }
+          canvas.classList.remove('pointer');
+          tooltip.classList.remove('show');
         }
       } else {
         canvas.classList.remove('pointer');
