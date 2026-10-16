@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>THE DESKTERIOR 3D | 3D 공간 커머스 쇼룸 & 셋업팟 147 볼트</title>
-  <meta name="description" content="명예의 전당 FLAGSHIP #02: 개발자·크리에이터 감성 3D 데스크테리어 공간 커머스 쇼룸. 3D 실물 장비 견적(쿠팡 파트너스)과 147개 턴키 웹 비즈니스를 탐색하세요.">
+  <title>셋업팟 3D 워크스페이스 & 웹 서비스 사령부 | SETUPOD 3D Studio</title>
+  <meta name="description" content="1인 창업가를 위한 셋업팟 3D 인터랙티브 가상 집무실. MemoPod 2.0 Pro, AI 전자책 인쇄소, 3D 양장본 목업 스튜디오 등 실전 웹 애플리케이션을 3D 공간에서 직접 실행하고 인앱으로 테스트하세요.">
 
   <!-- Pretendard, Montserrat, JetBrains Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1398,6 +1398,284 @@
       box-shadow: 0 6px 24px rgba(56, 189, 248, 0.65);
     }
 
+    /* ── Harry Potter Magic Search & Tag Filter ── */
+    .magic-search-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 4px;
+    }
+    .magic-search-input-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 10px;
+      padding: 6px 10px;
+      transition: all 0.2s ease;
+    }
+    .magic-search-input-box:focus-within {
+      border-color: #38bdf8;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+      background: rgba(15, 23, 42, 0.7);
+    }
+    .magic-search-input-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .magic-search-input-box input::placeholder {
+      color: #64748b;
+    }
+    .btn-clear-search {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+    .btn-clear-search:hover {
+      color: #fff;
+    }
+    .magic-quick-tags {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .magic-quick-tags::-webkit-scrollbar { display: none; }
+    .magic-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 3px 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .magic-tag:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .magic-tag.active {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      font-weight: 800;
+    }
+
+    /* ── Web App Item Card Action Buttons ── */
+    .web-app-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-web-preview {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-web-preview:hover {
+      background: rgba(56, 189, 248, 0.28);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ── In-App Live Web Browser Window Modal ── */
+    .in-app-browser-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .in-app-browser-overlay.show {
+      display: flex;
+    }
+    .in-app-browser-card {
+      position: relative;
+      width: 1200px;
+      max-width: 96vw;
+      height: 88vh;
+      background: #090e1a;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95), 0 0 60px rgba(56, 189, 248, 0.25);
+      animation: popIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.3s ease;
+    }
+    .in-app-browser-card.mobile-mode {
+      width: 420px;
+    }
+    .browser-titlebar {
+      height: 50px;
+      background: rgba(15, 23, 42, 0.98);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .browser-traffic-lights {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .browser-traffic-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease;
+    }
+    .browser-traffic-dot:hover {
+      transform: scale(1.15);
+    }
+    .browser-traffic-dot.red { background: #ef4444; }
+    .browser-traffic-dot.yellow { background: #f59e0b; }
+    .browser-traffic-dot.green { background: #10b981; }
+    .browser-address-bar {
+      flex: 1;
+      max-width: 620px;
+      height: 32px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+      color: #94a3b8;
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .browser-address-text {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    .browser-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-browser-tool {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-browser-tool:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .btn-browser-tool.active {
+      background: #0284c7;
+      color: #fff;
+      border-color: #38bdf8;
+    }
+    .browser-viewport {
+      flex: 1;
+      position: relative;
+      background: #040711;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .browser-viewport iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #0b101c;
+      transition: opacity 0.2s ease;
+    }
+    .browser-loader-spinner {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    /* ── Toast Feedback Notification ── */
+    .toast-hud {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 200;
+    }
+    .toast-hud.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (max-width: 768px) {
       .desk-header { padding: 0 16px; }
       .anti-aging-timer { display: none; }
@@ -1524,6 +1802,25 @@
         <span class="hud-counter-pill" id="webAppsCounter">6 APPS</span>
       </div>
 
+      <!-- Harry Potter Magic Search & Tag Filter Bar -->
+      <div class="magic-search-wrap">
+        <div class="magic-search-input-box">
+          <i data-lucide="sparkles" style="width:13px;height:13px;color:#38bdf8;"></i>
+          <input type="text" id="shelfMagicSearch" placeholder="자산 마술 검색 (예: 메모, 전자책, 마진, 3D)..." oninput="handleMagicSearch(this.value)">
+          <button class="btn-clear-search" id="btnClearSearch" onclick="clearMagicSearch()" style="display:none;" title="검색 초기화">
+            <i data-lucide="x" style="width:12px;height:12px;"></i>
+          </button>
+        </div>
+        <div class="magic-quick-tags">
+          <span class="magic-tag active" onclick="filterByTag('ALL')">전체</span>
+          <span class="magic-tag" onclick="filterByTag('MEMO')">🍏 메모</span>
+          <span class="magic-tag" onclick="filterByTag('BOOK')">📖 전자책</span>
+          <span class="magic-tag" onclick="filterByTag('3D')">🎨 3D목업</span>
+          <span class="magic-tag" onclick="filterByTag('MARGIN')">💰 순마진</span>
+          <span class="magic-tag" onclick="filterByTag('DOMAIN')">🌐 도메인</span>
+        </div>
+      </div>
+
       <div class="gear-stack" id="webAppsList">
         <!-- Rendered via renderWebAppsList() in JS -->
       </div>
@@ -1556,10 +1853,16 @@
       </div>
 
       <div class="hud-footer-box">
-        <button class="btn-coupang-full" onclick="openFullSetupModal()">
-          <i data-lucide="shopping-bag" style="width:14px;height:14px;"></i>
-          <span>풀세트 쿠팡 최저가 모아보기 🚀</span>
-        </button>
+        <div style="display:flex;gap:6px;width:100%;">
+          <button class="btn-coupang-full" style="flex:1;" onclick="openFullSetupModal()">
+            <i data-lucide="shopping-bag" style="width:14px;height:14px;"></i>
+            <span>풀세트 쿠팡 최저가 🚀</span>
+          </button>
+          <button class="btn-coupang-full" style="flex:0 0 auto;background:rgba(255,255,255,0.08);color:#cbd5e1;padding:0 12px;" onclick="copyFullSetupQuote()" title="6개 풀세트 장비 링크 및 견적 복사">
+            <i data-lucide="copy" style="width:13px;height:13px;"></i>
+            <span>견적 복사</span>
+          </button>
+        </div>
         <div class="coupang-tiny-notice">
           ※ 쿠팡 파트너스 활동의 일환으로 수수료를 제공받습니다 (ID: AF8698726)
         </div>
@@ -1722,7 +2025,11 @@
       <div class="app-modal-footer">
         <button class="btn-app-preview-cam" onclick="focusScreenAndCloseModal()">
           <i data-lucide="monitor" style="width:14px;height:14px;"></i>
-          <span>3D 모니터 사령부에서 보기</span>
+          <span>3D 모니터 사령부</span>
+        </button>
+        <button class="btn-app-preview-cam" style="background:rgba(56,189,248,0.15);color:#38bdf8;border-color:rgba(56,189,248,0.4);" onclick="previewCurrentWebAppInBrowser()">
+          <i data-lucide="scan" style="width:14px;height:14px;"></i>
+          <span>인앱 라이브 미리보기 🔍</span>
         </button>
         <a href="#" target="_blank" class="btn-app-launch-direct" id="appModalLaunchBtn">
           <span id="appModalLaunchLabel">웹 앱 지금 바로 실행하기 🚀</span>
@@ -1730,6 +2037,56 @@
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- Live In-App Browser Sandbox Window Modal -->
+  <div class="in-app-browser-overlay" id="inAppBrowserModal" onclick="closeInAppBrowser(event)">
+    <div class="in-app-browser-card" id="inAppBrowserCard" onclick="event.stopPropagation()">
+      <div class="browser-titlebar">
+        <div class="browser-traffic-lights">
+          <div class="browser-traffic-dot red" onclick="closeInAppBrowser()" title="닫기 (ESC)"></div>
+          <div class="browser-traffic-dot yellow" onclick="closeInAppBrowser()" title="최소화"></div>
+          <div class="browser-traffic-dot green" onclick="toggleBrowserDeviceView()" title="창 모드 전환"></div>
+        </div>
+
+        <div class="browser-address-bar">
+          <i data-lucide="lock" style="width:12px;height:12px;color:#10b981;flex-shrink:0;"></i>
+          <span class="browser-address-text" id="browserUrlText">https://setupod.com/memopod/</span>
+          <span style="font-size:10px;color:#64748b;margin-left:auto;" id="browserBadgeText">LIVE WEB APP</span>
+        </div>
+
+        <div class="browser-actions-row">
+          <button class="btn-browser-tool" id="btnToggleDevice" onclick="toggleBrowserDeviceView()" title="모바일 / 데스크톱 뷰 전환">
+            <i data-lucide="smartphone" style="width:13px;height:13px;"></i>
+            <span>모바일 뷰</span>
+          </button>
+          <button class="btn-browser-tool" onclick="refreshInAppBrowser()" title="웹 앱 새로고침">
+            <i data-lucide="rotate-cw" style="width:13px;height:13px;"></i>
+          </button>
+          <button class="btn-browser-tool" onclick="openInNewWindow()" title="새 탭으로 전체 화면 실행">
+            <i data-lucide="external-link" style="width:13px;height:13px;"></i>
+            <span>새 탭</span>
+          </button>
+          <button class="btn-browser-tool btn-close-browser" onclick="closeInAppBrowser()" title="닫기">
+            <i data-lucide="x" style="width:14px;height:14px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="browser-viewport">
+        <div class="browser-loader-spinner" id="browserLoaderSpinner">
+          <i data-lucide="loader" style="width:28px;height:28px;animation:spin 1s linear infinite;"></i>
+          <span>실전 웹 서비스를 로딩하고 있습니다...</span>
+        </div>
+        <iframe id="inAppBrowserIframe" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback HUD -->
+  <div class="toast-hud" id="toastHud">
+    <i data-lucide="check-circle" style="width:16px;height:16px;color:#38bdf8;"></i>
+    <span class="toast-text">알림 메시지</span>
   </div>
 
   <!-- ========================================================
@@ -1816,6 +2173,27 @@
           gain.connect(this.ctx.destination);
           osc.start(now);
           osc.stop(now + 0.18);
+        } catch(e) {}
+      }
+      playMagic() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+          const now = this.ctx.currentTime;
+          notes.forEach((freq, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + i * 0.045);
+            gain.gain.setValueAtTime(0.09, now + i * 0.045);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.045 + 0.35);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + i * 0.045);
+            osc.stop(now + i * 0.045 + 0.36);
+          });
         } catch(e) {}
       }
     }
@@ -2115,10 +2493,34 @@
       lucide.createIcons();
     }
 
-    function renderWebAppsList() {
+    let currentSelectedAppId = 'memopod';
+    let currentMagicFilter = 'ALL';
+    let currentSearchTerm = '';
+
+    function renderWebAppsList(filterPredicate = null) {
       const container = document.getElementById('webAppsList');
       if (!container) return;
-      container.innerHTML = SETUPOD_WEB_APPS.map((app) => `
+
+      const filtered = filterPredicate 
+        ? SETUPOD_WEB_APPS.filter(filterPredicate) 
+        : SETUPOD_WEB_APPS;
+
+      const counter = document.getElementById('webAppsCounter');
+      if (counter) counter.innerText = `${filtered.length} APPS`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="padding:24px 12px;text-align:center;color:#64748b;font-size:12px;">
+            <i data-lucide="search-x" style="width:20px;height:20px;margin:0 auto 6px;color:#94a3b8;display:block;"></i>
+            일치하는 웹 서비스가 없습니다.<br>
+            <button onclick="clearMagicSearch()" style="margin-top:10px;background:rgba(56,189,248,0.15);border:1px solid #38bdf8;color:#38bdf8;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;">전체 목록 복원</button>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map((app) => `
         <div class="web-app-item-card" onclick="selectWebApp('${app.id}')">
           <div class="web-app-icon-box" style="background:${app.iconBg};">
             ${app.icon}
@@ -2130,10 +2532,16 @@
             </div>
             <span class="web-app-desc">${app.sub}</span>
           </div>
-          <button class="btn-web-launch" onclick="event.stopPropagation(); window.open('${app.url}', '_blank')">
-            <span>실행</span>
-            <i data-lucide="external-link" style="width:11px;height:11px;"></i>
-          </button>
+          <div class="web-app-actions-group">
+            <button class="btn-web-preview" onclick="event.stopPropagation(); openInAppBrowser('${app.url}', '${app.name}', '${app.badge}')" title="3D 공간에서 인앱 미리보기">
+              <i data-lucide="scan" style="width:11px;height:11px;"></i>
+              <span>미리보기</span>
+            </button>
+            <button class="btn-web-launch" onclick="event.stopPropagation(); window.open('${app.url}', '_blank')" title="새 탭으로 바로 실행">
+              <span>실행</span>
+              <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+            </button>
+          </div>
         </div>
       `).join('');
       lucide.createIcons();
@@ -2141,6 +2549,7 @@
     setTimeout(renderWebAppsList, 50);
 
     function selectWebApp(appId) {
+      currentSelectedAppId = appId;
       const app = SETUPOD_WEB_APPS.find(a => a.id === appId);
       if (!app) return;
       audio.playOpen();
@@ -2154,6 +2563,7 @@
 
     function openWebAppModal(app) {
       if (!app) return;
+      currentSelectedAppId = app.id;
       audio.playOpen();
 
       const modal = document.getElementById('webAppModal');
@@ -2210,6 +2620,184 @@
       if (modal) modal.classList.remove('show');
       setCamView('screen');
       audio.playOpen();
+    }
+
+    function previewCurrentWebAppInBrowser() {
+      const app = SETUPOD_WEB_APPS.find(a => a.id === currentSelectedAppId) || SETUPOD_WEB_APPS[0];
+      closeWebAppModal();
+      openInAppBrowser(app.url, app.name, app.badge);
+    }
+
+    // ── Live In-App Browser Sandbox Functions ──
+    function openInAppBrowser(url, title, badge = "LIVE WEB APP") {
+      audio.playOpen();
+      const modal = document.getElementById('inAppBrowserModal');
+      const iframe = document.getElementById('inAppBrowserIframe');
+      const urlText = document.getElementById('browserUrlText');
+      const badgeElem = document.getElementById('browserBadgeText');
+      const spinner = document.getElementById('browserLoaderSpinner');
+
+      if (urlText) urlText.innerText = `https://setupod.com${url.replace('../', '/')}`;
+      if (badgeElem) badgeElem.innerText = `${badge} · ${title}`;
+      if (spinner) spinner.style.display = 'flex';
+
+      if (iframe) {
+        iframe.style.opacity = '0';
+        iframe.onload = () => {
+          if (spinner) spinner.style.display = 'none';
+          iframe.style.opacity = '1';
+        };
+        iframe.src = url;
+      }
+
+      if (modal) modal.classList.add('show');
+      lucide.createIcons();
+    }
+
+    function closeInAppBrowser(e) {
+      if (e && e.target && e.target.id !== 'inAppBrowserModal' && !e.target.closest('.browser-traffic-dot.red') && !e.target.closest('.btn-close-browser')) return;
+      const modal = document.getElementById('inAppBrowserModal');
+      const iframe = document.getElementById('inAppBrowserIframe');
+      if (modal) modal.classList.remove('show');
+      if (iframe) iframe.src = 'about:blank';
+      audio.playClose();
+    }
+
+    let isMobileBrowserView = false;
+    function toggleBrowserDeviceView() {
+      const card = document.getElementById('inAppBrowserCard');
+      const btn = document.getElementById('btnToggleDevice');
+      isMobileBrowserView = !isMobileBrowserView;
+      if (card) card.classList.toggle('mobile-mode', isMobileBrowserView);
+      if (btn) {
+        btn.classList.toggle('active', isMobileBrowserView);
+        btn.querySelector('span').innerText = isMobileBrowserView ? '데스크톱 뷰' : '모바일 뷰';
+      }
+      audio.playSlide();
+    }
+
+    function refreshInAppBrowser() {
+      const iframe = document.getElementById('inAppBrowserIframe');
+      const spinner = document.getElementById('browserLoaderSpinner');
+      if (iframe && iframe.src) {
+        if (spinner) spinner.style.display = 'flex';
+        iframe.style.opacity = '0';
+        iframe.src = iframe.src;
+        audio.playClick();
+      }
+    }
+
+    function openInNewWindow() {
+      const iframe = document.getElementById('inAppBrowserIframe');
+      if (iframe && iframe.src && iframe.src !== 'about:blank') {
+        window.open(iframe.src, '_blank');
+      }
+    }
+
+    // ── Harry Potter Magic Bookshelf Search Engine ──
+    function handleMagicSearch(term) {
+      currentSearchTerm = (term || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('btnClearSearch');
+      if (clearBtn) clearBtn.style.display = currentSearchTerm ? 'flex' : 'none';
+      applyMagicFilter();
+    }
+
+    function clearMagicSearch() {
+      const input = document.getElementById('shelfMagicSearch');
+      if (input) input.value = '';
+      currentSearchTerm = '';
+      currentMagicFilter = 'ALL';
+      document.querySelectorAll('.magic-tag').forEach(el => {
+        el.classList.toggle('active', el.innerText.includes('전체'));
+      });
+      const clearBtn = document.getElementById('btnClearSearch');
+      if (clearBtn) clearBtn.style.display = 'none';
+      applyMagicFilter();
+      audio.playClose();
+    }
+
+    function filterByTag(tag) {
+      currentMagicFilter = tag;
+      document.querySelectorAll('.magic-tag').forEach(el => {
+        el.classList.toggle('active', (tag === 'ALL' && el.innerText.includes('전체')) || (tag !== 'ALL' && el.innerText.includes(tag)));
+      });
+      applyMagicFilter();
+      audio.playMagic();
+    }
+
+    function applyMagicFilter() {
+      const isMatching = (item) => {
+        if (!item) return false;
+        const text = `${item.assetNum || ''} ${item.name || item.title || ''} ${item.sub || item.subtitle || ''} ${item.desc || item.summary || ''}`.toLowerCase();
+        
+        let tagMatch = true;
+        if (currentMagicFilter === 'MEMO') tagMatch = text.includes('메모') || text.includes('memo') || item.assetNum === 149 || item.id === 'memopod';
+        else if (currentMagicFilter === 'BOOK') tagMatch = text.includes('전자책') || text.includes('인쇄') || item.assetNum === 146 || item.id === 'leadmagnet';
+        else if (currentMagicFilter === '3D') tagMatch = text.includes('3d') || text.includes('목업') || item.assetNum === 145 || item.id === 'mockup';
+        else if (currentMagicFilter === 'MARGIN') tagMatch = text.includes('마진') || text.includes('순수익') || item.assetNum === 144 || item.id === 'margin';
+        else if (currentMagicFilter === 'DOMAIN') tagMatch = text.includes('도메인') || text.includes('릴스') || item.assetNum === 148 || item.id === 'domainflip';
+
+        let searchMatch = true;
+        if (currentSearchTerm) {
+          searchMatch = text.includes(currentSearchTerm);
+        }
+
+        return tagMatch && searchMatch;
+      };
+
+      // 1. Animate 3D Shelf Books (Harry Potter Glide Magic!)
+      let matchCount = 0;
+      if (typeof interactiveBooks !== 'undefined') {
+        interactiveBooks.forEach(b => {
+          const bookData = b.userData.bookData;
+          const matches = isMatching(bookData);
+          if (matches) {
+            matchCount++;
+            b.userData.hoverZOffset = 0.52; // Glide forward proudly!
+          } else {
+            b.userData.hoverZOffset = (currentSearchTerm || currentMagicFilter !== 'ALL') ? -0.16 : 0;
+          }
+        });
+      }
+
+      // 2. Filter Left HUD Web Apps List
+      renderWebAppsList(isMatching);
+
+      // 3. Audio magic chime if search returned matching items
+      if (matchCount > 0 && (currentSearchTerm || currentMagicFilter !== 'ALL')) {
+        audio.playMagic();
+      }
+    }
+
+    // ── Full Setup Quote Clipboard Copy & Toast Feedback ──
+    function copyFullSetupQuote() {
+      const text = `[셋업팟 3D 스튜디오 실전 데스크테리어 장비 풀세트 견적]
+1. 모니터: 34인치 WQHD 커브드 모니터 (약 389,000원) - https://link.coupang.com/a/hT5cS7sIlU
+2. 조명: 비대칭 스크린바 모니터 조명 (약 49,000원) - https://link.coupang.com/a/hT5iNNGNfE
+3. 책상: 1600mm 전동 듀얼모터 모션데스크 (약 299,000원) - https://link.coupang.com/a/hT5o7EbQOW
+4. 키보드: 기계식 저소음 키보드 독거미/한성 (약 89,000원) - https://link.coupang.com/a/hT5tHBtO6C
+5. 마우스: 로지텍 MX Master 3S (약 139,000원) - https://link.coupang.com/a/hT5xxiEWrY
+6. 데스크매트: 펠트 논슬립 900x400mm 장패드 (약 19,900원) - https://link.coupang.com/a/hT5z0Z3umq
+총 예상 견적: 약 1,004,800원 (쿠팡 파트너스 ID: AF8698726)`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("📋 풀세트 견적서 & 최저가 링크가 복사되었습니다!");
+          audio.playClick();
+        }).catch(() => {
+          showToast("📋 풀세트 견적서가 준비되었습니다!");
+        });
+      } else {
+        showToast("📋 풀세트 견적서가 준비되었습니다!");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastHud');
+      if (!toast) return;
+      toast.querySelector('.toast-text').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3200);
     }
 
     // ── 3D Bookshelf & Monitor Multi-Collection Library (3 Packs x 5 Assets = 15 Curated Assets) ──
@@ -2297,54 +2885,54 @@
             quote: "매출 1억에 적자 나는 회사보다, 매출 500만원에 순마진 450만원 챙기는 1인 기업이 승자입니다."
           },
           {
-            assetNum: 147,
-            spineTitle: "147호 오토파일럿 데스크",
-            title: "오토파일럿 데스크 사령부",
-            subtitle: "오늘 하루 만에 1개 비즈니스 강제 출시 시스템",
-            colorMain: "#312e81",
-            colorDark: "#1e1b4b",
-            colorDeep: "#090520",
-            accentColor: "#f59e0b",
-            url: "#",
-            actionLabel: "오늘의 3대 액션 시작하기",
+            assetNum: 149,
+            spineTitle: "149호 MemoPod 2.0 Pro",
+            title: "MemoPod 2.0 Pro (AI 메모 사령부)",
+            subtitle: "내 컴퓨터 모든 메모를 1초 만에 AI 지식 뇌로 연동",
+            colorMain: "#059669",
+            colorDark: "#064e3b",
+            colorDeep: "#022c22",
+            accentColor: "#34d399",
+            url: "../memopod/",
+            actionLabel: "MemoPod 2.0 Pro 즉시 실행 ↗",
             metrics: [
-              { label: "작전 기한", val: "오늘 자정까지 (숙성 방지)" },
-              { label: "필수 액션 수", val: "정확히 3개 (강제 완료)" },
-              { label: "성공 보상", val: "당일 라이브 비즈니스 1개" }
+              { label: "동기화 속도", val: "애플 메모 3초 자동 연동" },
+              { label: "지원 OS", val: "macOS 및 Windows 통합" },
+              { label: "보안성", val: "100% 로컬 프라이버시" }
             ],
-            summary: "컴퓨터 앞에 앉아 유튜브와 잡무로 하루를 날리던 방식을 끝냅니다. 오직 3가지 실행 액션에만 집중하여 당일 매출 자산을 확보합니다.",
+            summary: "흩어져 있던 애플 메모와 윈도우 스티커 메모를 1초 만에 AI 지식 뇌로 통합하고, 아이디어를 즉시 디지털 자산으로 전환하는 차세대 메모 생산성 도구입니다.",
             chapters: [
-              { num: "CH 01", title: "생각 숙성 증후군의 원인과 치료법" },
-              { num: "CH 02", title: "오토파일럿 데스크 3대 액션 배치 원리" },
-              { num: "CH 03", title: "3D 가상 집무실의 몰입형 시각 피드백" },
-              { num: "CH 04", title: "자정 셧다운 타이머를 활용한 파킨슨의 법칙" }
+              { num: "CH 01", title: "Apple Notes 실시간 스크래핑 및 동기화 기술" },
+              { num: "CH 02", title: "Windows 스티커 메모 및 로컬 DB 파싱" },
+              { num: "CH 03", title: "로컬 AI 지식 검색 및 자동 태깅 아키텍처" },
+              { num: "CH 04", title: "메모에서 당일 런칭 웹 자산으로의 1초 파이프라인" }
             ],
-            quote: "계획은 종이 위에서 완성되지 않습니다. 버튼을 누르고 시장의 피드백을 맞이할 때 시작됩니다."
+            quote: "메모는 서랍에 묻어두는 것이 아닙니다. 1초 만에 다음 비즈니스의 씨앗으로 연결될 때 진정한 가치가 폭발합니다."
           },
           {
             assetNum: 148,
-            spineTitle: "자산 148호 릴스 바이럴 무기",
-            title: "무자본 릴스 바이럴 공식",
-            subtitle: "얼굴 없이 AI 숏폼으로 매일 100명 모으는 치트키",
-            colorMain: "#701a75",
-            colorDark: "#4a044e",
-            colorDeep: "#200122",
+            spineTitle: "148호 도메인 플립 스튜디오",
+            title: "도메인 플립 인스타 스튜디오",
+            subtitle: "인스타 릴스 기반 도메인 플리핑 & 브랜드 리셀 자동화",
+            colorMain: "#9d174d",
+            colorDark: "#701a75",
+            colorDeep: "#4a044e",
             accentColor: "#f472b6",
-            url: "../halloffame/",
-            actionLabel: "명예의 전당에서 로드맵 확인 ↗",
+            url: "../domain-flip-insta/",
+            actionLabel: "도메인 플립 스튜디오로 워프 ↗",
             metrics: [
-              { label: "제작 시간", val: "영상당 3분" },
-              { label: "유입 전환율", val: "프로필 링크 클릭 8.2%" },
-              { label: "현재 상태", val: "곧 출시 예정 (자산 148호)" }
+              { label: "슬라이드 제작", val: "AI 자동 30초 완성" },
+              { label: "수익 구조", val: "도메인 리셀 차익 (10배~100배)" },
+              { label: "유입 채널", val: "인스타 릴스 숏폼 바이럴" }
             ],
-            summary: "얼굴을 공개하지 않고도 셋업팟의 실전 자산을 소재로 매일 수만 조회수를 터뜨리고 잠재 고객을 자동으로 모으는 차기 프로젝트입니다.",
+            summary: "얼굴 없이 AI 숏폼 영상으로 도메인 네이밍의 가치를 증명하고, 바이럴 유입을 통해 도메인을 고가에 리셀하는 실전 수익화 도구입니다.",
             chapters: [
-              { num: "CH 01", title: "알고리즘이 강제 추천하는 3초 뇌 정지 후킹" },
-              { num: "CH 02", title: "클립 컷편집과 텍스트 타이포그래피 리듬" },
-              { num: "CH 03", title: "댓글로 무료 PDF 배포하여 이메일 수집하기" },
-              { num: "CH 04", title: "1일 1릴스 완전 자동화 템플릿" }
+              { num: "CH 01", title: "가치 있는 프리미엄 도메인 선별 공식" },
+              { num: "CH 02", title: "3초 시선 끄는 카드뉴스 릴스 자동 생성법" },
+              { num: "CH 03", title: "프로필 링크 결제창을 통한 고가 도메인 매각" },
+              { num: "CH 04", title: "1인 도메인 브로커 파이프라인 자동화" }
             ],
-            quote: "소재가 없어서 못 하는 것이 아닙니다. 내가 만든 도구를 매일 자랑하는 것이 가장 강력한 콘텐츠입니다."
+            quote: "인터넷 세상에서 좋은 도메인은 강남의 노른자위 땅과 같습니다. 가치를 시각화하는 순간 가격은 10배 뜁니다."
           }
         ]
       },
@@ -4293,6 +4881,26 @@
     shelfSpot.position.set(4.6, 7.2, 0.8);
     scene.add(shelfSpot);
 
+    // ── Floating Ambient Cinematic Particles (Dust Motes / Cyber Atmosphere) ──
+    const particleCount = 120;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePos = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      particlePos[i * 3] = (Math.random() - 0.5) * 26;
+      particlePos[i * 3 + 1] = Math.random() * 12 + 1.2;
+      particlePos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+    const particleMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.12,
+      transparent: true,
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending
+    });
+    const particleSystem = new THREE.Points(particleGeo, particleMat);
+    worldGroup.add(particleSystem);
+
     // ── Interaction & Book Inspection Engine ──
     let activeBook = null;       // Currently extracted/open book
     let hoveredBook = null;      // Currently hovered book
@@ -4870,6 +5478,15 @@
           p.userData.ring.scale.set(s, s, 1);
         }
       });
+
+      // Drift Ambient Cinematic Particles
+      if (typeof particleGeo !== 'undefined' && particleGeo.attributes && particleGeo.attributes.position) {
+        const pArr = particleGeo.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+          pArr[i * 3 + 1] += Math.sin(timeSec * 1.4 + i * 0.5) * 0.0035;
+        }
+        particleGeo.attributes.position.needsUpdate = true;
+      }
 
       // Update Live War Room Monitor Screen
       warRoom.update(timeSec);
