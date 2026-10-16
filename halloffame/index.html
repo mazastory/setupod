@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>명예의 전당 (Hall of Fame) | 셋업팟 쇼케이스</title>
+  <meta name="description" content="셋업팟 147대 마이크로 웹앱을 조합해 탄생한 킬러 비즈니스 쇼케이스. 당신의 조합을 세상에 자랑하세요.">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;800&family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-main: #07090e;
+      --bg-panel: rgba(14, 19, 32, 0.75);
+      --bg-card: rgba(20, 27, 45, 0.65);
+      --border-panel: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.18);
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.35);
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-display: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    .fame-header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 64px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-panel);
+      z-index: 100;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .fame-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 99px;
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .brand-title span {
+      color: var(--gold-primary);
+    }
+
+    .btn-submit-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--gold-glow);
+      transition: all 0.2s;
+    }
+    .btn-submit-hero:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.6);
+    }
+
+    /* ── Hero Section ── */
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px 40px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gold-primary);
+      margin-bottom: 20px;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      color: #fff;
+      position: relative;
+    }
+    .hero-h1 span {
+      background: linear-gradient(135deg, #ffd978 0%, #f59e0b 60%, #f97316 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.65;
+    }
+
+    /* ── Section Title ── */
+    .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 24px;
+    }
+
+    .section-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border-panel);
+      padding-bottom: 16px;
+    }
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold-primary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .section-h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Flagship 4 Grid ── */
+    .flagship-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .flagship-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-panel);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .flagship-card:hover {
+      background: rgba(28, 36, 60, 0.7);
+      border-color: rgba(245, 158, 11, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.15);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .project-rank {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--gold-primary);
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold-primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .project-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      margin: 10px 0 6px;
+    }
+    .project-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Lego Formula Box */
+    .lego-formula {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .formula-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .formula-blocks {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .block-chip {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .formula-plus {
+      font-weight: 900;
+      color: var(--gold-primary);
+      font-size: 12px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-panel);
+      padding-top: 16px;
+    }
+    .metric-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-emerald);
+      font-weight: 700;
+    }
+    .btn-visit {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-visit:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* ── Community Submission Section ── */
+    .community-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(56, 189, 248, 0.06) 100%);
+      border: 1.5px dashed rgba(245, 158, 11, 0.35);
+      border-radius: 20px;
+      padding: 36px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .community-text h3 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .community-text p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Modal Form */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal-card {
+      width: 480px;
+      max-width: 100%;
+      background: #0f1524;
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+    }
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .input-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .text-input {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-panel);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--gold-primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 1000;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 860px) {
+      .flagship-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-h1 {
+        font-size: 32px;
+      }
+      .community-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="fame-header">
+    <a href="../" class="brand-link">
+      <span class="fame-badge">HALL OF FAME</span>
+      <div class="brand-title">
+        SETUP<span>OD</span> SHOWCASE
+      </div>
+    </a>
+
+    <button class="btn-submit-hero" onclick="openSubmitModal()">
+      <i data-lucide="sparkles" style="width:15px;height:15px;"></i>
+      <span>내 조합 자랑하기</span>
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-container">
+    <div class="hero-glow"></div>
+    <div class="hero-pill">
+      <i data-lucide="trophy" style="width:14px;height:14px;"></i>
+      <span>147대 마이크로 웹앱 레고 블록 생태계</span>
+    </div>
+    <h1 class="hero-h1">
+      "우린 블록을 만들고,<br>
+      유저는 <span>자신만의 사업을 만들어 자랑한다</span>"
+    </h1>
+    <p class="hero-p">
+      셋업팟의 147대 독립 도구들을 조합하여 실제 현금 흐름을 창출한 플래그십 독립 비즈니스들입니다.<br>
+      오픈소스 레고 블록처럼 원하는 도구들을 조합해 당신만의 킬러 프로덕트를 런칭하세요.
+    </p>
+  </div>
+
+  <!-- SECTION: Flagship Showcases (4 대장) -->
+  <div class="section-wrap">
+    
+    <div class="section-header-row">
+      <div>
+        <div class="section-tag">OFFICIAL FLAGSHIPS</div>
+        <h2 class="section-h2">🏆 셋업팟 블록으로 탄생한 4대 독립 비즈니스</h2>
+      </div>
+      <span style="font-size:12px;color:var(--text-muted);">실제 라이브 상용 서비스</span>
+    </div>
+
+    <div class="flagship-grid">
+      
+      <!-- Flagship 1: Toomcard -->
+      <div class="flagship-card">
+        <div>
+          <div class="card-top">
+            <span class="project-rank">FLAGSHIP #01</span>
+            <span class="project-badge">독립 법인 사업화</span>
+          </div>
+          <h3 class="project-name">툼카드 (TOOMCARD)</h3>
+          <p class="project-desc">
+            종이 명함의 시대를 끝내는 실시간 3D 인터랙티브 스마트 명함. 2.4MB 무거운 GIF 대신 2KB 초경량 3D 메탈 엠블럼과 NFC 칩셋을 결합한 차세대 모바일 프로필 플랫폼.
+          </p>
+        </div>
+
+        <div class="lego-formula">
+          <span class="formula-label">조합된 셋업팟 레고 블록</span>
+          <div class="formula-blocks">
+            <span class="block-chip">145호 3D 목업/엠블럼</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">올인원 멀티링크 엔진</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">NFC 다이내믹 라우터</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="metric-pill">✓ toomcard.com 정식 런칭</span>
+          <a href="https://toomcard.com" target="_blank" class="btn-visit">
+            <span>사이트 보기</span>
+            <i data-lucide="external-link" style="width:12px;height:12px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Flagship 2: The Deskterior 3D -->
+      <div class="flagship-card">
+        <div>
+          <div class="card-top">
+            <span class="project-rank">FLAGSHIP #02</span>
+            <span class="project-badge">3D 공간 커머스</span>
+          </div>
+          <h3 class="project-name">THE DESKTERIOR 3D</h3>
+          <p class="project-desc">
+            개발자 & 크리에이터 감성 데스크셋업 3D 룸투어 쇼룸. 스크린바 조명 스위치, 기계식 키보드 타건음, 모션데스크 승강을 직접 만져보며 실제 장비 견적을 확인하는 3D 공간.
+          </p>
+        </div>
+
+        <div class="lego-formula">
+          <span class="formula-label">조합된 셋업팟 레고 블록</span>
+          <div class="formula-blocks">
+            <span class="block-chip">147호 오토파일럿 데스크</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">Three.js 3D 공간 룸투어</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">장비 핫스팟 큐레이션</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="metric-pill">✓ 60FPS 브라우저 WebGL 쇼룸</span>
+          <a href="../actiondesk/" class="btn-visit" target="_blank">
+            <span>데스크 투어</span>
+            <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Flagship 3: 1-Second E-Book Factory -->
+      <div class="flagship-card">
+        <div>
+          <div class="card-top">
+            <span class="project-rank">FLAGSHIP #03</span>
+            <span class="project-badge">지식창업 자동화</span>
+          </div>
+          <h3 class="project-name">크몽 1초 전자책 인쇄소</h3>
+          <p class="project-desc">
+            글재주 없는 1인 창업가를 위해 주제 하나로 [표지 + 7개 실무 챕터 + 체크리스트 10선 + 크몽 필수 라이선스]를 A4 8페이지 완제품 PDF로 인쇄하고 3D 양장본 표지까지 세트로 뽑아내는 자동화 팩토리.
+          </p>
+        </div>
+
+        <div class="lego-formula">
+          <span class="formula-label">조합된 셋업팟 레고 블록</span>
+          <div class="formula-blocks">
+            <span class="block-chip">146호 AI 리드마그넷 인쇄소</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">145호 3D 양장본 썸네일</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">A4 벡터 조판 엔진</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="metric-pill">✓ 오늘 밤 크몽 런칭 파이프라인</span>
+          <a href="../leadmagnet/" class="btn-visit" target="_blank">
+            <span>인쇄소 가동</span>
+            <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Flagship 4: Domain Flip Insta -->
+      <div class="flagship-card">
+        <div>
+          <div class="card-top">
+            <span class="project-rank">FLAGSHIP #04</span>
+            <span class="project-badge">SNS 마케팅 오토메이션</span>
+          </div>
+          <h3 class="project-name">도메인 플립 인스타 (Agent Forge)</h3>
+          <p class="project-desc">
+            도메인 플리핑과 디지털 자산 투자자를 위한 인스타그램 카드뉴스 7장 자동 생성기. Gemini 2.0이 타깃 페르소나별 카피를 작성하고 HTML Canvas로 7장 완성본을 즉시 다운로드.
+          </p>
+        </div>
+
+        <div class="lego-formula">
+          <span class="formula-label">조합된 셋업팟 레고 블록</span>
+          <div class="formula-blocks">
+            <span class="block-chip">셋업팟 마케팅 에이전트</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">Canvas 7슬라이드 렌더러</span>
+            <span class="formula-plus">+</span>
+            <span class="block-chip">페르소나 카피라이터</span>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="metric-pill">✓ 일일 카드뉴스 0초 제작</span>
+          <a href="../insta/" class="btn-visit" target="_blank">
+            <span>카드뉴스 만들기</span>
+            <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Community Callout Box -->
+    <div class="community-box">
+      <div class="community-text">
+        <h3>🚀 당신의 셋업팟 조합을 자랑하세요</h3>
+        <p>
+          "145호 3D 목업 + 셋업팟 마진 계산기로 이런 사이트를 만들었습니다!"<br>
+          당신이 만든 조합을 등록하면 명예의 전당에 박제되어 전 세계 창업가들에게 소개됩니다.
+        </p>
+      </div>
+      <button class="btn-submit-hero" onclick="openSubmitModal()">
+        <i data-lucide="plus-circle" style="width:16px;height:16px;"></i>
+        <span>내 프로젝트 등록하기</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Submission Modal -->
+  <div class="modal-overlay" id="submitModal">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="font-size:18px;font-weight:900;color:#fff;">명예의 전당에 내 조합 등록</h3>
+        <button onclick="closeSubmitModal()" style="background:none;border:none;color:#94a3b8;cursor:pointer;"><i data-lucide="x" style="width:20px;height:20px;"></i></button>
+      </div>
+
+      <div class="input-row">
+        <label class="input-label">프로젝트 이름</label>
+        <input type="text" id="modalProjName" class="text-input" placeholder="예: 3초 다이어리 판매 패키지">
+      </div>
+
+      <div class="input-row">
+        <label class="input-label">조합한 셋업팟 도구들</label>
+        <input type="text" id="modalLegoBlocks" class="text-input" placeholder="예: 145호 3D 목업 + 146호 AI 인쇄소 + 셋업팟 마진계산기">
+      </div>
+
+      <div class="input-row">
+        <label class="input-label">프로젝트 한 줄 소개</label>
+        <input type="text" id="modalProjDesc" class="text-input" placeholder="예: 주제만 넣으면 크몽 썸네일과 본문 PDF를 세트로 만들어 판매 중">
+      </div>
+
+      <div class="input-row">
+        <label class="input-label">웹사이트 또는 인스타 링크</label>
+        <input type="url" id="modalProjUrl" class="text-input" placeholder="https://...">
+      </div>
+
+      <button class="btn-submit-hero" style="width:100%;justify-content:center;padding:12px;" onclick="submitProject()">
+        <span>명예의 전당에 등록 완료</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span id="toastMsg">등록되었습니다!</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function openSubmitModal() {
+      document.getElementById('submitModal').classList.add('show');
+    }
+    function closeSubmitModal() {
+      document.getElementById('submitModal').classList.remove('show');
+    }
+
+    function submitProject() {
+      const name = document.getElementById('modalProjName').value.trim();
+      const blocks = document.getElementById('modalLegoBlocks').value.trim();
+      if (!name || !blocks) {
+        alert("프로젝트 이름과 조합한 도구들을 입력해주세요!");
+        return;
+      }
+
+      showToast("🎉 명예의 전당에 성공적으로 등록되었습니다!");
+      closeSubmitModal();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+  </script>
+</body>
+</html>

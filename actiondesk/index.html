@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>오토파일럿 데스크 | 셋업팟 147호 자산</title>
+  <meta name="description" content="생각만 숙성시키다 하루가 끝나는 1인 창업가를 위한 3D 가상 집무실. 오늘 당장 실행할 3대 액션을 강제 완료시키는 비즈니스 사령탑.">
+
+  <!-- Pretendard, Montserrat, JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js r128 & Lucide Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-dark: #06080e;
+      --bg-panel: rgba(11, 15, 25, 0.82);
+      --bg-card: rgba(18, 24, 40, 0.75);
+      --border-panel: rgba(255, 255, 255, 0.12);
+      --border-light: rgba(255, 255, 255, 0.18);
+      --primary: #f59e0b;
+      --primary-glow: rgba(245, 158, 11, 0.4);
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-display: 'Plus Jakarta Sans', 'Montserrat', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ── Top Header ── */
+    .desk-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8, 11, 20, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-panel);
+      z-index: 50;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .asset-badge {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 16.5px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .brand-title span {
+      color: var(--primary);
+    }
+
+    /* Anti-Aging Timer Pill */
+    .anti-aging-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fca5a5;
+    }
+    .timer-digits {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: #f87171;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-toy {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-panel);
+      border-radius: 10px;
+      padding: 7px 12px;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-toy:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    .btn-toy.active {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ── 3D WebGL Canvas Stage ── */
+    #webgl-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      cursor: grab;
+      z-index: 1;
+    }
+    #webgl-stage:active {
+      cursor: grabbing;
+    }
+
+    /* ── Floating Mission HUD (Action 3 Dispatcher) ── */
+    .mission-hud-card {
+      position: absolute;
+      left: 28px;
+      bottom: 28px;
+      width: 420px;
+      max-width: calc(100vw - 56px);
+      background: rgba(11, 15, 25, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 22px;
+      z-index: 40;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .hud-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hud-badge {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .hud-progress-text {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .hud-headline {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #fff;
+    }
+    .hud-subline {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Action Checklist */
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .action-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-panel);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .action-card:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .action-card.done {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .action-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+    .action-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .action-card.done .action-title {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+    .action-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .btn-warp {
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-panel);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-warp:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #000;
+    }
+
+    .btn-check-toggle {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid #64748b;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-check-toggle:hover {
+      border-color: var(--accent-emerald);
+    }
+    .action-card.done .btn-check-toggle {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+      color: #fff;
+    }
+
+    /* ── Interactive 3D Hotspot Overlays ── */
+    .desk-hotspot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 30;
+      transition: transform 0.2s;
+    }
+    .hotspot-ring {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.25);
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 16px var(--primary-glow);
+      animation: pulsePing 2s infinite ease-out;
+    }
+    @keyframes pulsePing {
+      0% { transform: scale(0.95); box-shadow: 0 0 8px var(--primary-glow); }
+      50% { transform: scale(1.12); box-shadow: 0 0 22px var(--primary); }
+      100% { transform: scale(0.95); box-shadow: 0 0 8px var(--primary-glow); }
+    }
+    .hotspot-label {
+      background: rgba(11, 15, 25, 0.85);
+      border: 1px solid var(--border-panel);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+
+    /* ── Success Celebration Modal ── */
+    .success-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .success-modal-overlay.show {
+      display: flex;
+    }
+    .success-modal {
+      width: 460px;
+      background: linear-gradient(135deg, #182035 0%, #0d1222 100%);
+      border: 1px solid var(--primary);
+      border-radius: 24px;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 50px var(--primary-glow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      animation: popIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .success-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(245, 158, 11, 0.15);
+      padding: 4px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--primary);
+    }
+
+    /* Controls Bar bottom center */
+    .floating-camera-tools {
+      position: absolute;
+      bottom: 24px;
+      right: 28px;
+      background: rgba(11, 15, 25, 0.8);
+      border: 1px solid var(--border-panel);
+      backdrop-filter: blur(16px);
+      padding: 6px 12px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 40;
+    }
+    .cam-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .cam-btn:hover, .cam-btn.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="desk-header">
+    <a href="../" class="brand-link">
+      <span class="asset-badge">ASSET #147</span>
+      <div class="brand-title">
+        SETUP<span>OD</span> CO-FOUNDER DESK
+      </div>
+    </a>
+
+    <!-- Anti-Aging Countdown Timer -->
+    <div class="anti-aging-timer" title="오늘 생각만 하지 말고 런칭을 완료하세요!">
+      <i data-lucide="flame" style="width:14px;height:14px;color:#ef4444;"></i>
+      <span>숙성 방지 자정 셧다운:</span>
+      <span class="timer-digits" id="shutdownTimer">01:33:45</span>
+    </div>
+
+    <!-- Desk Environment Toys -->
+    <div class="header-actions">
+      <button class="btn-toy active" id="btnLamp" onclick="toggleScreenbar()">
+        <i data-lucide="lamp-desk" style="width:14px;height:14px;"></i>
+        <span>스크린바</span>
+      </button>
+      <button class="btn-toy" id="btnSpeaker" onclick="toggleSpeakerAudio()">
+        <i data-lucide="volume-2" style="width:14px;height:14px;"></i>
+        <span>Lo-Fi 비트</span>
+      </button>
+      <button class="btn-toy" id="btnDeskHeight" onclick="toggleDeskHeight()">
+        <i data-lucide="arrow-up-down" style="width:14px;height:14px;"></i>
+        <span id="deskHeightText">스탠딩 (105cm)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3D WebGL Canvas Stage -->
+  <canvas id="webgl-stage"></canvas>
+
+  <!-- 3D Hotspots overlay -->
+  <div class="desk-hotspot" id="hotspot-ipad" onclick="window.open('../mockup/', '_blank')">
+    <div class="hotspot-ring"><i data-lucide="tablet" style="width:12px;height:12px;"></i></div>
+    <div class="hotspot-label">145호 3D 목업 스튜디오 ↗</div>
+  </div>
+  <div class="desk-hotspot" id="hotspot-book" onclick="window.open('../leadmagnet/', '_blank')">
+    <div class="hotspot-ring"><i data-lucide="book-open" style="width:12px;height:12px;"></i></div>
+    <div class="hotspot-label">146호 AI 전자책 인쇄소 ↗</div>
+  </div>
+  <div class="desk-hotspot" id="hotspot-monitor" onclick="window.open('../adsense/', '_blank')">
+    <div class="hotspot-ring"><i data-lucide="monitor" style="width:12px;height:12px;"></i></div>
+    <div class="hotspot-label">셋업팟 비즈니스 계산기 허브 ↗</div>
+  </div>
+
+  <!-- Floating Mission HUD: Today's Action 3 -->
+  <div class="mission-hud-card" id="missionHud">
+    <div class="hud-title-row">
+      <span class="hud-badge">TODAY'S DISPATCH</span>
+      <span class="hud-progress-text" id="progressStatus">진행도: 0 / 3 완료</span>
+    </div>
+
+    <div>
+      <div class="hud-headline">"아이디어 숙성 금지! 오늘 끝낼 필수 3대 액션"</div>
+      <div class="hud-subline">생각만 1년 하지 말고, 오늘 밤 크몽/인스타에 바로 1개 상품을 런칭하세요.</div>
+    </div>
+
+    <div class="action-stack">
+      
+      <!-- Action 1: Product Output -->
+      <div class="action-card" id="cardAction1">
+        <button class="btn-check-toggle" onclick="toggleAction(1)">
+          <i data-lucide="check" style="width:14px;height:14px;"></i>
+        </button>
+        <div class="action-info">
+          <div class="action-title">
+            <span>1. 완제품 전자책 PDF 1권 인쇄</span>
+            <span style="font-size:9px;color:var(--accent-cyan);background:rgba(56,189,248,0.15);padding:1px 5px;border-radius:4px;">146호</span>
+          </div>
+          <div class="action-sub">AI 인쇄소에서 8페이지 A4 완성본 PDF 출력</div>
+        </div>
+        <button class="btn-warp" onclick="window.open('../leadmagnet/', '_blank')">
+          <span>워프</span>
+          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        </button>
+      </div>
+
+      <!-- Action 2: Visual 3D Thumbnail -->
+      <div class="action-card" id="cardAction2">
+        <button class="btn-check-toggle" onclick="toggleAction(2)">
+          <i data-lucide="check" style="width:14px;height:14px;"></i>
+        </button>
+        <div class="action-info">
+          <div class="action-title">
+            <span>2. 3D 양장본 판매용 썸네일 캡처</span>
+            <span style="font-size:9px;color:var(--accent-purple);background:rgba(168,85,247,0.15);padding:1px 5px;border-radius:4px;">145호</span>
+          </div>
+          <div class="action-sub">3D 스튜디오에서 크몽 등록용 얼짱 각도 PNG 캡처</div>
+        </div>
+        <button class="btn-warp" onclick="window.open('../mockup/', '_blank')">
+          <span>워프</span>
+          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        </button>
+      </div>
+
+      <!-- Action 3: Profit Simulation -->
+      <div class="action-card" id="cardAction3">
+        <button class="btn-check-toggle" onclick="toggleAction(3)">
+          <i data-lucide="check" style="width:14px;height:14px;"></i>
+        </button>
+        <div class="action-info">
+          <div class="action-title">
+            <span>3. 판매 마진 & 손익분기점 확정</span>
+            <span style="font-size:9px;color:var(--accent-emerald);background:rgba(16,185,129,0.15);padding:1px 5px;border-radius:4px;">144대 도구</span>
+          </div>
+          <div class="action-sub">플랫폼 수수료를 뺀 실제 통장 순마진 시뮬레이션</div>
+        </div>
+        <button class="btn-warp" onclick="window.open('../margin/', '_blank')">
+          <span>워프</span>
+          <i data-lucide="external-link" style="width:11px;height:11px;"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Camera View Angles -->
+  <div class="floating-camera-tools">
+    <button class="cam-btn active" onclick="setCamView('overview', this)">
+      <i data-lucide="layout" style="width:13px;height:13px;"></i><span>전체 조망</span>
+    </button>
+    <button class="cam-btn" onclick="setCamView('desk', this)">
+      <i data-lucide="zoom-in" style="width:13px;height:13px;"></i><span>데스크 집중</span>
+    </button>
+    <button class="cam-btn" onclick="setCamView('screen', this)">
+      <i data-lucide="monitor" style="width:13px;height:13px;"></i><span>모니터 사령부</span>
+    </button>
+  </div>
+
+  <!-- Success Celebration Modal -->
+  <div class="success-modal-overlay" id="successModal">
+    <div class="success-modal">
+      <span class="success-badge">MISSION COMPLETE</span>
+      <div style="font-size:42px;">🏆</div>
+      <h2 style="font-size:22px;font-weight:900;color:#fff;">"오늘 1개 비즈니스 런칭 성공!"</h2>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+        축하합니다! 생각을 숙성시키지 않고 <strong>오늘 하루 만에 [완제품 PDF + 3D 썸네일 + 마진 확정]</strong>까지 실물로 런칭을 완료하셨습니다.
+      </p>
+      <button class="btn-toy active" style="padding:12px 24px;font-size:14px;" onclick="closeSuccessModal()">
+        <span>내일의 새로운 미션 준비하기</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Three.js 3D Virtual Co-Founder Room -->
+  <script>
+    lucide.createIcons();
+
+    // ── Anti-Aging Shutdown Timer ──
+    function updateCountdown() {
+      const now = new Date();
+      const midnight = new Date();
+      midnight.setHours(24, 0, 0, 0);
+      const diff = midnight - now;
+
+      const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+      const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+      const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+
+      document.getElementById('shutdownTimer').innerText = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ── Action State Tracker ──
+    const actionStates = { 1: false, 2: false, 3: false };
+
+    function toggleAction(id) {
+      actionStates[id] = !actionStates[id];
+      const card = document.getElementById('cardAction' + id);
+      
+      if (actionStates[id]) {
+        card.classList.add('done');
+      } else {
+        card.classList.remove('done');
+      }
+
+      const completed = Object.values(actionStates).filter(Boolean).length;
+      document.getElementById('progressStatus').innerText = `진행도: ${completed} / 3 완료`;
+
+      if (completed === 3) {
+        document.getElementById('successModal').classList.add('show');
+      }
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.remove('show');
+    }
+
+    // ── Three.js 3D Virtual Workspace Scene ──
+    const canvas = document.getElementById('webgl-stage');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x060911);
+    scene.fog = new THREE.FogExp2(0x060911, 0.025);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 10, 18);
+
+    // Materials
+    const matWalnut = new THREE.MeshStandardMaterial({ color: 0x3d2414, roughness: 0.6, metalness: 0.1 });
+    const matBlackMetal = new THREE.MeshStandardMaterial({ color: 0x11141c, roughness: 0.4, metalness: 0.8 });
+    const matMatteScreen = new THREE.MeshBasicMaterial({ color: 0x091428 });
+    const matPencil = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.3 });
+    const matGoldSpine = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3, metalness: 0.6 });
+
+    // Room Grid Floor
+    const floorGeo = new THREE.PlaneGeometry(60, 60);
+    const floorMat = new THREE.MeshStandardMaterial({ color: 0x0a0e1a, roughness: 0.8 });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Grid helper
+    const grid = new THREE.GridHelper(40, 40, 0x1e293b, 0x0f172a);
+    grid.position.y = 0.01;
+    scene.add(grid);
+
+    // World Group
+    const deskGroup = new THREE.Group();
+    scene.add(deskGroup);
+
+    // 1. Motion Desk Tabletop (Walnut)
+    const deskTop = new THREE.Mesh(new THREE.BoxGeometry(14, 0.3, 7), matWalnut);
+    deskTop.position.set(0, 4.4, 0);
+    deskTop.castShadow = true;
+    deskTop.receiveShadow = true;
+    deskGroup.add(deskTop);
+
+    // Desk Legs (Black Metal)
+    const legGeo = new THREE.BoxGeometry(0.5, 4.4, 1.2);
+    const legL = new THREE.Mesh(legGeo, matBlackMetal);
+    legL.position.set(-6, 2.2, 0);
+    const legR = legL.clone();
+    legR.position.set(6, 2.2, 0);
+    deskGroup.add(legL, legR);
+
+    // Desk Mat
+    const matPad = new THREE.Mesh(new THREE.BoxGeometry(8, 0.04, 3.8), new THREE.MeshStandardMaterial({ color: 0x1e2330 }));
+    matPad.position.set(0, 4.56, 0.8);
+    matPad.receiveShadow = true;
+    deskGroup.add(matPad);
+
+    // 2. Ultrawide Curved Monitor
+    const monStand = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.2), matBlackMetal);
+    monStand.position.set(0, 5.5, -2);
+    const monScreen = new THREE.Mesh(new THREE.BoxGeometry(9.5, 3.8, 0.3), matMatteScreen);
+    monScreen.position.set(0, 6.8, -1.8);
+    deskGroup.add(monStand, monScreen);
+
+    // 3. Asset #145: 3D iPad Pro on Desk Stand
+    const ipadMesh = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.1, 3.4), new THREE.MeshStandardMaterial({ color: 0x020617, roughness: 0.2 }));
+    ipadMesh.position.set(-3.2, 4.62, 0.6);
+    ipadMesh.rotation.y = 0.25;
+    deskGroup.add(ipadMesh);
+
+    // 4. Asset #146: 3D Hardcover Book on Desk
+    const bookMesh = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.35, 3.2), matGoldSpine);
+    bookMesh.position.set(3.2, 4.74, 0.8);
+    bookMesh.rotation.y = -0.3;
+    deskGroup.add(bookMesh);
+
+    // 5. Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.5);
+    dirLight.position.set(10, 20, 15);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    scene.add(dirLight);
+
+    // Screenbar Lamp (Amber/Cyan)
+    const screenbarLight = new THREE.PointLight(0xf59e0b, 2.5, 8);
+    screenbarLight.position.set(0, 8.8, -1.2);
+    scene.add(screenbarLight);
+
+    // Neon Backlight
+    const backlight = new THREE.PointLight(0x06b6d4, 2.0, 10);
+    backlight.position.set(0, 5.2, -3.2);
+    scene.add(backlight);
+
+    // ── Camera Views & Smooth Orbit ──
+    let isDragging = false;
+    let prevMouseX = 0;
+    let prevMouseY = 0;
+    let targetRotY = 0;
+    let targetRotX = 0.15;
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - prevMouseX;
+      const dy = e.clientY - prevMouseY;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+
+      targetRotY += dx * 0.005;
+      targetRotX += dy * 0.005;
+      targetRotX = Math.max(-0.2, Math.min(0.6, targetRotX));
+    });
+
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    // Touch Support
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        prevMouseX = e.touches[0].clientX;
+        prevMouseY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - prevMouseX;
+      const dy = e.touches[0].clientY - prevMouseY;
+      prevMouseX = e.touches[0].clientX;
+      prevMouseY = e.touches[0].clientY;
+
+      targetRotY += dx * 0.006;
+      targetRotX += dy * 0.006;
+      targetRotX = Math.max(-0.2, Math.min(0.6, targetRotX));
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => { isDragging = false; });
+
+    // Camera Presets
+    let targetCamPos = new THREE.Vector3(0, 10, 18);
+    let targetLookAt = new THREE.Vector3(0, 4.8, 0);
+
+    function setCamView(view, btn) {
+      document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (view === 'overview') {
+        targetCamPos.set(0, 10, 18);
+        targetLookAt.set(0, 4.8, 0);
+      } else if (view === 'desk') {
+        targetCamPos.set(0, 7.5, 9);
+        targetLookAt.set(0, 5.0, 0.5);
+      } else if (view === 'screen') {
+        targetCamPos.set(0, 6.8, 5.5);
+        targetLookAt.set(0, 6.8, -1.8);
+      }
+    }
+
+    // ── Toys Control ──
+    let isScreenbarOn = true;
+    function toggleScreenbar() {
+      isScreenbarOn = !isScreenbarOn;
+      screenbarLight.intensity = isScreenbarOn ? 2.5 : 0;
+      document.getElementById('btnLamp').classList.toggle('active', isScreenbarOn);
+    }
+
+    let isAudioPlaying = false;
+    function toggleSpeakerAudio() {
+      isAudioPlaying = !isAudioPlaying;
+      document.getElementById('btnSpeaker').classList.toggle('active', isAudioPlaying);
+    }
+
+    let isStanding = false;
+    function toggleDeskHeight() {
+      isStanding = !isStanding;
+      const txt = document.getElementById('deskHeightText');
+      txt.innerText = isStanding ? "착석 (74cm)" : "스탠딩 (105cm)";
+      deskGroup.position.y = isStanding ? 1.5 : 0;
+    }
+
+    // ── Hotspots Screen Projection ──
+    const hotspotIpad = document.getElementById('hotspot-ipad');
+    const hotspotBook = document.getElementById('hotspot-book');
+    const hotspotMonitor = document.getElementById('hotspot-monitor');
+
+    function updateHotspots() {
+      const posIpad = new THREE.Vector3(-3.2, 4.8, 0.6).applyMatrix4(deskGroup.matrixWorld);
+      const posBook = new THREE.Vector3(3.2, 5.0, 0.8).applyMatrix4(deskGroup.matrixWorld);
+      const posMon = new THREE.Vector3(0, 7.2, -1.8).applyMatrix4(deskGroup.matrixWorld);
+
+      projectToScreen(posIpad, hotspotIpad);
+      projectToScreen(posBook, hotspotBook);
+      projectToScreen(posMon, hotspotMonitor);
+    }
+
+    function projectToScreen(vec, element) {
+      const temp = vec.clone().project(camera);
+      const x = (temp.x * 0.5 + 0.5) * window.innerWidth;
+      const y = (-(temp.y * 0.5) + 0.5) * window.innerHeight;
+
+      if (temp.z < 1) {
+        element.style.display = 'flex';
+        element.style.left = `${x}px`;
+        element.style.top = `${y}px`;
+      } else {
+        element.style.display = 'none';
+      }
+    }
+
+    // ── Animation Loop ──
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Smooth camera lerp
+      camera.position.lerp(targetCamPos, 0.05);
+      camera.lookAt(targetLookAt);
+
+      // Smooth rotation
+      deskGroup.rotation.y += (targetRotY - deskGroup.rotation.y) * 0.08;
+      deskGroup.rotation.x += (targetRotX - deskGroup.rotation.x) * 0.08;
+
+      renderer.render(scene, camera);
+      updateHotspots();
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SETUPOD 3D Mockup Studio — 크리에이터를 위한 실시간 3D 프로덕트 쇼케이스</title>
+  
+  <meta name="description" content="표지 이미지 1장으로 3D 아이패드, 양장본 하드커버 책, 소프트웨어 박스 실물 목업을 실시간 생성하고 360도 회전 GIF/PNG로 즉시 추출하는 3D 목업 스튜디오.">
+  <link rel="canonical" href="https://setupod.com/mockup">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SETUPOD">
+  <meta property="og:title" content="SETUPOD 3D Mockup Studio | 실시간 3D 프로덕트 쇼케이스">
+  <meta property="og:description" content="표지 이미지 1장으로 완성하는 3D 아이패드 & 하드커버 북 & 패키지 박스. 크몽/스마트스토어 썸네일 고화질 추출.">
+  <meta property="og:image" content="https://setupod.com/assets/mockup_preview.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,900&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons & html2canvas -->
+  <script src="https://unpkg.com/lucide@0.344.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --bg-space: #07090e;
+      --bg-panel: rgba(15, 19, 29, 0.82);
+      --bg-card: rgba(23, 29, 44, 0.65);
+      --border-panel: rgba(255, 255, 255, 0.1);
+      --border-focus: rgba(168, 85, 247, 0.6);
+      
+      --accent-purple: #c084fc;
+      --accent-neon: #a855f7;
+      --accent-cyan: #38bdf8;
+      --accent-gold: #ffd978;
+      --accent-gold-glow: rgba(255, 217, 120, 0.35);
+      
+      --device-titanium: linear-gradient(135deg, #2b303c 0%, #151821 100%);
+      --device-border: rgba(255, 255, 255, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-space);
+      color: #f8fafc;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Bar ── */
+    .studio-header {
+      height: 64px;
+      border-bottom: 1px solid var(--border-panel);
+      background: rgba(7, 9, 14, 0.85);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-badge-3d {
+      background: linear-gradient(135deg, #ec4899, #a855f7);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 900;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title .highlight {
+      background: linear-gradient(135deg, #c084fc, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-export-quick {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-export-quick:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(168, 85, 247, 0.6);
+    }
+
+    /* ── Main Workspace Grid ── */
+    .studio-workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 360px 1fr 320px;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+    }
+
+    /* ── Left Sidebar: Controls & Customizer ── */
+    .sidebar-controls {
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border-panel);
+      backdrop-filter: blur(20px);
+      padding: 24px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Device Selector Grid */
+    .device-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .device-card {
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .device-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .device-card.active {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
+    }
+    .device-icon {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-purple);
+    }
+    .device-card.active .device-icon {
+      color: #ffffff;
+    }
+    .device-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Preset Chips */
+    .preset-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preset-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .preset-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .preset-btn.active {
+      border-color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.12);
+    }
+    .preset-tag {
+      font-size: 9.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 800;
+      margin-left: auto;
+    }
+
+    /* Content Inputs */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .input-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .input-field {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus {
+      border-color: var(--accent-purple);
+    }
+
+    /* Upload Dropzone */
+    .dropzone {
+      border: 1.5px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
+    }
+    .dropzone:hover {
+      border-color: var(--accent-purple);
+      background: rgba(168, 85, 247, 0.05);
+    }
+    .dropzone-icon {
+      width: 24px;
+      height: 24px;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0 auto 6px;
+    }
+    .dropzone-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    /* Color Swatches */
+    .color-swatches {
+      display: flex;
+      gap: 8px;
+    }
+    .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .swatch.active {
+      transform: scale(1.15);
+      border-color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    /* ── Center Stage: 3D Canvas ── */
+    .stage-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 45%, #181d2e 0%, #06070b 85%);
+      overflow: hidden;
+      user-select: none;
+      cursor: grab;
+      transition: background 0.4s ease;
+    }
+    .stage-container:active {
+      cursor: grabbing;
+    }
+
+    /* Floating Studio Toolbar */
+    .floating-stage-tools {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 19, 29, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 50;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    .tool-btn {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.75);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .tool-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .tool-btn.active {
+      color: var(--accent-purple);
+      background: rgba(168, 85, 247, 0.18);
+    }
+
+    /* ── Pure CSS 3D Stage Environment ── */
+    .stage-viewport {
+      perspective: 1400px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stage-orbit-world {
+      transform-style: preserve-3d;
+      transition: transform 0.05s ease-out;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stage-orbit-world.auto-spin {
+      animation: spin360 16s linear infinite;
+    }
+
+    @keyframes spin360 {
+      from { transform: rotateY(0deg) rotateX(-8deg); }
+      to { transform: rotateY(360deg) rotateX(-8deg); }
+    }
+
+    /* ── DEVICE 1: 3D iPad Pro 13" ── */
+    .mockup-ipad {
+      position: relative;
+      width: 320px;
+      height: 460px;
+      transform-style: preserve-3d;
+    }
+
+    /* iPad Floor Contact Shadow */
+    .ipad-shadow-ground {
+      position: absolute;
+      width: 360px;
+      height: 100px;
+      left: -20px;
+      top: 430px;
+      transform: rotateX(90deg) translateZ(-240px);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 75%);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    /* Front Face (Bezel + Glass Display) */
+    .ipad-front {
+      position: absolute;
+      width: 320px;
+      height: 460px;
+      left: 0;
+      top: 0;
+      border-radius: 26px;
+      background: #000000;
+      transform: translateZ(6px);
+      backface-visibility: hidden;
+      overflow: hidden;
+      box-shadow: 
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .ipad-camera-dot {
+      position: absolute;
+      top: 8px;
+      left: calc(50% - 3px);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      z-index: 20;
+    }
+
+    .ipad-screen-frame {
+      position: absolute;
+      inset: 8px;
+      border-radius: 18px;
+      background: #05070a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ipad-screen-content {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .ipad-glare {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.03) 40%, transparent 55%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Back Face (Titanium Unibody + Camera Island + Apple Logo) */
+    .ipad-back {
+      position: absolute;
+      width: 320px;
+      height: 460px;
+      left: 0;
+      top: 0;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #232732 0%, #171a22 50%, #0d0f14 100%);
+      transform: rotateY(180deg) translateZ(6px);
+      backface-visibility: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .ipad-camera-island {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(30, 35, 48, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 6px;
+      gap: 4px;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .ipad-lens {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #1e293b 0%, #020617 70%);
+      border: 2px solid #334155;
+      box-shadow: inset 0 0 4px rgba(56, 189, 248, 0.4);
+    }
+
+    .ipad-lidar {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #020617;
+      border: 1px solid #1e293b;
+    }
+
+    .ipad-flash {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fef08a;
+      box-shadow: 0 0 6px rgba(254, 240, 138, 0.6);
+    }
+
+    .ipad-apple-logo {
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(200,200,210,0.3) 100%);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 170 170' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.08-7.7-7.97-12.04-14.67-6.08-9.46-10.74-20.15-13.98-32.08-3.24-11.93-4.86-23.08-4.86-33.46 0-14.82 3.73-26.69 11.19-35.61 7.46-8.92 16.63-13.43 27.5-13.53 4.89 0 10.36 1.35 16.42 4.04 6.06 2.69 10.23 4.09 12.51 4.2 1.83-.11 6.22-1.63 13.17-4.56 6.96-2.93 12.59-4.22 16.9-3.87 12.63.87 22.42 5.61 29.37 14.22-11.09 6.74-16.51 16.14-16.27 28.2.22 9.57 3.91 17.61 11.08 24.12 7.17 6.52 15.66 10.22 25.47 11.11-2.17 6.96-4.78 13.91-7.85 20.85zM119.22 33.15c0-7.17 2.61-13.91 7.83-20.22 5.22-6.3 11.64-10.43 19.26-12.4 1.09 7.39-.76 14.46-5.54 21.2-4.78 6.74-11.09 10.76-18.92 12.06-.43-.22-.63-.44-.63-.64z'/%3E%3C/svg%3E") no-repeat center / contain;
+      mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 170 170' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.08-7.7-7.97-12.04-14.67-6.08-9.46-10.74-20.15-13.98-32.08-3.24-11.93-4.86-23.08-4.86-33.46 0-14.82 3.73-26.69 11.19-35.61 7.46-8.92 16.63-13.43 27.5-13.53 4.89 0 10.36 1.35 16.42 4.04 6.06 2.69 10.23 4.09 12.51 4.2 1.83-.11 6.22-1.63 13.17-4.56 6.96-2.93 12.59-4.22 16.9-3.87 12.63.87 22.42 5.61 29.37 14.22-11.09 6.74-16.51 16.14-16.27 28.2.22 9.57 3.91 17.61 11.08 24.12 7.17 6.52 15.66 10.22 25.47 11.11-2.17 6.96-4.78 13.91-7.85 20.85zM119.22 33.15c0-7.17 2.61-13.91 7.83-20.22 5.22-6.3 11.64-10.43 19.26-12.4 1.09 7.39-.76 14.46-5.54 21.2-4.78 6.74-11.09 10.76-18.92 12.06-.43-.22-.63-.44-.63-.64z'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+
+    .ipad-smart-connector {
+      position: absolute;
+      bottom: 24px;
+      display: flex;
+      gap: 10px;
+    }
+    .ipad-smart-connector span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #eab308;
+      box-shadow: inset 0 0 2px rgba(0,0,0,0.8);
+    }
+
+    /* iPad 4 Solid Aluminum Flat Edges (Watertight zero gap) */
+    .ipad-side-left {
+      position: absolute;
+      width: 12px;
+      height: 412px;
+      left: 154px;
+      top: 24px;
+      background: linear-gradient(180deg, #181b24 0%, #2b303e 30%, #151820 100%);
+      transform: rotateY(-90deg) translateZ(160px);
+      backface-visibility: hidden;
+      border-left: 1px solid rgba(255,255,255,0.15);
+      border-right: 1px solid rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-top: 50px;
+    }
+    .vol-btn {
+      width: 4px;
+      height: 28px;
+      border-radius: 2px;
+      background: #475569;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .ipad-side-right {
+      position: absolute;
+      width: 12px;
+      height: 412px;
+      left: 154px;
+      top: 24px;
+      background: linear-gradient(180deg, #181b24 0%, #2b303e 30%, #151820 100%);
+      transform: rotateY(90deg) translateZ(160px);
+      backface-visibility: hidden;
+      border-left: 1px solid rgba(255,255,255,0.15);
+      border-right: 1px solid rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .magnetic-strip {
+      width: 6px;
+      height: 120px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .ipad-side-top {
+      position: absolute;
+      width: 272px;
+      height: 12px;
+      left: 24px;
+      top: 224px;
+      background: linear-gradient(90deg, #181b24 0%, #2b303e 50%, #181b24 100%);
+      transform: rotateX(90deg) translateZ(230px);
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 30px;
+    }
+    .power-btn {
+      width: 32px;
+      height: 4px;
+      border-radius: 2px;
+      background: #475569;
+    }
+
+    .ipad-side-bottom {
+      position: absolute;
+      width: 272px;
+      height: 12px;
+      left: 24px;
+      top: 224px;
+      background: linear-gradient(90deg, #12141c 0%, #1d212b 50%, #12141c 100%);
+      transform: rotateX(-90deg) translateZ(230px);
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 30px;
+    }
+    .usbc-port {
+      width: 26px;
+      height: 5px;
+      border-radius: 3px;
+      background: #000;
+      border: 1px solid #334155;
+    }
+    .speaker-grille {
+      width: 36px;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, #000 0px, #000 2px, transparent 2px, transparent 4px);
+    }
+
+    /* Apple Pencil attached magnetically flush */
+    .apple-pencil {
+      position: absolute;
+      right: -8px;
+      top: 90px;
+      width: 8px;
+      height: 270px;
+      transform-style: preserve-3d;
+      transform: translateZ(6px);
+      z-index: 30;
+      filter: drop-shadow(2px 3px 6px rgba(0,0,0,0.6));
+    }
+    .pencil-body {
+      width: 8px;
+      height: 255px;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 40%, #cbd5e1 80%, #94a3b8 100%);
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+    .pencil-tip {
+      position: absolute;
+      bottom: 0;
+      left: 1px;
+      width: 6px;
+      height: 15px;
+      background: #64748b;
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+    }
+
+    /* ── DEVICE 2: 3D Hardcover Book ── */
+    .mockup-book {
+      position: relative;
+      width: 280px;
+      height: 410px;
+      transform-style: preserve-3d;
+      display: none;
+    }
+
+    /* Book Ground Contact Shadow */
+    .book-shadow-ground {
+      position: absolute;
+      width: 340px;
+      height: 100px;
+      left: -30px;
+      top: 380px;
+      transform: rotateX(90deg) translateZ(-215px);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 45%, transparent 75%);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    /* Front Hardcover Board (Watertight at Z=+19px) */
+    .book-front {
+      position: absolute;
+      width: 280px;
+      height: 410px;
+      left: 0;
+      top: 0;
+      border-radius: 0 10px 10px 0;
+      background: linear-gradient(135deg, #1e140d 0%, #0d0906 100%);
+      border: 1px solid rgba(255, 217, 120, 0.35);
+      border-left: none;
+      padding: 36px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      transform: translateZ(19px);
+      backface-visibility: hidden;
+      box-shadow: 
+        inset 10px 0 20px rgba(0,0,0,0.7),
+        inset 0 0 15px rgba(255,217,120,0.06);
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Book Hinge / Joint Crease */
+    .book-joint-crease {
+      position: absolute;
+      left: 22px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.08) 50%, rgba(0,0,0,0.6) 100%);
+      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    /* Back Hardcover Board (Watertight at Z=-19px) */
+    .book-back {
+      position: absolute;
+      width: 280px;
+      height: 410px;
+      left: 0;
+      top: 0;
+      border-radius: 10px 0 0 10px;
+      background: linear-gradient(135deg, #18100a 0%, #080504 100%);
+      border: 1px solid rgba(255, 217, 120, 0.3);
+      border-right: none;
+      padding: 36px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      transform: rotateY(180deg) translateZ(19px);
+      backface-visibility: hidden;
+      box-shadow: inset -10px 0 20px rgba(0,0,0,0.7);
+    }
+
+    .book-joint-crease-back {
+      position: absolute;
+      right: 22px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.08) 50%, rgba(0,0,0,0.6) 100%);
+      box-shadow: inset 1px 0 2px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
+    .book-back-text {
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 16px;
+      font-style: italic;
+    }
+
+    .book-back-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 14px;
+    }
+
+    .book-isbn {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .book-isbn span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .barcode-lines {
+      width: 110px;
+      height: 32px;
+      background: repeating-linear-gradient(90deg, #fff 0px, #fff 2px, transparent 2px, transparent 4px, #fff 4px, #fff 5px, transparent 5px, transparent 8px, #fff 8px, #fff 11px);
+      opacity: 0.85;
+    }
+
+    /* Book Spine (책등) - Watertight Left Face */
+    .book-spine {
+      position: absolute;
+      width: 38px;
+      height: 410px;
+      left: 121px; /* 140 - 19 */
+      top: 0;
+      background: linear-gradient(90deg, #0d0805 0%, #29180e 25%, #3c2315 50%, #29180e 75%, #0d0805 100%);
+      border-radius: 4px 0 0 4px;
+      transform: rotateY(-90deg) translateZ(140px);
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-family: 'Montserrat', 'Pretendard', sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+    }
+
+    /* Gold Cloth Headbands on Book Spine */
+    .book-spine::before,
+    .book-spine::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(90deg, #ffd978 0px, #ffd978 3px, #b45309 3px, #b45309 6px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .book-spine::before { top: 0; }
+    .book-spine::after { bottom: 0; }
+
+    /* Paper Pages Block (Realistic 3D Interior Block Inset by 4px) */
+    .book-pages-side {
+      position: absolute;
+      width: 32px;
+      height: 402px;
+      left: 124px; /* 140 - 16 */
+      top: 4px;
+      background: repeating-linear-gradient(0deg, #faf6ed 0px, #faf6ed 1.5px, #d5ccba 2px, #faf6ed 2.5px);
+      transform: rotateY(90deg) translateZ(136px); /* 140 - 4 */
+      backface-visibility: hidden;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.35);
+    }
+
+    .book-pages-top {
+      position: absolute;
+      width: 272px;
+      height: 32px;
+      left: 4px;
+      top: 189px; /* 205 - 16 */
+      background: repeating-linear-gradient(90deg, #faf6ed 0px, #faf6ed 1.5px, #d5ccba 2px);
+      transform: rotateX(90deg) translateZ(201px); /* 205 - 4 */
+      backface-visibility: hidden;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .book-pages-bottom {
+      position: absolute;
+      width: 272px;
+      height: 32px;
+      left: 4px;
+      top: 189px;
+      background: repeating-linear-gradient(90deg, #faf6ed 0px, #faf6ed 1.5px, #d5ccba 2px);
+      transform: rotateX(-90deg) translateZ(201px);
+      backface-visibility: hidden;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.35);
+    }
+
+    /* Silk Ribbon Bookmark hanging from paper block */
+    .book-ribbon {
+      position: absolute;
+      bottom: -32px;
+      left: 70px;
+      width: 14px;
+      height: 52px;
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      box-shadow: 2px 5px 12px rgba(0,0,0,0.6);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%);
+      transform: translateZ(2px) rotate(4deg);
+      z-index: 25;
+    }
+
+    /* ── DEVICE 3: 3D Software Box (Watertight Solid Cube) ── */
+    .mockup-box {
+      position: relative;
+      width: 280px;
+      height: 400px;
+      transform-style: preserve-3d;
+      display: none;
+    }
+
+    /* Box Ground Contact Shadow */
+    .box-shadow-ground {
+      position: absolute;
+      width: 340px;
+      height: 100px;
+      left: -30px;
+      top: 370px;
+      transform: rotateX(90deg) translateZ(-210px);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 45%, transparent 75%);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    /* Front Face (Z = +30px) */
+    .box-front {
+      position: absolute;
+      width: 280px;
+      height: 400px;
+      left: 0;
+      top: 0;
+      background: linear-gradient(135deg, #0e1e38 0%, #050b16 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 36px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      transform: translateZ(30px);
+      backface-visibility: hidden;
+      border-radius: 2px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: inset 0 0 24px rgba(0,0,0,0.4);
+    }
+
+    /* Back Face (Z = -30px, Rotated 180deg) */
+    .box-back {
+      position: absolute;
+      width: 280px;
+      height: 400px;
+      left: 0;
+      top: 0;
+      background: linear-gradient(135deg, #091322 0%, #03070d 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 36px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      transform: rotateY(180deg) translateZ(30px);
+      backface-visibility: hidden;
+      border-radius: 2px;
+      box-shadow: inset 0 0 24px rgba(0,0,0,0.5);
+    }
+
+    .box-back-spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.75);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      padding-bottom: 6px;
+    }
+    .spec-row strong {
+      color: #38bdf8;
+    }
+
+    .box-back-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 14px;
+      font-size: 10.5px;
+    }
+
+    /* Left Spine Face (X = 0, Rotated -90deg) */
+    .box-side {
+      position: absolute;
+      width: 60px;
+      height: 400px;
+      left: 110px; /* 140 - 30 */
+      top: 0;
+      background: linear-gradient(90deg, #050b14 0%, #0d1a30 50%, #050b14 100%);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      transform: rotateY(-90deg) translateZ(140px);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #38bdf8;
+      font-weight: 800;
+      font-size: 12px;
+      writing-mode: vertical-rl;
+      letter-spacing: 0.15em;
+      box-shadow: inset -4px 0 16px rgba(0,0,0,0.5);
+    }
+
+    /* Right Face (X = 280, Rotated 90deg) */
+    .box-right {
+      position: absolute;
+      width: 60px;
+      height: 400px;
+      left: 110px;
+      top: 0;
+      background: linear-gradient(90deg, #03060a 0%, #081120 50%, #03060a 100%);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transform: rotateY(90deg) translateZ(140px);
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 10.5px;
+      font-weight: 700;
+      writing-mode: vertical-rl;
+      letter-spacing: 0.12em;
+      box-shadow: inset 4px 0 16px rgba(0,0,0,0.6);
+    }
+
+    /* Top Lid Face (Y = 0, Rotated 90deg) */
+    .box-top {
+      position: absolute;
+      width: 280px;
+      height: 60px;
+      left: 0;
+      top: 170px; /* 200 - 30 */
+      background: linear-gradient(180deg, #132442 0%, #0b1526 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      transform: rotateX(90deg) translateZ(200px);
+      backface-visibility: hidden;
+      box-shadow: inset 0 4px 12px rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .box-top::after {
+      content: '';
+      width: 36px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Bottom Base Face (Y = 400, Rotated -90deg) */
+    .box-bottom {
+      position: absolute;
+      width: 280px;
+      height: 60px;
+      left: 0;
+      top: 170px;
+      background: #04070d;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transform: rotateX(-90deg) translateZ(200px);
+      backface-visibility: hidden;
+      box-shadow: inset 0 -4px 16px rgba(0,0,0,0.8);
+    }
+
+    /* Typography on Covers */
+    .cover-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 217, 120, 0.18);
+      border: 1px solid rgba(255, 217, 120, 0.4);
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+    .cover-title {
+      font-family: 'Montserrat', 'Pretendard', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      margin-bottom: 8px;
+    }
+    .cover-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+    }
+    .cover-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 14px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 700;
+    }
+
+    /* ── Right Panel: Export Engine ── */
+    .sidebar-export {
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border-panel);
+      backdrop-filter: blur(20px);
+      padding: 24px 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .export-box {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .export-option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .ratio-pills {
+      display: flex;
+      gap: 6px;
+    }
+    .ratio-pill {
+      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+    }
+    .ratio-pill.active {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--accent-purple);
+      color: #fff;
+    }
+
+    .btn-download-big {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.45);
+      transition: all 0.2s;
+    }
+    .btn-download-big:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(168, 85, 247, 0.6);
+    }
+
+    .embed-snippet {
+      width: 100%;
+      height: 70px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #94a3b8;
+      resize: none;
+      outline: none;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--accent-purple);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .studio-workspace {
+        grid-template-columns: 320px 1fr;
+      }
+      .sidebar-export {
+        display: none;
+      }
+    }
+    @media (max-width: 768px) {
+      .studio-workspace {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .sidebar-controls {
+        height: auto;
+      }
+      .stage-container {
+        height: 520px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Studio Header -->
+  <header class="studio-header">
+    <a href="../" class="brand-link">
+      <span class="brand-badge-3d">STUDIO</span>
+      <div class="brand-title-wrap">
+        <span class="brand-title">SETUP<span class="highlight">OD</span> 3D MOCKUP</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <button class="btn-export-quick" onclick="captureSnapshot()">
+        <i data-lucide="camera" style="width:16px;height:16px;"></i>
+        <span>고화질 PNG 캡처</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace Grid -->
+  <main class="studio-workspace">
+
+    <!-- ── LEFT: Controls & Presets ── -->
+    <aside class="sidebar-controls">
+      
+      <!-- 1. Device Mockup Type -->
+      <div>
+        <div class="section-title">
+          <i data-lucide="layers" style="width:14px;height:14px;color:var(--accent-purple);"></i>
+          <span>1. 3D 디바이스 선택</span>
+        </div>
+        <div class="device-grid">
+          <div class="device-card active" onclick="switchDevice('ipad')" id="devBtnIpad">
+            <i data-lucide="tablet" class="device-icon"></i>
+            <span class="device-name">iPad Pro</span>
+          </div>
+          <div class="device-card" onclick="switchDevice('book')" id="devBtnBook">
+            <i data-lucide="book-open" class="device-icon"></i>
+            <span class="device-name">양장본 책</span>
+          </div>
+          <div class="device-card" onclick="switchDevice('box')" id="devBtnBox">
+            <i data-lucide="box" class="device-icon"></i>
+            <span class="device-name">소프트 박스</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Instant Creator Presets -->
+      <div>
+        <div class="section-title">
+          <i data-lucide="sparkles" style="width:14px;height:14px;color:var(--accent-gold);"></i>
+          <span>2. 크리에이터 1초 프리셋</span>
+        </div>
+        <div class="preset-chips">
+          <div class="preset-btn active" onclick="applyPreset('diary')" id="presetDiary">
+            <span>🌸 2027 굿노트 파스텔 다이어리</span>
+            <span class="preset-tag" style="background:#f472b6;color:#fff;">크몽 BEST</span>
+          </div>
+          <div class="preset-btn" onclick="applyPreset('ebook')" id="presetEbook">
+            <span>📘 1억 매출 셀러의 소싱 시크릿</span>
+            <span class="preset-tag" style="background:#ffd978;color:#222;">전자책</span>
+          </div>
+          <div class="preset-btn" onclick="applyPreset('turnkey')" id="presetTurnkey">
+            <span>⚡ 2026 비즈니스 턴키 OS 올인원</span>
+            <span class="preset-tag" style="background:#38bdf8;color:#000;">마스터팩</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Cover Image & Text -->
+      <div>
+        <div class="section-title">
+          <i data-lucide="edit-3" style="width:14px;height:14px;color:var(--accent-cyan);"></i>
+          <span>3. 표지 텍스트 & 이미지</span>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">메인 타이틀</label>
+          <input type="text" id="inputTitle" class="input-field" value="2027 아이패드 다이어리" oninput="updateLiveText()">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">서브 슬로건</label>
+          <input type="text" id="inputSubtitle" class="input-field" value="만년형 굿노트 서식 + 감성 스티커 49종" oninput="updateLiveText()">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">배지 텍스트</label>
+          <input type="text" id="inputBadge" class="input-field" value="ALL-IN-ONE PACKAGE" oninput="updateLiveText()">
+        </div>
+
+        <!-- Custom Image Dropzone -->
+        <label class="dropzone" for="imageUploadInput">
+          <i data-lucide="image-plus" class="dropzone-icon"></i>
+          <div class="dropzone-text">
+            <strong>내 표지 이미지 업로드</strong><br>
+            PNG, JPG 파일을 클릭하거나 끌어다 놓으세요
+          </div>
+          <input type="file" id="imageUploadInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+        </label>
+      </div>
+
+      <!-- 4. Environment & Lighting -->
+      <div>
+        <div class="section-title">
+          <i data-lucide="sun" style="width:14px;height:14px;color:#f59e0b;"></i>
+          <span>4. 스튜디오 조명 & 앰비언트</span>
+        </div>
+        <div class="color-swatches">
+          <div class="swatch active" style="background:#0a0c14;" onclick="changeStudioBg('dark', this)" title="다크 스튜디오"></div>
+          <div class="swatch" style="background:radial-gradient(circle, #2d1c08 0%, #0c0803 100%);" onclick="changeStudioBg('gold', this)" title="럭셔리 골드"></div>
+          <div class="swatch" style="background:radial-gradient(circle, #210d2e 0%, #07030a 100%);" onclick="changeStudioBg('neon', this)" title="사이버 퍼플"></div>
+          <div class="swatch" style="background:repeating-conic-gradient(#333 0% 25%, #222 0% 50%) 50% / 14px 14px;" onclick="changeStudioBg('transparent', this)" title="투명 배경 (PNG 추출용)"></div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── CENTER: 3D Stage Viewport ── -->
+    <section class="stage-container" id="stageContainer">
+      
+      <div class="stage-viewport">
+        <div class="stage-orbit-world" id="stageOrbit">
+          
+          <!-- [DEVICE 1]: 3D iPad Pro -->
+          <div class="mockup-ipad" id="mockupIpad">
+            <div class="ipad-shadow-ground"></div>
+            <!-- Flat Aluminum Edge Bands -->
+            <div class="ipad-side-left">
+              <span class="vol-btn"></span>
+              <span class="vol-btn"></span>
+            </div>
+            <div class="ipad-side-right">
+              <span class="magnetic-strip"></span>
+            </div>
+            <div class="ipad-side-top">
+              <span class="speaker-grille"></span>
+              <span class="power-btn"></span>
+              <span class="speaker-grille"></span>
+            </div>
+            <div class="ipad-side-bottom">
+              <span class="speaker-grille"></span>
+              <span class="usbc-port"></span>
+              <span class="speaker-grille"></span>
+            </div>
+            <!-- Apple Pencil -->
+            <div class="apple-pencil" id="applePencil">
+              <div class="pencil-body"></div>
+              <div class="pencil-tip"></div>
+            </div>
+            <!-- Front Face (Screen + Bezel) -->
+            <div class="ipad-front">
+              <div class="ipad-camera-dot"></div>
+              <div class="ipad-screen-frame">
+                <div class="ipad-glare"></div>
+                <div class="ipad-screen-content" id="ipadScreen" style="background: linear-gradient(135deg, #1b0c2a 0%, #06020c 100%);">
+                  <div>
+                    <span class="cover-badge" id="screenBadge">ALL-IN-ONE PACKAGE</span>
+                    <div class="cover-title" id="screenTitle">2027 아이패드<br>다이어리</div>
+                    <div class="cover-subtitle" id="screenSubtitle">만년형 굿노트 서식 + 감성 스티커 49종</div>
+                  </div>
+                  <div class="cover-footer">
+                    <span>SETUPOD DIGITAL CREATOR</span>
+                    <span style="color:var(--accent-gold);">★ 4.9 PRO EDITION</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Back Face (Titanium Chassis + Camera Island + Logo) -->
+            <div class="ipad-back">
+              <div class="ipad-camera-island">
+                <div class="ipad-lens"></div>
+                <div class="ipad-lens"></div>
+                <div class="ipad-lidar"></div>
+                <div class="ipad-flash"></div>
+              </div>
+              <div class="ipad-apple-logo"></div>
+              <div class="ipad-smart-connector">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- [DEVICE 2]: 3D Hardcover Book -->
+          <div class="mockup-book" id="mockupBook">
+            <div class="book-shadow-ground"></div>
+            <!-- Spine (Left) -->
+            <div class="book-spine" id="bookSpine">1억 매출 셀러의 소싱 시크릿</div>
+            <!-- Paper Block (Right, Top, Bottom) -->
+            <div class="book-pages-side"></div>
+            <div class="book-pages-top"></div>
+            <div class="book-pages-bottom"></div>
+            <!-- Silk Ribbon -->
+            <div class="book-ribbon"></div>
+            <!-- Front Cover -->
+            <div class="book-front" id="bookFront" style="background: linear-gradient(135deg, #1f140e 0%, #0c0805 100%);">
+              <div class="book-joint-crease"></div>
+              <div>
+                <span class="cover-badge" id="bookBadge" style="border-color:#ffd978; color:#ffd978;">TOP SELLER BIBLE</span>
+                <div class="cover-title" id="bookTitle" style="color:#ffd978;">1억 매출 셀러의<br>소싱 시크릿</div>
+                <div class="cover-subtitle" id="bookSubtitle">초보자도 따라하는 월 1000만원 마진 구조 설계서</div>
+              </div>
+              <div class="cover-footer">
+                <span>SETUPOD MASTERCLASS</span>
+                <span>HARDBOUND VOL. 01</span>
+              </div>
+            </div>
+            <!-- Back Cover -->
+            <div class="book-back" id="bookBack">
+              <div class="book-joint-crease-back"></div>
+              <div>
+                <span class="cover-badge" style="border-color:rgba(255,217,120,0.3); color:#ffd978;">ABOUT THIS BOOK</span>
+                <div class="book-back-text">
+                  "본 도서는 현업 탑티어 셀러들의 실제 매출 데이터와 소싱 파이프라인을 체계화한 실전 지침서입니다."
+                </div>
+              </div>
+              <div class="book-back-footer">
+                <div class="book-isbn">
+                  <div class="barcode-lines"></div>
+                  <span>ISBN 979-11-98420-0-1</span>
+                </div>
+                <span style="font-size:11.5px; color:#ffd978; font-weight:800;">₩38,000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- [DEVICE 3]: 3D Software Package Box -->
+          <div class="mockup-box" id="mockupBox">
+            <div class="box-shadow-ground"></div>
+            <!-- Top Lid -->
+            <div class="box-top"></div>
+            <!-- Bottom Base -->
+            <div class="box-bottom"></div>
+            <!-- Left Spine Face -->
+            <div class="box-side" id="boxSide">2026 BUSINESS TURNKEY OS</div>
+            <!-- Right Edge Face -->
+            <div class="box-right">
+              <span>SETUPOD ENTERPRISE SUITE</span>
+            </div>
+            <!-- Front Face -->
+            <div class="box-front" id="boxFront" style="background: linear-gradient(135deg, #091b36 0%, #020710 100%);">
+              <div>
+                <span class="cover-badge" id="boxBadge" style="border-color:#38bdf8; color:#38bdf8;">ENTERPRISE EDITION</span>
+                <div class="cover-title" id="boxTitle" style="color:#ffffff;">2026 비즈니스<br>턴키 OS 올인원</div>
+                <div class="cover-subtitle" id="boxSubtitle">144대 인터랙티브 솔루션 통합 엔진 키트</div>
+              </div>
+              <div class="cover-footer">
+                <span>SETUPOD POWERED</span>
+                <span style="color:#38bdf8;">v2.5 PRO</span>
+              </div>
+            </div>
+            <!-- Back Face -->
+            <div class="box-back" id="boxBack">
+              <div>
+                <span class="cover-badge" style="border-color:#38bdf8; color:#38bdf8;">SYSTEM SPECIFICATIONS</span>
+                <div class="box-back-spec-list">
+                  <div class="spec-row"><span>✓ Interactive Micro-apps</span><strong>144+ Tools</strong></div>
+                  <div class="spec-row"><span>✓ License Type</span><strong>Commercial Unlimited</strong></div>
+                  <div class="spec-row"><span>✓ Runtime Engine</span><strong>Cloud Native Web</strong></div>
+                  <div class="spec-row"><span>✓ Instant Export</span><strong>High-res 2X Retina</strong></div>
+                </div>
+              </div>
+              <div class="box-back-footer">
+                <div class="barcode-lines"></div>
+                <span style="color:#38bdf8; font-weight:800;">SERIAL #8942-SETUPOD</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Floating Stage Controls -->
+      <div class="floating-stage-tools">
+        <button class="tool-btn active" id="btnAutoSpin" onclick="toggleAutoSpin()">
+          <i data-lucide="rotate-cw" style="width:14px;height:14px;"></i>
+          <span>자동 회전 (360°)</span>
+        </button>
+        <button class="tool-btn" onclick="resetRotation()">
+          <i data-lucide="refresh-cw" style="width:14px;height:14px;"></i>
+          <span>각도 리셋</span>
+        </button>
+        <button class="tool-btn" onclick="togglePencil()" id="btnPencil">
+          <i data-lucide="pen-tool" style="width:14px;height:14px;"></i>
+          <span>애플펜슬 토글</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT: Export & Monetize ── -->
+    <aside class="sidebar-export">
+      
+      <div class="section-title">
+        <i data-lucide="download" style="width:14px;height:14px;color:var(--accent-purple);"></i>
+        <span>원클릭 고화질 익스포트</span>
+      </div>
+
+      <!-- 1. Resolution & Ratio -->
+      <div class="export-box">
+        <div class="export-option-row">
+          <span>이미지 규격 선택</span>
+          <div class="ratio-pills">
+            <div class="ratio-pill active" onclick="setRatio('1:1', this)">1:1 (정방형)</div>
+            <div class="ratio-pill" onclick="setRatio('4:3', this)">4:3 (상세페이지)</div>
+          </div>
+        </div>
+        <div class="export-option-row">
+          <span>추출 해상도</span>
+          <strong style="color:var(--accent-gold);">2X Ultra HD (Retina)</strong>
+        </div>
+        
+        <button class="btn-download-big" onclick="captureSnapshot()">
+          <i data-lucide="image" style="width:18px;height:18px;"></i>
+          <span>크몽/인스타용 PNG 다운로드</span>
+        </button>
+      </div>
+
+      <!-- 2. Web Embed Generator -->
+      <div class="export-box">
+        <div style="font-size:12.5px; font-weight:700; color:#fff; display:flex; align-items:center; gap:6px;">
+          <i data-lucide="code" style="width:14px;height:14px;color:var(--accent-cyan);"></i>
+          <span>내 웹사이트 3D 임베드 코드</span>
+        </div>
+        <p style="font-size:11px; color:rgba(255,255,255,0.6); line-height:1.4;">
+          방문자가 직접 만져보고 360° 회전할 수 있는 3D 실물 목업을 내 상세페이지나 멀티링크에 넣으세요.
+        </p>
+        <textarea class="embed-snippet" readonly id="embedSnippetText"><iframe src="https://setupod.com/mockup/embed?device=ipad&preset=diary" width="100%" height="480" frameborder="0"></iframe></textarea>
+        <button class="btn-download-big" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); font-size:13px; padding:10px;" onclick="copyEmbedCode()">
+          <i data-lucide="copy" style="width:14px;height:14px;"></i>
+          <span>임베드 코드 복사</span>
+        </button>
+      </div>
+
+      <!-- 3. Monetization Tip -->
+      <div class="export-box" style="background:rgba(255, 217, 120, 0.05); border-color:rgba(255, 217, 120, 0.2);">
+        <div style="display:flex; align-items:center; gap:6px; color:var(--accent-gold); font-size:12px; font-weight:800;">
+          <i data-lucide="trending-up" style="width:14px;height:14px;"></i>
+          <span>크몽/인스타 전환율 3배 공식</span>
+        </div>
+        <p style="font-size:11.5px; color:rgba(255,255,255,0.75); line-height:1.5;">
+          단순한 평면 캡처보다 <strong>아이패드나 양장본 책이 3D 각도로 비틀려 있는 썸네일</strong>이 클릭률(CTR)을 평균 320% 끌어올립니다.
+        </p>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i data-lucide="check-circle" style="width:18px;height:18px;color:#38bdf8;"></i>
+    <span id="toastMsg">클립보드에 복사되었습니다!</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // ── Global State ──
+    let currentDevice = 'ipad'; // ipad | book | box
+    let rotX = -8;
+    let rotY = 18;
+    let isDragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let autoSpin = false;
+    let customUploadedImage = null;
+
+    const orbit = document.getElementById('stageOrbit');
+    const stage = document.getElementById('stageContainer');
+
+    // ── Mouse & Touch 3D Drag Control ──
+    stage.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.floating-stage-tools')) return;
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (autoSpin) toggleAutoSpin();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      rotY += dx * 0.45;
+      rotX -= dy * 0.45;
+      rotX = Math.max(-60, Math.min(60, rotX)); // Clamp vertical tilt
+
+      applyRotation();
+    });
+
+    window.addEventListener('mouseup', () => { isDragging = false; });
+
+    // Touch Support
+    stage.addEventListener('touchstart', (e) => {
+      if (e.target.closest('.floating-stage-tools')) return;
+      if (e.touches.length === 1) {
+        isDragging = true;
+        lastX = e.touches[0].clientX;
+        lastY = e.touches[0].clientY;
+        if (autoSpin) toggleAutoSpin();
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - lastX;
+      const dy = e.touches[0].clientY - lastY;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+
+      rotY += dx * 0.55;
+      rotX -= dy * 0.55;
+      rotX = Math.max(-60, Math.min(60, rotX));
+      applyRotation();
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => { isDragging = false; });
+
+    function applyRotation() {
+      orbit.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+    applyRotation();
+
+    function resetRotation() {
+      rotX = -8;
+      rotY = currentDevice === 'book' ? 24 : 18;
+      if (autoSpin) toggleAutoSpin();
+      applyRotation();
+    }
+
+    function toggleAutoSpin() {
+      autoSpin = !autoSpin;
+      const btn = document.getElementById('btnAutoSpin');
+      if (autoSpin) {
+        btn.classList.add('active');
+        orbit.classList.add('auto-spin');
+      } else {
+        btn.classList.remove('active');
+        orbit.classList.remove('auto-spin');
+        applyRotation();
+      }
+    }
+
+    // ── Switch Device Mockup Type ──
+    function switchDevice(type) {
+      currentDevice = type;
+      
+      document.querySelectorAll('.device-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('mockupIpad').style.display = 'none';
+      document.getElementById('mockupBook').style.display = 'none';
+      document.getElementById('mockupBox').style.display = 'none';
+
+      if (type === 'ipad') {
+        document.getElementById('devBtnIpad').classList.add('active');
+        document.getElementById('mockupIpad').style.display = 'block';
+        rotX = -8; rotY = 18;
+      } else if (type === 'book') {
+        document.getElementById('devBtnBook').classList.add('active');
+        document.getElementById('mockupBook').style.display = 'block';
+        rotX = -6; rotY = 28;
+      } else if (type === 'box') {
+        document.getElementById('devBtnBox').classList.add('active');
+        document.getElementById('mockupBox').style.display = 'block';
+        rotX = -10; rotY = 25;
+      }
+      applyRotation();
+      updateEmbedSnippet();
+    }
+
+    function togglePencil() {
+      const p = document.getElementById('applePencil');
+      const btn = document.getElementById('btnPencil');
+      if (p.style.display === 'none') {
+        p.style.display = 'block';
+        btn.classList.remove('active');
+      } else {
+        p.style.display = 'none';
+        btn.classList.add('active');
+      }
+    }
+
+    // ── Live Text Updates ──
+    function updateLiveText() {
+      const title = document.getElementById('inputTitle').value;
+      const subtitle = document.getElementById('inputSubtitle').value;
+      const badge = document.getElementById('inputBadge').value;
+
+      // iPad Screen
+      document.getElementById('screenTitle').innerHTML = title.replace(/\n/g, '<br>');
+      document.getElementById('screenSubtitle').innerText = subtitle;
+      document.getElementById('screenBadge').innerText = badge;
+
+      // Book
+      document.getElementById('bookTitle').innerHTML = title.replace(/\n/g, '<br>');
+      document.getElementById('bookSubtitle').innerText = subtitle;
+      document.getElementById('bookBadge').innerText = badge;
+      document.getElementById('bookSpine').innerText = title;
+
+      // Box
+      document.getElementById('boxTitle').innerHTML = title.replace(/\n/g, '<br>');
+      document.getElementById('boxSubtitle').innerText = subtitle;
+      document.getElementById('boxBadge').innerText = badge;
+      document.getElementById('boxSide').innerText = title;
+    }
+
+    // ── Apply Presets ──
+    function applyPreset(preset) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      
+      if (preset === 'diary') {
+        document.getElementById('presetDiary').classList.add('active');
+        switchDevice('ipad');
+        document.getElementById('inputTitle').value = "2027 아이패드 다이어리";
+        document.getElementById('inputSubtitle').value = "만년형 굿노트 서식 + 감성 스티커 49종";
+        document.getElementById('inputBadge').value = "ALL-IN-ONE PACKAGE";
+        document.getElementById('ipadScreen').style.background = "linear-gradient(135deg, #2b1028 0%, #0c040d 100%)";
+      } else if (preset === 'ebook') {
+        document.getElementById('presetEbook').classList.add('active');
+        switchDevice('book');
+        document.getElementById('inputTitle').value = "1억 매출 셀러의 소싱 시크릿";
+        document.getElementById('inputSubtitle').value = "초보자도 따라하는 월 1000만원 마진 구조 설계서";
+        document.getElementById('inputBadge').value = "TOP SELLER BIBLE";
+        document.getElementById('bookFront').style.background = "linear-gradient(135deg, #1f140e 0%, #0c0805 100%)";
+      } else if (preset === 'turnkey') {
+        document.getElementById('presetTurnkey').classList.add('active');
+        switchDevice('box');
+        document.getElementById('inputTitle').value = "2026 비즈니스 턴키 OS";
+        document.getElementById('inputSubtitle').value = "144대 인터랙티브 솔루션 통합 엔진 키트";
+        document.getElementById('inputBadge').value = "ENTERPRISE EDITION";
+        document.getElementById('boxFront').style.background = "linear-gradient(135deg, #091b36 0%, #020710 100%)";
+      }
+      updateLiveText();
+    }
+
+    // ── Handle Custom Image Upload ──
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        customUploadedImage = evt.target.result;
+        
+        // Apply image to iPad screen, Book front, Box front
+        const bgRule = `url("${customUploadedImage}") center/cover no-repeat`;
+        document.getElementById('ipadScreen').style.background = bgRule;
+        document.getElementById('bookFront').style.background = bgRule;
+        document.getElementById('boxFront').style.background = bgRule;
+        
+        showToast("표지 이미지가 성공적으로 적용되었습니다!");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ── Studio Background Switcher ──
+    function changeStudioBg(theme, el) {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+
+      const s = document.getElementById('stageContainer');
+      if (theme === 'dark') {
+        s.style.background = "radial-gradient(circle at 50% 45%, #181d2e 0%, #06070b 85%)";
+      } else if (theme === 'gold') {
+        s.style.background = "radial-gradient(circle at 50% 45%, #2d1c08 0%, #0c0803 100%)";
+      } else if (theme === 'neon') {
+        s.style.background = "radial-gradient(circle at 50% 45%, #260d33 0%, #07030a 100%)";
+      } else if (theme === 'transparent') {
+        s.style.background = "repeating-conic-gradient(#1e2230 0% 25%, #0f131c 0% 50%) 50% / 20px 20px";
+      }
+    }
+
+    function setRatio(ratio, el) {
+      document.querySelectorAll('.ratio-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      showToast(`${ratio} 규격이 선택되었습니다.`);
+    }
+
+    // ── High Resolution Snapshot Capture ──
+    async function captureSnapshot() {
+      showToast("고화질 3D 렌더링 스냅샷 생성 중...");
+      
+      const targetElement = document.getElementById(
+        currentDevice === 'ipad' ? 'mockupIpad' : (currentDevice === 'book' ? 'mockupBook' : 'mockupBox')
+      );
+
+      try {
+        const canvas = await html2canvas(targetElement, {
+          backgroundColor: null,
+          scale: 2, // Retina 2x quality
+          useCORS: true,
+          logging: false
+        });
+
+        const link = document.createElement('a');
+        link.download = `setupod_3d_${currentDevice}_mockup_${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        showToast("✨ 초고화질 PNG 다운로드가 완료되었습니다!");
+      } catch (err) {
+        console.error("Capture error:", err);
+        showToast("캡처 중 오류가 발생했습니다.");
+      }
+    }
+
+    // ── Copy Embed Code ──
+    function updateEmbedSnippet() {
+      const code = `<iframe src="https://setupod.com/mockup/embed?device=${currentDevice}" width="100%" height="520" frameborder="0"></iframe>`;
+      document.getElementById('embedSnippetText').value = code;
+    }
+
+    function copyEmbedCode() {
+      const text = document.getElementById('embedSnippetText').value;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("임베드 코드가 클립보드에 복사되었습니다!");
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    // ── Check URL parameters from Lead Magnet or external bridges ──
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('title')) {
+      document.getElementById('inputTitle').value = urlParams.get('title');
+      if (urlParams.get('subtitle')) {
+        document.getElementById('inputSubtitle').value = urlParams.get('subtitle');
+      }
+      if (urlParams.get('preset')) {
+        applyPreset(urlParams.get('preset'));
+      } else {
+        updateLiveText();
+      }
+    }
+  </script>
+</body>
+</html>

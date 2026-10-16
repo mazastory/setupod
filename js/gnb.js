@@ -1,8 +1,11 @@
 (function() {
+  // 환경 감지: Live Server 서브패스(/setupod/) 대응
+  const b = window.location.pathname.startsWith('/setupod') ? '/setupod' : '';
+
   // GNB HTML 구조 정의
   const gnbHtml = `
   <nav>
-    <a href="/" class="nav-brand">
+    <a href="${b}/" class="nav-brand">
       <div class="nav-logo-text-wrap">
         <div class="nav-logo-row">
           <span class="nav-logo-text"><span class="part-setup">SETUP</span><span class="part-od">OD</span></span>
@@ -17,18 +20,29 @@
       <div class="nav-dropdown">
         <span class="nav-link" style="cursor:default;">🧠 Think</span>
         <div class="nav-dropdown-menu">
-          <a href="/planner/">2026 비즈니스 플래너</a>
+          <a href="${b}/actiondesk/" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>오토파일럿 데스크</span>
+            <span style="font-size:9.5px;padding:2px 6px;border-radius:4px;background:linear-gradient(90deg,#f59e0b,#d97706);color:#fff;font-weight:900;">147호 NEW</span>
+          </a>
+          <a href="${b}/planner/">2026 비즈니스 플래너</a>
           <!-- <a href="/memopod/">MemoPod (메모/지식)</a> -->
         </div>
       </div>
       <div class="nav-dropdown">
         <span class="nav-link" style="cursor:default;">🎨 Create</span>
         <div class="nav-dropdown-menu">
-          <a href="/bizcard/maker.html">3D 인터랙티브 명함</a>
-          <a href="/multilink/">올인원 멀티링크</a>
-          <a href="/insta/">AI 인스타 카드뉴스</a>
-          <!-- <a href="/10k_studio.html">시네마틱 10K 스튜디오</a> -->
-          <!-- <a href="/profile_studio.html">프로필 리터처</a> -->
+          <a href="${b}/mockup/" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>3D 프로덕트 목업</span>
+            <span style="font-size:9.5px;padding:2px 6px;border-radius:4px;background:linear-gradient(90deg,#ec4899,#a855f7);color:#fff;font-weight:900;">145호</span>
+          </a>
+          <a href="${b}/leadmagnet/" style="display:flex;align-items:center;justify-content:space-between;">
+            <span>AI 전자책 인쇄소</span>
+            <span style="font-size:9.5px;padding:2px 6px;border-radius:4px;background:linear-gradient(90deg,#0284c7,#4f46e5);color:#fff;font-weight:900;">146호 NEW</span>
+          </a>
+          <a href="${b}/multilink/">올인원 멀티링크</a>
+          <a href="${b}/insta/">AI 인스타 카드뉴스</a>
+          <!-- <a href="${b}/10k_studio.html">시네마틱 10K 스튜디오</a> -->
+          <!-- <a href="${b}/profile_studio.html">프로필 리터처</a> -->
         </div>
       </div>
       <!--
@@ -42,12 +56,16 @@
         </div>
       </div>
       -->
+      <a href="${b}/halloffame/" class="nav-link" style="display:inline-flex;align-items:center;gap:6px;color:#f59e0b;font-weight:800;padding:6px 12px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);transition:all 0.2s;">
+        <i data-lucide="trophy" style="width:14px;height:14px;color:#f59e0b;"></i>
+        <span>명예의 전당</span>
+      </a>
       <a href="javascript:void(0)" onclick="window.openAuthModal ? window.openAuthModal() : (window.requireAuth && window.requireAuth())" class="nav-link gnb-login-link" id="gnbLoginBtn" style="font-size:13.5px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;padding:6px 12px;border-radius:8px;transition:all 0.2s;">
         로그인
       </a>
-      <a href="/bizcard/dashboard.html" class="btn-create-nav" id="gnbCtaBtn">
+      <a href="${b}/multilink/" class="btn-create-nav" id="gnbCtaBtn">
         <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
-        <span>내 팟 관리</span>
+        <span>멀티링크 만들기</span>
       </a>
     </div>
 
@@ -75,35 +93,60 @@
         </button>
       </div>
       <div class="mobile-menu-list">
-        <a href="/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        <a href="${b}/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="home" style="width:18px;height:18px;color:#a855f7;"></i>
             <span>홈으로 가기</span>
           </div>
         </a>
-        <a href="/planner/" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()">
+        <a href="${b}/planner/" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="compass" style="width:18px;height:18px;color:#c084fc;"></i>
             <span>2026 비즈니스 플래너</span>
           </div>
           <span class="menu-badge-new">NEW</span>
         </a>
-        <a href="/bizcard/maker.html" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+
+        <a href="${b}/halloffame/" class="mobile-menu-item highlight" onclick="window.closeMobileMenu()" style="background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3);">
           <div class="menu-item-left">
-            <i data-lucide="rotate-3d" style="width:18px;height:18px;color:#a855f7;"></i>
-            <span>3D 인터랙티브 명함</span>
+            <i data-lucide="trophy" style="width:18px;height:18px;color:#f59e0b;"></i>
+            <span>🏆 명예의 전당 (쇼케이스)</span>
           </div>
-          <span class="menu-badge-new" style="background:#a855f7;">BEST</span>
+          <span class="menu-badge-new" style="background:#f59e0b;color:#111;">HOT</span>
         </a>
 
-        <a href="/multilink/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        <a href="${b}/actiondesk/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="layout-dashboard" style="width:18px;height:18px;color:#f59e0b;"></i>
+            <span>오토파일럿 데스크 (3D 사령부)</span>
+          </div>
+          <span class="menu-badge-new" style="background:#f59e0b;color:#111;">147호</span>
+        </a>
+
+        <a href="${b}/leadmagnet/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="book-open" style="width:18px;height:18px;color:#0284c7;"></i>
+            <span>1초 AI 전자책 인쇄소</span>
+          </div>
+          <span class="menu-badge-new" style="background:#0284c7;">146호</span>
+        </a>
+
+        <a href="${b}/mockup/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+          <div class="menu-item-left">
+            <i data-lucide="box" style="width:18px;height:18px;color:#ec4899;"></i>
+            <span>3D 프로덕트 목업 스튜디오</span>
+          </div>
+          <span class="menu-badge-new" style="background:#ec4899;">145호</span>
+        </a>
+
+        <a href="${b}/multilink/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="link" style="width:18px;height:18px;color:#38bdf8;"></i>
             <span>올인원 멀티링크</span>
           </div>
         </a>
         
-        <a href="/insta/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
+        <a href="${b}/insta/" class="mobile-menu-item" onclick="window.closeMobileMenu()">
           <div class="menu-item-left">
             <i data-lucide="sparkles" style="width:18px;height:18px;color:#f59e0b;"></i>
             <span>AI 인스타 카드뉴스 스튜디오</span>
@@ -165,7 +208,7 @@
         </a>
       </div>
       <div class="mobile-menu-footer">
-        <a href="/planner/" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
+        <a href="${b}/planner/" class="btn-create-nav" style="width:100%;height:46px;justify-content:center;font-size:14.5px;border-radius:12px;">
           <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
           <span>내 팟(Pod) 만들기</span>
         </a>
