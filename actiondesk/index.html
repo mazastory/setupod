@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>오토파일럿 데스크 | 셋업팟 147호 자산 (3D 서가 & 가상 집무실)</title>
-  <meta name="description" content="생각만 숙성시키다 하루가 끝나는 1인 창업가를 위한 3D 가상 집무실. 책꽂이에서 3D 책을 꺼내 펼쳐보고, 오늘 당장 실행할 3대 액션을 완료하세요.">
+  <title>THE DESKTERIOR 3D | 3D 공간 커머스 쇼룸 & 셋업팟 147 볼트</title>
+  <meta name="description" content="명예의 전당 FLAGSHIP #02: 개발자·크리에이터 감성 3D 데스크테리어 공간 커머스 쇼룸. 3D 실물 장비 견적(쿠팡 파트너스)과 147개 턴키 웹 비즈니스를 탐색하세요.">
 
   <!-- Pretendard, Montserrat, JetBrains Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,8 @@
   <!-- Three.js r128 & Lucide Icons -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- SETUPOD Official 145+ Products Catalog Data -->
+  <script src="../js/products-catalog.js"></script>
 
   <style>
     :root {
@@ -279,6 +281,25 @@
       transform: translateY(-2px);
       box-shadow: 0 0 30px var(--primary);
     }
+    .btn-coupang-gear {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid var(--primary);
+      color: #fbbf24;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-coupang-gear:hover {
+      background: var(--primary);
+      color: #000;
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
     .btn-close-book {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-panel);
@@ -298,32 +319,26 @@
       color: #fff;
     }
 
-    /* ── Floating Mission HUD (Action 3 Dispatcher) ── */
-    .mission-hud-card {
+    /* ── Floating Deskterior Commerce HUD (Coupang Partners Full Setup Estimator) ── */
+    .deskterior-hud-card {
       position: absolute;
       left: 28px;
       bottom: 28px;
-      width: 410px;
+      width: 420px;
       max-width: calc(100vw - 56px);
-      background: rgba(11, 16, 28, 0.9);
+      background: rgba(11, 16, 28, 0.92);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--border-light);
+      border: 1px solid rgba(245, 158, 11, 0.35);
       border-radius: 20px;
       padding: 20px;
       z-index: 40;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 158, 11, 0.08);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 158, 11, 0.12);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
     }
-    .mission-hud-card.minimized {
-      transform: translateY(calc(100% + 20px));
-      opacity: 0;
-      pointer-events: none;
-    }
-
     .hud-title-row {
       display: flex;
       align-items: center;
@@ -332,23 +347,25 @@
     .hud-badge {
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--primary);
-      background: rgba(245, 158, 11, 0.14);
-      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #000;
+      background: var(--primary);
       padding: 3px 8px;
       border-radius: 6px;
     }
-    .hud-progress-text {
+    .hud-estimate-total {
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: 13px;
       font-weight: 800;
-      color: var(--text-muted);
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.12);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
-
     .hud-headline {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       line-height: 1.4;
       color: #fff;
@@ -358,98 +375,267 @@
       color: var(--text-muted);
       line-height: 1.4;
     }
-
-    /* Action Checklist */
-    .action-stack {
+    .gear-stack {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
-    .action-card {
+    .gear-stack::-webkit-scrollbar {
+      width: 4px;
+    }
+    .gear-stack::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    .gear-item-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-panel);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 8px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
+      cursor: pointer;
       transition: all 0.2s;
     }
-    .action-card:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.25);
+    .gear-item-card:hover {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateX(2px);
     }
-    .action-card.done {
-      background: rgba(16, 185, 129, 0.08);
-      border-color: rgba(16, 185, 129, 0.4);
-    }
-
-    .action-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1;
-    }
-    .action-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #fff;
+    .gear-item-info {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
     }
-    .action-card.done .action-title {
-      text-decoration: line-through;
-      color: #94a3b8;
+    .gear-item-icon {
+      font-size: 16px;
+      flex-shrink: 0;
     }
-    .action-sub {
-      font-size: 10px;
-      color: var(--text-muted);
+    .gear-item-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-
-    .btn-warp {
-      padding: 6px 10px;
+    .gear-item-price {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #fbbf24;
+      flex-shrink: 0;
+    }
+    .btn-gear-inspect {
+      padding: 4px 8px;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-panel);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 800;
+      border-radius: 6px;
+      color: #cbd5e1;
+      font-size: 10.5px;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
-      transition: all 0.2s;
+      gap: 3px;
       flex-shrink: 0;
+      transition: all 0.2s;
     }
-    .btn-warp:hover {
+    .gear-item-card:hover .btn-gear-inspect {
       background: var(--primary);
       border-color: var(--primary);
       color: #000;
     }
-
-    .btn-check-toggle {
-      width: 20px;
-      height: 20px;
-      border-radius: 6px;
-      border: 2px solid #64748b;
-      background: none;
+    .hud-footer-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+      border-top: 1px solid var(--border-panel);
+      padding-top: 10px;
+    }
+    .btn-coupang-full {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      border: none;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 9px 12px;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: transparent;
+      gap: 6px;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: all 0.2s;
+    }
+    .btn-coupang-full:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+    .coupang-tiny-notice {
+      font-size: 9.5px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* ── Gear Spec & Coupang Partner Modal ── */
+    .gear-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 16, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 150;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .gear-modal-overlay.show {
+      display: flex;
+    }
+    .gear-card {
+      position: relative;
+      width: 500px;
+      max-width: 100%;
+      background: linear-gradient(135deg, #131c33 0%, #0a0f1d 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 24px;
+      padding: 30px 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(245, 158, 11, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gear-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .gear-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+    .btn-gear-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-panel);
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .btn-gear-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+    .gear-info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .gear-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .gear-sub {
+      font-size: 13px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .gear-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.55;
+      margin-top: 4px;
+    }
+    .gear-specs-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .gear-spec-chip {
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .gear-price-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .price-label {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .price-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 900;
+      color: #fbbf24;
+    }
+    .btn-coupang-buy {
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4);
       transition: all 0.2s;
       flex-shrink: 0;
     }
-    .btn-check-toggle:hover {
-      border-color: var(--accent-emerald);
+    .btn-coupang-buy:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.65);
     }
-    .action-card.done .btn-check-toggle {
-      background: var(--accent-emerald);
-      border-color: var(--accent-emerald);
-      color: #fff;
+    .coupang-disclaimer {
+      font-size: 11px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      padding: 8px 12px;
     }
 
     /* Camera Preset Controls (Right Bottom) */
@@ -622,11 +808,12 @@
 
   <!-- Top Navigation Header -->
   <header class="desk-header">
-    <a href="../halloffame/" class="brand-link">
-      <span class="asset-badge">ASSET #147</span>
+    <a href="../halloffame/" class="brand-link" title="셋업팟 명예의 전당 메인으로 이동">
+      <span class="asset-badge">FLAGSHIP #02</span>
       <div class="brand-title">
-        SETUP<span>OD</span> CO-FOUNDER DESK
+        THE DESK<span>TERIOR</span> 3D
       </div>
+      <span style="font-size:11px;color:var(--text-muted);border-left:1px solid rgba(255,255,255,0.2);padding-left:8px;font-weight:700;">3D 공간 커머스 쇼룸</span>
     </a>
 
     <!-- Anti-Aging Countdown Timer -->
@@ -671,7 +858,7 @@
   <!-- 3D WebGL Canvas Stage -->
   <canvas id="webgl-stage"></canvas>
 
-  <!-- 3D Hover Tooltip for Books -->
+  <!-- 3D Hover Tooltip for Books & Gears -->
   <div class="book-hover-tooltip" id="bookTooltip">
     <span class="tooltip-badge" id="tooltipBadge">#146</span>
     <span class="tooltip-text" id="tooltipText">도서명</span>
@@ -692,78 +879,40 @@
         <span id="warpActionLabel">146호 인쇄소 즉시 이동</span>
         <i data-lucide="external-link" style="width:14px;height:14px;"></i>
       </button>
+      <button class="btn-coupang-gear" id="btnBookCoupangGear" onclick="openBookCoupangSearch()">
+        <i data-lucide="shopping-bag" style="width:13px;height:13px;"></i>
+        <span>필수 장비 쿠팡 최저가 🚀</span>
+      </button>
       <button class="btn-close-book" onclick="closeActiveBook()">
         <i data-lucide="x" style="width:14px;height:14px;"></i>
-        <span>책 덮고 서가에 넣기 [ESC]</span>
+        <span>책 덮기 [ESC]</span>
       </button>
     </div>
   </div>
 
-  <!-- Floating Mission HUD: Today's Action 3 -->
-  <div class="mission-hud-card" id="missionHud">
+  <!-- Floating Deskterior Commerce HUD: 3D Gear Estimate & Coupang Partners -->
+  <div class="deskterior-hud-card" id="deskteriorHud">
     <div class="hud-title-row">
-      <span class="hud-badge">TODAY'S DISPATCH</span>
-      <span class="hud-progress-text" id="progressStatus">진행도: 0 / 3 완료</span>
+      <span class="hud-badge">3D SPATIAL COMMERCE</span>
+      <span class="hud-estimate-total" id="hudTotalEstimate">풀세트 견적: 약 ₩1,130,800</span>
     </div>
 
     <div>
-      <div class="hud-headline">"아이디어 숙성 금지! 오늘 끝낼 필수 3대 액션"</div>
-      <div class="hud-subline">생각만 1년 하지 말고, 우측 서가의 책을 펼치거나 즉시 워프하세요.</div>
+      <div class="hud-headline">"오브젝트 클릭 시 스펙 & 로켓배송 견적 연동"</div>
+      <div class="hud-subline">모니터, 조명, 모션데스크 등 3D 실물을 누르면 쿠팡 최저가가 즉시 열립니다.</div>
     </div>
 
-    <div class="action-stack">
-      <!-- Action 1: Product Output -->
-      <div class="action-card" id="cardAction1">
-        <button class="btn-check-toggle" onclick="toggleAction(1)">
-          <i data-lucide="check" style="width:13px;height:13px;"></i>
-        </button>
-        <div class="action-info">
-          <div class="action-title">
-            <span>1. 완제품 전자책 PDF 1권 인쇄</span>
-            <span style="font-size:9px;color:var(--accent-crimson);background:rgba(239,68,68,0.15);padding:1px 5px;border-radius:4px;">146호</span>
-          </div>
-          <div class="action-sub">서가 1권 클릭 또는 인쇄소에서 A4 완성본 출력</div>
-        </div>
-        <button class="btn-warp" onclick="inspectBookByAsset(146)">
-          <span>3D 서가 열기</span>
-          <i data-lucide="book" style="width:11px;height:11px;"></i>
-        </button>
-      </div>
+    <div class="gear-stack" id="gearStackList">
+      <!-- Populated via renderGearList() in script -->
+    </div>
 
-      <!-- Action 2: Visual 3D Thumbnail -->
-      <div class="action-card" id="cardAction2">
-        <button class="btn-check-toggle" onclick="toggleAction(2)">
-          <i data-lucide="check" style="width:13px;height:13px;"></i>
-        </button>
-        <div class="action-info">
-          <div class="action-title">
-            <span>2. 3D 양장본 판매용 썸네일 캡처</span>
-            <span style="font-size:9px;color:var(--accent-cyan);background:rgba(56,189,248,0.15);padding:1px 5px;border-radius:4px;">145호</span>
-          </div>
-          <div class="action-sub">서가 2권 클릭 또는 3D 스튜디오에서 4K PNG 캡처</div>
-        </div>
-        <button class="btn-warp" onclick="inspectBookByAsset(145)">
-          <span>3D 서가 열기</span>
-          <i data-lucide="book" style="width:11px;height:11px;"></i>
-        </button>
-      </div>
-
-      <!-- Action 3: Profit Simulation -->
-      <div class="action-card" id="cardAction3">
-        <button class="btn-check-toggle" onclick="toggleAction(3)">
-          <i data-lucide="check" style="width:13px;height:13px;"></i>
-        </button>
-        <div class="action-info">
-          <div class="action-title">
-            <span>3. 판매 마진 & 순수익 확정</span>
-            <span style="font-size:9px;color:var(--accent-emerald);background:rgba(16,185,129,0.15);padding:1px 5px;border-radius:4px;">144호</span>
-          </div>
-          <div class="action-sub">서가 3권 클릭 또는 수수료 공제 순수익 시뮬레이션</div>
-        </div>
-        <button class="btn-warp" onclick="inspectBookByAsset(144)">
-          <span>3D 서가 열기</span>
-          <i data-lucide="book" style="width:11px;height:11px;"></i>
-        </button>
+    <div class="hud-footer-box">
+      <button class="btn-coupang-full" onclick="openFullSetupModal()">
+        <i data-lucide="shopping-bag" style="width:14px;height:14px;"></i>
+        <span>풀세트 쿠팡 최저가 모아보기 🚀</span>
+      </button>
+      <div class="coupang-tiny-notice">
+        ※ 쿠팡 파트너스 활동의 일환으로 수수료를 제공받습니다 (ID: AF8698726)
       </div>
     </div>
   </div>
@@ -784,18 +933,41 @@
     </button>
   </div>
 
-  <!-- Success Celebration Modal -->
-  <div class="success-modal-overlay" id="successModal">
-    <div class="success-modal">
-      <span class="success-badge">MISSION COMPLETE</span>
-      <div style="font-size:42px;">🏆</div>
-      <h2 style="font-size:22px;font-weight:900;color:#fff;">"오늘 1개 비즈니스 런칭 성공!"</h2>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.6;">
-        축하합니다! 생각을 숙성시키지 않고 <strong>오늘 하루 만에 [완제품 PDF + 3D 썸네일 + 마진 확정]</strong>까지 실물로 런칭을 완료하셨습니다.
-      </p>
-      <button class="btn-toy active" style="padding:12px 24px;font-size:14px;" onclick="closeSuccessModal()">
-        <span>내일의 새로운 미션 준비하기</span>
-      </button>
+  <!-- 3D Gear Spec & Coupang Partner Modal -->
+  <div class="gear-modal-overlay" id="gearModal" onclick="closeGearModal(event)">
+    <div class="gear-card" onclick="event.stopPropagation()">
+      <div class="gear-header-row">
+        <span class="gear-badge" id="gearCategoryBadge">DESKTERIOR SPEC</span>
+        <button class="btn-gear-close" onclick="closeGearModal()">
+          <i data-lucide="x" style="width:16px;height:16px;"></i>
+        </button>
+      </div>
+
+      <div class="gear-info-block">
+        <h2 class="gear-title" id="gearTitle">장비명</h2>
+        <p class="gear-sub" id="gearSub">장비 부제</p>
+        <p class="gear-desc" id="gearDesc">장비 설명</p>
+      </div>
+
+      <div class="gear-specs-chips" id="gearSpecs">
+        <!-- Specs chips -->
+      </div>
+
+      <div class="gear-price-card">
+        <div>
+          <div class="price-label">쿠팡 로켓배송 예상 최저가</div>
+          <div class="price-val" id="gearPrice">약 0원</div>
+        </div>
+        <a href="#" target="_blank" class="btn-coupang-buy" id="gearCoupangBtn">
+          <span>로켓배송 최저가 확인 🚀</span>
+          <i data-lucide="external-link" style="width:14px;height:14px;"></i>
+        </a>
+      </div>
+
+      <div class="coupang-disclaimer">
+        ※ 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.<br>
+        (공정거래위원회 심사지침 준수 · 파트너스 ID: AF8698726)
+      </div>
     </div>
   </div>
 
@@ -909,22 +1081,149 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ── Action State Tracker ──
-    const actionStates = { 1: false, 2: false, 3: false };
-    function toggleAction(id) {
-      actionStates[id] = !actionStates[id];
-      const card = document.getElementById('cardAction' + id);
-      card.classList.toggle('done', actionStates[id]);
+    // ── Coupang Partners Affiliate Configuration (Official ID: AF8698726) ──
+    const COUPANG_CONFIG = {
+      partnerId: "AF8698726",
+      baseUrl: "https://www.coupang.com/np/search",
+      getSearchUrl: (keyword) => `https://www.coupang.com/np/search?component=&q=${encodeURIComponent(keyword)}&channel=user`,
+      disclaimer: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다."
+    };
 
-      const completed = Object.values(actionStates).filter(Boolean).length;
-      document.getElementById('progressStatus').innerText = `진행도: ${completed} / 3 완료`;
-
-      if (completed === 3) {
-        document.getElementById('successModal').classList.add('show');
+    // ── 3D Deskterior Gear Catalog (Hotspots & Direct Commerce) ──
+    const DESK_GEAR_LIST = {
+      monitor: {
+        category: "DISPLAY · 초광폭 21:9",
+        name: "34인치 WQHD 커브드 울트라와이드 모니터",
+        sub: "21:9 파노라마 시야각 | 144Hz 고주사율 | HDR400",
+        price: "약 389,000원",
+        icon: "🖥️",
+        keyword: "34인치 WQHD 커브드 모니터 144Hz",
+        specs: ["34인치 (86.4cm)", "WQHD 3440 x 1440", "144Hz 주사율", "1500R 곡률 곡면"],
+        desc: "코드 창 3개를 나란히 띄워도 여유로운 21:9 울트라와이드 화면. 곡면 패널로 장시간 작업에도 눈의 피로를 최소화합니다."
+      },
+      screenbar: {
+        category: "LIGHTING · 눈부심 방지",
+        name: "스마트 비대칭 무선 컨트롤러 스크린바 조명",
+        sub: "화면 반사 0% 비대칭 광학 | 무선 다이얼 리모컨",
+        price: "약 49,000원",
+        icon: "💡",
+        keyword: "비대칭 스크린바 모니터 조명 무선",
+        specs: ["비대칭 눈부심 방지", "무선 다이얼 제어", "색온도 2700K~6500K", "USB 전원 구동"],
+        desc: "모니터 상단에 거치하여 모니터 화면에는 빛이 반사되지 않고, 책상 위 키보드와 작업 영역만 부드럽게 밝혀줍니다."
+      },
+      desk: {
+        category: "ERGONOMICS · 스탠딩 워크",
+        name: "1600 전동 듀얼모터 높이조절 모션데스크",
+        sub: "정숙한 듀얼모터 구동 | 메모리 4포지션 프리셋",
+        price: "약 349,000원",
+        icon: "🪵",
+        keyword: "1600 전동 모션데스크 듀얼모터 월넛",
+        specs: ["1600 x 800mm 월넛 상판", "듀얼 모터 (저소음)", "높이 70~120cm 조절", "충돌 방지 센서"],
+        desc: "집중력이 떨어질 때 원터치로 스탠딩 모드로 전환. 듀얼 모터로 흔들림 없이 부드럽게 승강합니다."
+      },
+      keyboard: {
+        category: "PERIPHERAL · 타이핑 감성",
+        name: "무선 블루투스 기계식 키보드 & 저소음 스위치",
+        sub: "정갈한 폼떡 타건음 | Mac/Win 멀티페어링",
+        price: "약 139,000원",
+        icon: "⌨️",
+        keyword: "무선 기계식 키보드 저소음 텐키리스",
+        specs: ["텐키리스 87키 컴팩트", "저소음 갈축/황축", "블루투스 5.0 + 2.4G", "RGB 백라이트"],
+        desc: "야간 작업에도 방해 없는 정갈한 타건감. 묵직한 알루미늄 프레임과 PBT 이중사출 키캡으로 손끝의 피로를 덜어줍니다."
+      },
+      mouse: {
+        category: "PERIPHERAL · 마스터 플래그십",
+        name: "로지텍 MX Master 3S 무소음 마우스",
+        sub: "8,000 DPI 다크필드 센서 | 전자기 초고속 스크롤 휠",
+        price: "약 139,000원",
+        icon: "🖱️",
+        keyword: "로지텍 MX Master 3S 무소음",
+        specs: ["무소음 클릭 스위치", "초고속 MagSpeed 휠", "인체공학 엄지 썸휠", "유리창 위에서도 작동"],
+        desc: "손목 부담을 덜어주는 인체공학 설계와 초당 1,000줄을 내리는 초고속 휠로 생산성을 극대화합니다."
+      },
+      mat: {
+        category: "DESKTERIOR · 프리미엄 펠트",
+        name: "프리미엄 펠트 데스크 장패드 (차콜 그레이)",
+        sub: "두툼한 3mm 방수 울 펠트 | 논슬립 미끄럼 방지",
+        price: "약 19,800원",
+        icon: "🧵",
+        keyword: "펠트 데스크패드 장패드 차콜",
+        specs: ["900 x 400 x 3mm", "방수 코팅 울 펠트", "천연 고무 미끄럼 방지", "감성 데스크테리어"],
+        desc: "차가운 책상 표면을 포근하게 감싸고, 키보드 타건음을 부드럽게 흡수하며 마우스 슬라이딩을 매끄럽게 돕습니다."
+      },
+      shelf: {
+        category: "ORGANIZATION · 월넛 원목",
+        name: "월넛 원목 3단 북엔드 데스크 서가",
+        sub: "묵직한 황동 북엔드 | 100% 북미산 호두나무 원목",
+        price: "약 45,000원",
+        icon: "📚",
+        keyword: "원목 북엔드 데스크 책꽂이 호두나무",
+        specs: ["호두나무(월넛) 원목", "황동(Brass) 북엔드", "3단 수납 선반", "친환경 오일 마감"],
+        desc: "자주 꺼내보는 비즈니스 도서와 바인더를 데스크 우측에 단정하게 정리하여 작업 공간의 품격을 높입니다."
       }
+    };
+
+    function renderGearList() {
+      const container = document.getElementById('gearStackList');
+      if (!container) return;
+      container.innerHTML = Object.entries(DESK_GEAR_LIST).map(([key, gear]) => `
+        <div class="gear-item-card" onclick="openGearModal('${key}')">
+          <div class="gear-item-info">
+            <span class="gear-item-icon">${gear.icon}</span>
+            <span class="gear-item-name">${gear.name}</span>
+          </div>
+          <span class="gear-item-price">${gear.price}</span>
+          <button class="btn-gear-inspect" onclick="event.stopPropagation(); openGearModal('${key}')">
+            <span>견적</span>
+            <i data-lucide="chevron-right" style="width:12px;height:12px;"></i>
+          </button>
+        </div>
+      `).join('');
+      lucide.createIcons();
     }
-    function closeSuccessModal() {
-      document.getElementById('successModal').classList.remove('show');
+    setTimeout(renderGearList, 50);
+
+    function openGearModal(gearKey) {
+      const gear = DESK_GEAR_LIST[gearKey];
+      if (!gear) return;
+      audio.playOpen();
+
+      const badge = document.getElementById('gearCategoryBadge');
+      const title = document.getElementById('gearTitle');
+      const sub = document.getElementById('gearSub');
+      const desc = document.getElementById('gearDesc');
+      const price = document.getElementById('gearPrice');
+      const specsBox = document.getElementById('gearSpecs');
+      const cBtn = document.getElementById('gearCoupangBtn');
+
+      if (badge) badge.innerText = gear.category;
+      if (title) title.innerText = gear.name;
+      if (sub) sub.innerText = gear.sub;
+      if (desc) desc.innerText = gear.desc;
+      if (price) price.innerText = gear.price;
+
+      if (specsBox) {
+        specsBox.innerHTML = gear.specs.map(s => `<span class="gear-spec-chip">✓ ${s}</span>`).join('');
+      }
+
+      if (cBtn) {
+        cBtn.href = COUPANG_CONFIG.getSearchUrl(gear.keyword);
+      }
+
+      const modal = document.getElementById('gearModal');
+      if (modal) modal.classList.add('show');
+      lucide.createIcons();
+    }
+
+    function closeGearModal(e) {
+      if (e && e.target && e.target.id !== 'gearModal' && !e.target.closest('.btn-gear-close')) return;
+      const modal = document.getElementById('gearModal');
+      if (modal) modal.classList.remove('show');
+      audio.playClose();
+    }
+
+    function openFullSetupModal() {
+      window.open(COUPANG_CONFIG.getSearchUrl("데스크셋업 모션데스크 스크린바 모니터 세트"), "_blank");
     }
 
     // ── 3D Bookshelf & Monitor Multi-Collection Library (3 Packs x 5 Assets = 15 Curated Assets) ──
@@ -2722,23 +3021,27 @@
     deskTop.position.set(0, 4.42, 0);
     deskTop.castShadow = true;
     deskTop.receiveShadow = true;
+    deskTop.userData = { isGear: true, gearKey: 'desk' };
     deskGroup.add(deskTop);
 
     // Felt Desk Mat
     const deskMat = new THREE.Mesh(new THREE.BoxGeometry(8.2, 0.03, 3.8), matFeltPad);
     deskMat.position.set(-1.0, 4.57, 0.8);
     deskMat.receiveShadow = true;
+    deskMat.userData = { isGear: true, gearKey: 'mat' };
     deskGroup.add(deskMat);
 
     // Mechanical Keyboard
     const keyboard = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 1.1), matMatteBlack);
     keyboard.position.set(-1.0, 4.62, 1.5);
     keyboard.castShadow = true;
+    keyboard.userData = { isGear: true, gearKey: 'keyboard' };
     deskGroup.add(keyboard);
 
     // Mouse
     const mouse = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.85), matMatteBlack);
     mouse.position.set(1.4, 4.61, 1.5);
+    mouse.userData = { isGear: true, gearKey: 'mouse' };
     deskGroup.add(mouse);
 
     // Curved Ultrawide Monitor & Stand
@@ -2750,6 +3053,7 @@
     const monBezel = new THREE.Mesh(new THREE.BoxGeometry(8.2, 3.6, 0.2), matMatteBlack);
     monBezel.position.set(-1.0, 6.4, -1.2);
     monBezel.castShadow = true;
+    monBezel.userData = { isGear: true, gearKey: 'monitor' };
     deskGroup.add(monBezel);
 
     const monScreen = new THREE.Mesh(new THREE.PlaneGeometry(8.0, 3.4), matScreen);
@@ -2761,6 +3065,7 @@
     screenbar.rotation.z = Math.PI / 2;
     screenbar.position.set(-1.0, 8.25, -1.05);
     screenbar.castShadow = true;
+    screenbar.userData = { isGear: true, gearKey: 'screenbar' };
     deskGroup.add(screenbar);
 
     // ========================================================
@@ -2774,28 +3079,72 @@
     const shelfBottom = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.14, 2.2), matWalnut);
     shelfBottom.position.set(0, 0.07, 0);
     shelfBottom.castShadow = true;
+    shelfBottom.userData = { isGear: true, gearKey: 'shelf' };
     shelfGroup.add(shelfBottom);
 
     const shelfBack = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.8, 0.08), matWalnut);
     shelfBack.position.set(0, 1.4, -1.05);
     shelfBack.castShadow = true;
+    shelfBack.userData = { isGear: true, gearKey: 'shelf' };
     shelfGroup.add(shelfBack);
 
     // Left and Right Brass Bookends
     const bookendL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.4, 2.0), matBrass);
     bookendL.position.set(-1.8, 1.25, 0);
     bookendL.castShadow = true;
+    bookendL.userData = { isGear: true, gearKey: 'shelf' };
     shelfGroup.add(bookendL);
 
     const bookendR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.4, 2.0), matBrass);
     bookendR.position.set(1.8, 1.25, 0);
     bookendR.castShadow = true;
+    bookendR.userData = { isGear: true, gearKey: 'shelf' };
     shelfGroup.add(bookendR);
 
     // Small Brass Engraved Plate
     const brassPlate = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.06, 0.02), matBrass);
     brassPlate.position.set(0, 0.07, 1.11);
     shelfGroup.add(brassPlate);
+
+    // ── 3D Hotspot Pins (Deskterior Equipment Interactive Markers) ──
+    const hotspotPins = [];
+    const interactiveGears = [
+      monBezel, screenbar, deskTop, keyboard, mouse, deskMat,
+      shelfBottom, shelfBack, bookendL, bookendR
+    ];
+    const matHotspotRing = new THREE.MeshBasicMaterial({ color: 0xf59e0b, wireframe: true });
+    const matHotspotCore = new THREE.MeshBasicMaterial({ color: 0xfffbeb });
+
+    const hotspots = [
+      { key: 'monitor', pos: new THREE.Vector3(-1.0, 8.4, -1.0) },
+      { key: 'screenbar', pos: new THREE.Vector3(-1.0, 8.8, -0.9) },
+      { key: 'desk', pos: new THREE.Vector3(3.6, 4.85, 1.2) },
+      { key: 'keyboard', pos: new THREE.Vector3(-1.0, 4.85, 2.2) },
+      { key: 'mouse', pos: new THREE.Vector3(1.4, 4.85, 2.0) },
+      { key: 'mat', pos: new THREE.Vector3(-1.0, 4.75, 0.2) },
+      { key: 'shelf', pos: new THREE.Vector3(4.6, 6.4, -0.2) }
+    ];
+
+    hotspots.forEach(h => {
+      const pinGroup = new THREE.Group();
+      pinGroup.position.copy(h.pos);
+
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.12, 0.18, 16), matHotspotRing);
+      ring.rotation.x = -Math.PI / 2;
+      pinGroup.add(ring);
+
+      const core = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 12), matHotspotCore);
+      pinGroup.add(core);
+
+      const hit = new THREE.Mesh(new THREE.SphereGeometry(0.38, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
+      hit.userData = { isGear: true, gearKey: h.key };
+      pinGroup.add(hit);
+
+      pinGroup.userData = { isHotspot: true, gearKey: h.key, ring: ring };
+      deskGroup.add(pinGroup);
+      hotspotPins.push(pinGroup);
+      interactiveGears.push(hit);
+    });
 
     // ── Create 5 Interactive 3D Hardcover Books ──
     const interactiveBooks = [];
@@ -3171,11 +3520,18 @@
       }
     }
 
+    function openBookCoupangSearch() {
+      if (!activeBook) return;
+      const data = activeBook.userData.bookData;
+      const query = (data.title || "1인 창업 필수 장비") + " 창업 도서 장비";
+      window.open(COUPANG_CONFIG.getSearchUrl(query), '_blank');
+    }
+
     // Keyboard Navigation (ESC to Close, Left/Right to Slide Collection)
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeActiveBook();
-        closeSuccessModal();
+        closeGearModal();
       } else if (e.key === 'ArrowLeft') {
         slideCollection(-1);
       } else if (e.key === 'ArrowRight') {
@@ -3271,6 +3627,20 @@
           }
           if (obj && obj.userData.isBook) {
             openBookIn3D(obj);
+            return;
+          }
+        }
+
+        // Check if Gear or Hotspot Pin is Clicked:
+        const gearHits = raycaster.intersectObjects(interactiveGears, true);
+        if (gearHits.length > 0) {
+          let gObj = gearHits[0].object;
+          while (gObj && !gObj.userData.isGear) {
+            gObj = gObj.parent;
+          }
+          if (gObj && gObj.userData.gearKey) {
+            openGearModal(gObj.userData.gearKey);
+            return;
           }
         }
       }
@@ -3323,6 +3693,7 @@
     function animate() {
       requestAnimationFrame(animate);
       const delta = clock.getDelta();
+      const timeSec = clock.getElapsedTime();
 
       // Smooth Camera Lerp
       camera.position.lerp(targetCamPos, 0.06);
@@ -3332,10 +3703,18 @@
       worldGroup.rotation.y += (targetRotY - worldGroup.rotation.y) * 0.08;
       worldGroup.rotation.x += (targetRotX - worldGroup.rotation.x) * 0.08;
 
-      // Update Live War Room Monitor Screen
-      warRoom.update(clock.getElapsedTime());
+      // Pulse 3D Hotspot Rings (Radar Effect)
+      hotspotPins.forEach(p => {
+        if (p.userData && p.userData.ring) {
+          const s = 1.0 + 0.3 * Math.sin(timeSec * 4.0);
+          p.userData.ring.scale.set(s, s, 1);
+        }
+      });
 
-      // Raycast Hover over Books & Monitor (when not inspecting an active book)
+      // Update Live War Room Monitor Screen
+      warRoom.update(timeSec);
+
+      // Raycast Hover over Books, Monitor & Gears (when not inspecting an active book)
       if (!inspectMode) {
         raycaster.setFromCamera(mousePos, camera);
         const intersects = raycaster.intersectObjects(interactiveBooks, true);
@@ -3389,15 +3768,37 @@
           }
           tooltip.classList.add('show');
         } else {
-          if (hoveredBook) {
-            hoveredBook.userData.hoverZOffset = 0;
-            hoveredBook = null;
+          // Check gear & hotspot hover!
+          const gearHovers = raycaster.intersectObjects(interactiveGears, true);
+          if (gearHovers.length > 0) {
+            let gObj = gearHovers[0].object;
+            while (gObj && !gObj.userData.isGear) {
+              gObj = gObj.parent;
+            }
+            if (gObj && gObj.userData.gearKey) {
+              const gear = DESK_GEAR_LIST[gObj.userData.gearKey];
+              if (gear) {
+                if (hoveredBook) {
+                  hoveredBook.userData.hoverZOffset = 0;
+                  hoveredBook = null;
+                }
+                canvas.classList.add('pointer');
+                tooltipBadge.innerText = 'COUPANG 🚀';
+                tooltipText.innerText = `${gear.name} (${gear.price}) - 클릭하여 최저가 견적 ↗`;
+                tooltip.classList.add('show');
+              }
+            }
+          } else {
+            if (hoveredBook) {
+              hoveredBook.userData.hoverZOffset = 0;
+              hoveredBook = null;
+            }
+            if (warRoom.hoverTarget) {
+              warRoom.hoverTarget = null;
+            }
+            canvas.classList.remove('pointer');
+            tooltip.classList.remove('show');
           }
-          if (warRoom.hoverTarget) {
-            warRoom.hoverTarget = null;
-          }
-          canvas.classList.remove('pointer');
-          tooltip.classList.remove('show');
         }
       } else {
         canvas.classList.remove('pointer');
