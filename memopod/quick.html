@@ -1091,6 +1091,10 @@
           <span>새로운 폴더</span>
         </button>
       </div>
+      <div style="padding: 6px 14px 8px; font-size: 10px; color: rgba(255,255,255,0.25); text-align: center; border-top: 1px solid rgba(255,255,255,0.04); line-height: 1.4;">
+        투머스 (toomus) · 사업자: 604-30-53081<br>
+        <a href="https://setupod.com/privacy" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.4); text-decoration: underline;">개인정보처리방침</a> · <a href="https://setupod.com/terms" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.4); text-decoration: underline;">이용약관</a>
+      </div>
     </aside>
 
     <!-- ----------------------------------------------------------------------
@@ -1181,7 +1185,7 @@
       const btnWeb = document.querySelector('.btn-jump-web');
       if (btnWeb) {
         if (window.location.pathname.includes('/memopod')) {
-          btnWeb.href = './app.html';
+          btnWeb.href = './index.html';
         } else {
           btnWeb.href = './index.html';
         }
@@ -1205,23 +1209,20 @@
       }
     }
 
-    // Default real folders matching user's exact screenshot
+    // Default clean demo folders
     const DEFAULT_APPLE_FOLDERS = [
-      { name: "모든 iCloud", count: 1007, icon: "📁", isAll: true },
-      { name: "메모", count: 866, icon: "📁" },
-      { name: "마자 스튜디오", count: 9, icon: "📁" },
-      { name: "부업", count: 4, icon: "📁" },
+      { name: "모든 iCloud", count: 128, icon: "📁", isAll: true },
+      { name: "메모", count: 42, icon: "📁" },
+      { name: "프로젝트 관리", count: 18, icon: "📁" },
+      { name: "아이디어", count: 15, icon: "📁" },
       { name: "블로그 제작", count: 9, icon: "📁" },
-      { name: "중요한 개발 문서", count: 9, icon: "📁" },
+      { name: "개발 문서", count: 12, icon: "📁" },
       { name: "필수 키워드", count: 11, icon: "📁" },
-      { name: "보험 금융", count: 28, icon: "📁" },
-      { name: "API 관리", count: 28, icon: "📁" },
-      { name: "html / CSS", count: 13, icon: "📁" },
-      { name: "설정", count: 5, icon: "📁" },
+      { name: "재무 회계", count: 8, icon: "📁" },
+      { name: "API 관리", count: 7, icon: "📁" },
+      { name: "디자인 / UI", count: 6, icon: "📁" },
       { name: "Quick Notes", count: 4, icon: "📁" },
-      { name: "기타 개인", count: 11, icon: "📁" },
       { name: "Business", count: 10, icon: "📁" },
-      { name: "스테이블디퓨전", count: 10, icon: "⚙️" },
       { name: "최근 삭제된 항목", count: 2, icon: "🗑️" }
     ];
 
@@ -1342,51 +1343,52 @@
       return [
         {
           id: 'apple_seed_1',
-          title: 'Linkmix.co.kr',
+          title: '2026 프로덕트 런칭 & 파트너십 로드맵',
           folder: 'Business',
-          content: 'Linkmix.co.kr\n\nandrew    kakao.com\n\n- [ ] 1. 김명선 sunny https://linkmix.co.kr/sunny grid확번 7asdzzz@gmail.com\n- [ ] 2. 김가은 gaeun https://linkmix.co.kr/gaeun 73asdzzz@gmail.com\n\n아이디 gaeun\ngk730319\n- [ ] 파트너사 API 키 발급 및 2026 플래너 일정 연동 검토',
-          summary: 'andrew kakao.com 제휴 및 회원 계정 관리 정보',
+          content: '2026 프로덕트 런칭 & 파트너십 로드맵\n\n글로벌 파트너십 협업 및 2026 플래너 연동 계획\n\n- [ ] 글로벌 파트너사 API 연동 규격서 검토\n- [ ] 2026 올인원 플래너 D-day 및 캘린더 동기화\n- [x] Mac용 0.2MB 초경량 설치 엔진 패키징 완료\n- [ ] 글로벌 결제 PG 연동 및 가맹점 심사 준비',
+          summary: '글로벌 파트너십 협업 및 2026 플래너 연동 계획',
           todos: [
-            { text: '1. 김명선 sunny https://linkmix.co.kr/sunny grid확번', done: false },
-            { text: '2. 김가은 gaeun 계정 확인', done: false },
-            { text: '파트너사 API 키 발급 및 2026 플래너 일정 연동 검토', done: false }
+            { text: '글로벌 파트너사 API 연동 규격서 검토', done: false },
+            { text: '2026 올인원 플래너 D-day 및 캘린더 동기화', done: false },
+            { text: 'Mac용 0.2MB 초경량 설치 엔진 패키징 완료', done: true },
+            { text: '글로벌 결제 PG 연동 및 가맹점 심사 준비', done: false }
           ],
-          tags: ['business', 'partner', 'api'],
+          tags: ['business', 'partner', 'roadmap'],
           type: 'business',
-          dateGroup: '9월',
-          createdAt: '2026. 9. 2.'
+          dateGroup: '오늘',
+          createdAt: '2026. 10. 17.'
         },
         {
           id: 'apple_seed_2',
-          title: 'Toomus API 결제 모듈 및 인프라 관리',
-          folder: '마자 스튜디오',
-          content: 'Toomus API 결제 모듈 및 인프라 관리\n\n- [ ] 신규 결제 모듈 웹훅 테스트\n- [ ] 마자 스튜디오 정기 구독 플랜 연동\n- [x] 토큰 만료 예외 처리 완료',
-          summary: 'Toomus 결제 API 연동 및 웹훅 안정화 작업',
+          title: '클라우드 웹훅 및 인프라 보안 관리',
+          folder: '프로젝트 관리',
+          content: '클라우드 웹훅 및 인프라 보안 관리\n\n- [ ] 신규 결제 모듈 웹훅 테스트\n- [ ] 정기 구독 플랜 자동 갱신 로직 검증\n- [x] API 토큰 만료 예외 처리 완료',
+          summary: '클라우드 결제 웹훅 및 인프라 보안 강화 작업',
           todos: [
             { text: '신규 결제 모듈 웹훅 테스트', done: false },
-            { text: '마자 스튜디오 정기 구독 플랜 연동', done: false },
-            { text: '토큰 만료 예외 처리 완료', done: true }
+            { text: '정기 구독 플랜 자동 갱신 로직 검증', done: false },
+            { text: 'API 토큰 만료 예외 처리 완료', done: true }
           ],
-          tags: ['api', 'business', 'tech'],
+          tags: ['api', 'infra', 'security'],
           type: 'tech',
-          dateGroup: '이전 30일',
-          createdAt: '2026. 9. 22.'
+          dateGroup: '이번 주',
+          createdAt: '2026. 10. 15.'
         },
         {
           id: 'apple_seed_3',
-          title: '애드센스 승인 준비 원칙 및 가이드',
+          title: 'SEO 최적화 및 고품질 콘텐츠 전략',
           folder: '블로그 제작',
-          content: '애드센스 승인 준비 원칙 및 가이드\n\n- [ ] E-E-A-T 기반 정보성 콘텐츠 15편 작성\n- [ ] 사이트맵 및 robots.txt 구글 서치콘솔 제출\n- [ ] 카테고리별 최소 3개 이상 포스트 유지',
-          summary: '저장소를... 블로그 제작 애드센스 규정 준수 체크리스트',
+          content: 'SEO 최적화 및 고품질 콘텐츠 전략\n\n- [ ] E-E-A-T 기반 정보성 콘텐츠 15편 작성\n- [ ] 사이트맵 및 robots.txt 구글 서치콘솔 제출\n- [ ] 카테고리별 핵심 큐레이션 포스트 발행',
+          summary: '검색엔진 최적화 및 E-E-A-T 준수 가이드',
           todos: [
             { text: 'E-E-A-T 기반 정보성 콘텐츠 15편 작성', done: false },
             { text: '사이트맵 및 robots.txt 구글 서치콘솔 제출', done: false },
-            { text: '카테고리별 최소 3개 이상 포스트 유지', done: false }
+            { text: '카테고리별 핵심 큐레이션 포스트 발행', done: false }
           ],
-          tags: ['adsense', 'marketing', 'blog'],
+          tags: ['seo', 'marketing', 'content'],
           type: 'marketing',
-          dateGroup: '이전 30일',
-          createdAt: '2026. 9. 22.'
+          dateGroup: '이번 달',
+          createdAt: '2026. 10. 10.'
         }
       ];
     }

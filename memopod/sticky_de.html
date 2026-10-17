@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MemoPod Sticky">
+  <title>MemoPod 3D Haftnotiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    /* Theme color palettes (Windows 11 Sticky Notes + macOS Stickies) */
+    :root {
+      --sticky-bg: #2b2b2e;
+      --sticky-header: #222225;
+      --sticky-text: #f3f4f6;
+      --sticky-sub: #9ca3af;
+      --sticky-border: rgba(255, 255, 255, 0.1);
+      --sticky-accent: #f59e0b;
+      --sticky-hover: rgba(255, 255, 255, 0.08);
+    }
+
+    body[data-color="yellow"] {
+      --sticky-bg: #fffbeb;
+      --sticky-header: #fef3c7;
+      --sticky-text: #1f2937;
+      --sticky-sub: #78350f;
+      --sticky-border: #fde68a;
+      --sticky-accent: #d97706;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="green"] {
+      --sticky-bg: #f0fdf4;
+      --sticky-header: #dcfce7;
+      --sticky-text: #14532d;
+      --sticky-sub: #166534;
+      --sticky-border: #bbf7d0;
+      --sticky-accent: #16a34a;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="blue"] {
+      --sticky-bg: #f0f9ff;
+      --sticky-header: #e0f2fe;
+      --sticky-text: #0c4a6e;
+      --sticky-sub: #0369a1;
+      --sticky-border: #bae6fd;
+      --sticky-accent: #0284c7;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="pink"] {
+      --sticky-bg: #fff1f2;
+      --sticky-header: #ffe4e6;
+      --sticky-text: #881337;
+      --sticky-sub: #be123c;
+      --sticky-border: #fecdd3;
+      --sticky-accent: #e11d48;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="purple"] {
+      --sticky-bg: #faf5ff;
+      --sticky-header: #f3e8ff;
+      --sticky-text: #581c87;
+      --sticky-sub: #7e22ce;
+      --sticky-border: #e9d5ff;
+      --sticky-accent: #9333ea;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="dark"] {
+      --sticky-bg: #1c1c1f;
+      --sticky-header: #141416;
+      --sticky-text: #f5f5f7;
+      --sticky-sub: #8e8e93;
+      --sticky-border: rgba(255, 255, 255, 0.12);
+      --sticky-accent: #f59e0b;
+      --sticky-hover: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 30%, #1e222d 0%, #0d0f14 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      transition: background 0.25s ease;
+    }
+
+    /* Desk Environment Wrapper */
+    .desk-workspace {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Centered Physical Sticky Card */
+    .sticky-card {
+      width: 380px;
+      height: 500px;
+      max-width: 96vw;
+      max-height: 92vh;
+      background: var(--sticky-bg);
+      color: var(--sticky-text);
+      border-radius: 14px;
+      box-shadow: 
+        0 24px 50px -10px rgba(0, 0, 0, 0.5),
+        0 10px 20px -4px rgba(0, 0, 0, 0.25),
+        0 0 0 1px var(--sticky-border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Scotch Tape Effect */
+    .scotch-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      width: 100px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.36);
+      border-left: 3px dashed rgba(255, 255, 255, 0.45);
+      border-right: 3px dashed rgba(255, 255, 255, 0.45);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* Full-screen Mode / Popup Mode / Mobile */
+    body.is-fullscreen, body.is-popup {
+      background: var(--sticky-bg) !important;
+    }
+    body.is-fullscreen .desk-workspace, body.is-popup .desk-workspace {
+      padding: 0 !important;
+    }
+    body.is-fullscreen .sticky-card, body.is-popup .sticky-card {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    body.is-fullscreen .scotch-tape, body.is-popup .scotch-tape {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        background: var(--sticky-bg) !important;
+      }
+      .desk-workspace {
+        padding: 0 !important;
+      }
+      .sticky-card {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .scotch-tape {
+        display: none !important;
+      }
+    }
+
+    /* Top Sticky Header */
+    .sticky-header {
+      height: 40px;
+      background: var(--sticky-header);
+      border-bottom: 1px solid var(--sticky-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      flex-shrink: 0;
+      -webkit-app-region: drag;
+    }
+
+    .header-left, .header-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      -webkit-app-region: no-drag;
+    }
+
+    .btn-sticky-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--sticky-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-sticky-icon:hover {
+      background: var(--sticky-hover);
+    }
+    .btn-sticky-icon:active {
+      transform: scale(0.95);
+    }
+
+    .note-flipper {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sticky-sub);
+      background: var(--sticky-hover);
+      padding: 2px 6px;
+      border-radius: 6px;
+      -webkit-app-region: no-drag;
+    }
+    .btn-flip {
+      background: transparent;
+      border: none;
+      color: var(--sticky-text);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0 3px;
+    }
+
+    /* Color Palette Bar (Toggleable) */
+    .color-picker-dropdown {
+      display: none;
+      position: absolute;
+      top: 42px;
+      right: 70px;
+      background: var(--sticky-header);
+      border: 1px solid var(--sticky-border);
+      border-radius: 8px;
+      padding: 6px;
+      gap: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      z-index: 100;
+    }
+    .color-picker-dropdown.show {
+      display: flex;
+    }
+    .color-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease;
+    }
+    .color-dot:hover {
+      transform: scale(1.15);
+    }
+    .dot-yellow { background: #fef08a; }
+    .dot-green { background: #bbf7d0; }
+    .dot-blue { background: #bae6fd; }
+    .dot-pink { background: #fecdd3; }
+    .dot-purple { background: #e9d5ff; }
+    .dot-dark { background: #1c1c1f; border-color: rgba(255, 255, 255, 0.2); }
+
+    /* 3D Sticker Drawer */
+    .sticker-picker-drawer {
+      display: none;
+      position: absolute;
+      top: 42px;
+      right: 10px;
+      background: var(--sticky-header);
+      border: 1px solid var(--sticky-border);
+      border-radius: 12px;
+      padding: 10px;
+      width: 230px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      z-index: 110;
+      animation: popIn 0.15s ease-out;
+    }
+    .sticker-picker-drawer.show {
+      display: block;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92) translateY(-4px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .sticker-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--sticky-border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sticky-sub);
+    }
+    .btn-remove-sticker {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-remove-sticker:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .sticker-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 2px;
+      background: var(--sticky-hover);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .sticker-choice:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--sticky-accent);
+      transform: scale(1.08);
+    }
+    .st-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .st-txt {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--sticky-sub);
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+
+    /* Sticky Canvas Body */
+    .sticky-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 16px;
+      overflow-y: auto;
+      user-select: text;
+      position: relative;
+    }
+
+    /* ========================================================================
+       3D Interactive Sticker Badge (Zero Library, Pure GPU CSS 3D)
+       ======================================================================== */
+    .sticker-3d-wrapper {
+      position: absolute;
+      right: 18px;
+      top: 14px;
+      z-index: 50;
+      cursor: grab;
+      user-select: none;
+      perspective: 700px;
+    }
+    .sticker-3d-wrapper:active {
+      cursor: grabbing;
+    }
+    .sticker-3d-badge {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.65);
+      border-radius: 16px;
+      box-shadow: 
+        0 12px 28px -4px rgba(0, 0, 0, 0.22),
+        0 4px 10px -2px rgba(0, 0, 0, 0.12),
+        inset 0 1px 3px rgba(255, 255, 255, 0.85);
+      transform-style: preserve-3d;
+      transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease;
+      will-change: transform;
+    }
+    .sticker-3d-emoji {
+      font-size: 34px;
+      line-height: 1;
+      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.25));
+      transform: translateZ(18px);
+      pointer-events: none;
+    }
+    .sticker-3d-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      padding: 2px 7px;
+      margin-top: 5px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      border-radius: 99px;
+      transform: translateZ(14px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    /* Specular Glare Shine */
+    .sticker-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 65%);
+      pointer-events: none;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+    /* Idle 3D floating animation */
+    @keyframes stickerIdleFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-3.5px) rotate(1.2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .sticker-3d-badge.floating {
+      animation: stickerIdleFloat 3.8s ease-in-out infinite;
+    }
+    /* Close / Peel button */
+    .btn-sticker-peel {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ef4444;
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 9px;
+      font-weight: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      transform: translateZ(26px);
+    }
+    .sticker-3d-wrapper:hover .btn-sticker-peel {
+      display: flex;
+    }
+
+    .sticky-title {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--sticky-text);
+      margin-bottom: 8px;
+      padding: 0;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 10;
+    }
+    .sticky-title::placeholder {
+      color: var(--sticky-sub);
+      opacity: 0.7;
+    }
+
+    .sticky-textarea {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--sticky-text);
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 10;
+    }
+    .sticky-textarea::placeholder {
+      color: var(--sticky-sub);
+      opacity: 0.6;
+    }
+
+    /* Bottom Status Bar */
+    .sticky-footer {
+      height: 28px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--sticky-sub);
+      border-top: 1px solid var(--sticky-border);
+      flex-shrink: 0;
+    }
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sync-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+    .sync-dot.saving {
+      background: var(--sticky-accent);
+      animation: pulse 0.8s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body data-color="yellow">
+
+  <!-- Desktop Workspace Shell -->
+  <div class="desk-workspace" id="deskWorkspace">
+    <!-- Physical Sticky Card -->
+    <div class="sticky-card" id="stickyCard">
+      <!-- Scotch tape at top -->
+      <div class="scotch-tape"></div>
+
+      <!-- Header -->
+      <header class="sticky-header">
+        <div class="header-left">
+          <button type="button" class="btn-sticky-icon" id="btnNewSticky" title="Neue Haftnotiz (Cmd/Strg + N)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="note-flipper">
+            <button type="button" class="btn-flip" id="btnPrevNote" title="Vorherige Notiz">‹</button>
+            <span id="noteIndexIndicator">1 / 1</span>
+            <button type="button" class="btn-flip" id="btnNextNote" title="Nächste Notiz">›</button>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="btn-sticky-icon" id="btnStickerToggle" title="3D-Sticker anheften">🧸</button>
+          <button type="button" class="btn-sticky-icon" id="btnColorPicker" title="Farbe ändern">🎨</button>
+          <button type="button" class="btn-sticky-icon" id="btnToggleDeskMode" title="Schreibtisch / Vollbild umschalten">⛶</button>
+          <a href="./quick_de.html" class="btn-sticky-icon" title="Zu 3-Spalten-Notizen wechseln" style="text-decoration: none;">🗂️</a>
+          <button type="button" class="btn-sticky-icon" id="btnDeleteSticky" title="Aktuelle Haftnotiz löschen" style="color: #ef4444;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 3D Sticker Drawer -->
+      <div class="sticker-picker-drawer" id="stickerPickerDrawer">
+        <div class="sticker-drawer-header">
+          <span>✨ 3D-Sticker anheften</span>
+          <button type="button" class="btn-remove-sticker" id="btnDrawerRemoveSticker">Sticker entfernen ✕</button>
+        </div>
+        <div class="sticker-grid">
+          <button type="button" class="sticker-choice" data-emoji="🧸" data-tag="Fokus pur">
+            <span class="st-icon">🧸</span>
+            <span class="st-txt">Teddybär</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🔥" data-tag="Erledigt">
+            <span class="st-icon">🔥</span>
+            <span class="st-txt">Heute fällig</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="💸" data-tag="Umsatzplus">
+            <span class="st-icon">💸</span>
+            <span class="st-txt">Raketenstart</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="☕" data-tag="Kaffeepause">
+            <span class="st-icon">☕</span>
+            <span class="st-txt">Kaffeepause</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="👑" data-tag="Prio 1 Task">
+            <span class="st-icon">👑</span>
+            <span class="st-txt">VIP-Kunde</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🎯" data-tag="Ziel erreicht">
+            <span class="st-icon">🎯</span>
+            <span class="st-txt">Ziel erreicht</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🚀" data-tag="Durchstarter">
+            <span class="st-icon">🚀</span>
+            <span class="st-txt">Wachstum</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="💯" data-tag="100 Punkte">
+            <span class="st-icon">💯</span>
+            <span class="st-txt">Erledigt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Color Dropdown -->
+      <div class="color-picker-dropdown" id="colorPickerDropdown">
+        <div class="color-dot dot-yellow" data-col="yellow" title="Klassisch Gelb"></div>
+        <div class="color-dot dot-green" data-col="green" title="Pastell Mint"></div>
+        <div class="color-dot dot-blue" data-col="blue" title="Himmelblau"></div>
+        <div class="color-dot dot-pink" data-col="pink" title="Pfirsich Rosa"></div>
+        <div class="color-dot dot-purple" data-col="purple" title="Lavendel Lila"></div>
+        <div class="color-dot dot-dark" data-col="dark" title="Dunkles Obsidian"></div>
+      </div>
+
+      <!-- Note Body -->
+      <main class="sticky-body" id="stickyBodyContainer">
+        <!-- 3D Interactive Sticker Layer -->
+        <div class="sticker-3d-wrapper" id="sticker3dWrapper" style="display: none;">
+          <div class="sticker-3d-badge floating" id="sticker3dBadge">
+            <div class="sticker-glare"></div>
+            <span class="sticker-3d-emoji" id="sticker3dEmoji">🧸</span>
+            <span class="sticker-3d-tag" id="sticker3dTag">Fokus pur</span>
+            <button type="button" class="btn-sticker-peel" id="btnStickerPeel" title="Sticker ablösen">✕</button>
+          </div>
+        </div>
+
+        <input type="text" id="stickyTitle" class="sticky-title" placeholder="Unbenannte Haftnotiz" spellcheck="false">
+        <textarea id="stickyBody" class="sticky-textarea" placeholder="Gedanken blitzschnell notieren...
+- [ ] Automatische Checklisten-Erfassung
+- [ ] Echtzeit-Synchronisierung lokal & Cloud"></textarea>
+      </main>
+
+      <!-- Footer -->
+      <footer class="sticky-footer">
+        <div class="footer-left">
+          <span class="sync-dot" id="stickySyncDot"></span>
+          <span id="stickyDateBadge">Echtzeit gespeichert</span>
+        </div>
+        <div class="footer-right">
+          <span id="stickyCharCount">0 Zeichen</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/cloud-sync.js"></script>
+  <script>
+    const STORAGE_KEY = 'memopod_knowledge_de_v2';
+    const COLOR_KEY = 'memopod_sticky_color';
+    let allNotes = [];
+    let currentIndex = 0;
+    let autoSaveTimer = null;
+
+    // Drag state
+    let isDraggingSticker = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let stickerInitialX = 0;
+    let stickerInitialY = 0;
+
+    function init() {
+      // 1. Color theme load
+      const savedColor = localStorage.getItem(COLOR_KEY) || 'yellow';
+      document.body.setAttribute('data-color', savedColor);
+
+      // Desk mode check (auto popup check or user preference)
+      const savedFull = localStorage.getItem('memopod_sticky_fullscreen') === 'true';
+      if (window.opener || window.innerWidth <= 520) {
+        document.body.classList.add('is-popup');
+      } else if (savedFull) {
+        document.body.classList.add('is-fullscreen');
+      }
+
+      // 2. Storage load
+      loadNotes();
+
+      // 3. Bind UI events & 3D tilt engine
+      bindEvents();
+      init3DTiltPhysics();
+
+      // 4. Supabase cloud sync init
+      if (window.MemoPodCloud && typeof window.MemoPodCloud.init === 'function') {
+        window.MemoPodCloud.init();
+      }
+
+      window.addEventListener('memopod:cloud_synced', () => {
+        loadNotes();
+        renderCurrentNote();
+      });
+
+      // Storage sync with other tabs/windows
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY) {
+          loadNotes();
+          renderCurrentNote();
+        }
+      });
+    }
+
+    function loadNotes() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          allNotes = JSON.parse(raw);
+        } else {
+          allNotes = [{
+            id: 'sticky_' + Date.now(),
+            title: '🎯 Wichtige Aufgaben (Haftnotiz)',
+            folder: 'Quick Notes',
+            content: '- [ ] DACH-Roadmap überprüfen\n- [ ] Toomcard-Visitenkarte verlinken\n- [ ] Lokale Speicherung testen',
+            sticker: { emoji: '🧸', tag: 'Fokus pur', x: 200, y: 14 },
+            createdAt: new Date().toLocaleDateString('ko-KR')
+          }];
+          saveNotes(false);
+        }
+      } catch (e) {
+        allNotes = [];
+      }
+      if (currentIndex >= allNotes.length) currentIndex = Math.max(0, allNotes.length - 1);
+      renderCurrentNote();
+    }
+
+    function saveNotes(broadcast = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allNotes));
+        if (window.MemoPodCloud && typeof window.MemoPodCloud.scheduleAutoSync === 'function') {
+          window.MemoPodCloud.scheduleAutoSync();
+        }
+        showSaved();
+      } catch (e) {}
+    }
+
+    function renderCurrentNote() {
+      if (allNotes.length === 0) {
+        document.getElementById('stickyTitle').value = '';
+        document.getElementById('stickyBody').value = '';
+        document.getElementById('noteIndexIndicator').innerText = '0 / 0';
+        hideStickerUI();
+        return;
+      }
+
+      const note = allNotes[currentIndex];
+      document.getElementById('stickyTitle').value = note.title || '';
+      document.getElementById('stickyBody').value = note.content || '';
+      document.getElementById('noteIndexIndicator').innerText = `${currentIndex + 1} / ${allNotes.length}`;
+      document.getElementById('stickyDateBadge').innerText = note.createdAt || 'Echtzeit gespeichert';
+      updateCount(note.content || '');
+
+      // Render 3D Sticker if note has one
+      if (note.sticker && note.sticker.emoji) {
+        renderStickerUI(note.sticker);
+      } else {
+        hideStickerUI();
+      }
+    }
+
+    function renderStickerUI(st) {
+      const wrap = document.getElementById('sticker3dWrapper');
+      document.getElementById('sticker3dEmoji').innerText = st.emoji || '🧸';
+      document.getElementById('sticker3dTag').innerText = st.tag || 'Fokus pur';
+      wrap.style.display = 'block';
+
+      if (typeof st.x === 'number' && typeof st.y === 'number') {
+        wrap.style.left = `${st.x}px`;
+        wrap.style.top = `${st.y}px`;
+        wrap.style.right = 'auto';
+      } else {
+        wrap.style.right = '18px';
+        wrap.style.top = '14px';
+        wrap.style.left = 'auto';
+      }
+    }
+
+    function hideStickerUI() {
+      document.getElementById('sticker3dWrapper').style.display = 'none';
+    }
+
+    function updateCount(text) {
+      document.getElementById('stickyCharCount').innerText = `${(text || '').length} Zeichen`;
+    }
+
+    function handleInput() {
+      showSaving();
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        if (allNotes.length === 0) createNewSticky();
+        const note = allNotes[currentIndex];
+        note.title = document.getElementById('stickyTitle').value.trim() || 'Unbenannte Notiz';
+        note.content = document.getElementById('stickyBody').value;
+        note.updatedAt = new Date().toISOString();
+        updateCount(note.content);
+        saveNotes(true);
+      }, 250);
+    }
+
+    function showSaving() {
+      const dot = document.getElementById('stickySyncDot');
+      dot.classList.add('saving');
+      document.getElementById('stickyDateBadge').innerText = 'Speichern...';
+    }
+
+    function showSaved() {
+      const dot = document.getElementById('stickySyncDot');
+      dot.classList.remove('saving');
+      document.getElementById('stickyDateBadge').innerText = 'Echtzeit synchronisiert';
+    }
+
+    function createNewSticky() {
+      const newNote = {
+        id: 'sticky_' + Date.now(),
+        title: 'Neue Haftnotiz',
+        folder: 'Quick Notes',
+        content: '',
+        sticker: null,
+        createdAt: new Date().toLocaleDateString('ko-KR')
+      };
+      allNotes.unshift(newNote);
+      currentIndex = 0;
+      saveNotes(true);
+      renderCurrentNote();
+      document.getElementById('stickyTitle').value = '';
+      document.getElementById('stickyTitle').focus();
+    }
+
+    function deleteCurrentSticky() {
+      if (allNotes.length === 0) return;
+      if (!confirm('Möchten Sie diese Haftnotiz wirklich löschen?')) return;
+      allNotes.splice(currentIndex, 1);
+      if (currentIndex >= allNotes.length) currentIndex = Math.max(0, allNotes.length - 1);
+      saveNotes(true);
+      renderCurrentNote();
+    }
+
+    function attachSticker(emoji, tag) {
+      if (allNotes.length === 0) createNewSticky();
+      const note = allNotes[currentIndex];
+      note.sticker = {
+        emoji,
+        tag,
+        x: null, // default top right
+        y: null
+      };
+      saveNotes(true);
+      renderStickerUI(note.sticker);
+      document.getElementById('stickerPickerDrawer').classList.remove('show');
+    }
+
+    function removeCurrentSticker() {
+      if (allNotes.length === 0) return;
+      const note = allNotes[currentIndex];
+      note.sticker = null;
+      saveNotes(true);
+      hideStickerUI();
+      document.getElementById('stickerPickerDrawer').classList.remove('show');
+    }
+
+    /* ========================================================================
+       Pure GPU CSS 3D Tilt Physics (Zero External Library)
+       ======================================================================== */
+    function init3DTiltPhysics() {
+      const container = document.getElementById('stickyBodyContainer');
+      const badge = document.getElementById('sticker3dBadge');
+      const glare = document.querySelector('.sticker-glare');
+
+      container.addEventListener('mousemove', (e) => {
+        if (!badge || badge.parentElement.style.display === 'none' || isDraggingSticker) return;
+        const rect = badge.getBoundingClientRect();
+        const badgeCenterX = rect.left + rect.width / 2;
+        const badgeCenterY = rect.top + rect.height / 2;
+
+        const deltaX = (e.clientX - badgeCenterX) / 10;
+        const deltaY = (e.clientY - badgeCenterY) / 10;
+
+        const rotY = Math.max(-28, Math.min(28, deltaX));
+        const rotX = Math.max(-28, Math.min(28, -deltaY));
+
+        badge.classList.remove('floating');
+        badge.style.transform = `perspective(650px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(16px)`;
+        badge.style.boxShadow = `${-deltaX * 0.9}px ${deltaY * 0.9 + 12}px 28px rgba(0,0,0,0.24)`;
+        if (glare) glare.style.opacity = `${0.35 + Math.abs(rotX + rotY) / 50}`;
+      });
+
+      container.addEventListener('mouseleave', () => {
+        if (badge && !isDraggingSticker) {
+          badge.style.transform = 'perspective(650px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+          badge.style.boxShadow = '0 12px 28px -4px rgba(0, 0, 0, 0.22)';
+          badge.classList.add('floating');
+          if (glare) glare.style.opacity = '0.6';
+        }
+      });
+
+      // Draggable Sticker Implementation (Mouse & Touch)
+      const wrapper = document.getElementById('sticker3dWrapper');
+
+      const startDrag = (clientX, clientY) => {
+        isDraggingSticker = true;
+        dragStartX = clientX;
+        dragStartY = clientY;
+        const rect = wrapper.getBoundingClientRect();
+        const parentRect = container.getBoundingClientRect();
+        stickerInitialX = rect.left - parentRect.left;
+        stickerInitialY = rect.top - parentRect.top;
+        badge.classList.remove('floating');
+      };
+
+      const moveDrag = (clientX, clientY) => {
+        if (!isDraggingSticker) return;
+        const deltaX = clientX - dragStartX;
+        const deltaY = clientY - dragStartY;
+        const newX = Math.max(4, Math.min(container.clientWidth - 90, stickerInitialX + deltaX));
+        const newY = Math.max(4, Math.min(container.clientHeight - 80, stickerInitialY + deltaY));
+
+        wrapper.style.left = `${newX}px`;
+        wrapper.style.top = `${newY}px`;
+        wrapper.style.right = 'auto';
+
+        if (allNotes[currentIndex]) {
+          if (!allNotes[currentIndex].sticker) allNotes[currentIndex].sticker = {};
+          allNotes[currentIndex].sticker.x = newX;
+          allNotes[currentIndex].sticker.y = newY;
+        }
+      };
+
+      const endDrag = () => {
+        if (!isDraggingSticker) return;
+        isDraggingSticker = false;
+        saveNotes(true);
+        badge.classList.add('floating');
+      };
+
+      wrapper.addEventListener('mousedown', (e) => {
+        if (e.target.id === 'btnStickerPeel') return;
+        startDrag(e.clientX, e.clientY);
+      });
+      window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+      window.addEventListener('mouseup', endDrag);
+
+      // Touch events for iPhone/iPad
+      wrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          startDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (isDraggingSticker && e.touches.length === 1) {
+          moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    }
+
+    function bindEvents() {
+      document.getElementById('stickyTitle').addEventListener('input', handleInput);
+      document.getElementById('stickyBody').addEventListener('input', handleInput);
+      document.getElementById('btnNewSticky').addEventListener('click', createNewSticky);
+      document.getElementById('btnDeleteSticky').addEventListener('click', deleteCurrentSticky);
+      document.getElementById('btnStickerPeel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeCurrentSticker();
+      });
+      document.getElementById('btnDrawerRemoveSticker').addEventListener('click', removeCurrentSticker);
+
+      // Fullscreen ↔ Desk Mode Toggle
+      document.getElementById('btnToggleDeskMode').addEventListener('click', () => {
+        document.body.classList.toggle('is-fullscreen');
+        const isFull = document.body.classList.contains('is-fullscreen');
+        localStorage.setItem('memopod_sticky_fullscreen', isFull ? 'true' : 'false');
+      });
+
+      // Prev / Next flipper
+      document.getElementById('btnPrevNote').addEventListener('click', () => {
+        if (allNotes.length <= 1) return;
+        currentIndex = (currentIndex - 1 + allNotes.length) % allNotes.length;
+        renderCurrentNote();
+      });
+      document.getElementById('btnNextNote').addEventListener('click', () => {
+        if (allNotes.length <= 1) return;
+        currentIndex = (currentIndex + 1) % allNotes.length;
+        renderCurrentNote();
+      });
+
+      // Sticker Drawer Toggle
+      const stickerDrawer = document.getElementById('stickerPickerDrawer');
+      const colorDropdown = document.getElementById('colorPickerDropdown');
+
+      document.getElementById('btnStickerToggle').addEventListener('click', (e) => {
+        e.stopPropagation();
+        colorDropdown.classList.remove('show');
+        stickerDrawer.classList.toggle('show');
+      });
+
+      // Sticker Choice Click
+      document.querySelectorAll('.sticker-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const emoji = btn.dataset.emoji;
+          const tag = btn.dataset.tag;
+          attachSticker(emoji, tag);
+        });
+      });
+
+      // Color Picker Toggle
+      document.getElementById('btnColorPicker').addEventListener('click', (e) => {
+        e.stopPropagation();
+        stickerDrawer.classList.remove('show');
+        colorDropdown.classList.toggle('show');
+      });
+      document.querySelectorAll('.color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          const c = dot.dataset.col;
+          document.body.setAttribute('data-color', c);
+          localStorage.setItem(COLOR_KEY, c);
+          colorDropdown.classList.remove('show');
+        });
+      });
+
+      // Close popups on outside click
+      document.addEventListener('click', () => {
+        stickerDrawer.classList.remove('show');
+        colorDropdown.classList.remove('show');
+      });
+
+      // Keyboard shortcuts: Cmd/Ctrl + N
+      window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          createNewSticky();
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

@@ -9,17 +9,34 @@
   const SUPABASE_URL = "https://xhjauoabxybaksvbtcic.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhoamF1b2FieHliYWtzdmJ0Y2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMzg0NzQsImV4cCI6MjEwNDYxNDQ3NH0.wBK3-8IIq3JKYbMrVlLtx6rRPRmhCblm74EwL_3PxBY";
 
-  const STORAGE_KEY = 'memopod_knowledge_v2';
-  const FOLDERS_KEY = 'memopod_apple_folders_v2';
+  function getStorageKey() {
+    const p = window.location.pathname.toLowerCase();
+    const l = (document.documentElement.lang || '').toLowerCase();
+    if (p.includes('_de') || l.startsWith('de')) return 'memopod_knowledge_de_v2';
+    if (p.includes('_en') || l.startsWith('en')) return 'memopod_knowledge_en_v2';
+    return 'memopod_knowledge_v2';
+  }
+
+  function getFoldersKey() {
+    const p = window.location.pathname.toLowerCase();
+    const l = (document.documentElement.lang || '').toLowerCase();
+    if (p.includes('_de') || l.startsWith('de')) return 'memopod_apple_folders_de_v2';
+    if (p.includes('_en') || l.startsWith('en')) return 'memopod_apple_folders_en_v2';
+    return 'memopod_apple_folders_v2';
+  }
+
   const SYNC_META_KEY = 'MEMOPOD_LAST_SYNC';
 
   let client = null;
   let currentUser = null;
   let syncDebounceTimer = null;
+  let _initialized = false;
 
   const MemoPodCloud = {
     // 1. 초기화
     async init(options = {}) {
+      if (_initialized) return;
+      _initialized = true;
       if (window.supabase) {
         client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       } else {
@@ -130,7 +147,7 @@
 
         if (cloudData && Array.isArray(cloudData.notes)) {
           // 로컬 메모와 클라우드 메모 병합 (최신 타임스탬프 우선)
-          const localRaw = localStorage.getItem(STORAGE_KEY);
+          const localRaw = localStorage.getItem(getStorageKey());
           const localNotes = localRaw ? JSON.parse(localRaw) : [];
 
           const mergedMap = new Map();
@@ -153,11 +170,11 @@
           });
 
           const finalNotes = Array.from(mergedMap.values());
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(finalNotes));
+          localStorage.setItem(getStorageKey(), JSON.stringify(finalNotes));
 
           // 폴더 병합
           if (cloudData.folders && Array.isArray(cloudData.folders)) {
-            const localFoldersRaw = localStorage.getItem(FOLDERS_KEY);
+            const localFoldersRaw = localStorage.getItem(getFoldersKey());
             const localFolders = localFoldersRaw ? JSON.parse(localFoldersRaw) : [];
             const folderMap = new Map();
             localFolders.forEach(f => {
@@ -170,7 +187,7 @@
                 folderMap.set(name, f);
               }
             });
-            localStorage.setItem(FOLDERS_KEY, JSON.stringify(Array.from(folderMap.values())));
+            localStorage.setItem(getFoldersKey(), JSON.stringify(Array.from(folderMap.values())));
           }
 
           if (updatedCount > 0) {
@@ -188,8 +205,8 @@
     async syncUp() {
       if (!currentUser || !client) return;
       try {
-        const localNotesRaw = localStorage.getItem(STORAGE_KEY);
-        const localFoldersRaw = localStorage.getItem(FOLDERS_KEY);
+        const localNotesRaw = localStorage.getItem(getStorageKey());
+        const localFoldersRaw = localStorage.getItem(getFoldersKey());
         const notes = localNotesRaw ? JSON.parse(localNotesRaw) : [];
         const folders = localFoldersRaw ? JSON.parse(localFoldersRaw) : [];
 
@@ -242,8 +259,8 @@
 
     // 7. 오프라인 JSON 백업 다운로드
     exportLocalBackup() {
-      const notes = localStorage.getItem(STORAGE_KEY) || '[]';
-      const folders = localStorage.getItem(FOLDERS_KEY) || '[]';
+      const notes = localStorage.getItem(getStorageKey()) || '[]';
+      const folders = localStorage.getItem(getFoldersKey()) || '[]';
       const backupData = {
         app: 'MemoPod 2.0',
         exportedAt: new Date().toISOString(),
@@ -271,8 +288,8 @@
         try {
           const data = JSON.parse(e.target.result);
           if (Array.isArray(data.notes)) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data.notes));
-            if (data.folders) localStorage.setItem(FOLDERS_KEY, JSON.stringify(data.folders));
+            localStorage.setItem(getStorageKey(), JSON.stringify(data.notes));
+            if (data.folders) localStorage.setItem(getFoldersKey(), JSON.stringify(data.folders));
             this.showToast('✓ 백업 데이터가 성공적으로 복원되었습니다!');
             setTimeout(() => window.location.reload(), 1000);
           } else {
@@ -285,23 +302,103 @@
       reader.readAsText(file);
     },
 
+    // Helper to get current language
+    getLang() {
+      const p = window.location.pathname.toLowerCase();
+      const l = (document.documentElement.lang || '').toLowerCase();
+      if (p.includes('_de') || l.startsWith('de')) return 'de';
+      if (p.includes('_en') || l.startsWith('en')) return 'en';
+      return 'ko';
+    },
+
+    getI18n() {
+      const lang = this.getLang();
+      const dict = {
+        en: {
+          syncing: "☁️ Synced:",
+          offline: "☁️ Cloud Backup (Offline)",
+          myAccount: "My Account",
+          connected: "Connected",
+          title: "MemoPod Cloud Vault",
+          desc: "Your notes will <strong>never be lost</strong>, even across device changes or browser cache purges.<br>Sync seamlessly across iPhone, iPad, Mac, and PC in 0.1s.",
+          currentAccount: "Connected Account",
+          disconnect: "Disconnect",
+          backupNow: "⬆️ Backup to Cloud Now",
+          restoreNow: "⬇️ Pull Latest from Cloud",
+          toastBackedUp: "☁️ Saved to cloud instantly.",
+          kakao: "Continue with Kakao",
+          google: "Continue with Google",
+          perk1: "✓ 100% Free Encrypted Cloud Vault",
+          perk2: "✓ Real-time Two-way Sync for iOS, Mac & PC",
+          perk3: "✓ Instant Restore from Accidental Deletions",
+          divider: "Or Offline Manual Backup",
+          downloadJson: "💾 Export Local Backup (.json)",
+          uploadJson: "📂 Import Backup File"
+        },
+        de: {
+          syncing: "☁️ Synchronisiert:",
+          offline: "☁️ Cloud-Backup (Getrennt)",
+          myAccount: "Mein Konto",
+          connected: "Verbunden",
+          title: "MemoPod Cloud-Tresor",
+          desc: "Ihre Notizen gehen <strong>niemals verloren</strong>, selbst bei Gerätewechseln oder Cache-Löschungen.<br>Echtzeit-Synchronisierung über iPhone, iPad, Mac und PC in 0,1s.",
+          currentAccount: "Verbundenes Konto",
+          disconnect: "Trennen",
+          backupNow: "⬆️ Jetzt in Cloud sichern",
+          restoreNow: "⬇️ Neueste Notizen laden",
+          toastBackedUp: "☁️ Sofort in der Cloud gesichert.",
+          kakao: "Mit Kakao anmelden",
+          google: "Mit Google verbinden",
+          perk1: "✓ 100% Kostenloser verschlüsselter Cloud-Tresor",
+          perk2: "✓ Echtzeit-Zweiwege-Synchronisierung für iOS, Mac & PC",
+          perk3: "✓ Sofortige Wiederherstellung bei Datenverlust",
+          divider: "Oder manuelle Offline-Sicherung",
+          downloadJson: "💾 Lokales Backup exportieren (.json)",
+          uploadJson: "📂 Backup-Datei importieren"
+        },
+        ko: {
+          syncing: "☁️ 동기화 중:",
+          offline: "☁️ 클라우드 백업 (비연결)",
+          myAccount: "내 계정",
+          connected: "연결됨",
+          title: "MemoPod 클라우드 평생 안전 금고",
+          desc: "캐시 삭제, 기기 변경에도 소중한 메모가 <strong>절대 날아가지 않습니다.</strong><br>아이폰, 아이패드, 맥북 어디서든 0.1초 만에 실시간으로 이어 쓰세요.",
+          currentAccount: "현재 연결된 계정",
+          disconnect: "연결 해제",
+          backupNow: "⬆️ 지금 클라우드에 백업하기",
+          restoreNow: "⬇️ 클라우드에서 최신 메모 불러오기",
+          toastBackedUp: "☁️ 클라우드에 즉시 저장되었습니다.",
+          kakao: "카카오로 1초 시작하기",
+          google: "구글 계정으로 연결하기",
+          perk1: "✓ 100% 무료 암호화 클라우드 보관",
+          perk2: "✓ 아이폰/아이패드/맥북 양방향 실시간 동기화",
+          perk3: "✓ 불의의 캐시 삭제에도 1초 만에 완전 복원",
+          divider: "또는 오프라인 수동 백업",
+          downloadJson: "💾 로컬 파일로 백업 다운로드 (.json)",
+          uploadJson: "📂 백업 파일 불러오기"
+        }
+      };
+      return dict[lang] || dict.en;
+    },
+
     // UI 업데이트
     updateSyncUI() {
       const badge = document.getElementById('memopodCloudBadge');
       if (!badge) return;
+      const t = this.getI18n();
 
       if (currentUser) {
-        const email = currentUser.email || currentUser.user_metadata?.name || '내 계정';
+        const email = currentUser.email || currentUser.user_metadata?.name || t.myAccount;
         badge.className = 'cloud-sync-btn connected';
         badge.innerHTML = `
           <span class="cloud-dot green"></span>
-          <span class="cloud-text">☁️ 동기화 중: <strong>${escapeHtml(email)}</strong></span>
+          <span class="cloud-text">${t.syncing} <strong>${escapeHtml(email)}</strong></span>
         `;
       } else {
         badge.className = 'cloud-sync-btn disconnected';
         badge.innerHTML = `
           <span class="cloud-dot yellow"></span>
-          <span class="cloud-text">☁️ 클라우드 백업 (비연결)</span>
+          <span class="cloud-text">${t.offline}</span>
         `;
       }
     },
@@ -311,12 +408,13 @@
       const existing = document.getElementById('memopodCloudModal');
       if (existing) existing.remove();
 
+      const t = this.getI18n();
       const modal = document.createElement('div');
       modal.id = 'memopodCloudModal';
       modal.className = 'memopod-cloud-overlay';
 
       const isConnected = Boolean(currentUser);
-      const userEmail = isConnected ? (currentUser.email || currentUser.user_metadata?.name || '연결됨') : '';
+      const userEmail = isConnected ? (currentUser.email || currentUser.user_metadata?.name || t.connected) : '';
 
       modal.innerHTML = `
         <div class="memopod-cloud-modal-card">
@@ -324,58 +422,55 @@
           
           <div class="modal-hero">
             <span class="modal-icon">☁️</span>
-            <h3 class="modal-title">MemoPod 클라우드 평생 안전 금고</h3>
-            <p class="modal-desc">
-              캐시 삭제, 기기 변경에도 소중한 메모가 <strong>절대 날아가지 않습니다.</strong><br>
-              아이폰, 아이패드, 맥북 어디서든 0.1초 만에 실시간으로 이어 쓰세요.
-            </p>
+            <h3 class="modal-title">${t.title}</h3>
+            <p class="modal-desc">${t.desc}</p>
           </div>
 
           ${isConnected ? `
             <div class="user-status-box">
               <span class="user-status-dot"></span>
               <div class="user-status-info">
-                <span class="user-status-label">현재 연결된 계정</span>
+                <span class="user-status-label">${t.currentAccount}</span>
                 <span class="user-status-email">${escapeHtml(userEmail)}</span>
               </div>
-              <button type="button" class="btn-disconnect" onclick="window.MemoPodCloud.signOut()">연결 해제</button>
+              <button type="button" class="btn-disconnect" onclick="window.MemoPodCloud.signOut()">${t.disconnect}</button>
             </div>
             <div class="manual-sync-actions">
-              <button type="button" class="btn-cloud-action primary" onclick="window.MemoPodCloud.syncUp(); window.MemoPodCloud.showToast('☁️ 클라우드에 즉시 저장되었습니다.');">
-                ⬆️ 지금 클라우드에 백업하기
+              <button type="button" class="btn-cloud-action primary" onclick="window.MemoPodCloud.syncUp(); window.MemoPodCloud.showToast('${t.toastBackedUp}');">
+                ${t.backupNow}
               </button>
               <button type="button" class="btn-cloud-action secondary" onclick="window.MemoPodCloud.syncDown()">
-                ⬇️ 클라우드에서 최신 메모 불러오기
+                ${t.restoreNow}
               </button>
             </div>
           ` : `
             <div class="social-login-grid">
               <button type="button" class="btn-login kakao" onclick="window.MemoPodCloud.signInWithKakao()">
                 <span class="social-icon">💬</span>
-                <span>카카오로 1초 시작하기</span>
+                <span>${t.kakao}</span>
               </button>
               <button type="button" class="btn-login google" onclick="window.MemoPodCloud.signInWithGoogle()">
                 <span class="social-icon">G</span>
-                <span>구글 계정으로 연결하기</span>
+                <span>${t.google}</span>
               </button>
             </div>
             <div class="login-perk-list">
-              <div class="perk-item">✓ 100% 무료 암호화 클라우드 보관</div>
-              <div class="perk-item">✓ 아이폰/아이패드/맥북 양방향 실시간 동기화</div>
-              <div class="perk-item">✓ 불의의 캐시 삭제에도 1초 만에 완전 복원</div>
+              <div class="perk-item">${t.perk1}</div>
+              <div class="perk-item">${t.perk2}</div>
+              <div class="perk-item">${t.perk3}</div>
             </div>
           `}
 
           <div class="offline-backup-divider">
-            <span>또는 오프라인 수동 백업</span>
+            <span>${t.divider}</span>
           </div>
 
           <div class="offline-backup-actions">
             <button type="button" class="btn-file-backup" onclick="window.MemoPodCloud.exportLocalBackup()">
-              💾 로컬 파일로 백업 다운로드 (.json)
+              ${t.downloadJson}
             </button>
             <label class="btn-file-backup file-label">
-              📂 백업 파일 불러오기
+              ${t.uploadJson}
               <input type="file" accept=".json" style="display:none;" onchange="window.MemoPodCloud.importLocalBackup(this.files[0])">
             </label>
           </div>

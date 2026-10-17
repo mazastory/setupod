@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMOPOD 2.0 - Official User Manual &amp; Documentation</title>
+  <meta name="description" content="Official User Manual for MemoPod 2.0: 0.2MB ultra-lightweight desktop app, 3D sticky notes widget, and AI Knowledge Web Hub.">
+
+  <!-- Pretendard & JetBrains Mono Fonts -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --bg-card: rgba(18, 22, 34, 0.75);
+      --bg-card-hover: rgba(26, 32, 50, 0.85);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.4);
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --accent-cyan: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-dim: #64748b;
+      --font-base: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-base);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 65%, rgba(56, 189, 248, 0.08) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    /* GNB Header */
+    .guide-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 13, 20, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon {
+      font-size: 22px;
+      filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+    }
+
+    .brand-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #818cf8;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav-ghost {
+      color: var(--text-sub);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-nav-ghost:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-nav-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    .btn-nav-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.5);
+    }
+
+    /* Container */
+    .guide-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Hero */
+    .guide-hero {
+      text-align: center;
+      padding: 30px 10px 50px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .guide-title {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .guide-subtitle {
+      font-size: 16px;
+      color: var(--text-sub);
+      max-width: 680px;
+      margin: 0 auto 30px;
+      word-break: keep-all;
+    }
+
+    /* Quick Jump Anchor Nav */
+    .quick-jump-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 50px;
+    }
+
+    .jump-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .jump-chip:hover {
+      color: #fff;
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Guide Section Cards */
+    .guide-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 36px 32px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease;
+    }
+
+    .guide-section:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #818cf8;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-base);
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+    }
+
+    /* Screenshot Frame */
+    .screenshot-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      background: #000;
+      margin: 24px 0 28px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .screenshot-frame:hover {
+      transform: scale(1.005);
+      box-shadow: 0 16px 48px rgba(99, 102, 241, 0.2);
+    }
+
+    .screenshot-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Grid for Features / Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .step-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .step-card-desc {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* Download Box */
+    .dl-platform-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .dl-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .dl-card:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .dl-icon {
+      font-size: 26px;
+    }
+
+    .dl-info-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .dl-info-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* Callout Note */
+    .callout-box {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #fde68a;
+    }
+
+    .callout-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .guide-footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .guide-header { padding: 12px 16px; }
+      .guide-title { font-size: 26px; }
+      .guide-section { padding: 24px 18px; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="guide-header">
+    <a href="./landing_en.html" class="brand-wrap">
+      <span class="brand-icon">🧠</span>
+      <span class="brand-title">MEMOPOD</span>
+      <span class="brand-tag">Docs</span>
+    </a>
+    <nav class="header-nav">
+      <a href="./quick_en.html" class="btn-nav btn-nav-primary">
+        <span>📝 3-Pane Notes</span>
+      </a>
+      <a href="./sticky_en.html" class="btn-nav btn-nav-ghost">
+        <span>🧸 3D Sticky</span>
+      </a>
+      <a href="./index.html" class="btn-nav btn-nav-ghost">
+        <span>📊 Dashboard</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Main Container -->
+  <main class="guide-container">
+
+    <!-- Hero Section -->
+    <section class="guide-hero">
+      <div class="hero-badge">✨ 2-Tier Knowledge OS Official Manual</div>
+      <h1 class="guide-title">
+        Write at the speed of thought.<br>
+        Zero bloat. Pure 0.2MB.
+      </h1>
+      <p class="guide-subtitle">
+        Comprehensive guide for MemoPod 2.0: The ultra-lightweight (0.2MB) 2-tier productivity system with 3D tactile sticky notes and local-first AI knowledge intelligence.
+      </p>
+
+      <!-- Quick Jump Menu -->
+      <nav class="quick-jump-bar" aria-label="Quick Jump Menu">
+        <a href="#section-download" class="jump-chip">🚀 1. Download &amp; Setup</a>
+        <a href="#section-quick" class="jump-chip">📝 2. 3-Pane Notes</a>
+        <a href="#section-sticky" class="jump-chip">🧸 3. 3D Sticky Widget</a>
+        <a href="#section-dashboard" class="jump-chip">📊 4. AI Dashboard</a>
+        <a href="#section-sync" class="jump-chip">☁️ 5. Cloud Sync</a>
+      </nav>
+    </section>
+
+    <!-- Section 1: Download & Install -->
+    <section class="guide-section" id="section-download">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-num">1</span>
+          <h2 class="section-title">Quick Start &amp; Setup Guide</h2>
+        </div>
+        <span class="section-badge">Ultra-Light 0.2MB</span>
+      </div>
+      <p style="color: var(--text-sub); font-size: 14px;">
+        Built on native browser primitives instead of bulky Electron runtimes. Launches in 0.1s with zero RAM footprint.
+      </p>
+
+      <!-- Screenshot -->
+      <div class="screenshot-frame">
+        <img src="./docs/images/guide_en_1_landing.png" alt="MemoPod Official Landing Page & Download Hub" class="screenshot-img" loading="lazy">
+      </div>
+
+      <!-- Download Platform Cards -->
+      <div class="dl-platform-row">
+        <a href="./dist/MemoPod_2.0_Installer.dmg" download class="dl-card">
+          <span class="dl-icon">🍏</span>
+          <div>
+            <div class="dl-info-title">Download for Mac</div>
+            <div class="dl-info-sub">DMG Installer (0.26MB)</div>
+          </div>
+        </a>
+        <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="dl-card">
+          <span class="dl-icon">🪟</span>
+          <div>
+            <div class="dl-info-title">Download for Windows</div>
+            <div class="dl-info-sub">Portable Zip (0.07MB)</div>
+          </div>
+        </a>
+        <a href="./quick_en.html" class="dl-card">
+          <span class="dl-icon">⚡</span>
+          <div>
+            <div class="dl-info-title">Launch Web Instant</div>
+            <div class="dl-info-sub">Zero-install browser app</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="callout-box">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>Mac First-Run Tip:</strong> If macOS Gatekeeper shows an unverified developer prompt, simply <strong>Right-click (or Control + Click) and select [Open]</strong> once. Afterward, it launches instantly on double-click.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Quick Notes -->
+    <section class="guide-section" id="section-quick">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-num">2</span>
+          <h2 class="section-title">3-Pane Quick Notes (Apple Notes Pro)</h2>
+        </div>
+        <span class="section-badge" style="color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.1);">3-Pane Layout</span>
+      </div>
+      <p style="color: var(--text-sub); font-size: 14px;">
+        Minimalist native Apple Notes aesthetics combined with an intelligent task-extraction engine.
+      </p>
+
+      <!-- Screenshot -->
+      <div class="screenshot-frame">
+        <img src="./docs/images/guide_en_2_quick.png" alt="3-Pane Quick Notes Layout with Auto Checklist Detection" class="screenshot-img" loading="lazy">
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card-title">📁 Infinite Folder Trees</div>
+          <div class="step-card-desc">Create unlimited custom folders for Projects, Dev Specs, and Ideas with instant drag-and-drop hierarchy.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">🔍 Zero-Lag Instant Search</div>
+          <div class="step-card-desc">Query through thousands of notes in real time with instantaneous full-text fuzzy filtering.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">✅ Automatic To-Do Badges</div>
+          <div class="step-card-desc">Adding <code>- [ ]</code> checkboxes automatically tags your note list with pending action count badges.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: 3D Sticky Note -->
+    <section class="guide-section" id="section-sticky">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-num">3</span>
+          <h2 class="section-title">Tactile 3D Sticky Note Widget</h2>
+        </div>
+        <span class="section-badge" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1);">Tactile Skeuomorphic 3D</span>
+      </div>
+      <p style="color: var(--text-sub); font-size: 14px;">
+        A lightweight desktop widget mode designed to keep urgent thoughts and to-dos in focus like physical desk notes.
+      </p>
+
+      <!-- Screenshot -->
+      <div class="screenshot-frame" style="max-width: 800px; margin-left: auto; margin-right: auto;">
+        <img src="./docs/images/guide_en_3_sticky.png" alt="3D Sticky Notes Widget with Realistic Tilt Effect" class="screenshot-img" loading="lazy">
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card-title">🩹 Translucent Scotch Tape Texture</div>
+          <div class="step-card-desc">Photorealistic matte paper texture, soft multi-layer drop shadows, and subtle tape realism.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">🧸 Interactive 3D Gyro Tilt Badges</div>
+          <div class="step-card-desc">Attach 3D badges like Deep Work, Crushed It, or Rockets that tilt responsively as your mouse hovers.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">⛶ 1-Click Widget / Fullscreen Toggle</div>
+          <div class="step-card-desc">Switch between a compact 380x500 desk sticky and full-screen distraction-free mode in 0.1 seconds.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: AI Web Dashboard -->
+    <section class="guide-section" id="section-dashboard">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-num">4</span>
+          <h2 class="section-title">AI Executive Dashboard &amp; Action Briefing</h2>
+        </div>
+        <span class="section-badge" style="color: #818cf8; border-color: rgba(129, 140, 248, 0.3); background: rgba(129, 140, 248, 0.1);">Apple-Grade Clean</span>
+      </div>
+      <p style="color: var(--text-sub); font-size: 14px;">
+        Consolidates notes from everywhere and synthesizes them into actionable priorities and completion rates.
+      </p>
+
+      <!-- Screenshot -->
+      <div class="screenshot-frame">
+        <img src="./docs/images/guide_en_4_dashboard.png" alt="Apple Pro-Grade AI Knowledge Hub Dashboard" class="screenshot-img" loading="lazy">
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-card-title">🤖 Daily Executive Action Briefing</div>
+          <div class="step-card-desc">Synthesizes pending tasks across your entire vault into "Top 3 Critical Priorities" for the day.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">⚡ Spotlight Quick Capture Bar</div>
+          <div class="step-card-desc">Type fleeting ideas in a single Raycast-inspired input bar and hit Enter to categorize and extract tasks.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">🌌 60FPS 3D Knowledge Graph</div>
+          <div class="step-card-desc">Explore interconnected tags, notes, and ideas rendered in an interactive 3D constellation view.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Cross-Device Cloud Sync -->
+    <section class="guide-section" id="section-sync">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-num">5</span>
+          <h2 class="section-title">Cross-Device Cloud Synchronization</h2>
+        </div>
+        <span class="section-badge">Supabase Dual-Sync</span>
+      </div>
+      <p style="color: var(--text-sub); font-size: 14px;">
+        Seamlessly synchronize your knowledge vault across Mac, Windows, iPhone, and iPad in real time.
+      </p>
+
+      <div class="steps-grid" style="margin-top: 24px;">
+        <div class="step-card">
+          <div class="step-card-title">☁️ 1-Click Seamless Auth</div>
+          <div class="step-card-desc">Sign in with Google OAuth in 1 second to bind your local vault to high-speed cloud sync.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">🔒 Dual-Layer Redundant Backup</div>
+          <div class="step-card-desc">Offline-first local storage paired with cloud database replication ensures zero data loss.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-title">📱 Add to Mobile Home Screen (PWA)</div>
+          <div class="step-card-desc">Tap <strong>[Share] ➔ [Add to Home Screen]</strong> on Safari/Chrome for a native app experience on iOS and Android.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+        <!-- Footer -->
+    <footer class="guide-footer">
+      <div class="footer-links">
+        <a href="./quick_en.html">3-Pane Notes</a> ·
+        <a href="./sticky_en.html">3D Sticky</a> ·
+        <a href="./index.html">Web Hub</a> ·
+        <a href="https://setupod.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> ·
+        <a href="https://setupod.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+      </div>
+      <div style="font-size: 11.5px; color: rgba(255, 255, 255, 0.4); line-height: 1.6; margin-bottom: 10px;">
+        Company: toomus | CEO: Minho Kim | Business Registration No.: 604-30-53081<br>
+        Email: official@setupod.com | Tel: +82-10-8019-0700
+      </div>
+      <p style="font-size: 11.5px; color: rgba(255, 255, 255, 0.3);">© 2026 toomus (SETUPOD). All rights reserved.</p>
+    </footer>
+
+  </main>
+
+</body>
+</html>

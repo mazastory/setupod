@@ -356,6 +356,13 @@ const MemoApp = {
       });
     });
 
+    document.getElementById('rawDumpText')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.handleBrainDump();
+      }
+    });
+
     // Voice AI Toggle
     document.getElementById('btnVoiceToggle').addEventListener('click', () => {
       this.toggleVoiceRecording();

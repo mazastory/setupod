@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMOPOD 2.0 - 생각은 0.2초 만에 가볍게, 정리는 AI가 알아서 싹!</title>
+  <meta name="description" content="맥 메모장 스타일 초경량 바탕화면 미니 앱(0.2MB)과 AI 지식 그래프 웹 지휘소의 완벽한 결합. 생각나는 대로 끄적이면 AI가 To-Do와 지식망을 자동 완성합니다.">
+
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --bg-surface: #0e121b;
+      --bg-card: rgba(18, 24, 38, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(255, 255, 255, 0.18);
+      --accent-indigo: #6366f1;
+      --accent-cyan: #06b6d4;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-brand: 'Montserrat', sans-serif;
+      --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .ambient-glow-1 {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(6, 182, 212, 0.12) 40%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      top: 1400px;
+      right: -100px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, rgba(234, 88, 12, 0.08) 50%, transparent 75%);
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========================================================================
+       1. Sticky Navigation Bar
+       ======================================================================== */
+    .landing-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 9, 14, 0.8);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 16px rgba(79, 70, 229, 0.4);
+    }
+
+    .brand-title {
+      font-family: var(--font-brand);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav-web {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+    .btn-nav-web:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-nav-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 10px rgba(79, 70, 229, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-nav-dl:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.55);
+    }
+
+    /* ========================================================================
+       2. Hero Section
+       ======================================================================== */
+    .hero-section {
+      padding: 80px 0 60px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
+      50% { box-shadow: 0 0 32px rgba(99, 102, 241, 0.45); border-color: rgba(99, 102, 241, 0.6); }
+    }
+
+    .hero-headline {
+      font-size: 54px;
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 10%, #38bdf8 60%, #818cf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ea580c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subhead {
+      font-size: 19px;
+      color: var(--text-muted);
+      max-width: 740px;
+      margin: 0 auto 36px auto;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.55);
+    }
+
+    .btn-hero-win {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      background: rgba(30, 41, 59, 0.8);
+      color: #e2e8f0;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+    .btn-hero-win:hover {
+      background: rgba(51, 65, 85, 0.9);
+      color: #fff;
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-hero-web {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-hero-web:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.55);
+    }
+
+    .hero-micro-text {
+      font-size: 12.5px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    /* ========================================================================
+       3. Interactive Live Showcase (2-Tier Combo)
+       ======================================================================== */
+    .showcase-section {
+      padding: 40px 0 90px 0;
+    }
+
+    .showcase-frame-container {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      padding: 24px;
+      box-shadow: 0 32px 100px rgba(0, 0, 0, 0.85);
+      position: relative;
+    }
+
+    .sync-bridge-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 999px;
+      width: fit-content;
+      margin: 0 auto 20px auto;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .duo-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .preview-card {
+      background: #0f1420;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .preview-card:hover {
+      border-color: var(--border-active);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-topbar {
+      height: 42px;
+      background: #141a29;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+    }
+
+    .topbar-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .topbar-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .topbar-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .preview-body-content {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mini-note-box {
+      background: #161a24;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .mini-note-title {
+      color: var(--accent-amber);
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .mini-checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .check-box-fake {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1.5px solid var(--accent-amber);
+      display: inline-block;
+    }
+
+    .dashboard-action-box {
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .dash-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .dash-box-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #a5b4fc;
+    }
+    .dash-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #4f46e5;
+      color: #fff;
+    }
+
+    .interactive-launch-bar {
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .btn-interactive-modal {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-interactive-modal:hover {
+      background: rgba(245, 158, 11, 0.25);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================================
+       4. Feature Pillars (왜 MEMOPOD인가?)
+       ======================================================================== */
+    .features-section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 32px 24px;
+      transition: all 0.25s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .feature-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .icon-bg-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .icon-bg-indigo { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+    .icon-bg-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ========================================================================
+       5. Comparison Table
+       ======================================================================== */
+    .compare-section {
+      padding: 60px 0 90px 0;
+    }
+
+    .compare-table-wrapper {
+      background: #0f1420;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .compare-table th, .compare-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .compare-table th {
+      background: #141a29;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .compare-table th.col-highlight,
+    .compare-table td.col-highlight {
+      background: rgba(99, 102, 241, 0.08);
+      color: #fff;
+      font-weight: 700;
+      border-left: 1px solid rgba(99, 102, 241, 0.25);
+      border-right: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    .tag-check {
+      color: #34d399;
+      font-weight: 800;
+    }
+    .tag-cross {
+      color: #64748b;
+    }
+
+    /* ========================================================================
+       6. Testimonials
+       ======================================================================== */
+    .testimonial-section {
+      padding: 60px 0 90px 0;
+      background: rgba(14, 18, 27, 0.4);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .quote-text {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .author-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .author-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .author-role {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* ========================================================================
+       7. Final Bottom CTA Banner
+       ======================================================================== */
+    .cta-banner-section {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .cta-banner-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.12) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 24px;
+      padding: 64px 32px;
+      box-shadow: 0 24px 80px rgba(79, 70, 229, 0.25);
+    }
+
+    .cta-banner-title {
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    .cta-banner-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 36px auto;
+    }
+
+    /* ========================================================================
+       8. Footer
+       ======================================================================== */
+    .landing-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 14px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    /* Modal for Quick Preview */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(14px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 1060px;
+      max-width: 95vw;
+      height: 680px;
+      max-height: 92vh;
+      border-radius: 14px;
+      background: #1c1c1e;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 35px 100px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 100px 0 60px;
+      position: relative;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .faq-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: 18px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .faq-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+    .faq-q {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .faq-q-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .faq-a {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .faq-highlight {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      font-size: 13.5px;
+      color: #fde68a;
+      line-height: 1.55;
+    }
+
+    /* Mac Download Toast */
+    .mac-download-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: rgba(24, 24, 28, 0.94);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(245, 158, 11, 0.25);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 18px 24px;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 90vw;
+      width: 540px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .mac-download-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .toast-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    .toast-body {
+      flex: 1;
+    }
+    .toast-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .toast-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .toast-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #94a3b8;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.15s ease;
+    }
+    .toast-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    /* Pain Points & Before/After Section (Product Sales Detail) */
+    .pain-section {
+      padding: 80px 0 60px;
+      position: relative;
+    }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      margin-bottom: 50px;
+    }
+    .pain-card {
+      background: rgba(26, 26, 32, 0.7);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 18px;
+      padding: 28px 24px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .pain-card:hover {
+      border-color: rgba(239, 68, 68, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(239, 68, 68, 0.1);
+    }
+    .pain-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .pain-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .pain-desc {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .before-after-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      background: rgba(18, 18, 22, 0.6);
+      border: 1px solid var(--border-glass);
+      border-radius: 22px;
+      padding: 36px;
+      backdrop-filter: blur(12px);
+    }
+    .ba-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ba-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      width: fit-content;
+    }
+    .ba-badge.before {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .ba-badge.after {
+      background: rgba(52, 211, 153, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .ba-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ba-list li {
+      font-size: 14.5px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+    .ba-list li span.mark-x {
+      color: #ef4444;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .ba-list li span.mark-v {
+      color: #34d399;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-headline { font-size: 36px; }
+      .duo-preview-grid { grid-template-columns: 1fr; }
+      .feature-grid-3 { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .before-after-wrapper { grid-template-columns: 1fr; padding: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glows -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- ========================================================================
+       1. Sticky Navigation Bar
+       ======================================================================== -->
+  <nav class="landing-nav">
+    <div class="container nav-inner">
+      <a href="./landing.html" class="brand-logo">
+        <div class="brand-icon">🧠</div>
+        <span class="brand-title">MEMOPOD</span>
+        <span class="brand-pill">2.0 PRO</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#problem" class="nav-link">왜 필요한가?</a></li>
+        <li><a href="#combo" class="nav-link">2-티어 콤보</a></li>
+        <li><a href="#features" class="nav-link">특징</a></li>
+        <li><a href="#comparison" class="nav-link">비교표</a></li>
+        <li><a href="#reviews" class="nav-link">후기</a></li>
+        <li><a href="#faq" class="nav-link">자주 묻는 질문</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <div style="display: flex; align-items: center; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 2px; gap: 2px;">
+          <a href="./landing_en.html" style="padding: 4px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; text-decoration: none; color: var(--text-muted);">EN</a>
+          <a href="./landing_de.html" style="padding: 4px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; text-decoration: none; color: var(--text-muted);">DE</a>
+          <a href="./landing.html" style="padding: 4px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; text-decoration: none; background: #6366f1; color: #fff;">KO</a>
+        </div>
+
+        <a href="./quick.html" class="btn-nav-web" title="웹 퀵노트 바로가기">
+          <span>🚀 웹 퀵노트</span>
+        </a>
+        <a href="./dist/MemoPod_2.0_Installer.dmg" download class="btn-nav-dl" title="Mac용 DMG 즉시 다운로드">
+          <span>🍏 Mac 다운로드</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       2. Hero Section
+       ======================================================================== -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-badge-pill">
+        <span>⚡ 2-Tier Productivity System</span>
+        <span>·</span>
+        <span>2026 올인원 플래너 연동</span>
+      </div>
+
+      <h1 class="hero-headline">
+        생각은 맥 메모장처럼 <span class="gradient-gold">가볍게 끄적이고,</span><br>
+        정리는 AI 지식 뇌가 <span class="gradient-text">알아서 싹!</span>
+      </h1>
+
+      <p class="hero-subhead">
+        업무 중에는 바탕화면에 <strong>초경량 미니 메모 앱(0.2MB)</strong>을 띄워두고 0.2초 만에 툭툭 적으세요.<br>
+        기록된 모든 생각은 <strong>AI 웹 지휘소</strong>에서 To-Do 자동 추출, 데일리 브리핑, 3D 지식 그래프로 실시간 자동 정리됩니다.
+      </p>
+
+      <div class="hero-cta-group">
+        <!-- Mac Download -->
+        <a href="./dist/MemoPod_2.0_Installer.dmg" download class="btn-hero-primary" title="macOS용 DMG 설치파일 (0.2MB)">
+          <span style="font-size: 18px;">🍏</span>
+          <span>Mac용 무료 다운로드 (0.2MB)</span>
+        </a>
+
+        <!-- Windows Download -->
+        <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="btn-hero-win" title="Windows 10/11용 포터블 무설치 (0.07MB)">
+          <span style="font-size: 18px;">🪟</span>
+          <span>Windows용 무설치 다운로드</span>
+        </a>
+
+        <!-- Web Direct Access -->
+        <a href="./index.html" class="btn-hero-web" title="설치 없이 웹 브라우저에서 바로 사용">
+          <span>🚀 웹에서 무설치로 바로 시작 ↗</span>
+        </a>
+      </div>
+
+      <div class="hero-micro-text">
+        <span>✓ 100% 로컬 보안 보장</span>
+        <span>✓ 회원가입 없이 즉시 사용</span>
+        <span>✓ 맥 메모 & 스티커 메모 실시간 연동</span>
+      </div>
+      <div style="font-size: 11.5px; color: #94a3b8; margin-top: 12px; background: rgba(255,255,255,0.04); display: inline-block; padding: 5px 16px; border-radius: 999px; border: 1px solid var(--border-subtle);">
+        💡 Mac 최초 실행 시: <strong>우클릭(또는 Control 키 + 클릭) ➔ [열기]</strong>를 선택하시면 1초 만에 바로 실행됩니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2.5. Pain Points & Solution (상세페이지 공감 & 솔루션)
+       ======================================================================== -->
+  <section class="pain-section" id="problem">
+    <div class="container">
+      <div class="section-badge" style="background: rgba(239, 68, 68, 0.12); color: #f87171; border-color: rgba(239, 68, 68, 0.3);">
+        WHY MEMOPOD?
+      </div>
+      <h2 class="section-title">
+        "혹시 매일 이런 <span class="gradient-gold">메모 스트레스</span>를 겪고 계신가요?"
+      </h2>
+      <p class="section-desc">
+        생각을 적는 건 쉬운데, 왜 정리는 언제나 골칫거리일까요?
+      </p>
+
+      <!-- 3 Pain Cards -->
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon">⏳</div>
+          <h3 class="pain-title">노션 로딩 3초 기다리다 아이디어가 날아간 적</h3>
+          <p class="pain-desc">
+            회의나 통화 중 번뜩인 아이디어를 적으려 앱을 켰는데, 무거운 로딩 창을 멍하니 바라보다 방금 떠오른 생각이 증발해 버립니다.
+          </p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">💬</div>
+          <h3 class="pain-title">카톡 '나에게 보내기'에 500개 쌓인 죽은 메모</h3>
+          <p class="pain-desc">
+            나중에 봐야지 하고 링크와 메모를 마구 던져두지만, 정작 필요할 땐 검색해도 어디 있는지 찾지 못해 영원히 방치됩니다.
+          </p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🤯</div>
+          <h3 class="pain-title">메모는 많은데 당장 오늘 할 일(To-Do)은 없는 혼란</h3>
+          <p class="pain-desc">
+            적어둔 건 산더미인데, 정작 오늘 아침 출근해서 무엇부터 실행해야 할지 몰라 머릿속이 계속 뒤엉켜 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- Before vs After -->
+      <div class="before-after-wrapper">
+        <div class="ba-col">
+          <div class="ba-badge before">❌ 기존의 피곤한 메모 습관</div>
+          <ul class="ba-list">
+            <li><span class="mark-x">✕</span> <span>무거운 앱 켜느라 생각의 흐름이 끊김</span></li>
+            <li><span class="mark-x">✕</span> <span>폴더 분류하느라 정리 피로도 누적</span></li>
+            <li><span class="mark-x">✕</span> <span>적어두기만 하고 실행으로 이어지지 않음</span></li>
+            <li><span class="mark-x">✕</span> <span>클라우드 서버 유출 걱정에 기밀 메모 불가</span></li>
+          </ul>
+        </div>
+        <div class="ba-col">
+          <div class="ba-badge after">✨ MEMOPOD 2-티어 스마트 혁신</div>
+          <ul class="ba-list">
+            <li><span class="mark-v">✓</span> <span><strong>0.2초 만에 단축키</strong>로 툭 적고 바로 업무 복귀</span></li>
+            <li><span class="mark-v">✓</span> <span><strong>AI가 To-Do 자동 추출</strong> & 일일 우선순위 브리핑</span></li>
+            <li><span class="mark-v">✓</span> <span><strong>3D 지식 그래프</strong>로 모든 생각이 유기적 자산화</span></li>
+            <li><span class="mark-v">✓</span> <span><strong>100% 로컬 보안</strong>으로 내 PC에만 안전하게 영구 보관</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. Interactive Showcase (2-Tier Combo)
+       ======================================================================== -->
+  <section class="showcase-section" id="combo">
+    <div class="container">
+      <div class="showcase-frame-container">
+
+        <div class="sync-bridge-pill">
+          <span class="pulse-dot"></span>
+          <span>0.2초 실시간 백그라운드 동기화 브릿지 작동 중</span>
+        </div>
+
+        <div class="duo-preview-grid">
+          <!-- 1. Left: Desktop Mini App -->
+          <div class="preview-card">
+            <div class="card-topbar">
+              <div class="topbar-dots">
+                <span class="topbar-dot dot-red"></span>
+                <span class="topbar-dot dot-yellow"></span>
+                <span class="topbar-dot dot-green"></span>
+              </div>
+              <span class="topbar-label">📝 바탕화면 초경량 미니 앱 (0.2MB)</span>
+              <span style="font-size: 11px; color: #fbbf24; font-weight: 700;">Mac 감성 3단 뷰</span>
+            </div>
+            <div class="preview-body-content">
+              <div class="mini-note-box">
+                <div class="mini-note-title">Linkmix.co.kr 제휴 & 일정</div>
+                <div class="mini-checklist-item">
+                  <span class="check-box-fake"></span>
+                  <span>1. 김명선 sunny 제휴 승인 확인</span>
+                </div>
+                <div class="mini-checklist-item">
+                  <span class="check-box-fake"></span>
+                  <span>2. 파트너사 API 키 발급 및 플래너 연동</span>
+                </div>
+                <div class="mini-checklist-item" style="opacity: 0.6;">
+                  <span style="color: #30d158; font-size: 14px;">☑</span>
+                  <span style="text-decoration: line-through;">마자 스튜디오 정기 구독 연동 완료</span>
+                </div>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                👉 단축키(Cmd+N)로 즉시 켜서 회의, 통화 중 0.2초 만에 가볍게 끄적이는 일상 메모장
+              </p>
+            </div>
+          </div>
+
+          <!-- 2. Right: AI Web Command Center -->
+          <div class="preview-card">
+            <div class="card-topbar">
+              <div class="topbar-dots">
+                <span class="topbar-dot" style="background: #6366f1;"></span>
+                <span class="topbar-dot" style="background: #06b6d4;"></span>
+              </div>
+              <span class="topbar-label">🧠 AI 웹 지휘 대시보드 (To-Do & 지식 그래프)</span>
+              <span style="font-size: 11px; color: #34d399; font-weight: 700;">자동 분류 완료</span>
+            </div>
+            <div class="preview-body-content">
+              <div class="dashboard-action-box">
+                <div class="dash-box-header">
+                  <span class="dash-box-title">⚡ AI 실행 과제 추출 (5개 발견)</span>
+                  <span class="dash-badge">실시간 연동</span>
+                </div>
+                <div style="font-size: 12.5px; color: #e2e8f0; line-height: 1.6;">
+                  • <strong>[BUSINESS]</strong> 파트너사 API 키 발급 및 2026 플래너 일정 연동 검토<br>
+                  • <strong>[TECH]</strong> 신규 결제 모듈 웹훅 테스트 및 토큰 예외 처리<br>
+                  • <strong>[ADSENSE]</strong> E-E-A-T 기반 정보성 콘텐츠 15편 구글 서치콘솔 제출
+                </div>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                👉 미니 앱에 적힌 체크리스트가 웹에서 실시간 To-Do와 60FPS 3D 지식망으로 자동 변환
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Launch Button -->
+        <div class="interactive-launch-bar">
+          <button type="button" class="btn-interactive-modal" id="btnOpenInteractiveModal">
+            <span>✨ 지금 이 화면에서 [맥 메모장 모달 앱] 직접 띄워보기 (라이브 체험)</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. Feature Pillars (핵심 가치)
+       ======================================================================== -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">WHY MEMOPOD?</span>
+        <h2 class="section-title">기록의 자유와 정돈의 미학, 둘 다 잡았습니다</h2>
+      </div>
+
+      <div class="feature-grid-3">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap icon-bg-amber">⚡</div>
+          <h3 class="feature-title">0.2초 무지연 캡처</h3>
+          <p class="feature-desc">
+            노션이나 옵시디언을 켤 때 발생하는 3~5초의 지연과 템플릿 스트레스를 없앴습니다. 맥북/PC 구석에서 단축키 하나로 즉시 타이핑하세요.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap icon-bg-indigo">🤖</div>
+          <h3 class="feature-title">AI 스마트 To-Do 자동 정제</h3>
+          <p class="feature-desc">
+            막 적은 메모 속에서도 체크리스트(`- [ ]`)와 실행 과제를 AI가 자동으로 분석하여 데일리 액션 플랜과 2026 플래너 캘린더에 연동합니다.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap icon-bg-emerald">🕸️</div>
+          <h3 class="feature-title">60FPS 3D 지식 그래프</h3>
+          <p class="feature-desc">
+            폴더 속에 잠자던 생각들이 점과 선으로 유기적으로 연결됩니다. 태그와 키워드 허브를 통해 내 뇌 속 지식의 지도를 입체적으로 탐험하세요.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. Comparison Table
+       ======================================================================== -->
+  <section class="compare-section" id="comparison">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">COMPETITIVE EDGE</span>
+        <h2 class="section-title">다른 생산성 도구들과 비교해보세요</h2>
+      </div>
+
+      <div class="compare-table-wrapper">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>기능 및 스펙</th>
+              <th class="col-highlight">MEMOPOD 2.0</th>
+              <th>애플 기본 메모</th>
+              <th>노션 (Notion)</th>
+              <th>옵시디언 (Obsidian)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>설치 용량</strong></td>
+              <td class="col-highlight"><strong>0.2 MB (초경량)</strong></td>
+              <td>내장 기본 앱</td>
+              <td>180 MB (무거움)</td>
+              <td>120 MB</td>
+            </tr>
+            <tr>
+              <td><strong>실행 속도</strong></td>
+              <td class="col-highlight"><strong>0.2초 (즉시)</strong></td>
+              <td>0.5초</td>
+              <td>3~5초 로딩</td>
+              <td>2초</td>
+            </tr>
+            <tr>
+              <td><strong>To-Do 자동 추출</strong></td>
+              <td class="col-highlight"><span class="tag-check">✓ 실시간 자동 분석</span></td>
+              <td><span class="tag-cross">✕ 수동 체크만 가능</span></td>
+              <td><span class="tag-cross">✕ 템플릿 세팅 필요</span></td>
+              <td><span class="tag-cross">✕ 플러그인 설정 복잡</span></td>
+            </tr>
+            <tr>
+              <td><strong>지식 그래프 (60FPS)</strong></td>
+              <td class="col-highlight"><span class="tag-check">✓ 원클릭 3D 내장</span></td>
+              <td><span class="tag-cross">✕ 지원 안 함</span></td>
+              <td><span class="tag-cross">✕ 지원 안 함</span></td>
+              <td><span class="tag-check">✓ 지원</span></td>
+            </tr>
+            <tr>
+              <td><strong>바탕화면 ↔ 웹 실시간 동기화</strong></td>
+              <td class="col-highlight"><span class="tag-check">✓ 2-티어 브릿지 완비</span></td>
+              <td><span class="tag-cross">✕ iCloud 종속</span></td>
+              <td><span class="tag-cross">✕ 웹뷰 래퍼</span></td>
+              <td><span class="tag-cross">✕ 유료 싱크(월 $8)</span></td>
+            </tr>
+            <tr>
+              <td><strong>2026 플래너 자동 일정 연동</strong></td>
+              <td class="col-highlight"><span class="tag-check">✓ 원스톱 연동</span></td>
+              <td><span class="tag-cross">✕ 캘린더 별도 수동등록</span></td>
+              <td><span class="tag-cross">✕ 수동 데이터베이스화</span></td>
+              <td><span class="tag-cross">✕ 수동</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       6. Testimonials
+       ======================================================================== -->
+  <section class="testimonial-section" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">USER REVIEWS</span>
+        <h2 class="section-title">일 잘하는 사람들의 비밀 무기</h2>
+      </div>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="quote-text">
+            "노션은 너무 무거워서 메모 적으려다 생각을 까먹곤 했는데, 메모팟 미니는 그냥 맥북 켜자마자 바로 툭 치면 되니까 하루에 메모를 3배는 더 많이 남기게 됩니다."
+          </p>
+          <div class="author-row">
+            <div class="author-avatar">👨‍💻</div>
+            <div>
+              <div class="author-name">김태훈</div>
+              <div class="author-role">1인 SaaS 개발자</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="quote-text">
+            "미니 창에서 체크리스트만 적어두면 웹 대시보드에 To-Do로 싹 꽂히고 지식 그래프로 연결되는 거 보고 진짜 소름 돋았습니다. 이게 진짜 미래의 메모장이에요."
+          </p>
+          <div class="author-row">
+            <div class="author-avatar">👩‍💼</div>
+            <div>
+              <div class="author-name">박서연</div>
+              <div class="author-role">스타트업 마케팅 리드</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="quote-text">
+            "바탕화면에 조그맣게 띄워두고 일하는데 전혀 방해되지 않고 가볍습니다. 2026 플래너랑 연결되어 있어서 하루 마무리가 10분 만에 끝납니다."
+          </p>
+          <div class="author-row">
+            <div class="author-avatar">🚀</div>
+            <div>
+              <div class="author-name">이민혁</div>
+              <div class="author-role">디지털 노마드 사업가</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       7. FAQ & First-Run Guide
+       ======================================================================== -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-badge">SUPPORT & GUIDE</div>
+      <h2 class="section-title">
+        자주 묻는 질문 & <span class="gradient-gold">초보자 설치 가이드</span>
+      </h2>
+      <p class="section-desc">
+        MEMOPOD 2.0 설치부터 사용까지 궁금한 점을 빠르게 확인하세요.
+      </p>
+
+      <div class="faq-grid">
+        <!-- FAQ 1: Mac First Run -->
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="faq-q-icon">🍏</span>
+            <span>Mac에서 "확인되지 않은 개발자" 또는 보안 경고가 뜨나요?</span>
+          </div>
+          <div class="faq-a">
+            macOS의 기본 보안 정책(Gatekeeper)으로 인한 정상적인 알림입니다. 인터넷에서 다운로드한 최초 1회에 한해 다음과 같이 실행해 주세요:
+            <div class="faq-highlight">
+              👉 <strong>해결법 (1초 소요):</strong><br>
+              다운로드한 <code>MemoPod.app</code> 아이콘을 마우스 <strong>우클릭(또는 Control + 클릭) ➔ [열기]</strong>를 누르시면 팝업에 [열기] 버튼이 생성되어 즉시 정상 실행됩니다.<br>
+              <span style="color: #94a3b8; font-size: 12px; display: block; margin-top: 4px;">* 최초 1회만 열어주시면 이후부터는 더블클릭만으로 언제든 바로 실행됩니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2: Direct Web Mode -->
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="faq-q-icon">🚀</span>
+            <span>다운로드나 프로그램 설치 없이 웹에서 바로 쓸 수는 없나요?</span>
+          </div>
+          <div class="faq-a">
+            네! 별도의 프로그램 설치가 부담스러우시다면 상단의 <strong>[웹에서 무설치로 바로 시작]</strong> 버튼을 클릭하세요.
+            <div class="faq-highlight">
+              👉 <strong>브라우저 앱(PWA) 설치 팁:</strong><br>
+              크롬이나 엣지, 사파리 주소창 우측의 <strong>'앱 설치'</strong> 아이콘을 클릭하시면 보안 경고 0%로 맥 Dock이나 윈도우 작업표시줄에 1초 만에 네이티브 앱처럼 등록됩니다!
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3: Privacy & Security -->
+        <div class="faq-card">
+          <div class="faq-q">
+            <span class="faq-q-icon">🔒</span>
+            <span>작성한 메모와 사업 아이디어가 외부로 유출되나요?</span>
+          </div>
+          <div class="faq-a">
+            절대 유출되지 않습니다. MemoPod는 <strong>100% 로컬 프라이빗 아키텍처</strong>로 동작합니다.
+            <div class="faq-highlight">
+              👉 <strong>안심 보증:</strong><br>
+              모든 메모, 폴더, To-Do 데이터는 사용자 기기의 로컬 스토리지에만 보관되며, 그 어떤 외부 클라우드나 중앙 서버로도 전송되지 않습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       8. Final Bottom CTA Banner
+       ======================================================================== -->
+  <section class="cta-banner-section">
+    <div class="container">
+      <div class="cta-banner-box">
+        <h2 class="cta-banner-title">
+          지금 바로 당신의 생각을 <span class="gradient-gold">영구 자산</span>으로 만드세요
+        </h2>
+        <p class="cta-banner-sub">
+          0.2MB 초경량 미니 메모장으로 오늘부터 아이디어가 사라지지 않게 붙잡아두세요.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="./dist/MemoPod_2.0_Installer.dmg" download class="btn-hero-primary">
+            <span>🍏 Mac용 무료 다운로드 (0.2MB)</span>
+          </a>
+          <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="btn-hero-win">
+            <span>🪟 Windows용 다운로드</span>
+          </a>
+          <a href="./index.html" class="btn-hero-web">
+            <span>🚀 웹 대시보드 바로 체험 ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       9. Footer
+       ======================================================================== -->
+    <footer class="landing-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="./index.html">웹 대시보드</a>
+        <a href="./quick.html">3단 퀵노트</a>
+        <a href="./sticky.html">3D 스티커</a>
+        <a href="https://setupod.com/privacy" target="_blank" rel="noopener">개인정보처리방침</a>
+        <a href="https://setupod.com/terms" target="_blank" rel="noopener">서비스 이용약관</a>
+        <a href="mailto:official@setupod.com">고객센터 문의</a>
+      </div>
+      <div class="company-legal-info" style="font-size: 12px; color: rgba(255, 255, 255, 0.45); line-height: 1.7; margin-bottom: 12px;">
+        상호명: 투머스 (toomus) | 대표: 김민호 | 사업자등록번호: 604-30-53081<br>
+        대표 전화: 010-8019-0700 | 팩스: 0504-371-7055 | 이메일: official@setupod.com<br>
+        소재지: 경기도 광주시 새말길317번길 19, B동 103호(신현동, 스카이힐)
+      </div>
+      <p style="font-size: 12px; color: rgba(255, 255, 255, 0.3);">© 2026 투머스 (toomus / SETUPOD Ecosystem). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       10. Interactive Modal for Live Preview
+       ======================================================================== -->
+  <div id="previewModalApp" class="modal-overlay">
+    <div class="modal-card">
+      <iframe src="./quick.html" style="width: 100%; height: 100%; border: none; background: transparent;"></iframe>
+    </div>
+  </div>
+
+  <!-- Mac Download Helper Toast -->
+  <div id="macDownloadToast" class="mac-download-toast">
+    <div class="toast-icon">🍏</div>
+    <div class="toast-body">
+      <div class="toast-title">Mac용 다운로드가 시작되었습니다!</div>
+      <div class="toast-desc">
+        최초 1회 실행 시 더블클릭 대신 <strong>[우클릭] ➔ [열기]</strong>를 누르시면 1초 만에 바로 실행됩니다.
+      </div>
+    </div>
+    <button class="toast-close" id="btnCloseToast" aria-label="닫기">✕</button>
+  </div>
+
+  <script>
+    // Live Preview Modal Trigger
+    const previewModal = document.getElementById('previewModalApp');
+    const btnOpenModal = document.getElementById('btnOpenInteractiveModal');
+
+    btnOpenModal?.addEventListener('click', () => {
+      previewModal?.classList.add('open');
+    });
+
+    previewModal?.addEventListener('click', (e) => {
+      if (e.target === previewModal) {
+        previewModal?.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'CLOSE_APPLE_NOTES_MODAL') {
+        previewModal?.classList.remove('open');
+      }
+    });
+
+    // Mac Download Helper Toast Trigger
+    const macToast = document.getElementById('macDownloadToast');
+    const btnCloseToast = document.getElementById('btnCloseToast');
+    const macDownloadLinks = document.querySelectorAll('a[href*="MemoPod_2.0_Installer.dmg"]');
+
+    macDownloadLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        macToast?.classList.add('show');
+        setTimeout(() => {
+          macToast?.classList.remove('show');
+        }, 7000);
+      });
+    });
+
+    btnCloseToast?.addEventListener('click', () => {
+      macToast?.classList.remove('show');
+    });
+  </script>
+
+</body>
+</html>

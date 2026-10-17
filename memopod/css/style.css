@@ -186,6 +186,180 @@ body {
   color: var(--accent-cyan);
 }
 
+/* Primary Action Button (새 메모) */
+.btn-primary-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary-action:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.5);
+}
+
+/* Header Ghost Button (스티커 위젯) */
+.btn-header-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: #f1f5f9;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-header-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Streamlined Spotlight Capture Bar */
+.capture-section-minimal {
+  padding: 12px 24px 8px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.spotlight-capture-wrap {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spotlight-input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(24, 24, 32, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 6px 10px 6px 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spotlight-input-box:focus-within {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2), 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.spotlight-icon {
+  font-size: 15px;
+  color: #818cf8;
+}
+
+.spotlight-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  padding: 4px 0;
+}
+
+.spotlight-input::placeholder {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.spotlight-type-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 11px;
+  border-radius: 8px;
+  padding: 5px 8px;
+  outline: none;
+  cursor: pointer;
+}
+
+.btn-spotlight-voice {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.btn-spotlight-voice:hover {
+  color: #38bdf8;
+}
+
+.btn-spotlight-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 9px;
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  color: #c7d2fe;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-spotlight-submit:hover {
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+/* OS Status Strip */
+.os-status-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.os-strip-label {
+  font-weight: 600;
+}
+
+.os-strip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+}
+
 /* Apple Notes Sync Button */
 /* Mini Quick Memo Pop-out Button */
 .btn-mini-popup {
