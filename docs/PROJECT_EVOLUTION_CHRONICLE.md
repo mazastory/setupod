@@ -106,11 +106,28 @@
 
 ---
 
-## 📂 8. 레포지토리 및 핵심 자산 맵
+## 📌 8. 포스트잇 스티커 메모(Sticky Note) 모드 & 6색 파스텔 테마 엔진
+
+- **대표님의 인사이트**:
+  > *"와우 그럼 정말 스티커 메모처럼도 만들 수 있겠네.. 더 간단하게.."*
+- **초경량 데스크톱 포스트잇 아키텍처 (`sticky.html`)**:
+  - 복잡한 3-Pane(사이드바/목록) 구조를 완전히 걷어내고, 오직 **포스트잇 한 장(340×420)**만 화면 구석에 띄워두고 생각나는 즉시 끄적일 수 있는 초경량 스티커 뷰 신설.
+  - **주요 기능**:
+    1. **6가지 감성 컬러 테마(🎨)**: 클래식 옐로우, 파스텔 민트, 스카이 블루, 피치 핑크, 라벤더 퍼플, 다크 옵시디언.
+    2. **멀티 스티커 넘기기 (`‹ 1 / 8 ›`)**: 스티커 창 하나에서 이전/다음 메모를 책장 넘기듯 즉시 열람.
+    3. **단축키 & 새 스티커**: `Cmd/Ctrl + N`으로 새 스티커 즉시 생성.
+    4. **전 기기 자동 동기화**: `memopod_knowledge_v2` 로컬 스토리지 및 Supabase 클라우드 동기화와 100% 실시간 연동되어 맥/윈도우/아이폰 어디서든 동일하게 반영.
+  - **접근 경로**:
+    - 웹: `setupod.com/memopod/sticky`
+    - Apple Notes Pro 상단 `[📌 스티커]` 버튼으로 원클릭 팝업 창 분리.
+
+---
+
+## 📂 9. 레포지토리 및 핵심 자산 맵
 
 | 레포지토리 / 위치 | 주요 역할 | 핵심 파일 |
 | :--- | :--- | :--- |
-| **`memopod/`** | 0.2MB 인스톨러 & 메모 코어 | `build_dmg.py`, `quick.html`, `server.py`, `js/cloud-sync.js` |
+| **`memopod/`** | 0.2MB 인스톨러 & 메모 코어 | `build_dmg.py`, `quick.html`, `sticky.html`, `server.py`, `js/cloud-sync.js` |
 | **`threads-autopilot/`** | 쓰레드 자동화 봇 & 로컬 웹 관제소 | `server.js`, `cli.js`, `campaigns/memopod.js`, `web/` |
 | **`setupod/`** | 메인 서비스 & Vercel 배포 | `setupod.com/memopod`, `setupod.com/thread`, `vercel.json` |
 | **`docs/`** | 마스터 전략 & 카피북 | `REVENUE_STRATEGY.md`, `SMARTSTORE_LISTING_PACK.md`, `THREADS_VIRAL_POSTS.md`, `PROJECT_EVOLUTION_CHRONICLE.md` |
