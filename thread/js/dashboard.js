@@ -26,7 +26,7 @@ const FALLBACK_CAMPAIGN = {
 직접 써보시고 부족한 점 마구 혼내주세요! 피드백 주시면 바로 반영하겠습니다 🙌
 
 🔗 무료 다운로드 링크는 아래 첫 번째 댓글에 남겨둘게요! 👇`,
-      image: '/imgs/memopod/part1_notes.png',
+      image: '/thread//thread/imgs/memopod/part1_notes.png',
       reply: `👉 MemoPod 2.0 무료 베타 다운로드:
 https://setupod.com/memopod
 
@@ -51,7 +51,7 @@ https://setupod.com/memopod
 
 같은 고통 겪고 계신 분들 위해 무료로 배포 중입니다!
 다운로드 링크는 첫 댓글에 남겨둘게요 👇`,
-      image: '/imgs/memopod/part2_features.png',
+      image: '/thread//thread/imgs/memopod/part2_features.png',
       reply: `💡 카톡 대신 0.1초 단축키로 띄우는 미니 메모장 (무료 배포 중):
 https://setupod.com/memopod`
     },
@@ -74,7 +74,7 @@ https://setupod.com/memopod`
 
 현재 무료 테스터 모집 중입니다.
 지식 관리에 진심이신 분들은 첫 댓글 링크에서 꼭 한번 써보세요! 👇`,
-      image: '/imgs/memopod/part3_graph.png',
+      image: '/thread//thread/imgs/memopod/part3_graph.png',
       reply: `💡 내 메모가 실시간으로 3D 성운이 되는 뷰어 체험하기:
 https://setupod.com/memopod`
     },
@@ -96,7 +96,7 @@ https://setupod.com/memopod`
 
 댓글로 편하게 말씀해주시면 다음 v2.1 업데이트에 바로 반영해 드리겠습니다!
 아직 안 써보신 분들은 첫 댓글에서 무료로 받아보실 수 있습니다 👇`,
-      image: '/imgs/memopod/part4_dashboard.png',
+      image: '/thread//thread/imgs/memopod/part4_dashboard.png',
       reply: `💡 MemoPod 2.0 현재 무료 버전 다운로드 & 로드맵:
 https://setupod.com/memopod`
     },
@@ -116,7 +116,7 @@ https://setupod.com/memopod`
 
 현재 무료 베타 기간 동안 설치하신 분들께는 향후 유료 기능 오픈 시 평생 무료/할인 혜택을 드릴 예정입니다.
 지금 다운로드받아서 먼저 자리를 선점하세요! 👇`,
-      image: '/imgs/memopod/part5_hero.png',
+      image: '/thread//thread/imgs/memopod/part5_hero.png',
       reply: `💡 무료 베타 다운로드 & 얼리버드 등록:
 https://setupod.com/memopod`
     }
@@ -216,7 +216,7 @@ function selectPart(partNum) {
   uploadImageCheck.checked = Boolean(post.image);
 
   if (post.image) {
-    const imgSrc = post.image.startsWith('/imgs/') ? post.image : `imgs/memopod/${imageName}`;
+    const imgSrc = post.image.startsWith('/imgs/') ? post.image : `/thread/imgs/memopod/${imageName}`;
     previewImgElement.src = imgSrc;
     previewImageBox.style.display = 'flex';
   } else {
