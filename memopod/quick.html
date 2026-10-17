@@ -2,7 +2,11 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MemoPod">
+  <meta name="theme-color" content="#1a1a1c">
   <title>Apple Notes Pro (MemoPod 2.0)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -838,6 +842,103 @@
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.25);
     }
+
+    /* ========================================================================
+       Mobile & Tablet Responsive Architecture (iPhone, iPad, Android)
+       ======================================================================== */
+    .btn-mobile-back {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--apple-yellow);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-right: 8px;
+      transition: all 0.15s ease;
+    }
+    .btn-mobile-back:hover {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 0 !important;
+        align-items: stretch !important;
+      }
+      .macos-window-shell {
+        max-width: 100vw !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        border: none !important;
+      }
+      .traffic-lights {
+        display: none !important;
+      }
+      .titlebar-left {
+        width: auto !important;
+        gap: 8px !important;
+      }
+      .btn-popout-window, .btn-jump-web {
+        display: none !important;
+      }
+      .search-box-pill {
+        width: 105px !important;
+      }
+      .pane-folders {
+        position: absolute;
+        left: 0;
+        top: 48px;
+        bottom: 0;
+        z-index: 99;
+        width: 250px;
+        background: #1a1a1c;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.7);
+        display: none;
+      }
+      .pane-folders.mobile-open {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .btn-mobile-back {
+        display: inline-flex;
+      }
+      .pane-note-list {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+      .pane-editor {
+        display: none;
+      }
+      .mobile-view-editor .pane-note-list {
+        display: none !important;
+      }
+      .mobile-view-editor .pane-editor {
+        display: flex !important;
+        width: 100% !important;
+      }
+      .mobile-view-editor #btnToggleFolderPane {
+        display: none !important;
+      }
+      .mobile-view-editor .btn-mobile-back {
+        display: inline-flex !important;
+      }
+      .editor-top-meta {
+        padding: 8px 12px;
+      }
+      .editor-content-scroll {
+        padding: 16px 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1010,6 +1111,10 @@
          ---------------------------------------------------------------------- -->
     <main class="pane-editor">
       <div class="editor-top-meta">
+        <button type="button" class="btn-mobile-back" id="btnMobileBackToList" onclick="backToMobileList()" title="메모 목록으로 돌아가기">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          <span>메모</span>
+        </button>
         <span class="editor-note-date" id="editorTimestamp">2026년 9월 2일 오전 1:46</span>
         <div class="editor-ai-sync-pill">
           <span class="pulse-dot-green"></span>
@@ -1404,11 +1509,15 @@
       renderFolders();
       document.getElementById('currentFolderTitle').innerText = name;
       renderNoteCards();
+      const p = document.getElementById('paneFolders');
+      if (p) p.classList.remove('mobile-open');
     }
 
     function filterByTag(tag) {
       document.getElementById('currentFolderTitle').innerText = `#${tag}`;
       renderNoteCards('', tag);
+      const p = document.getElementById('paneFolders');
+      if (p) p.classList.remove('mobile-open');
     }
 
     // 4. Render Note Cards
@@ -1475,6 +1584,14 @@
 
       renderEditor(note, true);
       renderNoteCards();
+
+      const shell = document.querySelector('.macos-window-shell');
+      if (shell) shell.classList.add('mobile-view-editor');
+    }
+
+    function backToMobileList() {
+      const shell = document.querySelector('.macos-window-shell');
+      if (shell) shell.classList.remove('mobile-view-editor');
     }
 
     function renderEditor(note, updateSelection) {
@@ -1555,6 +1672,9 @@
       saveStorageData(true);
       selectFolder(currentFolder);
       selectNote(newId);
+
+      const shell = document.querySelector('.macos-window-shell');
+      if (shell) shell.classList.add('mobile-view-editor');
 
       const titleInput = document.getElementById('appleTitleInput');
       titleInput.value = '';
@@ -1712,7 +1832,11 @@
       // Folder pane toggle
       document.getElementById('btnToggleFolderPane').addEventListener('click', () => {
         const p = document.getElementById('paneFolders');
-        p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+        if (window.innerWidth <= 768) {
+          p.classList.toggle('mobile-open');
+        } else {
+          p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+        }
       });
 
       // Traffic yellow (clear body)
