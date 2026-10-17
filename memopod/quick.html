@@ -738,6 +738,94 @@
       gap: 6px;
     }
 
+    /* Ecosystem Free Tools Box */
+    .ecosystem-tools-box {
+      margin-top: 18px;
+      padding: 10px 8px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+    }
+    .ecosystem-header {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.04em;
+      margin-bottom: 7px;
+      padding: 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .ecosystem-links {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .eco-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .eco-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      transform: translateX(2px);
+    }
+    .eco-icon { font-size: 12px; }
+    .eco-arrow {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+    .eco-partner-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 7px;
+      padding: 6px 10px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.03));
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 9999px;
+      text-decoration: none;
+      color: #fbbf24;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .eco-partner-pill:hover {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.16), rgba(245, 158, 11, 0.08));
+      border-color: rgba(245, 158, 11, 0.6);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+      transform: translateY(-1px);
+    }
+    .eco-partner-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .eco-partner-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde68a;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
     /* Scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
@@ -795,6 +883,12 @@
 
     <!-- Right Search & Web Command Center Jump -->
     <div class="titlebar-right">
+      <!-- Cloud Sync & Backup Badge -->
+      <button type="button" class="cloud-sync-btn disconnected" id="memopodCloudBadge" title="클라우드 평생 안전 백업 & 기기 연동">
+        <span class="cloud-dot yellow"></span>
+        <span class="cloud-text">☁️ 클라우드 백업</span>
+      </button>
+
       <div class="search-box-pill">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="quickSearchInput" placeholder="검색...">
@@ -843,6 +937,45 @@
         </div>
         <div class="folder-list" id="tagListContainer">
           <!-- Tag pills rendered here -->
+        </div>
+
+        <!-- Ecosystem Free Tools (1인 창업 비즈니스 무료 도구함) -->
+        <div class="ecosystem-tools-box">
+          <div class="ecosystem-header">
+            <span>🛠️ 1인 창업 무료 도구 &amp; 혜택</span>
+          </div>
+          <div class="ecosystem-links">
+            <a href="https://toomcard.com" target="_blank" rel="noopener" class="eco-item" title="종이 명함의 시대를 끝내는 살아 움직이는 3D 스마트 명함">
+              <span class="eco-icon">💳</span>
+              <span class="eco-text">3D 스마트 명함 (toomcard)</span>
+              <span class="eco-arrow">↗</span>
+            </a>
+            <a href="https://setupod.com/planner" target="_blank" rel="noopener" class="eco-item" title="2026 프로젝트 &amp; 라이프 플래너 (캘린더 / 타임블록 / D-day)">
+              <span class="eco-icon">📅</span>
+              <span class="eco-text">2026 플래너 &amp; 캘린더</span>
+              <span class="eco-arrow">↗</span>
+            </a>
+            <a href="https://setupod.com/margin" target="_blank" rel="noopener" class="eco-item" title="쿠팡 로켓그로스 vs 스마트스토어 역마진 진단기">
+              <span class="eco-icon">🧮</span>
+              <span class="eco-text">셀러 역마진 진단기</span>
+              <span class="eco-arrow">↗</span>
+            </a>
+            <a href="https://setupod.com/runway" target="_blank" rel="noopener" class="eco-item" title="스타트업 런웨이 &amp; 번레이트 생존기간 계산기">
+              <span class="eco-icon">⏳</span>
+              <span class="eco-text">런웨이 &amp; 번레이트 계산기</span>
+              <span class="eco-arrow">↗</span>
+            </a>
+            <a href="https://setupod.com/nomad" target="_blank" rel="noopener" class="eco-item" title="디지털 노마드 글로벌 도시 생활비 &amp; 환전 시뮬레이터">
+              <span class="eco-icon">✈️</span>
+              <span class="eco-text">노마드 생활비 &amp; 환율</span>
+              <span class="eco-arrow">↗</span>
+            </a>
+            <!-- Toomcard 스타일 깨알 쿠팡파트너스 추천 링크 -->
+            <a href="https://link.coupang.com/a/hU0XFYJxfg" target="_blank" rel="noopener" class="eco-partner-pill" title="쿠팡 파트너스 추천 비즈니스/작업 장비 및 도서">
+              <span class="eco-partner-left">🛍️ 추천 아이템 / 파트너 링크</span>
+              <span class="eco-partner-badge">AD ↗</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -1000,6 +1133,9 @@
     function saveFolders() {
       try {
         localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(appleFolders));
+        if (window.MemoPodCloud && typeof window.MemoPodCloud.scheduleAutoSync === 'function') {
+          window.MemoPodCloud.scheduleAutoSync();
+        }
       } catch (e) {}
       renderFolders();
     }
@@ -1025,6 +1161,23 @@
       } else {
         createNewNote();
       }
+
+      // Supabase Cloud Sync Integration (아이폰/아이패드/맥북/PC 실시간 동기화)
+      if (window.MemoPodCloud && typeof window.MemoPodCloud.init === 'function') {
+        window.MemoPodCloud.init();
+      }
+
+      window.addEventListener('memopod:cloud_synced', () => {
+        loadStorageData();
+        appleFolders = loadFolders();
+        renderFolders();
+        renderTags();
+        renderNoteCards();
+        if (activeNoteId) {
+          const n = allNotes.find(item => item.id === activeNoteId);
+          if (n) renderEditor(n, false);
+        }
+      });
 
       // Cross-window Live Storage Sync
       window.addEventListener('storage', (e) => {
@@ -1068,6 +1221,9 @@
           syncChannel.postMessage({ type: 'NOTE_UPDATED', noteId: activeNoteId });
         }
         showSaved();
+        if (window.MemoPodCloud && typeof window.MemoPodCloud.scheduleAutoSync === 'function') {
+          window.MemoPodCloud.scheduleAutoSync();
+        }
       } catch (e) {
         console.error('Storage save error:', e);
       }
@@ -1592,5 +1748,7 @@
 
     window.addEventListener('DOMContentLoaded', init);
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/cloud-sync.js"></script>
 </body>
 </html>
