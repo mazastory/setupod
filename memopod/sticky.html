@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MemoPod Sticky">
-  <title>MemoPod 스티커 메모 (Sticky Note)</title>
+  <title>MemoPod 3D 스티커 메모 (Sticky Note)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -166,7 +166,7 @@
       display: none;
       position: absolute;
       top: 42px;
-      right: 12px;
+      right: 48px;
       background: var(--sticky-header);
       border: 1px solid var(--sticky-border);
       border-radius: 8px;
@@ -196,14 +196,195 @@
     .dot-purple { background: #e9d5ff; }
     .dot-dark { background: #1c1c1f; border-color: rgba(255, 255, 255, 0.2); }
 
+    /* 3D Sticker Drawer */
+    .sticker-picker-drawer {
+      display: none;
+      position: absolute;
+      top: 42px;
+      right: 10px;
+      background: var(--sticky-header);
+      border: 1px solid var(--sticky-border);
+      border-radius: 12px;
+      padding: 10px;
+      width: 230px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      z-index: 110;
+      animation: popIn 0.15s ease-out;
+    }
+    .sticker-picker-drawer.show {
+      display: block;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92) translateY(-4px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .sticker-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--sticky-border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sticky-sub);
+    }
+    .btn-remove-sticker {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-remove-sticker:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    .sticker-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .sticker-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 2px;
+      background: var(--sticky-hover);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .sticker-choice:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--sticky-accent);
+      transform: scale(1.08);
+    }
+    .st-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .st-txt {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--sticky-sub);
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+
     /* Sticky Canvas Body */
     .sticky-body {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 12px 14px;
+      padding: 14px 16px;
       overflow-y: auto;
       user-select: text;
+      position: relative;
+    }
+
+    /* ========================================================================
+       3D Interactive Sticker Badge (Zero Library, Pure GPU CSS 3D)
+       ======================================================================== */
+    .sticker-3d-wrapper {
+      position: absolute;
+      right: 18px;
+      top: 14px;
+      z-index: 50;
+      cursor: grab;
+      user-select: none;
+      perspective: 700px;
+    }
+    .sticker-3d-wrapper:active {
+      cursor: grabbing;
+    }
+    .sticker-3d-badge {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.12) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.65);
+      border-radius: 16px;
+      box-shadow: 
+        0 12px 28px -4px rgba(0, 0, 0, 0.22),
+        0 4px 10px -2px rgba(0, 0, 0, 0.12),
+        inset 0 1px 3px rgba(255, 255, 255, 0.85);
+      transform-style: preserve-3d;
+      transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease;
+      will-change: transform;
+    }
+    .sticker-3d-emoji {
+      font-size: 34px;
+      line-height: 1;
+      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.25));
+      transform: translateZ(18px);
+      pointer-events: none;
+    }
+    .sticker-3d-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      padding: 2px 7px;
+      margin-top: 5px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      border-radius: 99px;
+      transform: translateZ(14px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    /* Specular Glare Shine */
+    .sticker-glare {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 65%);
+      pointer-events: none;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+    /* Idle 3D floating animation */
+    @keyframes stickerIdleFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-3.5px) rotate(1.2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .sticker-3d-badge.floating {
+      animation: stickerIdleFloat 3.8s ease-in-out infinite;
+    }
+    /* Close / Peel button */
+    .btn-sticker-peel {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ef4444;
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 9px;
+      font-weight: 900;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      transform: translateZ(26px);
+    }
+    .sticker-3d-wrapper:hover .btn-sticker-peel {
+      display: flex;
     }
 
     .sticky-title {
@@ -217,6 +398,8 @@
       margin-bottom: 8px;
       padding: 0;
       letter-spacing: -0.01em;
+      position: relative;
+      z-index: 10;
     }
     .sticky-title::placeholder {
       color: var(--sticky-sub);
@@ -235,6 +418,8 @@
       line-height: 1.6;
       color: var(--sticky-text);
       letter-spacing: -0.01em;
+      position: relative;
+      z-index: 10;
     }
     .sticky-textarea::placeholder {
       color: var(--sticky-sub);
@@ -291,6 +476,7 @@
     </div>
 
     <div class="header-right">
+      <button type="button" class="btn-sticky-icon" id="btnStickerToggle" title="✨ 3D 입체 스티커 붙이기">🧸</button>
       <button type="button" class="btn-sticky-icon" id="btnColorPicker" title="스티커 색상 변경">🎨</button>
       <a href="./quick.html" class="btn-sticky-icon" title="Apple Notes 3-Pane 모드로 전환" style="text-decoration: none;">🗂️</a>
       <button type="button" class="btn-sticky-icon" id="btnDeleteSticky" title="현재 스티커 삭제" style="color: #ef4444;">
@@ -298,6 +484,48 @@
       </button>
     </div>
   </header>
+
+  <!-- 3D Sticker Drawer -->
+  <div class="sticker-picker-drawer" id="stickerPickerDrawer">
+    <div class="sticker-drawer-header">
+      <span>✨ 3D 스티커 붙이기</span>
+      <button type="button" class="btn-remove-sticker" id="btnDrawerRemoveSticker">스티커 떼기 ✕</button>
+    </div>
+    <div class="sticker-grid">
+      <button type="button" class="sticker-choice" data-emoji="🧸" data-tag="멘붕 방지">
+        <span class="st-icon">🧸</span>
+        <span class="st-txt">곰돌이</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="🔥" data-tag="오늘 끝냄">
+        <span class="st-icon">🔥</span>
+        <span class="st-txt">오늘 마감</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="💸" data-tag="돈복 터짐">
+        <span class="st-icon">💸</span>
+        <span class="st-txt">대박 예감</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="☕" data-tag="여유 한잔">
+        <span class="st-icon">☕</span>
+        <span class="st-txt">커피 휴식</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="👑" data-tag="VIP 과제">
+        <span class="st-icon">👑</span>
+        <span class="st-txt">핵심 VIP</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="🎯" data-tag="목표 달성">
+        <span class="st-icon">🎯</span>
+        <span class="st-txt">타겟 적중</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="🚀" data-tag="로켓 떡상">
+        <span class="st-icon">🚀</span>
+        <span class="st-txt">초고속 성장</span>
+      </button>
+      <button type="button" class="sticker-choice" data-emoji="💯" data-tag="100점 만점">
+        <span class="st-icon">💯</span>
+        <span class="st-txt">완벽 완료</span>
+      </button>
+    </div>
+  </div>
 
   <!-- Color Dropdown -->
   <div class="color-picker-dropdown" id="colorPickerDropdown">
@@ -310,7 +538,17 @@
   </div>
 
   <!-- Note Body -->
-  <main class="sticky-body">
+  <main class="sticky-body" id="stickyBodyContainer">
+    <!-- 3D Interactive Sticker Layer -->
+    <div class="sticker-3d-wrapper" id="sticker3dWrapper" style="display: none;">
+      <div class="sticker-3d-badge floating" id="sticker3dBadge">
+        <div class="sticker-glare"></div>
+        <span class="sticker-3d-emoji" id="sticker3dEmoji">🧸</span>
+        <span class="sticker-3d-tag" id="sticker3dTag">멘붕 방지</span>
+        <button type="button" class="btn-sticker-peel" id="btnStickerPeel" title="스티커 떼기">✕</button>
+      </div>
+    </div>
+
     <input type="text" id="stickyTitle" class="sticky-title" placeholder="제목 없는 포스트잇" spellcheck="false">
     <textarea id="stickyBody" class="sticky-textarea" placeholder="생각나는 것을 가볍게 적어두세요...
 - [ ] 체크리스트 자동 감지
@@ -338,6 +576,13 @@
     let currentIndex = 0;
     let autoSaveTimer = null;
 
+    // Drag state
+    let isDraggingSticker = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let stickerInitialX = 0;
+    let stickerInitialY = 0;
+
     function init() {
       // 1. Color theme load
       const savedColor = localStorage.getItem(COLOR_KEY) || 'yellow';
@@ -346,8 +591,9 @@
       // 2. Storage load
       loadNotes();
 
-      // 3. Bind UI events
+      // 3. Bind UI events & 3D tilt engine
       bindEvents();
+      init3DTiltPhysics();
 
       // 4. Supabase cloud sync init
       if (window.MemoPodCloud && typeof window.MemoPodCloud.init === 'function') {
@@ -379,6 +625,7 @@
             title: '오늘의 급한 일 (스티커 메모)',
             folder: 'Quick Notes',
             content: '- [ ] 2026 플래너 일정 확인하기\n- [ ] toomcard 명함 링크 확인\n- [ ] 메모팟 클라우드 연동 테스트',
+            sticker: { emoji: '🧸', tag: '멘붕 방지', x: 220, y: 14 },
             createdAt: new Date().toLocaleDateString('ko-KR')
           }];
           saveNotes(false);
@@ -405,6 +652,7 @@
         document.getElementById('stickyTitle').value = '';
         document.getElementById('stickyBody').value = '';
         document.getElementById('noteIndexIndicator').innerText = '0 / 0';
+        hideStickerUI();
         return;
       }
 
@@ -414,6 +662,34 @@
       document.getElementById('noteIndexIndicator').innerText = `${currentIndex + 1} / ${allNotes.length}`;
       document.getElementById('stickyDateBadge').innerText = note.createdAt || '실시간 저장됨';
       updateCount(note.content || '');
+
+      // Render 3D Sticker if note has one
+      if (note.sticker && note.sticker.emoji) {
+        renderStickerUI(note.sticker);
+      } else {
+        hideStickerUI();
+      }
+    }
+
+    function renderStickerUI(st) {
+      const wrap = document.getElementById('sticker3dWrapper');
+      document.getElementById('sticker3dEmoji').innerText = st.emoji || '🧸';
+      document.getElementById('sticker3dTag').innerText = st.tag || '멘붕 방지';
+      wrap.style.display = 'block';
+
+      if (typeof st.x === 'number' && typeof st.y === 'number') {
+        wrap.style.left = `${st.x}px`;
+        wrap.style.top = `${st.y}px`;
+        wrap.style.right = 'auto';
+      } else {
+        wrap.style.right = '18px';
+        wrap.style.top = '14px';
+        wrap.style.left = 'auto';
+      }
+    }
+
+    function hideStickerUI() {
+      document.getElementById('sticker3dWrapper').style.display = 'none';
     }
 
     function updateCount(text) {
@@ -452,6 +728,7 @@
         title: '새 스티커 메모',
         folder: 'Quick Notes',
         content: '',
+        sticker: null,
         createdAt: new Date().toLocaleDateString('ko-KR')
       };
       allNotes.unshift(newNote);
@@ -471,11 +748,134 @@
       renderCurrentNote();
     }
 
+    function attachSticker(emoji, tag) {
+      if (allNotes.length === 0) createNewSticky();
+      const note = allNotes[currentIndex];
+      note.sticker = {
+        emoji,
+        tag,
+        x: null, // default top right
+        y: null
+      };
+      saveNotes(true);
+      renderStickerUI(note.sticker);
+      document.getElementById('stickerPickerDrawer').classList.remove('show');
+    }
+
+    function removeCurrentSticker() {
+      if (allNotes.length === 0) return;
+      const note = allNotes[currentIndex];
+      note.sticker = null;
+      saveNotes(true);
+      hideStickerUI();
+      document.getElementById('stickerPickerDrawer').classList.remove('show');
+    }
+
+    /* ========================================================================
+       Pure GPU CSS 3D Tilt Physics (Zero External Library)
+       ======================================================================== */
+    function init3DTiltPhysics() {
+      const container = document.getElementById('stickyBodyContainer');
+      const badge = document.getElementById('sticker3dBadge');
+      const glare = document.querySelector('.sticker-glare');
+
+      container.addEventListener('mousemove', (e) => {
+        if (!badge || badge.parentElement.style.display === 'none' || isDraggingSticker) return;
+        const rect = badge.getBoundingClientRect();
+        const badgeCenterX = rect.left + rect.width / 2;
+        const badgeCenterY = rect.top + rect.height / 2;
+
+        const deltaX = (e.clientX - badgeCenterX) / 12;
+        const deltaY = (e.clientY - badgeCenterY) / 12;
+
+        const rotY = Math.max(-26, Math.min(26, deltaX));
+        const rotX = Math.max(-26, Math.min(26, -deltaY));
+
+        badge.classList.remove('floating');
+        badge.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(14px)`;
+        badge.style.boxShadow = `${-deltaX * 0.9}px ${deltaY * 0.9 + 12}px 28px rgba(0,0,0,0.22)`;
+        if (glare) glare.style.opacity = `${0.35 + Math.abs(rotX + rotY) / 55}`;
+      });
+
+      container.addEventListener('mouseleave', () => {
+        if (badge && !isDraggingSticker) {
+          badge.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+          badge.style.boxShadow = '0 12px 28px -4px rgba(0, 0, 0, 0.22)';
+          badge.classList.add('floating');
+          if (glare) glare.style.opacity = '0.6';
+        }
+      });
+
+      // Draggable Sticker Implementation (Mouse & Touch)
+      const wrapper = document.getElementById('sticker3dWrapper');
+
+      const startDrag = (clientX, clientY) => {
+        isDraggingSticker = true;
+        dragStartX = clientX;
+        dragStartY = clientY;
+        const rect = wrapper.getBoundingClientRect();
+        const parentRect = container.getBoundingClientRect();
+        stickerInitialX = rect.left - parentRect.left;
+        stickerInitialY = rect.top - parentRect.top;
+        badge.classList.remove('floating');
+      };
+
+      const moveDrag = (clientX, clientY) => {
+        if (!isDraggingSticker) return;
+        const deltaX = clientX - dragStartX;
+        const deltaY = clientY - dragStartY;
+        const newX = Math.max(4, Math.min(container.clientWidth - 90, stickerInitialX + deltaX));
+        const newY = Math.max(4, Math.min(container.clientHeight - 80, stickerInitialY + deltaY));
+
+        wrapper.style.left = `${newX}px`;
+        wrapper.style.top = `${newY}px`;
+        wrapper.style.right = 'auto';
+
+        if (allNotes[currentIndex]) {
+          if (!allNotes[currentIndex].sticker) allNotes[currentIndex].sticker = {};
+          allNotes[currentIndex].sticker.x = newX;
+          allNotes[currentIndex].sticker.y = newY;
+        }
+      };
+
+      const endDrag = () => {
+        if (!isDraggingSticker) return;
+        isDraggingSticker = false;
+        saveNotes(true);
+        badge.classList.add('floating');
+      };
+
+      wrapper.addEventListener('mousedown', (e) => {
+        if (e.target.id === 'btnStickerPeel') return;
+        startDrag(e.clientX, e.clientY);
+      });
+      window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+      window.addEventListener('mouseup', endDrag);
+
+      // Touch events for iPhone/iPad
+      wrapper.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          startDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (isDraggingSticker && e.touches.length === 1) {
+          moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+      window.addEventListener('touchend', endDrag);
+    }
+
     function bindEvents() {
       document.getElementById('stickyTitle').addEventListener('input', handleInput);
       document.getElementById('stickyBody').addEventListener('input', handleInput);
       document.getElementById('btnNewSticky').addEventListener('click', createNewSticky);
       document.getElementById('btnDeleteSticky').addEventListener('click', deleteCurrentSticky);
+      document.getElementById('btnStickerPeel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeCurrentSticker();
+      });
+      document.getElementById('btnDrawerRemoveSticker').addEventListener('click', removeCurrentSticker);
 
       // Prev / Next flipper
       document.getElementById('btnPrevNote').addEventListener('click', () => {
@@ -489,10 +889,29 @@
         renderCurrentNote();
       });
 
-      // Color Picker
+      // Sticker Drawer Toggle
+      const stickerDrawer = document.getElementById('stickerPickerDrawer');
       const colorDropdown = document.getElementById('colorPickerDropdown');
+
+      document.getElementById('btnStickerToggle').addEventListener('click', (e) => {
+        e.stopPropagation();
+        colorDropdown.classList.remove('show');
+        stickerDrawer.classList.toggle('show');
+      });
+
+      // Sticker Choice Click
+      document.querySelectorAll('.sticker-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const emoji = btn.dataset.emoji;
+          const tag = btn.dataset.tag;
+          attachSticker(emoji, tag);
+        });
+      });
+
+      // Color Picker Toggle
       document.getElementById('btnColorPicker').addEventListener('click', (e) => {
         e.stopPropagation();
+        stickerDrawer.classList.remove('show');
         colorDropdown.classList.toggle('show');
       });
       document.querySelectorAll('.color-dot').forEach(dot => {
@@ -503,9 +922,14 @@
           colorDropdown.classList.remove('show');
         });
       });
-      document.addEventListener('click', () => colorDropdown.classList.remove('show'));
 
-      // Keyboard shortcuts
+      // Close popups on outside click
+      document.addEventListener('click', () => {
+        stickerDrawer.classList.remove('show');
+        colorDropdown.classList.remove('show');
+      });
+
+      // Keyboard shortcuts: Cmd/Ctrl + N
       window.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n') {
           e.preventDefault();
