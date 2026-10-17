@@ -119,6 +119,33 @@ https://setupod.com/memopod`
       image: '/thread//thread/imgs/memopod/part5_hero.png',
       reply: `💡 무료 베타 다운로드 & 얼리버드 등록:
 https://setupod.com/memopod`
+    },
+    {
+      part: 6,
+      title: '아이폰/아이패드 애플 메모 0초 연동 비법',
+      topic: '생산성',
+      body: `아이폰에 무거운 생산성 앱 따로 깔지 마세요 🍏📱
+
+길 걸을 때나 침대에 누워있을 때 떠오른 아이디어,
+복잡한 앱 켜다가 로딩 기다리는 사이에 까먹은 적 많으시죠?
+
+제가 쓰는 '아이디어 유실률 0%' 2-티어 세팅법을 공유합니다:
+
+1. 이동 중엔 그냥 아이폰 기본 [메모] 앱에 대충 툭 적어둡니다 (설치 0초).
+2. 애플 iCloud를 타고 사무실 맥북으로 1초 만에 자동 전송됩니다.
+3. 맥북의 'MemoPod 2.0'이 이 메모를 자동으로 읽어와서:
+   - AI가 오늘 해야 할 일(Action Plan)로 뽑아주고
+   - 서로 연관된 생각들을 3D 지식 그래프로 엮어줍니다.
+
+아이폰엔 가볍게 순정 메모장만 두고, 정리는 맥북 웹 지휘소가 알아서 해주는 2-티어 시스템.
+이것만 구축해도 생각 정리 속도가 5배는 빨라집니다.
+
+맥(macOS)과 윈도우(Windows) 무료 베타 다운로드는 첫 댓글에 남겨둘게요! 👇`,
+      image: '/thread//thread/imgs/memopod/part3_graph.png',
+      reply: `👉 MemoPod 2.0 무료 베타 다운로드 (맥/윈도우 지원):
+https://setupod.com/memopod
+
+(회원가입/광고 없이 무료로 즉시 사용 가능합니다! 🚀)`
     }
   ]
 };
@@ -216,7 +243,7 @@ function selectPart(partNum) {
   uploadImageCheck.checked = Boolean(post.image);
 
   if (post.image) {
-    const imgSrc = post.image.startsWith('/imgs/') ? post.image : `/thread/imgs/memopod/${imageName}`;
+    const imgSrc = post.image.startsWith('/imgs/') ? post.image : `/thread//thread/imgs/memopod/${imageName}`;
     previewImgElement.src = imgSrc;
     previewImageBox.style.display = 'flex';
   } else {

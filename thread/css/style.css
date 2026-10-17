@@ -260,19 +260,19 @@ body {
 }
 
 /* ==========================================================================
-   Part Tabs Selector - 5 Column Grid
+   Part Tabs Selector - Responsive Grid
    ========================================================================== */
 
 .parts-tabs-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 6px;
   margin-bottom: 14px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
   .parts-tabs-container {
-    grid-template-columns: repeat(5, minmax(95px, 1fr));
+    grid-template-columns: repeat(6, minmax(90px, 1fr));
     overflow-x: auto;
     padding-bottom: 6px;
   }
