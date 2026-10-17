@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MemoPod Sticky">
+  <title>MemoPod 스티커 메모 (Sticky Note)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    /* Theme color palettes (Windows 11 Sticky Notes + macOS Stickies) */
+    :root {
+      --sticky-bg: #2b2b2e;
+      --sticky-header: #222225;
+      --sticky-text: #f3f4f6;
+      --sticky-sub: #9ca3af;
+      --sticky-border: rgba(255, 255, 255, 0.1);
+      --sticky-accent: #f59e0b;
+      --sticky-hover: rgba(255, 255, 255, 0.08);
+    }
+
+    body[data-color="yellow"] {
+      --sticky-bg: #fffbeb;
+      --sticky-header: #fef3c7;
+      --sticky-text: #1f2937;
+      --sticky-sub: #78350f;
+      --sticky-border: #fde68a;
+      --sticky-accent: #d97706;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="green"] {
+      --sticky-bg: #f0fdf4;
+      --sticky-header: #dcfce7;
+      --sticky-text: #14532d;
+      --sticky-sub: #166534;
+      --sticky-border: #bbf7d0;
+      --sticky-accent: #16a34a;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="blue"] {
+      --sticky-bg: #f0f9ff;
+      --sticky-header: #e0f2fe;
+      --sticky-text: #0c4a6e;
+      --sticky-sub: #0369a1;
+      --sticky-border: #bae6fd;
+      --sticky-accent: #0284c7;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="pink"] {
+      --sticky-bg: #fff1f2;
+      --sticky-header: #ffe4e6;
+      --sticky-text: #881337;
+      --sticky-sub: #be123c;
+      --sticky-border: #fecdd3;
+      --sticky-accent: #e11d48;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="purple"] {
+      --sticky-bg: #faf5ff;
+      --sticky-header: #f3e8ff;
+      --sticky-text: #581c87;
+      --sticky-sub: #7e22ce;
+      --sticky-border: #e9d5ff;
+      --sticky-accent: #9333ea;
+      --sticky-hover: rgba(0, 0, 0, 0.06);
+    }
+    body[data-color="dark"] {
+      --sticky-bg: #1c1c1f;
+      --sticky-header: #141416;
+      --sticky-text: #f5f5f7;
+      --sticky-sub: #8e8e93;
+      --sticky-border: rgba(255, 255, 255, 0.12);
+      --sticky-accent: #f59e0b;
+      --sticky-hover: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: var(--sticky-bg);
+      color: var(--sticky-text);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    /* Top Sticky Header */
+    .sticky-header {
+      height: 40px;
+      background: var(--sticky-header);
+      border-bottom: 1px solid var(--sticky-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      flex-shrink: 0;
+      -webkit-app-region: drag;
+    }
+
+    .header-left, .header-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      -webkit-app-region: no-drag;
+    }
+
+    .btn-sticky-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--sticky-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-sticky-icon:hover {
+      background: var(--sticky-hover);
+    }
+    .btn-sticky-icon:active {
+      transform: scale(0.95);
+    }
+
+    .note-flipper {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sticky-sub);
+      background: var(--sticky-hover);
+      padding: 2px 6px;
+      border-radius: 6px;
+      -webkit-app-region: no-drag;
+    }
+    .btn-flip {
+      background: transparent;
+      border: none;
+      color: var(--sticky-text);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0 3px;
+    }
+
+    /* Color Palette Bar (Toggleable) */
+    .color-picker-dropdown {
+      display: none;
+      position: absolute;
+      top: 42px;
+      right: 12px;
+      background: var(--sticky-header);
+      border: 1px solid var(--sticky-border);
+      border-radius: 8px;
+      padding: 6px;
+      gap: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      z-index: 100;
+    }
+    .color-picker-dropdown.show {
+      display: flex;
+    }
+    .color-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease;
+    }
+    .color-dot:hover {
+      transform: scale(1.15);
+    }
+    .dot-yellow { background: #fef08a; }
+    .dot-green { background: #bbf7d0; }
+    .dot-blue { background: #bae6fd; }
+    .dot-pink { background: #fecdd3; }
+    .dot-purple { background: #e9d5ff; }
+    .dot-dark { background: #1c1c1f; border-color: rgba(255, 255, 255, 0.2); }
+
+    /* Sticky Canvas Body */
+    .sticky-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 14px;
+      overflow-y: auto;
+      user-select: text;
+    }
+
+    .sticky-title {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--sticky-text);
+      margin-bottom: 8px;
+      padding: 0;
+      letter-spacing: -0.01em;
+    }
+    .sticky-title::placeholder {
+      color: var(--sticky-sub);
+      opacity: 0.7;
+    }
+
+    .sticky-textarea {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--sticky-text);
+      letter-spacing: -0.01em;
+    }
+    .sticky-textarea::placeholder {
+      color: var(--sticky-sub);
+      opacity: 0.6;
+    }
+
+    /* Bottom Status Bar */
+    .sticky-footer {
+      height: 28px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--sticky-sub);
+      border-top: 1px solid var(--sticky-border);
+      flex-shrink: 0;
+    }
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sync-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+    .sync-dot.saving {
+      background: var(--sticky-accent);
+      animation: pulse 0.8s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body data-color="yellow">
+
+  <!-- Header -->
+  <header class="sticky-header">
+    <div class="header-left">
+      <button type="button" class="btn-sticky-icon" id="btnNewSticky" title="새 스티커 추가 (Cmd/Ctrl + N)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="note-flipper">
+        <button type="button" class="btn-flip" id="btnPrevNote" title="이전 메모">‹</button>
+        <span id="noteIndexIndicator">1 / 1</span>
+        <button type="button" class="btn-flip" id="btnNextNote" title="다음 메모">›</button>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button type="button" class="btn-sticky-icon" id="btnColorPicker" title="스티커 색상 변경">🎨</button>
+      <a href="./quick.html" class="btn-sticky-icon" title="Apple Notes 3-Pane 모드로 전환" style="text-decoration: none;">🗂️</a>
+      <button type="button" class="btn-sticky-icon" id="btnDeleteSticky" title="현재 스티커 삭제" style="color: #ef4444;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Color Dropdown -->
+  <div class="color-picker-dropdown" id="colorPickerDropdown">
+    <div class="color-dot dot-yellow" data-col="yellow" title="클래식 옐로우"></div>
+    <div class="color-dot dot-green" data-col="green" title="파스텔 민트"></div>
+    <div class="color-dot dot-blue" data-col="blue" title="스카이 블루"></div>
+    <div class="color-dot dot-pink" data-col="pink" title="피치 핑크"></div>
+    <div class="color-dot dot-purple" data-col="purple" title="라벤더 퍼플"></div>
+    <div class="color-dot dot-dark" data-col="dark" title="다크 옵시디언"></div>
+  </div>
+
+  <!-- Note Body -->
+  <main class="sticky-body">
+    <input type="text" id="stickyTitle" class="sticky-title" placeholder="제목 없는 포스트잇" spellcheck="false">
+    <textarea id="stickyBody" class="sticky-textarea" placeholder="생각나는 것을 가볍게 적어두세요...
+- [ ] 체크리스트 자동 감지
+- [ ] 클라우드 및 PC 자동 백업"></textarea>
+  </main>
+
+  <!-- Footer -->
+  <footer class="sticky-footer">
+    <div class="footer-left">
+      <span class="sync-dot" id="stickySyncDot"></span>
+      <span id="stickyDateBadge">실시간 저장됨</span>
+    </div>
+    <div class="footer-right">
+      <span id="stickyCharCount">0자</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/cloud-sync.js"></script>
+  <script>
+    const STORAGE_KEY = 'memopod_knowledge_v2';
+    const COLOR_KEY = 'memopod_sticky_color';
+    let allNotes = [];
+    let currentIndex = 0;
+    let autoSaveTimer = null;
+
+    function init() {
+      // 1. Color theme load
+      const savedColor = localStorage.getItem(COLOR_KEY) || 'yellow';
+      document.body.setAttribute('data-color', savedColor);
+
+      // 2. Storage load
+      loadNotes();
+
+      // 3. Bind UI events
+      bindEvents();
+
+      // 4. Supabase cloud sync init
+      if (window.MemoPodCloud && typeof window.MemoPodCloud.init === 'function') {
+        window.MemoPodCloud.init();
+      }
+
+      window.addEventListener('memopod:cloud_synced', () => {
+        loadNotes();
+        renderCurrentNote();
+      });
+
+      // Storage sync with other tabs/windows
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY) {
+          loadNotes();
+          renderCurrentNote();
+        }
+      });
+    }
+
+    function loadNotes() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          allNotes = JSON.parse(raw);
+        } else {
+          allNotes = [{
+            id: 'sticky_' + Date.now(),
+            title: '오늘의 급한 일 (스티커 메모)',
+            folder: 'Quick Notes',
+            content: '- [ ] 2026 플래너 일정 확인하기\n- [ ] toomcard 명함 링크 확인\n- [ ] 메모팟 클라우드 연동 테스트',
+            createdAt: new Date().toLocaleDateString('ko-KR')
+          }];
+          saveNotes(false);
+        }
+      } catch (e) {
+        allNotes = [];
+      }
+      if (currentIndex >= allNotes.length) currentIndex = Math.max(0, allNotes.length - 1);
+      renderCurrentNote();
+    }
+
+    function saveNotes(broadcast = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allNotes));
+        if (window.MemoPodCloud && typeof window.MemoPodCloud.scheduleAutoSync === 'function') {
+          window.MemoPodCloud.scheduleAutoSync();
+        }
+        showSaved();
+      } catch (e) {}
+    }
+
+    function renderCurrentNote() {
+      if (allNotes.length === 0) {
+        document.getElementById('stickyTitle').value = '';
+        document.getElementById('stickyBody').value = '';
+        document.getElementById('noteIndexIndicator').innerText = '0 / 0';
+        return;
+      }
+
+      const note = allNotes[currentIndex];
+      document.getElementById('stickyTitle').value = note.title || '';
+      document.getElementById('stickyBody').value = note.content || '';
+      document.getElementById('noteIndexIndicator').innerText = `${currentIndex + 1} / ${allNotes.length}`;
+      document.getElementById('stickyDateBadge').innerText = note.createdAt || '실시간 저장됨';
+      updateCount(note.content || '');
+    }
+
+    function updateCount(text) {
+      document.getElementById('stickyCharCount').innerText = `${(text || '').length}자`;
+    }
+
+    function handleInput() {
+      showSaving();
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        if (allNotes.length === 0) createNewSticky();
+        const note = allNotes[currentIndex];
+        note.title = document.getElementById('stickyTitle').value.trim() || '제목 없는 메모';
+        note.content = document.getElementById('stickyBody').value;
+        note.updatedAt = new Date().toISOString();
+        updateCount(note.content);
+        saveNotes(true);
+      }, 250);
+    }
+
+    function showSaving() {
+      const dot = document.getElementById('stickySyncDot');
+      dot.classList.add('saving');
+      document.getElementById('stickyDateBadge').innerText = '저장 중...';
+    }
+
+    function showSaved() {
+      const dot = document.getElementById('stickySyncDot');
+      dot.classList.remove('saving');
+      document.getElementById('stickyDateBadge').innerText = '실시간 동기화됨';
+    }
+
+    function createNewSticky() {
+      const newNote = {
+        id: 'sticky_' + Date.now(),
+        title: '새 스티커 메모',
+        folder: 'Quick Notes',
+        content: '',
+        createdAt: new Date().toLocaleDateString('ko-KR')
+      };
+      allNotes.unshift(newNote);
+      currentIndex = 0;
+      saveNotes(true);
+      renderCurrentNote();
+      document.getElementById('stickyTitle').value = '';
+      document.getElementById('stickyTitle').focus();
+    }
+
+    function deleteCurrentSticky() {
+      if (allNotes.length === 0) return;
+      if (!confirm('현재 스티커 메모를 삭제하시겠습니까?')) return;
+      allNotes.splice(currentIndex, 1);
+      if (currentIndex >= allNotes.length) currentIndex = Math.max(0, allNotes.length - 1);
+      saveNotes(true);
+      renderCurrentNote();
+    }
+
+    function bindEvents() {
+      document.getElementById('stickyTitle').addEventListener('input', handleInput);
+      document.getElementById('stickyBody').addEventListener('input', handleInput);
+      document.getElementById('btnNewSticky').addEventListener('click', createNewSticky);
+      document.getElementById('btnDeleteSticky').addEventListener('click', deleteCurrentSticky);
+
+      // Prev / Next flipper
+      document.getElementById('btnPrevNote').addEventListener('click', () => {
+        if (allNotes.length <= 1) return;
+        currentIndex = (currentIndex - 1 + allNotes.length) % allNotes.length;
+        renderCurrentNote();
+      });
+      document.getElementById('btnNextNote').addEventListener('click', () => {
+        if (allNotes.length <= 1) return;
+        currentIndex = (currentIndex + 1) % allNotes.length;
+        renderCurrentNote();
+      });
+
+      // Color Picker
+      const colorDropdown = document.getElementById('colorPickerDropdown');
+      document.getElementById('btnColorPicker').addEventListener('click', (e) => {
+        e.stopPropagation();
+        colorDropdown.classList.toggle('show');
+      });
+      document.querySelectorAll('.color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          const c = dot.dataset.col;
+          document.body.setAttribute('data-color', c);
+          localStorage.setItem(COLOR_KEY, c);
+          colorDropdown.classList.remove('show');
+        });
+      });
+      document.addEventListener('click', () => colorDropdown.classList.remove('show'));
+
+      // Keyboard shortcuts
+      window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          createNewSticky();
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
