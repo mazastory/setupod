@@ -605,12 +605,28 @@
       "destination": "/semolake/$1"
     },
     {
+      "source": "/thread",
+      "destination": "/thread/index.html"
+    },
+    {
+      "source": "/thread/(.*)",
+      "destination": "/thread/"
+    },
+    {
+      "source": "/threads",
+      "destination": "/thread/index.html"
+    },
+    {
+      "source": "/threads/(.*)",
+      "destination": "/thread/"
+    },
+    {
       "source": "/memopod",
-      "destination": "/core/memopod.html"
+      "destination": "/memopod/index.html"
     },
     {
       "source": "/memopod/(.*)",
-      "destination": "/core/memopod.html/$1"
+      "destination": "/memopod/$1"
     },
     {
       "source": "/card.html",
@@ -814,11 +830,11 @@
     },
     {
       "source": "/memopod.html",
-      "destination": "/core/memopod.html"
+      "destination": "/memopod/index.html"
     },
     {
       "source": "/memopod.html/(.*)",
-      "destination": "/core/memopod.html/$1"
+      "destination": "/memopod/$1"
     },
     {
       "source": "/proposal",

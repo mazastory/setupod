@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threads Autopilot - Web Command Center</title>
+  <meta name="description" content="MemoPod 2.0 및 신규 프로덕트를 위한 Threads 원클릭 바이럴 마케팅 웹 관제 대시보드">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-badge">
+          <span class="logo-icon">🚀</span>
+          <div class="logo-text">
+            <h1 class="app-title">Threads Autopilot</h1>
+            <span class="app-subtitle">Marketing Command Center</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="campaign-pill">
+          <span class="pill-dot"></span>
+          <span class="pill-label" id="currentCampaignName">MemoPod 2.0 Viral Relay</span>
+          <a href="https://setupod.com/memopod" target="_blank" rel="noopener" class="pill-link" id="targetLandingLink">setupod.com/memopod ↗</a>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="status-indicator" id="systemStatusBadge">
+          <span class="status-dot idle" id="statusDot"></span>
+          <span class="status-text" id="statusText">대기 중 (Ready)</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="workspace-grid">
+      <!-- Left Column: Controls & Campaign Selector -->
+      <section class="control-panel glass-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="section-icon">📑</span>
+            <h2 class="panel-title">캠페인 & 프리셋 선택</h2>
+          </div>
+          <span class="badge-count" id="partBadgeCount">5 Parts</span>
+        </div>
+
+        <!-- Campaign Part Tabs -->
+        <div class="parts-tabs-container" id="partsTabsList" role="tablist">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Post Content Customizer -->
+        <div class="editor-section">
+          <div class="form-group">
+            <label for="postTopicInput" class="form-label">
+              <span>🏷️ 주제 태그 (Topic)</span>
+              <span class="label-desc">Threads 추천 알고리즘 분류용</span>
+            </label>
+            <input type="text" id="postTopicInput" class="form-input" placeholder="생산성, 개발, 옵시디언 등">
+          </div>
+
+          <div class="form-group">
+            <label for="postBodyInput" class="form-label">
+              <span>✍️ 본문 내용 (Story & Hook)</span>
+              <span class="label-badge">알고리즘 도달 극대화용</span>
+            </label>
+            <textarea id="postBodyInput" class="form-textarea" rows="5" placeholder="흥미진진한 개발/해결 스토리를 작성하세요..."></textarea>
+          </div>
+
+          <div class="form-group highlight-group">
+            <label for="postReplyInput" class="form-label">
+              <span>💬 첫 번째 댓글 (대댓글 링크 전략)</span>
+              <span class="label-pill-pro">핵심 치트키</span>
+            </label>
+            <div class="help-box">
+              <span class="help-icon">🛡️</span>
+              <p>본문에 외부 링크를 넣으면 노출이 제한되므로, <strong>첫 댓글에 무료 다운로드 링크를 자동 등록</strong>합니다.</p>
+            </div>
+            <textarea id="postReplyInput" class="form-textarea reply-textarea" rows="2" placeholder="첫 댓글에 자동 등록될 링크와 안내 카피"></textarea>
+          </div>
+
+          <!-- Attachment & Options -->
+          <div class="options-grid">
+            <label class="toggle-card">
+              <input type="checkbox" id="uploadImageCheck" checked>
+              <div class="toggle-indicator"></div>
+              <div class="toggle-info">
+                <span class="toggle-title">🖼️ 시연 이미지 첨부</span>
+                <span class="toggle-desc" id="currentImageName">part1_notes.png</span>
+              </div>
+            </label>
+
+            <label class="toggle-card">
+              <input type="checkbox" id="feedInteractCheck">
+              <div class="toggle-indicator"></div>
+              <div class="toggle-info">
+                <span class="toggle-title">🤝 피드 소통 먼저</span>
+                <span class="toggle-desc">탐색 피드 AI 댓글 & 좋아요 후 작성</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Action Launch Button -->
+          <div class="action-buttons-wrap">
+            <button type="button" class="btn-launch-primary" id="btnLaunchPost">
+              <span class="btn-glow"></span>
+              <span class="btn-icon">🚀</span>
+              <span class="btn-text">Threads에 원클릭 발행하기</span>
+            </button>
+            <button type="button" class="btn-secondary" id="btnResetDraft">
+              <span>🔄 원본 리셋</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Threads Mockup Preview -->
+      <section class="preview-panel glass-card">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="section-icon">📱</span>
+            <h2 class="panel-title">Threads 라이브 피드</h2>
+          </div>
+          <span class="live-pill">WYSIWYG Live</span>
+        </div>
+
+        <div class="preview-phone-frame">
+          <div class="phone-notch"></div>
+          
+          <div class="threads-feed-container">
+            <!-- Main Thread Card -->
+            <article class="thread-card main-card">
+              <!-- Author Header -->
+              <div class="thread-header">
+                <div class="avatar-col">
+                  <div class="avatar-ring">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="avatar-img">
+                  </div>
+                  <!-- Thread Connected Line to Reply -->
+                  <div class="thread-connector-line"></div>
+                </div>
+
+                <div class="author-info">
+                  <div class="author-meta">
+                    <span class="author-handle" id="previewAuthor">setupod_official</span>
+                    <span class="verified-badge">✓</span>
+                    <span class="post-time">방금 전</span>
+                  </div>
+                  <span class="topic-tag-chip" id="previewTopicChip">#생산성</span>
+                </div>
+
+                <div class="header-menu-dots">•••</div>
+              </div>
+
+              <!-- Main Post Content -->
+              <div class="thread-body-col">
+                <p class="thread-text" id="previewBodyText">
+                  노션이 너무 무거워서 제 입맛대로 만든 0.2MB 초경량 맥/윈도우 메모앱입니다 💻
+                </p>
+
+                <!-- Post Attached Image Preview -->
+                <div class="thread-media-box" id="previewImageBox">
+                  <img src="imgs/memopod/part1_notes.png" alt="Preview Showcase" id="previewImgElement" class="preview-media-img">
+                </div>
+
+                <!-- Feed Action Icons -->
+                <div class="thread-actions">
+                  <button class="action-btn" title="좋아요"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+                  <button class="action-btn" title="답글"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/></svg></button>
+                  <button class="action-btn" title="리포스트"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
+                  <button class="action-btn" title="공유"><svg viewBox="0 0 24 24" class="svg-icon"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+                </div>
+              </div>
+            </article>
+
+            <!-- First Comment (Reply) Card -->
+            <article class="thread-card reply-card" id="previewReplyCard">
+              <div class="thread-header">
+                <div class="avatar-col">
+                  <div class="avatar-ring mini">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="avatar-img">
+                  </div>
+                </div>
+
+                <div class="author-info">
+                  <div class="author-meta">
+                    <span class="author-handle">setupod_official</span>
+                    <span class="post-time">첫 번째 답글 (자동 등록)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="thread-body-col reply-body">
+                <div class="reply-bubble">
+                  <p class="thread-text reply-text" id="previewReplyText">
+                    👉 MemoPod 2.0 무료 베타 다운로드:<br>
+                    <a href="https://setupod.com/memopod" target="_blank" class="reply-inline-link">https://setupod.com/memopod</a>
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="preview-actions-bar">
+          <button type="button" class="btn-copy-bundle" id="btnCopyBundle" title="본문과 첫 댓글을 원클릭으로 복사합니다">
+            <span class="copy-icon">📋</span>
+            <span class="copy-label" id="copyBundleLabel">카피북 전체 클립보드 복사 (모바일/웹 즉시 붙여넣기)</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Realtime Console Terminal -->
+    <section class="console-panel glass-card">
+      <div class="console-header">
+        <div class="console-title-wrap">
+          <span class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </span>
+          <h3 class="console-title">실시간 터미널 관제 로그 (Live Automation Telemetry)</h3>
+        </div>
+        <div class="console-actions">
+          <button type="button" class="btn-console-clear" id="btnClearLogs">로그 지우기</button>
+          <span class="sse-status" id="sseConnectionStatus">● 스트림 연결됨</span>
+        </div>
+      </div>
+
+      <div class="terminal-body" id="terminalOutput">
+        <div class="log-line info">
+          <span class="log-time">[시스템 시작]</span>
+          <span class="log-tag">READY</span>
+          <span class="log-msg">Threads Autopilot Web Command Center가 정상 기동되었습니다.</span>
+        </div>
+        <div class="log-line step">
+          <span class="log-time">[대기]</span>
+          <span class="log-tag">IDLE</span>
+          <span class="log-msg">원하는 캠페인 파트를 선택하고 [Threads에 원클릭 발행하기]를 누르면 자동화가 시작됩니다.</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

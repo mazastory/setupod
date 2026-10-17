@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEMOPOD 2.0 - AI Knowledge Graph & Smart Brain Dump OS</title>
+  <meta name="description" content="AudioPen 음성 인공지능, 제미나이 2.0 플래시 스마트 정제, 옵시디언 60FPS 지식 그래프 및 2026 플래너 원스톱 연동 지식 관리 OS">
+
+  <!-- Google Fonts: Montserrat, JetBrains Mono, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. Top Navigation Bar (GNB)
+       ======================================================================== -->
+  <header class="memo-header">
+    <div class="brand-group">
+      <div class="brand-badge-icon">🧠</div>
+      <div class="brand-title-wrap">
+        <span class="brand-name">MEMOPOD</span>
+        <span class="brand-tag">2.0 PRO</span>
+      </div>
+    </div>
+
+    <!-- 4 View Mode Switcher -->
+    <nav class="view-tabs" aria-label="메인 뷰 전환">
+      <button type="button" class="tab-btn active" data-view="actions" id="tab-actions" title="AI 브리핑 및 미완료 할 일 대시보드">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span>액션 대시보드</span>
+        <span class="todo-counter-badge" id="gnbTodoCountBadge">0</span>
+      </button>
+      <button type="button" class="tab-btn" data-view="cards" id="tab-cards" title="카드 리스트 뷰">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>간단 메모 &amp; 카드</span>
+      </button>
+      <button type="button" class="tab-btn" data-view="graph" id="tab-graph" title="지식 그래프 (60FPS)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span>지식 그래프</span>
+      </button>
+      <button type="button" class="tab-btn" data-view="editor" id="tab-editor" title="마크다운 프로 에디터">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>마크다운 프로</span>
+      </button>
+    </nav>
+
+    <!-- Header Actions (Live Sync Badge, Apple Notes Sync, Search, Backup, Settings) -->
+    <div class="header-actions">
+      <!-- Live Sync Status Badge -->
+      <button type="button" id="btnLiveSyncToggle" class="btn-live-sync active" title="애플 메모 백그라운드 실시간 감지 상태 (클릭하여 일시정지/재개)">
+        <span class="live-pulse-dot"></span>
+        <span class="live-status-text">실시간 감지 ON</span>
+      </button>
+
+      <!-- Mini Quick Memo Pop-out Button (Mac Notes style) -->
+      <button type="button" id="btnOpenMiniApp" class="btn-mini-popup" title="맥 메모장 스타일 초경량 플로팅 모달 앱 띄우기 (실시간 연동)">
+        <span>📝 미니 메모장</span>
+        <span class="badge-mini-pop">모달</span>
+      </button>
+
+      <button type="button" id="btnOpenMiniPopup" class="btn-mini-popup-window" title="독립 OS 미니 팝업창으로 열기 (바탕화면 자유 이동, 듀얼 모니터)">
+        <span>🪟 미니 창 분리</span>
+      </button>
+
+      <button type="button" id="btnAppleSyncTrigger" class="btn-apple-sync" title="macOS 애플 메모 실시간 동기화 (Apple Notes)">
+        <span style="font-size: 14px;">🍏</span>
+        <span>맥 메모</span>
+      </button>
+
+      <button type="button" id="btnWinSyncTrigger" class="btn-win-sync" title="Windows 스티커 메모 & 삼성 갤럭시 노트 연동">
+        <span style="font-size: 14px;">🪟</span>
+        <span>윈도우 / 삼성</span>
+        <span class="btn-new-badge">PRO</span>
+      </button>
+
+      <button type="button" id="cmdKTrigger" class="cmd-k-trigger" title="빠른 지식 검색 (단축키: Cmd + K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>검색...</span>
+        <span class="kbd-badge">⌘K</span>
+      </button>
+
+      <button type="button" id="btnExportJson" class="btn-header-icon" title="JSON 백업 다운로드">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </button>
+
+      <label class="btn-header-icon" title="JSON 백업 파일 복원" style="margin: 0; cursor: pointer;">
+        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </label>
+
+      <button type="button" id="btnToggleWelcome" class="btn-header-icon" title="소개 및 데스크톱 앱 다운로드 배너 열기" style="display: none;">
+        <span>💡</span>
+      </button>
+
+      <a href="./landing.html" class="btn-header-icon" title="MEMOPOD 2.0 소개 및 다운로드 랜딩페이지 보기" style="text-decoration: none; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+        <span>🏠</span>
+      </a>
+
+      <button type="button" id="btnSettings" class="btn-header-icon" title="AI 및 시스템 설정">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       1-1. Welcome Showcase & Instant Desktop Download Bar (Try-First Hybrid)
+       ======================================================================== -->
+  <section id="welcomeShowcaseBar" class="welcome-showcase-bar">
+    <div class="welcome-inner">
+      <div class="welcome-left">
+        <div class="welcome-badge-row">
+          <span class="welcome-pill-pro">🚀 MEMOPOD 2.0 PRO</span>
+          <span class="welcome-pill-sub">맥 메모장 스타일 초경량 기록 ✕ 웹 액션 지휘소</span>
+        </div>
+        <h2 class="welcome-heading">
+          가볍게 끄적이는 [간단 메모장]과 알아서 정리되는 [웹 대시보드]의 만남!
+        </h2>
+        <p class="welcome-description">
+          업무 중에는 바탕화면에 <strong>맥 메모장 스타일 미니 앱</strong>을 띄워두고 0.2초 만에 가볍게 기록하세요.
+          기록된 모든 생각은 <strong>웹 대시보드</strong>에서 To-Do 추출, AI 데일리 브리핑, 지식 그래프로 실시간 자동 정리됩니다!
+        </p>
+      </div>
+
+      <div class="welcome-right">
+        <div class="welcome-btn-group">
+          <button type="button" id="btnHeroOpenMini" class="btn-download-hero btn-mini-hero" title="맥 메모장 스타일 초경량 미니 메모장 창 띄우기">
+            <span style="font-size: 16px;">📝</span>
+            <div style="text-align: left;">
+              <span class="dl-title">미니 메모장 띄우기</span>
+              <span class="dl-sub">맥 메모장 스타일 · 팝업</span>
+            </div>
+          </button>
+          <a href="./dist/MemoPod_2.0_Installer.dmg" download class="btn-download-hero btn-mac-hero" title="macOS용 DMG 설치파일 다운로드 (Apple Notes 실시간 연동)">
+            <span style="font-size: 16px;">🍏</span>
+            <div style="text-align: left;">
+              <span class="dl-title">Mac용 다운로드</span>
+              <span class="dl-sub">DMG 설치파일 · 0.2MB</span>
+            </div>
+          </a>
+          <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="btn-download-hero btn-win-hero" title="Windows 10/11용 포터블 무설치 Zip 다운로드 (스티커 메모 & 삼성노트 연동)">
+            <span style="font-size: 16px;">🪟</span>
+            <div style="text-align: left;">
+              <span class="dl-title">Windows용 다운로드</span>
+              <span class="dl-sub">포터블 무설치 · 0.05MB</span>
+            </div>
+          </a>
+        </div>
+        <div class="welcome-micro-note">
+          <span>⚡ 미니 메모장에서 쓴 글이 지금 보고 계신 웹 대시보드에 0.1초 만에 자동 정리됩니다!</span>
+        </div>
+      </div>
+
+      <!-- Close / Dismiss button -->
+      <button type="button" id="btnDismissWelcome" class="btn-dismiss-welcome" title="소개 배너 닫기">✕</button>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2. Quick Simple Memo & AudioPen Voice Scratchpad (0.2s 퀵 메모장)
+       ======================================================================== -->
+  <section class="capture-section">
+    <div class="capture-box">
+      <!-- Quick Scratchpad Header & 1-Click Try Presets -->
+      <div class="scratchpad-header-row">
+        <div class="scratchpad-title-wrap">
+          <span class="scratchpad-icon">📝</span>
+          <span class="scratchpad-title">0.2초 초간단 메모장</span>
+          <span class="scratchpad-subtitle">대충 끄적이기만 하세요. 정리는 멋진 웹이 다 합니다.</span>
+        </div>
+        <div class="quick-preset-chips" aria-label="1초 체험 빠른 예시">
+          <span class="preset-guide-label">⚡ 1초 체험:</span>
+          <button type="button" class="preset-chip" data-preset="meeting" title="미팅 후 대충 쓴 낙서 예시 불러오기">
+            <span>📋 회의 낙서</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="idea" title="번뜩인 사업 아이디어 예시 불러오기">
+            <span>💡 사업 아이디어</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="todo" title="오늘의 급한 일 체크리스트 예시 불러오기">
+            <span>✅ 오늘 급한 일</span>
+          </button>
+          <button type="button" class="preset-chip" data-preset="kakao" title="카톡 나와의 채팅방 스타일 메모 예시 불러오기">
+            <span>💬 카톡 메모</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="capture-top-row">
+        <textarea id="rawDumpText" class="capture-textarea" rows="2" placeholder="생각나는 대로 아무렇게나 툭 적어보세요... (예: '내일 김대표 견적서 보내고 월욜 미팅 장소 예약하기') AI가 0.2초 만에 핵심 요약과 To-Do로 마법처럼 정리합니다."></textarea>
+      </div>
+
+      <div class="capture-bottom-row">
+        <div class="capture-options">
+          <select id="dumpTypeSelect" class="type-select" title="카테고리 선택">
+            <option value="auto">⚡ AI 자동 분류</option>
+            <option value="idea">💡 Idea (아이디어)</option>
+            <option value="business">💼 Business (비즈니스)</option>
+            <option value="tech">⚙️ Tech (기술/개발)</option>
+            <option value="link">🔗 Link & Resource (자료)</option>
+            <option value="note">📝 Note (일반 메모)</option>
+          </select>
+
+          <button type="button" id="btnVoiceToggle" class="btn-voice" title="AudioPen 스타일 음성 마이크 받아쓰기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <span class="voice-label">AudioPen 음성 입력</span>
+          </button>
+        </div>
+
+        <button type="button" id="btnSubmitDump" class="btn-submit-dump" title="AI 마법 정리 & To-Do 자동 추출">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+          <span id="submitDumpLabel">✨ AI 마법 정리 &amp; To-Do 추출 (0.2s)</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2-1. Universal OS Bridge Quick Bar (Multi-Platform Hub)
+       ======================================================================== -->
+  <section class="os-quick-bar">
+    <div class="os-quick-title">
+      <span class="live-pulse-dot" style="background: #38bdf8;"></span>
+      <span>OS 메모 브릿지:</span>
+    </div>
+    <button type="button" class="os-quick-pill pill-mac" id="quickPillMac" title="macOS 애플 메모 실시간 동기화">
+      <span>🍏 macOS Apple Notes</span>
+      <span class="pill-cnt" id="quickMacCount">1,017</span>
+    </button>
+    <button type="button" class="os-quick-pill pill-win" id="quickPillWin" title="Windows 스티커 메모 (plum.sqlite) 연동">
+      <span>🪟 Windows 스티커 메모</span>
+      <span class="pill-badge">SQLITE</span>
+    </button>
+    <button type="button" class="os-quick-pill pill-samsung" id="quickPillSamsung" title="삼성 갤럭시 노트 (.sdocx) 연동">
+      <span>📱 삼성 노트</span>
+      <span class="pill-badge">SDOCX</span>
+    </button>
+    <button type="button" class="os-quick-pill pill-sample" id="quickPillSample" title="맥/웹 환경에서도 원클릭으로 윈도우 스티커 메모 & 삼성노트를 즉시 로드하여 지식 그래프를 체험합니다">
+      <span style="font-size: 13px;">✨</span>
+      <span>윈도우 샘플 데이터 1초 체험</span>
+      <span class="pill-badge pill-badge-hot">Click</span>
+    </button>
+    <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="os-quick-pill pill-download" title="윈도우 전용 무설치 포터블 패키지 (.zip) 다운로드">
+      <span>📦 Windows 포터블 다운로드 (.zip)</span>
+    </a>
+  </section>
+
+  <!-- ========================================================================
+       3. Dynamic Tag Filter Bar
+       ======================================================================== -->
+  <section class="tag-bar-section" id="tagPillsContainer">
+    <!-- Dynamic tag pills rendered by app.js -->
+  </section>
+
+  <!-- ========================================================================
+       4. Main Workspace (3 View Panels)
+       ======================================================================== -->
+  <main class="workspace-container">
+
+    <!-- View 1: 60FPS Knowledge Graph Canvas -->
+    <div id="view-graph" class="view-panel">
+      <canvas id="graphCanvas"></canvas>
+
+      <!-- Graph HUD Stats -->
+      <div class="graph-stats-hud">
+        <div class="graph-stat-item">노드: <strong id="statNodeCount">0</strong></div>
+        <div class="graph-stat-item">태그 클러스터: <strong id="statTagCount">0</strong></div>
+        <div class="graph-stat-item">연결 엣지: <strong id="statEdgeCount">0</strong></div>
+        <div class="graph-stat-item" style="color: #64748b; font-size: 10px;">💡 노드를 드래그하거나 클릭하여 상세 보기</div>
+      </div>
+
+      <!-- Graph HUD Zoom Controls -->
+      <div class="graph-hud-controls">
+        <button type="button" id="btnZoomIn" class="hud-btn" title="확대">+</button>
+        <button type="button" id="btnZoomOut" class="hud-btn" title="축소">-</button>
+        <button type="button" id="btnZoomReset" class="hud-btn" title="초기화">⟲</button>
+      </div>
+    </div>
+
+    <!-- View 2: Cards Grid View -->
+    <div id="view-cards" class="view-panel">
+      <div class="cards-scroll-wrap">
+        <div id="cardsGrid" class="cards-grid">
+          <!-- Dynamically populated memo cards -->
+        </div>
+      </div>
+    </div>
+
+    <!-- View 3: Markdown Pro Split Editor -->
+    <div id="view-editor" class="view-panel">
+      <div class="editor-split-wrap">
+        <!-- Left: Raw Markdown Editor -->
+        <div class="editor-pane">
+          <div class="editor-toolbar">
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Markdown Editor</span>
+            <div style="flex: 1;"></div>
+            <button type="button" class="tool-btn" onclick="insertMd('## ')">H2</button>
+            <button type="button" class="tool-btn" onclick="insertMd('**', '**')">B</button>
+            <button type="button" class="tool-btn" onclick="insertMd('- [ ] ')">Task</button>
+            <button type="button" class="tool-btn" onclick="insertMd('> ')">Quote</button>
+          </div>
+          <textarea id="editorMarkdownArea" class="editor-textarea" spellcheck="false" placeholder="# 지식 노드를 선택하거나 새로운 마크다운 노트를 작성하세요..."></textarea>
+        </div>
+
+        <!-- Right: Live Interactive Render Preview -->
+        <div id="markdownPreviewPane" class="preview-pane">
+          <!-- Live rendered markdown & interactive checkboxes -->
+        </div>
+      </div>
+    </div>
+
+    <!-- View 4: Action Dashboard (AI Executive Briefing & To-Do Timetable) -->
+    <div id="view-actions" class="view-panel active">
+      <div class="actions-scroll-wrap">
+        
+        <!-- Top AI Executive Briefing Hero Card -->
+        <div class="action-hero-card">
+          <div class="action-hero-header">
+            <div class="action-hero-title-group">
+              <span class="hero-sparkle-icon">🤖</span>
+              <div>
+                <h2 class="action-hero-title">AI 데일리 액션 브리핑 (Daily Executive Briefing)</h2>
+                <p class="action-hero-subtitle">1,018개의 연동 메모를 실시간 분석하여 미완료 업무와 핵심 과제를 요약합니다.</p>
+              </div>
+            </div>
+            <button type="button" id="btnRefreshBriefing" class="btn-refresh-briefing" title="AI 브리핑 다시 분석">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              <span>AI 재분석</span>
+            </button>
+          </div>
+
+          <!-- Key Metrics Grid -->
+          <div class="action-metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">연동된 전체 메모</div>
+              <div class="metric-value" id="metricTotalNotes">0</div>
+              <div class="metric-desc">애플 메모 &amp; 브레인덤프</div>
+            </div>
+            <div class="metric-card urgent">
+              <div class="metric-label">미완료 액션 아이템</div>
+              <div class="metric-value" id="metricPendingTodos">0</div>
+              <div class="metric-desc">방치된 실행 과제</div>
+            </div>
+            <div class="metric-card success">
+              <div class="metric-label">완료된 업무</div>
+              <div class="metric-value" id="metricCompletedTodos">0</div>
+              <div class="metric-desc">달성 완료 항목</div>
+            </div>
+            <div class="metric-card progress-card">
+              <div class="metric-label">실행 달성률</div>
+              <div class="metric-value" id="metricCompletionRate">0%</div>
+              <div class="completion-bar-track">
+                <div class="completion-bar-fill" id="metricProgressFill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Executive Insights Box -->
+          <div class="briefing-insight-box" id="briefingInsightBox">
+            <div class="insight-loading">AI가 전체 메모의 할 일 및 우선순위를 분석하고 있습니다...</div>
+          </div>
+        </div>
+
+        <!-- SETUPOD 2026 Planner Partner Ecosystem Banner -->
+        <div class="planner-partner-banner">
+          <div class="partner-banner-left">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span class="partner-pill-tag">SETUPOD 생태계 제휴</span>
+              <span style="font-size: 11px; color: #38bdf8; font-weight: 700;">초경량 뇌 덤프 ✕ 타임블록 캘린더</span>
+            </div>
+            <h3 class="partner-banner-title">📅 날짜별 캘린더 스케줄링 &amp; 시간 관리가 필요하신가요?</h3>
+            <p class="partner-banner-desc">
+              메모팟(MemoPod)은 생각을 0.2초 만에 쏟아내는 <strong>초경량 인풋 &amp; 할 일 추출 엔진</strong>으로 가볍게 유지됩니다.
+              여기서 추출된 과제들을 시간/날짜별 타임라인으로 관리하려면 공식 제휴 웹인 <strong>[SETUPOD 2026 플래너]</strong>와 연동해보세요!
+            </p>
+          </div>
+          <div class="partner-banner-right">
+            <button type="button" id="btnPartnerTransfer" class="btn-partner-transfer" title="미완료 할 일을 2026 플래너로 전송하고 플래너 캘린더를 엽니다">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>2026 플래너로 전송 &amp; 달력 열기</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Control Toolbar -->
+        <div class="actions-toolbar">
+          <div class="action-filter-pills" id="actionFilterPills">
+            <button type="button" class="action-pill active" data-filter="all">전체 할 일 (<span id="countPillAll">0</span>)</button>
+            <button type="button" class="action-pill" data-filter="pending">🔥 미완료 (<span id="countPillPending">0</span>)</button>
+            <button type="button" class="action-pill" data-filter="completed">✅ 완료 (<span id="countPillCompleted">0</span>)</button>
+            <button type="button" class="action-pill" data-filter="business">💼 비즈니스</button>
+            <button type="button" class="action-pill" data-filter="tech">⚙️ 기술/개발</button>
+            <button type="button" class="action-pill" data-filter="idea">💡 아이디어</button>
+          </div>
+
+          <div class="action-toolbar-right">
+            <input type="text" id="actionSearchInput" class="action-search-input" placeholder="할 일 키워드 검색...">
+            <button type="button" id="btnBulkSendPlanner" class="btn-bulk-planner" title="미완료 할 일을 2026 플래너로 일괄 전송">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>플래너로 일괄 전송</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive To-Do Cards List -->
+        <div id="actionItemsList" class="action-items-grid">
+          <!-- Populated dynamically with action cards -->
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       5. Slide-out Drawer (Node Detail & 2026 Planner Sync)
+       ======================================================================== -->
+  <aside id="memoDrawer" class="memo-drawer" aria-label="메모 상세 서랍">
+    <div class="drawer-head">
+      <div style="display: flex; align-items: center;">
+        <span id="drawerTypeTag" class="type-pill">IDEA</span>
+        <span id="drawerDate" style="font-size: 11px; color: #64748b; margin-left: 8px;">2026-10-16</span>
+      </div>
+      <button type="button" id="btnCloseDrawer" class="btn-header-icon" title="닫기 (ESC)">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <h2 id="drawerTitle">지식 노드 상세</h2>
+
+      <div>
+        <div class="drawer-section-title">⚡ AI 3줄 핵심 요약 (Insight)</div>
+        <div id="drawerSummaryText" class="ai-summary-box">요약 내용이 여기에 표시됩니다.</div>
+      </div>
+
+      <div>
+        <div class="drawer-section-title">🎯 실행 액션 플랜 (Action Items)</div>
+        <div id="drawerTodosContainer" class="action-items-list">
+          <!-- Dynamic Todo check rows -->
+        </div>
+      </div>
+
+      <div>
+        <div class="drawer-section-title">📝 전체 메모 원문 (Markdown)</div>
+        <textarea id="drawerRawContent" class="editor-textarea" style="height: 140px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid var(--border-subtle); font-size: 12px;" readonly></textarea>
+      </div>
+
+      <div>
+        <div class="drawer-section-title">🏷️ 지식 그래프 연결 태그</div>
+        <div id="drawerTagsContainer" class="memo-tags-row">
+          <!-- Dynamic tags -->
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-foot" style="flex-direction: column; gap: 8px;">
+      <div id="drawerWindowsBadge" style="display: none; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(37, 99, 235, 0.12); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="drawerWindowsIcon" style="font-size: 16px;">🪟</span>
+          <span id="drawerWindowsSourceText" style="font-size: 12px; font-weight: 700; color: #93c5fd;">Windows 스티커 메모 연동됨</span>
+        </div>
+        <span style="font-size: 10px; font-weight: 800; background: #2563eb; color: #fff; padding: 2px 6px; border-radius: 4px;">LOCAL NATIVE</span>
+      </div>
+      <button type="button" id="btnOpenInAppleNotes" class="btn-apple-open" style="display: none;">
+        <span>🍏 맥 메모(Apple Notes) 앱에서 바로 열기</span>
+      </button>
+      <button type="button" id="btnSendToPlanner" class="btn-planner-sync">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>2026 플래너 오늘의 To-Do로 전송</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       6. Cmd + K Command Palette Modal
+       ======================================================================== -->
+  <div id="cmdPaletteModal" class="cmd-modal-overlay">
+    <div class="cmd-palette">
+      <div class="cmd-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="cmdSearchInput" class="cmd-input" placeholder="지식 노드 검색, 키워드, 태그 탐색... (ESC로 닫기)" autocomplete="off">
+      </div>
+      <div id="cmdResultsList" class="cmd-results-list">
+        <!-- Results populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+  <!-- ========================================================================
+       7. Universal OS Notes Sync Center (macOS & Windows & Samsung)
+       ======================================================================== -->
+  <div id="appleSyncModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 660px;">
+      <!-- Modal Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">🌍</span>
+          <div>
+            <h3 style="font-size: 17px; font-weight: 800; color: #fff; line-height: 1.2;">크로스 플랫폼 OS 메모 동기화 센터</h3>
+            <p style="font-size: 11px; color: #94a3b8; margin-top: 3px;">Apple Notes · Windows Sticky Notes · Samsung Galaxy Notes</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close-modal btn-header-icon">✕</button>
+      </div>
+
+      <!-- Segmented OS Switcher Tabs -->
+      <div class="os-switcher-tabs">
+        <button type="button" class="os-tab-btn active" id="tabOsMac" data-os="mac">
+          <span>🍏 macOS 애플 메모</span>
+          <span class="os-badge-tag" id="tabMacBadge">1,017개 감지</span>
+        </button>
+        <button type="button" class="os-tab-btn" id="tabOsWin" data-os="win">
+          <span>🪟 Windows 스티커 & 삼성노트</span>
+          <span class="os-badge-tag badge-win-highlight">PRO</span>
+        </button>
+      </div>
+
+      <!-- ==================== TAB 1: macOS Panel ==================== -->
+      <div id="panelMacSync">
+        <!-- Detection Status Banner -->
+        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <div style="font-size: 13px; color: #e2e8f0;">
+            대표님의 맥 메모 앱에서 총 <strong id="appleTotalCount" style="color: #34d399; font-size: 15px;">1,017</strong>개의 메모를 감지했습니다.
+          </div>
+          <span style="font-size: 10px; font-weight: 800; background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 3px 8px; border-radius: 6px;">NATIVE READY</span>
+        </div>
+
+        <!-- Sync Mode Selector -->
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">동기화 모드 선택</div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <button type="button" class="sync-mode-btn active" data-mode="all" id="modeBtnAll">
+              <span style="font-size: 14px;">🌟</span>
+              <strong>전체 일괄</strong>
+              <span style="font-size: 10px; color: #94a3b8;">1,017개 전체</span>
+            </button>
+            <button type="button" class="sync-mode-btn" data-mode="folders" id="modeBtnFolders">
+              <span style="font-size: 14px;">📁</span>
+              <strong>폴더별 선택</strong>
+              <span style="font-size: 10px; color: #94a3b8;">주요 비즈니스/개발</span>
+            </button>
+            <button type="button" class="sync-mode-btn" data-mode="recent" id="modeBtnRecent">
+              <span style="font-size: 14px;">⚡</span>
+              <strong>최근 메모</strong>
+              <span style="font-size: 10px; color: #94a3b8;">최신 30개 빠른 추가</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Folder Selection Box (Visible in Folders Mode) -->
+        <div id="appleFolderListBox" style="display: none; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-size: 11px; font-weight: 700; color: #94a3b8;">가져올 폴더 선택 (<span id="selectedFoldersCount">0</span>개 선택됨)</span>
+            <button type="button" id="btnToggleAllFolders" style="background: transparent; border: none; color: #38bdf8; font-size: 11px; font-weight: 600; cursor: pointer;">전체 선택</button>
+          </div>
+          <div id="appleFoldersList" style="max-height: 160px; overflow-y: auto; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <!-- Dynamically filled with folders -->
+          </div>
+        </div>
+
+        <!-- Realtime Auto-Sync Switch Card -->
+        <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 6px;">
+              <span class="live-pulse-dot"></span>
+              <span>백그라운드 실시간 자동 감지 (Live Watcher)</span>
+            </div>
+            <p style="font-size: 11px; color: #94a3b8; margin-top: 3px; line-height: 1.3;">
+              맥 메모 앱에서 새 글을 작성하거나 수정하면 3초 안에 자동으로 지식그래프에 반영합니다.
+            </p>
+          </div>
+          <label class="switch-toggle" style="margin-left: 10px;">
+            <input type="checkbox" id="modalLiveSyncToggle" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <!-- Sync Status & Progress Text -->
+        <div id="appleSyncStatusText" style="font-size: 12px; color: #94a3b8; margin-bottom: 16px; line-height: 1.4; display: none;">
+          동기화 준비 완료.
+        </div>
+
+        <!-- Footer Action Buttons -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+          <button type="button" id="btnExportObsidianZip" class="btn-obsidian-zip" title="애플 메모를 옵시디언 호환 마크다운 ZIP 파일로 추출">
+            <span>📦 옵시디언(Obsidian) ZIP 추출</span>
+          </button>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-close-modal" style="background: transparent; border: 1px solid var(--border-subtle); color: #94a3b8; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">닫기</button>
+            <button type="button" id="btnStartAppleSync" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border: none; color: #fff; padding: 9px 20px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);">
+              <span>🍏</span>
+              <span id="btnStartAppleSyncText">지금 동기화 시작</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 2: Windows & Samsung Panel ==================== -->
+      <div id="panelWinSync" style="display: none;">
+        <!-- Windows Info Banner -->
+        <div class="win-hero-banner">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <span style="font-size: 24px; line-height: 1;">🪟</span>
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: #60a5fa; display: flex; align-items: center; gap: 8px;">
+                <span>Windows 10/11 & Samsung Galaxy Native Extractor</span>
+                <span class="live-pulse-dot" style="background: #60a5fa;"></span>
+              </div>
+              <p style="font-size: 11px; color: #cbd5e1; margin-top: 4px; line-height: 1.4;">
+                윈도우 스티커 메모(<code style="color: #93c5fd;">plum.sqlite</code>) 및 삼성 노트(<code style="color: #93c5fd;">.sdocx</code>) 패키지를 실시간 파싱하여 AI 지식 그래프와 할 일 체크리스트로 자동 동기화합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Feature Cards Grid -->
+        <div class="win-card-grid">
+          <!-- Card 1: Sticky Notes -->
+          <div class="win-action-card">
+            <div class="win-card-header">
+              <span class="win-icon">🪟</span>
+              <div>
+                <strong style="color: #fff; font-size: 13px;">윈도우 스티커 메모</strong>
+                <span class="win-card-sub">plum.sqlite 자동 연동</span>
+              </div>
+            </div>
+            <p class="win-card-desc">Windows UWP 기본 스티커 메모의 체크리스트(- [ ]) 및 색상 테마를 실시간 추출합니다.</p>
+            <button type="button" id="btnSyncWinSticky" class="btn-win-action">
+              <span>🪟 스티커 메모 연동</span>
+            </button>
+          </div>
+
+          <!-- Card 2: Samsung Notes -->
+          <div class="win-action-card">
+            <div class="win-card-header">
+              <span class="win-icon">📱</span>
+              <div>
+                <strong style="color: #fff; font-size: 13px;">삼성 갤럭시 노트</strong>
+                <span class="win-card-sub">.sdocx 파일 패키지</span>
+              </div>
+            </div>
+            <p class="win-card-desc">갤럭시 스마트폰/태블릿과 PC에서 동기화된 .sdocx 파일을 자동 압축해제하여 본문과 To-Do를 추출합니다.</p>
+            <button type="button" id="btnSyncWinSamsung" class="btn-win-action">
+              <span>📱 삼성 노트 연동</span>
+            </button>
+          </div>
+
+          <!-- Card 3: Instant Sample Demo (Works everywhere) -->
+          <div class="win-action-card highlight-card">
+            <div class="win-card-header">
+              <span class="win-icon">🧪</span>
+              <div>
+                <strong style="color: #fff; font-size: 13px;">1초 샘플 즉시 체험</strong>
+                <span class="win-card-sub" style="color: #38bdf8;">Mac / Web 원클릭 지원</span>
+              </div>
+            </div>
+            <p class="win-card-desc">맥 환경에서도 윈도우 스티커 메모와 삼성 노트가 지식 그래프와 할 일 대시보드에 어떻게 시각화되는지 1초 만에 확인하세요!</p>
+            <button type="button" id="btnLoadWinSample" class="btn-win-action btn-sample-action">
+              <span>✨ 윈도우 샘플 메모 로드</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- File Upload / Dropzone -->
+        <div class="win-dropzone" id="winDropZone">
+          <input type="file" id="winNotesFileInput" accept=".sqlite,.db,.sdocx,.sdoc" style="display: none;">
+          <div style="font-size: 22px; margin-bottom: 4px;">📂</div>
+          <div style="font-size: 12px; font-weight: 700; color: #e2e8f0;">plum.sqlite 또는 .sdocx 파일 끌어다 놓기</div>
+          <p style="font-size: 11px; color: #94a3b8; margin-top: 4px; line-height: 1.4;">
+            윈도우 PC에서 복사해 온 스티커 메모 DB 또는 삼성노트 파일을 선택하면 즉시 AI 지식 노드로 변환합니다.
+          </p>
+          <button type="button" id="btnSelectWinFile" class="btn-browse-file">
+            📁 파일 직접 선택
+          </button>
+        </div>
+
+        <!-- Windows Standalone Download Footer -->
+        <div class="win-download-footer">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #fff;">윈도우 PC 전용 무설치 앱 (Chrome/Edge App Mode)</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">포터블 배치 스크립트와 실행 파일이 포함된 초경량 패키지입니다.</div>
+          </div>
+          <a href="./dist/MemoPod_2.0_Windows_Portable.zip" download class="btn-win-download">
+            <span>📦 Windows 포터블 (.zip) 다운로드</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       8. Settings Modal (Gemini AI API Key)
+       ======================================================================== -->
+  <div id="settingsModal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+        <h3 style="font-size: 17px; font-weight: 800; color: #fff;">MEMOPOD 2.0 환경 설정</h3>
+        <button type="button" class="btn-close-modal btn-header-icon">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+        <div>
+          <label for="settingGeminiKey" style="display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">Gemini API Key (선택 사항)</label>
+          <input type="password" id="settingGeminiKey" placeholder="AIzaSy... (입력하지 않아도 내장 지능 엔진으로 동작합니다)" style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 14px; color: #fff; font-size: 13px; outline: none;">
+          <p style="font-size: 11px; color: #64748b; margin-top: 6px; line-height: 1.4;">
+            ※ API Key를 입력하면 Google Gemini 2.0 Flash가 실시간으로 문맥을 파악해 정교한 지식 구조화 및 액션 플랜을 추출합니다. 키가 없어도 로컬 시맨틱 추출기가 즉시 작동합니다.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-close-modal" style="background: transparent; border: 1px solid var(--border-subtle); color: #94a3b8; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">취소</button>
+        <button type="button" id="btnSaveSettings" style="background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); border: none; color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;">설정 저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       7-1. macOS Apple Notes Pro Floating App Modal (맥 메모장 모달 앱)
+       ======================================================================== -->
+  <div id="modalAppleNotesApp" class="modal-overlay apple-notes-modal-overlay">
+    <div class="apple-notes-modal-card">
+      <iframe id="appleNotesIframe" src="./quick.html" style="width: 100%; height: 100%; border: none; border-radius: 14px; background: transparent;"></iframe>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       8. Toast Notification Bar
+       ======================================================================== -->
+  <div id="toastBar" class="toast-bar">
+    <span class="toast-icon">✨</span>
+    <span id="toastBarText">알림 메시지</span>
+  </div>
+
+  <!-- Inline Helper for Markdown buttons -->
+  <script>
+    function insertMd(prefix, suffix = '') {
+      const ta = document.getElementById('editorMarkdownArea');
+      if (!ta) return;
+      const start = ta.selectionStart;
+      const end = ta.selectionEnd;
+      const text = ta.value;
+      const sel = text.substring(start, end);
+      ta.value = text.substring(0, start) + prefix + sel + suffix + text.substring(end);
+      ta.focus();
+      ta.selectionStart = start + prefix.length;
+      ta.selectionEnd = start + prefix.length + sel.length;
+      ta.dispatchEvent(new Event('input'));
+    }
+  </script>
+
+  <!-- Core Application Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

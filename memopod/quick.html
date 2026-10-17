@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Notes Pro (MemoPod 2.0)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    :root {
+      --bg-window: #1e1e1e;
+      --bg-col1-folders: #1a1a1c;
+      --bg-col2-list: #161618;
+      --bg-col3-editor: #1e1e1e;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(255, 255, 255, 0.16);
+      --text-white: #f5f5f7;
+      --text-muted: #8e8e93;
+      --text-dim: #636366;
+      --apple-yellow: #f59e0b;
+      --apple-yellow-hover: #fbbf24;
+      --apple-blue: #0a84ff;
+      --apple-active-pill: #2c2c2e;
+      --apple-active-pill-hover: #3a3a3c;
+      --tag-emerald: #30d158;
+      --tag-rose: #ff453a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 25%, #1e2638 0%, #0c1017 100%);
+      color: var(--text-white);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 24px;
+      user-select: none;
+    }
+
+    /* Modal / Floating Window Frame for Apple Notes Pro */
+    .macos-window-shell {
+      width: 100%;
+      max-width: 1040px;
+      height: 660px;
+      max-height: 92vh;
+      background: var(--bg-window);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.85), 0 0 1px rgba(255, 255, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      animation: macModalDrop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes macModalDrop {
+      from {
+        opacity: 0;
+        transform: scale(0.96) translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    body.in-frame {
+      background: transparent !important;
+      padding: 0 !important;
+    }
+    body.in-frame .macos-window-shell {
+      max-width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
+      border-radius: 14px !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    body.in-popup {
+      background: var(--bg-window) !important;
+      padding: 0 !important;
+    }
+    body.in-popup .macos-window-shell {
+      max-width: 100vw !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* ========================================================================
+       1. macOS Titlebar / Top Controls
+       ======================================================================== */
+    .mac-window-bar {
+      height: 48px;
+      background: var(--bg-col1-folders);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      -webkit-app-region: drag;
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 220px;
+    }
+
+    .traffic-lights {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .traffic-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-block;
+      transition: opacity 0.15s;
+    }
+    .traffic-dot:hover { opacity: 0.8; }
+    .traffic-red { background: #ff5f56; border: 1px solid #e0443e; }
+    .traffic-yellow { background: #ffbd2e; border: 1px solid #dea123; }
+    .traffic-green { background: #27c93f; border: 1px solid #1aab29; }
+
+    .btn-pane-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .btn-pane-toggle:hover {
+      color: var(--text-white);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .titlebar-center {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .apple-toolbar-group {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tool-icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s ease;
+    }
+    .tool-icon-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .tool-icon-btn.active {
+      background: var(--apple-active-pill);
+      color: var(--apple-yellow);
+    }
+
+    .titlebar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-box-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 5px 10px;
+      width: 170px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .search-box-pill input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 12px;
+      width: 100%;
+    }
+    .search-box-pill input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .btn-jump-web {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-jump-web:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.5);
+    }
+
+    .btn-popout-window {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 600;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-popout-window:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================================
+       2. macOS 3-Pane Body Architecture
+       ======================================================================== */
+    .apple-3pane-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ------------------------------------------------------------------------
+       PANE 1: Folder Tree Sidebar (좌측)
+       ------------------------------------------------------------------------ */
+    .pane-folders {
+      width: 220px;
+      background: var(--bg-col1-folders);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .pane-folders-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 8px;
+    }
+
+    .folder-section-header {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dim);
+      padding: 6px 10px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .folder-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .folder-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #e5e5ea;
+      transition: background 0.12s ease;
+      position: relative;
+    }
+    .folder-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .folder-item.active {
+      background: var(--apple-active-pill);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .folder-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .folder-icon {
+      font-size: 13px;
+      color: var(--apple-yellow);
+      flex-shrink: 0;
+    }
+
+    .folder-count {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .folder-item.active .folder-count {
+      color: var(--text-muted);
+    }
+
+    .folder-del-btn {
+      opacity: 0;
+      background: transparent;
+      border: none;
+      color: #8e8e93;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 0 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.15s, color 0.15s;
+      line-height: 1;
+    }
+    .folder-item:hover .folder-del-btn {
+      opacity: 0.8;
+    }
+    .folder-del-btn:hover {
+      opacity: 1 !important;
+      color: #ff453a;
+      background: rgba(255, 69, 58, 0.2);
+    }
+
+    .folder-item.editing {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 5px 8px;
+    }
+
+    .inline-folder-input {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--apple-yellow);
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 2px 6px;
+      width: 140px;
+      outline: none;
+    }
+
+    .new-folder-bar {
+      padding: 8px 12px;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-col1-folders);
+      flex-shrink: 0;
+    }
+
+    .btn-new-folder {
+      background: transparent;
+      border: none;
+      color: var(--apple-yellow);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 5px 8px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      width: 100%;
+    }
+    .btn-new-folder:hover {
+      background: rgba(245, 158, 11, 0.14);
+      color: var(--apple-yellow-hover);
+    }
+
+    /* ------------------------------------------------------------------------
+       PANE 2: Note Cards List (중간)
+       ------------------------------------------------------------------------ */
+    .pane-note-list {
+      width: 260px;
+      background: var(--bg-col2-list);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .list-header {
+      padding: 12px 16px 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .list-header-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-white);
+    }
+    .list-header-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .list-items-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 10px 20px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .date-section-divider {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      padding: 10px 6px 4px 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .apple-note-card {
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.12s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .apple-note-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .apple-note-card.active {
+      background: var(--apple-active-pill);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .card-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card-date {
+      color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .card-folder-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      color: var(--text-muted);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .card-preview-text {
+      font-size: 11.5px;
+      color: #98989d;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-todo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(244, 63, 94, 0.2);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fb7185;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 3px;
+      align-self: flex-start;
+    }
+
+    /* ------------------------------------------------------------------------
+       PANE 3: Rich Note Editor (우측 메인)
+       ------------------------------------------------------------------------ */
+    .pane-editor {
+      flex: 1;
+      background: var(--bg-col3-editor);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .editor-top-meta {
+      padding: 14px 32px 6px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-dim);
+      font-size: 11.5px;
+      flex-shrink: 0;
+    }
+
+    .editor-note-date {
+      font-size: 11.5px;
+      color: var(--text-dim);
+      letter-spacing: -0.01em;
+    }
+
+    .editor-ai-sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #30d158;
+      background: rgba(48, 209, 88, 0.1);
+      padding: 3px 8px;
+      border-radius: 99px;
+      border: 1px solid rgba(48, 209, 88, 0.25);
+    }
+    .pulse-dot-green {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #30d158;
+      box-shadow: 0 0 6px #30d158;
+    }
+
+    .editor-content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 32px 30px 32px;
+      user-select: text;
+    }
+
+    /* Apple Notes iconic Yellow Title */
+    .apple-title-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--apple-yellow);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      font-family: inherit;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .apple-title-input:focus {
+      border-bottom-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .apple-body-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-white);
+      font-size: 14.5px;
+      line-height: 1.7;
+      font-family: inherit;
+      resize: none;
+      min-height: 480px;
+    }
+    .apple-body-textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    /* Interactive Live Checklist overlay / renderer */
+    .apple-interactive-checklist {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checklist-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--apple-yellow);
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: #e5e5ea;
+      cursor: pointer;
+    }
+    .checklist-item.done {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+
+    .apple-checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--apple-yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .checklist-item.done .apple-checkbox {
+      background: var(--apple-yellow);
+    }
+    .apple-checkbox::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: solid #000;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      display: none;
+      margin-top: -2px;
+    }
+    .checklist-item.done .apple-checkbox::after {
+      display: block;
+    }
+
+    /* Bottom Status bar */
+    .editor-bottom-status {
+      padding: 8px 32px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-dim);
+      background: var(--bg-col1-folders);
+      flex-shrink: 0;
+    }
+
+    .status-left-sync {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating macOS Window Frame (모달 스타일 맥 윈도우 쉘) -->
+  <div class="macos-window-shell">
+
+    <!-- ========================================================================
+         1. macOS Titlebar / Global Toolbar
+         ======================================================================== -->
+    <header class="mac-window-bar">
+      <div class="titlebar-left">
+        <div class="traffic-lights">
+          <span class="traffic-dot traffic-red" onclick="handleWindowClose()" title="창 닫기"></span>
+          <span class="traffic-dot traffic-yellow" id="btnTrafficYellow" title="최소화 / 본문 초기화"></span>
+          <span class="traffic-dot traffic-green" id="btnTrafficGreen" title="전체 화면 토글"></span>
+        </div>
+        <button type="button" class="btn-pane-toggle" id="btnToggleFolderPane" title="폴더 사이드바 접기/펼치기">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        </button>
+      </div>
+
+    <!-- Center Apple Tool icons -->
+    <div class="titlebar-center">
+      <div class="apple-toolbar-group">
+        <button type="button" class="tool-icon-btn" id="btnNewNoteAction" title="새 메모 작성 (Cmd + N)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button type="button" class="tool-icon-btn" id="btnFormatAa" title="텍스트 포맷 (Aa)">
+          <span style="font-weight: 800; font-size: 12px;">가A</span>
+        </button>
+        <button type="button" class="tool-icon-btn" id="btnInsertChecklist" title="체크리스트 추가 (- [ ])">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+        </button>
+        <button type="button" class="tool-icon-btn" id="btnVoiceMic" title="AudioPen 음성 받아쓰기">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+        <button type="button" class="tool-icon-btn" id="btnDeleteCurrent" style="color: #ff453a;" title="현재 메모 삭제">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Search & Web Command Center Jump -->
+    <div class="titlebar-right">
+      <div class="search-box-pill">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="quickSearchInput" placeholder="검색...">
+      </div>
+
+      <button type="button" class="btn-popout-window" id="btnPopoutWindow" onclick="popoutToSeparateWindow()" title="독립 OS 미니 창으로 분리 (바탕화면 자유 이동 / 듀얼 모니터)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        <span>독립 창 분리</span>
+      </button>
+
+      <a href="index.html" target="_blank" class="btn-jump-web" title="웹 지휘 대시보드 (To-Do & 지식 그래프) 전체 화면 열기">
+        <span>🚀 웹 대시보드</span>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. macOS 3-Pane Body
+       ======================================================================== -->
+  <div class="apple-3pane-container">
+
+    <!-- ----------------------------------------------------------------------
+         PANE 1: Folder Tree (좌측 실제 애플 메모 폴더 목록)
+         ---------------------------------------------------------------------- -->
+    <aside class="pane-folders" id="paneFolders">
+      <div class="pane-folders-body">
+        <div class="folder-section-header">
+          <span>iCloud</span>
+          <button type="button" class="tool-icon-btn" onclick="startInlineFolderCreation()" title="새로운 폴더 추가 (Shift+Cmd+N)" style="width: 20px; height: 20px; font-size: 11px;">➕</button>
+        </div>
+        <div class="folder-list" id="folderListContainer">
+          <!-- Folders rendered here dynamically -->
+        </div>
+
+        <!-- Inline New Folder Creation Row -->
+        <div class="folder-item editing" id="inlineNewFolderRow" style="display: none; margin-top: 4px;">
+          <div class="folder-name-wrap">
+            <span class="folder-icon">📁</span>
+            <input type="text" id="inlineNewFolderInput" class="inline-folder-input" placeholder="새로운 폴더" maxlength="24">
+          </div>
+        </div>
+
+        <div class="folder-section-header" style="margin-top: 14px;">
+          <span>태그</span>
+        </div>
+        <div class="folder-list" id="tagListContainer">
+          <!-- Tag pills rendered here -->
+        </div>
+      </div>
+
+      <!-- Bottom Pinned New Folder Button (macOS Apple Notes Style) -->
+      <div class="new-folder-bar">
+        <button type="button" class="btn-new-folder" id="btnNewFolderAction" onclick="startInlineFolderCreation()" title="새로운 폴더 추가 (Shift + Cmd + N)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>새로운 폴더</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ----------------------------------------------------------------------
+         PANE 2: Note List (중간 메모 리스트)
+         ---------------------------------------------------------------------- -->
+    <section class="pane-note-list" id="paneNoteList">
+      <div class="list-header">
+        <div>
+          <div class="list-header-title" id="currentFolderTitle">모든 iCloud</div>
+          <div class="list-header-sub" id="currentFolderCount">0개의 메모</div>
+        </div>
+        <button type="button" class="tool-icon-btn" title="추가 옵션">•••</button>
+      </div>
+
+      <div class="list-items-scroll" id="noteCardListContainer">
+        <!-- Note cards rendered here -->
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         PANE 3: Rich Note Editor (우측 메인 에디터)
+         ---------------------------------------------------------------------- -->
+    <main class="pane-editor">
+      <div class="editor-top-meta">
+        <span class="editor-note-date" id="editorTimestamp">2026년 9월 2일 오전 1:46</span>
+        <div class="editor-ai-sync-pill">
+          <span class="pulse-dot-green"></span>
+          <span>웹 대시보드 실시간 동기화 ON (0.2s)</span>
+        </div>
+      </div>
+
+      <div class="editor-content-scroll">
+        <!-- Apple Notes Yellow Title -->
+        <input type="text" id="appleTitleInput" class="apple-title-input" placeholder="제목 없는 메모" spellcheck="false">
+
+        <!-- Raw Textarea for rapid typing -->
+        <textarea id="appleBodyInput" class="apple-body-textarea" placeholder="생각나는 대로 가볍게 적어보세요...
+- [ ] 체크리스트를 적으면 To-Do로 추출되어 웹 대시보드와 2026 플래너에 실시간 집계됩니다!"></textarea>
+
+        <!-- Live Interactive Checklist Section -->
+        <div class="apple-interactive-checklist" id="interactiveChecklistBox" style="display: none;">
+          <div class="checklist-title-row">
+            <span>🎯 실행 To-Do 액션 플랜 (웹 대시보드 실시간 반영)</span>
+            <span id="checklistStats">0/0 완료</span>
+          </div>
+          <div id="checklistItemsList"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Status Bar -->
+      <footer class="editor-bottom-status">
+        <div class="status-left-sync">
+          <span id="autoSaveStatusText">● 자동 저장됨</span>
+        </div>
+        <div id="characterCountText">0 글자</div>
+      </footer>
+    </main>
+
+  </div> <!-- /.apple-3pane-container -->
+
+  </div> <!-- /.macos-window-shell -->
+
+  <!-- ========================================================================
+       3. Logic: Apple Notes Engine & Real-time Live Sync Bridge
+       ======================================================================== -->
+  <script>
+    const STORAGE_KEY = 'memopod_knowledge_v2';
+    const syncChannel = new BroadcastChannel('memopod_sync_channel');
+
+    // Check if embedded in iframe modal or running in dedicated OS popup window
+    const isIframe = (window.self !== window.top);
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAppMode = urlParams.get('app') === '1' || window.matchMedia('(display-mode: standalone)').matches;
+    const isPopup = !isIframe && (isAppMode || window.opener || (window.innerWidth <= 1120 && window.innerHeight <= 800));
+
+    if (isIframe) {
+      document.body.classList.add('in-frame');
+    } else if (isPopup) {
+      document.body.classList.add('in-popup');
+    }
+
+    // Dynamic destination for [🚀 웹 대시보드] button (app.html on setupod subpath, index.html locally)
+    window.addEventListener('DOMContentLoaded', () => {
+      const btnWeb = document.querySelector('.btn-jump-web');
+      if (btnWeb) {
+        if (window.location.pathname.includes('/memopod')) {
+          btnWeb.href = './app.html';
+        } else {
+          btnWeb.href = './index.html';
+        }
+      }
+    });
+
+    function handleWindowClose() {
+      if (window.self !== window.top) {
+        window.parent.postMessage({ type: 'CLOSE_APPLE_NOTES_MODAL' }, '*');
+      } else {
+        window.close();
+      }
+    }
+
+    function popoutToSeparateWindow() {
+      if (window.self !== window.top) {
+        window.parent.postMessage({ type: 'CLOSE_APPLE_NOTES_MODAL' }, '*');
+        window.parent.open('quick.html', 'MemoPodMini', 'width=1040,height=680,left=150,top=100,resizable=yes');
+      } else {
+        window.open('quick.html', 'MemoPodMini', 'width=1040,height=680,left=150,top=100,resizable=yes');
+      }
+    }
+
+    // Default real folders matching user's exact screenshot
+    const DEFAULT_APPLE_FOLDERS = [
+      { name: "모든 iCloud", count: 1007, icon: "📁", isAll: true },
+      { name: "메모", count: 866, icon: "📁" },
+      { name: "마자 스튜디오", count: 9, icon: "📁" },
+      { name: "부업", count: 4, icon: "📁" },
+      { name: "블로그 제작", count: 9, icon: "📁" },
+      { name: "중요한 개발 문서", count: 9, icon: "📁" },
+      { name: "필수 키워드", count: 11, icon: "📁" },
+      { name: "보험 금융", count: 28, icon: "📁" },
+      { name: "API 관리", count: 28, icon: "📁" },
+      { name: "html / CSS", count: 13, icon: "📁" },
+      { name: "설정", count: 5, icon: "📁" },
+      { name: "Quick Notes", count: 4, icon: "📁" },
+      { name: "기타 개인", count: 11, icon: "📁" },
+      { name: "Business", count: 10, icon: "📁" },
+      { name: "스테이블디퓨전", count: 10, icon: "⚙️" },
+      { name: "최근 삭제된 항목", count: 2, icon: "🗑️" }
+    ];
+
+    const FOLDERS_STORAGE_KEY = 'memopod_apple_folders_v2';
+    let appleFolders = loadFolders();
+
+    function loadFolders() {
+      try {
+        const raw = localStorage.getItem(FOLDERS_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_APPLE_FOLDERS));
+    }
+
+    function saveFolders() {
+      try {
+        localStorage.setItem(FOLDERS_STORAGE_KEY, JSON.stringify(appleFolders));
+      } catch (e) {}
+      renderFolders();
+    }
+
+    let allNotes = [];
+    let currentFolder = "모든 iCloud";
+    let activeNoteId = null;
+    let autoSaveTimer = null;
+    let isVoiceActive = false;
+    let recognition = null;
+
+    // 1. Initializer
+    function init() {
+      loadStorageData();
+      renderFolders();
+      renderTags();
+      bindEvents();
+      setupSpeech();
+
+      // Ensure active note is selected
+      if (allNotes.length > 0) {
+        selectNote(allNotes[0].id);
+      } else {
+        createNewNote();
+      }
+
+      // Cross-window Live Storage Sync
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY) {
+          loadStorageData();
+          renderNoteCards();
+          if (activeNoteId) {
+            const n = allNotes.find(item => item.id === activeNoteId);
+            if (n) renderEditor(n, false);
+          }
+        }
+      });
+
+      syncChannel.onmessage = (e) => {
+        if (e.data && e.data.type === 'REFRESH') {
+          loadStorageData();
+          renderNoteCards();
+        }
+      };
+    }
+
+    // 2. Storage & Seed
+    function loadStorageData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          allNotes = JSON.parse(raw);
+        } else {
+          allNotes = createSeedNotes();
+          saveStorageData(false);
+        }
+      } catch (e) {
+        allNotes = createSeedNotes();
+      }
+    }
+
+    function saveStorageData(broadcast = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allNotes));
+        if (broadcast) {
+          syncChannel.postMessage({ type: 'NOTE_UPDATED', noteId: activeNoteId });
+        }
+        showSaved();
+      } catch (e) {
+        console.error('Storage save error:', e);
+      }
+    }
+
+    function createSeedNotes() {
+      return [
+        {
+          id: 'apple_seed_1',
+          title: 'Linkmix.co.kr',
+          folder: 'Business',
+          content: 'Linkmix.co.kr\n\nandrew    kakao.com\n\n- [ ] 1. 김명선 sunny https://linkmix.co.kr/sunny grid확번 7asdzzz@gmail.com\n- [ ] 2. 김가은 gaeun https://linkmix.co.kr/gaeun 73asdzzz@gmail.com\n\n아이디 gaeun\ngk730319\n- [ ] 파트너사 API 키 발급 및 2026 플래너 일정 연동 검토',
+          summary: 'andrew kakao.com 제휴 및 회원 계정 관리 정보',
+          todos: [
+            { text: '1. 김명선 sunny https://linkmix.co.kr/sunny grid확번', done: false },
+            { text: '2. 김가은 gaeun 계정 확인', done: false },
+            { text: '파트너사 API 키 발급 및 2026 플래너 일정 연동 검토', done: false }
+          ],
+          tags: ['business', 'partner', 'api'],
+          type: 'business',
+          dateGroup: '9월',
+          createdAt: '2026. 9. 2.'
+        },
+        {
+          id: 'apple_seed_2',
+          title: 'Toomus API 결제 모듈 및 인프라 관리',
+          folder: '마자 스튜디오',
+          content: 'Toomus API 결제 모듈 및 인프라 관리\n\n- [ ] 신규 결제 모듈 웹훅 테스트\n- [ ] 마자 스튜디오 정기 구독 플랜 연동\n- [x] 토큰 만료 예외 처리 완료',
+          summary: 'Toomus 결제 API 연동 및 웹훅 안정화 작업',
+          todos: [
+            { text: '신규 결제 모듈 웹훅 테스트', done: false },
+            { text: '마자 스튜디오 정기 구독 플랜 연동', done: false },
+            { text: '토큰 만료 예외 처리 완료', done: true }
+          ],
+          tags: ['api', 'business', 'tech'],
+          type: 'tech',
+          dateGroup: '이전 30일',
+          createdAt: '2026. 9. 22.'
+        },
+        {
+          id: 'apple_seed_3',
+          title: '애드센스 승인 준비 원칙 및 가이드',
+          folder: '블로그 제작',
+          content: '애드센스 승인 준비 원칙 및 가이드\n\n- [ ] E-E-A-T 기반 정보성 콘텐츠 15편 작성\n- [ ] 사이트맵 및 robots.txt 구글 서치콘솔 제출\n- [ ] 카테고리별 최소 3개 이상 포스트 유지',
+          summary: '저장소를... 블로그 제작 애드센스 규정 준수 체크리스트',
+          todos: [
+            { text: 'E-E-A-T 기반 정보성 콘텐츠 15편 작성', done: false },
+            { text: '사이트맵 및 robots.txt 구글 서치콘솔 제출', done: false },
+            { text: '카테고리별 최소 3개 이상 포스트 유지', done: false }
+          ],
+          tags: ['adsense', 'marketing', 'blog'],
+          type: 'marketing',
+          dateGroup: '이전 30일',
+          createdAt: '2026. 9. 22.'
+        }
+      ];
+    }
+
+    // 3. Render Folders
+    function renderFolders() {
+      const container = document.getElementById('folderListContainer');
+      if (!container) return;
+
+      container.innerHTML = appleFolders.map(f => {
+        const isActive = f.name === currentFolder;
+        // Dynamically compute count from allNotes
+        let count = f.count;
+        if (f.isAll) {
+          count = allNotes.length;
+        } else {
+          const matchCount = allNotes.filter(n => n.folder === f.name).length;
+          count = f.isCustom ? matchCount : Math.max(f.count, matchCount);
+        }
+
+        const canDelete = f.isCustom || (!f.isAll && f.name !== '메모' && !f.name.includes('삭제'));
+        const delBtnHtml = canDelete ? `<button type="button" class="folder-del-btn" onclick="deleteFolder('${f.name}', event)" title="폴더 삭제">×</button>` : '';
+
+        return `
+          <div class="folder-item ${isActive ? 'active' : ''}" onclick="selectFolder('${f.name}')">
+            <div class="folder-name-wrap">
+              <span class="folder-icon">${f.icon}</span>
+              <span>${escapeHtml(f.name)}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              ${delBtnHtml}
+              <span class="folder-count">${count}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function startInlineFolderCreation() {
+      const row = document.getElementById('inlineNewFolderRow');
+      const input = document.getElementById('inlineNewFolderInput');
+      if (!row || !input) return;
+
+      row.style.display = 'flex';
+      input.value = '새로운 폴더';
+      input.focus();
+      input.select();
+      row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      let committed = false;
+      const commitFolder = () => {
+        if (committed) return;
+        committed = true;
+        const name = input.value.trim();
+        row.style.display = 'none';
+        if (!name) return;
+
+        if (appleFolders.some(f => f.name.toLowerCase() === name.toLowerCase())) {
+          alert('이미 존재하는 폴더 이름입니다: ' + name);
+          return;
+        }
+
+        const trashIdx = appleFolders.findIndex(f => f.name.includes('삭제'));
+        const newFolderObj = { name: name, count: 0, icon: '📁', isCustom: true };
+        if (trashIdx !== -1) {
+          appleFolders.splice(trashIdx, 0, newFolderObj);
+        } else {
+          appleFolders.push(newFolderObj);
+        }
+
+        saveFolders();
+        selectFolder(name);
+        createNewNote();
+      };
+
+      const cancelFolder = () => {
+        if (committed) return;
+        committed = true;
+        row.style.display = 'none';
+      };
+
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          commitFolder();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          cancelFolder();
+        }
+      };
+
+      input.onblur = () => {
+        setTimeout(commitFolder, 150);
+      };
+    }
+
+    function deleteFolder(folderName, e) {
+      if (e) e.stopPropagation();
+      if (!confirm(`'${folderName}' 폴더를 삭제하시겠습니까?`)) return;
+
+      appleFolders = appleFolders.filter(f => f.name !== folderName);
+      saveFolders();
+
+      if (currentFolder === folderName) {
+        selectFolder('모든 iCloud');
+      }
+    }
+
+    function renderTags() {
+      const container = document.getElementById('tagListContainer');
+      const tags = ['#business', '#tech', '#api', '#marketing', '#routine'];
+      container.innerHTML = tags.map(t => `
+        <div class="folder-item" onclick="filterByTag('${t.replace('#', '')}')">
+          <div class="folder-name-wrap">
+            <span style="color: #64748b; font-size: 11px;">#</span>
+            <span style="color: #94a3b8; font-size: 12px;">${t.replace('#', '')}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectFolder(name) {
+      currentFolder = name;
+      renderFolders();
+      document.getElementById('currentFolderTitle').innerText = name;
+      renderNoteCards();
+    }
+
+    function filterByTag(tag) {
+      document.getElementById('currentFolderTitle').innerText = `#${tag}`;
+      renderNoteCards('', tag);
+    }
+
+    // 4. Render Note Cards
+    function renderNoteCards(searchQuery = '', filterTag = null) {
+      const container = document.getElementById('noteCardListContainer');
+      const q = searchQuery.toLowerCase().trim();
+
+      let filtered = allNotes.filter(n => {
+        if (currentFolder !== "모든 iCloud" && n.folder !== currentFolder) return false;
+        if (filterTag && (!n.tags || !n.tags.includes(filterTag))) return false;
+        if (q) {
+          const matchTitle = (n.title || '').toLowerCase().includes(q);
+          const matchBody = (n.content || '').toLowerCase().includes(q);
+          return matchTitle || matchBody;
+        }
+        return true;
+      });
+
+      document.getElementById('currentFolderCount').innerText = `${filtered.length}개의 메모`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 40px 10px; color: var(--text-dim); font-size: 12px;">메모가 없습니다.<br>상단 [📝 새 메모]를 눌러보세요.</div>`;
+        return;
+      }
+
+      // Group by dateGroup (e.g. 이전 30일, 9월)
+      let html = '';
+      let lastGroup = null;
+
+      filtered.forEach(note => {
+        const group = note.dateGroup || (note.createdAt && note.createdAt.includes('9.') ? '9월' : '최근');
+        if (group !== lastGroup) {
+          html += `<div class="date-section-divider">${group}</div>`;
+          lastGroup = group;
+        }
+
+        const isActive = note.id === activeNoteId;
+        const pendingTodos = (note.todos && note.todos.filter(t => !t.done).length) || 0;
+        const preview = (note.content || note.summary || '').replace(/^.*\n/, '').replace(/\n/g, ' ').substring(0, 75);
+
+        html += `
+          <div class="apple-note-card ${isActive ? 'active' : ''}" onclick="selectNote('${note.id}')">
+            <div class="card-top-row">
+              <span class="card-title">${escapeHtml(note.title || '제목 없는 메모')}</span>
+            </div>
+            <div class="card-meta-line">
+              <span class="card-date">${note.createdAt || ''}</span>
+              <span class="card-folder-badge">📁 ${note.folder || '메모'}</span>
+            </div>
+            <div class="card-preview-text">${escapeHtml(preview)}</div>
+            ${pendingTodos > 0 ? `<div class="card-todo-badge">To-Do ${pendingTodos}개 미완료</div>` : ''}
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // 5. Select & Render Note Editor
+    function selectNote(noteId) {
+      activeNoteId = noteId;
+      const note = allNotes.find(n => n.id === noteId);
+      if (!note) return;
+
+      renderEditor(note, true);
+      renderNoteCards();
+    }
+
+    function renderEditor(note, updateSelection) {
+      document.getElementById('appleTitleInput').value = note.title || '';
+      document.getElementById('appleBodyInput').value = note.content || '';
+      document.getElementById('editorTimestamp').innerText = `${note.createdAt || '2026. 10. 17.'} · 📁 ${note.folder || 'iCloud 메모'}`;
+      updateCharCount(note.content || '');
+      renderChecklistUI(note);
+    }
+
+    function renderChecklistUI(note) {
+      const box = document.getElementById('interactiveChecklistBox');
+      const list = document.getElementById('checklistItemsList');
+      const stats = document.getElementById('checklistStats');
+
+      if (!note.todos || note.todos.length === 0) {
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'flex';
+      const completed = note.todos.filter(t => t.done).length;
+      stats.innerText = `${completed}/${note.todos.length} 완료`;
+
+      list.innerHTML = note.todos.map((todo, idx) => `
+        <div class="checklist-item ${todo.done ? 'done' : ''}" onclick="toggleTodoCheck(${idx})">
+          <div class="apple-checkbox"></div>
+          <span>${escapeHtml(todo.text)}</span>
+        </div>
+      `).join('');
+    }
+
+    function toggleTodoCheck(todoIndex) {
+      const note = allNotes.find(n => n.id === activeNoteId);
+      if (!note || !note.todos || !note.todos[todoIndex]) return;
+
+      note.todos[todoIndex].done = !note.todos[todoIndex].done;
+
+      // Update in body markdown as well
+      const lines = (note.content || '').split('\n');
+      let todoCounter = 0;
+      for (let i = 0; i < lines.length; i++) {
+        if (/^-\s*\[([ xX])\]/.test(lines[i])) {
+          if (todoCounter === todoIndex) {
+            lines[i] = lines[i].replace(/^-\s*\[([ xX])\]/, note.todos[todoIndex].done ? '- [x]' : '- [ ]');
+            break;
+          }
+          todoCounter++;
+        }
+      }
+      note.content = lines.join('\n');
+      document.getElementById('appleBodyInput').value = note.content;
+
+      saveStorageData(true);
+      renderEditor(note, false);
+      renderNoteCards();
+    }
+
+    // 6. Note Actions (New, Delete, Auto-Save)
+    function createNewNote() {
+      const newId = 'note_' + Date.now();
+      const folder = currentFolder === "모든 iCloud" ? "메모" : currentFolder;
+
+      const newNote = {
+        id: newId,
+        title: '새 메모',
+        folder: folder,
+        content: '',
+        summary: '',
+        todos: [],
+        tags: [folder.toLowerCase().replace(/\s+/g, '-')],
+        type: 'note',
+        dateGroup: '최근',
+        createdAt: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric' })
+      };
+
+      allNotes.unshift(newNote);
+      saveStorageData(true);
+      selectFolder(currentFolder);
+      selectNote(newId);
+
+      const titleInput = document.getElementById('appleTitleInput');
+      titleInput.value = '';
+      titleInput.focus();
+    }
+
+    function deleteCurrentNote() {
+      if (!activeNoteId) return;
+      if (!confirm('현재 메모를 삭제하시겠습니까?')) return;
+
+      allNotes = allNotes.filter(n => n.id !== activeNoteId);
+      saveStorageData(true);
+
+      if (allNotes.length > 0) {
+        selectNote(allNotes[0].id);
+      } else {
+        createNewNote();
+      }
+    }
+
+    function handleInput() {
+      if (!activeNoteId) return;
+
+      showSaving();
+      clearTimeout(autoSaveTimer);
+
+      autoSaveTimer = setTimeout(() => {
+        const titleVal = document.getElementById('appleTitleInput').value.trim();
+        const bodyVal = document.getElementById('appleBodyInput').value;
+
+        const note = allNotes.find(n => n.id === activeNoteId);
+        if (!note) return;
+
+        const firstLine = bodyVal.split('\n')[0].replace(/^#+\s*/, '').trim();
+        note.title = titleVal || firstLine || '제목 없는 메모';
+        note.content = bodyVal;
+
+        // Auto Extract To-Dos
+        const todos = [];
+        bodyVal.split('\n').forEach(line => {
+          const m = line.match(/^-\s*\[([ xX])\]\s*(.*)$/);
+          if (m) {
+            todos.push({ text: m[2].trim(), done: m[1].toLowerCase() === 'x' });
+          } else if (line.startsWith('TODO:') || line.startsWith('할일:')) {
+            todos.push({ text: line.replace(/^(TODO:|할일:)\s*/, '').trim(), done: false });
+          }
+        });
+        note.todos = todos;
+
+        // Auto Summary
+        note.summary = bodyVal.substring(0, 100).replace(/-\s*\[[ xX]\]\s*.*$/gm, '').trim();
+
+        // Extract Tags
+        const tags = new Set([note.folder.toLowerCase()]);
+        const hashMatches = bodyVal.match(/#([\w가-힣]+)/g);
+        if (hashMatches) {
+          hashMatches.forEach(h => tags.add(h.replace('#', '')));
+        }
+        note.tags = Array.from(tags).slice(0, 5);
+
+        saveStorageData(true);
+        renderNoteCards();
+        renderChecklistUI(note);
+        updateCharCount(bodyVal);
+      }, 250);
+    }
+
+    function showSaving() {
+      document.getElementById('autoSaveStatusText').innerText = '⏳ 저장 및 To-Do 분석 중...';
+      document.getElementById('autoSaveStatusText').style.color = 'var(--apple-yellow)';
+    }
+
+    function showSaved() {
+      const el = document.getElementById('autoSaveStatusText');
+      el.innerText = '● 웹 대시보드 실시간 동기화됨';
+      el.style.color = '#30d158';
+    }
+
+    function updateCharCount(txt) {
+      document.getElementById('characterCountText').innerText = `${txt ? txt.length : 0} 글자`;
+    }
+
+    // 7. Speech (AudioPen)
+    function setupSpeech() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return;
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'ko-KR';
+
+      recognition.onresult = (e) => {
+        let transcript = '';
+        for (let i = e.resultIndex; i < e.results.length; ++i) {
+          transcript += e.results[i][0].transcript;
+        }
+        const area = document.getElementById('appleBodyInput');
+        area.value += ' ' + transcript;
+        handleInput();
+      };
+
+      recognition.onend = () => toggleVoice(false);
+      recognition.onerror = () => toggleVoice(false);
+    }
+
+    function toggleVoice(force) {
+      const btn = document.getElementById('btnVoiceMic');
+      const next = typeof force === 'boolean' ? force : !isVoiceActive;
+      isVoiceActive = next;
+
+      if (isVoiceActive && recognition) {
+        try {
+          recognition.start();
+          btn.classList.add('active');
+          btn.style.color = '#ff453a';
+        } catch (e) {
+          isVoiceActive = false;
+        }
+      } else if (recognition) {
+        try { recognition.stop(); } catch (e) {}
+        btn.classList.remove('active');
+        btn.style.color = '';
+      }
+    }
+
+    // 8. Event Bindings
+    function bindEvents() {
+      document.getElementById('btnNewNoteAction').addEventListener('click', createNewNote);
+      document.getElementById('btnDeleteCurrent').addEventListener('click', deleteCurrentNote);
+
+      document.getElementById('appleTitleInput').addEventListener('input', handleInput);
+      document.getElementById('appleBodyInput').addEventListener('input', handleInput);
+
+      document.getElementById('quickSearchInput').addEventListener('input', (e) => {
+        renderNoteCards(e.target.value);
+      });
+
+      // Voice
+      document.getElementById('btnVoiceMic').addEventListener('click', () => toggleVoice());
+
+      // Insert Checklist
+      document.getElementById('btnInsertChecklist').addEventListener('click', () => {
+        const area = document.getElementById('appleBodyInput');
+        const start = area.selectionStart;
+        const val = area.value;
+        const prefix = val.length === 0 || val.endsWith('\n') ? '' : '\n';
+        const ins = `${prefix}- [ ] `;
+        area.value = val.substring(0, start) + ins + val.substring(start);
+        area.selectionStart = area.selectionEnd = start + ins.length;
+        area.focus();
+        handleInput();
+      });
+
+      // Folder pane toggle
+      document.getElementById('btnToggleFolderPane').addEventListener('click', () => {
+        const p = document.getElementById('paneFolders');
+        p.style.display = p.style.display === 'none' ? 'flex' : 'none';
+      });
+
+      // Traffic yellow (clear body)
+      document.getElementById('btnTrafficYellow').addEventListener('click', () => {
+        document.getElementById('appleBodyInput').value = '';
+        handleInput();
+      });
+
+      // Traffic green (toggle fullscreen)
+      document.getElementById('btnTrafficGreen').addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      });
+
+      // Shortcuts: Cmd + N (New Note), Shift + Cmd + N (New Folder)
+      window.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          startInlineFolderCreation();
+        } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n') {
+          e.preventDefault();
+          createNewNote();
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
