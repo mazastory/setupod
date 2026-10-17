@@ -87,16 +87,106 @@
     }
 
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      background: radial-gradient(circle at 50% 30%, #1e222d 0%, #0d0f14 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      transition: background 0.25s ease;
+    }
+
+    /* Desk Environment Wrapper */
+    .desk-workspace {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Centered Physical Sticky Card */
+    .sticky-card {
+      width: 380px;
+      height: 500px;
+      max-width: 96vw;
+      max-height: 92vh;
       background: var(--sticky-bg);
       color: var(--sticky-text);
+      border-radius: 14px;
+      box-shadow: 
+        0 24px 50px -10px rgba(0, 0, 0, 0.5),
+        0 10px 20px -4px rgba(0, 0, 0, 0.25),
+        0 0 0 1px var(--sticky-border);
       display: flex;
       flex-direction: column;
-      user-select: none;
-      transition: background 0.2s ease, color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Scotch Tape Effect */
+    .scotch-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      width: 100px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.36);
+      border-left: 3px dashed rgba(255, 255, 255, 0.45);
+      border-right: 3px dashed rgba(255, 255, 255, 0.45);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* Full-screen Mode / Popup Mode / Mobile */
+    body.is-fullscreen, body.is-popup {
+      background: var(--sticky-bg) !important;
+    }
+    body.is-fullscreen .desk-workspace, body.is-popup .desk-workspace {
+      padding: 0 !important;
+    }
+    body.is-fullscreen .sticky-card, body.is-popup .sticky-card {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    body.is-fullscreen .scotch-tape, body.is-popup .scotch-tape {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        background: var(--sticky-bg) !important;
+      }
+      .desk-workspace {
+        padding: 0 !important;
+      }
+      .sticky-card {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .scotch-tape {
+        display: none !important;
+      }
     }
 
     /* Top Sticky Header */
@@ -166,7 +256,7 @@
       display: none;
       position: absolute;
       top: 42px;
-      right: 48px;
+      right: 70px;
       background: var(--sticky-header);
       border: 1px solid var(--sticky-border);
       border-radius: 8px;
@@ -310,7 +400,7 @@
       align-items: center;
       justify-content: center;
       padding: 8px 12px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.12) 100%);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1.5px solid rgba(255, 255, 255, 0.65);
@@ -462,109 +552,119 @@
 </head>
 <body data-color="yellow">
 
-  <!-- Header -->
-  <header class="sticky-header">
-    <div class="header-left">
-      <button type="button" class="btn-sticky-icon" id="btnNewSticky" title="새 스티커 추가 (Cmd/Ctrl + N)">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </button>
-      <div class="note-flipper">
-        <button type="button" class="btn-flip" id="btnPrevNote" title="이전 메모">‹</button>
-        <span id="noteIndexIndicator">1 / 1</span>
-        <button type="button" class="btn-flip" id="btnNextNote" title="다음 메모">›</button>
+  <!-- Desktop Workspace Shell -->
+  <div class="desk-workspace" id="deskWorkspace">
+    <!-- Physical Sticky Card -->
+    <div class="sticky-card" id="stickyCard">
+      <!-- Scotch tape at top -->
+      <div class="scotch-tape"></div>
+
+      <!-- Header -->
+      <header class="sticky-header">
+        <div class="header-left">
+          <button type="button" class="btn-sticky-icon" id="btnNewSticky" title="새 스티커 추가 (Cmd/Ctrl + N)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="note-flipper">
+            <button type="button" class="btn-flip" id="btnPrevNote" title="이전 메모">‹</button>
+            <span id="noteIndexIndicator">1 / 1</span>
+            <button type="button" class="btn-flip" id="btnNextNote" title="다음 메모">›</button>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button type="button" class="btn-sticky-icon" id="btnStickerToggle" title="✨ 3D 입체 스티커 붙이기">🧸</button>
+          <button type="button" class="btn-sticky-icon" id="btnColorPicker" title="스티커 색상 변경">🎨</button>
+          <button type="button" class="btn-sticky-icon" id="btnToggleDeskMode" title="책상 카드 ↔ 전체화면 모드 전환">⛶</button>
+          <a href="./quick.html" class="btn-sticky-icon" title="Apple Notes 3-Pane 모드로 전환" style="text-decoration: none;">🗂️</a>
+          <button type="button" class="btn-sticky-icon" id="btnDeleteSticky" title="현재 스티커 삭제" style="color: #ef4444;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- 3D Sticker Drawer -->
+      <div class="sticker-picker-drawer" id="stickerPickerDrawer">
+        <div class="sticker-drawer-header">
+          <span>✨ 3D 스티커 붙이기</span>
+          <button type="button" class="btn-remove-sticker" id="btnDrawerRemoveSticker">스티커 떼기 ✕</button>
+        </div>
+        <div class="sticker-grid">
+          <button type="button" class="sticker-choice" data-emoji="🧸" data-tag="멘붕 방지">
+            <span class="st-icon">🧸</span>
+            <span class="st-txt">곰돌이</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🔥" data-tag="오늘 끝냄">
+            <span class="st-icon">🔥</span>
+            <span class="st-txt">오늘 마감</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="💸" data-tag="돈복 터짐">
+            <span class="st-icon">💸</span>
+            <span class="st-txt">대박 예감</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="☕" data-tag="여유 한잔">
+            <span class="st-icon">☕</span>
+            <span class="st-txt">커피 휴식</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="👑" data-tag="VIP 과제">
+            <span class="st-icon">👑</span>
+            <span class="st-txt">핵심 VIP</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🎯" data-tag="목표 달성">
+            <span class="st-icon">🎯</span>
+            <span class="st-txt">타겟 적중</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="🚀" data-tag="로켓 떡상">
+            <span class="st-icon">🚀</span>
+            <span class="st-txt">초고속 성장</span>
+          </button>
+          <button type="button" class="sticker-choice" data-emoji="💯" data-tag="100점 만점">
+            <span class="st-icon">💯</span>
+            <span class="st-txt">완벽 완료</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="header-right">
-      <button type="button" class="btn-sticky-icon" id="btnStickerToggle" title="✨ 3D 입체 스티커 붙이기">🧸</button>
-      <button type="button" class="btn-sticky-icon" id="btnColorPicker" title="스티커 색상 변경">🎨</button>
-      <a href="./quick.html" class="btn-sticky-icon" title="Apple Notes 3-Pane 모드로 전환" style="text-decoration: none;">🗂️</a>
-      <button type="button" class="btn-sticky-icon" id="btnDeleteSticky" title="현재 스티커 삭제" style="color: #ef4444;">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- 3D Sticker Drawer -->
-  <div class="sticker-picker-drawer" id="stickerPickerDrawer">
-    <div class="sticker-drawer-header">
-      <span>✨ 3D 스티커 붙이기</span>
-      <button type="button" class="btn-remove-sticker" id="btnDrawerRemoveSticker">스티커 떼기 ✕</button>
-    </div>
-    <div class="sticker-grid">
-      <button type="button" class="sticker-choice" data-emoji="🧸" data-tag="멘붕 방지">
-        <span class="st-icon">🧸</span>
-        <span class="st-txt">곰돌이</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="🔥" data-tag="오늘 끝냄">
-        <span class="st-icon">🔥</span>
-        <span class="st-txt">오늘 마감</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="💸" data-tag="돈복 터짐">
-        <span class="st-icon">💸</span>
-        <span class="st-txt">대박 예감</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="☕" data-tag="여유 한잔">
-        <span class="st-icon">☕</span>
-        <span class="st-txt">커피 휴식</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="👑" data-tag="VIP 과제">
-        <span class="st-icon">👑</span>
-        <span class="st-txt">핵심 VIP</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="🎯" data-tag="목표 달성">
-        <span class="st-icon">🎯</span>
-        <span class="st-txt">타겟 적중</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="🚀" data-tag="로켓 떡상">
-        <span class="st-icon">🚀</span>
-        <span class="st-txt">초고속 성장</span>
-      </button>
-      <button type="button" class="sticker-choice" data-emoji="💯" data-tag="100점 만점">
-        <span class="st-icon">💯</span>
-        <span class="st-txt">완벽 완료</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Color Dropdown -->
-  <div class="color-picker-dropdown" id="colorPickerDropdown">
-    <div class="color-dot dot-yellow" data-col="yellow" title="클래식 옐로우"></div>
-    <div class="color-dot dot-green" data-col="green" title="파스텔 민트"></div>
-    <div class="color-dot dot-blue" data-col="blue" title="스카이 블루"></div>
-    <div class="color-dot dot-pink" data-col="pink" title="피치 핑크"></div>
-    <div class="color-dot dot-purple" data-col="purple" title="라벤더 퍼플"></div>
-    <div class="color-dot dot-dark" data-col="dark" title="다크 옵시디언"></div>
-  </div>
-
-  <!-- Note Body -->
-  <main class="sticky-body" id="stickyBodyContainer">
-    <!-- 3D Interactive Sticker Layer -->
-    <div class="sticker-3d-wrapper" id="sticker3dWrapper" style="display: none;">
-      <div class="sticker-3d-badge floating" id="sticker3dBadge">
-        <div class="sticker-glare"></div>
-        <span class="sticker-3d-emoji" id="sticker3dEmoji">🧸</span>
-        <span class="sticker-3d-tag" id="sticker3dTag">멘붕 방지</span>
-        <button type="button" class="btn-sticker-peel" id="btnStickerPeel" title="스티커 떼기">✕</button>
+      <!-- Color Dropdown -->
+      <div class="color-picker-dropdown" id="colorPickerDropdown">
+        <div class="color-dot dot-yellow" data-col="yellow" title="클래식 옐로우"></div>
+        <div class="color-dot dot-green" data-col="green" title="파스텔 민트"></div>
+        <div class="color-dot dot-blue" data-col="blue" title="스카이 블루"></div>
+        <div class="color-dot dot-pink" data-col="pink" title="피치 핑크"></div>
+        <div class="color-dot dot-purple" data-col="purple" title="라벤더 퍼플"></div>
+        <div class="color-dot dot-dark" data-col="dark" title="다크 옵시디언"></div>
       </div>
-    </div>
 
-    <input type="text" id="stickyTitle" class="sticky-title" placeholder="제목 없는 포스트잇" spellcheck="false">
-    <textarea id="stickyBody" class="sticky-textarea" placeholder="생각나는 것을 가볍게 적어두세요...
+      <!-- Note Body -->
+      <main class="sticky-body" id="stickyBodyContainer">
+        <!-- 3D Interactive Sticker Layer -->
+        <div class="sticker-3d-wrapper" id="sticker3dWrapper" style="display: none;">
+          <div class="sticker-3d-badge floating" id="sticker3dBadge">
+            <div class="sticker-glare"></div>
+            <span class="sticker-3d-emoji" id="sticker3dEmoji">🧸</span>
+            <span class="sticker-3d-tag" id="sticker3dTag">멘붕 방지</span>
+            <button type="button" class="btn-sticker-peel" id="btnStickerPeel" title="스티커 떼기">✕</button>
+          </div>
+        </div>
+
+        <input type="text" id="stickyTitle" class="sticky-title" placeholder="제목 없는 포스트잇" spellcheck="false">
+        <textarea id="stickyBody" class="sticky-textarea" placeholder="생각나는 것을 가볍게 적어두세요...
 - [ ] 체크리스트 자동 감지
 - [ ] 클라우드 및 PC 자동 백업"></textarea>
-  </main>
+      </main>
 
-  <!-- Footer -->
-  <footer class="sticky-footer">
-    <div class="footer-left">
-      <span class="sync-dot" id="stickySyncDot"></span>
-      <span id="stickyDateBadge">실시간 저장됨</span>
+      <!-- Footer -->
+      <footer class="sticky-footer">
+        <div class="footer-left">
+          <span class="sync-dot" id="stickySyncDot"></span>
+          <span id="stickyDateBadge">실시간 저장됨</span>
+        </div>
+        <div class="footer-right">
+          <span id="stickyCharCount">0자</span>
+        </div>
+      </footer>
     </div>
-    <div class="footer-right">
-      <span id="stickyCharCount">0자</span>
-    </div>
-  </footer>
+  </div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -587,6 +687,14 @@
       // 1. Color theme load
       const savedColor = localStorage.getItem(COLOR_KEY) || 'yellow';
       document.body.setAttribute('data-color', savedColor);
+
+      // Desk mode check (auto popup check or user preference)
+      const savedFull = localStorage.getItem('memopod_sticky_fullscreen') === 'true';
+      if (window.opener || window.innerWidth <= 520) {
+        document.body.classList.add('is-popup');
+      } else if (savedFull) {
+        document.body.classList.add('is-fullscreen');
+      }
 
       // 2. Storage load
       loadNotes();
@@ -625,7 +733,7 @@
             title: '오늘의 급한 일 (스티커 메모)',
             folder: 'Quick Notes',
             content: '- [ ] 2026 플래너 일정 확인하기\n- [ ] toomcard 명함 링크 확인\n- [ ] 메모팟 클라우드 연동 테스트',
-            sticker: { emoji: '🧸', tag: '멘붕 방지', x: 220, y: 14 },
+            sticker: { emoji: '🧸', tag: '멘붕 방지', x: 200, y: 14 },
             createdAt: new Date().toLocaleDateString('ko-KR')
           }];
           saveNotes(false);
@@ -785,21 +893,21 @@
         const badgeCenterX = rect.left + rect.width / 2;
         const badgeCenterY = rect.top + rect.height / 2;
 
-        const deltaX = (e.clientX - badgeCenterX) / 12;
-        const deltaY = (e.clientY - badgeCenterY) / 12;
+        const deltaX = (e.clientX - badgeCenterX) / 10;
+        const deltaY = (e.clientY - badgeCenterY) / 10;
 
-        const rotY = Math.max(-26, Math.min(26, deltaX));
-        const rotX = Math.max(-26, Math.min(26, -deltaY));
+        const rotY = Math.max(-28, Math.min(28, deltaX));
+        const rotX = Math.max(-28, Math.min(28, -deltaY));
 
         badge.classList.remove('floating');
-        badge.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(14px)`;
-        badge.style.boxShadow = `${-deltaX * 0.9}px ${deltaY * 0.9 + 12}px 28px rgba(0,0,0,0.22)`;
-        if (glare) glare.style.opacity = `${0.35 + Math.abs(rotX + rotY) / 55}`;
+        badge.style.transform = `perspective(650px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(16px)`;
+        badge.style.boxShadow = `${-deltaX * 0.9}px ${deltaY * 0.9 + 12}px 28px rgba(0,0,0,0.24)`;
+        if (glare) glare.style.opacity = `${0.35 + Math.abs(rotX + rotY) / 50}`;
       });
 
       container.addEventListener('mouseleave', () => {
         if (badge && !isDraggingSticker) {
-          badge.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+          badge.style.transform = 'perspective(650px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
           badge.style.boxShadow = '0 12px 28px -4px rgba(0, 0, 0, 0.22)';
           badge.classList.add('floating');
           if (glare) glare.style.opacity = '0.6';
@@ -876,6 +984,13 @@
         removeCurrentSticker();
       });
       document.getElementById('btnDrawerRemoveSticker').addEventListener('click', removeCurrentSticker);
+
+      // Fullscreen ↔ Desk Mode Toggle
+      document.getElementById('btnToggleDeskMode').addEventListener('click', () => {
+        document.body.classList.toggle('is-fullscreen');
+        const isFull = document.body.classList.contains('is-fullscreen');
+        localStorage.setItem('memopod_sticky_fullscreen', isFull ? 'true' : 'false');
+      });
 
       // Prev / Next flipper
       document.getElementById('btnPrevNote').addEventListener('click', () => {
